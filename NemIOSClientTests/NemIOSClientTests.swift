@@ -2,7 +2,7 @@
 //  NemIOSClientTests.swift
 //  NemIOSClientTests
 //
-//  Created by Bodya Bilas on 11.12.14.
+//  Created by Dominik Lyubomyr on 11.12.14.
 //  Copyright (c) 2014 Artygeek. All rights reserved.
 //
 

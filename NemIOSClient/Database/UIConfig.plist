@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>mainMenu</key>
+	<array>
+		<string>Dashboard (nil)</string>
+		<string>Transaction (nil)</string>
+		<string>HarvestBlocks (nil)</string>
+		<string>Settings (nil)</string>
+		<string>User Information (nil)</string>
+		<string>QR Code (nil)</string>
+		<string>Personal Info (nil)</string>
+		<string>Backup (nil)</string>
+		<string>Restore (nil)</string>
+		<string>Contacts (nil)</string>
+	</array>
+</dict>
+</plist>
