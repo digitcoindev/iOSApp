@@ -14,7 +14,7 @@ class RegistrationVC: UIViewController
     @IBOutlet weak var createPassword: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
     
-    let manager : plistFileManager = plistFileManager()
+    let dataManager : CoreDataManager = CoreDataManager()
     var passwordValidate :Bool = false
     override func viewDidLoad()
     {
@@ -59,8 +59,9 @@ class RegistrationVC: UIViewController
         
         if(passwordValidate && userName.text != "" && userEmail.text != "")
         {
-            manager.addAcounnt(userName.text, email: userEmail.text, password:createPassword.text)
-            self.performSegueWithIdentifier(SegueToLoginVC, sender: nil)
+            dataManager.addWallet(userName.text, password: createPassword.text)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:1 )
         }
         else
         {

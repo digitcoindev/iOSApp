@@ -29,7 +29,7 @@ class APIManager: NSObject
     func heartbeat(address :String, port :String) -> Bool
     {
         var heartbeat : Bool = false
-        var request = NSMutableURLRequest(URL: NSURL(string: ("http://" + address + ":" + port + "/heartbeat")))
+        var request = NSMutableURLRequest(URL: NSURL(string: ("http://" + address + ":" + port + "/heartbeat"))!)
         var err: NSError?
         
         request.HTTPMethod = "GET"

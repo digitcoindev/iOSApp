@@ -8,21 +8,25 @@
 
 import UIKit
 
-class LoginVC: UIViewController , UIPickerViewDelegate
+class LoginVC: UIViewController , UITableViewDelegate
 {
 
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var accountsView: UIPickerView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addWallet: UIButton!
     
-    let dataManager :plistFileManager = plistFileManager()
-    var wallets :NSMutableArray = NSMutableArray()
-    var apiManager :APIManager = APIManager()
+    let deviceManager :plistFileManager = plistFileManager()
+    let dataManager :CoreDataManager = CoreDataManager()
+    let apiManager :APIManager = APIManager()
+    
+    var wallets :[Wallet] = [Wallet]()
+    var selectedIndex :Int  = -1
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        accounts  = dataManager.getAccounts()
+        wallets  = dataManager.getWallets()
+        
     }
 
     override func didReceiveMemoryWarning()
@@ -30,54 +34,76 @@ class LoginVC: UIViewController , UIPickerViewDelegate
         super.didReceiveMemoryWarning()
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int
+    @IBAction func addNewWallet(sender: AnyObject)
     {
-        return 1
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:0 )
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return wallets.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        return (wallets[row] as NSDictionary).objectForKey("login") as String
+        var cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as WalletCell
+        var cellData  :Wallet = wallets[indexPath.row]
+        cell.walletName.text = cellData.login as String
+        return cell
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if(indexPath.row == selectedIndex)
+        {
+            return 70;
+        }
+        return  44
+
+        
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        selectedIndex = indexPath.row
+        var indexArray :NSArray = NSArray(object: indexPath)
+        tableView.reloadRowsAtIndexPaths(indexArray , withRowAnimation: UITableViewRowAnimation.Right)
+        (tableView.cellForRowAtIndexPath(indexPath) as WalletCell ).walletName.hidden = true
+        
     }
     
-    @IBAction func logIn(sender: AnyObject)
-    {
-        if((wallets[accountsView.selectedRowInComponent(0)] as NSDictionary).valueForKey("password") as String == password.text as String)
-        {
-            var alert :UIAlertView = UIAlertView(title: "Status", message: "Login - Success", delegate: self, cancelButtonTitle: "OK")
-            var server : NSMutableDictionary = dataManager.currentServer()
-            
-            if(!apiManager.heartbeat(server.objectForKey("address") as String, port: server.objectForKey("port") as String))
-            {
-                alert.message = (alert.message! + "\n" + "heartbeat - Success") as String
-                
-                if ((dataManager.currentServer().objectForKey("address") as String) != "" && (dataManager.currentServer().objectForKey("name") as String ) != "" )
-                {
-                    self.performSegueWithIdentifier(SegueToMainVC, sender: nil)
-                }
-                else
-                {
-                    self.performSegueWithIdentifier(SegueToServerVC, sender: nil)
-                }
-                
-            }
-            else
-            {
-                alert.message = (alert.message! + "\n" + "heartbeat - Defied") as String
-            }
-            alert.show()
-            
-        }
-        else
-        {
-            var alert :UIAlertView = UIAlertView(title: "Status", message: "Wrong login & password pair", delegate: self, cancelButtonTitle: "OK")
-            alert.show()
-        }
-    }
-
+ //   @IBAction func logIn(sender: AnyObject)
+  //  {
+//        if((wallets[accountsView.selectedRowInComponent(0)] as Wallet).valueForKey("password") as String == password.text as String)
+//        {
+//            var alert :UIAlertView = UIAlertView(title: "Status", message: "Login - Success", delegate: self, cancelButtonTitle: "OK")
+// //           var server : NSMutableDictionary = deviceManager.currentServer()
+//            
+////            if(!apiManager.heartbeat(server.objectForKey("address") as String, port: server.objectForKey("port") as String))
+////            {
+////                alert.message = ((alert.message as String) + "\n" + "heartbeat - Success") as String
+////                
+//////                if ((deviceManager.currentServer().objectForKey("address") as String) != "" && (deviceManager.currentServer().objectForKey("name") as String ) != "" )
+//////                {
+//////                    self.performSegueWithIdentifier(SegueToMainVC, sender: nil)
+//////                }
+//////                else
+//////                {
+//////                    self.performSegueWithIdentifier(SegueToServerVC, sender: nil)
+//////                }
+////                
+////            }
+////            else
+////            {
+////                alert.message = (alert.message! + "\n" + "heartbeat - Defied") as String
+////            }
+////            alert.show()
+//            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:nil )
+//            
+//        }
+//        else
+//        {
+//            var alert :UIAlertView = UIAlertView(title: "Status", message: "Wrong login & password pair", delegate: self, cancelButtonTitle: "OK")
+//            alert.show()
+//        }
+//    }
+  //  }
 }

@@ -14,7 +14,7 @@ class ServerCustomVC: UIViewController
     @IBOutlet weak var serverAddress: UITextField!
     @IBOutlet weak var serverPort: UITextField!
     
-    let manager :plistFileManager = plistFileManager()
+    let dataManager :CoreDataManager = CoreDataManager()
     
     override func viewDidLoad()
     {
@@ -24,9 +24,12 @@ class ServerCustomVC: UIViewController
     
     @IBAction func addServer(sender: AnyObject)
     {
-        manager.addServer(serverName.text, address: serverAddress.text ,port: serverPort.text)
+        dataManager.addServer(serverName.text, address: serverAddress.text ,port: serverPort.text)
         serverAddress.text = ""
         serverName.text = ""
+        serverPort.text = ""
+        
+        State.currentServer = dataManager.getServers().count - 1
     }
     
     override func didReceiveMemoryWarning()

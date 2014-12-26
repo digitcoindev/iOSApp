@@ -10,15 +10,30 @@ import UIKit
 
 class MainContainerVC: UIViewController
 {
-    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    let dataManager :CoreDataManager = CoreDataManager()
+    
+    var previousChange :Int  = -2
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        observer.addObserver(self, selector: "selectedPage:", name: "MenuPage", object: nil)
         
-        self.performSegueWithIdentifier(SegueToMainMenu, sender: self);
+        var wallets :[Wallet] = dataManager.getWallets()
+        println("walets \(wallets.count) " )
+        
+        if(wallets.count == 0)
+        {
+            self.performSegueWithIdentifier(SegueToRegistrationVC, sender: self);
+        }
+        else if(State.currentWallet == -1)
+        {
+            self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
+        }
+        else
+        {
+            self.performSegueWithIdentifier(SegueToMainMenu, sender: self);
+        }
     }
     
     override func didReceiveMemoryWarning()
@@ -46,7 +61,7 @@ class MainContainerVC: UIViewController
     
     func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController )
     {
-        toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width)
+        toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         fromViewController.willMoveToParentViewController(nil)
         
         self.addChildViewController(toViewController)
@@ -63,24 +78,37 @@ class MainContainerVC: UIViewController
                 toViewController.didMoveToParentViewController(self)
         })
     }
+    func selectedPage(notification: NSNotification)
+    {
+        println("echo")
+    }
     
     func changePage(page :Int)
     {
-        switch(page)
-            {
-        case -1:
-            break;
-            
-        case 0:
-            self.performSegueWithIdentifier(SegueToServerTable, sender: nil)
-            break;
-            
-        case 1:
-            self.performSegueWithIdentifier(SegueToServerCustom, sender: nil)
-            break;
-            
-        default:
-            break;
+        if(page != previousChange)
+        {
+            previousChange = page
+            switch(page)
+                {
+                
+            case -1:
+                self.performSegueWithIdentifier(SegueToMainMenu, sender: nil)
+                
+            case 0:
+                self.performSegueWithIdentifier(SegueToRegistrationVC, sender: nil)
+                
+            case 1:
+                self.performSegueWithIdentifier(SegueToLoginVC, sender: nil)
+                
+            case 2:
+                self.performSegueWithIdentifier(SegueToServerVC, sender: nil)
+                
+            case 14:
+                self.performSegueWithIdentifier(SegueToPinConfige, sender: nil)
+
+            default:
+                break
+            }
         }
     }
 }

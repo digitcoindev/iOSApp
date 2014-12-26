@@ -10,17 +10,23 @@ import UIKit
 
 class MainVC: UIViewController
 {
+    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     
     var pages :MainContainerVC = MainContainerVC();
-    var dataManager :plistFileManager = plistFileManager();
+    var deviceData :plistFileManager = plistFileManager();
 
     var pagesTitles :NSMutableArray = NSMutableArray()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-                
-        pagesTitles  = dataManager.getMenuItems()
+        
+        State.currentWallet = -1 as Int
+        State.previousVC = "null" as String
+        
+        observer.addObserver(self, selector: "pageSelected:", name: "MenuPage", object: nil)
+
+        pagesTitles  = deviceData.getMenuItems()
         
     }
 
@@ -41,8 +47,14 @@ class MainVC: UIViewController
     {
         pages.changePage(-1)
     }
-    func echoF()
+    
+    func pageSelected(notification: NSNotification)
     {
-        println("echo")
+        print("Selected page : ")
+        if(notification.object  != nil)
+        {
+            print("\(notification.object) \n")
+        }
+        pages.changePage(notification.object as Int)
     }
 }

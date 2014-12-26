@@ -13,14 +13,14 @@ class ServerViewController: UIViewController
     
     var pages :ServerContainerVC = ServerContainerVC();
     
-    let fileManager : plistFileManager = plistFileManager()
+    let dataManager : CoreDataManager = CoreDataManager()
     var servers : NSArray = NSArray()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        servers = fileManager.getServers()
+        servers = dataManager.getServers()
     }
 
     override func didReceiveMemoryWarning()

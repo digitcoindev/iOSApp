@@ -11,14 +11,16 @@ import UIKit
 class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewDelegate
 {
 
-    let fileManager : plistFileManager = plistFileManager()
+    let dataManager : CoreDataManager = CoreDataManager()
     var servers : NSArray = NSArray()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
-        servers = fileManager.getServers()
+        servers = dataManager.getServers()
+        
+        self.tableView.tableFooterView = UIView(frame: CGRectZero) //[[UIView alloc] initWithFrame:CGRectZero];
     }
 
     override func didReceiveMemoryWarning()
@@ -30,18 +32,20 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
+        
         return servers.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         var cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as ServerViewCell
-        var cellData  : NSDictionary = servers[indexPath.row] as NSDictionary
-        cell.serverName.text = cellData.objectForKey("name") as NSString
-        cell.serverAddress.text = cellData.objectForKey("address") as NSString
+        var cellData  : Server = servers[indexPath.row] as Server
+        cell.serverName.text = "  http://" + cellData.address + ":" + cellData.port
+        //cell.serverAddress.text = cellData.address as NSString
         return cell
     }
      override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        State.currentServer = indexPath.row
     }
 }
