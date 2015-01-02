@@ -12,8 +12,6 @@ class MainContainerVC: UIViewController
 {
     let dataManager :CoreDataManager = CoreDataManager()
     
-    var previousChange :Int  = -2
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -24,14 +22,17 @@ class MainContainerVC: UIViewController
         
         if(wallets.count == 0)
         {
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToRegistrationVC )
             self.performSegueWithIdentifier(SegueToRegistrationVC, sender: self);
         }
         else if(State.currentWallet == -1)
         {
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
             self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
         }
         else
         {
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToMainMenu )
             self.performSegueWithIdentifier(SegueToMainMenu, sender: self);
         }
     }
@@ -83,32 +84,43 @@ class MainContainerVC: UIViewController
         println("echo")
     }
     
-    func changePage(page :Int)
+    func changePage(page :String)
     {
-        if(page != previousChange)
+        if(page != State.fromVC )
         {
-            previousChange = page
             switch(page)
                 {
                 
-            case -1:
+            case SegueToMainMenu:
                 self.performSegueWithIdentifier(SegueToMainMenu, sender: nil)
                 
-            case 0:
+            case SegueToRegistrationVC:
                 self.performSegueWithIdentifier(SegueToRegistrationVC, sender: nil)
                 
-            case 1:
+            case SegueToLoginVC:
                 self.performSegueWithIdentifier(SegueToLoginVC, sender: nil)
                 
-            case 2:
+            case SegueToServerVC:
                 self.performSegueWithIdentifier(SegueToServerVC, sender: nil)
                 
-            case 14:
-                self.performSegueWithIdentifier(SegueToPinConfige, sender: nil)
+            case SegueToDashboard:
+                self.performSegueWithIdentifier(SegueToDashboard, sender: nil)
+                
+            case SegueToPasswordValidation:
+                self.performSegueWithIdentifier(SegueToPasswordValidation, sender: nil)
+
+            case SegueToQRCode:
+                self.performSegueWithIdentifier(SegueToQRCode, sender: nil)
+
+            case SegueToMessageVC:
+                self.performSegueWithIdentifier(SegueToMessageVC, sender: nil)
 
             default:
                 break
             }
+            
+            State.fromVC = page
+
         }
     }
 }

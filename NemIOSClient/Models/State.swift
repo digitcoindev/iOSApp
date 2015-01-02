@@ -13,15 +13,22 @@ class State: NSObject
 {
     struct Store
         {
-        static var previousVC : String = String()
+        static var fromVC : String = String()
+        static var toVC : String = String()
         static var currentWallet : Int = -1
         static var currentServer : Int = -1
     }
     
-    class var previousVC: String
+    class var fromVC: String
         {
-        get { return State.Store.previousVC }
-        set { State.Store.previousVC = newValue }
+        get { return State.Store.fromVC }
+        set { State.Store.fromVC = newValue }
+    }
+    
+    class var toVC: String
+        {
+        get { return State.Store.toVC }
+        set { State.Store.toVC = newValue }
     }
     
     class var currentWallet: Int

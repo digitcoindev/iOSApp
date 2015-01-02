@@ -61,7 +61,7 @@ class RegistrationVC: UIViewController
         {
             dataManager.addWallet(userName.text, password: createPassword.text)
             
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:1 )
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
         }
         else
         {

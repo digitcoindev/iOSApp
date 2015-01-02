@@ -20,7 +20,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
 
         servers = dataManager.getServers()
         
-        self.tableView.tableFooterView = UIView(frame: CGRectZero) //[[UIView alloc] initWithFrame:CGRectZero];
+        self.tableView.tableFooterView = UIView(frame: CGRectZero) 
     }
 
     override func didReceiveMemoryWarning()

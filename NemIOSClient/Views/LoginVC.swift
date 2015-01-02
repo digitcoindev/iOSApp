@@ -27,6 +27,8 @@ class LoginVC: UIViewController , UITableViewDelegate
         
         wallets  = dataManager.getWallets()
         
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        
     }
 
     override func didReceiveMemoryWarning()
@@ -36,7 +38,7 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     @IBAction func addNewWallet(sender: AnyObject)
     {
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:0 )
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToRegistrationVC )
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -51,23 +53,11 @@ class LoginVC: UIViewController , UITableViewDelegate
         cell.walletName.text = cellData.login as String
         return cell
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
-    {
-        if(indexPath.row == selectedIndex)
-        {
-            return 70;
-        }
-        return  44
-
-        
-    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        selectedIndex = indexPath.row
-        var indexArray :NSArray = NSArray(object: indexPath)
-        tableView.reloadRowsAtIndexPaths(indexArray , withRowAnimation: UITableViewRowAnimation.Right)
-        (tableView.cellForRowAtIndexPath(indexPath) as WalletCell ).walletName.hidden = true
-        
+        State.currentWallet = indexPath.row
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
     }
     
  //   @IBAction func logIn(sender: AnyObject)

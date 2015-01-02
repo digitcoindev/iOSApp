@@ -6,9 +6,8 @@
 	<array>
 		<string>Registration</string>
 		<string>Login</string>
-		<string>Servers </string>
-		<string>Pin (nill)</string>
-		<string>Dashboard (nil)</string>
+		<string>Servers</string>
+		<string>Dashboard</string>
 		<string>Transaction (nil)</string>
 		<string>HarvestBlocks (nil)</string>
 		<string>Settings (nil)</string>
@@ -18,7 +17,6 @@
 		<string>Backup (nil)</string>
 		<string>Restore (nil)</string>
 		<string>Contacts (nil)</string>
-		<string>Pin</string>
 	</array>
 </dict>
 </plist>

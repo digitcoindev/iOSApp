@@ -15,13 +15,47 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     let deviceManager : plistFileManager = plistFileManager()
     
     var servers : NSArray = NSArray()
-    var menuItems : NSArray = NSArray()
+    var menuItems : NSMutableArray = NSMutableArray()
     var menu : NSArray = NSArray()
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
         servers = dataManager.getServers()
-        menuItems = deviceManager.getMenuItems()
+        menu = deviceManager.getMenuItems()
+        
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        
+        for item in menu
+        {
+            if(State.currentWallet != -1)
+            {
+                
+                switch (item as String)
+                {
+                    
+                case "Registration" ,"Login" , "Servers" :
+                    break
+                    
+                default:
+                    menuItems.addObject(item)
+                    
+                }
+            }
+            else
+            {
+                switch (item as String)
+                {
+                    
+                case "Registration" ,"Login" , "Servers" :
+                    menuItems.addObject(item)
+                    
+                default:
+                    break
+                    
+                }
+            }
+        }
     }
     
     override func didReceiveMemoryWarning()
@@ -30,11 +64,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     }
     
     // MARK: - Table view data source
-    func selectedPage(notification: NSNotification)
-    {
-        //Action take on Notification
-        println("ser good")
-    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return menuItems.count
@@ -48,8 +78,26 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var pageIndex = indexPath.row
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:pageIndex )
+        var page: String  = menuItems.objectAtIndex(indexPath.row) as String
+        
+        switch (page)
+        {
+        case "Registration":
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToRegistrationVC )
+            
+        case "Login":
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+            
+        case "Servers":
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerVC )
+            
+        case "Dashboard":
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
+            
+        default:
+            print("")
+            
+        }
     }
 }
 
