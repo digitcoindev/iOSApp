@@ -5,7 +5,7 @@
 	<key>mainMenu</key>
 	<array>
 		<string>Registration</string>
-		<string>Login</string>
+		<string>Accounts</string>
 		<string>Servers</string>
 		<string>Dashboard</string>
 		<string>Transaction (nil)</string>

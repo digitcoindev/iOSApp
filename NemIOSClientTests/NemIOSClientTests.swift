@@ -1,11 +1,3 @@
-//
-//  NemIOSClientTests.swift
-//  NemIOSClientTests
-//
-//  Created by Dominik Lyubomyr on 11.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 import XCTest
 

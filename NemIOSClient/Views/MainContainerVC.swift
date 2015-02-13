@@ -1,16 +1,9 @@
-//
-//  MainContainerVC.swift
-//  NemIOSClient
-//
-//  Created by Bodya Bilas on 19.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class MainContainerVC: UIViewController
 {
     let dataManager :CoreDataManager = CoreDataManager()
+    var lastVC :String = ""
     
     override func viewDidLoad()
     {
@@ -18,22 +11,22 @@ class MainContainerVC: UIViewController
         
         
         var wallets :[Wallet] = dataManager.getWallets()
-        println("walets \(wallets.count) " )
         
         if(wallets.count == 0)
         {
+            lastVC = SegueToRegistrationVC
+            
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToRegistrationVC )
+            
             self.performSegueWithIdentifier(SegueToRegistrationVC, sender: self);
         }
-        else if(State.currentWallet == -1)
+        else 
         {
+            lastVC = SegueToLoginVC
+
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+            
             self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
-        }
-        else
-        {
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToMainMenu )
-            self.performSegueWithIdentifier(SegueToMainMenu, sender: self);
         }
     }
     
@@ -66,7 +59,7 @@ class MainContainerVC: UIViewController
         fromViewController.willMoveToParentViewController(nil)
         
         self.addChildViewController(toViewController)
-        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight
+        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionNone
             , animations:
             {
                 value in
@@ -79,15 +72,13 @@ class MainContainerVC: UIViewController
                 toViewController.didMoveToParentViewController(self)
         })
     }
-    func selectedPage(notification: NSNotification)
-    {
-        println("echo")
-    }
-    
+        
     func changePage(page :String)
     {
-        if(page != State.fromVC )
+        if(page != lastVC )
         {
+            lastVC = page
+            
             switch(page)
                 {
                 
@@ -105,22 +96,29 @@ class MainContainerVC: UIViewController
                 
             case SegueToDashboard:
                 self.performSegueWithIdentifier(SegueToDashboard, sender: nil)
+                                
+            case SegueToAddAccountVC:
+                self.performSegueWithIdentifier(SegueToAddAccountVC, sender: nil)
                 
-            case SegueToPasswordValidation:
-                self.performSegueWithIdentifier(SegueToPasswordValidation, sender: nil)
+//            case SegueToImportFromFileVC:
+//                self.performSegueWithIdentifier(SegueToImportFromFileVC, sender: nil)
+                
+            case SegueToImportFromQR:
+                self.performSegueWithIdentifier(SegueToImportFromQR, sender: nil)
+                
+            case SegueToImportFromKey:
+                self.performSegueWithIdentifier(SegueToImportFromKey, sender: nil)
 
-            case SegueToQRCode:
-                self.performSegueWithIdentifier(SegueToQRCode, sender: nil)
+            case SegueToPasswordValidation , SegueToMessageVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages:
+                
+                State.toVC = page as String
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
 
-            case SegueToMessageVC:
-                self.performSegueWithIdentifier(SegueToMessageVC, sender: nil)
-
+                break
+                
             default:
                 break
             }
-            
-            State.fromVC = page
-
         }
     }
 }

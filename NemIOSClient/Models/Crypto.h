@@ -1,11 +1,3 @@
-//
-//  Crypto.h
-//  Swift.nV
-//
-//  Created by John on 7/25/14.
-//  Copyright (c) 2014 nVisium. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonHMAC.h>
 
@@ -16,6 +8,8 @@
 @end
 
 @interface NSData (AESAdditions)
-- (NSData*) AES256EncryptWithKey:(NSString*)key;
-- (NSData*) AES256DecryptWithKey:(NSString*)key;
+- (NSData*) AES256EncryptWithKey:(NSString*)key iv:(NSString *)iv;
+- (NSData*) AES256DecryptWithKey:(NSString*)key iv:(NSString *)iv;
+- (NSData *)generateRandomIV:(size_t)length;
+- (NSString*) sha256:(NSString *)key length:(NSInteger) length;
 @end

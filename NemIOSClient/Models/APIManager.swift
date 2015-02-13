@@ -1,11 +1,3 @@
-//
-//  APIManager.swift
-//  NemIOSClient
-//
-//  Created by Dominik Lyubomyr on 18.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class APIManager: NSObject
@@ -26,10 +18,10 @@ class APIManager: NSObject
     
     //API
     
-    func heartbeat(address :String, port :String) -> Bool
+    func heartbeat(protocolType :String, address :String, port :String) -> Bool
     {
         var heartbeat : Bool = false
-        var request = NSMutableURLRequest(URL: NSURL(string: ("http://" + address + ":" + port + "/heartbeat"))!)
+        var request = NSMutableURLRequest(URL: NSURL(string: (protocolType + "://" + address + ":" + port + "/heartbeat"))!)
         var err: NSError?
         
         request.HTTPMethod = "GET"
@@ -47,23 +39,27 @@ class APIManager: NSObject
                 {
                     println(err!.localizedDescription)
                     
-                    let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    println("Error could not parse JSON: '\(jsonStr)'")
+                    println("NIS is not available!")
                 }
                 else
                 {
-                    println("Succes")
+                    var message :String = (layers! as NSDictionary).objectForKey("message") as String
+                    var code :Int = (layers! as NSDictionary).objectForKey("code") as Int
+                    var type :Int = (layers! as NSDictionary).objectForKey("type") as Int
                     
-                    var json1 :NSDictionary = (layers! as NSDictionary).objectForKey("json") as NSDictionary
+                    println("Succes : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
                     
-                    if (json1.objectForKey("message") as String == "ok")
-                    {
-                        heartbeat = true
-                    }
+                    println("2")
+
+                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeat", object:layers )
+
+                    heartbeat = true
                 }
         })
         
         task.resume()
+        
+        heartbeat = true
         
         return heartbeat
     }

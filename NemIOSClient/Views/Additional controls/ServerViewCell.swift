@@ -1,17 +1,9 @@
-//
-//  ServerViewCell.swift
-//  NemIOSClient
-//
-//  Created by Dominik Lyubomyr on 11.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class ServerViewCell: UITableViewCell
 {
     @IBOutlet weak var serverName: UILabel!
-    @IBOutlet weak var serverAddress: UILabel!
+    @IBOutlet weak var indicator: UIButton!
 
     override func awakeFromNib()
     {
@@ -22,5 +14,15 @@ class ServerViewCell: UITableViewCell
     {
         super.setSelected(selected, animated: animated)
     }
+    
+    func indicatorON()
+    {
+        indicator.highlighted = true
+    }
+    
+    func disSelect()
+    {
+        indicator.highlighted = false
 
+    }
 }

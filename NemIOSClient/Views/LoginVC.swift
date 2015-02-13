@@ -1,11 +1,3 @@
-//
-//  LoginVC.swift
-//  NemIOSClient
-//
-//  Created by Dominik Lyubomyr on 17.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class LoginVC: UIViewController , UITableViewDelegate
@@ -14,9 +6,11 @@ class LoginVC: UIViewController , UITableViewDelegate
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addWallet: UIButton!
     
-    let deviceManager :plistFileManager = plistFileManager()
-    let dataManager :CoreDataManager = CoreDataManager()
-    let apiManager :APIManager = APIManager()
+    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    
+    var deviceManager :plistFileManager = plistFileManager()
+    var dataManager :CoreDataManager = CoreDataManager()
+    var apiManager :APIManager = APIManager()
     
     var wallets :[Wallet] = [Wallet]()
     var selectedIndex :Int  = -1
@@ -24,10 +18,21 @@ class LoginVC: UIViewController , UITableViewDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+                
         wallets  = dataManager.getWallets()
         
+        if State.fromVC != SegueToLoginVC
+        {
+            State.fromVC = SegueToLoginVC
+        }
+        
+        State.currentVC = SegueToLoginVC
+        
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.layer.cornerRadius = 5
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+        
+        observer.addObserver(self, selector: "logIn:", name: "heartbeat", object: nil)
         
     }
 
@@ -36,9 +41,11 @@ class LoginVC: UIViewController , UITableViewDelegate
         super.didReceiveMemoryWarning()
     }
     
+    
+    
     @IBAction func addNewWallet(sender: AnyObject)
     {
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToRegistrationVC )
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToAddAccountVC )
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -56,44 +63,38 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        State.currentWallet = indexPath.row
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
+        State.fromVC = SegueToLoginVC
+        
+        if State.currentServer != nil
+        {
+            State.currentWallet = wallets[indexPath.row]
+            println("1")
+            apiManager.heartbeat(State.currentServer!.protocolType, address: State.currentServer!.address, port: State.currentServer!.port)
+            
+            State.toVC = SegueToMessages
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
+
+        }
+        else
+        {
+            State.toVC = SegueToServerVC
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerVC )
+        }
     }
     
- //   @IBAction func logIn(sender: AnyObject)
-  //  {
-//        if((wallets[accountsView.selectedRowInComponent(0)] as Wallet).valueForKey("password") as String == password.text as String)
-//        {
-//            var alert :UIAlertView = UIAlertView(title: "Status", message: "Login - Success", delegate: self, cancelButtonTitle: "OK")
-// //           var server : NSMutableDictionary = deviceManager.currentServer()
-//            
-////            if(!apiManager.heartbeat(server.objectForKey("address") as String, port: server.objectForKey("port") as String))
-////            {
-////                alert.message = ((alert.message as String) + "\n" + "heartbeat - Success") as String
-////                
-//////                if ((deviceManager.currentServer().objectForKey("address") as String) != "" && (deviceManager.currentServer().objectForKey("name") as String ) != "" )
-//////                {
-//////                    self.performSegueWithIdentifier(SegueToMainVC, sender: nil)
-//////                }
-//////                else
-//////                {
-//////                    self.performSegueWithIdentifier(SegueToServerVC, sender: nil)
-//////                }
-////                
-////            }
-////            else
-////            {
-////                alert.message = (alert.message! + "\n" + "heartbeat - Defied") as String
-////            }
-////            alert.show()
-//            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:nil )
-//            
-//        }
-//        else
-//        {
-//            var alert :UIAlertView = UIAlertView(title: "Status", message: "Wrong login & password pair", delegate: self, cancelButtonTitle: "OK")
-//            alert.show()
-//        }
-//    }
-  //  }
+    func logIn(notification: NSNotification)
+    {
+        println("3")
+        if(notification.object  != nil)
+        {
+            var alert :UIAlertView = UIAlertView(title: "Status", message: "Login - Success", delegate: self, cancelButtonTitle: "OK")
+            alert.message = (alert.message! + "\n" + "heartbeat - Success") as String
+            
+//            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
+
+            //alert.show()
+            println("4")
+
+        }
+    }
 }

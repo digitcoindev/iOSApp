@@ -1,11 +1,3 @@
-//
-//  CoreDataManager.swift
-//  NemIOSClient
-//
-//  Created by Bodya Bilas on 23.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 import CoreData
 
@@ -47,15 +39,88 @@ class CoreDataManager: NSObject
         }
     }
     
-    func addWallet(loggin: String, password: String)
+    func addWallet(loggin: String, password: String, privateKey: String)
     {
-        Wallet.createInManagedObjectContext(self.managedObjectContext!,login: loggin, password: password)
+        Wallet.createInManagedObjectContext(self.managedObjectContext!,login: loggin, password: password ,privateKey : privateKey)
         
         commit()
     }
     
-    //Server
+    //Message
     
+    func getMessages()->[Message]
+    {
+        let fetchRequest = NSFetchRequest(entityName: "Message")
+        
+        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Message]
+        {
+            return fetchResults
+        }
+        else
+        {
+            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Message]
+            
+            return fetchResults!
+        }
+    }
+    
+    func addMessage(from: String, to: String, message: String , date: NSDate , nems: String)
+    {
+        Message.createInManagedObjectContext(self.managedObjectContext!, from: from, to: to, message: message, date: date , nems: nems)
+        
+        commit()
+    }
+    
+    //Correspondent
+
+    func getCorrespondents()->[Correspondent]
+    {
+        let fetchRequest = NSFetchRequest(entityName: "Correspondent")
+        
+        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Correspondent]
+        {
+            return fetchResults
+        }
+        else
+        {
+            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Correspondent]
+            
+            return fetchResults!
+        }
+    }
+
+    func getCorrespondent(key :String) -> Correspondent
+    {
+        let fetchRequest = NSFetchRequest(entityName: "Correspondent")
+        
+        var fetchResults :[Correspondent] = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [Correspondent]
+        
+        for correspondent in fetchResults
+        {
+            if correspondent.key == key
+            {
+                return correspondent
+            }
+        }
+        
+        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: key)
+        
+        commit()
+        
+        return corespondent
+    }
+    
+    func addCorrespondent( key: String, name: String) -> Correspondent
+    {
+        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name)
+        
+        commit()
+        
+        return corespondent
+    }
+
+    //Server
+
     func getServers()->[Server]
     {
         let fetchRequest = NSFetchRequest(entityName: "Server")
@@ -64,9 +129,11 @@ class CoreDataManager: NSObject
         {
             if(fetchResults.count == 0)
             {
-                Server.createInManagedObjectContext(self.managedObjectContext!, name: "MyFirstServer", address: "10.100.10.1", port: "7890")
-                Server.createInManagedObjectContext(self.managedObjectContext!, name: "MySecondServer", address: "10.100.10.2", port: "7890")
-                Server.createInManagedObjectContext(self.managedObjectContext!, name: "MyThirdServer", address: "10.100.10.3", port: "7890")
+                println("Add standart servers...")
+                
+                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.1", port: "7890")
+                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.2", port: "7890")
+                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.3", port: "7890")
                 
                 commit()
                 
@@ -77,9 +144,11 @@ class CoreDataManager: NSObject
         }
         else
         {
-            Server.createInManagedObjectContext(self.managedObjectContext!, name: "MyFirstServer", address: "10.100.10.1", port: "7890")
-            Server.createInManagedObjectContext(self.managedObjectContext!, name: "MySecondServer", address: "10.100.10.2", port: "7890")
-            Server.createInManagedObjectContext(self.managedObjectContext!, name: "MyThirdServer", address: "10.100.10.3", port: "7890")
+            println("Add standart servers...")
+            
+            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.1", port: "7890")
+            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.2", port: "7890")
+            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.3", port: "7890")
             
             var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Server]
             
@@ -94,112 +163,30 @@ class CoreDataManager: NSObject
         commit()
     }
     
-    //User
     
-    func getUsers()->[User]
+    //LoadData
+    
+    
+    func getLoadData()->LoadData
     {
-        let fetchRequest = NSFetchRequest(entityName: "User")
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [User]
+        let fetchRequest = NSFetchRequest(entityName: "LoadData")
+        var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LoadData]
+        if (fetchResults?.count > 0)
         {
-            if(fetchResults.count == 0)
-            {
-                User.createInManagedObjectContext(self.managedObjectContext!, pin1: "", state1: "0")
-                
-                commit()
-                
-                fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [User]
-            }
-            
-            return fetchResults
+            return fetchResults?.first! as LoadData!
         }
         else
         {
-            User.createInManagedObjectContext(self.managedObjectContext!, pin1: "", state1: "0")
+            var corespondent :LoadData = LoadData.createInManagedObjectContext(self.managedObjectContext!)
             
-            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [User]
+            commit()
             
-            return fetchResults!
+            return corespondent
         }
     }
     
-    func userPin(pin1 : String)
-    {
-        let fetchRequest = NSFetchRequest(entityName: "User")
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [User]
-        {
-            if(fetchResults.count != 0)
-            {
-                fetchResults[0].setValue(pin1, forKey: "pin")
-                
-                commit()
-            }
-            else
-            {
-                println("ERROR : Can't set pin for user. No user detected!")
-            }
-        }
-    }
     
-    func userPin()-> String
-    {
-        let fetchRequest = NSFetchRequest(entityName: "User")
-        
-        var result :String = "ERROR"
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [User]
-        {
-            if(fetchResults.count != 0)
-            {
-                result =  fetchResults[0].valueForKey("pin") as String
-            }
-            else
-            {
-                println("ERROR : Can't get pin for user. No user detected!")
-            }
-        }
-        return result
-    }
     
-    func userPinState(state :String)
-    {
-        let fetchRequest = NSFetchRequest(entityName: "User")
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [User]
-        {
-            if(fetchResults.count != 0)
-            {
-                fetchResults[0].setValue(state, forKey: "state")
-                commit()
-            }
-            else
-            {
-                println("ERROR : Can't set state for user pin. No user detected!")
-            }
-            
-        }
-    }
-    
-    func userPinState()-> String
-    {
-        let fetchRequest = NSFetchRequest(entityName: "User")
-        
-        var result :String = "ERROR"
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [User]
-        {
-            if(fetchResults.count != 0)
-            {
-                result = fetchResults[0].valueForKey("state") as String
-            }
-            else
-            {
-                println("ERROR : Can't get state for user pin . No user detected!")
-            }
-        }
-        return result
-    }
     
     //General
     

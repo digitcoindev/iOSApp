@@ -1,17 +1,11 @@
-//
-//  MainVC.swift
-//  NemIOSClient
-//
-//  Created by Dominik Lyubomyr on 19.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class MainVC: UIViewController
 {
     
     @IBOutlet weak var status: UILabel!
+    @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var backBtn: UIButton!
     
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     
@@ -24,11 +18,13 @@ class MainVC: UIViewController
     {
         super.viewDidLoad()
         
-        State.currentWallet = -1 as Int
-        State.fromVC = "null" as String
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
         observer.addObserver(self, selector: "pageSelected:", name: "MenuPage", object: nil)
-
+        observer.addObserver(self, selector: "changeTitle:", name: "Title", object: nil)
+                
+        backBtn.hidden = true
+        
         pagesTitles  = deviceData.getMenuItems()
         
     }
@@ -45,20 +41,48 @@ class MainVC: UIViewController
             pages = segue.destinationViewController as MainContainerVC
         }
     }
-    @IBAction func newF(sender: AnyObject)
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle
+    {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    @IBAction func menu(sender: AnyObject)
     {
         status.text = SegueToMainMenu as String
-        pages.changePage(SegueToMainMenu)
+        
+        if State.currentVC != SegueToMainMenu
+        {
+            pages.changePage(SegueToMainMenu)
+        }
+        else
+        {
+            pages.changePage(State.fromVC!)
+        }
+    }
+    
+    @IBAction func backVC(sender: AnyObject)
+    {
+        if State.countVC <= 2
+        {
+            backBtn.hidden = true
+        }
+        
+        pages.changePage(State.lastVC)
+    }
+    
+    func changeTitle(notification: NSNotification)
+    {
+        status.text = notification.object as? String
     }
     
     func pageSelected(notification: NSNotification)
     {
-        print("Selected page : ")
-        if(notification.object  != nil)
+        if State.countVC >= 1
         {
-            status.text = notification.object as? String
-            print("\(notification.object) \n")
+            backBtn.hidden = false
         }
+        
         pages.changePage(notification.object as String)
     }
 }

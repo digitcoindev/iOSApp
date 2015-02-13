@@ -1,11 +1,3 @@
-//
-//  MainMenuVC.swift
-//  NemIOSClient
-//
-//  Created by Bodya Bilas on 19.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDelegate
@@ -14,41 +6,49 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     let dataManager : CoreDataManager = CoreDataManager()
     let deviceManager : plistFileManager = plistFileManager()
     
-    var servers : NSArray = NSArray()
     var menuItems : NSMutableArray = NSMutableArray()
     var menu : NSArray = NSArray()
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        servers = dataManager.getServers()
+                
         menu = deviceManager.getMenuItems()
         
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        State.currentVC = SegueToMainMenu
         
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+                
         for item in menu
         {
-            if(State.currentWallet != -1)
+            if(State.currentWallet != nil)
             {
                 
                 switch (item as String)
                 {
                     
-                case "Registration" ,"Login" , "Servers" :
+                case "Accounts", "Registration" :
                     break
                     
                 default:
-                    menuItems.addObject(item)
-                    
+                    if State.fromVC != item as String
+                    {
+                        menuItems.addObject(item)
+                    }
+                    break
                 }
             }
             else
             {
                 switch (item as String)
                 {
-                    
-                case "Registration" ,"Login" , "Servers" :
-                    menuItems.addObject(item)
+
+                case "Accounts" , "Servers" :
+                    if State.fromVC != item as String
+                    {
+                        menuItems.addObject(item)
+                    }
+                    break
                     
                 default:
                     break
@@ -80,18 +80,23 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     {
         var page: String  = menuItems.objectAtIndex(indexPath.row) as String
         
+       
         switch (page)
         {
         case "Registration":
+            State.toVC = SegueToRegistrationVC
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToRegistrationVC )
             
-        case "Login":
+        case "Accounts":
+            State.toVC = SegueToLoginVC
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
             
         case "Servers":
+            State.toVC = SegueToServerVC
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerVC )
             
         case "Dashboard":
+            State.toVC = SegueToDashboard
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
             
         default:

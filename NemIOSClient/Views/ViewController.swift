@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  NemIOSClient
-//
-//  Created by Dominik Lyubomyr on 11.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 var SegueToServerVC : String =  "Servers"
@@ -19,6 +11,14 @@ var SegueToDashboard : String =  "Dashboard"
 var SegueToPasswordValidation : String =  "Password"
 var SegueToMessageVC : String =  "Message"
 var SegueToQRCode : String =  "QR Code"
+var SegueToAddAccountVC :String = "Import Accouts"
+var SegueToImportFromQR :String = "Import from QR"
+var SegueToAddressBook :String = "Address Book"
+var SegueToMessages :String = "Messages"
+var SegueToUserInfo :String = "User Info"
+var SegueToImportFromKey :String = "Import from key"
+
+//var SegueToImportFromFileVC :String = "Imported Accounts"
 //var SegueToValidatePin : String =  "validatePin"
 //var SegueToPinConfige : String =  "toPinConfige"
 
@@ -26,31 +26,40 @@ class ViewController: UIViewController
 {
     let deviceData : plistFileManager = plistFileManager()
     let dataManager :CoreDataManager = CoreDataManager()
-//    var pin : String = String()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        dataManager.getUsers()
 
     }
     
     override func viewDidAppear(animated: Bool)
     {
         
-//        var pin : String = dataManager.userPin()
-//        var nullStr : String = String()
-//        var state = dataManager.userPinState()
+        //Test data open
+        
+        
+   
+//        var importedAccounts :NSArray = NSArray(objects: "account 1","account 2" ,"account 3" ,"account 4")
 //        
-//        if(pin != nullStr && state == "0")
+//        var manager :NSFileManager = NSFileManager()
+//        for value :String  in importedAccounts as NSArray as [String]
 //        {
-//            self.performSegueWithIdentifier(SegueToValidatePin, sender: self)
+//            var str = "/Documents/ImportedAccounts/" + value
+//            
+//            manager.createFileAtPath(NSHomeDirectory().stringByAppendingString(str), contents: NSData(base64EncodedString: HashManager.AES256Encrypt(value, key: value), options: NSDataBase64DecodingOptions()), attributes: nil)
+//            
 //        }
-//        else
-//        {
-            self.performSegueWithIdentifier(SegueToMainVC, sender: self)
-//        }
+
+        
+        
+        ////Test data close
+
+        self.performSegueWithIdentifier(SegueToMainVC, sender: self)
+
     }
+    
+    
     
     override func didReceiveMemoryWarning()
     {

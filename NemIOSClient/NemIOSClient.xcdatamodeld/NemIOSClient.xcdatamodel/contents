@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Correspondent" representedClassName="NemIOSClient.Correspondent" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="owner" inverseEntity="Message" syncable="YES"/>
+    </entity>
+    <entity name="LoadData" representedClassName="NemIOSClient.LoadData" syncable="YES">
+        <relationship name="currentServer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Server" syncable="YES"/>
+    </entity>
+    <entity name="Message" representedClassName="NemIOSClient.Message" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="from" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nems" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Correspondent" inverseName="messages" inverseEntity="Correspondent" syncable="YES"/>
+    </entity>
     <entity name="Server" representedClassName="NemIOSClient.Server" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="port" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="User" representedClassName="NemIOSClient.User" syncable="YES">
-        <attribute name="pin" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="protocolType" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Wallet" representedClassName="NemIOSClient.Wallet" syncable="YES">
         <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="privateKey" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Server" positionX="-54" positionY="9" width="128" height="88"/>
-        <element name="User" positionX="-54" positionY="-9" width="128" height="73"/>
-        <element name="Wallet" positionX="-54" positionY="27" width="128" height="75"/>
+        <element name="Correspondent" positionX="-54" positionY="36" width="128" height="88"/>
+        <element name="Message" positionX="-54" positionY="27" width="128" height="133"/>
+        <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
+        <element name="Wallet" positionX="-54" positionY="27" width="128" height="90"/>
+        <element name="LoadData" positionX="-45" positionY="72" width="128" height="58"/>
     </elements>
 </model>

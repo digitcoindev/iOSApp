@@ -1,35 +1,86 @@
-//
-//  PasswordValidationVC.swift
-//  NemIOSClient
-//
-//  Created by Bodya Bilas on 30.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class PasswordValidationVC: UIViewController
 {
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var confirm: UIButton!
     
+    var showKeyboard :Bool = true
+    var currentField :UITextField!
     let dataMeneger: CoreDataManager  = CoreDataManager()
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
+        State.currentVC = SegueToPasswordValidation
+        
+        var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        
+        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        currentField = password
+        password.layer.cornerRadius = 2
+        confirm.layer.cornerRadius = 2
     }
 
     @IBAction func passwordValidation(sender: AnyObject)
-    {
-        var wallets: [Wallet] = dataMeneger.getWallets()
-        
-        if(password.text == wallets[State.currentWallet].password)
+    {        
+        if( password.text == HashManager.AES256Decrypt(State.currentWallet!.password) )
         {
             println("Segue to : " + State.toVC)
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:State.toVC )
+                        
+            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:State.toVC )
 
+        }
+    }
+    
+    @IBAction func hideKeyBoard(sender: AnyObject)
+    {
+        (sender as UITextField).becomeFirstResponder()
+    }
+    
+    func keyboardWillShow(notification: NSNotification)
+    {
+        if(showKeyboard)
+        {
+            var info:NSDictionary = notification.userInfo!
+            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            
+            var keyboardHeight:CGFloat = keyboardSize.height
+            
+            var animationDuration = 0.1
+            
+            if (keyboardHeight > (currentField.frame.origin.y - 5))
+            {
+                keyboardHeight = (currentField.frame.origin.y - 5 )as CGFloat
+            }
+            
+            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
+                {
+                    self.view.frame = CGRectMake(0, -keyboardHeight , self.view.bounds.width, self.view.bounds.height)
+                }, completion: nil)
+            
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification)
+    {
+        if(showKeyboard)
+        {
+            var info:NSDictionary = notification.userInfo!
+            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            
+            var keyboardHeight:CGFloat = keyboardSize.height
+            
+            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as CGFloat
+            
+            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
+                {
+                    self.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+                    
+                }, completion: nil)
         }
     }
     

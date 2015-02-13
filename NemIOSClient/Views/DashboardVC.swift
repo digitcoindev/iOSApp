@@ -1,11 +1,3 @@
-//
-//  DashboardVC.swift
-//  NemIOSClient
-//
-//  Created by Bodya Bilas on 30.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class DashboardVC: UIViewController
@@ -14,7 +6,9 @@ class DashboardVC: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+        
+        State.currentVC = SegueToDashboard
+        
     }
 
     override func didReceiveMemoryWarning()
@@ -24,18 +18,24 @@ class DashboardVC: UIViewController
     
     @IBAction func createQR(sender: AnyObject)
     {
-        State.toVC = SegueToQRCode
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToPasswordValidation )
-
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
+        alert.show()
     }
     
     @IBAction func sandMessage(sender: AnyObject)
     {
-        State.toVC = SegueToMessageVC
-
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToPasswordValidation )
+        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )
 
     }
     
+    @IBAction func scanQR(sender: AnyObject)
+    {
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
+        alert.show()
+    }
+
+    @IBAction func userInfo(sender: AnyObject)
+    {
+        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToUserInfo )
+    }
 }

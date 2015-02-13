@@ -1,16 +1,10 @@
-//
-//  ServerContainerVC.swift
-//  NemIOSClient
-//
-//  Created by Dominik Lyubomyr on 12.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 
-class ServerContainerVC: UIViewController {
+class ServerContainerVC: UIViewController
+{
 
+    var curentPage :Int = 0
 
     override func viewDidLoad()
     {
@@ -43,10 +37,10 @@ class ServerContainerVC: UIViewController {
 
     func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController )
     {
-        toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width)
+        toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         fromViewController.willMoveToParentViewController(nil)
         self.addChildViewController(toViewController)
-        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, animations:
+        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations:
             {
                 value in
             }
@@ -61,6 +55,7 @@ class ServerContainerVC: UIViewController {
 
     internal func changePage(page :Int)
     {
+        curentPage = page
         switch(page)
         {
             

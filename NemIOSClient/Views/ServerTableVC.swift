@@ -1,11 +1,3 @@
-//
-//  ServerTableVC.swift
-//  NemIOSClient
-//
-//  Created by Dominik Lyubomyr on 12.12.14.
-//  Copyright (c) 2014 Artygeek. All rights reserved.
-//
-
 import UIKit
 
 class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewDelegate
@@ -17,10 +9,12 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.layer.cornerRadius = 5
 
         servers = dataManager.getServers()
-        
-        self.tableView.tableFooterView = UIView(frame: CGRectZero) 
     }
 
     override func didReceiveMemoryWarning()
@@ -30,6 +24,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
 
     // MARK: - Table view data source
 
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         
@@ -40,12 +35,32 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     {
         var cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as ServerViewCell
         var cellData  : Server = servers[indexPath.row] as Server
-        cell.serverName.text = "  http://" + cellData.address + ":" + cellData.port
-        //cell.serverAddress.text = cellData.address as NSString
+        
+        cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
+        
+        if servers[indexPath.row] as? Server == State.currentServer 
+        {
+            cell.indicatorON()
+        }
+
         return cell
     }
      override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        State.currentServer = indexPath.row
+        if  State.currentServer != nil
+        {
+            (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).disSelect()
+        }
+        
+        State.currentServer = servers[indexPath.row] as? Server
+        var loadData :LoadData = dataManager.getLoadData()
+        
+        loadData.currentServer = servers[indexPath.row] as Server
+        dataManager.commit()
+        
+        (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).indicatorON()
+        
+        State.toVC = SegueToLoginVC
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
     }
 }
