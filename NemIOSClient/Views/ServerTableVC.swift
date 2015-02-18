@@ -5,6 +5,9 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
 
     let dataManager : CoreDataManager = CoreDataManager()
     var servers : NSArray = NSArray()
+    var apiManager :APIManager = APIManager()
+    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    var selectedCellIndex : Int = -1
     
     override func viewDidLoad()
     {
@@ -14,6 +17,9 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5
 
+        observer.addObserver(self, selector: "serverConfirmed:", name: "heartbeatSuccessed", object: nil)
+        observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
+        
         servers = dataManager.getServers()
     }
 
@@ -22,6 +28,26 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         super.didReceiveMemoryWarning()
     }
 
+    func serverConfirmed(notification: NSNotification)
+    {
+        State.currentServer = servers[selectedCellIndex] as? Server
+        var loadData :LoadData = dataManager.getLoadData()
+        
+        loadData.currentServer = servers[selectedCellIndex] as Server
+        dataManager.commit()
+        
+        (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).indicatorON()
+        
+        State.toVC = SegueToLoginVC
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+    }
+    
+    func serverDenied(notification: NSNotification)
+    {
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  anavailable.", delegate: self, cancelButtonTitle: "OK")
+        alert.show()
+    }
+    
     // MARK: - Table view data source
 
     
@@ -52,15 +78,10 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
             (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).disSelect()
         }
         
-        State.currentServer = servers[indexPath.row] as? Server
-        var loadData :LoadData = dataManager.getLoadData()
+        var selectedServer :Server = servers[indexPath.row] as Server
+        selectedCellIndex = indexPath.row
         
-        loadData.currentServer = servers[indexPath.row] as Server
-        dataManager.commit()
+        apiManager.heartbeat(selectedServer.protocolType, address: selectedServer.address, port: selectedServer.port)
         
-        (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).indicatorON()
-        
-        State.toVC = SegueToLoginVC
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
     }
 }

@@ -10,16 +10,31 @@ class ServerCustomVC: UIViewController
     var showKeyboard :Bool = true
     var currentField :UITextField!
     
+    var apiManager :APIManager = APIManager()
     let dataManager :CoreDataManager = CoreDataManager()
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        observer.addObserver(self, selector: "serverConfirmed:", name: "heartbeatSuccessed", object: nil)
+        observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
+    }
+    
+    func serverConfirmed(notification: NSNotification)
+    {
+        State.currentServer = dataManager.getServers().last!
         
     }
+    
+    func serverDenied(notification: NSNotification)
+    {
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "This server is currently anavailable.", delegate: self, cancelButtonTitle: "OK")
+        alert.show()
+    }    
     
     @IBAction func chouseTextField(sender: AnyObject)
     {
@@ -34,12 +49,12 @@ class ServerCustomVC: UIViewController
     
     @IBAction func addServer(sender: AnyObject)
     {
+        apiManager.heartbeat(protocolType.text, address: serverAddress.text ,port: serverPort.text)
+
         dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
         serverAddress.text = ""
         protocolType.text = ""
         serverPort.text = ""
-        
-        State.currentServer = dataManager.getServers().last!
     }
     
     override func didReceiveMemoryWarning()

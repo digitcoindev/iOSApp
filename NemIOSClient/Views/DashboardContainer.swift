@@ -86,6 +86,12 @@ class DashboardContainer: UIViewController
         case SegueToPasswordValidation:
             self.performSegueWithIdentifier(SegueToPasswordValidation, sender: nil)
             
+        case SegueToCreateQRInput:
+            self.performSegueWithIdentifier(SegueToCreateQRInput, sender: nil)
+            
+        case SegueToCreateQRResult:
+            self.performSegueWithIdentifier(SegueToCreateQRResult, sender: nil)
+            
         default:
             break;
         }

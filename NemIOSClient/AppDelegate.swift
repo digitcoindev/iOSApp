@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     func applicationWillResignActive(application: UIApplication)
     {
     }
+    
     func applicationDidEnterBackground(application: UIApplication)
     {
     }
@@ -71,7 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     lazy var managedObjectContext: NSManagedObjectContext? =
     {
         let coordinator = self.persistentStoreCoordinator
-        if coordinator == nil {
+        if coordinator == nil
+        {
             return nil
         }
         var managedObjectContext = NSManagedObjectContext()
@@ -81,11 +83,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     // MARK: - Core Data Saving support
 
-    func saveContext () {
+    func saveContext ()
+    {
         if let moc = self.managedObjectContext
         {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
+            if moc.hasChanges && !moc.save(&error)
+            {
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 NSLog("Unresolved error \(error), \(error!.userInfo)")

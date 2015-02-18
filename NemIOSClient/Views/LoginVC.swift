@@ -32,7 +32,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         self.tableView.layer.cornerRadius = 5
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        observer.addObserver(self, selector: "logIn:", name: "heartbeat", object: nil)
+        observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
         
     }
 

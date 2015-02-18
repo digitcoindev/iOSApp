@@ -17,6 +17,8 @@ var SegueToAddressBook :String = "Address Book"
 var SegueToMessages :String = "Messages"
 var SegueToUserInfo :String = "User Info"
 var SegueToImportFromKey :String = "Import from key"
+var SegueToCreateQRInput :String = "CreateQRInput"
+var SegueToCreateQRResult :String = "CreateQRResult"
 
 //var SegueToImportFromFileVC :String = "Imported Accounts"
 //var SegueToValidatePin : String =  "validatePin"

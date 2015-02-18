@@ -109,7 +109,7 @@ class MainContainerVC: UIViewController
             case SegueToImportFromKey:
                 self.performSegueWithIdentifier(SegueToImportFromKey, sender: nil)
 
-            case SegueToPasswordValidation , SegueToMessageVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages:
+            case SegueToPasswordValidation , SegueToMessageVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult:
                 
                 State.toVC = page as String
                 NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )

@@ -11,6 +11,7 @@ class State: NSObject
         static var currentWallet : Wallet!
         static var currentServer : Server = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
+        static var amount :Int = 0
     }
     
     class var fromVC: String?
@@ -87,6 +88,12 @@ class State: NSObject
         {
         get { return State.Store.currentContact }
         set { State.Store.currentContact = newValue!}
+    }
+    
+    class var amount: Int
+        {
+        get { return State.Store.amount }
+        set { State.Store.amount = newValue }
     }
     
     override init()

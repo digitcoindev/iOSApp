@@ -18,8 +18,8 @@ class DashboardVC: UIViewController
     
     @IBAction func createQR(sender: AnyObject)
     {
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
-        alert.show()
+        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToCreateQRInput )
+
     }
     
     @IBAction func sandMessage(sender: AnyObject)

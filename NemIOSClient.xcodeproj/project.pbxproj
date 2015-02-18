@@ -10,6 +10,8 @@
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
 		DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MainMenuVC.swift */; };
 		DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00593A1A48830D00638C57 /* ServerTableVC.swift */; };
+		DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED51A9226E10021E98B /* NEMTextField.swift */; };
+		DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED91A922FEC0021E98B /* CreateQRInput.swift */; };
 		DA0713E01A8CCE9600B94D39 /* user_info.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0713DC1A8CCE9600B94D39 /* user_info.png */; };
 		DA0713E11A8CCE9600B94D39 /* qr_code_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0713DD1A8CCE9600B94D39 /* qr_code_icon.png */; };
 		DA0713E21A8CCE9600B94D39 /* message_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0713DE1A8CCE9600B94D39 /* message_icon.png */; };
@@ -57,6 +59,7 @@
 		DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* WalletCell.swift */; };
 		DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA971FDB1A67C2A00039ADB4 /* Foundation.framework */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
+		DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */; };
 		DACBFEA51A5ADE6900C2FCEC /* ImportFromFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
 		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
@@ -119,6 +122,8 @@
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
 		DA0059381A4882ED00638C57 /* MainMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuVC.swift; path = Views/MainMenuVC.swift; sourceTree = "<group>"; };
 		DA00593A1A48830D00638C57 /* ServerTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerTableVC.swift; path = Views/ServerTableVC.swift; sourceTree = "<group>"; };
+		DA031ED51A9226E10021E98B /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEMTextField.swift; sourceTree = "<group>"; };
+		DA031ED91A922FEC0021E98B /* CreateQRInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRInput.swift; path = Views/CreateQRInput.swift; sourceTree = "<group>"; };
 		DA0713DC1A8CCE9600B94D39 /* user_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_info.png; sourceTree = "<group>"; };
 		DA0713DD1A8CCE9600B94D39 /* qr_code_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr_code_icon.png; sourceTree = "<group>"; };
 		DA0713DE1A8CCE9600B94D39 /* message_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message_icon.png; sourceTree = "<group>"; };
@@ -172,6 +177,7 @@
 		DA8A892D1A4C52300072FE08 /* WalletCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletCell.swift; path = "Views/Additional controls/WalletCell.swift"; sourceTree = "<group>"; };
 		DA971FDB1A67C2A00039ADB4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
+		DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRResult.swift; path = Views/CreateQRResult.swift; sourceTree = "<group>"; };
 		DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromFile.swift; path = Views/ImportFromFile.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
 		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
@@ -250,6 +256,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA031ED71A9226E60021E98B /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				DA031ED51A9226E10021E98B /* NEMTextField.swift */,
+			);
+			name = TextFields;
+			sourceTree = "<group>";
+		};
+		DA031ED81A922AE20021E98B /* Messager */ = {
+			isa = PBXGroup;
+			children = (
+				DA3BE20D1A5FFEF400CAC733 /* Messages.swift */,
+				DAD5AD911A52F2F30093E3DB /* MessageVC.swift */,
+				DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */,
+			);
+			name = Messager;
+			sourceTree = "<group>";
+		};
+		DA031EDB1A922FF00021E98B /* CreateQR */ = {
+			isa = PBXGroup;
+			children = (
+				DA031ED91A922FEC0021E98B /* CreateQRInput.swift */,
+				DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */,
+			);
+			name = CreateQR;
+			sourceTree = "<group>";
+		};
 		DA194E051A431C690030C882 /* Import */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,9 +321,8 @@
 				DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */,
 				DA21991F1A68038700E2F8DD /* DashboardContainer.swift */,
 				DA2199211A68222900E2F8DD /* UserInfoVC.swift */,
-				DA3BE20D1A5FFEF400CAC733 /* Messages.swift */,
-				DAD5AD911A52F2F30093E3DB /* MessageVC.swift */,
-				DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */,
+				DA031ED81A922AE20021E98B /* Messager */,
+				DA031EDB1A922FF00021E98B /* CreateQR */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -408,6 +440,7 @@
 				DA3DD8A71A6E9DCF00B45BF5 /* Segues */,
 				DA3DD8A61A6E9DC400B45BF5 /* Cells */,
 				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
+				DA031ED71A9226E60021E98B /* TextFields */,
 			);
 			name = "Additional controls";
 			sourceTree = "<group>";
@@ -806,6 +839,7 @@
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */,
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
+				DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */,
 				DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */,
 				DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */,
 				DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */,
@@ -817,9 +851,11 @@
 				DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */,
 				DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */,
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
+				DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */,
 				DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */,
 				DA3558421A3AFD2B00AFA5FD /* ServerContainerVC.swift in Sources */,
 				DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */,
+				DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */,
 				DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */,
 				DADA37541A7683C300F14D6D /* add_scalar.c in Sources */,
 				DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */,

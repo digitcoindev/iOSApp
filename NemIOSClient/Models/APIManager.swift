@@ -39,6 +39,11 @@ class APIManager: NSObject
                 {
                     println(err!.localizedDescription)
                     
+                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
+
+//                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatDenied", object:nil)
+
+                    
                     println("NIS is not available!")
                 }
                 else
@@ -49,9 +54,7 @@ class APIManager: NSObject
                     
                     println("Succes : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
                     
-                    println("2")
-
-                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeat", object:layers )
+                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
 
                     heartbeat = true
                 }
