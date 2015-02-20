@@ -49,6 +49,7 @@
 		DA4369D11A6411D400868BAD /* welcome.png in Resources */ = {isa = PBXBuildFile; fileRef = DA4369D01A6411D400868BAD /* welcome.png */; };
 		DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AF0761A975CCF00299B0A /* GoogleMap.swift */; };
 		DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF0791A976A6B00299B0A /* CoreLocation.framework */; };
+		DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF07B1A977CD600299B0A /* MessageUI.framework */; };
 		DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */; };
 		DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2EB1A82536700FAA877 /* LoadData.swift */; };
 		DA64A4C91A56D483005833A4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4C81A56D483005833A4 /* AddressBook.framework */; };
@@ -181,6 +182,7 @@
 		DA4369D01A6411D400868BAD /* welcome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = welcome.png; path = Images/welcome.png; sourceTree = "<group>"; };
 		DA4AF0761A975CCF00299B0A /* GoogleMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleMap.swift; path = Views/GoogleMap.swift; sourceTree = "<group>"; };
 		DA4AF0791A976A6B00299B0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		DA4AF07B1A977CD600299B0A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyGenerator.swift; path = Models/KeyGenerator.swift; sourceTree = "<group>"; };
 		DA4BB2EB1A82536700FAA877 /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
 		DA64A4C81A56D483005833A4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -268,6 +270,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */,
 				DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */,
 				DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */,
 				DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */,
@@ -561,6 +564,7 @@
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA4AF07B1A977CD600299B0A /* MessageUI.framework */,
 				DA4AF0791A976A6B00299B0A /* CoreLocation.framework */,
 				DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */,
 				DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */,
