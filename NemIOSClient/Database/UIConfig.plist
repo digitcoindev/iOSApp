@@ -8,15 +8,7 @@
 		<string>Accounts</string>
 		<string>Servers</string>
 		<string>Dashboard</string>
-		<string>Transaction (nil)</string>
-		<string>HarvestBlocks (nil)</string>
-		<string>Settings (nil)</string>
-		<string>User Information (nil)</string>
-		<string>QR Code (nil)</string>
-		<string>Personal Info (nil)</string>
-		<string>Backup (nil)</string>
-		<string>Restore (nil)</string>
-		<string>Contacts (nil)</string>
+		<string>Map</string>
 	</array>
 </dict>
 </plist>

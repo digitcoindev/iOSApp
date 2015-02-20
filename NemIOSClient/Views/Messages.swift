@@ -70,7 +70,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     func searchBarResultsListButtonClicked(searchBar: UISearchBar)
     {
-        println("rez")
+        
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
@@ -192,6 +192,6 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     override func viewDidDisappear(animated: Bool)
     {
-        println(SegueToMessages)
+        
     }
 }

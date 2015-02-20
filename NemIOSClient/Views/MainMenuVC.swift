@@ -31,7 +31,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                     break
                     
                 default:
-                    if State.fromVC != item as String
+                    if State.fromVC != item as? String
                     {
                         menuItems.addObject(item)
                     }
@@ -44,7 +44,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                 {
 
                 case "Accounts" , "Servers" :
-                    if State.fromVC != item as String
+                    if State.fromVC != item as? String
                     {
                         menuItems.addObject(item)
                     }
@@ -98,6 +98,10 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         case "Dashboard":
             State.toVC = SegueToDashboard
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
+            
+        case "Map":
+            State.toVC = SegueToGoogleMap
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToGoogleMap )
             
         default:
             print("")

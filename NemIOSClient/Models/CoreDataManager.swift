@@ -129,8 +129,6 @@ class CoreDataManager: NSObject
         {
             if(fetchResults.count == 0)
             {
-                println("Add standart servers...")
-                
                 Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.1", port: "7890")
                 Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.2", port: "7890")
                 Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.3", port: "7890")
@@ -143,9 +141,7 @@ class CoreDataManager: NSObject
             return fetchResults
         }
         else
-        {
-            println("Add standart servers...")
-            
+        {            
             Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.1", port: "7890")
             Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.2", port: "7890")
             Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.3", port: "7890")

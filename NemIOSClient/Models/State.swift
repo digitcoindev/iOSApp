@@ -23,7 +23,6 @@ class State: NSObject
         set
         {
             State.Store.stackVC.append(newValue!)
-            println("Append : "  + newValue!)
         }
     }
     
@@ -42,11 +41,6 @@ class State: NSObject
     {
         get
         {
-            for str in Store.stackVC
-            {
-                println(str)
-            }
-            
             if State.Store.stackVC.count > 1
             {
                 State.Store.stackVC.removeLast()

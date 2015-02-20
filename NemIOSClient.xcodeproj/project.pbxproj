@@ -47,6 +47,8 @@
 		DA3BE2101A60103E00CAC733 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20F1A60103E00CAC733 /* Message.swift */; };
 		DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */; };
 		DA4369D11A6411D400868BAD /* welcome.png in Resources */ = {isa = PBXBuildFile; fileRef = DA4369D01A6411D400868BAD /* welcome.png */; };
+		DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AF0761A975CCF00299B0A /* GoogleMap.swift */; };
+		DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF0791A976A6B00299B0A /* CoreLocation.framework */; };
 		DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */; };
 		DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2EB1A82536700FAA877 /* LoadData.swift */; };
 		DA64A4C91A56D483005833A4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4C81A56D483005833A4 /* AddressBook.framework */; };
@@ -60,6 +62,18 @@
 		DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA971FDB1A67C2A00039ADB4 /* Foundation.framework */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
 		DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */; };
+		DAC28C921A96000600EE3B22 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C911A96000600EE3B22 /* GoogleMaps.framework */; };
+		DAC28C941A96008700EE3B22 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */; };
+		DAC28C961A96011900EE3B22 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C951A96011900EE3B22 /* CoreData.framework */; };
+		DAC28C981A96012700EE3B22 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C971A96012600EE3B22 /* CoreText.framework */; };
+		DAC28C9A1A96013300EE3B22 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C991A96013300EE3B22 /* GLKit.framework */; };
+		DAC28C9C1A96013D00EE3B22 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9B1A96013D00EE3B22 /* ImageIO.framework */; };
+		DAC28C9E1A96015000EE3B22 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9D1A96015000EE3B22 /* libc++.dylib */; };
+		DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9F1A96016500EE3B22 /* libicucore.dylib */; };
+		DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA11A96017300EE3B22 /* libz.dylib */; };
+		DAC28CA41A96017C00EE3B22 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */; };
+		DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */; };
+		DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */; };
 		DACBFEA51A5ADE6900C2FCEC /* ImportFromFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
 		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
@@ -165,6 +179,8 @@
 		DA3BE20F1A60103E00CAC733 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = "Core Data Models/Message.swift"; sourceTree = "<group>"; };
 		DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuButton.swift; path = "Views/Additional controls/MenuButton.swift"; sourceTree = "<group>"; };
 		DA4369D01A6411D400868BAD /* welcome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = welcome.png; path = Images/welcome.png; sourceTree = "<group>"; };
+		DA4AF0761A975CCF00299B0A /* GoogleMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleMap.swift; path = Views/GoogleMap.swift; sourceTree = "<group>"; };
+		DA4AF0791A976A6B00299B0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyGenerator.swift; path = Models/KeyGenerator.swift; sourceTree = "<group>"; };
 		DA4BB2EB1A82536700FAA877 /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
 		DA64A4C81A56D483005833A4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -178,6 +194,19 @@
 		DA971FDB1A67C2A00039ADB4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
 		DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRResult.swift; path = Views/CreateQRResult.swift; sourceTree = "<group>"; };
+		DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		DAC28C911A96000600EE3B22 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
+		DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
+		DAC28C951A96011900EE3B22 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DAC28C971A96012600EE3B22 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		DAC28C991A96013300EE3B22 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		DAC28C9B1A96013D00EE3B22 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		DAC28C9D1A96015000EE3B22 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		DAC28C9F1A96016500EE3B22 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		DAC28CA11A96017300EE3B22 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromFile.swift; path = Views/ImportFromFile.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
 		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
@@ -239,6 +268,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */,
+				DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */,
+				DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */,
+				DAC28CA41A96017C00EE3B22 /* OpenGLES.framework in Frameworks */,
+				DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */,
+				DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */,
+				DAC28C9E1A96015000EE3B22 /* libc++.dylib in Frameworks */,
+				DAC28C9C1A96013D00EE3B22 /* ImageIO.framework in Frameworks */,
+				DAC28C9A1A96013300EE3B22 /* GLKit.framework in Frameworks */,
+				DAC28C981A96012700EE3B22 /* CoreText.framework in Frameworks */,
+				DAC28C961A96011900EE3B22 /* CoreData.framework in Frameworks */,
+				DAC28C921A96000600EE3B22 /* GoogleMaps.framework in Frameworks */,
 				DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */,
 				DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */,
 				DA64A4CE1A5A88BE005833A4 /* AVFoundation.framework in Frameworks */,
@@ -270,6 +311,7 @@
 				DA3BE20D1A5FFEF400CAC733 /* Messages.swift */,
 				DAD5AD911A52F2F30093E3DB /* MessageVC.swift */,
 				DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */,
+				DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */,
 			);
 			name = Messager;
 			sourceTree = "<group>";
@@ -332,7 +374,7 @@
 			children = (
 				DA3558021A39D3B900AFA5FD /* NemIOSClient */,
 				DAA55C551A8A58330030C79F /* Trash */,
-				DA64A4D21A5A892D005833A4 /* Framework */,
+				DA64A4D21A5A892D005833A4 /* Frameworks */,
 				DA35581B1A39D3BC00AFA5FD /* NemIOSClientTests */,
 				DA3558011A39D3B900AFA5FD /* Products */,
 			);
@@ -365,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */,
+				DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */,
 				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
 				DA3558041A39D3BA00AFA5FD /* Info.plist */,
 			);
@@ -515,15 +558,28 @@
 			name = Class;
 			sourceTree = "<group>";
 		};
-		DA64A4D21A5A892D005833A4 /* Framework */ = {
+		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA4AF0791A976A6B00299B0A /* CoreLocation.framework */,
+				DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */,
+				DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */,
+				DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */,
+				DAC28CA11A96017300EE3B22 /* libz.dylib */,
+				DAC28C9F1A96016500EE3B22 /* libicucore.dylib */,
+				DAC28C9D1A96015000EE3B22 /* libc++.dylib */,
+				DAC28C9B1A96013D00EE3B22 /* ImageIO.framework */,
+				DAC28C991A96013300EE3B22 /* GLKit.framework */,
+				DAC28C971A96012600EE3B22 /* CoreText.framework */,
+				DAC28C951A96011900EE3B22 /* CoreData.framework */,
+				DAC28C911A96000600EE3B22 /* GoogleMaps.framework */,
+				DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */,
 				DA971FDB1A67C2A00039ADB4 /* Foundation.framework */,
 				DA64A4CF1A5A88C4005833A4 /* Social.framework */,
 				DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */,
 				DA64A4C81A56D483005833A4 /* AddressBook.framework */,
 			);
-			name = Framework;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		DA64A4DF1A5ACEDC005833A4 /* AddAccount */ = {
@@ -598,10 +654,10 @@
 			children = (
 				DA0059381A4882ED00638C57 /* MainMenuVC.swift */,
 				DA194E031A41E9A00030C882 /* LoginVC.swift */,
-				DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */,
 				DA21991E1A68036200E2F8DD /* Dashboard */,
 				DA35583E1A3AF0A000AFA5FD /* Choose server */,
 				DA64A4DF1A5ACEDC005833A4 /* AddAccount */,
+				DA4AF0761A975CCF00299B0A /* GoogleMap.swift */,
 			);
 			name = Pages;
 			sourceTree = "<group>";
@@ -719,6 +775,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
 						};
 					};
 					DA3558171A39D3BC00AFA5FD = {
@@ -763,6 +822,7 @@
 				DA194E171A446A240030C882 /* LaunchScreen.xib in Resources */,
 				DAD1C8501A69664D0043D947 /* dropdown_arrow.png in Resources */,
 				DA3558101A39D3BA00AFA5FD /* Images.xcassets in Resources */,
+				DAC28C941A96008700EE3B22 /* GoogleMaps.bundle in Resources */,
 				DAD1C84D1A69664D0043D947 /* logo.png in Resources */,
 				DAD1C84B1A69664D0043D947 /* menu_icon.png in Resources */,
 				DAD1C8461A69664D0043D947 /* search_icon.png in Resources */,
@@ -836,6 +896,7 @@
 				DADA375A1A7683C300F14D6D /* seed.c in Sources */,
 				DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */,
 				DA194E071A4323520030C882 /* APIManager.swift in Sources */,
+				DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */,
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
@@ -942,6 +1003,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -979,6 +1041,7 @@
 				INSTALL_OWNER = bodyabilas;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -992,6 +1055,10 @@
 				CODE_SIGN_ENTITLEMENTS = NemIOSClient/NemIOSClient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1011,6 +1078,10 @@
 				CODE_SIGN_ENTITLEMENTS = NemIOSClient/NemIOSClient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

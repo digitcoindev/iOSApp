@@ -68,7 +68,6 @@ class LoginVC: UIViewController , UITableViewDelegate
         if State.currentServer != nil
         {
             State.currentWallet = wallets[indexPath.row]
-            println("1")
             apiManager.heartbeat(State.currentServer!.protocolType, address: State.currentServer!.address, port: State.currentServer!.port)
             
             State.toVC = SegueToMessages
@@ -84,7 +83,6 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     func logIn(notification: NSNotification)
     {
-        println("3")
         if(notification.object  != nil)
         {
             var alert :UIAlertView = UIAlertView(title: "Status", message: "Login - Success", delegate: self, cancelButtonTitle: "OK")
@@ -93,7 +91,6 @@ class LoginVC: UIViewController , UITableViewDelegate
 //            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
 
             //alert.show()
-            println("4")
 
         }
     }

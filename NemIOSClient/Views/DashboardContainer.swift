@@ -10,7 +10,7 @@ class DashboardContainer: UIViewController
         super.viewDidLoad()
         
         observer.addObserver(self, selector: "pageSelected:", name: "DashboardPage", object: nil)
-        println(State.toVC)
+
         self.performSegueWithIdentifier(State.toVC, sender: self);
     }
     

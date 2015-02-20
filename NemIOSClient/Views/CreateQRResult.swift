@@ -31,6 +31,13 @@ class CreateQRResult: UIViewController
 
     }
 
+    @IBAction func shareBtn(sender: AnyObject)
+    {
+    }
+    
+    @IBAction func mailBtn(sender: AnyObject)
+    {
+    }
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()

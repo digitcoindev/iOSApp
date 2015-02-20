@@ -19,10 +19,7 @@ var SegueToUserInfo :String = "User Info"
 var SegueToImportFromKey :String = "Import from key"
 var SegueToCreateQRInput :String = "CreateQRInput"
 var SegueToCreateQRResult :String = "CreateQRResult"
-
-//var SegueToImportFromFileVC :String = "Imported Accounts"
-//var SegueToValidatePin : String =  "validatePin"
-//var SegueToPinConfige : String =  "toPinConfige"
+var SegueToGoogleMap :String = "Map"
 
 class ViewController: UIViewController
 {
@@ -40,8 +37,6 @@ class ViewController: UIViewController
         
         //Test data open
         
-        
-   
 //        var importedAccounts :NSArray = NSArray(objects: "account 1","account 2" ,"account 3" ,"account 4")
 //        
 //        var manager :NSFileManager = NSFileManager()
@@ -53,8 +48,6 @@ class ViewController: UIViewController
 //            
 //        }
 
-        
-        
         ////Test data close
 
         self.performSegueWithIdentifier(SegueToMainVC, sender: self)

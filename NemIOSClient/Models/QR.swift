@@ -66,7 +66,6 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
                 {
                     currentresult =  metadataObject.stringValue
                     
-                    println(currentresult)
                     self.stop()
                     
                     qrImg = UIImageView(image: createQR(currentresult))

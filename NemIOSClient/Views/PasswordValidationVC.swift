@@ -29,8 +29,7 @@ class PasswordValidationVC: UIViewController
     {        
         if( password.text == HashManager.AES256Decrypt(State.currentWallet!.password) )
         {
-            println("Segue to : " + State.toVC)
-                        
+            
             NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:State.toVC )
 
         }
