@@ -30,8 +30,8 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 }
                 else
                 {
-                    println("no access")
-                    
+                    var alert :UIAlertView = UIAlertView(title: "Info", message: "Can not access adressbook", delegate: self, cancelButtonTitle: "OK")
+                    alert.show()
                 }
         })
 
@@ -52,31 +52,77 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 if granted == true
                 {
                     var newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
-                    var success:Bool = false
-                    var newFirstName:NSString = "\(rand()%20)"
-                    var newLastName = ""
-                    var address = "Dfd5ssGHS5231fsdseg54d"
                     
                     var error: Unmanaged<CFErrorRef>? = nil
                     var emailMultiValue :ABMutableMultiValueRef = ABMultiValueCreateMutable(ABPropertyType(kABPersonEmailProperty)).takeRetainedValue()
                     
-                    success = ABRecordSetValue(newContact, kABPersonFirstNameProperty, newFirstName, &error)
-                    println("setting first name was successful? \(success)")
+                    var alert1 :UIAlertController = UIAlertController(title: "Add NEM account", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
                     
-                    success = ABRecordSetValue(newContact, kABPersonLastNameProperty, newLastName, &error)
-                    println("setting last name was successful? \(success)")
+                    var firstName :UITextField!
+                    alert1.addTextFieldWithConfigurationHandler
+                        {
+                            textField -> Void in
+                            textField.placeholder = "firstName"
+                            textField.keyboardType = UIKeyboardType.ASCIICapable
+                            textField.returnKeyType = UIReturnKeyType.Done
+                            
+                            firstName = textField
+                            
+                    }
                     
-                    success = ABMultiValueAddValueAndLabel(emailMultiValue, address, "NEM", nil)
-                    println("creating nem address was successful? \(success)")
+                    var lastName :UITextField!
+                    alert1.addTextFieldWithConfigurationHandler
+                        {
+                            textField -> Void in
+                            textField.placeholder = "lastName"
+                            textField.keyboardType = UIKeyboardType.ASCIICapable
+                            textField.returnKeyType = UIReturnKeyType.Done
+                            
+                            lastName = textField
+                            
+                    }
                     
-                    success = ABRecordSetValue(newContact, kABPersonEmailProperty, emailMultiValue, &error)
-                    println("setting nem address was successful? \(success)")
+                    var address :UITextField!
+                    alert1.addTextFieldWithConfigurationHandler
+                        {
+                            textField -> Void in
+                            textField.placeholder = "address"
+                            textField.keyboardType = UIKeyboardType.ASCIICapable
+                            textField.returnKeyType = UIReturnKeyType.Done
+                            
+                            address = textField
+                            
+                    }
                     
-                    success = ABAddressBookAddRecord(self.addressBook, newContact, &error)
-                    println("addressBook addRecord successful? \(success)")
+                    var addNEMaddress :UIAlertAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default)
+                        {
+                            alertAction -> Void in
+
+                            ABRecordSetValue(newContact, kABPersonFirstNameProperty, firstName.text, &error)
+                            ABRecordSetValue(newContact, kABPersonLastNameProperty, lastName.text, &error)
+                            ABMultiValueAddValueAndLabel(emailMultiValue, address.text, "NEM", nil)
+                            ABRecordSetValue(newContact, kABPersonEmailProperty, emailMultiValue, &error)
+                            ABAddressBookAddRecord(self.addressBook, newContact, &error)
+                            ABAddressBookSave(self.addressBook, &error)
+                                
+                            self.tableView.reloadData()
+                        }
                     
-                    success = ABAddressBookSave(self.addressBook, &error)
-                    println("addressBook Save successful? \(success)")
+                    
+                    var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
+                        {
+                            alertAction -> Void in
+                            alert1.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                    
+                    alert1.addAction(addNEMaddress)
+                    alert1.addAction(cancel)
+                    
+                    self.presentViewController(alert1, animated: true, completion: nil)
+                    
+                    self.tableView.reloadData()
+                
+
                 }
                 else
                 {
@@ -114,21 +160,31 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             cell.user.text = cell.user.text! +  (ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
         }
         
-        let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue()  as ABMultiValueRef
+        let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
         let count  :Int = ABMultiValueGetCount(emails)
+        
         if count > 0
         {
-            for var index = 0; index < count; ++index
+            for var index:CFIndex = 0; index < count; ++index
             {
-                var lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue() as NSString
-                if lable  == "NEM"
+                var lable  = ABMultiValueCopyLabelAtIndex(emails, index)
+                if lable != nil
                 {
-                    cell.indicator.hidden = false
+                    if lable.takeUnretainedValue()  == "NEM"
+                    {
+                        cell.indicator.hidden = false
+                    }
+                    else
+                    {
+                        cell.indicator.hidden = true
+                    }
                 }
             }
         }
         else
         {
+            cell.indicator.hidden = true
+
             println("No email address")
         }
 
@@ -162,16 +218,10 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                     {
                         var emailMultiValue :ABMutableMultiValueRef = ABMultiValueCreateMutable(ABPropertyType(kABPersonEmailProperty)).takeRetainedValue()
                         var error: Unmanaged<CFErrorRef>? = nil
-                        var success :Bool!
                         
-                        success = ABMultiValueAddValueAndLabel(emailMultiValue, address.text, "NEM", nil)
-                        println("creating nem address was successful? \(success)")
-                        
-                        success = ABRecordSetValue(self.contacts[indexPath.row], kABPersonEmailProperty, emailMultiValue, &error)
-                        println("setting nem address was successful? \(success)")
-                        
-                        success = ABAddressBookSave(self.addressBook, &error)
-                        println("addressBook Save successful? \(success)")
+                        ABMultiValueAddValueAndLabel(emailMultiValue, address.text, "NEM", nil)
+                        ABRecordSetValue(self.contacts[indexPath.row], kABPersonEmailProperty, emailMultiValue, &error)
+                        ABAddressBookSave(self.addressBook, &error)
                         
                         self.tableView.reloadData()
                     }
@@ -182,6 +232,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 {
                     alertAction -> Void in
                     alert1.dismissViewControllerAnimated(true, completion: nil)
+                    cell.setSelected(false, animated: true)
             }
             
             alert1.addAction(addNEMaddress)
@@ -205,21 +256,28 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 if lable == "NEM"
                 {
                     key = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as String
-                    println(key)
                     break
                 }
             }
-            var name :String = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString as String
-            name = name + " " +  (ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
+            var title :String = ""
             
-            State.currentContact = dataManager.addCorrespondent(key, name: name)
+            if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
+            {
+                title = name + " "
+            }
+            
+            if var surname = ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
+            {
+                title = title +  (ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
+            }
+            
+            State.currentContact = dataManager.addCorrespondent(key, name: title)
             
             State.fromVC = SegueToAddressBook
             
             NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:State.toVC )
 
         }
-}
-    
+    }
 }
 

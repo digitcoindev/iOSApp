@@ -185,8 +185,10 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     {
         State.toVC = SegueToMessages
         
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
-        alert.show()
+//        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
+//        alert.show()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )
     }
     
     

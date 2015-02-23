@@ -52,6 +52,10 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     {
         super.didReceiveMemoryWarning()
     }
+    override func viewDidAppear(animated: Bool)
+    {
+        userName.frame = CGRectMake(userName.frame.origin.x - 48, userName.frame.origin.y, userName.frame.size.width, userName.frame.size.height)
+    }
     
     @IBAction func closeKeyboard(sender: UITextField)
     {
