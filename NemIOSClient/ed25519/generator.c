@@ -10,7 +10,7 @@
 
 void createPrivateKey(unsigned char *out_private_key)
 {
-    unsigned char public_key[32], private_key[64], seed[32];
+    unsigned char  private_key[64], seed[32];
     
     ed25519_create_seed(seed);
     

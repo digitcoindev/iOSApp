@@ -28,9 +28,9 @@
     </entity>
     <elements>
         <element name="Correspondent" positionX="-54" positionY="36" width="128" height="88"/>
-        <element name="Message" positionX="-54" positionY="27" width="128" height="133"/>
-        <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
-        <element name="Wallet" positionX="-54" positionY="27" width="128" height="90"/>
         <element name="LoadData" positionX="-45" positionY="72" width="128" height="58"/>
+        <element name="Message" positionX="-54" positionY="27" width="128" height="133"/>
+        <element name="Server" positionX="-54" positionY="9" width="128" height="88"/>
+        <element name="Wallet" positionX="-54" positionY="27" width="128" height="90"/>
     </elements>
 </model>
