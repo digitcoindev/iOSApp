@@ -20,6 +20,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         State.currentVC = SegueToAddressBook
 
+        
         ABAddressBookRequestAccessWithCompletion(addressBook,
             {
                 (granted : Bool, error: CFError!) -> Void in
@@ -34,6 +35,9 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                     alert.show()
                 }
         })
+        
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently without UI.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
+        alert.show()
 
     }
 
@@ -184,8 +188,6 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         else
         {
             cell.indicator.hidden = true
-
-            println("No email address")
         }
 
         return cell
@@ -271,11 +273,26 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 title = title +  (ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
             }
             
-            State.currentContact = dataManager.addCorrespondent(key, name: title)
+            State.currentContact = nil
             
-            State.fromVC = SegueToAddressBook
+            State.toVC = SegueToPasswordValidation
             
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:State.toVC )
+            var correspondents : NSArray = dataManager.getCorrespondents()
+            
+            for correspondent  in correspondents
+            {
+               if (correspondent as Correspondent).key == key
+               {
+                    State.currentContact = correspondent as? Correspondent
+                    break
+                }
+            }
+            if State.currentContact == nil
+            {
+                State.currentContact = dataManager.addCorrespondent(key, name: title)
+            }
+
+            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )
 
         }
     }

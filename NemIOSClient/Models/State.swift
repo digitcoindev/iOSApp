@@ -69,7 +69,7 @@ class State: NSObject
     class var currentWallet: Wallet?
         {
         get { return State.Store.currentWallet }
-        set { State.Store.currentWallet = newValue! }
+        set { State.Store.currentWallet = newValue }
     }
     
     class var currentServer: Server?
@@ -81,7 +81,7 @@ class State: NSObject
     class var currentContact: Correspondent?
         {
         get { return State.Store.currentContact }
-        set { State.Store.currentContact = newValue!}
+        set { State.Store.currentContact = newValue}
     }
     
     class var amount: Int

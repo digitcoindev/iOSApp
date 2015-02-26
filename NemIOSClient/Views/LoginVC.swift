@@ -63,7 +63,6 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        State.fromVC = SegueToLoginVC
         
         if State.currentServer != nil
         {
@@ -72,7 +71,6 @@ class LoginVC: UIViewController , UITableViewDelegate
             
             State.toVC = SegueToMessages
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
-
         }
         else
         {

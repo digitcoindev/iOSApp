@@ -96,7 +96,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerVC )
             
         case "Dashboard":
-            State.toVC = SegueToDashboard
+            State.toVC = SegueToMessages
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
             
         case "Map":

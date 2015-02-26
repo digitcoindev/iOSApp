@@ -27,11 +27,12 @@ class ServerCustomVC: UIViewController
     func serverConfirmed(notification: NSNotification)
     {
         State.currentServer = dataManager.getServers().last!
-        
     }
     
     func serverDenied(notification: NSNotification)
     {
+        State.currentServer = dataManager.getServers().last!   // For tests
+
         var alert :UIAlertView = UIAlertView(title: "Info", message: "This server is currently anavailable.", delegate: self, cancelButtonTitle: "OK")
         alert.show()
     }    

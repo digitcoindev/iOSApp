@@ -44,8 +44,22 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     
     func serverDenied(notification: NSNotification)
     {
+        //for test
+        State.currentServer = servers[selectedCellIndex] as? Server
+        var loadData :LoadData = dataManager.getLoadData()
+        
+        loadData.currentServer = servers[selectedCellIndex] as Server
+        dataManager.commit()
+        
+        (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).indicatorON()
+        
+        State.toVC = SegueToLoginVC
+        
         var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  anavailable.", delegate: self, cancelButtonTitle: "OK")
         alert.show()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+        //for test
     }
     
     // MARK: - Table view data source

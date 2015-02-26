@@ -39,9 +39,7 @@ class APIManager: NSObject
                 {
                     println(err!.localizedDescription)
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
-
-//                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatDenied", object:nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatDenied", object:nil)
 
                     
                     println("NIS is not available!")

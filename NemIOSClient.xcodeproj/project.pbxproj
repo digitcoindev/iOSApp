@@ -12,10 +12,10 @@
 		DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00593A1A48830D00638C57 /* ServerTableVC.swift */; };
 		DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED51A9226E10021E98B /* NEMTextField.swift */; };
 		DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED91A922FEC0021E98B /* CreateQRInput.swift */; };
-		DA0713E01A8CCE9600B94D39 /* user_info.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0713DC1A8CCE9600B94D39 /* user_info.png */; };
-		DA0713E11A8CCE9600B94D39 /* qr_code_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0713DD1A8CCE9600B94D39 /* qr_code_icon.png */; };
-		DA0713E21A8CCE9600B94D39 /* message_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0713DE1A8CCE9600B94D39 /* message_icon.png */; };
-		DA0713E31A8CCE9600B94D39 /* add_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA0713DF1A8CCE9600B94D39 /* add_icon.png */; };
+		DA173CCA1A9E1161003AC21F /* user_info.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC61A9E1161003AC21F /* user_info.png */; };
+		DA173CCB1A9E1161003AC21F /* qr_code_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC71A9E1161003AC21F /* qr_code_icon.png */; };
+		DA173CCC1A9E1161003AC21F /* message_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC81A9E1161003AC21F /* message_icon.png */; };
+		DA173CCD1A9E1161003AC21F /* add_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC91A9E1161003AC21F /* add_icon.png */; };
 		DA194DF91A41D50E0030C882 /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194DF81A41D50E0030C882 /* RegistrationVC.swift */; };
 		DA194E021A41DEA30030C882 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = DA194E001A41DEA30030C882 /* Crypto.m */; };
 		DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E031A41E9A00030C882 /* LoginVC.swift */; };
@@ -139,10 +139,10 @@
 		DA00593A1A48830D00638C57 /* ServerTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerTableVC.swift; path = Views/ServerTableVC.swift; sourceTree = "<group>"; };
 		DA031ED51A9226E10021E98B /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEMTextField.swift; sourceTree = "<group>"; };
 		DA031ED91A922FEC0021E98B /* CreateQRInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRInput.swift; path = Views/CreateQRInput.swift; sourceTree = "<group>"; };
-		DA0713DC1A8CCE9600B94D39 /* user_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_info.png; sourceTree = "<group>"; };
-		DA0713DD1A8CCE9600B94D39 /* qr_code_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr_code_icon.png; sourceTree = "<group>"; };
-		DA0713DE1A8CCE9600B94D39 /* message_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message_icon.png; sourceTree = "<group>"; };
-		DA0713DF1A8CCE9600B94D39 /* add_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_icon.png; sourceTree = "<group>"; };
+		DA173CC61A9E1161003AC21F /* user_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = user_info.png; path = Images/Icons/user_info.png; sourceTree = "<group>"; };
+		DA173CC71A9E1161003AC21F /* qr_code_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = qr_code_icon.png; path = Images/Icons/qr_code_icon.png; sourceTree = "<group>"; };
+		DA173CC81A9E1161003AC21F /* message_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = message_icon.png; path = Images/Icons/message_icon.png; sourceTree = "<group>"; };
+		DA173CC91A9E1161003AC21F /* add_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add_icon.png; path = Images/Icons/add_icon.png; sourceTree = "<group>"; };
 		DA194DF81A41D50E0030C882 /* RegistrationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationVC.swift; path = Views/RegistrationVC.swift; sourceTree = "<group>"; };
 		DA194DFC1A41DE5E0030C882 /* NemIOSClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NemIOSClient-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA194E001A41DEA30030C882 /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Crypto.m; path = Models/Crypto.m; sourceTree = "<group>"; };
@@ -623,10 +623,10 @@
 		DAD1C8001A6965AA0043D947 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				DA0713DC1A8CCE9600B94D39 /* user_info.png */,
-				DA0713DD1A8CCE9600B94D39 /* qr_code_icon.png */,
-				DA0713DE1A8CCE9600B94D39 /* message_icon.png */,
-				DA0713DF1A8CCE9600B94D39 /* add_icon.png */,
+				DA173CC61A9E1161003AC21F /* user_info.png */,
+				DA173CC71A9E1161003AC21F /* qr_code_icon.png */,
+				DA173CC81A9E1161003AC21F /* message_icon.png */,
+				DA173CC91A9E1161003AC21F /* add_icon.png */,
 				DAD1C82D1A69664D0043D947 /* tab_dropdown_arrow.png */,
 				DAD1C82E1A69664D0043D947 /* share_icon.png */,
 				DAD1C82F1A69664D0043D947 /* send_email.png */,
@@ -814,12 +814,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA0713E21A8CCE9600B94D39 /* message_icon.png in Resources */,
 				DA4369D11A6411D400868BAD /* welcome.png in Resources */,
 				DAD1C8531A69664D0043D947 /* create_qr_icon.png in Resources */,
 				DAD1C8541A69664D0043D947 /* bg.png in Resources */,
 				DAD1C8471A69664D0043D947 /* radio_btn_passive.png in Resources */,
-				DA0713E11A8CCE9600B94D39 /* qr_code_icon.png in Resources */,
 				DAD1C8561A69664D0043D947 /* address_book_icon.png in Resources */,
 				DAD1C8511A69664D0043D947 /* dollar_icon.png in Resources */,
 				DA194E181A446A350030C882 /* Main.storyboard in Resources */,
@@ -831,19 +829,21 @@
 				DAD1C84B1A69664D0043D947 /* menu_icon.png in Resources */,
 				DAD1C8461A69664D0043D947 /* search_icon.png in Resources */,
 				DAD1C84F1A69664D0043D947 /* import_icon.png in Resources */,
-				DA0713E31A8CCE9600B94D39 /* add_icon.png in Resources */,
 				DAD1C84A1A69664D0043D947 /* print_icon.png in Resources */,
+				DA173CCC1A9E1161003AC21F /* message_icon.png in Resources */,
+				DA173CCB1A9E1161003AC21F /* qr_code_icon.png in Resources */,
 				DAD1C8441A69664D0043D947 /* share_icon.png in Resources */,
 				DAD1C8551A69664D0043D947 /* arrow_back.png in Resources */,
 				DA194E161A445B1D0030C882 /* UIConfig.plist in Resources */,
 				DAD1C8481A69664D0043D947 /* qr_img.png in Resources */,
-				DA0713E01A8CCE9600B94D39 /* user_info.png in Resources */,
 				DAD1C84C1A69664D0043D947 /* mail_icon.png in Resources */,
 				DAD1C8571A69664D0043D947 /* add_account.png in Resources */,
 				DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */,
 				DAD1C8521A69664D0043D947 /* custom_icon.png in Resources */,
+				DA173CCD1A9E1161003AC21F /* add_icon.png in Resources */,
 				DAD1C8491A69664D0043D947 /* qr_icon.png in Resources */,
 				DAD1C8451A69664D0043D947 /* send_email.png in Resources */,
+				DA173CCA1A9E1161003AC21F /* user_info.png in Resources */,
 				DAD1C84E1A69664D0043D947 /* key_icon.png in Resources */,
 				DAD1C8431A69664D0043D947 /* tab_dropdown_arrow.png in Resources */,
 				DAD1C8581A69664D0043D947 /* active_radiobutton.png in Resources */,

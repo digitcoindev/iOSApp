@@ -41,10 +41,14 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         searchBar.showsCancelButton = true
         tableView.setContentOffset(CGPoint(x: 0, y: searchBar.frame.height), animated: false)
 
-        if (State.currentContact != nil)
+        if (State.currentContact != nil && State.toVC == SegueToPasswordValidation )
         {
-            address.text = State.currentContact!.name
+            State.toVC = SegueToMessageVC
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
         }
+        
+        self.tableView.allowsMultipleSelectionDuringEditing = false
 
     }
     
@@ -96,6 +100,19 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     }
 
     // MARK: - Table view data source
+    
+    func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool
+    {
+        return false
+    }
+    
+    func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!)
+    {
+        if (editingStyle == UITableViewCellEditingStyle.Delete)
+        {
+            println("delete")
+        }
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
@@ -184,10 +201,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     @IBAction func addressBook(sender: AnyObject)
     {
         State.toVC = SegueToMessages
-        
-//        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
-//        alert.show()
-        
+                
         NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )
     }
     
