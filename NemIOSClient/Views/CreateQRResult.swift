@@ -7,8 +7,8 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var address: UILabel!
     @IBOutlet weak var xems: UILabel!
-    
-    
+    @IBOutlet weak var share: UIButton!
+    @IBOutlet weak var mail: UIButton!
     
     override func viewDidLoad()
     {
@@ -34,6 +34,12 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
         qrImage.image =  qr.createQR(qrText)
 
     }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        self.share.imageEdgeInsets = UIEdgeInsetsMake(10, self.share.bounds.width / 2 - 20, 30, self.share.bounds.width / 2 - 20)
+        self.mail.imageEdgeInsets = UIEdgeInsetsMake(10, self.mail.bounds.width / 2 - 20, 30, self.mail.bounds.width / 2 - 20)
+    }
 
     @IBAction func shareBtn(sender: AnyObject)
     {
@@ -41,7 +47,7 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
         {
             var facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            facebookSheet.setInitialText("Scan this QR if you want to sand me \(State.amount) XEMS\nThank you , and goodluck!")
+            facebookSheet.setInitialText("Scan this QR if you want to send me \(State.amount) XEMS\nThank you , and goodluck!")
             facebookSheet.addImage(qrImage.image!)
             self.presentViewController(facebookSheet, animated: true, completion: nil)
             
@@ -69,7 +75,7 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
 //            var ccRecipients = ["dominik2008@i.ua"]
 //            myMail.setCcRecipients(ccRecipients)
             
-            var sentfrom = "Scan this QR if you want to sand me \(State.amount) XEMS\nThank you , and goodluck!"
+            var sentfrom = "Scan this QR if you want to send me \(State.amount) XEMS\nThank you , and goodluck!"
             myMail.setMessageBody(sentfrom, isHTML: true)
             
             var image = qrImage.image!
@@ -91,8 +97,8 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
     {
         self.dismissViewControllerAnimated(true, completion: nil)
         
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process. ", delegate: self, cancelButtonTitle: "OK")
-        alert.show()
+//        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process. ", delegate: self, cancelButtonTitle: "OK")
+//        alert.show()
         
     }
     
