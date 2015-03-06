@@ -1325,15 +1325,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to NEM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-os-rlB">
-                                <rect key="frame" x="55" y="20" width="210" height="47"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="47" id="QIx-mu-SqY"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Xk-YN-QrE">
                                 <rect key="frame" x="0.0" y="75" width="320" height="493"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1347,7 +1338,7 @@
                                     <constraint firstAttribute="width" constant="47" id="QsU-4H-kyQ"/>
                                     <constraint firstAttribute="height" constant="47" id="je0-GJ-9f6"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="15" minY="10" maxX="15" maxY="10"/>
+                                <inset key="imageEdgeInsets" minX="15" minY="15" maxX="15" maxY="5"/>
                                 <state key="normal" image="arrow_back.png"/>
                                 <connections>
                                     <action selector="backVC:" destination="hAq-aU-PFF" eventType="touchUpInside" id="PF4-FT-HEk"/>
@@ -1359,7 +1350,7 @@
                                     <constraint firstAttribute="width" constant="47" id="FaV-Gv-Jji"/>
                                     <constraint firstAttribute="height" constant="47" id="qZx-jH-J6F"/>
                                 </constraints>
-                                <inset key="contentEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="15" maxX="10" maxY="5"/>
                                 <state key="normal" image="menu_icon.png"/>
                                 <connections>
                                     <action selector="menu:" destination="hAq-aU-PFF" eventType="touchUpInside" id="7Lf-BB-PJ0"/>
@@ -1370,6 +1361,15 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to NEM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-os-rlB">
+                                <rect key="frame" x="55" y="35" width="210" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="QIx-mu-SqY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -1384,7 +1384,7 @@
                             <constraint firstItem="1xb-os-rlB" firstAttribute="leading" secondItem="vu2-yL-tuG" secondAttribute="trailing" constant="8" id="KI3-8W-j1Z"/>
                             <constraint firstItem="vu2-yL-tuG" firstAttribute="top" secondItem="TnW-fN-2Sm" secondAttribute="bottom" id="OrE-ra-vjI"/>
                             <constraint firstItem="p9X-Q7-1c2" firstAttribute="leading" secondItem="1xb-os-rlB" secondAttribute="trailing" constant="8" id="R8t-iR-2JJ"/>
-                            <constraint firstItem="1xb-os-rlB" firstAttribute="top" secondItem="TnW-fN-2Sm" secondAttribute="bottom" id="Spv-jx-F7M"/>
+                            <constraint firstItem="1xb-os-rlB" firstAttribute="top" secondItem="TnW-fN-2Sm" secondAttribute="bottom" constant="15" id="Spv-jx-F7M"/>
                             <constraint firstItem="9Xe-4s-4is" firstAttribute="top" secondItem="9Xk-YN-QrE" secondAttribute="bottom" id="bXG-In-Gir"/>
                         </constraints>
                     </view>

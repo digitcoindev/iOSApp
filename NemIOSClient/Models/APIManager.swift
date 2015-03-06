@@ -18,7 +18,7 @@ class APIManager: NSObject
     
     //API
     
-    func heartbeat(protocolType :String, address :String, port :String) -> Bool
+    final func heartbeat(protocolType :String, address :String, port :String) -> Bool
     {
         var heartbeat : Bool = false
         var request = NSMutableURLRequest(URL: NSURL(string: (protocolType + "://" + address + ":" + port + "/heartbeat"))!)

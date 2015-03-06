@@ -23,7 +23,7 @@ class plistFileManager: NSObject
     
     // Import Accounts
 
-    func getImportedAccounts() -> NSMutableArray
+    final func getImportedAccounts() -> NSMutableArray
     {
         return importFiles
     }
@@ -47,7 +47,7 @@ class plistFileManager: NSObject
 //        return false
 //    }
     
-    func removeFileAtPath(path :String)->Bool
+    final func removeFileAtPath(path :String)->Bool
     {
         if(!fileManager.fileExistsAtPath(documents + "/ImportedAccounts/" + path))
         {
@@ -60,7 +60,7 @@ class plistFileManager: NSObject
         }
     }
     
-    func refreshImportData() ->Bool
+    final func refreshImportData() ->Bool
     {
         if var imports =  fileManager.contentsOfDirectoryAtPath(documents + "/ImportedAccounts", error: &error)
         {
@@ -78,7 +78,7 @@ class plistFileManager: NSObject
         
     }
     
-    func traceImportFolder()
+    final func traceImportFolder()
     {
         if(!fileManager.fileExistsAtPath(documents + "/ImportedAccounts"))
         {
@@ -87,7 +87,7 @@ class plistFileManager: NSObject
         }
     }
     
-    func deleteImportAccount(name :String) -> Bool
+    final func deleteImportAccount(name :String) -> Bool
     {
         
         if(!fileManager.fileExistsAtPath(documents + "/ImportedAccounts/" + name))
@@ -107,14 +107,14 @@ class plistFileManager: NSObject
     
     //UIConfig
     
-    func getMenuItems() -> NSMutableArray
+    final func getMenuItems() -> NSMutableArray
     {
         return uiData.objectForKey("mainMenu") as NSMutableArray
     }
     
     //GENERAL
     
-    func commit()
+    final func commit()
     {
         uiData.writeToFile(NSBundle.mainBundle().pathForResource("UIConfig", ofType: "plist")!, atomically: true)
     }

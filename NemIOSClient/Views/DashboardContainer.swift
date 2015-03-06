@@ -55,7 +55,7 @@ class DashboardContainer: UIViewController
         })
     }
     
-    func pageSelected(notification: NSNotification)
+    final func pageSelected(notification: NSNotification)
     {
         switch(notification.object as String)
         {

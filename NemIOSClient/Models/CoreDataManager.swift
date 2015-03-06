@@ -23,7 +23,7 @@ class CoreDataManager: NSObject
     }
     //Wallet
     
-    func getWallets()->[Wallet]
+    final func getWallets()->[Wallet]
     {
         let fetchRequest = NSFetchRequest(entityName: "Wallet")
         
@@ -39,7 +39,7 @@ class CoreDataManager: NSObject
         }
     }
     
-    func addWallet(loggin: String, password: String, privateKey: String)
+    final func addWallet(loggin: String, password: String, privateKey: String)
     {
         Wallet.createInManagedObjectContext(self.managedObjectContext!,login: loggin, password: password ,privateKey : privateKey)
         
@@ -48,7 +48,7 @@ class CoreDataManager: NSObject
     
     //Message
     
-    func getMessages()->[Message]
+    final func getMessages()->[Message]
     {
         let fetchRequest = NSFetchRequest(entityName: "Message")
         
@@ -64,7 +64,7 @@ class CoreDataManager: NSObject
         }
     }
     
-    func addMessage(from: String, to: String, message: String , date: NSDate , nems: String)
+    final func addMessage(from: String, to: String, message: String , date: NSDate , nems: String)
     {
         Message.createInManagedObjectContext(self.managedObjectContext!, from: from, to: to, message: message, date: date , nems: nems)
         
@@ -73,7 +73,7 @@ class CoreDataManager: NSObject
     
     //Correspondent
 
-    func getCorrespondents()->[Correspondent]
+    final func getCorrespondents()->[Correspondent]
     {
         let fetchRequest = NSFetchRequest(entityName: "Correspondent")
         
@@ -89,7 +89,7 @@ class CoreDataManager: NSObject
         }
     }
 
-    func getCorrespondent(key :String) -> Correspondent
+    final func getCorrespondent(key :String) -> Correspondent
     {
         let fetchRequest = NSFetchRequest(entityName: "Correspondent")
         
@@ -110,7 +110,7 @@ class CoreDataManager: NSObject
         return corespondent
     }
     
-    func addCorrespondent( key: String, name: String) -> Correspondent
+    final func addCorrespondent( key: String, name: String) -> Correspondent
     {
         var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name)
         
@@ -121,7 +121,7 @@ class CoreDataManager: NSObject
 
     //Server
 
-    func getServers()->[Server]
+    final func getServers()->[Server]
     {
         let fetchRequest = NSFetchRequest(entityName: "Server")
         
@@ -152,7 +152,7 @@ class CoreDataManager: NSObject
         }
     }
     
-    func addServer(name: String, address: String, port: String)
+    final func addServer(name: String, address: String, port: String)
     {
         Server.createInManagedObjectContext(self.managedObjectContext!, name: name, address: address, port: port)
         
@@ -163,7 +163,7 @@ class CoreDataManager: NSObject
     //LoadData
     
     
-    func getLoadData()->LoadData
+    final func getLoadData()->LoadData
     {
         let fetchRequest = NSFetchRequest(entityName: "LoadData")
         var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LoadData]
@@ -186,7 +186,7 @@ class CoreDataManager: NSObject
     
     //General
     
-    func commit()
+    final func commit()
     {
         self.managedObjectContext?.save(nil)
 

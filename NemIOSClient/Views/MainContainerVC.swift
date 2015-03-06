@@ -73,7 +73,7 @@ class MainContainerVC: UIViewController
         })
     }
         
-    func changePage(page :String)
+    final func changePage(page :String)
     {
         if(page != lastVC )
         {

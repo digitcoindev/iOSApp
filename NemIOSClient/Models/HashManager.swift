@@ -1,9 +1,8 @@
 
 import UIKit
-
 class HashManager: NSObject
 {
-    class func AES256Encrypt(inputText :String) -> String
+    final class func AES256Encrypt(inputText :String) -> String
     {
         var dataBytes = inputText.dataUsingEncoding(NSUTF8StringEncoding)!
         
@@ -19,7 +18,7 @@ class HashManager: NSObject
         return encryptedText
     }
     
-    class func AES256Encrypt(inputText :String ,key :String) -> String
+    final class func AES256Encrypt(inputText :String ,key :String) -> String
     {
         var dataBytes = inputText.dataUsingEncoding(NSUTF8StringEncoding)!
         
@@ -33,7 +32,7 @@ class HashManager: NSObject
         return encryptedText
     }
     
-    class func AES256Decrypt(inputText :String) -> String
+    final class func AES256Decrypt(inputText :String) -> String
     {
         var customizedIV =  inputText.substringFromIndex(advance(inputText.endIndex, -16))
         var encryptedText = inputText.substringToIndex(advance(inputText.endIndex, -16))
@@ -56,7 +55,7 @@ class HashManager: NSObject
         }
     }
     
-    class func AES256Decrypt(inputText :String ,key :String) -> String
+    final class func AES256Decrypt(inputText :String ,key :String) -> String
     {
         var customizedIV =  inputText.substringFromIndex(advance(inputText.endIndex, -16))
         var encryptedText = inputText.substringToIndex(advance(inputText.endIndex, -16))
@@ -76,6 +75,24 @@ class HashManager: NSObject
             return String()
         }
     }
+    
+    final func SHA256Encrypt(inputText: String)->String
+    {
+        var outBuffer: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        var inBuffer: Array<UInt8> = Array(inputText.utf8)
+        
+        SHA256_hash(&outBuffer, &inBuffer)
+        
+        let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: NSUTF8StringEncoding) as String
+        
+        return hash
+    }
+    
+    final func RIPEMD160Encrypt(inputText: String)->String
+    {
+        return RIPEMD.asciiDigest(inputText) as String
+    }
+    
 }
 
 

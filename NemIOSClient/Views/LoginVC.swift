@@ -79,7 +79,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         }
     }
     
-    func logIn(notification: NSNotification)
+    final func logIn(notification: NSNotification)
     {
         if(notification.object  != nil)
         {

@@ -28,7 +28,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         super.didReceiveMemoryWarning()
     }
 
-    func serverConfirmed(notification: NSNotification)
+    final func serverConfirmed(notification: NSNotification)
     {
         State.currentServer = servers[selectedCellIndex] as? Server
         var loadData :LoadData = dataManager.getLoadData()
@@ -39,10 +39,14 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).indicatorON()
         
         State.toVC = SegueToLoginVC
+        
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "Heartbeat success.", delegate: self, cancelButtonTitle: "OK")
+        alert.show()
+        
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
     }
     
-    func serverDenied(notification: NSNotification)
+    final func serverDenied(notification: NSNotification)
     {
         //for test
         State.currentServer = servers[selectedCellIndex] as? Server
@@ -55,7 +59,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         
         State.toVC = SegueToLoginVC
         
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  anavailable.", delegate: self, cancelButtonTitle: "OK")
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  unavailable.", delegate: self, cancelButtonTitle: "OK")
         alert.show()
         
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )

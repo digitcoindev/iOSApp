@@ -69,12 +69,6 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
             
             myMail.setSubject("NEM")
             
-//            var toRecipients = ["dominik2008@ua.fm"]
-//            myMail.setToRecipients(toRecipients)
-            
-//            var ccRecipients = ["dominik2008@i.ua"]
-//            myMail.setCcRecipients(ccRecipients)
-            
             var sentfrom = "Scan this QR if you want to send me \(State.amount) XEMS\nThank you , and goodluck!"
             myMail.setMessageBody(sentfrom, isHTML: true)
             
@@ -96,10 +90,6 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!)
     {
         self.dismissViewControllerAnimated(true, completion: nil)
-        
-//        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process. ", delegate: self, cancelButtonTitle: "OK")
-//        alert.show()
-        
     }
     
     override func didReceiveMemoryWarning()

@@ -24,12 +24,12 @@ class ServerCustomVC: UIViewController
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
     }
     
-    func serverConfirmed(notification: NSNotification)
+    final func serverConfirmed(notification: NSNotification)
     {
         State.currentServer = dataManager.getServers().last!
     }
     
-    func serverDenied(notification: NSNotification)
+    final func serverDenied(notification: NSNotification)
     {
         State.currentServer = dataManager.getServers().last!   // For tests
 

@@ -47,7 +47,15 @@ class ViewController: UIViewController
 //            manager.createFileAtPath(NSHomeDirectory().stringByAppendingString(str), contents: NSData(base64EncodedString: HashManager.AES256Encrypt(value, key: value), options: NSDataBase64DecodingOptions()), attributes: nil)
 //            
 //        }
-
+        
+        var privateKey = KeyGenerator().generatePrivateKey()
+        var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var address = AddressGenerator().generateAddress(publicKey)
+        
+        println("private key : \(privateKey)")
+        println("public key : \(publicKey)")
+        println("address : \(address)")
+        
         ////Test data close
 
         self.performSegueWithIdentifier(SegueToMainVC, sender: self)

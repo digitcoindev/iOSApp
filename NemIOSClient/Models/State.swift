@@ -14,7 +14,7 @@ class State: NSObject
         static var amount :Int = 0
     }
     
-    class var fromVC: String?
+    final class var fromVC: String?
     {
         get
         {
@@ -26,7 +26,7 @@ class State: NSObject
         }
     }
     
-    class var currentVC: String?
+    final  class var currentVC: String?
     {
         get
         {
@@ -37,7 +37,7 @@ class State: NSObject
             State.Store.currentVC = newValue!
         }
     }
-    class var lastVC:String
+    final class var lastVC:String
     {
         get
         {
@@ -51,7 +51,7 @@ class State: NSObject
         }
     }
     
-    class var countVC: Int
+    final class var countVC: Int
     {
         get
         {
@@ -60,31 +60,31 @@ class State: NSObject
        
     }
     
-    class var toVC: String
+    final class var toVC: String
         {
         get { return State.Store.toVC }
         set { State.Store.toVC = newValue }
     }
     
-    class var currentWallet: Wallet?
+    final class var currentWallet: Wallet?
         {
         get { return State.Store.currentWallet }
         set { State.Store.currentWallet = newValue }
     }
     
-    class var currentServer: Server?
+    final class var currentServer: Server?
         {
         get { return State.Store.currentServer }
         set { State.Store.currentServer = newValue! }
     }
 
-    class var currentContact: Correspondent?
+    final class var currentContact: Correspondent?
         {
         get { return State.Store.currentContact }
         set { State.Store.currentContact = newValue}
     }
     
-    class var amount: Int
+    final class var amount: Int
         {
         get { return State.Store.amount }
         set { State.Store.amount = newValue }

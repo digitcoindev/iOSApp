@@ -40,7 +40,7 @@ class PasswordValidationVC: UIViewController
         (sender as UITextField).becomeFirstResponder()
     }
     
-    func keyboardWillShow(notification: NSNotification)
+    final func keyboardWillShow(notification: NSNotification)
     {
         if(showKeyboard)
         {
@@ -64,7 +64,7 @@ class PasswordValidationVC: UIViewController
         }
     }
     
-    func keyboardWillHide(notification: NSNotification)
+    final func keyboardWillHide(notification: NSNotification)
     {
         if(showKeyboard)
         {

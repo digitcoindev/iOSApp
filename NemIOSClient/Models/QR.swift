@@ -24,7 +24,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
     }
 
 
-    func scanQR(width :CGFloat , height :CGFloat)
+    final func scanQR(width :CGFloat , height :CGFloat)
     {
         if((device) != nil)
         {
@@ -81,17 +81,17 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
             }
         }
     }
-    func play()
+    final func play()
     {
         session.startRunning()
     }
     
-    func stop()
+    final func stop()
     {
         session.stopRunning()
     }
     
-    func createQR(inputStr :String) -> UIImage
+    final func createQR(inputStr :String) -> UIImage
     {
         var qrCIImage: CIImage = createQRForString(inputStr)
         var qrUIImage: UIImage = createNonInterpolatedUIImageFromCIImage(qrCIImage, scale: 10);

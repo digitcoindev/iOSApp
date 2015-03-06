@@ -20,6 +20,7 @@ class MainVC: UIViewController
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
+        
         observer.addObserver(self, selector: "pageSelected:", name: "MenuPage", object: nil)
         observer.addObserver(self, selector: "changeTitle:", name: "Title", object: nil)
                 
@@ -71,12 +72,12 @@ class MainVC: UIViewController
         pages.changePage(State.lastVC)
     }
     
-    func changeTitle(notification: NSNotification)
+    final func changeTitle(notification: NSNotification)
     {
         status.text = notification.object as? String
     }
     
-    func pageSelected(notification: NSNotification)
+    final func pageSelected(notification: NSNotification)
     {
         if State.countVC >= 1
         {

@@ -16,6 +16,13 @@
 		DA173CCB1A9E1161003AC21F /* qr_code_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC71A9E1161003AC21F /* qr_code_icon.png */; };
 		DA173CCC1A9E1161003AC21F /* message_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC81A9E1161003AC21F /* message_icon.png */; };
 		DA173CCD1A9E1161003AC21F /* add_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC91A9E1161003AC21F /* add_icon.png */; };
+		DA173CD71AA85B91003AC21F /* keccak.c in Sources */ = {isa = PBXBuildFile; fileRef = DA173CD41AA85B91003AC21F /* keccak.c */; };
+		DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CD91AA87CBC003AC21F /* NSData+HexString.swift */; };
+		DA173CDE1AA87CBC003AC21F /* RIPEMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CDA1AA87CBC003AC21F /* RIPEMD.swift */; };
+		DA173CDF1AA87CBC003AC21F /* RIPEMD+Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CDB1AA87CBC003AC21F /* RIPEMD+Block.swift */; };
+		DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CDC1AA87CBC003AC21F /* UInt32+CircularShift.swift */; };
+		DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */; };
+		DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CE41AA9E8EF003AC21F /* Base32.swift */; };
 		DA194DF91A41D50E0030C882 /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194DF81A41D50E0030C882 /* RegistrationVC.swift */; };
 		DA194E021A41DEA30030C882 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = DA194E001A41DEA30030C882 /* Crypto.m */; };
 		DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E031A41E9A00030C882 /* LoginVC.swift */; };
@@ -143,6 +150,14 @@
 		DA173CC71A9E1161003AC21F /* qr_code_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = qr_code_icon.png; path = Images/Icons/qr_code_icon.png; sourceTree = "<group>"; };
 		DA173CC81A9E1161003AC21F /* message_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = message_icon.png; path = Images/Icons/message_icon.png; sourceTree = "<group>"; };
 		DA173CC91A9E1161003AC21F /* add_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add_icon.png; path = Images/Icons/add_icon.png; sourceTree = "<group>"; };
+		DA173CD41AA85B91003AC21F /* keccak.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = keccak.c; sourceTree = "<group>"; };
+		DA173CD51AA85B91003AC21F /* keccak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keccak.h; sourceTree = "<group>"; };
+		DA173CD91AA87CBC003AC21F /* NSData+HexString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+HexString.swift"; sourceTree = "<group>"; };
+		DA173CDA1AA87CBC003AC21F /* RIPEMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RIPEMD.swift; sourceTree = "<group>"; };
+		DA173CDB1AA87CBC003AC21F /* RIPEMD+Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RIPEMD+Block.swift"; sourceTree = "<group>"; };
+		DA173CDC1AA87CBC003AC21F /* UInt32+CircularShift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt32+CircularShift.swift"; sourceTree = "<group>"; };
+		DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressGenerator.swift; path = Models/AddressGenerator.swift; sourceTree = "<group>"; };
+		DA173CE41AA9E8EF003AC21F /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
 		DA194DF81A41D50E0030C882 /* RegistrationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationVC.swift; path = Views/RegistrationVC.swift; sourceTree = "<group>"; };
 		DA194DFC1A41DE5E0030C882 /* NemIOSClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NemIOSClient-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA194E001A41DEA30030C882 /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Crypto.m; path = Models/Crypto.m; sourceTree = "<group>"; };
@@ -328,6 +343,17 @@
 			name = CreateQR;
 			sourceTree = "<group>";
 		};
+		DA173CE11AA87CCE003AC21F /* RIPEMD-160 */ = {
+			isa = PBXGroup;
+			children = (
+				DA173CD91AA87CBC003AC21F /* NSData+HexString.swift */,
+				DA173CDA1AA87CBC003AC21F /* RIPEMD.swift */,
+				DA173CDB1AA87CBC003AC21F /* RIPEMD+Block.swift */,
+				DA173CDC1AA87CBC003AC21F /* UInt32+CircularShift.swift */,
+			);
+			name = "RIPEMD-160";
+			sourceTree = "<group>";
+		};
 		DA194E051A431C690030C882 /* Import */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,6 +361,10 @@
 				DADA373E1A7683C300F14D6D /* ed25519 */,
 				DA194E011A41DEA30030C882 /* Crypto.h */,
 				DA194E001A41DEA30030C882 /* Crypto.m */,
+				DA173CD41AA85B91003AC21F /* keccak.c */,
+				DA173CD51AA85B91003AC21F /* keccak.h */,
+				DA173CE41AA9E8EF003AC21F /* Base32.swift */,
+				DA173CE11AA87CCE003AC21F /* RIPEMD-160 */,
 			);
 			name = Import;
 			sourceTree = "<group>";
@@ -687,6 +717,7 @@
 			children = (
 				DADA33F71A72874500F14D6D /* WalletGenerator.swift */,
 				DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */,
+				DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */,
 			);
 			name = Generators;
 			sourceTree = "<group>";
@@ -864,6 +895,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
 				DADA375D1A7683C300F14D6D /* verify.c in Sources */,
 				DA194E091A4323B40030C882 /* HashManager.swift in Sources */,
@@ -885,12 +917,15 @@
 				DA2199221A68222900E2F8DD /* UserInfoVC.swift in Sources */,
 				DA8780B91A5BFDF400AA24E2 /* ImportFromQR.swift in Sources */,
 				DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */,
+				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				DADA37591A7683C300F14D6D /* sc.c in Sources */,
 				DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */,
+				DA173CDE1AA87CBC003AC21F /* RIPEMD.swift in Sources */,
 				DACF9C3C1A49C5F700550FB9 /* CoreDataManager.swift in Sources */,
 				DA3BE20E1A5FFEF400CAC733 /* Messages.swift in Sources */,
 				DA64A4E11A5ACF0C005833A4 /* AddAccount.swift in Sources */,
 				DA3BE2101A60103E00CAC733 /* Message.swift in Sources */,
+				DA173CDF1AA87CBC003AC21F /* RIPEMD+Block.swift in Sources */,
 				DA194E021A41DEA30030C882 /* Crypto.m in Sources */,
 				DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */,
 				DADA37531A7683C300F14D6D /* readme.md in Sources */,
@@ -903,6 +938,7 @@
 				DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */,
+				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
 				DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */,
 				DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */,
@@ -922,7 +958,9 @@
 				DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */,
 				DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */,
 				DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */,
+				DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */,
 				DADA37541A7683C300F14D6D /* add_scalar.c in Sources */,
+				DA173CD71AA85B91003AC21F /* keccak.c in Sources */,
 				DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */,
 				DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */,
 				DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */,
