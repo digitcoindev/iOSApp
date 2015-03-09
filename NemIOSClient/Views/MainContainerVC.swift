@@ -112,7 +112,7 @@ class MainContainerVC: UIViewController
             case SegueToGoogleMap:
                 self.performSegueWithIdentifier(SegueToGoogleMap, sender: nil)
                 
-            case SegueToPasswordValidation , SegueToMessageVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult :
+            case SegueToPasswordValidation , SegueToMessageVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToAddFriend:
                 
                 State.toVC = page as String
                 NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )

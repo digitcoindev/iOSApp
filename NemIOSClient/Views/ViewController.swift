@@ -20,6 +20,7 @@ var SegueToImportFromKey :String = "Import from key"
 var SegueToCreateQRInput :String = "CreateQRInput"
 var SegueToCreateQRResult :String = "CreateQRResult"
 var SegueToGoogleMap :String = "Map"
+var SegueToAddFriend :String = "Add Friend"
 
 class ViewController: UIViewController
 {
@@ -48,8 +49,8 @@ class ViewController: UIViewController
 //            
 //        }
         
-        var privateKey = KeyGenerator().generatePrivateKey()
-        var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var privateKey =  "3139211773934fdda4b62282eb6f144fb8cdb7e10a508196d3d884423e470154"
+        var publicKey = "bb0aace5b35fd13d24833e4719665183a765097f763ce9d7a7a85c1dd57874e8"
         var address = AddressGenerator().generateAddress(publicKey)
         
         println("private key : \(privateKey)")

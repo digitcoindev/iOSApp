@@ -15,7 +15,7 @@ class KeyGenerator: NSObject
     }
     final func generatePublicKey(privateKey: String)->String
     {
-        var publicKeyBytes: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        var publicKeyBytes: Array<UInt8> = Array(count: 128, repeatedValue: 0)
         var privateKeyBytes: Array<UInt8> = Array(privateKey.utf8)
         
         createPublicKey(&publicKeyBytes, &privateKeyBytes)

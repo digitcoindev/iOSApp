@@ -92,6 +92,9 @@ class DashboardContainer: UIViewController
         case SegueToCreateQRResult:
             self.performSegueWithIdentifier(SegueToCreateQRResult, sender: nil)
             
+        case SegueToAddFriend:
+                self.performSegueWithIdentifier(SegueToAddFriend, sender: nil)
+            
         default:
             break;
         }

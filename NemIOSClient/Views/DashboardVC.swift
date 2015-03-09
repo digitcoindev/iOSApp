@@ -42,8 +42,7 @@ class DashboardVC: UIViewController
     
     @IBAction func scanQR(sender: AnyObject)
     {
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently unavailable.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
-        alert.show()
+        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddFriend )
     }
 
     @IBAction func userInfo(sender: AnyObject)

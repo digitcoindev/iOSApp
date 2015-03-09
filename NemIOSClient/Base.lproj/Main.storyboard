@@ -1009,14 +1009,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="418"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKg-Mq-uHQ">
-                                <rect key="frame" x="16" y="0.0" width="288" height="49"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.74901960784313726" blue="0.33725490196078434" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKg-Mq-uHQ">
+                                <rect key="frame" x="0.0" y="371" width="320" height="47"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="49" id="uqB-qr-Ikv"/>
+                                    <constraint firstAttribute="height" constant="47" id="p4J-VB-sF0"/>
                                 </constraints>
-                                <state key="normal" title=" Add new contact">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <inset key="imageEdgeInsets" minX="70" minY="4" maxX="200" maxY="4"/>
+                                <state key="normal" title=" ADD A NEW CONTACT" image="add_contact_icon.png">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1024,7 +1026,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="K9E-Bm-Zm0">
-                                <rect key="frame" x="16" y="57" width="288" height="353"/>
+                                <rect key="frame" x="16" y="8" width="288" height="355"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="address cell" id="vtL-c7-pjq" customClass="AddressCell" customModule="NemIOSClient" customModuleProvider="target">
@@ -1039,9 +1041,9 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0N9-i7-DGE">
-                                                    <rect key="frame" x="258" y="11" width="22" height="22"/>
-                                                    <state key="normal">
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0N9-i7-DGE">
+                                                    <rect key="frame" x="254" y="8" width="26" height="27"/>
+                                                    <state key="normal" image="logged_icon.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
@@ -1061,13 +1063,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" id="GGJ-rE-eyc"/>
-                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="trailing" secondItem="BLI-cY-rgK" secondAttribute="trailingMargin" id="INI-uh-AoI"/>
-                            <constraint firstItem="BdQ-EL-0ZK" firstAttribute="top" secondItem="K9E-Bm-Zm0" secondAttribute="bottom" constant="8" id="KCE-v3-q33"/>
-                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="top" secondItem="DyI-bL-baf" secondAttribute="bottom" id="SIH-cy-ho3"/>
-                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="top" secondItem="jKg-Mq-uHQ" secondAttribute="bottom" constant="8" id="Swa-9V-1Cl"/>
-                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="trailing" secondItem="BLI-cY-rgK" secondAttribute="trailingMargin" id="e11-yZ-ArC"/>
-                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" id="w2C-Mk-bIg"/>
+                            <constraint firstItem="BdQ-EL-0ZK" firstAttribute="top" secondItem="jKg-Mq-uHQ" secondAttribute="bottom" id="69C-EP-2z7"/>
+                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="top" secondItem="K9E-Bm-Zm0" secondAttribute="bottom" constant="8" id="Gn5-Vh-Owk"/>
+                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="trailing" secondItem="BLI-cY-rgK" secondAttribute="trailingMargin" id="HbD-u3-tvI"/>
+                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="top" secondItem="DyI-bL-baf" secondAttribute="bottom" constant="8" id="JnR-oA-RwY"/>
+                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" id="bve-pd-t22"/>
+                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" constant="-16" id="lD2-jE-Mr2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jKg-Mq-uHQ" secondAttribute="trailing" constant="-16" id="wzo-fe-gpt"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
@@ -1237,7 +1239,7 @@
                                     <action selector="doNotScroll:" destination="rte-MK-XjK" eventType="touchDown" id="SHQ-US-CGQ"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bm-if-DPz">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bm-if-DPz">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="f20-xh-3CA"/>
                                 </constraints>
@@ -1834,6 +1836,7 @@
                         <segue destination="0Hz-01-Tiz" kind="custom" identifier="Address Book" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="tqv-oi-CIV"/>
                         <segue destination="UWM-8W-Mvw" kind="custom" identifier="CreateQRInput" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="ThV-j2-b21"/>
                         <segue destination="yp4-yJ-iut" kind="custom" identifier="CreateQRResult" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="ViR-5Z-xYv"/>
+                        <segue destination="XJC-Ue-wHO" kind="custom" identifier="Add Friend" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="S3y-PS-GH5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tjB-uD-2im" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2051,14 +2054,52 @@
             </objects>
             <point key="canvasLocation" x="-286" y="549.5"/>
         </scene>
+        <!--Add Friend-->
+        <scene sceneID="bRH-DM-DhE">
+            <objects>
+                <viewController id="XJC-Ue-wHO" customClass="AddFriend" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CRR-l7-ekn"/>
+                        <viewControllerLayoutGuide type="bottom" id="uhQ-Bl-fwG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2yy-tC-4Ne">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="413"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FfM-EY-GoA" customClass="QR" customModule="NemIOSClient" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="413"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FfM-EY-GoA" firstAttribute="top" secondItem="CRR-l7-ekn" secondAttribute="bottom" id="aID-d1-Jrf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FfM-EY-GoA" secondAttribute="trailing" constant="-16" id="gwg-zt-kcX"/>
+                            <constraint firstItem="uhQ-Bl-fwG" firstAttribute="top" secondItem="FfM-EY-GoA" secondAttribute="bottom" id="jad-Ic-VBc"/>
+                            <constraint firstItem="FfM-EY-GoA" firstAttribute="leading" secondItem="2yy-tC-4Ne" secondAttribute="leadingMargin" constant="-16" id="ria-Lc-9A5"/>
+                        </constraints>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="413"/>
+                    <connections>
+                        <outlet property="qrScaner" destination="FfM-EY-GoA" id="YTG-8p-uT2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a9p-5B-1hH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="214" y="574"/>
+        </scene>
     </scenes>
     <resources>
         <image name="active_radiobutton.png" width="38" height="39"/>
+        <image name="add_contact_icon.png" width="61" height="47"/>
         <image name="add_icon.png" width="49" height="49"/>
         <image name="address_book_icon.png" width="31" height="31"/>
         <image name="arrow_back.png" width="30" height="52"/>
         <image name="custom_icon.png" width="72" height="72"/>
         <image name="key_icon.png" width="66" height="66"/>
+        <image name="logged_icon.png" width="38" height="41"/>
         <image name="mail_icon.png" width="45" height="32"/>
         <image name="menu_icon.png" width="53" height="32"/>
         <image name="message_icon.png" width="53" height="38"/>

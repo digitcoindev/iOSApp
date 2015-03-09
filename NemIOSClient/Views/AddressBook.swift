@@ -35,11 +35,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                     alert.show()
                 }
         })
-        
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Currently without UI.\nIn developing process.", delegate: self, cancelButtonTitle: "OK")
-        alert.show()
-
-    }
+}
 
     override func didReceiveMemoryWarning()
     {
@@ -130,7 +126,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 }
                 else
                 {
-                    println("no access")
+                    println("No access.")
                     
                 }
         })
