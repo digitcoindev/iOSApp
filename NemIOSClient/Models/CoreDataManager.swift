@@ -70,26 +70,39 @@ class CoreDataManager: NSObject
         
         commit()
     }
+    //Transaction
     
-    //Correspondent
-
-    final func getCorrespondents()->[Correspondent]
+    final func getTransaction()->[Transaction]
     {
-        let fetchRequest = NSFetchRequest(entityName: "Correspondent")
+        let fetchRequest = NSFetchRequest(entityName: "Transaction")
         
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Correspondent]
+        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Transaction]
         {
             return fetchResults
         }
         else
         {
-            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Correspondent]
+            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Transaction]
             
             return fetchResults!
         }
     }
+    
+    final func addTransaction(transaction :TransactionGetMetaData)
+    {
+        Transaction.createInManagedObjectContext(self.managedObjectContext!,transaction :transaction)
+        
+        commit()
+    }
+    
+    //Correspondent
 
-    final func getCorrespondent(key :String) -> Correspondent
+    final func getCorrespondents()->[Correspondent]
+    {
+        return State.currentWallet!.correspondents.allObjects as [Correspondent]
+    }
+
+    final func getCorrespondent(key :String , address :String) -> Correspondent
     {
         let fetchRequest = NSFetchRequest(entityName: "Correspondent")
         
@@ -97,22 +110,22 @@ class CoreDataManager: NSObject
         
         for correspondent in fetchResults
         {
-            if correspondent.key == key
+            if correspondent.public_key == key
             {
                 return correspondent
             }
         }
         
-        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: key)
+        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: address , address : address)
         
         commit()
         
         return corespondent
     }
     
-    final func addCorrespondent( key: String, name: String) -> Correspondent
+    final func addCorrespondent( key: String, name: String , address :String) -> Correspondent
     {
-        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name)
+        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name , address : address)
         
         commit()
         
@@ -129,9 +142,7 @@ class CoreDataManager: NSObject
         {
             if(fetchResults.count == 0)
             {
-                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.1", port: "7890")
-                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.2", port: "7890")
-                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.3", port: "7890")
+                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "127.0.0.1", port: "7890")
                 
                 commit()
                 
@@ -142,9 +153,7 @@ class CoreDataManager: NSObject
         }
         else
         {            
-            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.1", port: "7890")
-            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.2", port: "7890")
-            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "10.100.10.3", port: "7890")
+            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "127.0.0.1", port: "7890")
             
             var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Server]
             
@@ -152,16 +161,16 @@ class CoreDataManager: NSObject
         }
     }
     
-    final func addServer(name: String, address: String, port: String)
+    final func addServer(name: String, address: String, port: String) -> Server
     {
-        Server.createInManagedObjectContext(self.managedObjectContext!, name: name, address: address, port: port)
+        var server = Server.createInManagedObjectContext(self.managedObjectContext!, name: name, address: address, port: port)
         
         commit()
+        
+        return server
     }
     
-    
     //LoadData
-    
     
     final func getLoadData()->LoadData
     {
@@ -180,9 +189,6 @@ class CoreDataManager: NSObject
             return corespondent
         }
     }
-    
-    
-    
     
     //General
     

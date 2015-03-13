@@ -11,7 +11,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     let dataManager :CoreDataManager = CoreDataManager()
     let contact :Correspondent = State.currentContact!
-    var messages  :[Message]!
+    var messages  :[Transaction]!
     var showKeyboard :Bool = false
     var nems :Int = 0
     var rowLength :Int = 21
@@ -27,7 +27,8 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         State.currentVC = SegueToMessageVC
 
-        messages = contact.messages.allObjects as [Message]
+        messages = contact.transactions.allObjects as [Transaction]
+        
         sortMessages()
         
         userName.text = contact.name
@@ -54,7 +55,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     }
     override func viewDidAppear(animated: Bool)
     {
-        userName.frame = CGRectMake(userName.frame.origin.x - 48, userName.frame.origin.y, userName.frame.size.width, userName.frame.size.height)
+
     }
     
     @IBAction func closeKeyboard(sender: UITextField)
@@ -64,9 +65,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     @IBAction func doNotScroll(sender: UITextField)
     {
-
         showKeyboard = true
-
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -83,30 +82,52 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     @IBAction func send(sender: AnyObject)
     {
-        var text :String = inputText.text
+        println("Send \n\n")
         
-        if text != "" || nems > 0
-        {
-            if messages.count % 2 == 0
-            {
-                dataManager.addMessage("me", to: contact.key, message: text, date: NSDate() ,nems :"\(nems)")
-            }
-            else
-            {
-                dataManager.addMessage(contact.key, to: "me", message: text, date: NSDate() ,nems :"\(nems)")
-            }
+        var transaction :TransactionPostMetaData = TransactionPostMetaData()
+        
+        var privateKey  = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        var publicKey =  KeyGenerator().generatePublicKey(privateKey)
+        var address = AddressGenerator().generateAddress(publicKey)
+        
+        transaction.timeStamp = 10
+        transaction.amount = 10
+        transaction.fee = 2
+        transaction.recipient = "TDRSHNACHGHZQQB42JEFYVI5SO4RX7CTOBUCCCZT"
+        transaction.type = 257
+        transaction.deadline =  9999999
+        transaction.message.payload = String("Test 1").hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+        transaction.message.type = 1
+        transaction.version = 1
+        transaction.signer = publicKey
+        transaction.privateKey = privateKey
 
-            nems = 0;
-            balance.text = ""
-            inputText.text = ""
-            
-            messages = contact.messages.allObjects as [Message]
-            sortMessages()
-            
-            tableView.reloadData()
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
-        }
+        APIManager().prepareAnnounce(State.currentServer!, transaction: transaction, account_address: address)
+        
+//        var text :String = inputText.text
+//        
+//        if text != "" || nems > 0
+//        {
+//            if messages.count % 2 == 0
+//            {
+//                dataManager.addMessage("me", to: contact.public_key, message: text, date: NSDate() ,nems :"\(nems)")
+//            }
+//            else
+//            {
+//                dataManager.addMessage(contact.public_key, to: "me", message: text, date: NSDate() ,nems :"\(nems)")
+//            }
+//
+//            nems = 0;
+//            balance.text = ""
+//            inputText.text = ""
+//            
+//            messages = contact.messages.allObjects as [Transaction]
+//            sortMessages()
+//            
+//            tableView.reloadData()
+//            
+//            NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
+//        }
     }
     
     func setString(message :String)->CGFloat
@@ -152,7 +173,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             var cell : CustomMessageCell!
             
-            if (messages[index].from != "me")
+            if (messages[index].signer != KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey)))
             {
                 cell = self.tableView.dequeueReusableCellWithIdentifier("inCell") as CustomMessageCell
             }
@@ -161,12 +182,12 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 cell = self.tableView.dequeueReusableCellWithIdentifier("outCell") as CustomMessageCell
             }
             
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: messages[index].message , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 12.0)!])
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: messages[index].message_payload , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 12.0)!])
             
-            if(messages[index].nems.toInt() != 0)
+            if(messages[index].amount as Int != 0)
             {
-                var text :String = "\(messages[index].nems) XEMs"
-                if messages[index].message != ""
+                var text :String = "\(messages[index].amount) XEMs"
+                if messages[index].message_payload != ""
                 {
                     text = "\n" + text
                 }
@@ -183,7 +204,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "HH:mm dd.MM.yy "
             
-            cell.date.text = dateFormatter.stringFromDate(messages[index].date)
+            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: (messages[index].timeStamp as Double) * 1000))
             
             if(indexPath.row == tableView.numberOfRowsInSection(0) - 1)
             {
@@ -216,11 +237,11 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 index = indexPath.row
             }
             
-            var height :CGFloat = heightForView(messages[index].message, font: UIFont(name: "HelveticaNeue", size: 12.0)!, width: tableView.frame.width - 66)
+            var height :CGFloat = heightForView(messages[index].message_payload, font: UIFont(name: "HelveticaNeue", size: 12.0)!, width: tableView.frame.width - 66)
         
-            if  messages[index].nems.toInt() != 0
+            if  messages[index].amount as Int != 0
             {
-                height += heightForView("\n" + messages[index].nems, font: UIFont(name: "HelveticaNeue", size: 17.0)!, width: tableView.frame.width - 66)
+                height += heightForView("\n \(messages[index].amount)" , font: UIFont(name: "HelveticaNeue", size: 17.0)!, width: tableView.frame.width - 66)
             }
             else
             {
@@ -265,12 +286,13 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     func sortMessages()
     {
-        var accum :Message!
+        var accum :Transaction!
         for(var index = 0; index < messages.count; index++)
         {
             for(var index = 0; index < messages.count - 1; index++)
             {
-                if messages[index].date.compare(messages[index + 1].date) == NSComparisonResult.OrderedDescending
+                //if messages[index].date.compare(messages[index + 1].date) == NSComparisonResult.OrderedDescending
+                if messages[index].timeStamp as Double > messages[index + 1].timeStamp as Double
                 {
                     accum = messages[index]
                     messages[index] = messages[index + 1]

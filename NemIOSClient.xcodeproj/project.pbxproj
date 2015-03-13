@@ -39,6 +39,9 @@
 		DA194E181A446A350030C882 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA35580C1A39D3BA00AFA5FD /* Main.storyboard */; };
 		DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21991F1A68038700E2F8DD /* DashboardContainer.swift */; };
 		DA2199221A68222900E2F8DD /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2199211A68222900E2F8DD /* UserInfoVC.swift */; };
+		DA2BE9C01AB1CB1200E48D8F /* HexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BE9BF1AB1CB1200E48D8F /* HexManager.swift */; };
+		DA2BE9C21AB2F0C800E48D8F /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BE9C11AB2F0C800E48D8F /* Transaction.swift */; };
+		DA2BE9C51AB330E100E48D8F /* TransactionPostMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */; };
 		DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2EE67B1A63CBDD008D34D7 /* Correspondent.swift */; };
 		DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */; };
 		DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA3558071A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld */; };
@@ -131,6 +134,10 @@
 		DADA375C1A7683C300F14D6D /* sign.c in Sources */ = {isa = PBXBuildFile; fileRef = DADA37501A7683C300F14D6D /* sign.c */; };
 		DADA375D1A7683C300F14D6D /* verify.c in Sources */ = {isa = PBXBuildFile; fileRef = DADA37511A7683C300F14D6D /* verify.c */; };
 		DADA375E1A7683C300F14D6D /* generator.c in Sources */ = {isa = PBXBuildFile; fileRef = DADA37521A7683C300F14D6D /* generator.c */; };
+		DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */; };
+		DAF1382D1AB09D6C0069AC3A /* TransactionGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382C1AB09D6C0069AC3A /* TransactionGetMetaData.swift */; };
+		DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */; };
+		DAF138311AB09F5D0069AC3A /* MetaDataTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF138301AB09F5D0069AC3A /* MetaDataTypeOne.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +184,9 @@
 		DA194E151A445B1D0030C882 /* UIConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UIConfig.plist; path = Database/UIConfig.plist; sourceTree = "<group>"; };
 		DA21991F1A68038700E2F8DD /* DashboardContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardContainer.swift; path = Views/DashboardContainer.swift; sourceTree = "<group>"; };
 		DA2199211A68222900E2F8DD /* UserInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInfoVC.swift; path = Views/UserInfoVC.swift; sourceTree = "<group>"; };
+		DA2BE9BF1AB1CB1200E48D8F /* HexManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HexManager.swift; path = Models/HexManager.swift; sourceTree = "<group>"; };
+		DA2BE9C11AB2F0C800E48D8F /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = "Core Data Models/Transaction.swift"; sourceTree = "<group>"; };
+		DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionPostMetaData.swift; path = Models/TransactionPostMetaData.swift; sourceTree = "<group>"; };
 		DA2EE67B1A63CBDD008D34D7 /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = "Core Data Models/Correspondent.swift"; sourceTree = "<group>"; };
 		DA3558001A39D3B900AFA5FD /* NemIOSClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NemIOSClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3558041A39D3BA00AFA5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -284,6 +294,10 @@
 		DADA37501A7683C300F14D6D /* sign.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sign.c; sourceTree = "<group>"; };
 		DADA37511A7683C300F14D6D /* verify.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = verify.c; sourceTree = "<group>"; };
 		DADA37521A7683C300F14D6D /* generator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generator.c; sourceTree = "<group>"; };
+		DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountGetMetaData.swift; path = Models/AccountGetMetaData.swift; sourceTree = "<group>"; };
+		DAF1382C1AB09D6C0069AC3A /* TransactionGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionGetMetaData.swift; path = Models/TransactionGetMetaData.swift; sourceTree = "<group>"; };
+		DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageGetMetaData.swift; path = Models/MessageGetMetaData.swift; sourceTree = "<group>"; };
+		DAF138301AB09F5D0069AC3A /* MetaDataTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MetaDataTypeOne.swift; path = Models/MetaDataTypeOne.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,7 +400,8 @@
 		DA194E0A1A4323BF0030C882 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				DA194E061A4323520030C882 /* APIManager.swift */,
+				DAF138291AB08F2A0069AC3A /* API */,
+				DA2BE9BF1AB1CB1200E48D8F /* HexManager.swift */,
 				DA194E081A4323B40030C882 /* HashManager.swift */,
 				DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */,
 				DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */,
@@ -415,6 +430,18 @@
 				DA173CEB1AADA92D003AC21F /* AddFriend.swift */,
 			);
 			name = Dashboard;
+			sourceTree = "<group>";
+		};
+		DA2BE9C31AB300C300E48D8F /* API models */ = {
+			isa = PBXGroup;
+			children = (
+				DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */,
+				DAF1382C1AB09D6C0069AC3A /* TransactionGetMetaData.swift */,
+				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
+				DAF138301AB09F5D0069AC3A /* MetaDataTypeOne.swift */,
+				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
+			);
+			name = "API models";
 			sourceTree = "<group>";
 		};
 		DA3557F71A39D3B800AFA5FD = {
@@ -661,6 +688,7 @@
 				DA3BE20F1A60103E00CAC733 /* Message.swift */,
 				DA2EE67B1A63CBDD008D34D7 /* Correspondent.swift */,
 				DA4BB2EB1A82536700FAA877 /* LoadData.swift */,
+				DA2BE9C11AB2F0C800E48D8F /* Transaction.swift */,
 			);
 			name = "Core Data Models";
 			sourceTree = "<group>";
@@ -771,6 +799,15 @@
 				DADA37511A7683C300F14D6D /* verify.c */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		DAF138291AB08F2A0069AC3A /* API */ = {
+			isa = PBXGroup;
+			children = (
+				DA194E061A4323520030C882 /* APIManager.swift */,
+				DA2BE9C31AB300C300E48D8F /* API models */,
+			);
+			name = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -914,11 +951,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA2BE9C21AB2F0C800E48D8F /* Transaction.swift in Sources */,
 				DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */,
+				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
+				DAF1382D1AB09D6C0069AC3A /* TransactionGetMetaData.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
 				DADA375D1A7683C300F14D6D /* verify.c in Sources */,
 				DA194E091A4323B40030C882 /* HashManager.swift in Sources */,
 				DA35583D1A3AE0A500AFA5FD /* plistFileManager.swift in Sources */,
+				DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */,
 				DAD5AD901A52E7850093E3DB /* PasswordValidationVC.swift in Sources */,
 				DADA375B1A7683C300F14D6D /* sha512.c in Sources */,
 				DA194DF91A41D50E0030C882 /* RegistrationVC.swift in Sources */,
@@ -950,12 +991,14 @@
 				DADA37531A7683C300F14D6D /* readme.md in Sources */,
 				DADA37561A7683C300F14D6D /* ge.c in Sources */,
 				DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */,
+				DA2BE9C01AB1CB1200E48D8F /* HexManager.swift in Sources */,
 				DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */,
 				DADA375A1A7683C300F14D6D /* seed.c in Sources */,
 				DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */,
 				DA194E071A4323520030C882 /* APIManager.swift in Sources */,
 				DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
+				DAF138311AB09F5D0069AC3A /* MetaDataTypeOne.swift in Sources */,
 				DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
@@ -985,6 +1028,7 @@
 				DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */,
 				DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */,
 				DACBFEA51A5ADE6900C2FCEC /* ImportFromFile.swift in Sources */,
+				DA2BE9C51AB330E100E48D8F /* TransactionPostMetaData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

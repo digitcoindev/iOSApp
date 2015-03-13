@@ -5,9 +5,13 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var address: UITextField!
     @IBOutlet weak var key: UILabel!
+    @IBOutlet weak var balance: UILabel!
 
+    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     let dataManager : CoreDataManager = CoreDataManager()
-    var correspondents : NSArray = NSArray()
+    
+    var apiManager :APIManager = APIManager()
+    var correspondents :[Correspondent]!
     var displayList :NSArray = NSArray()
     var searchBar : UISearchBar!
     var searchText :String = ""
@@ -22,36 +26,89 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         }
 
         State.currentVC = SegueToMessages
-
-        correspondents = dataManager.getCorrespondents()
-        displayList = correspondents
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey = KeyGenerator().generatePublicKey(privateKey)
-        
-        self.key.text = publicKey
         
         address.layer.cornerRadius = 2
         tableView.layer.cornerRadius = 2
-        
-        
         searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
         searchBar.delegate = self
         tableView.tableHeaderView = searchBar
         searchBar.showsCancelButton = true
         tableView.setContentOffset(CGPoint(x: 0, y: searchBar.frame.height), animated: false)
 
+        //correspondents = dataManager.getCorrespondents()
+        correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
+        displayList = correspondents
+
+        refreshTransactionList()
+        
         if (State.currentContact != nil && State.toVC == SegueToPasswordValidation )
         {
             State.toVC = SegueToMessageVC
             
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
+            observer.postNotificationName("DashboardPage", object:SegueToPasswordValidation )
         }
+        
+        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
+        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
+        observer.addObserver(self, selector: "accountTransfersAllDenied:", name: "accountTransfersAllDenied", object: nil)
+        observer.addObserver(self, selector: "accountTransfersAllSuccessed:", name: "accountTransfersAllSuccessed", object: nil)
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
 
     }
     
+    final func refreshTransactionList()
+    {
+        
+        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var account_address = AddressGenerator().generateAddress(publicKey)
+        
+        self.key.text = account_address
+        
+        apiManager.accountGet(State.currentServer!, account_address: account_address)
+        apiManager.accountTransfersAll(State.currentServer!, account_address: account_address)
+    }
+    
+    final func accountGetSuccessed(notification: NSNotification)
+    {
+        self.balance.text = "\((notification.object as AccountGetMetaData).balance)"
+    }
+    
+    final func accountGetDenied(notification: NSNotification)
+    {
+        self.balance.text = "Null"
+    }
+    
+    final func accountTransfersAllSuccessed(notification: NSNotification)
+    {
+        var data :[TransactionGetMetaData] = notification.object as [TransactionGetMetaData]
+        
+        for inData in data
+        {
+            dataManager.addTransaction(inData)
+        }
+        
+        correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
+        displayList = correspondents
+
+        for corespondent in correspondents
+        {
+            for transaction in corespondent.transactions.allObjects as [Transaction]
+            {
+                println("\nCorrespondent : \(corespondent.name)\ntransactionId : \(transaction.id)\ntransactionHeight : \(transaction.height)")
+            }
+        }
+        
+        tableView.reloadData()
+    }
+    
+    final func accountTransfersAllDenied(notification: NSNotification)
+    {
+        
+    }
+
     override func viewDidAppear(animated: Bool)
     {
         tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
@@ -86,7 +143,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         else
         {
             var predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",searchText)!
-            displayList = correspondents.filteredArrayUsingPredicate(predicate)
+            displayList = (correspondents as NSArray).filteredArrayUsingPredicate(predicate)
         }
         
         tableView.reloadData()
@@ -124,35 +181,34 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     {
         var cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as MessageCell
         var cellData  : Correspondent = displayList[indexPath.row] as Correspondent
-        var messages :[Message] = cellData.messages.allObjects as [Message]
+        var messages :[Transaction] = cellData.transactions.allObjects as [Transaction]
         
         cell.name.text = "  " + cellData.name
         
         if messages.count > 0
         {
-            var messages :[Message] = cellData.messages.allObjects as [Message]
-            
-            var message :Message!
+            var message :Transaction!
             
             if messages.count > 0
             {
                 message = messages[0]
             }
             
-            for mes :Message in messages
-            {
-                if mes.date.compare(message.date) == NSComparisonResult.OrderedDescending
-                {
-                    message = mes
-                }
-            }
-
-            cell.message.text = "  " + message.message
+//            for mes  in messages
+//            {
+//                if mes.date.compare(message.date) == NSComparisonResult.OrderedDescending
+//                {
+//                    message = mes
+//                }
+//            }
+            
+            cell.message.text = message.message_payload
             
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            cell.date.text = dateFormatter.stringFromDate(message.date)
+            
+            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: (message.timeStamp as Double) * 1000))
         }
         else
         {
@@ -163,7 +219,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        State.currentContact = correspondents[indexPath.row] as? Correspondent
+        State.currentContact = correspondents[indexPath.row] as Correspondent
         State.toVC = SegueToMessageVC
         
         NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
@@ -177,9 +233,9 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
             for correspondetn in correspondents
             {
-                if correspondetn.key == sender.text
+                if correspondetn.public_key == sender.text
                 {
-                    State.currentContact = correspondetn as? Correspondent
+                    State.currentContact = correspondetn as Correspondent
                     State.toVC = SegueToMessageVC
                     
                     find = true
@@ -190,7 +246,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
             if !find
             {
-                State.currentContact = dataManager.addCorrespondent(sender.text, name: sender.text)
+                State.currentContact = dataManager.addCorrespondent(sender.text, name: sender.text , address : sender.text)
                 State.toVC = SegueToMessageVC
                 
                 NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )

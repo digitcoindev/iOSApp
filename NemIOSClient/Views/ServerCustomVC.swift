@@ -50,9 +50,8 @@ class ServerCustomVC: UIViewController
     
     @IBAction func addServer(sender: AnyObject)
     {
-        apiManager.heartbeat(protocolType.text, address: serverAddress.text ,port: serverPort.text)
+        apiManager.heartbeat(dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text))
 
-        dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
         serverAddress.text = ""
         protocolType.text = ""
         serverPort.text = ""

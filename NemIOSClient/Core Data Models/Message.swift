@@ -26,7 +26,7 @@ class Message: NSManagedObject
         
         for correspondent in corespondents
         {
-            if correspondent.key == from || correspondent.key == to
+            if correspondent.public_key == from || correspondent.public_key == to
             {
                 newItem.owner = correspondent
                 find = true
@@ -37,11 +37,11 @@ class Message: NSManagedObject
         {
             if from != "me"
             {
-                newItem.owner = coreData.addCorrespondent(from, name: from)
+                //newItem.owner = coreData.addCorrespondent(from, name: from ,address: nil)
             }
             else
             {
-                newItem.owner = coreData.addCorrespondent(to, name: to)
+                //newItem.owner = coreData.addCorrespondent(to, name: to)
             }
         }
         

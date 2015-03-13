@@ -46,6 +46,18 @@ void createPrivateKey(unsigned char *out_private_key)
 }
 void createPublicKey(unsigned char *public_key, unsigned char *private_key)
 {
+//    for (int i= 0 ; i < 32 ; i++)
+//    {
+//        printf("%d ",private_key[i]);
+//    }
+    
+//    unsigned char private_key1[32] = {58, 254, 51, 36, 24, 57, 48, 133, 162, 218, 10, 88, 71, 21, 16, 205, 72, 244, 250, 45, 169, 214, 135, 31, 100, 61, 12, 131, 81, 159, 196, 63};
+    
+//    for (int i= 0 ; i < 32 ; i++)
+//    {
+//        printf("%d ",private_key1[i]);
+//    }
+    
     ge_p3 A;
     unsigned char in_public_key[32];
     
@@ -56,5 +68,10 @@ void createPublicKey(unsigned char *public_key, unsigned char *private_key)
     {
         sprintf(&public_key[i*2], "%02x", in_public_key[i]);
     }
+    
+//    for (int i= 0 ; i < 32 ; i++)
+//    {
+//        printf("%d ",in_public_key[i]);
+//    }
 }
 

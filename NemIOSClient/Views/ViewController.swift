@@ -48,22 +48,80 @@ class ViewController: UIViewController
 //            manager.createFileAtPath(NSHomeDirectory().stringByAppendingString(str), contents: NSData(base64EncodedString: HashManager.AES256Encrypt(value, key: value), options: NSDataBase64DecodingOptions()), attributes: nil)
 //            
 //        }
-        
-        var privateKey =  "3139211773934fdda4b62282eb6f144fb8cdb7e10a508196d3d884423e470154"
-        var publicKey = "bb0aace5b35fd13d24833e4719665183a765097f763ce9d7a7a85c1dd57874e8"
-        var address = AddressGenerator().generateAddress(publicKey)
-        
-        println("private key : \(privateKey)")
-        println("public key : \(publicKey)")
-        println("address : \(address)")
-        
-        ////Test data close
 
-        self.performSegueWithIdentifier(SegueToMainVC, sender: self)
-
+        println(NSDate(timeIntervalSince1970: 6661052000 + 16171000))
+       self.performSegueWithIdentifier(SegueToMainVC, sender: self)
+        
+    
+        
+//        var alert1 :UIAlertController = UIAlertController(title: "Add NEM account", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
+//       
+//        
+//        self.presentViewController(alert1, animated: true, completion: nil)
     }
-    
-    
+
+//
+//    func packString(string:String, bytes:[UInt8]) -> [UInt8]
+//    {
+//        var localBytes:Array<UInt8> = bytes
+//
+//        var stringBuff = [UInt8]()
+//        stringBuff += string.utf8
+//
+//        var length = stringBuff.count
+//        if (length < 0x20)
+//        {
+//            localBytes.append(UInt8(0xA0 | UInt8(length)))
+//        }
+//        else
+//        {
+//            if (length < 0x10)
+//            {
+//                localBytes.append(UInt8(0xD9))
+//            }
+//            else if (length < 0x100)
+//            {
+//                localBytes.append(UInt8(0xDA))
+//            }
+//            else
+//            {
+//                localBytes.append(UInt8(0xDB))
+//            }
+//
+//            localBytes += lengthBytes(Int32(length))
+//        }
+//        
+//        localBytes += stringBuff
+//        
+//        return localBytes
+//    }
+//    
+//    func lengthBytes(lengthIn:Int32) -> Array<UInt8>
+//    {
+//        var length:CLong = CLong(lengthIn)
+//        var lengthBytes:Array<UInt8> = Array<UInt8>()
+//        
+//        switch (length)
+//        {
+//        case 0..<0x10:
+//            lengthBytes.append(UInt8(length))
+//            
+//        case 0x10..<0x100:
+//            lengthBytes = Array<UInt8>(count:2, repeatedValue:0)
+//            memcpy(&lengthBytes, &length, 2)
+//            lengthBytes = lengthBytes.reverse()
+//            
+//        case 0x100..<0x10000:
+//            lengthBytes = Array<UInt8>(count:4, repeatedValue:0)
+//            memcpy(&lengthBytes, &length, 4)
+//            lengthBytes = lengthBytes.reverse()
+//            
+//        default:
+//            break;
+//        }
+//        
+//        return lengthBytes
+//    }
     
     override func didReceiveMemoryWarning()
     {

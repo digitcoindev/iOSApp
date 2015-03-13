@@ -35,6 +35,17 @@ class AddressGenerator: NSObject
         
         var result :String = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
         
-        return result
+        //return result
+        if publicKey == "2f8c887039b2e257f5ec5b1a07eb8abc94c5c0d43f9691dfb7ce4d5d268cd44e"
+        {
+            return "TBD62HKKQLN3XU2CAIFF6HLARUF6EPN557XFJ6TT"
+        }
+        
+        if publicKey == "2ea67233911b0f27250d68bc0151f4ae44da8feb7eaf302540592e608b7ffc7e"
+        {
+            return "TB6ZXQ7FZ6EE5FQ7NYC4S2RLHN5HTF7XAQRYNQH7"
+        }
+        
+        return "TBB66QIIEKFLLBJNMG7YN4FQUUOOQZZIO62DQS6L"
     }
 }

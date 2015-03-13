@@ -28,24 +28,20 @@ class plistFileManager: NSObject
         return importFiles
     }
     
-//    func validatePair(way :String , password :String) -> Bool
-//    {
-//        var data = fileManager.contentsAtPath(documents + "/ImportedAccounts/" + way)
-//        if var str = data?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
-//        {
-//            var dataManager :CoreDataManager = CoreDataManager()
-//            if(HashManager.AES256Decrypt(str, key: password) == way)
-//            {
-//                dataManager.addWallet(way, password: HashManager.AES256Encrypt(password) )
-//                
-//                self.removeFileAtPath(way)
-//                
-//                return true
-//            }
-//        }
-//        
-//        return false
-//    }
+    func validatePair(way :String , password :String) -> Bool
+    {
+        var data = fileManager.contentsAtPath(documents + "/ImportedAccounts/" + way)
+        if var str = data?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+        {
+            var dataManager :CoreDataManager = CoreDataManager()
+            if(HashManager.AES256Decrypt(str, key: password) == way)
+            {
+                return true
+            }
+        }
+        
+        return false
+    }
     
     final func removeFileAtPath(path :String)->Bool
     {

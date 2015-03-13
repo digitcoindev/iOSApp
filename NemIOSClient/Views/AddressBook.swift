@@ -277,7 +277,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             for correspondent  in correspondents
             {
-               if (correspondent as Correspondent).key == key
+               if (correspondent as Correspondent).public_key == key
                {
                     State.currentContact = correspondent as? Correspondent
                     break
@@ -285,7 +285,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             }
             if State.currentContact == nil
             {
-                State.currentContact = dataManager.addCorrespondent(key, name: title)
+                State.currentContact = dataManager.addCorrespondent(key, name: title , address : key)
             }
 
             NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )

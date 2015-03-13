@@ -49,7 +49,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
             alert.show()
             password.text = ""
         }
-        repeatPassword.text = ""
+        //repeatPassword.text = ""
     }
     
     
@@ -108,7 +108,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     {
         (sender as UITextField).becomeFirstResponder()
         
-        if repeatPassword != password
+        if repeatPassword.text != password.text
         {
             repeatPassword.text = ""
         }

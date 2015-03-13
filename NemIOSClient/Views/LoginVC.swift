@@ -67,7 +67,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         if State.currentServer != nil
         {
             State.currentWallet = wallets[indexPath.row]
-            apiManager.heartbeat(State.currentServer!.protocolType, address: State.currentServer!.address, port: State.currentServer!.port)
+            apiManager.heartbeat(State.currentServer!)
             
             State.toVC = SegueToMessages
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )

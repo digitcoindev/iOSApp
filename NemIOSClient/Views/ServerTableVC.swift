@@ -99,7 +99,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         var selectedServer :Server = servers[indexPath.row] as Server
         selectedCellIndex = indexPath.row
         
-        apiManager.heartbeat(selectedServer.protocolType, address: selectedServer.address, port: selectedServer.port)
+        apiManager.heartbeat(selectedServer)
         
     }
 }
