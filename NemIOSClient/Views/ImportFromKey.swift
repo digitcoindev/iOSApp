@@ -34,7 +34,13 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
     }
-
+    
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillShow", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillHide", object:nil)
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
@@ -85,7 +91,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
         {
             if(passwordValidate)
             {
-                dataManager.addWallet(name.text, password: HashManager.AES256Encrypt(password.text), privateKey : key.text!)
+                dataManager.addWallet(name.text, password: HashManager.AES256Encrypt(password.text), privateKey : HashManager.AES256Encrypt(key.text!))
                 
                 State.fromVC = SegueToImportFromKey
                 State.toVC = SegueToLoginVC

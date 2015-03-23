@@ -35,6 +35,11 @@ class LoginVC: UIViewController , UITableViewDelegate
         observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
         
     }
+    
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
+    }
 
     override func didReceiveMemoryWarning()
     {
@@ -83,13 +88,8 @@ class LoginVC: UIViewController , UITableViewDelegate
     {
         if(notification.object  != nil)
         {
-            var alert :UIAlertView = UIAlertView(title: "Status", message: "Login - Success", delegate: self, cancelButtonTitle: "OK")
-            alert.message = (alert.message! + "\n" + "heartbeat - Success") as String
-            
-//            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
-
-            //alert.show()
-
+            State.toVC = SegueToMessages
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
         }
     }
 }

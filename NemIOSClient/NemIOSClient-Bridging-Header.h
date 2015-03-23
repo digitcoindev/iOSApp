@@ -8,10 +8,10 @@
 #import "NSData+Base64.h"
 #import <GoogleMaps/GoogleMaps.h>
 
+//in generator.c file
+
 void ed25519_create_keypair(unsigned char *public_key, unsigned char *private_key, const unsigned char *seed);
-int ed25519_create_seed(unsigned char *seed);
-
-
 void createPrivateKey(unsigned char *out_private_key);
 void createPublicKey(unsigned char *public_key, unsigned char *private_key);
-void SHA256_hash(unsigned char *out,unsigned char *in);
+void SHA256_hash(unsigned char *out,unsigned char *in , int32_t inLen);
+int keccak(const uint8_t *in, int inlen, uint8_t *md, int mdlen);

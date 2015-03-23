@@ -8,7 +8,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     var apiManager :APIManager = APIManager()
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     var selectedCellIndex : Int = -1
-    
+    var observerServerConfirmed :AnyObject!
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -22,28 +22,37 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         
         servers = dataManager.getServers()
     }
-
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
     }
-
+    
     final func serverConfirmed(notification: NSNotification)
+    {
+        
+        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        let mainQueue = dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0)
+        
+        dispatch_async(backgroundQueue,
+            {
+            self.serverConfirmedStepTwo()
+        })
+        dispatch_async(mainQueue,
+            {
+                State.toVC = SegueToLoginVC
+                
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+        })
+    }
+    
+    final func serverConfirmedStepTwo()
     {
         State.currentServer = servers[selectedCellIndex] as? Server
         var loadData :LoadData = dataManager.getLoadData()
         
         loadData.currentServer = servers[selectedCellIndex] as Server
         dataManager.commit()
-        
-        (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).indicatorON()
-        
-        State.toVC = SegueToLoginVC
-        
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Heartbeat success.", delegate: self, cancelButtonTitle: "OK")
-        alert.show()
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
     }
     
     final func serverDenied(notification: NSNotification)
@@ -66,6 +75,11 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         //for test
     }
     
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverConfirmed", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverDenied", object:nil)
+    }
     // MARK: - Table view data source
 
     

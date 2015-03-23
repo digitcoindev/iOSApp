@@ -19,6 +19,10 @@ class Transaction: NSManagedObject
     @NSManaged var version: NSNumber
     @NSManaged var owner: Correspondent
     
+    struct Store
+    {
+        static var stackVC : [String] = [String]()
+    }
     class func createInManagedObjectContext(moc: NSManagedObjectContext , transaction : TransactionGetMetaData) -> Transaction
     {
         let coreData :CoreDataManager = CoreDataManager()
@@ -37,7 +41,7 @@ class Transaction: NSManagedObject
         
         if !find
         {
-            if transaction.signer != KeyGenerator().generatePublicKey(State.currentWallet!.privateKey)
+            if transaction.signer != KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
             {
                 var address = AddressGenerator().generateAddress( transaction.signer)
                 
@@ -63,7 +67,6 @@ class Transaction: NSManagedObject
         
         newItem.id = transaction.id
         newItem.height = transaction.height
-        newItem.timeStamp = transaction.timeStamp
         newItem.amount = transaction.amount
         newItem.signature = transaction.signature
         newItem.fee = transaction.fee
@@ -75,7 +78,20 @@ class Transaction: NSManagedObject
         newItem.message_type = transaction.message.type
         newItem.version = transaction.version
         newItem.owner = current_correspondent
-
+        newItem.timeStamp = transaction.timeStamp
+        
+        var blocks :[Block] = CoreDataManager().getBlocks()
+        
+        for block in blocks
+        {
+            if block.height == transaction.height
+            {
+                return newItem
+            }
+        }
+        
+        APIManager().getBlockWithHeight(Int(transaction.height))
+        
         return newItem
     }
 

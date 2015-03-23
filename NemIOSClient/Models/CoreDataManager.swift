@@ -46,6 +46,48 @@ class CoreDataManager: NSObject
         commit()
     }
     
+    //Block
+    
+    final func getBlocks()->[Block]
+    {
+        let fetchRequest = NSFetchRequest(entityName: "Block")
+        
+        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Block]
+        {
+            return fetchResults
+        }
+        else
+        {
+            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Block]
+            
+            return fetchResults!
+        }
+    }
+    
+    final func getBlock(height : Double)->Block
+    {
+        var blocks = self.getBlocks()
+        
+        for block in blocks as [Block]
+        {
+            if block.height == height
+            {
+                return block
+            }
+        }
+        
+        return Block()
+    }
+    
+    final func addBlock(height: Int, timeStamp: Int)->Block
+    {
+        var block = Block.createInManagedObjectContext(self.managedObjectContext!,height: Double(height), timeStamp: Double(timeStamp))
+        
+        commit()
+        
+        return block
+    }
+    
     //Message
     
     final func getMessages()->[Message]

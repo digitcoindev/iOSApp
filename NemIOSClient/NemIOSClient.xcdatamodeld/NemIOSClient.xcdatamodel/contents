@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Block" representedClassName="NemIOSClient.Block" syncable="YES">
+        <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="Correspondent" representedClassName="NemIOSClient.Correspondent" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,17 +45,19 @@
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Correspondent" inverseName="transactions" inverseEntity="Correspondent" syncable="YES"/>
     </entity>
     <entity name="Wallet" representedClassName="NemIOSClient.Wallet" syncable="YES">
+        <attribute name="balance" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="privateKey" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="correspondents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Correspondent" inverseName="owner" inverseEntity="Correspondent" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Block" positionX="-36" positionY="162" width="128" height="75"/>
         <element name="Correspondent" positionX="-54" positionY="36" width="128" height="133"/>
         <element name="LoadData" positionX="-45" positionY="72" width="128" height="58"/>
         <element name="Message" positionX="-54" positionY="27" width="128" height="133"/>
-        <element name="Server" positionX="-54" positionY="9" width="128" height="88"/>
-        <element name="Wallet" positionX="-54" positionY="27" width="128" height="103"/>
+        <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
         <element name="Transaction" positionX="-45" positionY="72" width="128" height="253"/>
+        <element name="Wallet" positionX="-54" positionY="27" width="128" height="120"/>
     </elements>
 </model>

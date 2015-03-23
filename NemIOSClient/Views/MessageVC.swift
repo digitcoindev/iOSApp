@@ -6,8 +6,6 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     @IBOutlet weak var inputText: UITextField!
     @IBOutlet weak var NEMinput: UITextField!
     @IBOutlet weak var balance: UILabel!
-    @IBOutlet weak var userImg: UIImageView!
-    @IBOutlet weak var userName: UILabel!
     
     let dataManager :CoreDataManager = CoreDataManager()
     let contact :Correspondent = State.currentContact!
@@ -15,7 +13,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     var showKeyboard :Bool = false
     var nems :Int = 0
     var rowLength :Int = 21
-    
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -31,7 +29,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         sortMessages()
         
-        userName.text = contact.name
+        balance.text = "\(State.currentWallet!.balance) XEMs"
 
         var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
@@ -82,52 +80,39 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     @IBAction func send(sender: AnyObject)
     {
-        println("Send \n\n")
-        
-        var transaction :TransactionPostMetaData = TransactionPostMetaData()
-        
-        var privateKey  = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey =  KeyGenerator().generatePublicKey(privateKey)
-        var address = AddressGenerator().generateAddress(publicKey)
-        
-        transaction.timeStamp = 10
-        transaction.amount = 10
-        transaction.fee = 2
-        transaction.recipient = "TDRSHNACHGHZQQB42JEFYVI5SO4RX7CTOBUCCCZT"
-        transaction.type = 257
-        transaction.deadline =  9999999
-        transaction.message.payload = String("Test 1").hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
-        transaction.message.type = 1
-        transaction.version = 1
-        transaction.signer = publicKey
-        transaction.privateKey = privateKey
-
-        APIManager().prepareAnnounce(State.currentServer!, transaction: transaction, account_address: address)
-        
-//        var text :String = inputText.text
+//        var transaction :TransactionPostMetaData = TransactionPostMetaData()
 //        
-//        if text != "" || nems > 0
-//        {
-//            if messages.count % 2 == 0
-//            {
-//                dataManager.addMessage("me", to: contact.public_key, message: text, date: NSDate() ,nems :"\(nems)")
-//            }
-//            else
-//            {
-//                dataManager.addMessage(contact.public_key, to: "me", message: text, date: NSDate() ,nems :"\(nems)")
-//            }
+//        var privateKey  = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+//        var publicKey =  KeyGenerator().generatePublicKey(privateKey)
+//        var address = AddressGenerator().generateAddress(publicKey)
+//        
+//        transaction.timeStamp = 10
+//        transaction.amount = 10
+//        transaction.fee = 2
+//        transaction.recipient = "TDRSHNACHGHZQQB42JEFYVI5SO4RX7CTOBUCCCZT"
+//        transaction.type = 257
+//        transaction.deadline =  9999999
+//        transaction.message.payload = String("Test 1").hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+//        transaction.message.type = 1
+//        transaction.version = 1
+//        transaction.signer = publicKey
+//        transaction.privateKey = privateKey
 //
+//        APIManager().prepareAnnounce(State.currentServer!, transaction: transaction, account_address: address)
+
 //            nems = 0;
 //            balance.text = ""
 //            inputText.text = ""
 //            
-//            messages = contact.messages.allObjects as [Transaction]
+//            messages = contact.transactions.allObjects as [Transaction]
 //            sortMessages()
 //            
 //            tableView.reloadData()
 //            
 //            NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
-//        }
+        
+        var alert :UIAlertView = UIAlertView(title: "Info", message: "In developing process.", delegate: self, cancelButtonTitle: "OK")
+        alert.show()
     }
     
     func setString(message :String)->CGFloat
@@ -186,7 +171,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             if(messages[index].amount as Int != 0)
             {
-                var text :String = "\(messages[index].amount) XEMs"
+                var text :String = "\(messages[index].amount / 1000000) XEMs"
                 if messages[index].message_payload != ""
                 {
                     text = "\n" + text
@@ -204,7 +189,12 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "HH:mm dd.MM.yy "
             
-            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: (messages[index].timeStamp as Double) * 1000))
+            var timeStamp = Double(messages[index].timeStamp)
+            var block = dataManager.getBlock(Double((messages[index] as Transaction).height))
+            
+            timeStamp += Double(block.timeStamp)
+            
+            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
             
             if(indexPath.row == tableView.numberOfRowsInSection(0) - 1)
             {

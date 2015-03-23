@@ -1,27 +1,5 @@
 import UIKit
 
-class HexManager: NSObject
-{
-    
-    final func stringWithHexString(hex: String) -> String
-    {
-        var hex = hex
-        var result: String = ""
-        
-        while(countElements(hex) > 0)
-        {
-            var substring: String = hex.substringToIndex(advance(hex.startIndex, 2))
-            hex = hex.substringFromIndex(advance(hex.startIndex, 2))
-            var character: UInt32 = 0
-            NSScanner(string: substring).scanHexInt(&character)
-            result = result.stringByAppendingString(String(format: "%c", character))
-        }
-        
-        return result
-    }
-    
-    
-}
 extension String
 {
     func dataFromHexadecimalString() -> NSData?
@@ -64,21 +42,16 @@ extension String
         let data = dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         return data?.hexadecimalString()
     }
-}
-
-extension NSData
-{
-    func hexadecimalString() -> String
+    
+    func asByteArray()-> Array<UInt8>
     {
-        var string = NSMutableString(capacity: length * 2)
-        var byte: Byte?
-        
-        for i in 0 ..< length
+        var arrayLength :Int = self.utf16Count / 2
+        var buffer : Array<UInt8> = Array(count: arrayLength , repeatedValue: 0)
+        for var index :Int = 0 ; index < arrayLength  ; index++
         {
-            getBytes(&byte, range: NSMakeRange(i, 1))
-            string.appendFormat("%02x", byte!)
+            var substring :String = (self as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+            buffer[index] = UInt8(substring, radix: 16)!
         }
-        
-        return string
+        return buffer
     }
 }

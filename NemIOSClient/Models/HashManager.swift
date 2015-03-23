@@ -80,8 +80,8 @@ class HashManager: NSObject
     {
         var outBuffer: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         var inBuffer: Array<UInt8> = Array(inputText.utf8)
-        
-        SHA256_hash(&outBuffer, &inBuffer)
+        var len :Int32 = Int32(inBuffer.count)
+        SHA256_hash(&outBuffer, &inBuffer, len)
         
         let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: NSUTF8StringEncoding) as String
         

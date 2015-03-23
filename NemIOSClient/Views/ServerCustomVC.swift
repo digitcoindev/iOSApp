@@ -24,6 +24,14 @@ class ServerCustomVC: UIViewController
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
     }
     
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverConfirmed", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverDenied", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillShow", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillHide", object:nil)
+    }
+    
     final func serverConfirmed(notification: NSNotification)
     {
         State.currentServer = dataManager.getServers().last!

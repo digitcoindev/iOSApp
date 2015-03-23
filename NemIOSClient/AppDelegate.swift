@@ -66,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             dict[NSUnderlyingErrorKey] = error
             error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             NSLog("Unresolved error \(error), \(error!.userInfo)")
+            
             abort()
         }
         

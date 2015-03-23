@@ -36,7 +36,6 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         searchBar.showsCancelButton = true
         tableView.setContentOffset(CGPoint(x: 0, y: searchBar.frame.height), animated: false)
 
-        //correspondents = dataManager.getCorrespondents()
         correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
         displayList = correspondents
 
@@ -74,11 +73,13 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     final func accountGetSuccessed(notification: NSNotification)
     {
         self.balance.text = "\((notification.object as AccountGetMetaData).balance)"
+        State.currentWallet!.balance = (notification.object as AccountGetMetaData).balance
     }
     
     final func accountGetDenied(notification: NSNotification)
     {
         self.balance.text = "Null"
+        State.currentWallet!.balance = 0
     }
     
     final func accountTransfersAllSuccessed(notification: NSNotification)
@@ -207,8 +208,13 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
+            var timeStamp = Double(message.timeStamp)
+            var block = dataManager.getBlock(Double(message.height))
             
-            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: (message.timeStamp as Double) * 1000))
+            timeStamp += Double(block.timeStamp)
+            timeStamp += genesis_block_time
+
+            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         }
         else
         {
