@@ -90,7 +90,7 @@ class Transaction: NSManagedObject
             }
         }
         
-        APIManager().getBlockWithHeight(Int(transaction.height))
+        APIManager().getBlockWithHeight(State.currentServer!, height: Int( transaction.height))
         
         return newItem
     }

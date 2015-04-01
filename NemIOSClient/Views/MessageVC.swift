@@ -29,7 +29,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         sortMessages()
         
-        balance.text = "\(State.currentWallet!.balance) XEMs"
+        balance.text = "\(Int(Double(State.currentWallet!.balance) / 1000000)) XEMs"
 
         var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
@@ -171,7 +171,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             if(messages[index].amount as Int != 0)
             {
-                var text :String = "\(messages[index].amount / 1000000) XEMs"
+                var text :String = "\(Int(Double(messages[index].amount) / 1000000) ) XEMs"
                 if messages[index].message_payload != ""
                 {
                     text = "\n" + text
@@ -231,7 +231,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
             if  messages[index].amount as Int != 0
             {
-                height += heightForView("\n \(messages[index].amount)" , font: UIFont(name: "HelveticaNeue", size: 17.0)!, width: tableView.frame.width - 66)
+                height += heightForView("\n \(Int(Double(messages[index].amount) / 1000000) )" , font: UIFont(name: "HelveticaNeue", size: 17.0)!, width: tableView.frame.width - 66)
             }
             else
             {

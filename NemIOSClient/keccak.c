@@ -79,7 +79,8 @@ int keccak(const uint8_t *in, int inlen, uint8_t *md, int mdlen)
     
     memset(st, 0, sizeof(st));
 
-    for ( ; inlen >= rsiz; inlen -= rsiz, in += rsiz) {
+    for ( ; inlen >= rsiz; inlen -= rsiz, in += rsiz)
+    {
         for (i = 0; i < rsizw; i++)
             st[i] ^= ((uint64_t *) in)[i];
         keccakf(st, KECCAK_ROUNDS);

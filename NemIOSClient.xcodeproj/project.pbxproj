@@ -40,6 +40,7 @@
 		DA194E161A445B1D0030C882 /* UIConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA194E151A445B1D0030C882 /* UIConfig.plist */; };
 		DA194E171A446A240030C882 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */; };
 		DA194E181A446A350030C882 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA35580C1A39D3BA00AFA5FD /* Main.storyboard */; };
+		DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */; };
 		DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21991F1A68038700E2F8DD /* DashboardContainer.swift */; };
 		DA2199221A68222900E2F8DD /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2199211A68222900E2F8DD /* UserInfoVC.swift */; };
 		DA2978991AB9B083002F65BD /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2978981AB9B083002F65BD /* Crypto.m */; };
@@ -188,6 +189,7 @@
 		DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainContainerVC.swift; path = Views/MainContainerVC.swift; sourceTree = "<group>"; };
 		DA194E111A4456330030C882 /* MainViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewCell.swift; path = "Views/Additional controls/MainViewCell.swift"; sourceTree = "<group>"; };
 		DA194E151A445B1D0030C882 /* UIConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UIConfig.plist; path = Database/UIConfig.plist; sourceTree = "<group>"; };
+		DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignedTransactionMetaData.swift; path = Models/SignedTransactionMetaData.swift; sourceTree = "<group>"; };
 		DA21991F1A68038700E2F8DD /* DashboardContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardContainer.swift; path = Views/DashboardContainer.swift; sourceTree = "<group>"; };
 		DA2199211A68222900E2F8DD /* UserInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInfoVC.swift; path = Views/UserInfoVC.swift; sourceTree = "<group>"; };
 		DA2978971AB9B083002F65BD /* Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Crypto.h; path = ed25519/Crypto.h; sourceTree = "<group>"; };
@@ -424,7 +426,7 @@
 				DA194DFC1A41DE5E0030C882 /* NemIOSClient-Bridging-Header.h */,
 				DADA373E1A7683C300F14D6D /* ed25519 */,
 				DA29789C1AB9BCA4002F65BD /* AES256 */,
-				DA29789A1AB9BC78002F65BD /* SHA3 256 */,
+				DA29789A1AB9BC78002F65BD /* SHA3 (Keccak) */,
 				DA29789B1AB9BC85002F65BD /* Base32 */,
 				DA173CE11AA87CCE003AC21F /* RIPEMD-160 */,
 			);
@@ -464,13 +466,13 @@
 			name = Dashboard;
 			sourceTree = "<group>";
 		};
-		DA29789A1AB9BC78002F65BD /* SHA3 256 */ = {
+		DA29789A1AB9BC78002F65BD /* SHA3 (Keccak) */ = {
 			isa = PBXGroup;
 			children = (
 				DA173CD41AA85B91003AC21F /* keccak.c */,
 				DA173CD51AA85B91003AC21F /* keccak.h */,
 			);
-			name = "SHA3 256";
+			name = "SHA3 (Keccak)";
 			sourceTree = "<group>";
 		};
 		DA29789B1AB9BC85002F65BD /* Base32 */ = {
@@ -498,6 +500,7 @@
 				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
 				DAF138301AB09F5D0069AC3A /* MetaDataTypeOne.swift */,
 				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
+				DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */,
 			);
 			name = "API models";
 			sourceTree = "<group>";
@@ -1031,6 +1034,7 @@
 				DA3558441A3B014400AFA5FD /* ConnectionSegue.swift in Sources */,
 				DADA37551A7683C300F14D6D /* fe.c in Sources */,
 				DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */,
+				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
 				DA0059371A4882B300638C57 /* State.swift in Sources */,
 				DADA37581A7683C300F14D6D /* keypair.c in Sources */,
 				DA08D9B91AC026F400B93EBE /* UInt8Utils.swift in Sources */,

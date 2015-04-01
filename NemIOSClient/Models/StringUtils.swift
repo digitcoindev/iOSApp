@@ -45,13 +45,69 @@ extension String
     
     func asByteArray()-> Array<UInt8>
     {
-        var arrayLength :Int = self.utf16Count / 2
+        var arrayLength :Int = self.utf16Count
+        var hexString = self
+        
+        if arrayLength % 2 != 0
+        {
+            hexString  = "0" + hexString
+            arrayLength++
+        }
+        
+        arrayLength = arrayLength / 2
+        
         var buffer : Array<UInt8> = Array(count: arrayLength , repeatedValue: 0)
         for var index :Int = 0 ; index < arrayLength  ; index++
         {
-            var substring :String = (self as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+            var substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
             buffer[index] = UInt8(substring, radix: 16)!
         }
+        return buffer
+    }
+    
+    func asByteArray(length: Int)-> Array<UInt8>
+    {
+        var arrayLength :Int = self.utf16Count
+        var hexString = self
+        
+        if arrayLength % 2 != 0
+        {
+            hexString  = "0" + hexString
+            arrayLength++
+        }
+        
+        arrayLength = arrayLength / 2
+        
+        var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
+        for var index :Int = 0 ; index < arrayLength  ; index++
+        {
+            var substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+            buffer[index] = UInt8(substring, radix: 16)!
+        }
+        
+        return buffer
+    }
+    
+    func asByteArrayIndian(length: Int)-> Array<UInt8>
+    {
+        var arrayLength :Int = self.utf16Count
+        var hexString = self
+        
+        if arrayLength % 2 != 0
+        {
+            hexString  = "0" + hexString
+            arrayLength++
+        }
+        
+        arrayLength = arrayLength / 2
+        
+        var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
+        for var index :Int = 0 ; index < arrayLength  ; index++
+        {
+            var substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+            buffer[arrayLength - index - 1] = UInt8(substring, radix: 16)!
+        }
+        
         return buffer
     }
 }

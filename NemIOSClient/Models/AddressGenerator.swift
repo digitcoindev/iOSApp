@@ -34,6 +34,7 @@ class AddressGenerator: NSObject
     
         var stepFourResultBuffer =  stepThreeVersionPrefixedRipemd160Buffer + checksum
         var result :String = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
+
         return result
     }
 }

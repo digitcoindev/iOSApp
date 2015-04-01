@@ -38,7 +38,7 @@ class ViewController: UIViewController
     
     override func viewDidAppear(animated: Bool)
     {
-       self.performSegueWithIdentifier(SegueToMainVC, sender: self)
+        self.performSegueWithIdentifier(SegueToMainVC, sender: self)
     }
     
     override func didReceiveMemoryWarning()

@@ -73,9 +73,6 @@ class LoginVC: UIViewController , UITableViewDelegate
         {
             State.currentWallet = wallets[indexPath.row]
             apiManager.heartbeat(State.currentServer!)
-            
-            State.toVC = SegueToMessages
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
         }
         else
         {
@@ -86,6 +83,7 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     final func logIn(notification: NSNotification)
     {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
         if(notification.object  != nil)
         {
             State.toVC = SegueToMessages

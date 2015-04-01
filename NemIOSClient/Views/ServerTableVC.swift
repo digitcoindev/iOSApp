@@ -30,20 +30,10 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     
     final func serverConfirmed(notification: NSNotification)
     {
+        self.serverConfirmedStepTwo()
+        State.toVC = SegueToLoginVC
         
-        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
-        let mainQueue = dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0)
-        
-        dispatch_async(backgroundQueue,
-            {
-            self.serverConfirmedStepTwo()
-        })
-        dispatch_async(mainQueue,
-            {
-                State.toVC = SegueToLoginVC
-                
-                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
-        })
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
     }
     
     final func serverConfirmedStepTwo()
@@ -53,6 +43,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         
         loadData.currentServer = servers[selectedCellIndex] as Server
         dataManager.commit()
+        println("-")
     }
     
     final func serverDenied(notification: NSNotification)

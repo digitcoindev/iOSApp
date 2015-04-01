@@ -202,55 +202,9 @@ class APIManager: NSObject
         return true
     }
     
-    final func prepareAnnounce(server :Server, transaction :TransactionPostMetaData, account_address :String) -> Bool
+    final func getBlockWithHeight(server :Server ,height :Int ) -> Bool
     {
-        var request = NSMutableURLRequest(URL: NSURL(string: "http://httpbin.org/post")!)
-        request.HTTPMethod = "POST"
-        
-        var messageDic :Dictionary = ["payload" : transaction.message.payload as  String, "type" : transaction.message.type ] as Dictionary <String, AnyObject>
-        var transactionDic :Dictionary = ["timeStamp" : transaction.timeStamp,"amount" : transaction.amount,"fee" : transaction.fee,"recipient" : transaction.recipient,"type" : transaction.type,"deadline" : transaction.deadline,"message" : messageDic ,"version" : transaction.version,"signer" : transaction.signer] as Dictionary<String, AnyObject>
-        var privateKeyDic :Dictionary = ["value":transaction.privateKey] as Dictionary<String, String>
-        
-        var params = ["transaction" : transactionDic ,  "privateKey" : privateKeyDic ] as Dictionary<String, AnyObject>
-        
-        var err: NSError?
-        var str = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
-        println(str)
-        
-        request.HTTPBody = str
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {           data, response, error -> Void in
-                var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                var err: NSError?
-                var json  = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                //var result :NSDictionary = (json! as NSDictionary).objectForKey("json") as NSDictionary
-                
-                if(err != nil)
-                {
-                    println(err!.localizedDescription)
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName("accountGetDenied", object:nil)
-                    
-                    println("NIS is not available!")
-                }
-                else
-                {
-                    println(json)
-                }
-        })
-        
-        task.resume()
-        
-        return true
-    }
-    
-    final func getBlockWithHeight(height :Int ) -> Bool
-    {
-        var request = NSMutableURLRequest(URL: NSURL(string: "http://127.0.0.1:7890//block/at/public")!)
-        
+        var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/block/at/public"))!)       
         request.HTTPMethod = "POST"
         
         var params = ["height":height] as Dictionary<String, Int>
@@ -286,4 +240,81 @@ class APIManager: NSObject
         
         return true
     }
+    
+    final func prepareAnnounce(server :Server, transaction :TransactionPostMetaData) -> Bool
+    {
+
+        var signedTransaction :SignedTransactionMetaData = SignManager.signTransaction(transaction)
+        
+        var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/transaction/announce"))!)
+
+        request.HTTPMethod = "POST"
+
+        var params = ["data" : signedTransaction.dataT ,  "signature" : signedTransaction.signatureT ] as Dictionary<String, String>
+        
+        var err: NSError?
+        var str = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
+        println(str)
+        
+        request.HTTPBody = str
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        var task = session.dataTaskWithRequest(request, completionHandler:
+            {           data, response, error -> Void in
+                var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+                var err: NSError?
+                var json  = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+                
+                if(err != nil)
+                {
+                    println(err!.localizedDescription)
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("accountGetDenied", object:nil)
+                    
+                   println("NIS is not available!")
+                }
+                else
+                {
+                    println(json)
+                }
+       })
+        
+        task.resume()
+        return true
+    }
+    final func timeSynchronize(server :Server) -> Bool
+    {
+        
+        var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/time-sync/network-time" ))!)
+        var err: NSError?
+        
+        request.HTTPMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        var task = session.dataTaskWithRequest(request, completionHandler:
+            {
+                data, response, error -> Void in
+                
+                var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+                var err: NSError?
+                var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+                if(err != nil)
+                {
+                    println(err!.localizedDescription)
+                }
+                else
+                {
+                    var data  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as Double
+                    
+                }
+        })
+        
+        task.resume()
+        
+        
+        return true
+    }
+
 }

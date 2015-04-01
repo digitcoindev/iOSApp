@@ -4,7 +4,7 @@ class KeyGenerator: NSObject
 {
     final func generatePrivateKey()->String
     {
-        var privateKeyBytes: Array<UInt8> = Array(count: 128, repeatedValue: 0)
+        var privateKeyBytes: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         
         createPrivateKey(&privateKeyBytes)
         

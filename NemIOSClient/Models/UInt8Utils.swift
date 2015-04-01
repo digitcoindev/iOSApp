@@ -24,4 +24,11 @@ extension UInt8
         }
         self = result
     }
+    
+    func asHex()->String
+    {
+        var string :String = NSString(format: "%02x", self)
+        
+        return string
+    }
 }

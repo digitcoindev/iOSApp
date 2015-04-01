@@ -73,6 +73,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     final func accountGetSuccessed(notification: NSNotification)
     {
         self.balance.text = "\((notification.object as AccountGetMetaData).balance)"
+        println("blance +")
         State.currentWallet!.balance = (notification.object as AccountGetMetaData).balance
     }
     

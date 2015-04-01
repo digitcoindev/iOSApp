@@ -226,7 +226,7 @@ extension String {
 	
 	func base32DecodedString(encoding: NSStringEncoding = NSUTF8StringEncoding) -> String? {
 		if let data = self.base32DecodedData {
-			return NSString(data: data, encoding: encoding) as String
+			return NSString(data: data, encoding: encoding)! as String
 		} else {
 			return nil
 		}
