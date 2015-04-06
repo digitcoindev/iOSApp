@@ -16,9 +16,9 @@ class MainContainerVC: UIViewController
         {
             lastVC = SegueToRegistrationVC
             
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToRegistrationVC )
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToAddAccountVC )
             
-            self.performSegueWithIdentifier(SegueToRegistrationVC, sender: self);
+            self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self);
         }
         else 
         {

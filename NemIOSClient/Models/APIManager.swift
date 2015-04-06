@@ -53,6 +53,8 @@ class APIManager: NSObject
 
                     println("\nSucces : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
                     
+                    self.timeSynchronize(server)
+                    
                     NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
                 }
         })
@@ -231,7 +233,7 @@ class APIManager: NSObject
                 }
                 else
                 {
-                    CoreDataManager().addBlock(height, timeStamp: json!.objectForKey("timeStamp") as Int)
+                    CoreDataManager().addBlock(height, timeStamp: (json!.objectForKey("timeStamp") as Double) )
                     NSNotificationCenter.defaultCenter().postNotificationName("getBlockWithHeightSuccessed", object:nil)
                 }
         })
@@ -254,7 +256,6 @@ class APIManager: NSObject
         
         var err: NSError?
         var str = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
-        println(str)
         
         request.HTTPBody = str
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -306,8 +307,9 @@ class APIManager: NSObject
                 }
                 else
                 {
-                    var data  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as Double
+                    var date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as Double
                     
+                    TimeSynchronizator.nemTime = date / 1000
                 }
         })
         

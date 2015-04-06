@@ -61,7 +61,6 @@
 		DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */; };
 		DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */; };
 		DA3BE20E1A5FFEF400CAC733 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20D1A5FFEF400CAC733 /* Messages.swift */; };
-		DA3BE2101A60103E00CAC733 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20F1A60103E00CAC733 /* Message.swift */; };
 		DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */; };
 		DA4369D11A6411D400868BAD /* welcome.png in Resources */ = {isa = PBXBuildFile; fileRef = DA4369D01A6411D400868BAD /* welcome.png */; };
 		DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AF0761A975CCF00299B0A /* GoogleMap.swift */; };
@@ -75,6 +74,7 @@
 		DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CF1A5A88C4005833A4 /* Social.framework */; };
 		DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4DD1A5AC021005833A4 /* Wallet.swift */; };
 		DA64A4E11A5ACF0C005833A4 /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */; };
+		DA7336551AD29EF80029C5D6 /* DoubleUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */; };
 		DA73CD7D1AB7241600B86021 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73CD7C1AB7241600B86021 /* Block.swift */; };
 		DA8780B91A5BFDF400AA24E2 /* ImportFromQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */; };
 		DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* WalletCell.swift */; };
@@ -93,6 +93,7 @@
 		DAC28CA41A96017C00EE3B22 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */; };
 		DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */; };
 		DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */; };
+		DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */; };
 		DACBFEA51A5ADE6900C2FCEC /* ImportFromFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
 		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
@@ -217,7 +218,6 @@
 		DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Views/Additional controls/AddressCell.swift"; sourceTree = "<group>"; };
 		DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBook.swift; path = Views/AddressBook.swift; sourceTree = "<group>"; };
 		DA3BE20D1A5FFEF400CAC733 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Messages.swift; path = Views/Messages.swift; sourceTree = "<group>"; };
-		DA3BE20F1A60103E00CAC733 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = "Core Data Models/Message.swift"; sourceTree = "<group>"; };
 		DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuButton.swift; path = "Views/Additional controls/MenuButton.swift"; sourceTree = "<group>"; };
 		DA4369D01A6411D400868BAD /* welcome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = welcome.png; path = Images/welcome.png; sourceTree = "<group>"; };
 		DA4AF0761A975CCF00299B0A /* GoogleMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleMap.swift; path = Views/GoogleMap.swift; sourceTree = "<group>"; };
@@ -231,6 +231,7 @@
 		DA64A4CF1A5A88C4005833A4 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		DA64A4DD1A5AC021005833A4 /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wallet.swift; path = "Core Data Models/Wallet.swift"; sourceTree = "<group>"; };
 		DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddAccount.swift; path = Views/AddAccount.swift; sourceTree = "<group>"; };
+		DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleUtils.swift; path = Models/DoubleUtils.swift; sourceTree = "<group>"; };
 		DA73CD7C1AB7241600B86021 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = "Core Data Models/Block.swift"; sourceTree = "<group>"; };
 		DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromQR.swift; path = Views/ImportFromQR.swift; sourceTree = "<group>"; };
 		DA8A892D1A4C52300072FE08 /* WalletCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletCell.swift; path = "Views/Additional controls/WalletCell.swift"; sourceTree = "<group>"; };
@@ -250,6 +251,7 @@
 		DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSynchronizator.swift; path = Models/TimeSynchronizator.swift; sourceTree = "<group>"; };
 		DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromFile.swift; path = Views/ImportFromFile.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
 		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 		DA08D9B71AC0268B00B93EBE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */,
 				DA08D9B81AC026F400B93EBE /* UInt8Utils.swift */,
 				DA08D9BA1AC0277800B93EBE /* NSDataUtils.swift */,
 				DA08D9BC1AC027C700B93EBE /* StringUtils.swift */,
@@ -436,6 +439,7 @@
 		DA194E0A1A4323BF0030C882 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				DAC8BA9E1ACD53BC00BB95B0 /* State */,
 				DAF138291AB08F2A0069AC3A /* API */,
 				DA08D9BF1AC0376E00B93EBE /* Additional */,
 				DA08D9BE1AC0372C00B93EBE /* Data */,
@@ -631,7 +635,6 @@
 				DA64A4CA1A5A86DB005833A4 /* Class */,
 				DA194E051A431C690030C882 /* Crypto */,
 				DA194E0A1A4323BF0030C882 /* Managers */,
-				DAD5AD8B1A52DC810093E3DB /* Memory */,
 				DADA33F91A72874900F14D6D /* Generators */,
 			);
 			name = Models;
@@ -742,12 +745,20 @@
 			path = NemIOSClient;
 			sourceTree = "<group>";
 		};
+		DAC8BA9E1ACD53BC00BB95B0 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				DA0059361A4882B300638C57 /* State.swift */,
+				DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */,
+			);
+			name = State;
+			sourceTree = "<group>";
+		};
 		DACF9C381A49C50B00550FB9 /* Core Data Models */ = {
 			isa = PBXGroup;
 			children = (
 				DA64A4DD1A5AC021005833A4 /* Wallet.swift */,
 				DAB9F6D61A4AED3A00D6DC8E /* Server.swift */,
-				DA3BE20F1A60103E00CAC733 /* Message.swift */,
 				DA2EE67B1A63CBDD008D34D7 /* Correspondent.swift */,
 				DA4BB2EB1A82536700FAA877 /* LoadData.swift */,
 				DA2BE9C11AB2F0C800E48D8F /* Transaction.swift */,
@@ -802,14 +813,6 @@
 				DA4AF0761A975CCF00299B0A /* GoogleMap.swift */,
 			);
 			name = Pages;
-			sourceTree = "<group>";
-		};
-		DAD5AD8B1A52DC810093E3DB /* Memory */ = {
-			isa = PBXGroup;
-			children = (
-				DA0059361A4882B300638C57 /* State.swift */,
-			);
-			name = Memory;
 			sourceTree = "<group>";
 		};
 		DAD5AD8C1A52DC960093E3DB /* Plist files */ = {
@@ -1047,11 +1050,12 @@
 				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				DADA37591A7683C300F14D6D /* sc.c in Sources */,
 				DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */,
+				DA7336551AD29EF80029C5D6 /* DoubleUtils.swift in Sources */,
 				DA173CDE1AA87CBC003AC21F /* RIPEMD.swift in Sources */,
 				DACF9C3C1A49C5F700550FB9 /* CoreDataManager.swift in Sources */,
 				DA3BE20E1A5FFEF400CAC733 /* Messages.swift in Sources */,
+				DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */,
 				DA64A4E11A5ACF0C005833A4 /* AddAccount.swift in Sources */,
-				DA3BE2101A60103E00CAC733 /* Message.swift in Sources */,
 				DA173CDF1AA87CBC003AC21F /* RIPEMD+Block.swift in Sources */,
 				DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */,
 				DADA37531A7683C300F14D6D /* readme.md in Sources */,

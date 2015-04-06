@@ -88,7 +88,7 @@ extension String
         return buffer
     }
     
-    func asByteArrayIndian(length: Int)-> Array<UInt8>
+    func asByteArrayEndian(length: Int)-> Array<UInt8>
     {
         var arrayLength :Int = self.utf16Count
         var hexString = self

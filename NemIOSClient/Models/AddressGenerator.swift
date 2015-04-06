@@ -17,7 +17,7 @@ class AddressGenerator: NSObject
         var stepTwoRIPEMD160Buffer: Array<UInt8> = stepTwoRIPEMD160Text.asByteArray()
         
         var version: Array<UInt8> = Array<UInt8>()
-        version.append(152)
+        version.append(152) // 152 test net | 104 main neet
         
         var stepThreeVersionPrefixedRipemd160Buffer : Array<UInt8> = version + stepTwoRIPEMD160Buffer
         

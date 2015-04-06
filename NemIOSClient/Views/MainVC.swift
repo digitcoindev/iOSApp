@@ -27,7 +27,7 @@ class MainVC: UIViewController
         backBtn.hidden = true
         
         pagesTitles  = deviceData.getMenuItems()
-        
+                
     }
 
     override func didReceiveMemoryWarning()

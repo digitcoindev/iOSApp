@@ -79,39 +79,15 @@ class CoreDataManager: NSObject
         return Block()
     }
     
-    final func addBlock(height: Int, timeStamp: Int)->Block
+    final func addBlock(height: Int, timeStamp: Double)->Block
     {
-        var block = Block.createInManagedObjectContext(self.managedObjectContext!,height: Double(height), timeStamp: Double(timeStamp))
+        var block = Block.createInManagedObjectContext(self.managedObjectContext!,height: Double(height), timeStamp:timeStamp)
         
         commit()
         
         return block
     }
     
-    //Message
-    
-    final func getMessages()->[Message]
-    {
-        let fetchRequest = NSFetchRequest(entityName: "Message")
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Message]
-        {
-            return fetchResults
-        }
-        else
-        {
-            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Message]
-            
-            return fetchResults!
-        }
-    }
-    
-    final func addMessage(from: String, to: String, message: String , date: NSDate , nems: String)
-    {
-        Message.createInManagedObjectContext(self.managedObjectContext!, from: from, to: to, message: message, date: date , nems: nems)
-        
-        commit()
-    }
     //Transaction
     
     final func getTransaction()->[Transaction]

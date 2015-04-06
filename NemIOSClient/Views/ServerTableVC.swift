@@ -2,13 +2,18 @@ import UIKit
 
 class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewDelegate
 {
-
     let dataManager : CoreDataManager = CoreDataManager()
+    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+
     var servers : NSArray = NSArray()
     var apiManager :APIManager = APIManager()
-    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    
+    var state :String = "none"
+    var timer :NSTimer!
+    
     var selectedCellIndex : Int = -1
     var observerServerConfirmed :AnyObject!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -20,6 +25,8 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         observer.addObserver(self, selector: "serverConfirmed:", name: "heartbeatSuccessed", object: nil)
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
         
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
+
         servers = dataManager.getServers()
     }
     
@@ -28,48 +35,61 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         super.didReceiveMemoryWarning()
     }
     
-    final func serverConfirmed(notification: NSNotification)
+    func manageState()
     {
-        self.serverConfirmedStepTwo()
-        State.toVC = SegueToLoginVC
+        switch (self.state)
+        {
+        case "Confirmed" :
+                State.currentServer = servers[selectedCellIndex] as? Server
+                var loadData :LoadData = dataManager.getLoadData()
+                
+                loadData.currentServer = servers[selectedCellIndex] as Server
+                dataManager.commit()
+                
+                APIManager().timeSynchronize(State.currentServer!)
+                
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+            
+                timer.invalidate()
+
+        case "Denied" :
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  unavailable.", delegate: self, cancelButtonTitle: "OK")
+            alert.show()
+            
+        default :
+            break
+        }
         
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+        self.state = "none"
     }
     
-    final func serverConfirmedStepTwo()
+    final func serverConfirmed(notification: NSNotification)
     {
-        State.currentServer = servers[selectedCellIndex] as? Server
-        var loadData :LoadData = dataManager.getLoadData()
+        State.toVC = SegueToLoginVC
         
-        loadData.currentServer = servers[selectedCellIndex] as Server
-        dataManager.commit()
-        println("-")
+        self.state = "Confirmed"
+        
     }
+
     
     final func serverDenied(notification: NSNotification)
     {
-        //for test
-        State.currentServer = servers[selectedCellIndex] as? Server
-        var loadData :LoadData = dataManager.getLoadData()
-        
-        loadData.currentServer = servers[selectedCellIndex] as Server
-        dataManager.commit()
-        
-        (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).indicatorON()
-        
-        State.toVC = SegueToLoginVC
-        
-        var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  unavailable.", delegate: self, cancelButtonTitle: "OK")
-        alert.show()
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
-        //for test
+        self.state = "Denied"
+    }
+    
+    override func didMoveToParentViewController(parent: UIViewController?)
+    {
+        if parent == nil
+        {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatDenied", object:nil)
+        }
     }
     
     deinit
     {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverConfirmed", object:nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverDenied", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatDenied", object:nil)
     }
     // MARK: - Table view data source
 
@@ -94,7 +114,8 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
 
         return cell
     }
-     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         if  State.currentServer != nil
         {
@@ -106,5 +127,6 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         
         apiManager.heartbeat(selectedServer)
         
+        self.state = "heartbeat"
     }
 }

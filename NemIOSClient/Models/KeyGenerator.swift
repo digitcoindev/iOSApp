@@ -17,7 +17,7 @@ class KeyGenerator: NSObject
     {
         if privateKey == "test"
         {
-            return "2ea67233911b0f27250d68bc0151f4ae44da8feb7eaf302540592e608b7ffc7e"
+            return "cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1"
         }
         
         var publicKeyBytes: Array<UInt8> = Array(count: 64, repeatedValue: 0)

@@ -32,8 +32,13 @@ class Transaction: NSManagedObject
 
         for correspondent in corespondents
         {
-            if correspondent.public_key == transaction.signer || correspondent.address == transaction.recipient
+            if correspondent.public_key == transaction.signer || correspondent.address == transaction.recipient || AddressGenerator().generateAddress(transaction.signer) == correspondent.address
             {
+                if correspondent.public_key == ""
+                {
+                    correspondent.public_key == transaction.signer
+                }
+                
                 current_correspondent = correspondent
                 find = true
             }

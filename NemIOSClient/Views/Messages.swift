@@ -10,6 +10,10 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     let dataManager : CoreDataManager = CoreDataManager()
     
+    var state :[String] = ["none"]
+    var timer :NSTimer!
+    var currentBalance :Double = 0
+    
     var apiManager :APIManager = APIManager()
     var correspondents :[Correspondent]!
     var displayList :NSArray = NSArray()
@@ -27,6 +31,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
 
         State.currentVC = SegueToMessages
         
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
         
         address.layer.cornerRadius = 2
         tableView.layer.cornerRadius = 2
@@ -54,7 +59,27 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         observer.addObserver(self, selector: "accountTransfersAllSuccessed:", name: "accountTransfersAllSuccessed", object: nil)
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
-
+    }
+    
+    final func manageState()
+    {
+        switch (state.last!)
+        {
+        case "accountTransfersAllSuccessed" :
+            correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
+            displayList = correspondents
+            tableView.reloadData()
+            state.removeLast()
+            
+        case "accountGetSuccessed" :
+            var format = ".0"
+            self.balance.text = "\(currentBalance.format(format))"
+            State.currentWallet!.balance = currentBalance
+            state.removeLast()
+            
+        default :
+            break
+        }
     }
     
     final func refreshTransactionList()
@@ -72,13 +97,15 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     final func accountGetSuccessed(notification: NSNotification)
     {
-        self.balance.text = "\((notification.object as AccountGetMetaData).balance)"
-        println("blance +")
-        State.currentWallet!.balance = (notification.object as AccountGetMetaData).balance
+        state.append("accountGetSuccessed")
+       
+        currentBalance = (notification.object as AccountGetMetaData).balance
     }
     
     final func accountGetDenied(notification: NSNotification)
     {
+        state.append("accountGetDenied")
+        
         self.balance.text = "Null"
         State.currentWallet!.balance = 0
     }
@@ -91,24 +118,12 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         {
             dataManager.addTransaction(inData)
         }
-        
-        correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
-        displayList = correspondents
-
-        for corespondent in correspondents
-        {
-            for transaction in corespondent.transactions.allObjects as [Transaction]
-            {
-                println("\nCorrespondent : \(corespondent.name)\ntransactionId : \(transaction.id)\ntransactionHeight : \(transaction.height)")
-            }
-        }
-        
-        tableView.reloadData()
+        state.append("accountTransfersAllSuccessed")
     }
     
     final func accountTransfersAllDenied(notification: NSNotification)
     {
-        
+        state.append("accountTransfersAllDenied")
     }
 
     override func viewDidAppear(animated: Bool)
@@ -209,10 +224,10 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            var timeStamp = Double(message.timeStamp)
+            var timeStamp = Double(message.timeStamp ) / 1000
             var block = dataManager.getBlock(Double(message.height))
             
-            timeStamp += Double(block.timeStamp)
+            timeStamp += Double(block.timeStamp) / 1000
             timeStamp += genesis_block_time
 
             cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))

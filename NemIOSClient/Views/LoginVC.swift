@@ -7,8 +7,9 @@ class LoginVC: UIViewController , UITableViewDelegate
     @IBOutlet weak var addWallet: UIButton!
     
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    var timer :NSTimer!
+    var state :String = "none"
     
-    var deviceManager :plistFileManager = plistFileManager()
     var dataManager :CoreDataManager = CoreDataManager()
     var apiManager :APIManager = APIManager()
     
@@ -72,6 +73,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         if State.currentServer != nil
         {
             State.currentWallet = wallets[indexPath.row]
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
             apiManager.heartbeat(State.currentServer!)
         }
         else
@@ -83,10 +85,17 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     final func logIn(notification: NSNotification)
     {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
-        if(notification.object  != nil)
+        State.toVC = SegueToMessages
+        
+        state = "logIN"
+    }
+    
+    final func manageState()
+    {
+        if state == "logIN"
         {
-            State.toVC = SegueToMessages
+            state = "none"
+            timer.invalidate()
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
         }
     }

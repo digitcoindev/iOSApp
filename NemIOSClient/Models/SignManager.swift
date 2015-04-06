@@ -57,10 +57,10 @@ class SignManager: NSObject
         var transactionType :Array<UInt8>  = [1 , 1 , 0 , 0]
         result = result + transactionType
         
-        var version :Array<UInt8> = [1 , 0 , 0, 0 ]
+        var version :Array<UInt8> = [1 , 0 , 0, 152 ]
         result = result + version
         
-        var timeStamp :Array<UInt8> = String(Int64(transaction.timeStamp), radix: 16).asByteArrayIndian(4)
+        var timeStamp :Array<UInt8> = String(Int64(transaction.timeStamp), radix: 16).asByteArrayEndian(4)
         result = result + timeStamp
         
         var publicKeyLength :Array<UInt8> = [32 , 0 , 0 , 0]
@@ -69,10 +69,10 @@ class SignManager: NSObject
         var publicKey :Array<UInt8> = transaction.signer.asByteArray()
         result = result + publicKey
         
-        var fee :Array<UInt8> = String(Int64(transaction.fee * 1000000), radix: 16).asByteArrayIndian(8)
+        var fee :Array<UInt8> = String(Int64(transaction.fee * 1000000), radix: 16).asByteArrayEndian(8)
         result = result + fee
         
-        var deadline :Array<UInt8> = String(Int64(transaction.deadline), radix: 16).asByteArrayIndian(4)
+        var deadline :Array<UInt8> = String(Int64(transaction.deadline), radix: 16).asByteArrayEndian(4)
         result = result + deadline
         
         var addressLength :Array<UInt8> = [40 , 0 , 0 , 0]
@@ -81,19 +81,19 @@ class SignManager: NSObject
         var address :Array<UInt8> = Array<UInt8>(transaction.recipient.utf8)
         result = result + address
         
-        var amount = String(Int64(transaction.amount * 1000000), radix: 16).asByteArrayIndian(8)
+        var amount = String(Int64(transaction.amount * 1000000), radix: 16).asByteArrayEndian(8)
         result = result + amount
         
         if transaction.message.payload != ""
         {
             var length :Int = transaction.message.payload.utf16Count + 8
-            var messageLength :Array<UInt8> = String(length, radix: 16).asByteArrayIndian(4)
+            var messageLength :Array<UInt8> = String(length, radix: 16).asByteArrayEndian(4)
             result = result + messageLength
             
             var messageType :Array<UInt8> = [1 , 0 , 0, 0 ]
             result = result + messageType
             
-            var payloadLength :Array<UInt8> = String(transaction.message.payload.utf16Count, radix: 16).asByteArrayIndian(4)
+            var payloadLength :Array<UInt8> = String(transaction.message.payload.utf16Count, radix: 16).asByteArrayEndian(4)
             result = result + payloadLength
             
             var payload :Array<UInt8> = transaction.message.payload.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
