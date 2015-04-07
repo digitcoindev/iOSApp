@@ -91,6 +91,11 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
         {
             if(passwordValidate)
             {
+                if key.text == "test"
+                {
+                    key.text = "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d"
+                }
+                
                 dataManager.addWallet(name.text, password: HashManager.AES256Encrypt(password.text), privateKey : HashManager.AES256Encrypt(key.text!))
                 
                 State.fromVC = SegueToImportFromKey

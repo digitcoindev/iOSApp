@@ -6,8 +6,8 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     @IBOutlet weak var tableView: UITableView!
     
     let dataManager :CoreDataManager = CoreDataManager()
-    let addressBook : ABAddressBookRef? = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
-    var contacts :NSArray = NSArray()
+    let addressBook : ABAddressBookRef? = AddressBookManager.addressBook
+    var contacts :NSArray = AddressBookManager.contacts
 
     override func viewDidLoad()
     {
@@ -19,29 +19,13 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         }
         
         State.currentVC = SegueToAddressBook
-
         
-        ABAddressBookRequestAccessWithCompletion(addressBook,
-            {
-                (granted : Bool, error: CFError!) -> Void in
-                if granted == true
-                {
-                    self.contacts = ABAddressBookCopyArrayOfAllPeople(self.addressBook).takeRetainedValue()
-                    self.tableView.reloadData()
-                }
-                else
-                {
-                    var alert :UIAlertView = UIAlertView(title: "Info", message: "Can not access adressbook", delegate: self, cancelButtonTitle: "OK")
-                    alert.show()
-                }
-        })
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
 }
 
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
-
-
     }
 
     @IBAction func addContact(sender: AnyObject)
@@ -104,6 +88,9 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                             ABRecordSetValue(newContact, kABPersonEmailProperty, emailMultiValue, &error)
                             ABAddressBookAddRecord(self.addressBook, newContact, &error)
                             ABAddressBookSave(self.addressBook, &error)
+                            
+                            AddressBookManager.refresh()
+                            self.contacts = AddressBookManager.contacts
                                 
                             self.tableView.reloadData()
                         }
@@ -119,10 +106,6 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                     alert1.addAction(cancel)
                     
                     self.presentViewController(alert1, animated: true, completion: nil)
-                    
-                    self.tableView.reloadData()
-                
-
                 }
                 else
                 {

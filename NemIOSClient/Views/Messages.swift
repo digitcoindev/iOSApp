@@ -1,4 +1,5 @@
 import UIKit
+import AddressBook
 
 class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
 {
@@ -44,6 +45,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
         displayList = correspondents
 
+        findCorrespondentName()
         refreshTransactionList()
         
         if (State.currentContact != nil && State.toVC == SegueToPasswordValidation )
@@ -79,6 +81,65 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
         default :
             break
+        }
+    }
+    
+    final func findCorrespondentName()
+    {
+        var contacts :NSArray = AddressBookManager.contacts
+        
+        for correspondent in correspondents
+        {
+            if correspondent.name.utf16Count > 20
+            {
+                var find = false
+                for contact in contacts
+                {
+                    let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
+                    let count  :Int = ABMultiValueGetCount(emails)
+                    
+                    if count > 0
+                    {
+                        for var index:CFIndex = 0; index < count; ++index
+                        {
+                            var lable  = ABMultiValueCopyLabelAtIndex(emails, index)
+                            if lable != nil
+                            {
+                                if lable.takeUnretainedValue()  == "NEM"
+                                {
+                                    var value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as String
+                                    if value == correspondent.name
+                                    {
+                                        if var name = ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
+                                        {
+                                            correspondent.name = name + " "
+                                        }
+                                        
+                                        if var surname = ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
+                                        {
+                                             correspondent.name =  correspondent.name +  (ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
+                                        }
+                                        
+                                        find = true
+                                    }
+                                }
+                            }
+                            
+                            if find
+                            {
+                                break
+                            }
+                        }
+                    }
+                    
+                    if find
+                    {
+                        break
+                    }
+                }
+            }
+            
+            dataManager.commit()
         }
     }
     
@@ -245,6 +306,13 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         State.toVC = SegueToMessageVC
         
         NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
+    }
+    
+    final func getNameWithAddress(name :String) -> String
+    {
+        
+        
+        return name
     }
     
     @IBAction func inputAddress(sender: UITextField)

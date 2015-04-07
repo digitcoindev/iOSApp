@@ -35,7 +35,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         var format = ".0"
         
-        balance.text = "Balance :\((Double(State.currentWallet!.balance) / 1000000).format(format)) XEMs"
+        balance.text = " Balance : \((Double(State.currentWallet!.balance) / 1000000).format(format)) XEMs"
 
 
         var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
@@ -118,13 +118,13 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             var publickey = KeyGenerator().generatePublicKey(privateKey)
             var address = contact.address
             
-            transaction.timeStamp = TimeSynchronizator.nemTime
+            transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
             transaction.amount = Double(nems)
             transaction.message.payload = inputText.text
             transaction.fee = transactionFee
             transaction.recipient = address
             transaction.type = 257
-            transaction.deadline =  TimeSynchronizator.nemTime + waitTime
+            transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
             transaction.message.type = 1
             transaction.version = 1
             transaction.signer = publickey
@@ -219,7 +219,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "HH:mm dd.MM.yy "
             
-            var timeStamp = Double(transactions[index].timeStamp) / 1000
+            var timeStamp = Double(transactions[index].timeStamp)
             var block = dataManager.getBlock(Double((transactions[index] as Transaction).height))
             
             timeStamp += Double(block.timeStamp) / 1000

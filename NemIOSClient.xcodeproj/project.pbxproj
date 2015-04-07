@@ -94,6 +94,7 @@
 		DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */; };
 		DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */; };
 		DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */; };
+		DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */; };
 		DACBFEA51A5ADE6900C2FCEC /* ImportFromFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
 		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
@@ -252,6 +253,7 @@
 		DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSynchronizator.swift; path = Models/TimeSynchronizator.swift; sourceTree = "<group>"; };
+		DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = Models/AddressBookManager.swift; sourceTree = "<group>"; };
 		DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromFile.swift; path = Views/ImportFromFile.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
 		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			children = (
 				DA194E081A4323B40030C882 /* HashManager.swift */,
 				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
+				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
 			);
 			name = Additional;
 			sourceTree = "<group>";
@@ -1070,6 +1073,7 @@
 				DAF138311AB09F5D0069AC3A /* MetaDataTypeOne.swift in Sources */,
 				DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
+				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
 				DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */,
 				DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */,

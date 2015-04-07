@@ -94,6 +94,8 @@ class LoginVC: UIViewController , UITableViewDelegate
     {
         if state == "logIN"
         {
+            APIManager().timeSynchronize(State.currentServer!)
+            
             state = "none"
             timer.invalidate()
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )

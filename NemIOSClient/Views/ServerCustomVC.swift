@@ -44,8 +44,6 @@ class ServerCustomVC: UIViewController
         case "Confirmed" :
             State.currentServer = dataManager.getServers().last!
             
-            APIManager().timeSynchronize(State.currentServer!)
-            
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
             
         case "Denied" :

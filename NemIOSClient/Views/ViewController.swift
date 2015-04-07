@@ -29,16 +29,18 @@ class ViewController: UIViewController
 {
     let deviceData : plistFileManager = plistFileManager()
     let dataManager :CoreDataManager = CoreDataManager()
-    
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
     }
     
     override func viewDidAppear(animated: Bool)
-    {       
+    {
+        AddressBookManager.create()
+        
         self.performSegueWithIdentifier(SegueToMainVC, sender: self)
+        
 //        self.presentViewController(alert1, animated: true, completion: nil)
         
 //        private key : 5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d
