@@ -42,6 +42,12 @@ class ServerCustomVC: UIViewController
         switch (state)
         {
         case "Confirmed" :
+            
+            var loadData :LoadData = dataManager.getLoadData()
+            
+            loadData.currentServer = dataManager.getServers().last!
+            dataManager.commit()
+            
             State.currentServer = dataManager.getServers().last!
             
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )

@@ -109,6 +109,9 @@ class MainContainerVC: UIViewController
             case SegueToImportFromKey:
                 self.performSegueWithIdentifier(SegueToImportFromKey, sender: nil)
                 
+            case SegueToProfile:
+                self.performSegueWithIdentifier(SegueToProfile, sender: nil)
+                
             case SegueToGoogleMap:
                 self.performSegueWithIdentifier(SegueToGoogleMap, sender: nil)
                 

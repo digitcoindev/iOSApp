@@ -20,8 +20,9 @@ class UserInfoVC: UIViewController
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var address  = AddressGenerator().generateAddress(publicKey)
         
-        keyLable.text = publicKey as String
+        keyLable.text = address as String
         
         var qr :QR = QR()
         qrImg.image =  qr.createQR(keyLable.text!)

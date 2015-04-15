@@ -4,6 +4,7 @@
 <dict>
 	<key>mainMenu</key>
 	<array>
+		<string>Profile</string>
 		<string>Registration</string>
 		<string>Accounts</string>
 		<string>Servers</string>

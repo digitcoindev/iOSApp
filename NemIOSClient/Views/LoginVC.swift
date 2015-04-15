@@ -35,6 +35,8 @@ class LoginVC: UIViewController , UITableViewDelegate
         
         observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
         
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Accounts")
+        
     }
     
     deinit

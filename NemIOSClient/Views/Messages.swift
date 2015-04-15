@@ -173,11 +173,18 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     final func accountTransfersAllSuccessed(notification: NSNotification)
     {
-        var data :[TransactionGetMetaData] = notification.object as [TransactionGetMetaData]
+        var data :[TransactionPostMetaData] = notification.object as [TransactionPostMetaData]
         
         for inData in data
         {
-            dataManager.addTransaction(inData)
+            if inData.type == transferTransaction
+            {
+                dataManager.addTransaction(inData)
+            }
+            else
+            {
+                println()
+            }
         }
         state.append("accountTransfersAllSuccessed")
     }
@@ -209,7 +216,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     func searchBarResultsListButtonClicked(searchBar: UISearchBar)
     {
-        
+        resignFirstResponder()
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
@@ -285,7 +292,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            var timeStamp = Double(message.timeStamp ) / 1000
+            var timeStamp = Double(message.timeStamp ) 
             var block = dataManager.getBlock(Double(message.height))
             
             timeStamp += Double(block.timeStamp) / 1000

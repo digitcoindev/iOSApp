@@ -32,6 +32,8 @@ class ServerViewController: UIViewController
         arrow.setBackgroundImage(arrowImg, forState: UIControlState.Normal)
         arrow.highlighted = true
         
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Servers")
+
         self.view.addSubview(arrow)
         
     }

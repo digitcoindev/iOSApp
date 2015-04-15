@@ -2,7 +2,7 @@ import UIKit
 
 class SignManager: NSObject
 {
-    final class func signTransaction(transaction :TransactionPostMetaData)->SignedTransactionMetaData
+    final class func signTransaction(transaction :TransactionPostMetaData )->SignedTransactionMetaData
     {
         var signedTransaction :SignedTransactionMetaData = SignedTransactionMetaData()
         
@@ -38,26 +38,67 @@ class SignManager: NSObject
         
         Sign(&signature, &processData, Int32(processData.count), &publicKey, &privateKey)
         
-        var output :String = String()
-        
-        for value in signature
-        {
-            output = output + NSString(format: "%02x", value)
-        }
-        
-        println(output)
-        
         return signature
     }
     
-    final class func dataGeneration(transaction :TransactionPostMetaData)->Array<UInt8>
+    final class func dataGeneration(transaction :TransactionPostMetaData )->Array<UInt8>
     {
         var result :Array<UInt8> = Array<UInt8>()
         
-        var transactionType :Array<UInt8>  = [1 , 1 , 0 , 0]
+        var commonPart :Array<UInt8> = SignManager.commonPart(transaction ,isMultisignPart :false )
+        
+        var transactionDependentPart :Array<UInt8>!
+        
+        switch (transaction.type)
+        {
+        case transferTransaction :
+            
+            transactionDependentPart = transferTransactionPart(transaction as TransferTransaction)
+            
+        case multisigAggregateModificationTransaction :
+            
+            transactionDependentPart = aggregateModificationTransactionPart(transaction as AggregateModificationTransaction)
+            
+        default :
+            break
+        }
+        
+        if State.isMultisignAccount 
+        {
+            var multisignCommonPart :Array<UInt8> = SignManager.commonPart(transaction  ,isMultisignPart :true )
+            result = multisignCommonPart
+            
+            var transactionLength :Array<UInt8> = String(Int64(commonPart.count + transactionDependentPart.count), radix: 16).asByteArrayEndian(4)
+            result = result + transactionDependentPart
+        }
+        
+        result = result + commonPart
+        result = result + transactionDependentPart
+        
+        return result
+    }
+    
+    final class func commonPart(transaction :TransactionPostMetaData ,isMultisignPart :Bool )->Array<UInt8>
+    {
+        var result :Array<UInt8> = Array<UInt8>()
+        
+        var transactionType :Array<UInt8>!
+        var fee :Array<UInt8>!
+        
+        if isMultisignPart
+        {
+            transactionType = String(Int64(multisigTransaction), radix: 16).asByteArrayEndian(4)
+            fee = String(Int64(6 * 1000000), radix: 16).asByteArrayEndian(8)
+        }
+        else
+        {
+            transactionType = String(Int64(transaction.type), radix: 16).asByteArrayEndian(4)
+            fee = String(Int64(transaction.fee * 1000000), radix: 16).asByteArrayEndian(8)
+        }
+
         result = result + transactionType
         
-        var version :Array<UInt8> = [1 , 0 , 0, 152 ]
+        var version :Array<UInt8> = [1 , 0 , 0, network ]
         result = result + version
         
         var timeStamp :Array<UInt8> = String(Int64(transaction.timeStamp), radix: 16).asByteArrayEndian(4)
@@ -69,11 +110,17 @@ class SignManager: NSObject
         var publicKey :Array<UInt8> = transaction.signer.asByteArray()
         result = result + publicKey
         
-        var fee :Array<UInt8> = String(Int64(transaction.fee * 1000000), radix: 16).asByteArrayEndian(8)
         result = result + fee
         
         var deadline :Array<UInt8> = String(Int64(transaction.deadline), radix: 16).asByteArrayEndian(4)
         result = result + deadline
+        
+        return result
+    }
+    
+    final class func transferTransactionPart(transaction :TransferTransaction)->Array<UInt8>
+    {
+        var result :Array<UInt8> = Array<UInt8>()
         
         var addressLength :Array<UInt8> = [40 , 0 , 0 , 0]
         result = result + addressLength
@@ -105,29 +152,53 @@ class SignManager: NSObject
             result = result + messageLength
         }
         
-        var output :String = String()
+        return result
+    }
+    
+    final class func importanceTransactionPart(transaction :ImportanceTransferTransaction)->Array<UInt8>
+    {
+        var result :Array<UInt8> = Array<UInt8>()
         
-        for value in result
+        var mode :Array<UInt8> =  String(transaction.mode, radix: 16).asByteArrayEndian(4)
+        result = result + mode
+        
+        var lengthOfRemoutPublicKey :Array<UInt8> =  String(transaction.lengthOfRemoutPublicKey, radix: 16).asByteArrayEndian(4)
+        result = result + lengthOfRemoutPublicKey
+        
+        var remoutPublicKey :Array<UInt8> =  transaction.remoutPublicKey.asByteArrayEndian(32)
+        result = result + remoutPublicKey
+        
+        return result
+    }
+    
+    final class func aggregateModificationTransactionPart(transaction :AggregateModificationTransaction)->Array<UInt8>
+    {
+        var result :Array<UInt8> = Array<UInt8>()
+        
+        var modificationsCount :Array<UInt8> = String(transaction.modifications.count, radix: 16).asByteArrayEndian(4)
+        result = result + modificationsCount
+        
+        for modification in transaction.modifications
         {
-            if value > 127
-            {
-                output = output + "\(value - 200 - 56) ,"
-            }
-            else
-            {
-                output = output + "\(value) ,"
-            }
+            var lengthOfModification :Array<UInt8> = String(modification.lengthOfModification, radix: 16).asByteArrayEndian(4)
+            result = result + lengthOfModification
+            
+            var modificationType :Array<UInt8> = String(modification.modificationType, radix: 16).asByteArrayEndian(4)
+            result = result + modificationType
+            
+            var lengthOfPublicKey :Array<UInt8> = String(modification.lengthOfPublicKey, radix: 16).asByteArrayEndian(4)
+            result = result + lengthOfPublicKey
+            
+            var publicKey :Array<UInt8> = modification.publicKey.asByteArrayEndian(32)
+            result = result + publicKey
+
         }
-        
-        println(output)
         return result
     }
 }
-//01010000-01000098-00000000-20000000-cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1-001bb70000000000-09000000-28000000-5443494e56504b52593358323452514d43575a4c4545424a515533475a464b435257364e4b343659-00e1f50500000000-00000000
 
-//  01010000-01000000-099c0400-20000000-d1fce4647697ddf955531748bd72efec637c8c5921750baac6e00525d78da0cb-001bb70000000000-19c30400-28000000-5443494e56504b52593358323452514d43575a4c4545424a515533475a464b435257364e4b343659-8096980000000000-00000000
 //01010000-01000068-00000000-20000000-8d07f90fb4bbe7715fa327c926770166a11be2e494a970605f2e12557f66c9b9-0000000000000000-00000000-28000000-4e414343483257504a59565133504c474d565a56524b354a4936504f544a5858484c55473350344a-60b94a948b320300-0d000000010000000500000048656c6c
 
-
+//  01100000-01000098-f45f1000-20000000-dd13a7d3eec54e859617093f8221ab22357c9925ecdacd3321c7bc07148f9f67-c0d8a70000000000-0c751000-02000000-28000000-28 000000280000002800000028000000280000002800000028000000
 
 

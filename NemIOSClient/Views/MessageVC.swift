@@ -113,7 +113,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     {
         if inputText.text != "" || nems != 0
         {
-            var transaction :TransactionPostMetaData = TransactionPostMetaData()
+            var transaction :TransferTransaction = TransferTransaction()
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
             var publickey = KeyGenerator().generatePublicKey(privateKey)
             var address = contact.address
@@ -286,6 +286,10 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         if (sender as UITextField).text.toInt() != nil
         {
             self.nems = (sender as UITextField).text.toInt()!
+        }
+        else
+        {
+            self.nems = 0
         }
         
         countTransactionFee()

@@ -1,5 +1,6 @@
 import UIKit
 import AVFoundation
+
 class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
 {
     let previewLayer = AVCaptureVideoPreviewLayer()

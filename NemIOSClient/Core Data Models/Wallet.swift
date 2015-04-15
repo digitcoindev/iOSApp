@@ -9,6 +9,7 @@ class Wallet: NSManagedObject
     @NSManaged var privateKey: String
     @NSManaged var balance: NSNumber
     @NSManaged var correspondents: NSSet
+    @NSManaged var cosignatories: NSSet
     
     class func createInManagedObjectContext(moc: NSManagedObjectContext, login: String, password: String , privateKey: String) -> Wallet
     {

@@ -74,9 +74,15 @@
 		DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CF1A5A88C4005833A4 /* Social.framework */; };
 		DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4DD1A5AC021005833A4 /* Wallet.swift */; };
 		DA64A4E11A5ACF0C005833A4 /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */; };
+		DA675E5E1ADEAA130069F611 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */; };
 		DA7336551AD29EF80029C5D6 /* DoubleUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */; };
 		DA73CD7D1AB7241600B86021 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73CD7C1AB7241600B86021 /* Block.swift */; };
 		DA8780B91A5BFDF400AA24E2 /* ImportFromQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */; };
+		DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1111AD6982100105BB0 /* TransferTransaction.swift */; };
+		DA89F1151AD6A69100105BB0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1141AD6A69100105BB0 /* ProfileVC.swift */; };
+		DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */; };
+		DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */; };
+		DA89F11B1AD7EA9500105BB0 /* Cosignatorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F11A1AD7EA9500105BB0 /* Cosignatorie.swift */; };
 		DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* WalletCell.swift */; };
 		DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA971FDB1A67C2A00039ADB4 /* Foundation.framework */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
@@ -235,6 +241,11 @@
 		DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleUtils.swift; path = Models/DoubleUtils.swift; sourceTree = "<group>"; };
 		DA73CD7C1AB7241600B86021 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = "Core Data Models/Block.swift"; sourceTree = "<group>"; };
 		DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromQR.swift; path = Views/ImportFromQR.swift; sourceTree = "<group>"; };
+		DA89F1111AD6982100105BB0 /* TransferTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransferTransaction.swift; path = Models/TransferTransaction.swift; sourceTree = "<group>"; };
+		DA89F1141AD6A69100105BB0 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Views/ProfileVC.swift; sourceTree = "<group>"; };
+		DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AggregateModificationTransaction.swift; path = Models/AggregateModificationTransaction.swift; sourceTree = "<group>"; };
+		DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportanceTransferTransaction.swift; path = Models/ImportanceTransferTransaction.swift; sourceTree = "<group>"; };
+		DA89F11A1AD7EA9500105BB0 /* Cosignatorie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cosignatorie.swift; path = "Core Data Models/Cosignatorie.swift"; sourceTree = "<group>"; };
 		DA8A892D1A4C52300072FE08 /* WalletCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletCell.swift; path = "Views/Additional controls/WalletCell.swift"; sourceTree = "<group>"; };
 		DA971FDB1A67C2A00039ADB4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
@@ -323,6 +334,7 @@
 				DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */,
 				DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */,
 				DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */,
+				DA675E5E1ADEAA130069F611 /* MapKit.framework in Frameworks */,
 				DAC28CA41A96017C00EE3B22 /* OpenGLES.framework in Frameworks */,
 				DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */,
 				DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */,
@@ -634,8 +646,9 @@
 		DA35583B1A3ADFD200AFA5FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DA89F1101AD697A900105BB0 /* Transactions */,
 				DA08D9B71AC0268B00B93EBE /* Utils */,
-				DA64A4CA1A5A86DB005833A4 /* Class */,
+				DA64A4CA1A5A86DB005833A4 /* QR */,
 				DA194E051A431C690030C882 /* Crypto */,
 				DA194E0A1A4323BF0030C882 /* Managers */,
 				DADA33F91A72874900F14D6D /* Generators */,
@@ -693,12 +706,12 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
-		DA64A4CA1A5A86DB005833A4 /* Class */ = {
+		DA64A4CA1A5A86DB005833A4 /* QR */ = {
 			isa = PBXGroup;
 			children = (
 				DA64A4CB1A5A8704005833A4 /* QR.swift */,
 			);
-			name = Class;
+			name = QR;
 			sourceTree = "<group>";
 		};
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
@@ -738,6 +751,25 @@
 			name = AddAccount;
 			sourceTree = "<group>";
 		};
+		DA89F1101AD697A900105BB0 /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				DA89F1111AD6982100105BB0 /* TransferTransaction.swift */,
+				DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */,
+				DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */,
+			);
+			name = Transactions;
+			sourceTree = "<group>";
+		};
+		DA89F1131AD6A62100105BB0 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				DA194E031A41E9A00030C882 /* LoginVC.swift */,
+				DA89F1141AD6A69100105BB0 /* ProfileVC.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		DAA55C551A8A58330030C79F /* Trash */ = {
 			isa = PBXGroup;
 			children = (
@@ -766,6 +798,7 @@
 				DA4BB2EB1A82536700FAA877 /* LoadData.swift */,
 				DA2BE9C11AB2F0C800E48D8F /* Transaction.swift */,
 				DA73CD7C1AB7241600B86021 /* Block.swift */,
+				DA89F11A1AD7EA9500105BB0 /* Cosignatorie.swift */,
 			);
 			name = "Core Data Models";
 			sourceTree = "<group>";
@@ -809,7 +842,7 @@
 			isa = PBXGroup;
 			children = (
 				DA0059381A4882ED00638C57 /* MainMenuVC.swift */,
-				DA194E031A41E9A00030C882 /* LoginVC.swift */,
+				DA89F1131AD6A62100105BB0 /* Login */,
 				DA21991E1A68036200E2F8DD /* Dashboard */,
 				DA35583E1A3AF0A000AFA5FD /* Choose server */,
 				DA64A4DF1A5ACEDC005833A4 /* AddAccount */,
@@ -1022,7 +1055,9 @@
 			files = (
 				DA08D9C11AC037B600B93EBE /* SignManager.swift in Sources */,
 				DA2BE9C21AB2F0C800E48D8F /* Transaction.swift in Sources */,
+				DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */,
 				DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */,
+				DA89F1151AD6A69100105BB0 /* ProfileVC.swift in Sources */,
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
 				DAF1382D1AB09D6C0069AC3A /* TransactionGetMetaData.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
@@ -1062,6 +1097,7 @@
 				DA173CDF1AA87CBC003AC21F /* RIPEMD+Block.swift in Sources */,
 				DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */,
 				DADA37531A7683C300F14D6D /* readme.md in Sources */,
+				DA89F11B1AD7EA9500105BB0 /* Cosignatorie.swift in Sources */,
 				DADA37561A7683C300F14D6D /* ge.c in Sources */,
 				DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */,
 				DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */,
@@ -1079,6 +1115,7 @@
 				DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */,
 				DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */,
 				DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */,
+				DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */,
 				DADA375E1A7683C300F14D6D /* generator.c in Sources */,
 				DA194E0F1A444F2A0030C882 /* MainContainerVC.swift in Sources */,
 				DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */,
@@ -1086,6 +1123,7 @@
 				DA08D9BD1AC027C700B93EBE /* StringUtils.swift in Sources */,
 				DAD1C7FF1A694E970043D947 /* MessageCell.swift in Sources */,
 				DA173CEC1AADA92D003AC21F /* AddFriend.swift in Sources */,
+				DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */,
 				DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */,
 				DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */,
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
@@ -1242,7 +1280,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1258,14 +1296,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NemIOSClient/NemIOSClient.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

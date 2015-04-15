@@ -1,15 +1,23 @@
 import UIKit
 
-class TransactionPostMetaData: NSObject
+class TransactionPostMetaData
 {
-    var timeStamp :Double!
-    var amount :Double!
-    var fee :Double!
-    var recipient :String!
-    var type :Double!
-    var deadline :Double!
-    var message :MessageGetMetaData = MessageGetMetaData()
+    var id :Double!
+    var height :Double!
+    var hash :String!
+    var signature :String!
+    
+    var type :Int = 0
     var version :Double!
-    var signer :String!
+    var timeStamp :Double!
     var privateKey :String!
+    var signer :String!
+    var fee :Double!
+    var deadline :Double!
+    var publicKeys :[String] = [String]()
+    
+    init()
+    {
+        
+    }
 }

@@ -14,12 +14,7 @@ class KeyGenerator: NSObject
     }
     
     final func generatePublicKey(privateKey: String)->String
-    {
-        if privateKey == "test"
-        {
-            return "cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1"
-        }
-        
+    {       
         var publicKeyBytes: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         var privateKeyBytes: Array<UInt8> = Array(privateKey.utf8)
         

@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O45-KD-rb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="-92.5"/>
+            <point key="canvasLocation" x="1517" y="-92.5"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="jxn-DR-hqx">
@@ -218,6 +218,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hie-VX-9TQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-134" y="-92.5"/>
+        </scene>
+        <!--ProfileVC-->
+        <scene sceneID="5dC-Af-Hsi">
+            <objects>
+                <viewController id="pXC-Mc-Jhy" customClass="ProfileVC" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3AB-3H-hps"/>
+                        <viewControllerLayoutGuide type="bottom" id="E8u-3y-hVD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NHx-XP-Cwm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="493"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lVW-8O-ks6">
+                                <rect key="frame" x="16" y="8" width="69" height="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Test account" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naU-ho-vPb">
+                                <rect key="frame" x="93" y="8" width="211" height="26"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="493"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Np2-8I-nqq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="275" y="-92.5"/>
         </scene>
         <!--Import Account-->
         <scene sceneID="BuE-dK-mSa">
@@ -307,7 +342,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ady-7v-bJs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="259" y="-92.5"/>
+            <point key="canvasLocation" x="1103" y="-92.5"/>
         </scene>
         <!--From file-->
         <scene sceneID="rbs-Pv-NgO">
@@ -479,7 +514,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4QA-pN-Gjc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1066" y="-92.5"/>
+            <point key="canvasLocation" x="1910" y="-92.5"/>
         </scene>
         <!--Import From Key-->
         <scene sceneID="9Fz-t1-ddX">
@@ -610,7 +645,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JkU-Ng-CkL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1460" y="-92.5"/>
+            <point key="canvasLocation" x="2304" y="-92.5"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="P4a-iL-iw5">
@@ -1280,9 +1315,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" spellCheckingType="no" returnKeyType="send"/>
                                 <connections>
-                                    <action selector="addNems:" destination="rte-MK-XjK" eventType="editingDidEndOnExit" id="ALM-nR-2HT"/>
-                                    <action selector="addNems:" destination="rte-MK-XjK" eventType="editingDidEnd" id="D2c-wn-186"/>
+                                    <action selector="addNems:" destination="rte-MK-XjK" eventType="editingChanged" id="jZG-9S-Kwq"/>
                                     <action selector="doNotScroll:" destination="rte-MK-XjK" eventType="touchDown" id="SHQ-US-CGQ"/>
+                                    <action selector="send:" destination="rte-MK-XjK" eventType="editingDidEndOnExit" id="898-X1-Tcj"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oD9-ex-37s">
@@ -1299,8 +1334,8 @@
                                 <rect key="frame" x="198" y="377" width="2" height="25"/>
                                 <color key="backgroundColor" red="0.81568627449999997" green="0.81568627449999997" blue="0.81568627449999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="2" id="lDH-8U-6CZ"/>
-                                    <constraint firstAttribute="height" constant="25" id="o3K-JG-bzx"/>
+                                    <constraint firstAttribute="height" constant="25" id="7v3-TB-JDq"/>
+                                    <constraint firstAttribute="width" constant="2" id="u3T-9c-e9e"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1309,12 +1344,11 @@
                         </subviews>
                         <color key="backgroundColor" red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottomMargin" secondItem="2TA-BC-n2i" secondAttribute="bottom" constant="16" id="0ii-62-lxi"/>
                             <constraint firstItem="t6E-mE-Sec" firstAttribute="top" secondItem="oD9-ex-37s" secondAttribute="bottom" constant="8" id="6pQ-J3-CDh"/>
                             <constraint firstItem="AFv-RS-s8o" firstAttribute="top" secondItem="xhP-EB-cRK" secondAttribute="bottom" constant="8" id="9Yt-CF-RBo"/>
                             <constraint firstItem="omp-Ce-dQw" firstAttribute="leading" secondItem="6WE-Sb-vmj" secondAttribute="leadingMargin" constant="5" id="AYi-Ko-TJo"/>
                             <constraint firstItem="YfV-Q1-KCU" firstAttribute="leading" secondItem="6WE-Sb-vmj" secondAttribute="leadingMargin" constant="5" id="Jne-6V-3jC"/>
-                            <constraint firstItem="oD9-ex-37s" firstAttribute="leading" secondItem="2TA-BC-n2i" secondAttribute="trailing" constant="8" id="OOc-WL-zB4"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="2TA-BC-n2i" secondAttribute="bottom" constant="16" id="Oxn-Mv-N8Z"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YfV-Q1-KCU" secondAttribute="trailing" constant="5" id="PcF-05-IH3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="AFv-RS-s8o" secondAttribute="trailing" constant="5" id="Vnw-HN-cJ0"/>
                             <constraint firstItem="pvf-Sx-5WV" firstAttribute="leading" secondItem="6WE-Sb-vmj" secondAttribute="leadingMargin" constant="5" id="a3W-0i-mhA"/>
@@ -1330,6 +1364,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="xhP-EB-cRK" secondAttribute="trailing" constant="5" id="goX-c5-hqO"/>
                             <constraint firstItem="YfV-Q1-KCU" firstAttribute="top" secondItem="ccX-0P-mO0" secondAttribute="bottom" constant="5" id="gu4-Lo-vBO"/>
                             <constraint firstItem="AFv-RS-s8o" firstAttribute="leading" secondItem="6WE-Sb-vmj" secondAttribute="leadingMargin" constant="5" id="qbv-Ke-QDh"/>
+                            <constraint firstItem="oD9-ex-37s" firstAttribute="leading" secondItem="2TA-BC-n2i" secondAttribute="trailing" constant="8" id="s1d-lM-Dn5"/>
                             <constraint firstItem="omp-Ce-dQw" firstAttribute="top" secondItem="AFv-RS-s8o" secondAttribute="bottom" constant="8" id="uNL-93-tF3"/>
                             <constraint firstItem="ZQP-zS-0KE" firstAttribute="leading" secondItem="6WE-Sb-vmj" secondAttribute="leadingMargin" constant="5" id="w8T-NF-z2C"/>
                             <constraint firstItem="t6E-mE-Sec" firstAttribute="top" secondItem="omp-Ce-dQw" secondAttribute="bottom" constant="8" id="wQ3-rK-FdT"/>
@@ -1400,7 +1435,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to NEM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-os-rlB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wellcome to NEM" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-os-rlB">
                                 <rect key="frame" x="55" y="35" width="210" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="QIx-mu-SqY"/>
@@ -1536,7 +1571,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h31-bU-auP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="259" y="-612.5"/>
+            <point key="canvasLocation" x="275" y="-612.5"/>
         </scene>
         <!--Server CustomVC-->
         <scene sceneID="wub-d5-oup">
@@ -1634,7 +1669,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vga-VD-fI2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="-612.5"/>
+            <point key="canvasLocation" x="692" y="-612.5"/>
         </scene>
         <!--Server TableVC-->
         <scene sceneID="372-Aq-ci2">
@@ -1699,7 +1734,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qc4-7C-D34" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="-1097.5"/>
+            <point key="canvasLocation" x="692" y="-1097.5"/>
         </scene>
         <!--Main ContainerVC-->
         <scene sceneID="ReR-zu-o5V">
@@ -1734,6 +1769,7 @@
                         <segue destination="V4J-Dz-rmH" kind="custom" identifier="Import from QR" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="uuJ-gc-Tve"/>
                         <segue destination="grR-zF-Mkj" kind="custom" identifier="Import from key" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="GiG-r1-pBx"/>
                         <segue destination="4cx-0I-zJp" kind="custom" identifier="Map" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="Zvq-gh-UDR"/>
+                        <segue destination="pXC-Mc-Jhy" kind="custom" identifier="Profile" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="amM-Du-Y6l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nvC-ot-1T9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1803,7 +1839,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DOq-8s-bK5">
                                 <rect key="frame" x="21" y="0.0" width="278" height="326"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public key" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbf-uf-h7o">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbf-uf-h7o">
                                 <rect key="frame" x="21" y="334" width="278" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="zZS-58-hfT"/>

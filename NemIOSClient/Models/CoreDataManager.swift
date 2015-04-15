@@ -106,7 +106,7 @@ class CoreDataManager: NSObject
         }
     }
     
-    final func addTransaction(transaction :TransactionGetMetaData)
+    final func addTransaction(transaction :TransactionPostMetaData)
     {
         Transaction.createInManagedObjectContext(self.managedObjectContext!,transaction :transaction)
         
@@ -114,12 +114,12 @@ class CoreDataManager: NSObject
     }
     
     //Correspondent
-
+    
     final func getCorrespondents()->[Correspondent]
     {
         return State.currentWallet!.correspondents.allObjects as [Correspondent]
     }
-
+    
     final func getCorrespondent(key :String , address :String) -> Correspondent
     {
         let fetchRequest = NSFetchRequest(entityName: "Correspondent")
@@ -144,6 +144,22 @@ class CoreDataManager: NSObject
     final func addCorrespondent( key: String, name: String , address :String) -> Correspondent
     {
         var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name , address : address)
+        
+        commit()
+        
+        return corespondent
+    }
+
+    //Cosignatorie
+    
+    final func getCosignatories()->[Cosignatorie]
+    {
+        return State.currentWallet!.cosignatories.allObjects as [Cosignatorie]
+    }
+    
+    final func addCosignatorie( publicKey :String) -> Cosignatorie
+    {
+        var corespondent :Cosignatorie = Cosignatorie.createInManagedObjectContext(self.managedObjectContext!, publicKey :publicKey)
         
         commit()
         

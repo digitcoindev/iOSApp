@@ -11,6 +11,10 @@
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wallet" inverseName="correspondents" inverseEntity="Wallet" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="owner" inverseEntity="Transaction" syncable="YES"/>
     </entity>
+    <entity name="Cosignatorie" representedClassName="NemIOSClient.Cosignatorie" syncable="YES">
+        <attribute name="publicKey" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="wallet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wallet" inverseName="cosignatories" inverseEntity="Wallet" syncable="YES"/>
+    </entity>
     <entity name="LoadData" representedClassName="NemIOSClient.LoadData" syncable="YES">
         <relationship name="currentServer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Server" syncable="YES"/>
     </entity>
@@ -41,6 +45,7 @@
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="privateKey" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="correspondents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Correspondent" inverseName="owner" inverseEntity="Correspondent" syncable="YES"/>
+        <relationship name="cosignatories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Cosignatorie" inverseName="wallet" inverseEntity="Cosignatorie" syncable="YES"/>
     </entity>
     <elements>
         <element name="Block" positionX="-36" positionY="162" width="128" height="75"/>
@@ -48,6 +53,7 @@
         <element name="LoadData" positionX="-45" positionY="72" width="128" height="58"/>
         <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
         <element name="Transaction" positionX="-45" positionY="72" width="128" height="253"/>
-        <element name="Wallet" positionX="-54" positionY="27" width="128" height="120"/>
+        <element name="Wallet" positionX="-54" positionY="27" width="128" height="133"/>
+        <element name="Cosignatorie" positionX="-45" positionY="153" width="128" height="73"/>
     </elements>
 </model>

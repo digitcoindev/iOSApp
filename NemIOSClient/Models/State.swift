@@ -12,6 +12,7 @@ class State: NSObject
         static var currentServer : Server = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
         static var amount :Int = 0
+        static var isMultisignAccount :Bool = false
     }
     
     final class var fromVC: String?
@@ -69,7 +70,30 @@ class State: NSObject
     final class var currentWallet: Wallet?
         {
         get { return State.Store.currentWallet }
-        set { State.Store.currentWallet = newValue }
+        set
+        {
+            State.Store.currentWallet = newValue
+            if newValue?.cosignatories.count > 0
+            {
+                State.isMultisignAccount = true
+            }
+            else
+            {
+                State.isMultisignAccount = false
+            }
+        }
+    }
+    
+    final class var isMultisignAccount: Bool
+        {
+        get
+        {
+            return Store.isMultisignAccount
+        }
+        set
+        {
+            Store.isMultisignAccount = newValue
+        }
     }
     
     final class var currentServer: Server?
