@@ -48,7 +48,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
 
     @IBAction func validatePassword(sender: AnyObject)
     {
-        if(countElements(password.text)  < 6 )
+        if(count(password.text)  < 6 )
         {
             var alert :UIAlertView = UIAlertView(title: "Validation", message: "Too short password", delegate: self, cancelButtonTitle: "OK")
             
@@ -61,7 +61,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     
     @IBAction func chouseTextField(sender: AnyObject)
     {
-        currentField = sender as UITextField
+        currentField = sender as! UITextField
     }
     
     @IBAction func confirm(sender: AnyObject)
@@ -127,7 +127,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     
     @IBAction func hideKeyBoard(sender: AnyObject)
     {
-        (sender as UITextField).becomeFirstResponder()
+        (sender as! UITextField).becomeFirstResponder()
         
         if repeatPassword.text != password.text
         {
@@ -140,7 +140,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
         if(showKeyboard)
         {
             var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             
             var keyboardHeight:CGFloat = keyboardSize.height
             

@@ -42,7 +42,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         searchBar.showsCancelButton = true
         tableView.setContentOffset(CGPoint(x: 0, y: searchBar.frame.height), animated: false)
 
-        correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
+        correspondents = State.currentWallet!.correspondents.allObjects as! [Correspondent]
         displayList = correspondents
 
         findCorrespondentName()
@@ -68,7 +68,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         switch (state.last!)
         {
         case "accountTransfersAllSuccessed" :
-            correspondents = State.currentWallet!.correspondents.allObjects as [Correspondent]
+            correspondents = State.currentWallet!.correspondents.allObjects as! [Correspondent]
             displayList = correspondents
             tableView.reloadData()
             state.removeLast()
@@ -90,7 +90,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         
         for correspondent in correspondents
         {
-            if correspondent.name.utf16Count > 20
+            if count(correspondent.name.utf16) > 20
             {
                 var find = false
                 for contact in contacts
@@ -107,17 +107,17 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
                             {
                                 if lable.takeUnretainedValue()  == "NEM"
                                 {
-                                    var value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as String
+                                    var value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
                                     if value == correspondent.name
                                     {
                                         if var name = ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
                                         {
-                                            correspondent.name = name + " "
+                                            correspondent.name = (name as! String) + " "
                                         }
                                         
                                         if var surname = ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
                                         {
-                                             correspondent.name =  correspondent.name +  (ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
+                                             correspondent.name =  correspondent.name +  ((ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as! String)
                                         }
                                         
                                         find = true
@@ -160,7 +160,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     {
         state.append("accountGetSuccessed")
        
-        currentBalance = (notification.object as AccountGetMetaData).balance
+        currentBalance = (notification.object as! AccountGetMetaData).balance
     }
     
     final func accountGetDenied(notification: NSNotification)
@@ -173,7 +173,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     final func accountTransfersAllSuccessed(notification: NSNotification)
     {
-        var data :[TransactionPostMetaData] = notification.object as [TransactionPostMetaData]
+        var data :[TransactionPostMetaData] = notification.object as! [TransactionPostMetaData]
         
         for inData in data
         {
@@ -227,7 +227,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         }
         else
         {
-            var predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",searchText)!
+            var predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",searchText)
             displayList = (correspondents as NSArray).filteredArrayUsingPredicate(predicate)
         }
         
@@ -264,9 +264,9 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as MessageCell
-        var cellData  : Correspondent = displayList[indexPath.row] as Correspondent
-        var messages :[Transaction] = cellData.transactions.allObjects as [Transaction]
+        var cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! MessageCell
+        var cellData  : Correspondent = displayList[indexPath.row] as! Correspondent
+        var messages :[Transaction] = cellData.transactions.allObjects as! [Transaction]
         
         cell.name.text = "  " + cellData.name
         

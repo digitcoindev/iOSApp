@@ -8,7 +8,7 @@ class LoadData: NSManagedObject
     
     class func createInManagedObjectContext(moc: NSManagedObjectContext) -> LoadData
     {
-        let newItem = NSEntityDescription.insertNewObjectForEntityForName("LoadData", inManagedObjectContext: moc) as LoadData
+        let newItem = NSEntityDescription.insertNewObjectForEntityForName("LoadData", inManagedObjectContext: moc) as! LoadData
         
         
         return newItem

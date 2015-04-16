@@ -27,7 +27,7 @@ extension UInt8
     
     func asHex()->String
     {
-        var string :String = NSString(format: "%02x", self)
+        var string :String = NSString(format: "%02x", self) as! String
         
         return string
     }

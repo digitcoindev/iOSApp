@@ -15,9 +15,9 @@ extension RIPEMD {
             return [h₀, h₁, h₂, h₃, h₄]
         }
         
-        // FIXME: Make private as soon as tests support that
+        // FIXME: Make private as! soon as! tests support that
         public mutating func compress (message: [UInt32]) -> () {
-            assert(countElements(message) == 16, "Wrong message size")
+            assert(count(message) == 16, "Wrong message size")
             
             var Aᴸ = h₀
             var Bᴸ = h₁

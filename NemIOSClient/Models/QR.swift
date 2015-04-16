@@ -8,11 +8,6 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
     var session :AVCaptureSession = AVCaptureSession()
     var qrImg :UIImageView!
     let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-    
-    override init()
-    {
-        super.init()
-    }
 
     override init(frame: CGRect)
     {
@@ -29,7 +24,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
     {
         if((device) != nil)
         {
-            let input = AVCaptureDeviceInput.deviceInputWithDevice(device, error: nil) as AVCaptureDeviceInput
+            let input = AVCaptureDeviceInput.deviceInputWithDevice(device, error: nil) as! AVCaptureDeviceInput
             let output = AVCaptureMetadataOutput()
             let bounds:CGRect = CGRect(x: width / 2, y: height / 2, width: width, height: height)
 

@@ -9,7 +9,7 @@ class Cosignatorie: NSManagedObject
 
     class func createInManagedObjectContext(moc: NSManagedObjectContext, publicKey :String) -> Cosignatorie
     {
-        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Cosignatorie", inManagedObjectContext: moc) as Cosignatorie
+        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Cosignatorie", inManagedObjectContext: moc) as! Cosignatorie
         
         newItem.publicKey = publicKey
         newItem.wallet = State.currentWallet!

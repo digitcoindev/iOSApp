@@ -66,7 +66,7 @@ class AddFriend: UIViewController
                     alert1.addTextFieldWithConfigurationHandler
                         {
                             textField -> Void in
-                            textField.text = notification.object as String
+                            textField.text = notification.object as! String
                             textField.keyboardType = UIKeyboardType.ASCIICapable
                             textField.returnKeyType = UIReturnKeyType.Done
                             

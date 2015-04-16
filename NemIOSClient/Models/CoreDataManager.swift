@@ -5,7 +5,7 @@ class CoreDataManager: NSObject
 {
     lazy var managedObjectContext : NSManagedObjectContext? =
     {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         if let managedObjectContext = appDelegate.managedObjectContext
         {
@@ -117,14 +117,14 @@ class CoreDataManager: NSObject
     
     final func getCorrespondents()->[Correspondent]
     {
-        return State.currentWallet!.correspondents.allObjects as [Correspondent]
+        return State.currentWallet!.correspondents.allObjects as! [Correspondent]
     }
     
     final func getCorrespondent(key :String , address :String) -> Correspondent
     {
         let fetchRequest = NSFetchRequest(entityName: "Correspondent")
         
-        var fetchResults :[Correspondent] = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [Correspondent]
+        var fetchResults :[Correspondent] = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Correspondent]
         
         for correspondent in fetchResults
         {
@@ -154,7 +154,7 @@ class CoreDataManager: NSObject
     
     final func getCosignatories()->[Cosignatorie]
     {
-        return State.currentWallet!.cosignatories.allObjects as [Cosignatorie]
+        return State.currentWallet!.cosignatories.allObjects as! [Cosignatorie]
     }
     
     final func addCosignatorie( publicKey :String) -> Cosignatorie
@@ -180,7 +180,7 @@ class CoreDataManager: NSObject
                 
                 commit()
                 
-                fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as [Server]
+                fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Server]
             }
             
             return fetchResults

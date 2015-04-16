@@ -9,7 +9,7 @@ class Block: NSManagedObject
     
     class func createInManagedObjectContext(moc: NSManagedObjectContext, height :Double , timeStamp : Double) -> Block
     {
-        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Block", inManagedObjectContext: moc) as Block
+        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Block", inManagedObjectContext: moc) as! Block
         
         newItem.height =  NSNumber(double: height)
         newItem.timeStamp = NSNumber(double: timeStamp)

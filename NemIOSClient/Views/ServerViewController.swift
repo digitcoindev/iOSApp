@@ -47,7 +47,7 @@ class ServerViewController: UIViewController
     {
         if(segue.identifier == "serverContainer")
         {
-            pages = segue.destinationViewController as ServerContainerVC
+            pages = segue.destinationViewController as! ServerContainerVC
         }
     }
 

@@ -29,7 +29,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         State.currentVC = SegueToMessageVC
 
-        transactions = contact.transactions.allObjects as [Transaction]
+        transactions = contact.transactions.allObjects as! [Transaction]
         
         sortMessages()
         
@@ -74,9 +74,9 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             transactionFee = 10
         }
         
-        if inputText.text.utf16Count != 0
+        if count(inputText.text.utf16) != 0
         {
-            transactionFee += Double(2 * max(1, Int(inputText.text.utf16Count / 16)))
+            transactionFee += Double(2 * max(1, Int( count(inputText.text.utf16) / 16)))
         }
         
         self.fee.text = "Fee : \(Int64(transactionFee))"
@@ -136,7 +136,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             inputText.text = ""
             NEMinput.text = ""
             
-            transactions = contact.transactions.allObjects as [Transaction]
+            transactions = contact.transactions.allObjects as! [Transaction]
             sortMessages()
                 
             tableView.reloadData()
@@ -151,7 +151,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         for component :String in message.componentsSeparatedByString("\n")
         {
             numberOfRows += 1
-            numberOfRows += countElements(component) / rowLength
+            numberOfRows += count(component) / rowLength
         }
         
         var height : Int = numberOfRows  * 17
@@ -190,16 +190,16 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             if (transactions[index].signer != KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey)))
             {
-                cell = self.tableView.dequeueReusableCellWithIdentifier("inCell") as CustomMessageCell
+                cell = self.tableView.dequeueReusableCellWithIdentifier("inCell") as! CustomMessageCell
             }
             else
             {
-                cell = self.tableView.dequeueReusableCellWithIdentifier("outCell") as CustomMessageCell
+                cell = self.tableView.dequeueReusableCellWithIdentifier("outCell") as! CustomMessageCell
             }
             
             var message :NSMutableAttributedString = NSMutableAttributedString(string: transactions[index].message_payload , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)!])
             
-            if(transactions[index].amount as Int != 0)
+            if(transactions[index].amount as! Int != 0)
             {
                 var text :String = "\(Int(Double(transactions[index].amount) / 1000000) ) XEMs"
                 if transactions[index].message_payload != ""
@@ -238,7 +238,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         }
         else
         {
-            var cell    :UITableViewCell  = self.tableView.dequeueReusableCellWithIdentifier("simpl") as UITableViewCell
+            var cell    :UITableViewCell  = self.tableView.dequeueReusableCellWithIdentifier("simpl") as! UITableViewCell
             return cell as UITableViewCell
         }
     }
@@ -259,7 +259,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             var height :CGFloat = heightForView(transactions[index].message_payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 66)
         
-            if  transactions[index].amount as Int != 0
+            if  transactions[index].amount as! Int != 0
             {
                 height += heightForView("\n \(Int(Double(transactions[index].amount) / 1000000) )" , font: UIFont(name: "HelveticaNeue", size: textSizeXEM)!, width: tableView.frame.width - 66)
             }
@@ -283,9 +283,9 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     @IBAction func addNems(sender: AnyObject)
     {
-        if (sender as UITextField).text.toInt() != nil
+        if (sender as! UITextField).text.toInt() != nil
         {
-            self.nems = (sender as UITextField).text.toInt()!
+            self.nems = (sender as! UITextField).text.toInt()!
         }
         else
         {
@@ -352,7 +352,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         if(showKeyboard)
         {
             var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as NSValue).CGRectValue()
+            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
             
             var keyboardHeight:CGFloat = keyboardSize.height
             
@@ -370,13 +370,13 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         if(showKeyboard)
         {
             var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as NSValue).CGRectValue()
+            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
         
             var keyboardHeight:CGFloat = keyboardSize.height
             
 
         
-            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as CGFloat
+            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
         
             UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
                 {

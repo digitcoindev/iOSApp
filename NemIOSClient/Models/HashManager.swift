@@ -44,7 +44,7 @@ class HashManager: NSObject
         if(data.length > 0)
         {
             let decryptedData = data.AES256DecryptWithKey(key, iv: customizedIV)
-            var decryptedText : String = NSString(data: decryptedData, encoding: NSUTF8StringEncoding) as String
+            var decryptedText : String = NSString(data: decryptedData, encoding: NSUTF8StringEncoding) as! String
             
             return decryptedText
         }
@@ -65,7 +65,7 @@ class HashManager: NSObject
         if(data.length > 0)
         {
             let decryptedData = data.AES256DecryptWithKey(key, iv: customizedIV)
-            var decryptedText : String = NSString(data: decryptedData, encoding: NSUTF8StringEncoding) as String
+            var decryptedText : String = NSString(data: decryptedData, encoding: NSUTF8StringEncoding) as! String
             
             return decryptedText
         }
@@ -83,7 +83,7 @@ class HashManager: NSObject
         var len :Int32 = Int32(inBuffer.count)
         SHA256_hash(&outBuffer, &inBuffer, len)
         
-        let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: NSUTF8StringEncoding) as String
+        let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: NSUTF8StringEncoding) as! String
         
         return hash
     }

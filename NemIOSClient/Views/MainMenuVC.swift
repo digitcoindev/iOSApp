@@ -24,7 +24,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             if(State.currentWallet != nil)
             {
                 
-                switch (item as String)
+                switch (item as! String)
                 {
                     
                 case "Accounts", "Registration" :
@@ -40,7 +40,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             }
             else
             {
-                switch (item as String)
+                switch (item as! String)
                 {
 
                 case "Accounts" , "Servers" :
@@ -72,13 +72,13 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as MainViewCell
+        var cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as! MainViewCell
         cell.title.text = menuItems.objectAtIndex(indexPath.row) as? String
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var page: String  = menuItems.objectAtIndex(indexPath.row) as String
+        var page: String  = menuItems.objectAtIndex(indexPath.row) as! String
         
        
         switch (page)

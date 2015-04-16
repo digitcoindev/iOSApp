@@ -11,7 +11,7 @@ class SignManager: NSObject
         
         for value in array
         {
-            toString = toString + NSString(format: "%02x", value)
+            toString = toString + (NSString(format: "%02x", value) as! String)
         }
         
         signedTransaction.dataT = toString
@@ -21,7 +21,7 @@ class SignManager: NSObject
         
         for value in array
         {
-            toString = toString + NSString(format: "%02x", value)
+            toString = toString + (NSString(format: "%02x", value) as! String)
         }
         
         signedTransaction.signatureT = toString
@@ -53,11 +53,11 @@ class SignManager: NSObject
         {
         case transferTransaction :
             
-            transactionDependentPart = transferTransactionPart(transaction as TransferTransaction)
+            transactionDependentPart = transferTransactionPart(transaction as! TransferTransaction)
             
         case multisigAggregateModificationTransaction :
             
-            transactionDependentPart = aggregateModificationTransactionPart(transaction as AggregateModificationTransaction)
+            transactionDependentPart = aggregateModificationTransactionPart(transaction as! AggregateModificationTransaction)
             
         default :
             break
@@ -133,14 +133,14 @@ class SignManager: NSObject
         
         if transaction.message.payload != ""
         {
-            var length :Int = transaction.message.payload.utf16Count + 8
+            var length :Int = count(transaction.message.payload.utf16) + 8
             var messageLength :Array<UInt8> = String(length, radix: 16).asByteArrayEndian(4)
             result = result + messageLength
             
             var messageType :Array<UInt8> = [1 , 0 , 0, 0 ]
             result = result + messageType
             
-            var payloadLength :Array<UInt8> = String(transaction.message.payload.utf16Count, radix: 16).asByteArrayEndian(4)
+            var payloadLength :Array<UInt8> = String(count(transaction.message.payload.utf16), radix: 16).asByteArrayEndian(4)
             result = result + payloadLength
             
             var payload :Array<UInt8> = transaction.message.payload.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()

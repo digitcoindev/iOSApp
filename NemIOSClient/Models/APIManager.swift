@@ -45,9 +45,9 @@ class APIManager: NSObject
                 }
                 else
                 {
-                    var message :String = (layers! as NSDictionary).objectForKey("message") as String
-                    var code :Int = (layers! as NSDictionary).objectForKey("code") as Int
-                    var type :Int = (layers! as NSDictionary).objectForKey("type") as Int
+                    var message :String = (layers! as NSDictionary).objectForKey("message") as! String
+                    var code :Int = (layers! as NSDictionary).objectForKey("code") as! Int
+                    var type :Int = (layers! as NSDictionary).objectForKey("type") as! Int
                     
                     println("\nRequest : /heartbeat")
 
@@ -91,20 +91,20 @@ class APIManager: NSObject
                 }
                 else
                 {
-                    var accountData :NSDictionary = (layers! as NSDictionary).objectForKey("account") as NSDictionary
-                    var metaData :NSDictionary = (layers! as NSDictionary).objectForKey("meta") as NSDictionary
+                    var accountData :NSDictionary = (layers! as NSDictionary).objectForKey("account") as! NSDictionary
+                    var metaData :NSDictionary = (layers! as NSDictionary).objectForKey("meta") as! NSDictionary
                     
                     var requestData :AccountGetMetaData = AccountGetMetaData()
                     
-                    requestData.address = accountData.objectForKey("address") as String
-                    requestData.balance = accountData.objectForKey("balance") as Double
-                    requestData.importance  = accountData.objectForKey("importance") as Double
+                    requestData.address = accountData.objectForKey("address") as! String
+                    requestData.balance = accountData.objectForKey("balance") as! Double
+                    requestData.importance  = accountData.objectForKey("importance") as! Double
                     requestData.publicKey = accountData.objectForKey("publicKey")
                     requestData.label = accountData.objectForKey("label")
-                    requestData.harvestedBlocks = accountData.objectForKey("harvestedBlocks") as Double
+                    requestData.harvestedBlocks = accountData.objectForKey("harvestedBlocks") as! Double
                     requestData.cosignatoryOf = metaData.objectForKey("cosignatoryOf")
-                    requestData.status = metaData.objectForKey("status") as String
-                    requestData.remoteStatus = metaData.objectForKey("remoteStatus") as String
+                    requestData.status = metaData.objectForKey("status") as! String
+                    requestData.remoteStatus = metaData.objectForKey("remoteStatus") as! String
                     
                     println("\nRequest : /account/get")
 
@@ -147,7 +147,7 @@ class APIManager: NSObject
                 }
                 else
                 {
-                    var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as [NSDictionary]
+                    var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
                     
                     var requestDataAll :[TransactionPostMetaData] = [TransactionPostMetaData]()
                     
@@ -155,33 +155,33 @@ class APIManager: NSObject
                     
                     for object in data
                     {
-                        var meta :NSDictionary = object.objectForKey("meta") as NSDictionary
-                        var transaction :NSDictionary = object.objectForKey("transaction") as NSDictionary
+                        var meta :NSDictionary = object.objectForKey("meta") as! NSDictionary
+                        var transaction :NSDictionary = object.objectForKey("transaction") as! NSDictionary
                         
-                        switch(transaction.objectForKey("type") as Int)
+                        switch(transaction.objectForKey("type") as! Int)
                         {
                         case transferTransaction :
                             
                             var requestData :TransferTransaction = TransferTransaction()
                             
-                            requestData.id = meta.objectForKey("id") as Double
-                            requestData.signature = transaction.objectForKey("signature") as String
-                            requestData.height = meta.objectForKey("height") as Double
-                            requestData.hash = meta.objectForKey("hash")!.objectForKey("data") as String
+                            requestData.id = meta.objectForKey("id") as! Double
+                            requestData.signature = transaction.objectForKey("signature") as! String
+                            requestData.height = meta.objectForKey("height") as! Double
+                            requestData.hash = meta.objectForKey("hash")!.objectForKey("data") as! String
 
-                            requestData.timeStamp  = transaction.objectForKey("timeStamp") as Double
-                            requestData.amount = transaction.objectForKey("amount")as Double
-                            requestData.fee = transaction.objectForKey("fee") as Double
-                            requestData.recipient = transaction.objectForKey("recipient") as String
-                            requestData.type = transaction.objectForKey("type") as Int
-                            requestData.deadline = transaction.objectForKey("deadline") as Double
+                            requestData.timeStamp  = transaction.objectForKey("timeStamp") as! Double
+                            requestData.amount = transaction.objectForKey("amount")as! Double
+                            requestData.fee = transaction.objectForKey("fee") as! Double
+                            requestData.recipient = transaction.objectForKey("recipient") as! String
+                            requestData.type = transaction.objectForKey("type") as! Int
+                            requestData.deadline = transaction.objectForKey("deadline") as! Double
 
-                            var message : NSDictionary = transaction.objectForKey("message") as NSDictionary
+                            var message : NSDictionary = transaction.objectForKey("message") as! NSDictionary
                             
                             if message.objectForKey("payload") != nil
                             {
-                                requestData.message.payload = (message.objectForKey("payload") as String).stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding)
-                                requestData.message.type = message.objectForKey("type") as Double
+                                requestData.message.payload = (message.objectForKey("payload") as! String).stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+                                requestData.message.type = message.objectForKey("type") as! Double
                             }
                             else
                             {
@@ -189,8 +189,8 @@ class APIManager: NSObject
                                 requestData.message.type = 0
                             }
                             
-                            requestData.version = transaction.objectForKey("version") as Double
-                            requestData.signer = transaction.objectForKey("signer") as String
+                            requestData.version = transaction.objectForKey("version") as! Double
+                            requestData.signer = transaction.objectForKey("signer") as! String
                             
                             requestDataAll.append(requestData)
                             
@@ -200,22 +200,22 @@ class APIManager: NSObject
                             
                             var requestData :AggregateModificationTransaction = AggregateModificationTransaction()
                             
-                            requestData.id = meta.objectForKey("id") as Double
-                            requestData.signature = transaction.objectForKey("signature") as String
-                            requestData.height = meta.objectForKey("height") as Double
-                            requestData.hash = meta.objectForKey("hash")!.objectForKey("data") as String
+                            requestData.id = meta.objectForKey("id") as! Double
+                            requestData.signature = transaction.objectForKey("signature") as! String
+                            requestData.height = meta.objectForKey("height") as! Double
+                            requestData.hash = meta.objectForKey("hash")!.objectForKey("data") as! String
                             
-                            requestData.timeStamp = transaction.objectForKey("timeStamp") as Double
-                            requestData.deadline = transaction.objectForKey("deadline") as Double
-                            requestData.version = transaction.objectForKey("version") as Double
-                            requestData.signer = transaction.objectForKey("signer") as String
+                            requestData.timeStamp = transaction.objectForKey("timeStamp") as! Double
+                            requestData.deadline = transaction.objectForKey("deadline") as! Double
+                            requestData.version = transaction.objectForKey("version") as! Double
+                            requestData.signer = transaction.objectForKey("signer") as! String
                             
-                            for modification in transaction.objectForKey("modifications") as [NSDictionary]
+                            for modification in transaction.objectForKey("modifications") as! [NSDictionary]
                             {
-                                requestData.addModification(modification.objectForKey("modificationType") as Int, publicKey: modification.objectForKey("cosignatoryAccount") as String)
+                                requestData.addModification(modification.objectForKey("modificationType") as! Int, publicKey: modification.objectForKey("cosignatoryAccount") as! String)
                             }
                             
-                            requestData.fee = transaction.objectForKey("fee") as Double
+                            requestData.fee = transaction.objectForKey("fee") as! Double
                             
                             println("\nSucces :")
                             println("\tid : \(requestData.id)")
@@ -284,7 +284,7 @@ class APIManager: NSObject
                 }
                 else
                 {
-                    CoreDataManager().addBlock(height, timeStamp: (json!.objectForKey("timeStamp") as Double) )
+                    CoreDataManager().addBlock(height, timeStamp: (json!.objectForKey("timeStamp") as! Double) )
                     NSNotificationCenter.defaultCenter().postNotificationName("getBlockWithHeightSuccessed", object:nil)
                 }
         })
@@ -358,7 +358,7 @@ class APIManager: NSObject
                 }
                 else
                 {
-                    var date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as Double
+                    var date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as! Double
                     
                     TimeSynchronizator.nemTime = date / 1000
                 }

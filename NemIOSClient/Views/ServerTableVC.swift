@@ -40,18 +40,21 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         switch (self.state)
         {
         case "Confirmed" :
+            if selectedCellIndex != -1
+            {
                 State.currentServer = servers[selectedCellIndex] as? Server
                 var loadData :LoadData = dataManager.getLoadData()
                 
-                loadData.currentServer = servers[selectedCellIndex] as Server
+                loadData.currentServer = servers[selectedCellIndex] as! Server
                 dataManager.commit()
                 
                 APIManager().timeSynchronize(State.currentServer!)
                 
                 NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+            }
             
-                timer.invalidate()
-
+            timer.invalidate()
+            
         case "Denied" :
             var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  unavailable.", delegate: self, cancelButtonTitle: "OK")
             alert.show()
@@ -102,8 +105,8 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as ServerViewCell
-        var cellData  : Server = servers[indexPath.row] as Server
+        var cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as! ServerViewCell
+        var cellData  : Server = servers[indexPath.row] as! Server
         
         cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
         
@@ -119,10 +122,10 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     {
         if  State.currentServer != nil
         {
-            (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as ServerViewCell).disSelect()
+            (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as! ServerViewCell).disSelect()
         }
         
-        var selectedServer :Server = servers[indexPath.row] as Server
+        var selectedServer :Server = servers[indexPath.row] as! Server
         selectedCellIndex = indexPath.row
         
         apiManager.heartbeat(selectedServer)

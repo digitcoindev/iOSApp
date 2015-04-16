@@ -105,7 +105,7 @@ class plistFileManager: NSObject
     
     final func getMenuItems() -> NSMutableArray
     {
-        return uiData.objectForKey("mainMenu") as NSMutableArray
+        return uiData.objectForKey("mainMenu") as! NSMutableArray
     }
     
     //GENERAL

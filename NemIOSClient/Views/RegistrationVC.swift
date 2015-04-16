@@ -48,7 +48,7 @@ class RegistrationVC: UIViewController
     
     @IBAction func validatePassword(sender: AnyObject)
     {
-        if(countElements(createPassword.text)  < 6 )
+        if(count(createPassword.text)  < 6 )
         {
             var alert :UIAlertView = UIAlertView(title: "Validation", message: "Too short password", delegate: self, cancelButtonTitle: "OK")
             

@@ -35,7 +35,7 @@ class PasswordValidationVC: UIViewController
     
     @IBAction func hideKeyBoard(sender: AnyObject)
     {
-        (sender as UITextField).becomeFirstResponder()
+        (sender as! UITextField).becomeFirstResponder()
     }
     
     final func keyboardWillShow(notification: NSNotification)
@@ -43,7 +43,7 @@ class PasswordValidationVC: UIViewController
         if(showKeyboard)
         {
             var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             
             var keyboardHeight:CGFloat = keyboardSize.height
             
@@ -67,11 +67,11 @@ class PasswordValidationVC: UIViewController
         if(showKeyboard)
         {
             var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             
             var keyboardHeight:CGFloat = keyboardSize.height
             
-            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as CGFloat
+            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
             
             UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
                 {

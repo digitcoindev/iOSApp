@@ -8,20 +8,20 @@ extension String
         
         var error: NSError?
         let regex = NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive, error: &error)
-        let found = regex?.firstMatchInString(trimmedString, options: nil, range: NSMakeRange(0, countElements(trimmedString)))
+        let found = regex?.firstMatchInString(trimmedString, options: nil, range: NSMakeRange(0, count(trimmedString)))
         
-        if found == nil || found?.range.location == NSNotFound || countElements(trimmedString) % 2 != 0
+        if found == nil || found?.range.location == NSNotFound || count(trimmedString) % 2 != 0
         {
             return nil
         }
         
-        let data = NSMutableData(capacity: countElements(trimmedString) / 2)
+        let data = NSMutableData(capacity: count(trimmedString) / 2)
         
         for var index = trimmedString.startIndex; index < trimmedString.endIndex; index = index.successor().successor()
         {
             let byteString = trimmedString.substringWithRange(Range<String.Index>(start: index, end: index.successor().successor()))
-            let num = Byte(byteString.withCString { strtoul($0, nil, 16) })
-            data?.appendBytes([num] as [Byte], length: 1)
+            let num = UInt8(byteString.withCString { strtoul($0, nil, 16) })
+            data?.appendBytes([num] as [UInt8], length: 1)
         }
         
         return data
@@ -45,7 +45,7 @@ extension String
     
     func asByteArray()-> Array<UInt8>
     {
-        var arrayLength :Int = self.utf16Count
+        var arrayLength :Int = count(self.utf16)
         var hexString = self
         
         if arrayLength % 2 != 0
@@ -67,7 +67,7 @@ extension String
     
     func asByteArray(length: Int)-> Array<UInt8>
     {
-        var arrayLength :Int = self.utf16Count
+        var arrayLength :Int = count(self.utf16)
         var hexString = self
         
         if arrayLength % 2 != 0
@@ -90,7 +90,7 @@ extension String
     
     func asByteArrayEndian(length: Int)-> Array<UInt8>
     {
-        var arrayLength :Int = self.utf16Count
+        var arrayLength :Int = count(self.utf16)
         var hexString = self
         
         if arrayLength % 2 != 0

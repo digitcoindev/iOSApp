@@ -24,14 +24,14 @@ class DashboardContainer: UIViewController
         
         if (self.childViewControllers.count > 0)
         {
-            self.swapFromViewController(self.childViewControllers.first as UIViewController, toViewController: segue.destinationViewController as UIViewController)
+            self.swapFromViewController(self.childViewControllers.first as! UIViewController, toViewController: segue.destinationViewController as! UIViewController)
         }
         else
         {
             
-            self.addChildViewController(segue.destinationViewController as UIViewController)
-            (segue.destinationViewController as UIViewController).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-            self.view .addSubview((segue.destinationViewController as UIViewController).view)
+            self.addChildViewController(segue.destinationViewController as! UIViewController)
+            (segue.destinationViewController as! UIViewController).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+            self.view .addSubview((segue.destinationViewController as! UIViewController).view)
             segue.destinationViewController.didMoveToParentViewController(self)
         }
         
@@ -57,7 +57,7 @@ class DashboardContainer: UIViewController
     
     final func pageSelected(notification: NSNotification)
     {
-        switch(notification.object as String)
+        switch(notification.object as! String)
         {
             
         case SegueToMessages:

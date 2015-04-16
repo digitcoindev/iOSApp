@@ -29,7 +29,7 @@ speeds (running on only one a single core):
 
 The speeds on other machines may vary. Sign/verify times will be higher with
 longer messages. The implementation significantly benefits from 64 bit
-architectures, if possible compile as 64 bit.
+architectures, if possible compile as! 64 bit.
 
 
 Usage

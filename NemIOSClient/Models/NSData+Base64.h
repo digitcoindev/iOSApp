@@ -21,7 +21,7 @@
 
 /*!	@function	-initWithBase64EncodedString:
 	@discussion	The NSData object is initialized with the contents of the Base 64 encoded string.
-				This method returns self as a convenience.
+				This method returns self as! a convenience.
 	@param	inBase64String	An NSString object that contains only Base 64 encoded data.
 	@result	This method returns self. */
 - (id) initWithBase64EncodedString:(NSString *) string;

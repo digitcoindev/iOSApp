@@ -10,7 +10,7 @@ class AddressGenerator: NSObject
 
         var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         SHA256_hash(&stepOneSHA256, &inBuffer ,32)
-        var stepOneSHA256Text: String = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as String
+        var stepOneSHA256Text: String = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as! String
 
         
         var stepTwoRIPEMD160Text: String = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
@@ -23,7 +23,7 @@ class AddressGenerator: NSObject
         
         var checksumHash: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         SHA256_hash(&checksumHash, &stepThreeVersionPrefixedRipemd160Buffer ,21)
-        var checksumText: String = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as String
+        var checksumText: String = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as! String
         var checksumBuffer: Array<UInt8> = checksumText.asByteArray()
         
         var checksum: Array<UInt8> = Array<UInt8>()

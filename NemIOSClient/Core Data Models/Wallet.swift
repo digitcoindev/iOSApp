@@ -13,7 +13,7 @@ class Wallet: NSManagedObject
     
     class func createInManagedObjectContext(moc: NSManagedObjectContext, login: String, password: String , privateKey: String) -> Wallet
     {
-        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Wallet", inManagedObjectContext: moc) as Wallet
+        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Wallet", inManagedObjectContext: moc) as! Wallet
         newItem.login = login
         newItem.password = password
         newItem.privateKey = privateKey

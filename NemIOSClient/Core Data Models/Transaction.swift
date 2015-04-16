@@ -35,7 +35,7 @@ class Transaction: NSManagedObject
         case transferTransaction :
             for correspondent in corespondents
             {
-                if correspondent.public_key == transaction.signer || correspondent.address == (transaction as TransferTransaction).recipient || AddressGenerator().generateAddress(transaction.signer) == correspondent.address
+                if correspondent.public_key == transaction.signer || correspondent.address == (transaction as! TransferTransaction).recipient || AddressGenerator().generateAddress(transaction.signer) == correspondent.address
                 {
                     if correspondent.public_key == ""
                     {
@@ -57,11 +57,11 @@ class Transaction: NSManagedObject
                 }
                 else
                 {
-                    current_correspondent = coreData.addCorrespondent("", name: (transaction as TransferTransaction).recipient , address :(transaction as TransferTransaction).recipient )
+                    current_correspondent = coreData.addCorrespondent("", name: (transaction as! TransferTransaction).recipient , address :(transaction as! TransferTransaction).recipient )
                 }
             }
             
-            var transactions = current_correspondent.transactions.allObjects as [Transaction]
+            var transactions = current_correspondent.transactions.allObjects as! [Transaction]
             
             for cur_transaction in transactions
             {
@@ -71,20 +71,20 @@ class Transaction: NSManagedObject
                 }
             }
             
-            let newItem = NSEntityDescription.insertNewObjectForEntityForName("Transaction", inManagedObjectContext: moc) as Transaction
+            let newItem = NSEntityDescription.insertNewObjectForEntityForName("Transaction", inManagedObjectContext: moc) as! Transaction
             
             newItem.id = transaction.id
             newItem.height = transaction.height
             newItem.signature = transaction.signature
             
-            newItem.amount = (transaction as TransferTransaction).amount
+            newItem.amount = (transaction as! TransferTransaction).amount
             newItem.fee = transaction.fee
-            newItem.recipient = (transaction as TransferTransaction).recipient
+            newItem.recipient = (transaction as! TransferTransaction).recipient
             newItem.type = transaction.type
             newItem.deadline = transaction.deadline
             newItem.signer = transaction.signer
-            newItem.message_payload = (transaction as TransferTransaction).message.payload
-            newItem.message_type = (transaction as TransferTransaction).message.type
+            newItem.message_payload = (transaction as! TransferTransaction).message.payload
+            newItem.message_type = (transaction as! TransferTransaction).message.type
             newItem.version = transaction.version
             newItem.owner = current_correspondent
             newItem.timeStamp = transaction.timeStamp

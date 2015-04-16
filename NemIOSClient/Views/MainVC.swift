@@ -39,7 +39,7 @@ class MainVC: UIViewController
     {
         if(segue.identifier == "mainContainer")
         {
-            pages = segue.destinationViewController as MainContainerVC
+            pages = segue.destinationViewController as! MainContainerVC
         }
     }
     
@@ -84,6 +84,6 @@ class MainVC: UIViewController
             backBtn.hidden = false
         }
         
-        pages.changePage(notification.object as String)
+        pages.changePage(notification.object as! String)
     }
 }

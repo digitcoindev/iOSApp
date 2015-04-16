@@ -8,7 +8,7 @@ class KeyGenerator: NSObject
         
         createPrivateKey(&privateKeyBytes)
         
-        let privateKey :String = NSString(bytes: privateKeyBytes, length: privateKeyBytes.count, encoding: NSUTF8StringEncoding) as String
+        let privateKey :String = NSString(bytes: privateKeyBytes, length: privateKeyBytes.count, encoding: NSUTF8StringEncoding) as! String
         
         return privateKey
     }
@@ -20,7 +20,7 @@ class KeyGenerator: NSObject
         
         createPublicKey(&publicKeyBytes, &privateKeyBytes)
         
-        let publicKey :String = NSString(bytes: publicKeyBytes, length: publicKeyBytes.count, encoding: NSUTF8StringEncoding) as String
+        let publicKey :String = NSString(bytes: publicKeyBytes, length: publicKeyBytes.count, encoding: NSUTF8StringEncoding) as! String
         
         return publicKey
 

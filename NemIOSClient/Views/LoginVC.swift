@@ -63,7 +63,7 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as WalletCell
+        var cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as! WalletCell
         var cellData  :Wallet = wallets[indexPath.row]
         cell.walletName.text = cellData.login as String
         return cell

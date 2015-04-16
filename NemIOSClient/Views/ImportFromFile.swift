@@ -24,7 +24,7 @@ class ImportFromFile: UIViewController  , UITableViewDelegate
 
     func validateData(notification: NSNotification)
     {
-//        if fileManager.validatePair(importedAccounts.objectAtIndex(index) as String, password: notification.object as String)
+//        if fileManager.validatePair(importedAccounts.objectAtIndex(index) as! String, password: notification.object as! String)
 //        {
 //            var curIndex = index
 //            index = -1
@@ -50,13 +50,13 @@ class ImportFromFile: UIViewController  , UITableViewDelegate
     {
         if(indexPath.row == index)
         {
-            var cell : ImportAccountCell = self.tableView.dequeueReusableCellWithIdentifier("open") as ImportAccountCell
+            var cell : ImportAccountCell = self.tableView.dequeueReusableCellWithIdentifier("open") as! ImportAccountCell
             cell.accountName.text = importedAccounts[indexPath.row] as? String
             return cell
         }
         else
         {
-            var cell : ImportAccountCell = self.tableView.dequeueReusableCellWithIdentifier("close") as ImportAccountCell
+            var cell : ImportAccountCell = self.tableView.dequeueReusableCellWithIdentifier("close") as! ImportAccountCell
             cell.accountName.text = importedAccounts[indexPath.row] as? String
             
             return cell
@@ -84,10 +84,10 @@ class ImportFromFile: UIViewController  , UITableViewDelegate
         
         if(curIndex >= 0)
         {
-            tableView.reloadRowsAtIndexPaths(NSArray(object: NSIndexPath(forItem: curIndex, inSection: 0)), withRowAnimation: UITableViewRowAnimation.None)
+            tableView.reloadRowsAtIndexPaths(NSArray(object: NSIndexPath(forItem: curIndex, inSection: 0)) as [AnyObject], withRowAnimation: UITableViewRowAnimation.None)
         }
         
-        tableView.reloadRowsAtIndexPaths(NSArray(object: indexPath), withRowAnimation: UITableViewRowAnimation.Automatic)
+        tableView.reloadRowsAtIndexPaths(NSArray(object: indexPath) as [AnyObject], withRowAnimation: UITableViewRowAnimation.Automatic)
         
     }
 }

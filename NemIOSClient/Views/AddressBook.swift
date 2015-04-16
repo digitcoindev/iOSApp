@@ -128,19 +128,19 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var cell : AddressCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as AddressCell
+        var cell : AddressCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as! AddressCell
         var person :ABRecordRef = contacts[indexPath.row]
         
         cell.user.text = ""
         
         if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
         {
-            cell.user.text = name + " "
+            cell.user.text = (name as String) + " "
         }
         
         if var surname = ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
         {
-            cell.user.text = cell.user.text! +  (ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
+            cell.user.text = cell.user.text! + ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as String)
         }
         
         let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
@@ -173,7 +173,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var cell :AddressCell = tableView.cellForRowAtIndexPath(indexPath) as AddressCell
+        var cell :AddressCell = tableView.cellForRowAtIndexPath(indexPath) as! AddressCell
         
         if cell.indicator.hidden
         {
@@ -233,10 +233,10 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
 
             for var index = 0; index < count; ++index
             {
-                var lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue()
+                var lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue() as String
                 if lable == "NEM"
                 {
-                    key = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as String
+                    key = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
                     break
                 }
             }
@@ -244,12 +244,12 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
             {
-                title = name + " "
+                title = (name as String) + " "
             }
             
             if var surname = ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
             {
-                title = title +  (ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)!
+                title = title +  ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as! NSString) as String)
             }
             
             State.currentContact = nil
@@ -260,7 +260,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             for correspondent  in correspondents
             {
-               if (correspondent as Correspondent).public_key == key
+               if (correspondent as! Correspondent).public_key == key
                {
                     State.currentContact = correspondent as? Correspondent
                     break
