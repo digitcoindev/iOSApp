@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     func applicationWillTerminate(application: UIApplication)
     {
         self.saveContext()
+        
+        CoreDataManager().commit()
     }
 
     // MARK: - Core Data stack

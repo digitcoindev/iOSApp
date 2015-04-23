@@ -53,7 +53,9 @@ class ServerCustomVC: UIViewController
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
             
         case "Denied" :
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "This server is currently anavailable.", delegate: self, cancelButtonTitle: "OK")
+            State.currentServer = nil
+
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "This server is currently unavailable.", delegate: self, cancelButtonTitle: "OK")
             alert.show()
             
         default :
@@ -94,6 +96,15 @@ class ServerCustomVC: UIViewController
         serverPort.text = ""
     }
     
+    override func didMoveToParentViewController(parent: UIViewController?)
+    {
+        if parent == nil
+        {
+            observer.removeObserver(self, name:"heartbeatSuccessed", object:nil)
+            observer.removeObserver(self, name:"heartbeatDenied", object:nil)
+        }
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
@@ -109,10 +120,12 @@ class ServerCustomVC: UIViewController
             var keyboardHeight:CGFloat = keyboardSize.height
             
             var animationDuration = 0.1
-            
-            if (keyboardHeight > (currentField.frame.origin.y - 5))
+            if currentField != nil
             {
-                keyboardHeight = currentField.frame.origin.y as CGFloat
+                if (keyboardHeight > (currentField.frame.origin.y - 5))
+                {
+                    keyboardHeight = currentField.frame.origin.y as CGFloat
+                }
             }
             
             UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:

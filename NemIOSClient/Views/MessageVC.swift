@@ -111,7 +111,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     @IBAction func send(sender: AnyObject)
     {
-        if inputText.text != "" || nems != 0
+        if (inputText.text != "" || nems != 0 ) && State.currentServer != nil
         {
             var transaction :TransferTransaction = TransferTransaction()
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
@@ -222,7 +222,10 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             var timeStamp = Double(transactions[index].timeStamp)
             var block = dataManager.getBlock(Double((transactions[index] as Transaction).height))
             
-            timeStamp += Double(block.timeStamp) / 1000
+            if block != nil
+            {
+                timeStamp += Double(block!.timeStamp) / 1000
+            }
             
             cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
             
@@ -308,12 +311,22 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 
                 var valueA :Double = Double((transactions[index] as Transaction).timeStamp)
                 height = Double((transactions[index] as Transaction).height)
-                valueA  += Double(dataManager.getBlock(height).timeStamp)
+                
+                var block = dataManager.getBlock(height)
+                
+                if block != nil
+                {
+                    valueA += Double(block!.timeStamp) / 1000
+                }
                 
                 var valueB :Double = Double((transactions[index + 1] as Transaction).timeStamp)
                 height = Double((transactions[index + 1] as Transaction).height)
-                valueB  += Double(dataManager.getBlock(height).timeStamp)
+                block = dataManager.getBlock(height)
                 
+                if block != nil
+                {
+                    valueB += Double(block!.timeStamp) / 1000
+                }
                 
                 if valueA > valueB
                 {

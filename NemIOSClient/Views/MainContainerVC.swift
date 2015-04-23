@@ -67,7 +67,7 @@ class MainContainerVC: UIViewController
             , completion:
             {
                 finish in
-                
+                NSNotificationCenter.defaultCenter().removeObserver(fromViewController)
                 fromViewController.removeFromParentViewController()
                 toViewController.didMoveToParentViewController(self)
         })

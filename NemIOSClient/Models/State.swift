@@ -5,11 +5,12 @@ class State: NSObject
 {
     struct Store
         {
+        static let observer :NSNotificationCenter =  NSNotificationCenter()
         static var stackVC : [String] = [String]()
         static var currentVC : String = ""
         static var toVC : String = ""
         static var currentWallet : Wallet!
-        static var currentServer : Server = CoreDataManager().getLoadData().currentServer
+        static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
         static var amount :Int = 0
         static var isMultisignAccount :Bool = false
@@ -99,7 +100,7 @@ class State: NSObject
     final class var currentServer: Server?
         {
         get { return State.Store.currentServer }
-        set { State.Store.currentServer = newValue! }
+        set { State.Store.currentServer = newValue }
     }
 
     final class var currentContact: Correspondent?

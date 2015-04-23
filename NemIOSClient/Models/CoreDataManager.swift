@@ -64,7 +64,7 @@ class CoreDataManager: NSObject
         }
     }
     
-    final func getBlock(height : Double)->Block
+    final func getBlock(height : Double)->Block?
     {
         var blocks = self.getBlocks()
         
@@ -76,7 +76,7 @@ class CoreDataManager: NSObject
             }
         }
         
-        return Block()
+        return nil
     }
     
     final func addBlock(height: Int, timeStamp: Double)->Block

@@ -75,7 +75,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
         case "accountGetSuccessed" :
             var format = ".0"
-            self.balance.text = "\(currentBalance.format(format))"
+            self.balance.text = "\((currentBalance / 1000000).format(format))"
             State.currentWallet!.balance = currentBalance
             state.removeLast()
             
@@ -152,8 +152,15 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         
         self.key.text = account_address
         
-        apiManager.accountGet(State.currentServer!, account_address: account_address)
-        apiManager.accountTransfersAll(State.currentServer!, account_address: account_address)
+        if State.currentServer != nil
+        {
+            apiManager.accountGet(State.currentServer!, account_address: account_address)
+            apiManager.accountTransfersAll(State.currentServer!, account_address: account_address)
+        }
+        else
+        {
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
+        }
     }
     
     final func accountGetSuccessed(notification: NSNotification)
@@ -167,7 +174,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     {
         state.append("accountGetDenied")
         
-        self.balance.text = "Null"
+        self.balance.text = ""
         State.currentWallet!.balance = 0
     }
     
@@ -295,7 +302,11 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             var timeStamp = Double(message.timeStamp ) 
             var block = dataManager.getBlock(Double(message.height))
             
-            timeStamp += Double(block.timeStamp) / 1000
+            if block != nil
+            {
+                timeStamp += Double(block!.timeStamp) / 1000
+            }
+            
             timeStamp += genesis_block_time
 
             cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))

@@ -51,7 +51,7 @@ class APIManager: NSObject
                     
                     println("\nRequest : /heartbeat")
 
-                    println("\nSucces : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
+                    //println("\nSucces : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
                     
                     self.timeSynchronize(server)
                     
@@ -108,7 +108,7 @@ class APIManager: NSObject
                     
                     println("\nRequest : /account/get")
 
-                    println("\nSucces :\n\t address : \(requestData.address)\n\t balance : \(requestData.balance)\n\t importance : \(requestData.importance)\n\t publicKey : \(requestData.publicKey!)\n\t label : \(requestData.label!)\n\t harvestedBlocks : \(requestData.harvestedBlocks)\n\t cosignatoryOf : \(requestData.cosignatoryOf!)\n\t status : \(requestData.status)\n\t remoteStatus : \(requestData.remoteStatus)")
+                    //println("\nSucces :\n\t address : \(requestData.address)\n\t balance : \(requestData.balance)\n\t importance : \(requestData.importance)\n\t publicKey : \(requestData.publicKey!)\n\t label : \(requestData.label!)\n\t harvestedBlocks : \(requestData.harvestedBlocks)\n\t cosignatoryOf : \(requestData.cosignatoryOf!)\n\t status : \(requestData.status)\n\t remoteStatus : \(requestData.remoteStatus)")
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("accountGetSuccessed", object:requestData )
                     
@@ -194,7 +194,7 @@ class APIManager: NSObject
                             
                             requestDataAll.append(requestData)
                             
-                            println("\nSucces :\n\t id : \(requestData.id)\n\t height : \(requestData.height)\n\t timeStamp : \(requestData.timeStamp)\n\t amount : \(requestData.amount)\n\t signature : \(requestData.signature)\n\t fee : \(requestData.fee)\n\t recipient : \(requestData.recipient)\n\t type : \(requestData.type)\n\t deadline : \(requestData.deadline)\n\t payload : \(requestData.message.payload)\n\t id : \(requestData.message.type)\n\t version : \(requestData.version)\n\t signer : \(requestData.signer)")
+                            //println("\nSucces :\n\t id : \(requestData.id)\n\t height : \(requestData.height)\n\t timeStamp : \(requestData.timeStamp)\n\t amount : \(requestData.amount)\n\t signature : \(requestData.signature)\n\t fee : \(requestData.fee)\n\t recipient : \(requestData.recipient)\n\t type : \(requestData.type)\n\t deadline : \(requestData.deadline)\n\t payload : \(requestData.message.payload)\n\t id : \(requestData.message.type)\n\t version : \(requestData.version)\n\t signer : \(requestData.signer)")
                             
                         case multisigAggregateModificationTransaction :
                             
@@ -216,16 +216,16 @@ class APIManager: NSObject
                             }
                             
                             requestData.fee = transaction.objectForKey("fee") as! Double
-                            
-                            println("\nSucces :")
-                            println("\tid : \(requestData.id)")
-                            println("\tsignature : \(requestData.signature)")
-                            println("\theight : \(requestData.height)")
-                            println("\thash : \(requestData.hash)")
-                            println("\ttimeStamp : \(requestData.timeStamp)")
-                            println("\tdeadline : \(requestData.deadline)")
-                            println("\tversion : \(requestData.version)")
-                            println("\tsigner : \(requestData.signer)")
+//                            
+//                            println("\nSucces :")
+//                            println("\tid : \(requestData.id)")
+//                            println("\tsignature : \(requestData.signature)")
+//                            println("\theight : \(requestData.height)")
+//                            println("\thash : \(requestData.hash)")
+//                            println("\ttimeStamp : \(requestData.timeStamp)")
+//                            println("\tdeadline : \(requestData.deadline)")
+//                            println("\tversion : \(requestData.version)")
+//                            println("\tsigner : \(requestData.signer)")
                             
                             for mod :AccountModification in requestData.modifications
                             {

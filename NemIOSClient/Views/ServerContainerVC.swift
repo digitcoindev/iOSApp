@@ -17,6 +17,18 @@ class ServerContainerVC: UIViewController
         super.didReceiveMemoryWarning()
     }
 
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+        for vc in self.childViewControllers
+        {
+            NSNotificationCenter.defaultCenter().removeObserver(vc as! UIViewController)
+
+            (vc as! UIViewController).removeFromParentViewController()
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
     {
 

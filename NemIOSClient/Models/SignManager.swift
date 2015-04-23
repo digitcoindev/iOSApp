@@ -69,7 +69,7 @@ class SignManager: NSObject
             result = multisignCommonPart
             
             var transactionLength :Array<UInt8> = String(Int64(commonPart.count + transactionDependentPart.count), radix: 16).asByteArrayEndian(4)
-            result = result + transactionDependentPart
+            result = result + transactionLength
         }
         
         result = result + commonPart

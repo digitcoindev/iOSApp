@@ -8,7 +8,7 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     var timer :NSTimer!
-    var state :String = "none"
+    var state :[String] = ["none"]
     
     var dataManager :CoreDataManager = CoreDataManager()
     var apiManager :APIManager = APIManager()
@@ -34,7 +34,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
         observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
-        
+        observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Accounts")
         
     }
@@ -44,6 +44,15 @@ class LoginVC: UIViewController , UITableViewDelegate
         NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
     }
 
+    override func didMoveToParentViewController(parent: UIViewController?)
+    {
+        if parent == nil
+        {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatDenied", object:nil)
+        }
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
@@ -89,18 +98,45 @@ class LoginVC: UIViewController , UITableViewDelegate
     {
         State.toVC = SegueToMessages
         
-        state = "logIN"
+        state.append("logIN")
+    }
+    
+    final func serverDenied(notification: NSNotification)
+    {
+        state.append("serverDenied")
     }
     
     final func manageState()
     {
-        if state == "logIN"
+        switch state.last!
         {
+        case "logIN" :
+            
             APIManager().timeSynchronize(State.currentServer!)
             
-            state = "none"
             timer.invalidate()
+            for var index :Int = 0 ; index < state.count ; index++
+            {
+                if state[index] == "serverDenied"
+                {
+                    state.removeAtIndex(index)
+                    index--
+                }
+            }
+            
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
+            state.removeLast()
+            
+        case "serverDenied" :
+            
+            timer.invalidate()
+            
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  unavailable. Try again later or check your server.", delegate: self, cancelButtonTitle: "OK")
+            alert.show()
+            state.removeLast()
+            
+        default :
+            break
         }
     }
 }

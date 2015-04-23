@@ -3,6 +3,9 @@ class ServerViewController: UIViewController
 {
     @IBOutlet weak var predefinedBtn: UIButton!
     @IBOutlet weak var customBtn: UIButton!
+    @IBOutlet weak var container: UIView!
+    
+    
     var arrow: UIButton!
     
     var pages :ServerContainerVC = ServerContainerVC();
@@ -37,7 +40,13 @@ class ServerViewController: UIViewController
         self.view.addSubview(arrow)
         
     }
-
+    
+    deinit
+    {
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()

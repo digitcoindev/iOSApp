@@ -21,7 +21,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                 
         for item in menu
         {
-            if(State.currentWallet != nil)
+            if(State.currentWallet != nil && State.currentServer != nil)
             {
                 
                 switch (item as! String)
@@ -102,6 +102,10 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         case "Map":
             State.toVC = SegueToGoogleMap
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToGoogleMap )
+            
+        case "Profile":
+            State.toVC = SegueToProfile
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToProfile )
             
         default:
             print("")
