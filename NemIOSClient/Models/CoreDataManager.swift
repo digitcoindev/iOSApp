@@ -3,6 +3,8 @@ import CoreData
 
 class CoreDataManager: NSObject
 {
+    var blocks :[Block] = [Block]()
+    
     lazy var managedObjectContext : NSManagedObjectContext? =
     {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -56,17 +58,20 @@ class CoreDataManager: NSObject
         {
             return fetchResults
         }
-        else
-        {
-            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Block]
-            
-            return fetchResults!
-        }
+        return [Block]()
     }
     
     final func getBlock(height : Double)->Block?
     {
-        var blocks = self.getBlocks()
+        for block in blocks as [Block]
+        {
+            if block.height == height
+            {
+                return block
+            }
+        }
+        
+        blocks = self.getBlocks()
         
         for block in blocks as [Block]
         {
@@ -98,12 +103,8 @@ class CoreDataManager: NSObject
         {
             return fetchResults
         }
-        else
-        {
-            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Transaction]
-            
-            return fetchResults!
-        }
+        
+        return [Transaction]()
     }
     
     final func addTransaction(transaction :TransactionPostMetaData)
@@ -134,32 +135,16 @@ class CoreDataManager: NSObject
             }
         }
         
-        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: address , address : address)
+        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: address , address : address ,owner: State.currentWallet!)
         
         commit()
         
         return corespondent
     }
     
-    final func addCorrespondent( key: String, name: String , address :String) -> Correspondent
+    final func addCorrespondent( key: String, name: String , address :String , owner: Wallet) -> Correspondent
     {
-        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name , address : address)
-        
-        commit()
-        
-        return corespondent
-    }
-
-    //Cosignatorie
-    
-    final func getCosignatories()->[Cosignatorie]
-    {
-        return State.currentWallet!.cosignatories.allObjects as! [Cosignatorie]
-    }
-    
-    final func addCosignatorie( publicKey :String) -> Cosignatorie
-    {
-        var corespondent :Cosignatorie = Cosignatorie.createInManagedObjectContext(self.managedObjectContext!, publicKey :publicKey)
+        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name , address : address,owner: owner)
         
         commit()
         

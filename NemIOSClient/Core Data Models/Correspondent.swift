@@ -12,7 +12,7 @@ class Correspondent: NSManagedObject
     @NSManaged var owner: Wallet
 
 
-    class func createInManagedObjectContext(moc: NSManagedObjectContext, key: String, name: String , address: String) -> Correspondent
+    class func createInManagedObjectContext(moc: NSManagedObjectContext, key: String, name: String , address: String , owner: Wallet) -> Correspondent
     {
         let newItem = NSEntityDescription.insertNewObjectForEntityForName("Correspondent", inManagedObjectContext: moc) as! Correspondent
         newItem.public_key = key

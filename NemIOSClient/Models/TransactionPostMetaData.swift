@@ -6,6 +6,7 @@ class TransactionPostMetaData
     var height :Double!
     var hash :String!
     var signature :String!
+    var data :String!
     
     var type :Int = 0
     var version :Double!
@@ -19,5 +20,17 @@ class TransactionPostMetaData
     init()
     {
         
+    }
+    
+    func getFrom(dictionary: NSDictionary)
+    {
+        
+    }
+    
+    func getBeginFrom(dictionary: NSDictionary)
+    {
+        self.id = dictionary.objectForKey("id") as! Double
+        self.height = dictionary.objectForKey("height") as! Double
+        self.hash = dictionary.objectForKey("hash")!.objectForKey("data") as! String
     }
 }

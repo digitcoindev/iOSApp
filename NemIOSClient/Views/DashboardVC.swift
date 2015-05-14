@@ -23,6 +23,12 @@ class DashboardVC: UIViewController
         self.UserInfo.imageEdgeInsets = UIEdgeInsetsMake(15, self.UserInfo.bounds.width / 2 - 20, 25, self.UserInfo.bounds.width / 2 - 20)
     }
     
+    deinit
+    {
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()

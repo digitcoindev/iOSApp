@@ -13,13 +13,16 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     
     var state :[String] = ["none"]
     var timer :NSTimer!
-    var currentBalance :Double = 0
+    var walletData :AccountGetMetaData!
     
+    var unconfirmedTransactions  :[TransactionPostMetaData] = [TransactionPostMetaData]()
+    var findUnconfirmed = false
     var apiManager :APIManager = APIManager()
     var correspondents :[Correspondent]!
     var displayList :NSArray = NSArray()
     var searchBar : UISearchBar!
     var searchText :String = ""
+    var showKeyboard :Bool = false
     
     override func viewDidLoad()
     {
@@ -34,6 +37,8 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
         
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Dashboard")
+
         address.layer.cornerRadius = 2
         tableView.layer.cornerRadius = 2
         searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
@@ -57,10 +62,19 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         
         observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
+        observer.addObserver(self, selector: "unconfirmedTransactionsDenied:", name: "unconfirmedTransactionsDenied", object: nil)
+        observer.addObserver(self, selector: "unconfirmedTransactionsSuccessed:", name: "unconfirmedTransactionsSuccessed", object: nil)
         observer.addObserver(self, selector: "accountTransfersAllDenied:", name: "accountTransfersAllDenied", object: nil)
         observer.addObserver(self, selector: "accountTransfersAllSuccessed:", name: "accountTransfersAllSuccessed", object: nil)
+        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
+    }
+    
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     final func manageState()
@@ -75,8 +89,80 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
         case "accountGetSuccessed" :
             var format = ".0"
-            self.balance.text = "\((currentBalance / 1000000).format(format))"
-            State.currentWallet!.balance = currentBalance
+            self.balance.text = "\((walletData.balance / 1000000).format(format))"
+            if walletData.cosignatoryOf.count > 0
+            {
+                unconfirmedTransactions.removeAll(keepCapacity: false)
+                findUnconfirmed = false
+                
+                for cosignatory in walletData.cosignatoryOf
+                {
+                    APIManager().unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
+                }
+            }
+            
+            state.removeLast()
+            
+        case "accountGetDeied" :
+            self.balance.text = "Lost connection"
+            
+        case "unconfirmedTransactionsSuccessed" :
+            
+            for inTransaction in unconfirmedTransactions
+            {
+                switch(inTransaction.type)
+                {
+                case multisigTransaction:
+                    var transaction :MultisigTransaction = inTransaction as! MultisigTransaction
+                    var find = false
+                    
+                    for sign in transaction.signatures
+                    {
+                        if walletData.publicKey == sign.signer
+                        {
+                            find = true
+                            break
+                        }
+                    }
+                    
+                    if inTransaction.signer != walletData.publicKey && !find
+                    {
+                        var alert :UIAlertController = UIAlertController(title: "Info", message: "You have unconfirmed transactions that need to be signed up!", preferredStyle: UIAlertControllerStyle.Alert)
+                        
+                        var ok :UIAlertAction = UIAlertAction(title: "Show transactions", style: UIAlertActionStyle.Default)
+                            {
+                                alertAction -> Void in
+                                
+                                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToUnconfirmedTransactionVC )
+
+                            }
+                        
+                        var cancel :UIAlertAction = UIAlertAction(title: "Remind later", style: UIAlertActionStyle.Default)
+                            {
+                                alertAction -> Void in
+                            }
+                        
+                        alert.addAction(cancel)
+                        alert.addAction(ok)
+                        
+                        if !findUnconfirmed
+                        {
+                            findUnconfirmed = true
+                            NSNotificationCenter.defaultCenter().removeObserver(self)
+                            self.presentViewController(alert, animated: true, completion: nil)
+
+                        }
+                    }
+                    
+                default:
+                    break
+                }
+                
+                if findUnconfirmed
+                {
+                    break
+                }
+            }
             state.removeLast()
             
         default :
@@ -110,12 +196,12 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
                                     var value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
                                     if value == correspondent.name
                                     {
-                                        if var name = ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
+                                        if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil
                                         {
-                                            correspondent.name = (name as! String) + " "
+                                            correspondent.name = (ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString as! String) + " "
                                         }
                                         
-                                        if var surname = ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
+                                        if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil
                                         {
                                              correspondent.name =  correspondent.name +  ((ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as! String)
                                         }
@@ -167,7 +253,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     {
         state.append("accountGetSuccessed")
        
-        currentBalance = (notification.object as! AccountGetMetaData).balance
+        walletData = (notification.object as! AccountGetMetaData)
     }
     
     final func accountGetDenied(notification: NSNotification)
@@ -175,7 +261,18 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         state.append("accountGetDenied")
         
         self.balance.text = ""
-        State.currentWallet!.balance = 0
+    }
+    
+    final func unconfirmedTransactionsSuccessed(notification: NSNotification)
+    {
+        unconfirmedTransactions +=  notification.object as! [TransactionPostMetaData]
+        
+        state.append("unconfirmedTransactionsSuccessed")
+    }
+    
+    final func unconfirmedTransactionsDenied(notification: NSNotification)
+    {
+        state.append("unconfirmedTransactionsAllDenied")
     }
     
     final func accountTransfersAllSuccessed(notification: NSNotification)
@@ -184,15 +281,29 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         
         for inData in data
         {
-            if inData.type == transferTransaction
+            switch (inData.type)
             {
-                dataManager.addTransaction(inData)
-            }
-            else
-            {
-                println()
+            case transferTransaction :
+                dataManager.addTransaction(inData as! TransferTransaction)
+                
+            case multisigTransaction:
+                
+                var multisigT  = inData as! MultisigTransaction
+                
+                switch(multisigT.innerTransaction.type)
+                {
+                case transferTransaction :
+                    dataManager.addTransaction(multisigT.innerTransaction as! TransferTransaction)
+                    
+                default:
+                    break
+                }
+                
+            default:
+                break
             }
         }
+      
         state.append("accountTransfersAllSuccessed")
     }
     
@@ -279,32 +390,31 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         
         if messages.count > 0
         {
-            var message :Transaction!
+            var message :Transaction = messages.first!
             
-            if messages.count > 0
+            for messageIN in messages
             {
-                message = messages[0]
+                if (messageIN.id.integerValue > message.id.integerValue)
+                {
+                    message = messageIN
+                }
             }
-            
-//            for mes  in messages
-//            {
-//                if mes.date.compare(message.date) == NSComparisonResult.OrderedDescending
-//                {
-//                    message = mes
-//                }
-//            }
             
             cell.message.text = message.message_payload
             
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            var timeStamp = Double(message.timeStamp ) 
+            var timeStamp = Double(message.timeStamp )
             var block = dataManager.getBlock(Double(message.height))
             
             if block != nil
             {
                 timeStamp += Double(block!.timeStamp) / 1000
+            }
+            else
+            {
+                println("Error")
             }
             
             timeStamp += genesis_block_time
@@ -321,16 +431,26 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         State.currentContact = correspondents[indexPath.row] as Correspondent
-        State.toVC = SegueToMessageVC
+        if walletData.cosignatories.count == 0
+        {
+            State.toVC = SegueToMessageVC
+        }
+        else
+        {
+            State.toVC = SegueToMessageMultisignVC
+        }
         
         NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
     }
     
     final func getNameWithAddress(name :String) -> String
     {
-        
-        
         return name
+    }
+    
+    @IBAction func showKeyboard(sender: AnyObject)
+    {
+        showKeyboard = true
     }
     
     @IBAction func inputAddress(sender: UITextField)
@@ -354,7 +474,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
             if !find
             {
-                State.currentContact = dataManager.addCorrespondent(sender.text, name: sender.text , address : sender.text)
+                State.currentContact = dataManager.addCorrespondent(sender.text, name: sender.text , address : sender.text ,owner: State.currentWallet!)
                 State.toVC = SegueToMessageVC
                 
                 NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
@@ -368,10 +488,42 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
                 
         NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )
     }
-    
-    
-    override func viewDidDisappear(animated: Bool)
+    func keyboardWillShow(notification: NSNotification)
     {
-        
+        if(showKeyboard)
+        {
+            var info:NSDictionary = notification.userInfo!
+            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+            
+            var keyboardHeight:CGFloat = keyboardSize.height
+            
+            var animationDuration = 0.25
+            
+            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
+                {
+                    self.view.frame = CGRectMake(0, -keyboardHeight, self.view.bounds.width, self.view.bounds.height)
+                }, completion: nil)
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification)
+    {
+        if(showKeyboard)
+        {
+            var info:NSDictionary = notification.userInfo!
+            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+            
+            var keyboardHeight:CGFloat = keyboardSize.height
+            
+            
+            
+            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
+            
+            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
+                {
+                    self.view.frame = CGRectMake(0, (self.view.frame.origin.y + keyboardHeight), self.view.bounds.width, self.view.bounds.height)
+                    
+                }, completion: nil)
+        }
     }
 }

@@ -30,6 +30,8 @@ class MainContainerVC: UIViewController
         }
     }
     
+    
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
@@ -99,10 +101,7 @@ class MainContainerVC: UIViewController
                                 
             case SegueToAddAccountVC:
                 self.performSegueWithIdentifier(SegueToAddAccountVC, sender: nil)
-                
-//            case SegueToImportFromFileVC:
-//                self.performSegueWithIdentifier(SegueToImportFromFileVC, sender: nil)
-                
+                               
             case SegueToImportFromQR:
                 self.performSegueWithIdentifier(SegueToImportFromQR, sender: nil)
                 
@@ -112,10 +111,19 @@ class MainContainerVC: UIViewController
             case SegueToProfile:
                 self.performSegueWithIdentifier(SegueToProfile, sender: nil)
                 
+            case SegueToProfileMultisig:
+                self.performSegueWithIdentifier(SegueToProfileMultisig, sender: nil)
+                
+            case SegueToProfileCosignatoryOf:
+                self.performSegueWithIdentifier(SegueToProfileCosignatoryOf, sender: nil)
+                
             case SegueToGoogleMap:
                 self.performSegueWithIdentifier(SegueToGoogleMap, sender: nil)
                 
-            case SegueToPasswordValidation , SegueToMessageVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToAddFriend:
+            case SegueTomultisigAccountManager:
+                self.performSegueWithIdentifier(SegueTomultisigAccountManager, sender: nil)
+                
+            case SegueToPasswordValidation , SegueToUnconfirmedTransactionVC , SegueToSendTransaction , SegueToMessageVC , SegueToMessageMultisignVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToAddFriend:
                 
                 State.toVC = page as String
                 NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )

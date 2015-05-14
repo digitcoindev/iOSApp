@@ -133,12 +133,12 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         cell.user.text = ""
         
-        if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
+        if ABRecordCopyValue(person, kABPersonFirstNameProperty) != nil
         {
-            cell.user.text = (name as String) + " "
+            cell.user.text = (ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as! String) + " "
         }
         
-        if var surname = ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
+        if  ABRecordCopyValue(person, kABPersonLastNameProperty) != nil
         {
             cell.user.text = cell.user.text! + ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as String)
         }
@@ -268,7 +268,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             }
             if State.currentContact == nil
             {
-                State.currentContact = dataManager.addCorrespondent(key, name: title , address : key)
+                State.currentContact = dataManager.addCorrespondent(key, name: title , address : key ,owner: State.currentWallet!)
             }
 
             NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )

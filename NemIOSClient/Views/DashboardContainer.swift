@@ -19,6 +19,18 @@ class DashboardContainer: UIViewController
         super.didReceiveMemoryWarning()
     }
     
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+        for vc in self.childViewControllers
+        {
+            NSNotificationCenter.defaultCenter().removeObserver(vc as! UIViewController)
+            
+            (vc as! UIViewController).removeFromParentViewController()
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
     {
         
@@ -64,10 +76,6 @@ class DashboardContainer: UIViewController
             self.performSegueWithIdentifier(SegueToMessages, sender: nil)
             break;
             
-//        case SegueToImportFromQR:
-//            self.performSegueWithIdentifier(SegueToImportFromQR, sender: nil)
-//            break;
-            
         case SegueToQRCode:
             self.performSegueWithIdentifier(SegueToQRCode, sender: nil)
             break;
@@ -83,6 +91,9 @@ class DashboardContainer: UIViewController
         case SegueToMessageVC:
             self.performSegueWithIdentifier(SegueToMessageVC, sender: nil)
             
+        case SegueToMessageMultisignVC:
+            self.performSegueWithIdentifier(SegueToMessageMultisignVC, sender: nil)
+            
         case SegueToPasswordValidation:
             self.performSegueWithIdentifier(SegueToPasswordValidation, sender: nil)
             
@@ -93,7 +104,13 @@ class DashboardContainer: UIViewController
             self.performSegueWithIdentifier(SegueToCreateQRResult, sender: nil)
             
         case SegueToAddFriend:
-                self.performSegueWithIdentifier(SegueToAddFriend, sender: nil)
+            self.performSegueWithIdentifier(SegueToAddFriend, sender: nil)
+            
+        case SegueToSendTransaction:
+            self.performSegueWithIdentifier(SegueToSendTransaction, sender: nil)
+            
+        case SegueToUnconfirmedTransactionVC:
+                self.performSegueWithIdentifier(SegueToUnconfirmedTransactionVC, sender: nil)
             
         default:
             break;

@@ -17,7 +17,7 @@ class SignManager: NSObject
         signedTransaction.dataT = toString
         
         toString = ""
-        array = SignManager.signatureGeneration(array, transaction: transaction)
+        array = SignManager.signatureGeneration(array)
         
         for value in array
         {
@@ -29,11 +29,14 @@ class SignManager: NSObject
         return signedTransaction
     }
     
-    final class func signatureGeneration(data : Array<UInt8> , transaction : TransactionPostMetaData)->Array<UInt8>
+    final class func signatureGeneration(data : Array<UInt8> )->Array<UInt8>
     {
+        var myPrivateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        var myPublicKey = KeyGenerator().generatePublicKey(myPrivateKey)
+
         var processData : Array<UInt8> = Array(data)
-        var privateKey :Array<UInt8> = Array(transaction.privateKey.utf8)
-        var publicKey :Array<UInt8> = Array(transaction.signer.utf8)
+        var privateKey :Array<UInt8> = Array(myPrivateKey.utf8)
+        var publicKey :Array<UInt8> = Array(myPublicKey.utf8)
         var signature : Array<UInt8> = Array(count: 64, repeatedValue: 0)
         
         Sign(&signature, &processData, Int32(processData.count), &publicKey, &privateKey)
@@ -59,11 +62,17 @@ class SignManager: NSObject
             
             transactionDependentPart = aggregateModificationTransactionPart(transaction as! AggregateModificationTransaction)
             
+        case multisigSignatureTransaction:
+            
+            transactionDependentPart = multisigSignatureTransactionPart(transaction as! MultisigSignatureTransaction)
+            
         default :
             break
         }
         
-        if State.isMultisignAccount 
+        var publicKey = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        
+        if publicKey != transaction.signer
         {
             var multisignCommonPart :Array<UInt8> = SignManager.commonPart(transaction  ,isMultisignPart :true )
             result = multisignCommonPart
@@ -84,16 +93,23 @@ class SignManager: NSObject
         
         var transactionType :Array<UInt8>!
         var fee :Array<UInt8>!
+        var publicKey :Array<UInt8>!
         
         if isMultisignPart
         {
             transactionType = String(Int64(multisigTransaction), radix: 16).asByteArrayEndian(4)
             fee = String(Int64(6 * 1000000), radix: 16).asByteArrayEndian(8)
+            var myPublicKey = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+
+            publicKey = myPublicKey.asByteArray()
+
         }
         else
         {
             transactionType = String(Int64(transaction.type), radix: 16).asByteArrayEndian(4)
             fee = String(Int64(transaction.fee * 1000000), radix: 16).asByteArrayEndian(8)
+            publicKey = transaction.signer.asByteArray()
+
         }
 
         result = result + transactionType
@@ -107,7 +123,6 @@ class SignManager: NSObject
         var publicKeyLength :Array<UInt8> = [32 , 0 , 0 , 0]
         result = result + publicKeyLength
         
-        var publicKey :Array<UInt8> = transaction.signer.asByteArray()
         result = result + publicKey
         
         result = result + fee
@@ -165,8 +180,30 @@ class SignManager: NSObject
         var lengthOfRemoutPublicKey :Array<UInt8> =  String(transaction.lengthOfRemoutPublicKey, radix: 16).asByteArrayEndian(4)
         result = result + lengthOfRemoutPublicKey
         
-        var remoutPublicKey :Array<UInt8> =  transaction.remoutPublicKey.asByteArrayEndian(32)
+        var remoutPublicKey :Array<UInt8> =  transaction.remoutPublicKey.asByteArray()
         result = result + remoutPublicKey
+        
+        return result
+    }
+    
+    final class func multisigSignatureTransactionPart(transaction :MultisigSignatureTransaction)->Array<UInt8>
+    {
+        var result :Array<UInt8> = Array<UInt8>()
+        
+        var lengthOfHashObject :Array<UInt8> =  String(transaction.lengthOfHashObject, radix: 16).asByteArrayEndian(4)
+        result = result + lengthOfHashObject
+
+        var lengthOfHash :Array<UInt8> =  String(transaction.lengthOfHash, radix: 16).asByteArrayEndian(4)
+        result = result + lengthOfHash
+        
+        var transactionHash :Array<UInt8> =  transaction.transactionHash.asByteArray()
+        result = result + transactionHash
+        
+        var lengthOfMultisigAccout :Array<UInt8> =  String(transaction.lengthOfMultisigAccout, radix: 16).asByteArrayEndian(4)
+        result = result + lengthOfMultisigAccout
+        
+        var multisigAccountAddress :Array<UInt8> =  Array<UInt8>(transaction.multisigAccountAddress.utf8)
+        result = result + multisigAccountAddress
         
         return result
     }
@@ -189,7 +226,7 @@ class SignManager: NSObject
             var lengthOfPublicKey :Array<UInt8> = String(modification.lengthOfPublicKey, radix: 16).asByteArrayEndian(4)
             result = result + lengthOfPublicKey
             
-            var publicKey :Array<UInt8> = modification.publicKey.asByteArrayEndian(32)
+            var publicKey :Array<UInt8> = modification.publicKey.asByteArray()
             result = result + publicKey
 
         }
@@ -197,8 +234,5 @@ class SignManager: NSObject
     }
 }
 
-//01010000-01000068-00000000-20000000-8d07f90fb4bbe7715fa327c926770166a11be2e494a970605f2e12557f66c9b9-0000000000000000-00000000-28000000-4e414343483257504a59565133504c474d565a56524b354a4936504f544a5858484c55473350344a-60b94a948b320300-0d000000010000000500000048656c6c
-
-//  01100000-01000098-f45f1000-20000000-dd13a7d3eec54e859617093f8221ab22357c9925ecdacd3321c7bc07148f9f67-c0d8a70000000000-0c751000-02000000-28000000-28 000000280000002800000028000000280000002800000028000000
 
 

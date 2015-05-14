@@ -26,7 +26,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         {
             State.fromVC = SegueToLoginVC
         }
-        
+                
         State.currentVC = SegueToLoginVC
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -36,20 +36,18 @@ class LoginVC: UIViewController , UITableViewDelegate
         observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Accounts")
-        
     }
     
     deinit
     {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didMoveToParentViewController(parent: UIViewController?)
     {
         if parent == nil
         {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
-            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatDenied", object:nil)
+            NSNotificationCenter.defaultCenter().removeObserver(self)
         }
     }
     
@@ -57,8 +55,6 @@ class LoginVC: UIViewController , UITableViewDelegate
     {
         super.didReceiveMemoryWarning()
     }
-    
-    
     
     @IBAction func addNewWallet(sender: AnyObject)
     {
@@ -96,8 +92,6 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     final func logIn(notification: NSNotification)
     {
-        State.toVC = SegueToMessages
-        
         state.append("logIN")
     }
     
@@ -123,6 +117,7 @@ class LoginVC: UIViewController , UITableViewDelegate
                     index--
                 }
             }
+            State.toVC = SegueToMessages
             
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
             state.removeLast()

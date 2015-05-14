@@ -1,82 +1,73 @@
 import UIKit
 
-class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate ,UIScrollViewDelegate
+class MultisigAccountManager: UIViewController  , UITableViewDelegate
 {
+
     @IBOutlet weak var scroll: UIScrollView!
+    @IBOutlet weak var chooseAccount: ButtonDropDown!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var userLogin: UILabel!
-    @IBOutlet weak var userAddress: UILabel!
     @IBOutlet weak var keyValidator: UIImageView!
-    @IBOutlet weak var addCosignatori: NEMTextField!
-    @IBOutlet weak var accountType: UILabel!
+
+    @IBOutlet weak var lableTableOf: UILabel!
+    @IBOutlet weak var inputField: NEMTextField!
+    @IBOutlet weak var background: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
     
-    let dataManager :CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData!
-    
+    var timer :NSTimer!
+    var state :[String] = ["none"]
+    var showRect :CGRect = CGRectZero
+
+    var currentCosignatories :[String] = [String]()
     var removeArray :[AccountGetMetaData]!
     var addArray = [String]()
-
-    var apiManager :APIManager = APIManager()
-    var count = 4
-    var showRect :CGRect = CGRectZero
-    var state :[String] = ["none"]
-    var timer :NSTimer!
-    
-    var currentCosignatories :[String] = [String]()
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        if keyValidator != nil
+
+        if State.fromVC != SegueTomultisigAccountManager
         {
-            keyValidator.hidden = true
-            addCosignatori.autocorrectionType = UITextAutocorrectionType.No
+            State.fromVC = SegueTomultisigAccountManager
         }
         
-        State.currentVC = SegueToProfile
+        State.currentVC = SegueTomultisigAccountManager
         
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Profile")
-
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
-        self.tableView.layer.cornerRadius = 5
-
         var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        
+        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
+        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
         observer.addObserver(self, selector: "prepareAnnounceSuccessed:", name: "prepareAnnounceSuccessed", object: nil)
         observer.addObserver(self, selector: "prepareAnnounceDenied:", name: "prepareAnnounceDenied", object: nil)
-
-        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
-        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
         observer.addObserver(self, selector: "deleteCellAtIndex:", name: "deleteCellAtIndex", object: nil)
         
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
+        observer.postNotificationName("Title", object:"Manage Account" )
+        
+        lableTableOf.hidden = true
+        background.hidden = true
+        inputField.hidden = true
+        saveButton.hidden = true
+        keyValidator.hidden = true
+        scroll.scrollEnabled = false
+        
+        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
         
         if State.currentServer != nil
         {
-            var address :String = AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
-                
-            apiManager.accountGet(State.currentServer!, account_address: address)
+            APIManager().accountGet(State.currentServer!, account_address: account_address)
         }
         else
         {
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
-                
+        
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
-    }
-    
-    deinit
-    {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
     }
     
     final func manageState()
@@ -84,61 +75,50 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
         switch (state.last!)
         {
         case "accountGetSuccessed" :
-            var stateWallet = State.currentWallet!
+            var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+            var publicKey = KeyGenerator().generatePublicKey(privateKey)
             
-            userLogin.text = stateWallet.login
-            userAddress.text =  AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(stateWallet.privateKey))
-            
-            if walletData.cosignatories.count > 0
+            if publicKey == walletData.publicKey
             {
-                accountType.text = "multisign account"
-                
-                if State.fromVC != SegueToProfileMultisig
+                var content :[String] = [String]()
+                var contentActions :[funcBlock] = [funcBlock]()
+                for account in walletData.cosignatoryOf
                 {
-                    State.fromVC = SegueToProfileMultisig
+                    content.append(account.address)
+                    contentActions.append(
+                        {
+                            () -> () in
+                            
+                            if State.currentServer != nil
+                            {
+                                APIManager().accountGet(State.currentServer!, account_address: account.address)
+                            }
+                    })
                 }
                 
-                State.currentVC = SegueToProfileMultisig
-                
+                chooseAccount.setContent(content, contentActions: contentActions)
+            }
+            else
+            {
+                lableTableOf.hidden = false
+                background.hidden = false
+                inputField.hidden = false
+                saveButton.hidden = false
+                keyValidator.hidden = false
+                scroll.scrollEnabled = true
+
                 for account in walletData.cosignatories
                 {
                     currentCosignatories.append(account.publicKey as String)
                 }
-            }
-            else if walletData.cosignatoryOf.count > 0
-            {
-                accountType.text = "is cosignatory"
-                
-                if State.fromVC != SegueToProfileCosignatoryOf
-                {
-                    State.fromVC = SegueToProfileCosignatoryOf
-                }
-                
-                State.currentVC = SegueToProfileCosignatoryOf
-                
-                for account in walletData.cosignatoryOf
-                {
-                    currentCosignatories.append(account.publicKey as String)
-                }
-            }
-            else
-            {
-                if State.fromVC != SegueToProfile
-                {
-                    State.fromVC = SegueToProfile
-                }
-                
-                State.currentVC = SegueToProfile
-                
-                accountType.text = "simple account"
+                self.tableView.reloadData()
             }
             
             state.removeLast()
-            self.tableView.reloadData()
             
         case "prepareAnnounceSuccessed" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "Changes are confirmed and\nwill be confirmed in a few hours", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "Changes are confirmed and await \nfor server validation", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                 {
@@ -150,7 +130,7 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
             
         case "prepareAnnounceDenied" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "Changes waere not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "Changes are not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                 {
@@ -164,18 +144,7 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
             break
         }
     }
-    
-    final func prepareAnnounceSuccessed(notification: NSNotification)
-    {
-        state.append("prepareAnnounceSuccessed")
-        
-    }
-    
-    final func prepareAnnounceDenied(notification: NSNotification)
-    {
-        state.append("prepareAnnounceDenied")
-    }
-    
+
     final func accountGetSuccessed(notification: NSNotification)
     {
         state.append("accountGetSuccessed")
@@ -188,6 +157,39 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
         state.append("accountGetDenied")
     }
     
+    final func prepareAnnounceSuccessed(notification: NSNotification)
+    {
+        state.append("prepareAnnounceSuccessed")
+        
+    }
+    
+    final func prepareAnnounceDenied(notification: NSNotification)
+    {
+        state.append("prepareAnnounceDenied")
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return currentCosignatories.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        var cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
+        
+        cell.key.text = ""
+        cell.cellIndex = indexPath.row
+        
+        cell.key.text = cell.key.text! + currentCosignatories[indexPath.row]
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        
+    }
+    
     final func deleteCellAtIndex(notification: NSNotification)
     {
         var index = notification.object as! Int
@@ -195,111 +197,6 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
         
         currentCosignatories.removeAtIndex(index)
         self.tableView.deleteRowsAtIndexPaths([indexPath] , withRowAnimation: .Fade)
-    }
-    
-    @IBAction func changePassword(sender: AnyObject)
-    {
-        var alert1 :UIAlertController = UIAlertController(title: "Change password", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        var oldPassword :UITextField!
-        alert1.addTextFieldWithConfigurationHandler
-            {
-                textField -> Void in
-                textField.placeholder = "old password"
-                textField.keyboardType = UIKeyboardType.ASCIICapable
-                textField.returnKeyType = UIReturnKeyType.Next
-                textField.secureTextEntry = true
-                
-                oldPassword = textField
-                
-        }
-        
-        var newPassword :UITextField!
-        alert1.addTextFieldWithConfigurationHandler
-            {
-                textField -> Void in
-                textField.placeholder = "new password"
-                textField.keyboardType = UIKeyboardType.ASCIICapable
-                textField.returnKeyType = UIReturnKeyType.Next
-                textField.secureTextEntry = true
-                
-                newPassword = textField
-                
-        }
-        
-        var repeatPassword :UITextField!
-        alert1.addTextFieldWithConfigurationHandler
-            {
-                textField -> Void in
-                textField.placeholder = "repeat password"
-                textField.keyboardType = UIKeyboardType.ASCIICapable
-                textField.returnKeyType = UIReturnKeyType.Done
-                textField.secureTextEntry = true
-                
-                repeatPassword = textField
-                
-        }
-        
-        var change :UIAlertAction = UIAlertAction(title: "Change", style: UIAlertActionStyle.Default)
-            {
-                alertAction -> Void in
-                
-                var isError :Bool = false
-                
-                if oldPassword.text != HashManager.AES256Decrypt(State.currentWallet!.password)
-                {
-                    alert1.message = "Wrong old password"
-                    oldPassword.text = ""
-                    isError = true
-                }
-                
-                if newPassword.text != repeatPassword.text
-                {
-                    alert1.message = "Passwords not equal"
-                    repeatPassword.text = ""
-                    newPassword.text = ""
-                    isError = true
-                }
-                
-                if !isError
-                {
-                    State.currentWallet!.password = HashManager.AES256Encrypt(newPassword.text)
-                    
-                    CoreDataManager().commit()
-                }
-                else
-                {
-                    self.presentViewController(alert1, animated: true, completion: nil)
-                }
-            }
-        
-        
-        var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive)
-            {
-                alertAction -> Void in
-            }
-        
-        alert1.addAction(cancel)
-        alert1.addAction(change)
-        
-        self.presentViewController(alert1, animated: true, completion: nil)
-    }
-    
-    @IBAction func getRect(sender: NEMTextField)
-    {
-        showRect = sender.frame
-    }
-    
-    @IBAction func typing(sender: NEMTextField)
-    {
-        if Swift.count(sender.text.utf16) == 64
-        {
-            keyValidator.hidden = false
-        }
-        else
-        {
-            keyValidator.hidden = true
-        }
     }
     
     @IBAction func addChanges(sender: AnyObject)
@@ -326,10 +223,22 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
             (sender as! UITextField).text = ""
         }
     }
-    
-    @IBAction func manageAccount(sender: AnyObject)
+
+    @IBAction func typing(sender: NEMTextField)
     {
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueTomultisigAccountManager )
+        if Swift.count(sender.text.utf16) == 64
+        {
+            keyValidator.hidden = false
+        }
+        else
+        {
+            keyValidator.hidden = true
+        }
+    }
+    
+    @IBAction func getRect(sender: NEMTextField)
+    {
+        showRect = sender.frame
     }
     
     @IBAction func saveChanges(sender: AnyObject)
@@ -410,7 +319,7 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
                     
                     var transaction :AggregateModificationTransaction = AggregateModificationTransaction()
                     var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-                    var publickey = KeyGenerator().generatePublicKey(privateKey)
+                    var publickey = self.walletData.publicKey
                     
                     transaction.timeStamp = TimeSynchronizator.nemTime
                     transaction.deadline = TimeSynchronizator.nemTime + waitTime
@@ -431,8 +340,20 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
                     transaction.fee = 10 + 6 * Double(self.addArray.count + self.removeArray.count)
                     
                     APIManager().prepareAnnounce(State.currentServer!, transaction: transaction)
-
-                }
+                    
+                    self.currentCosignatories.removeAll(keepCapacity: false)
+                    
+                    for cosignatory in self.walletData.cosignatories
+                    {
+                        self.currentCosignatories.append(cosignatory.publicKey as String)
+                    }
+                    
+                    self.addArray.removeAll(keepCapacity: false)
+                    self.removeArray.removeAll(keepCapacity: false)
+                    
+                    self.tableView.reloadData()
+                    
+            }
             
             
             var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive)
@@ -446,8 +367,11 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         self.currentCosignatories.append(cosignatory.publicKey as String)
                     }
                     
+                    self.addArray.removeAll(keepCapacity: false)
+                    self.removeArray.removeAll(keepCapacity: false)
+                    
                     self.tableView.reloadData()
-                }
+            }
             
             alert1.addAction(cancel)
             alert1.addAction(confirm)
@@ -455,29 +379,7 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
             self.presentViewController(alert1, animated: true, completion: nil)
         }
     }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return currentCosignatories.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        var cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
-        
-        cell.key.text = ""
-        cell.cellIndex = indexPath.row
-        
-        cell.key.text = cell.key.text! + currentCosignatories[indexPath.row]
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
-        
-    }
-    
+
     func keyboardWillShow(notification: NSNotification)
     {
         var info:NSDictionary = notification.userInfo!
@@ -500,4 +402,10 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
         self.scroll.contentInset = UIEdgeInsetsZero
         self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }
+
+    override func didReceiveMemoryWarning()
+    {
+        super.didReceiveMemoryWarning()
+    }
+    
 }

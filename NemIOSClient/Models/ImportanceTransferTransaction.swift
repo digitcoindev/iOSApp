@@ -13,4 +13,9 @@ class ImportanceTransferTransaction: TransactionPostMetaData
         
         type = importanceTransaction
     }
+    
+    final override func getFrom(dictionary: NSDictionary)
+    {
+        
+    }
 }

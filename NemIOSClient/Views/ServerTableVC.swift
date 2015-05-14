@@ -109,7 +109,6 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        
         return servers.count
     }
 

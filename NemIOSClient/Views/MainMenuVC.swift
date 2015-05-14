@@ -1,3 +1,4 @@
+
 import UIKit
 
 class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDelegate
@@ -8,6 +9,10 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     
     var menuItems : NSMutableArray = NSMutableArray()
     var menu : NSArray = NSArray()
+    
+    var walletData :AccountGetMetaData!
+    var apiManager :APIManager = APIManager()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -27,7 +32,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                 switch (item as! String)
                 {
                     
-                case "Accounts", "Registration" :
+                case "Registration" :
                     break
                     
                 default:
@@ -56,8 +61,30 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                 }
             }
         }
+        
+        var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        
+        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
+        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
+        
+        if State.currentServer != nil && State.currentWallet != nil
+        {
+            var address :String = AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            
+            apiManager.accountGet(State.currentServer!, account_address: address)
+        }
+        else
+        {
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
+        }
+
     }
     
+    final func accountGetSuccessed(notification: NSNotification)
+    {
+        walletData = (notification.object as! AccountGetMetaData)
+    }
+
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
@@ -104,8 +131,20 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToGoogleMap )
             
         case "Profile":
-            State.toVC = SegueToProfile
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToProfile )
+            if walletData.cosignatories.count > 0
+            {
+                State.toVC = SegueToProfileMultisig
+            }
+            else if walletData.cosignatoryOf.count > 0
+            {
+                State.toVC = SegueToProfileCosignatoryOf
+            }
+            else
+            {
+                State.toVC = SegueToProfile
+            }
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:State.toVC )
             
         default:
             print("")

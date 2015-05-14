@@ -31,10 +31,7 @@ class ServerCustomVC: UIViewController
     
     deinit
     {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverConfirmed", object:nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"serverDenied", object:nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillShow", object:nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillHide", object:nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     final func manageState()

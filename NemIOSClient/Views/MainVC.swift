@@ -17,6 +17,7 @@ class MainVC: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.view.multipleTouchEnabled = false
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         

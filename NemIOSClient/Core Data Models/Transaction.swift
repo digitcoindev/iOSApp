@@ -33,31 +33,52 @@ class Transaction: NSManagedObject
         switch(transaction.type)
         {
         case transferTransaction :
-            for correspondent in corespondents
+            find = false
+            var myPublicKey = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            var myAddress = AddressGenerator().generateAddress(myPublicKey)
+            
+            if transaction.signer == myPublicKey && (transaction as! TransferTransaction).recipient == myAddress
             {
-                if correspondent.public_key == transaction.signer || correspondent.address == (transaction as! TransferTransaction).recipient || AddressGenerator().generateAddress(transaction.signer) == correspondent.address
+                for correspondent in corespondents
                 {
-                    if correspondent.public_key == ""
+                    if correspondent.public_key == myPublicKey &&  correspondent.address == myAddress
                     {
-                        correspondent.public_key == transaction.signer
+                        current_correspondent = correspondent
+                        find = true
                     }
-                    
-                    current_correspondent = correspondent
-                    find = true
+                }
+            }
+            else
+            {
+                for correspondent in corespondents
+                {
+                    if correspondent.public_key == transaction.signer || correspondent.address == (transaction as! TransferTransaction).recipient || AddressGenerator().generateAddress(transaction.signer) == correspondent.address
+                    {
+                        if correspondent.public_key != myPublicKey || correspondent.address != myAddress
+                        {
+                            current_correspondent = correspondent
+                            find = true
+                            break
+                        }
+                    }
                 }
             }
             
             if !find
             {
-                if transaction.signer != KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+                var address = AddressGenerator().generateAddress( transaction.signer)
+                
+                if transaction.signer != myPublicKey
                 {
-                    var address = AddressGenerator().generateAddress( transaction.signer)
-                    
-                    current_correspondent = coreData.addCorrespondent(transaction.signer, name: address , address :address)
+                    current_correspondent = coreData.addCorrespondent(transaction.signer, name: address , address :address ,owner: State.currentWallet!)
+                }
+                else if (transaction as! TransferTransaction).recipient != myAddress
+                {
+                    current_correspondent = coreData.addCorrespondent("", name: (transaction as! TransferTransaction).recipient , address :(transaction as! TransferTransaction).recipient ,owner: State.currentWallet!)
                 }
                 else
                 {
-                    current_correspondent = coreData.addCorrespondent("", name: (transaction as! TransferTransaction).recipient , address :(transaction as! TransferTransaction).recipient )
+                    current_correspondent = coreData.addCorrespondent(myPublicKey, name: myAddress , address : myAddress ,owner: State.currentWallet!)
                 }
             }
             
@@ -70,7 +91,7 @@ class Transaction: NSManagedObject
                     return cur_transaction
                 }
             }
-            
+                        
             let newItem = NSEntityDescription.insertNewObjectForEntityForName("Transaction", inManagedObjectContext: moc) as! Transaction
             
             newItem.id = transaction.id

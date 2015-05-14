@@ -7,9 +7,7 @@ class Wallet: NSManagedObject
     @NSManaged var login: String
     @NSManaged var password: String
     @NSManaged var privateKey: String
-    @NSManaged var balance: NSNumber
     @NSManaged var correspondents: NSSet
-    @NSManaged var cosignatories: NSSet
     
     class func createInManagedObjectContext(moc: NSManagedObjectContext, login: String, password: String , privateKey: String) -> Wallet
     {
@@ -17,7 +15,6 @@ class Wallet: NSManagedObject
         newItem.login = login
         newItem.password = password
         newItem.privateKey = privateKey
-        newItem.balance = 0
         
         return newItem
     }

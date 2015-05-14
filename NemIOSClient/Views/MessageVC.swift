@@ -1,19 +1,30 @@
 import UIKit
 
+struct DefinedCell
+{
+    var type :String = ""
+    var height :CGFloat = 44
+}
+
 class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var inputText: UITextField!
-    @IBOutlet weak var NEMinput: UITextField!
     @IBOutlet weak var balance: UILabel!
-    @IBOutlet weak var fee: UILabel!
     
     var transactionFee :Double = 10;
+    var walletData :AccountGetMetaData!
+
     let dataManager :CoreDataManager = CoreDataManager()
     let contact :Correspondent = State.currentContact!
+    
     var transactions  :[Transaction]!
-    var showKeyboard :Bool = false
-    var nems :Int = 0
+    var unconfirmedTransactions  :[TransferTransaction] = [TransferTransaction]()
+    var definedCells :[DefinedCell] = [DefinedCell]()
+    
+    var state :[String] = ["none"]
+    
+    var timer :NSTimer!
+    
     var rowLength :Int = 21
     let textSizeCommon :CGFloat = 12
     let textSizeXEM :CGFloat = 14
@@ -33,116 +44,170 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         
         sortMessages()
         
-        var format = ".0"
+        var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        balance.text = " Balance : \((Double(State.currentWallet!.balance) / 1000000).format(format)) XEMs"
-
-
-        var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        observer.addObserver(self, selector: "unconfirmedTransactionsDenied:", name: "unconfirmedTransactionsDenied", object: nil)
+        observer.addObserver(self, selector: "unconfirmedTransactionsSuccessed:", name: "unconfirmedTransactionsSuccessed", object: nil)
+        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
+        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
+        observer.addObserver(self, selector: "scrollToEnd:", name: "scrollToEnd", object: nil)
         
-        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        center.addObserver(self, selector: "scrollToEnd:", name: "scrollToEnd", object: nil)
+        observer.postNotificationName("Title", object:State.currentContact!.name )
         
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:State.currentContact!.name )
+        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
         
-        inputText.layer.cornerRadius = 2
-        NEMinput.layer.cornerRadius = 2
+        if State.currentServer != nil
+        {
+            APIManager().accountGet(State.currentServer!, account_address: account_address)
+            APIManager().unconfirmedTransactions(State.currentServer!, account_address: account_address)
+        }
+        else
+        {
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
+        }
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
-        NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
+        observer.postNotificationName("scrollToEnd", object:nil )
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
+    }
+    
 
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
     }
-    @IBAction func typing(sender: NEMTextField)
+    
+    final func manageState()
     {
-        countTransactionFee()
+        switch (state.last!)
+        {
+        case "accountGetSuccessed" :
+            var format = ".0"
+            
+            balance.text = " Balance : \((walletData.balance / 1000000).format(format)) XEM"
+            state.removeLast()
+            
+            
+        case "unconfirmedTransactionsSuccessed" :
+            
+            definedCells.removeAll(keepCapacity: false)
+            
+            defineData()
+            
+            self.tableView.reloadData()
+            state.removeLast()
+
+            break
+            
+        default :
+            break
+        }
     }
     
-    final func countTransactionFee()
+    final func accountGetSuccessed(notification: NSNotification)
     {
-        if nems > 8
-        {
-            transactionFee = max(2, 99 * atan(Double(nems) / 0.15))
-        }
-        else
-        {
-            transactionFee = 10
-        }
+        state.append("accountGetSuccessed")
         
-        if count(inputText.text.utf16) != 0
-        {
-            transactionFee += Double(2 * max(1, Int( count(inputText.text.utf16) / 16)))
-        }
-        
-        self.fee.text = "Fee : \(Int64(transactionFee))"
+        walletData = (notification.object as! AccountGetMetaData)
     }
+    
+    final func accountGetDenied(notification: NSNotification)
+    {
+        state.append("accountGetDenied")
+    }
+    
+    final func unconfirmedTransactionsSuccessed(notification: NSNotification)
+    {
+        var incomingArray :[TransactionPostMetaData] = notification.object as! [TransactionPostMetaData]
+        
+        unconfirmedTransactions.removeAll(keepCapacity: false)
+        
+        for item in incomingArray
+        {
+            switch (item.type)
+            {
+            case transferTransaction :
+                unconfirmedTransactions.append(item as! TransferTransaction)
+            
+            case multisigTransaction:
+                
+                var multisigT  = item as! MultisigTransaction
+                
+                switch(multisigT.innerTransaction.type)
+                {
+                case transferTransaction :
+                    var innerTransaction = multisigT.innerTransaction as! TransferTransaction
+                    unconfirmedTransactions.append(innerTransaction)
+                    
+                default:
+                    break
+                }
+                
+            default:
+                break
+            }
+        }
+        
+        var address :String = State.currentContact!.address
+        
+        for var index = 0  ; index < unconfirmedTransactions.count ; index++
+        {
+            if unconfirmedTransactions[index].recipient != address
+            {
+                unconfirmedTransactions.removeAtIndex(index)
+                index--
+            }
+        }
+        
+        state.append("unconfirmedTransactionsSuccessed")
+    }
+    
+    final func unconfirmedTransactionsDenied(notification: NSNotification)
+    {
+        state.append("unconfirmedTransactionsAllDenied")
+    }
+
     
     override func viewDidAppear(animated: Bool)
     {
 
     }
     
-    @IBAction func closeKeyboard(sender: UITextField)
+    @IBAction func createTransaction(sender: AnyObject)
     {
-        sender.becomeFirstResponder()
+        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToSendTransaction )
     }
     
-    @IBAction func doNotScroll(sender: UITextField)
+    func  numberOfSectionsInTableView(UITableView) -> Int
     {
-        showKeyboard = true
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        if(transactions.count < 12)
+        if definedCells.count > 0
         {
-            return 12
-        }
-        else
-        {
-            return transactions.count
-        }
-    }
-    
-    @IBAction func send(sender: AnyObject)
-    {
-        if (inputText.text != "" || nems != 0 ) && State.currentServer != nil
-        {
-            var transaction :TransferTransaction = TransferTransaction()
-            var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publickey = KeyGenerator().generatePublicKey(privateKey)
-            var address = contact.address
-            
-            transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
-            transaction.amount = Double(nems)
-            transaction.message.payload = inputText.text
-            transaction.fee = transactionFee
-            transaction.recipient = address
-            transaction.type = 257
-            transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
-            transaction.message.type = 1
-            transaction.version = 1
-            transaction.signer = publickey
-            transaction.privateKey = privateKey
-
-            APIManager().prepareAnnounce(State.currentServer!, transaction: transaction)
-            
-            nems = 0;
-            inputText.text = ""
-            NEMinput.text = ""
-            
-            transactions = contact.transactions.allObjects as! [Transaction]
-            sortMessages()
+            switch (section)
+            {
+            case 0:
+                return transactions.count + 1
                 
-            tableView.reloadData()
+            case 1:
+                return unconfirmedTransactions.count
                 
-            NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
+            default:
+                break
+            }
         }
+        
+        return 0
     }
     
     func setString(message :String)->CGFloat
@@ -171,133 +236,153 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         return label.frame.height
     }
     
+    func tableView(tableView: UITableView,titleForHeaderInSection section: Int) -> String
+    {
+        switch section
+        {
+        case 1:
+            return "unconfirmed transactions"
+            
+        default:
+            return ""
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        if(12 - indexPath.row  <= transactions.count)
+        if( !(indexPath.row == 0 && indexPath.section == 0) )
         {
-            var index :Int!
-            
-            if(transactions.count < 12)
-            {
-                index = indexPath.row  -  12 + transactions.count
-            }
-            else
-            {
-                index = indexPath.row 
-            }
-            
+            var index :Int = 0
             var cell : CustomMessageCell!
-            
-            if (transactions[index].signer != KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey)))
+
+            switch (indexPath.section)
             {
-                cell = self.tableView.dequeueReusableCellWithIdentifier("inCell") as! CustomMessageCell
-            }
-            else
-            {
-                cell = self.tableView.dequeueReusableCellWithIdentifier("outCell") as! CustomMessageCell
-            }
-            
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: transactions[index].message_payload , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)!])
-            
-            if(transactions[index].amount as! Int != 0)
-            {
-                var text :String = "\(Int(Double(transactions[index].amount) / 1000000) ) XEMs"
-                if transactions[index].message_payload != ""
+            case 0:
+                index = indexPath.row - 1
+                cell = self.tableView.dequeueReusableCellWithIdentifier(definedCells[index].type) as! CustomMessageCell
+                
+                var transaction = transactions[index]
+                var message :NSMutableAttributedString = NSMutableAttributedString(string: transactions[index].message_payload , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)!])
+                
+                if(transactions[index].amount as! Int != 0)
                 {
-                    text = "\n" + text
+                    var text :String = "\(Int(Double(transactions[index].amount) / 1000000) ) XEM"
+                    if transactions[index].message_payload != ""
+                    {
+                        text = "\n" + text
+                    }
+                    
+                    var messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Bold", size: textSizeXEM)! ])
+                    message.appendAttributedString(messageXEMS)
                 }
                 
-                var messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Bold", size: textSizeXEM)! ])
-                message.appendAttributedString(messageXEMS)
+                var messageDate :NSMutableAttributedString = NSMutableAttributedString(string:"\n" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Bold", size: textSizeCommon)! ])
+                message.appendAttributedString(messageDate)
+                
+                cell.message.attributedText = message
+                
+                var dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "HH:mm dd.MM.yy "
+                
+                var timeStamp = Double(transactions[index].timeStamp)
+                var block = dataManager.getBlock(Double((transactions[index] as Transaction).height))
+                
+                if block != nil
+                {
+                    timeStamp += Double(block!.timeStamp) / 1000
+                }
+                
+                cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
+                
+                if(indexPath.row == tableView.numberOfRowsInSection(0) - 1)
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
+                }
+                
+                cell.message.layer.cornerRadius = 5
+                cell.message.layer.masksToBounds = true
+                
+                return cell
+                
+            case 1:
+                index = indexPath.row
+                cell = self.tableView.dequeueReusableCellWithIdentifier(definedCells[index + transactions.count].type) as! CustomMessageCell
+                
+                var transaction :TransferTransaction = unconfirmedTransactions[index]
+                var message :NSMutableAttributedString = NSMutableAttributedString(string: transaction.message.payload , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)!])
+                
+                if(transaction.amount  != 0)
+                {
+                    var text :String = "\(Int(Double(transaction.amount) / 1000000) ) XEM"
+                    if transaction.message.payload != ""
+                    {
+                        text = "\n" + text
+                    }
+                    
+                    var messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Bold", size: textSizeXEM)! ])
+                    message.appendAttributedString(messageXEMS)
+                }
+                
+                cell.message.attributedText = message
+                cell.message.layer.cornerRadius = 5
+                cell.message.layer.masksToBounds = true
+                
+                return cell
+
+            default :
+                break
             }
-            
-            var messageDate :NSMutableAttributedString = NSMutableAttributedString(string:"\n" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Bold", size: textSizeCommon)! ])
-            message.appendAttributedString(messageDate)
-            
-            cell.message.attributedText = message
-            
-            var dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "HH:mm dd.MM.yy "
-            
-            var timeStamp = Double(transactions[index].timeStamp)
-            var block = dataManager.getBlock(Double((transactions[index] as Transaction).height))
-            
-            if block != nil
-            {
-                timeStamp += Double(block!.timeStamp) / 1000
-            }
-            
-            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
-            
-            if(indexPath.row == tableView.numberOfRowsInSection(0) - 1)
-            {
-                NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
-            }
-            
-            cell.message.layer.cornerRadius = 5
-            cell.message.layer.masksToBounds = true
-            
-            return cell
         }
-        else
-        {
-            var cell    :UITableViewCell  = self.tableView.dequeueReusableCellWithIdentifier("simpl") as! UITableViewCell
-            return cell as UITableViewCell
-        }
+        
+        var cell    :UITableViewCell  = self.tableView.dequeueReusableCellWithIdentifier("simpl") as! UITableViewCell
+        return cell as UITableViewCell
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        if(12 - indexPath.row  <= transactions.count)
+        switch (indexPath.section)
         {
-            var index :Int!
-            if(transactions.count < 12)
+        case 0:
+            if indexPath.row == 0
             {
-                index = indexPath.row  -  12 + transactions.count
+                var height :CGFloat = 0
+                
+                for cell in definedCells
+                {
+                    height += cell.height
+                }
+                
+                if height >= self.tableView.bounds.height
+                {
+                    return 1
+                }
+                else
+                {
+                    return self.tableView.bounds.height - height
+                }
             }
             else
             {
-                index = indexPath.row
+                return definedCells[indexPath.row - 1].height
             }
             
-            var height :CGFloat = heightForView(transactions[index].message_payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 66)
-        
-            if  transactions[index].amount as! Int != 0
+        case 1:
+            if transactions.count  > 0
             {
-                height += heightForView("\n \(Int(Double(transactions[index].amount) / 1000000) )" , font: UIFont(name: "HelveticaNeue", size: textSizeXEM)!, width: tableView.frame.width - 66)
+                return definedCells[indexPath.row + transactions.count - 1].height
             }
             else
             {
-                height += 20 //date offset
+                return definedCells[indexPath.row ].height
             }
             
-            return  height
-        }
-        else
-        {
-            return 44
-        }
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
-
-    }
-    
-    @IBAction func addNems(sender: AnyObject)
-    {
-        if (sender as! UITextField).text.toInt() != nil
-        {
-            self.nems = (sender as! UITextField).text.toInt()!
-        }
-        else
-        {
-            self.nems = 0
+        default:
+            break
         }
         
-        countTransactionFee()
+        return 1
     }
-
+    
     func sortMessages()
     {
         var accum :Transaction!
@@ -309,24 +394,9 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             {
                 var height :Double!
                 
-                var valueA :Double = Double((transactions[index] as Transaction).timeStamp)
-                height = Double((transactions[index] as Transaction).height)
+                var valueA :Double = Double((transactions[index] as Transaction).id)
                 
-                var block = dataManager.getBlock(height)
-                
-                if block != nil
-                {
-                    valueA += Double(block!.timeStamp) / 1000
-                }
-                
-                var valueB :Double = Double((transactions[index + 1] as Transaction).timeStamp)
-                height = Double((transactions[index + 1] as Transaction).height)
-                block = dataManager.getBlock(height)
-                
-                if block != nil
-                {
-                    valueB += Double(block!.timeStamp) / 1000
-                }
+                var valueB :Double = Double((transactions[index + 1] as Transaction).id)
                 
                 if valueA > valueB
                 {
@@ -344,64 +414,80 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         }
     }
     
+    final func defineData()
+    {
+        var publicKey :String = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        for transaction in transactions
+        {
+            var definedCell : DefinedCell = DefinedCell()
+            if (transaction.signer != publicKey)
+            {
+                definedCell.type = "inCell"
+            }
+            else
+            {
+                definedCell.type = "outCell"
+            }
+            
+            var height :CGFloat = heightForView(transaction.message_payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 66)
+            
+            if  transaction.amount as! Int != 0
+            {
+                height += heightForView("\n \(Int(Double(transaction.amount) / 1000000) )" , font: UIFont(name: "HelveticaNeue", size: textSizeXEM)!, width: tableView.frame.width - 66)
+            }
+            else
+            {
+                height += 20 //date offset
+            }
+            
+            definedCell.height =  height
+            
+            definedCells.append(definedCell)
+        }
+        
+        for transaction in unconfirmedTransactions
+        {
+            var definedCell : DefinedCell = DefinedCell()
+            definedCell.type = "unconfirmedCell"
+            
+            var height :CGFloat = heightForView(transaction.message.payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 66)
+            
+            if  transaction.amount != 0
+            {
+                height += heightForView("\n \(Int(Double(transaction.amount) / 1000000) )" , font: UIFont(name: "HelveticaNeue", size: textSizeXEM)!, width: tableView.frame.width - 66)
+            }
+            
+            definedCell.height =  height
+            
+            definedCells.append(definedCell)
+        }
+        self.tableView.reloadData()
+    }
+    
     func scrollToEnd(notification: NSNotification)
     {
-        var pos :Int!
-        if(tableView.numberOfRowsInSection(0) < 12)
+        var indexPath1 :NSIndexPath!
+        
+        if(tableView.numberOfRowsInSection(1) == 0)
         {
-            pos = 0
+            if (tableView.numberOfRowsInSection(0) != 0)
+            {
+                indexPath1 = NSIndexPath(forRow: tableView.numberOfRowsInSection(0) - 1 , inSection: 0)
+            }
         }
         else
         {
-            pos = tableView.numberOfRowsInSection(0) - 1
+            indexPath1 = NSIndexPath(forRow: tableView.numberOfRowsInSection(1) - 1 , inSection: 1)
         }
-        var indexPath1 :NSIndexPath = NSIndexPath(forRow: pos , inSection: 0)
         
-        tableView.scrollToRowAtIndexPath(indexPath1, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-    }
-    
-    func keyboardWillShow(notification: NSNotification)
-    {
-        if(showKeyboard)
+        if indexPath1 != nil
         {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            var animationDuration = 0.25
-            
-            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                    {
-                        self.view.frame = CGRectMake(0, -keyboardHeight, self.view.bounds.width, self.view.bounds.height)
-                    }, completion: nil)
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-
-        
-            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
-        
-            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                {
-                    self.view.frame = CGRectMake(0, (self.view.frame.origin.y + keyboardHeight), self.view.bounds.width, self.view.bounds.height)
-            
-                }, completion: nil)
+            tableView.scrollToRowAtIndexPath(indexPath1, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }
     }
 
     override func viewWillDisappear(animated: Bool)
     {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }

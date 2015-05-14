@@ -15,12 +15,12 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
     {
         super.viewDidLoad()
 
-        if State.fromVC != SegueToCreateQRInput
+        if State.fromVC != SegueToGoogleMap
         {
-            State.fromVC = SegueToCreateQRInput
+            State.fromVC = SegueToGoogleMap
         }
         
-        State.currentVC = SegueToCreateQRInput
+        State.currentVC = SegueToGoogleMap
         
         self.locationManager.requestAlwaysAuthorization()
         
