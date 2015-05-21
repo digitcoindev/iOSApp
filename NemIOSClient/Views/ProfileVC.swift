@@ -327,8 +327,15 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
         }
     }
     
+    @IBAction func history(sender: AnyObject)
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToHistoryVC )
+    }
+    
     @IBAction func manageAccount(sender: AnyObject)
     {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueTomultisigAccountManager )
     }
     

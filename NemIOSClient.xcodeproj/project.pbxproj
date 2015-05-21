@@ -84,6 +84,7 @@
 		DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */; };
 		DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */; };
 		DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* WalletCell.swift */; };
+		DA93FBDA1B0B753400549867 /* LocalizeBase.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA93FBDC1B0B753400549867 /* LocalizeBase.strings */; };
 		DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA971FDB1A67C2A00039ADB4 /* Foundation.framework */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
 		DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */; };
@@ -104,9 +105,10 @@
 		DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */; };
 		DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */; };
 		DAC3A1801B03AE2800AABB61 /* Signature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17F1B03AE2800AABB61 /* Signature.swift */; };
+		DAC3A1821B04C04400AABB61 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */; };
+		DAC3A1881B0B62A500AABB61 /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1861B0B62A500AABB61 /* PopUp.swift */; };
 		DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */; };
 		DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */; };
-		DACBFEA51A5ADE6900C2FCEC /* ImportFromFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
 		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
 		DACF9C3C1A49C5F700550FB9 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */; };
@@ -135,7 +137,6 @@
 		DAD1C8561A69664D0043D947 /* address_book_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD1C8401A69664D0043D947 /* address_book_icon.png */; };
 		DAD1C8571A69664D0043D947 /* add_account.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD1C8411A69664D0043D947 /* add_account.png */; };
 		DAD1C8581A69664D0043D947 /* active_radiobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD1C8421A69664D0043D947 /* active_radiobutton.png */; };
-		DAD21B891AEFC4B200F6B861 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B881AEFC4B200F6B861 /* History.swift */; };
 		DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B941AFA1AF900F6B861 /* ButtonDropDown.swift */; };
 		DAD21B9A1AFB735600F6B861 /* SendTransactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B991AFB735600F6B861 /* SendTransactionVC.swift */; };
 		DAD21B9C1AFCD51F00F6B861 /* MultisigTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */; };
@@ -148,6 +149,7 @@
 		DAD5AD8E1A52DD880093E3DB /* DashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */; };
 		DAD5AD901A52E7850093E3DB /* PasswordValidationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */; };
 		DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* MessageVC.swift */; };
+		DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA272F1B0C8D4100EA09F8 /* Validate.swift */; };
 		DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA33F71A72874500F14D6D /* WalletGenerator.swift */; };
 		DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA35991A76609800F14D6D /* NSData+Base64.m */; };
 		DADA37531A7683C300F14D6D /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = DADA373F1A7683C300F14D6D /* readme.md */; };
@@ -260,6 +262,7 @@
 		DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AggregateModificationTransaction.swift; path = Models/AggregateModificationTransaction.swift; sourceTree = "<group>"; };
 		DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportanceTransferTransaction.swift; path = Models/ImportanceTransferTransaction.swift; sourceTree = "<group>"; };
 		DA8A892D1A4C52300072FE08 /* WalletCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletCell.swift; path = "Views/Additional controls/WalletCell.swift"; sourceTree = "<group>"; };
+		DA93FBDD1B0B754100549867 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/LocalizeBase.strings; sourceTree = "<group>"; };
 		DA971FDB1A67C2A00039ADB4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
 		DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRResult.swift; path = Views/CreateQRResult.swift; sourceTree = "<group>"; };
@@ -281,9 +284,10 @@
 		DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnconfirmedTransactionVC.swift; path = Views/UnconfirmedTransactionVC.swift; sourceTree = "<group>"; };
 		DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignatureTransaction.swift; path = Models/MultisigSignatureTransaction.swift; sourceTree = "<group>"; };
 		DAC3A17F1B03AE2800AABB61 /* Signature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Signature.swift; path = Models/Signature.swift; sourceTree = "<group>"; };
+		DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryViewController.swift; path = Views/HistoryViewController.swift; sourceTree = "<group>"; };
+		DAC3A1861B0B62A500AABB61 /* PopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopUp.swift; path = "Views/Additional controls/PopUp.swift"; sourceTree = "<group>"; };
 		DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSynchronizator.swift; path = Models/TimeSynchronizator.swift; sourceTree = "<group>"; };
 		DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = Models/AddressBookManager.swift; sourceTree = "<group>"; };
-		DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromFile.swift; path = Views/ImportFromFile.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
 		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
 		DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = Models/CoreDataManager.swift; sourceTree = "<group>"; };
@@ -312,7 +316,6 @@
 		DAD1C8401A69664D0043D947 /* address_book_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = address_book_icon.png; path = Images/Icons/address_book_icon.png; sourceTree = "<group>"; };
 		DAD1C8411A69664D0043D947 /* add_account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add_account.png; path = Images/Icons/add_account.png; sourceTree = "<group>"; };
 		DAD1C8421A69664D0043D947 /* active_radiobutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = active_radiobutton.png; path = Images/Icons/active_radiobutton.png; sourceTree = "<group>"; };
-		DAD21B881AEFC4B200F6B861 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = History.swift; path = Views/History.swift; sourceTree = "<group>"; };
 		DAD21B941AFA1AF900F6B861 /* ButtonDropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonDropDown.swift; path = "Views/Additional controls/ButtonDropDown.swift"; sourceTree = "<group>"; };
 		DAD21B991AFB735600F6B861 /* SendTransactionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendTransactionVC.swift; path = Views/SendTransactionVC.swift; sourceTree = "<group>"; };
 		DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigTransaction.swift; path = Models/MultisigTransaction.swift; sourceTree = "<group>"; };
@@ -325,6 +328,7 @@
 		DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardVC.swift; path = Views/DashboardVC.swift; sourceTree = "<group>"; };
 		DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordValidationVC.swift; path = Views/PasswordValidationVC.swift; sourceTree = "<group>"; };
 		DAD5AD911A52F2F30093E3DB /* MessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageVC.swift; path = Views/MessageVC.swift; sourceTree = "<group>"; };
+		DADA272F1B0C8D4100EA09F8 /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Models/Validate.swift; sourceTree = "<group>"; };
 		DADA33F71A72874500F14D6D /* WalletGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletGenerator.swift; path = Models/WalletGenerator.swift; sourceTree = "<group>"; };
 		DADA35991A76609800F14D6D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Models/NSData+Base64.m"; sourceTree = "<group>"; };
 		DADA359A1A76609800F14D6D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Models/NSData+Base64.h"; sourceTree = "<group>"; };
@@ -442,6 +446,7 @@
 				DA194E081A4323B40030C882 /* HashManager.swift */,
 				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
 				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
+				DADA272F1B0C8D4100EA09F8 /* Validate.swift */,
 			);
 			name = Additional;
 			sourceTree = "<group>";
@@ -590,6 +595,7 @@
 				DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */,
 				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
 				DA3558041A39D3BA00AFA5FD /* Info.plist */,
+				DA93FBDC1B0B753400549867 /* LocalizeBase.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -664,7 +670,8 @@
 				DA3DD8A61A6E9DC400B45BF5 /* Cells */,
 				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
 				DA031ED71A9226E60021E98B /* TextFields */,
-				DAD21B941AFA1AF900F6B861 /* ButtonDropDown.swift */,
+				DAC3A1831B0B623D00AABB61 /* DropDown */,
+				DAC3A1861B0B62A500AABB61 /* PopUp.swift */,
 			);
 			name = "Additional controls";
 			sourceTree = "<group>";
@@ -772,7 +779,6 @@
 			children = (
 				DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */,
 				DA194DF81A41D50E0030C882 /* RegistrationVC.swift */,
-				DACBFEA41A5ADE6900C2FCEC /* ImportFromFile.swift */,
 				DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */,
 				DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */,
 			);
@@ -808,6 +814,14 @@
 			);
 			name = Trash;
 			path = NemIOSClient;
+			sourceTree = "<group>";
+		};
+		DAC3A1831B0B623D00AABB61 /* DropDown */ = {
+			isa = PBXGroup;
+			children = (
+				DAD21B941AFA1AF900F6B861 /* ButtonDropDown.swift */,
+			);
+			name = DropDown;
 			sourceTree = "<group>";
 		};
 		DAC8BA9E1ACD53BC00BB95B0 /* State */ = {
@@ -877,7 +891,7 @@
 			isa = PBXGroup;
 			children = (
 				DA89F1141AD6A69100105BB0 /* ProfileVC.swift */,
-				DAD21B881AEFC4B200F6B861 /* History.swift */,
+				DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */,
 				DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */,
 			);
 			name = Profile;
@@ -1107,6 +1121,7 @@
 				DAD1C8521A69664D0043D947 /* custom_icon.png in Resources */,
 				DA173CCD1A9E1161003AC21F /* add_icon.png in Resources */,
 				DAD1C8491A69664D0043D947 /* qr_icon.png in Resources */,
+				DA93FBDA1B0B753400549867 /* LocalizeBase.strings in Resources */,
 				DAD1C8451A69664D0043D947 /* send_email.png in Resources */,
 				DA173CCA1A9E1161003AC21F /* user_info.png in Resources */,
 				DAD1C84E1A69664D0043D947 /* key_icon.png in Resources */,
@@ -1135,6 +1150,7 @@
 				DA2BE9C21AB2F0C800E48D8F /* Transaction.swift in Sources */,
 				DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */,
 				DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */,
+				DAC3A1821B04C04400AABB61 /* HistoryViewController.swift in Sources */,
 				DA89F1151AD6A69100105BB0 /* ProfileVC.swift in Sources */,
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
@@ -1155,7 +1171,6 @@
 				DAC3A17A1B01EBB700AABB61 /* UnconfirmedTransactionCell.swift in Sources */,
 				DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */,
 				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
-				DAD21B891AEFC4B200F6B861 /* History.swift in Sources */,
 				DA0059371A4882B300638C57 /* State.swift in Sources */,
 				DADA37581A7683C300F14D6D /* keypair.c in Sources */,
 				DA08D9B91AC026F400B93EBE /* UInt8Utils.swift in Sources */,
@@ -1195,6 +1210,7 @@
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
 				DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */,
 				DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */,
+				DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */,
 				DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */,
 				DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */,
 				DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */,
@@ -1210,6 +1226,7 @@
 				DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */,
 				DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */,
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
+				DAC3A1881B0B62A500AABB61 /* PopUp.swift in Sources */,
 				DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */,
 				DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */,
 				DA3558421A3AFD2B00AFA5FD /* ServerContainerVC.swift in Sources */,
@@ -1225,7 +1242,6 @@
 				DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */,
 				DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */,
 				DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */,
-				DACBFEA51A5ADE6900C2FCEC /* ImportFromFile.swift in Sources */,
 				DA2BE9C51AB330E100E48D8F /* TransactionPostMetaData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1263,6 +1279,14 @@
 				DA3558121A39D3BB00AFA5FD /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		DA93FBDC1B0B753400549867 /* LocalizeBase.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA93FBDD1B0B754100549867 /* Base */,
+			);
+			name = LocalizeBase.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -39,22 +39,63 @@ class APIManager: NSObject
                     println(err!.localizedDescription)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("heartbeatDenied", object:nil)
-
+                    
                     
                     println("NIS is not available!")
                 }
                 else
                 {
                     var message :String = (layers! as NSDictionary).objectForKey("message") as! String
-                    var code :Int = (layers! as NSDictionary).objectForKey("code") as! Int
-                    var type :Int = (layers! as NSDictionary).objectForKey("type") as! Int
                     
                     println("\nRequest : /heartbeat")
-
+                    
                     //println("\nSucces : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
                     
                     self.timeSynchronize(server)
-                NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
+                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
+                }
+        })
+        
+        task.resume()
+        
+        return true
+    }
+    
+    final func testHeartbeat(server :Server) -> Bool
+    {
+        var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
+        var err: NSError?
+        
+        request.HTTPMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        var task = session.dataTaskWithRequest(request, completionHandler:
+            {
+                data, response, error -> Void in
+                
+                var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+                var err: NSError?
+                var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+                if(err != nil)
+                {
+                    println(err!.localizedDescription)
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("testHeartbeatDenied", object:nil)
+                    
+                    
+                    println("NIS is not available!")
+                }
+                else
+                {
+                    var message :String = (layers! as NSDictionary).objectForKey("message") as! String
+                    
+                    println("\nRequest : /heartbeat")
+                    
+                    //println("\nSucces : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
+                    
+                    self.timeSynchronize(server)
+                    NSNotificationCenter.defaultCenter().postNotificationName("testHeartbeatSuccessed", object:layers )
                 }
         })
         

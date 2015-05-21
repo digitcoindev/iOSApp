@@ -22,6 +22,9 @@ class AddFriend: UIViewController
         observer.addObserver(self, selector: "detectedQR:", name: "Scan QR", object: nil)
         
         qrScaner.scanQR(qrScaner.frame.width , height: qrScaner.frame.height )
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Scan your friend")
+
     }
 
     final func detectedQR(notification: NSNotification)

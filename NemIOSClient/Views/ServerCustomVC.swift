@@ -25,7 +25,8 @@ class ServerCustomVC: UIViewController
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         observer.addObserver(self, selector: "serverConfirmed:", name: "heartbeatSuccessed", object: nil)
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
-        
+        observer.postNotificationName("Title", object:"Create server" )
+
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
     }
     
@@ -85,12 +86,25 @@ class ServerCustomVC: UIViewController
     
     @IBAction func addServer(sender: AnyObject)
     {
-        dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
-        apiManager.heartbeat(dataManager.getServers().last!)
-
-        serverAddress.text = ""
-        protocolType.text = ""
-        serverPort.text = ""
+        if serverAddress.text == "" || serverPort.text == "" || protocolType.text == ""
+        {
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "To add new server you must fill all fields", delegate: self, cancelButtonTitle: "OK")
+            alert.show()
+        }
+        else if protocolType.text != "http"
+        {
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "Available only \"http\" protocol type.", delegate: self, cancelButtonTitle: "OK")
+            alert.show()
+        }
+        else
+        {
+            dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
+            apiManager.heartbeat(dataManager.getServers().last!)
+            
+            serverAddress.text = ""
+            protocolType.text = ""
+            serverPort.text = ""
+        }
     }
     
     override func didMoveToParentViewController(parent: UIViewController?)

@@ -28,6 +28,7 @@ let SegueToProfileCosignatoryOf :String = "ProfileCosignatoryOf"
 let SegueToSendTransaction :String = "SendTransaction"
 let SegueTomultisigAccountManager :String = "multisigAccountManager"
 let SegueToUnconfirmedTransactionVC :String = "UnconfirmedTransactionVC"
+let SegueToHistoryVC :String = "History"
 
 let transferTransaction :Int = 257
 let importanceTransaction :Int = 2049
@@ -61,7 +62,7 @@ class ViewController: UIViewController
 {
     let deviceData : plistFileManager = plistFileManager()
     let dataManager :CoreDataManager = CoreDataManager()
-
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -71,7 +72,6 @@ class ViewController: UIViewController
     {
         AddressBookManager.create()
         
-               
         self.performSegueWithIdentifier(SegueToMainVC, sender: self)
         
 //        self.presentViewController(alert1, animated: true, completion: nil)

@@ -23,6 +23,9 @@ class AddAccount: UIViewController
         qr.layer.cornerRadius = 2
         key.layer.cornerRadius = 2
         
+         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"" )
+
+        
     }
 
     override func didReceiveMemoryWarning()

@@ -97,12 +97,15 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
         case "unconfirmedTransactionsSuccessed" :
             
-            definedCells.removeAll(keepCapacity: false)
-            
-            defineData()
-            
-            self.tableView.reloadData()
-            state.removeLast()
+            if walletData != nil
+            {
+                definedCells.removeAll(keepCapacity: false)
+                
+                defineData()
+                
+                self.tableView.reloadData()
+                state.removeLast()
+            }
 
             break
             
@@ -420,13 +423,28 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         for transaction in transactions
         {
             var definedCell : DefinedCell = DefinedCell()
-            if (transaction.signer != publicKey)
-            {
-                definedCell.type = "inCell"
-            }
-            else
+            definedCell.type = "inCell"
+            
+            if (transaction.signer == publicKey)
             {
                 definedCell.type = "outCell"
+            }
+            
+            
+            for cosignatory in walletData.cosignatories
+            {
+                if cosignatory.publicKey == transaction.signer
+                {
+                    definedCell.type = "outCell"
+                }
+            }
+            
+            for cosignatory in walletData.cosignatoryOf
+            {
+                if cosignatory.publicKey == transaction.signer
+                {
+                    definedCell.type = "outCell"
+                }
             }
             
             var height :CGFloat = heightForView(transaction.message_payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 66)

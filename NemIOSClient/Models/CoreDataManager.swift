@@ -71,16 +71,6 @@ class CoreDataManager: NSObject
             }
         }
         
-        blocks = self.getBlocks()
-        
-        for block in blocks as [Block]
-        {
-            if block.height == height
-            {
-                return block
-            }
-        }
-        
         return nil
     }
     

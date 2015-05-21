@@ -28,7 +28,8 @@ class ImportFromQR: UIViewController
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        
+        observer.postNotificationName("Title", object:"Scan your account" )
+
         addB.enabled = false
 
         screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )

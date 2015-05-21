@@ -35,6 +35,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         
         observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
+        
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Accounts")
     }
     
@@ -76,7 +77,10 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        
+//        var alert :PopUp = PopUp()
+//        alert.view.frame = self.tableView.frame
+//        self.presentViewController(alert, animated: true, completion: nil)
+//
         if State.currentServer != nil
         {
             State.currentWallet = wallets[indexPath.row]

@@ -183,6 +183,18 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
                     transactionFeeLable.text = ""
                 }
             }
+            else
+            {
+                var alert :UIAlertController = UIAlertController(title: "Info", message: "Not enough money", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
+                    {
+                        alertAction -> Void in
+                }
+                
+                alert.addAction(ok)
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
         }
     }
     

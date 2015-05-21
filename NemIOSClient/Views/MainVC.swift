@@ -6,14 +6,15 @@ class MainVC: UIViewController
     @IBOutlet weak var status: UILabel!
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var indicator: UIButton!
+    @IBOutlet weak var indicatorLable: UILabel!
     
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     
     var pages :MainContainerVC = MainContainerVC()
     var deviceData :plistFileManager = plistFileManager()
-
     var pagesTitles :NSMutableArray = NSMutableArray()
-    
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -21,16 +22,21 @@ class MainVC: UIViewController
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
-        
         observer.addObserver(self, selector: "pageSelected:", name: "MenuPage", object: nil)
         observer.addObserver(self, selector: "changeTitle:", name: "Title", object: nil)
                 
         backBtn.hidden = true
         
+        
         pagesTitles  = deviceData.getMenuItems()
+    
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Dashboard")
                 
     }
-
+    
+    
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()

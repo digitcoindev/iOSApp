@@ -22,7 +22,7 @@ class AccountGetMetaData: NSObject
         self.address = accountData.objectForKey("address") as! String
         self.balance = accountData.objectForKey("balance") as! Double
         self.importance  = accountData.objectForKey("importance") as! Double
-        self.publicKey = accountData.objectForKey("publicKey") as! String
+        self.publicKey = accountData.objectForKey("publicKey") as? String
         self.label = accountData.objectForKey("label") as? String
         self.harvestedBlocks = accountData.objectForKey("harvestedBlocks") as! Double
         self.status = metaData.objectForKey("status") as! String

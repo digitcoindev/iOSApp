@@ -8,6 +8,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     let dataManager :CoreDataManager = CoreDataManager()
     let addressBook : ABAddressBookRef? = AddressBookManager.addressBook
     var contacts :NSArray = AddressBookManager.contacts
+    var walletData :AccountGetMetaData!
 
     override func viewDidLoad()
     {
@@ -21,8 +22,24 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         State.currentVC = SegueToAddressBook
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
-}
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Contacts")
+        
+        if State.currentServer != nil
+        {
+            var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+            var publicKey = KeyGenerator().generatePublicKey(privateKey)
+            var account_address = AddressGenerator().generateAddress(publicKey)
+            
+            APIManager().accountGet(State.currentServer!, account_address: account_address)
+        }
+    }
 
+    final func accountGetSuccessed(notification: NSNotification)
+    {
+        walletData = (notification.object as! AccountGetMetaData)
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
@@ -171,6 +188,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
 
         return cell
     }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         var cell :AddressCell = tableView.cellForRowAtIndexPath(indexPath) as! AddressCell
@@ -222,57 +240,65 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             self.presentViewController(alert1, animated: true, completion: nil)
 
         }
-        else
+        else if walletData != nil
         {
-            var person :ABRecordRef = contacts[indexPath.row]
-            
-            let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue()
-            let count  :Int = ABMultiValueGetCount(emails)
-            
-            var key :String!
-
-            for var index = 0; index < count; ++index
+            if walletData.publicKey != nil
             {
-                var lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue() as String
-                if lable == "NEM"
+                var person :ABRecordRef = contacts[indexPath.row]
+                
+                let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue()
+                let count  :Int = ABMultiValueGetCount(emails)
+                
+                var key :String!
+
+                for var index = 0; index < count; ++index
                 {
-                    key = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
-                    break
+                    var lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue() as String
+                    if lable == "NEM"
+                    {
+                        key = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
+                        break
+                    }
                 }
-            }
-            var title :String = ""
-            
-            if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
-            {
-                title = (name as String) + " "
-            }
-            
-            if var surname = ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString
-            {
-                title = title +  ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as! NSString) as String)
-            }
-            
-            State.currentContact = nil
-            
-            State.toVC = SegueToPasswordValidation
-            
-            var correspondents : NSArray = dataManager.getCorrespondents()
-            
-            for correspondent  in correspondents
-            {
-               if (correspondent as! Correspondent).public_key == key
-               {
-                    State.currentContact = correspondent as? Correspondent
-                    break
+                var title :String = ""
+                
+                if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
+                {
+                    title = (name as String)
                 }
+                
+                if ABRecordCopyValue(person, kABPersonLastNameProperty) != nil
+                {
+                    title = title + " " +  ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as! NSString) as String)
+                }
+                
+                State.currentContact = nil
+                
+                State.toVC = SegueToPasswordValidation
+                
+                var correspondents : NSArray = dataManager.getCorrespondents()
+                
+                for correspondent  in correspondents
+                {
+                   if (correspondent as! Correspondent).public_key == key
+                   {
+                        State.currentContact = correspondent as? Correspondent
+                        break
+                    }
+                }
+                if State.currentContact == nil
+                {
+                    State.currentContact = dataManager.addCorrespondent(key, name: title , address : key ,owner: State.currentWallet!)
+                }
+
+                NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )
             }
-            if State.currentContact == nil
+            else
             {
-                State.currentContact = dataManager.addCorrespondent(key, name: title , address : key ,owner: State.currentWallet!)
+                var alert :UIAlertView = UIAlertView(title: "Info", message: "Your account could not sent transactions. Please increase your balance", delegate: self, cancelButtonTitle: "OK")
+                alert.show()
+
             }
-
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )
-
         }
     }
 }

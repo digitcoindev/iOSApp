@@ -32,7 +32,8 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        
+        center.postNotificationName("Title", object:"Import from key" )
+
     }
     
     deinit
@@ -45,19 +46,11 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     {
         super.didReceiveMemoryWarning()
     }
-
-    @IBAction func validatePassword(sender: AnyObject)
-    {
-        if(count(password.text)  < 6 )
-        {
-            var alert :UIAlertView = UIAlertView(title: "Validation", message: "Too short password", delegate: self, cancelButtonTitle: "OK")
-            
-            alert.show()
-            password.text = ""
-        }
-        //repeatPassword.text = ""
-    }
     
+    @IBAction func returnFirstResponder(sender: AnyObject)
+    {
+        (sender as! UITextField).becomeFirstResponder()
+    }
     
     @IBAction func chouseTextField(sender: AnyObject)
     {
@@ -67,30 +60,12 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     @IBAction func confirm(sender: AnyObject)
     {
         var alert :UIAlertView!
-        var passwordValidate :Bool = false
         
-        if(password.text != "")
+        if name.text != ""  && key.text! != "" && repeatPassword.text != "" && password.text != ""
         {
-            if(password.text == repeatPassword.text)
+            if password.text == repeatPassword.text && Validate.password(password.text)
             {
-                passwordValidate = true;
-            }
-            else
-            {
-                alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
-                
-                repeatPassword.text = ""
-            }
-        }
-        else
-        {
-            alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
-        }
-        
-        if(name.text != ""  && key.text! != "")
-        {
-            if(passwordValidate)
-            {
+                var keyValide :Bool = true
                 switch (key.text)
                 {
                 case "1":
@@ -131,15 +106,34 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
                     
                 default:
                     
-                    break
+                    keyValide = Validate.privateKey(key.text)
                 }
-                                
-                dataManager.addWallet(name.text, password: HashManager.AES256Encrypt(password.text), privateKey : HashManager.AES256Encrypt(key.text!))
                 
-                State.fromVC = SegueToImportFromKey
-                State.toVC = SegueToLoginVC
+                if keyValide
+                {
+                    dataManager.addWallet(name.text, password: HashManager.AES256Encrypt(password.text), privateKey : HashManager.AES256Encrypt(key.text!))
+                    
+                    State.fromVC = SegueToImportFromKey
+                    State.toVC = SegueToLoginVC
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
+                }
+                else
+                {
+                    alert  = UIAlertView(title: "Validation", message: "Invalide private key.\nPlease check it.", delegate: self, cancelButtonTitle: "OK")
+                }
+            }
+            else if !Validate.password(password.text)
+            {
+                alert  = UIAlertView(title: "Validation", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
                 
-                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
+                repeatPassword.text = ""
+            }
+            else
+            {
+                alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
+                
+                repeatPassword.text = ""
             }
         }
         else
@@ -147,6 +141,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
             alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
             
         }
+        
         if(alert != nil)
         {
             alert.show()

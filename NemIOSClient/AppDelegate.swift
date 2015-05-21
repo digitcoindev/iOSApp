@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
         
         GMSServices.provideAPIKey("AIzaSyBqvOZX3-rMlw9QJ-dJHa3k2DtPVtgz9Mc")
+
         
         return true
     }
@@ -71,11 +72,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             dict[NSUnderlyingErrorKey] = error
             error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             
-            // Replace this with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            
+            var alert :UIAlertView = UIAlertView(title: "Upps", message: "Migration error . Unresolved error \(error), \(error!.userInfo)", delegate: self, cancelButtonTitle: "OK")
+            alert.show()
             
             NSLog("Unresolved error \(error), \(error!.userInfo)")
-            abort()
         }
         
         return coordinator

@@ -44,6 +44,9 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
         mapView.settings.compassButton = true
         
         self.view = mapView
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Map" )
+
     }
 
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!)

@@ -122,6 +122,9 @@ class MainContainerVC: UIViewController
                 
             case SegueTomultisigAccountManager:
                 self.performSegueWithIdentifier(SegueTomultisigAccountManager, sender: nil)
+            
+            case SegueToHistoryVC:
+                    self.performSegueWithIdentifier(SegueToHistoryVC, sender: nil)
                 
             case SegueToPasswordValidation , SegueToUnconfirmedTransactionVC , SegueToSendTransaction , SegueToMessageVC , SegueToMessageMultisignVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToAddFriend:
                 

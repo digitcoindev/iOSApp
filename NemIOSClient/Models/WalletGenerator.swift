@@ -7,5 +7,6 @@ class WalletGenerator: NSObject
     {
         
         dataManager.addWallet(login, password: HashManager.AES256Encrypt(password) ,privateKey:  HashManager.AES256Encrypt( KeyGenerator().generatePrivateKey()))
+
     }
 }

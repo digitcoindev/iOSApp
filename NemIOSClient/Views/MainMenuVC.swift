@@ -7,6 +7,9 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     let dataManager : CoreDataManager = CoreDataManager()
     let deviceManager : plistFileManager = plistFileManager()
     
+    var state :[String] = ["none"]
+    var timer :NSTimer!
+    
     var menuItems : NSMutableArray = NSMutableArray()
     var menu : NSArray = NSArray()
     
@@ -21,6 +24,8 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         
         State.currentVC = SegueToMainMenu
         
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
+
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
                 
@@ -35,6 +40,19 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                 case "Registration" :
                     break
                     
+                case "Profile" ,"Dashboard":
+                    if State.fromVC == SegueToLoginVC
+                    {
+                        break
+                    }
+                    else
+                    {
+                        if State.fromVC != item as? String
+                        {
+                            menuItems.addObject(item)
+                        }
+                    }
+                    
                 default:
                     if State.fromVC != item as? String
                     {
@@ -47,7 +65,6 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             {
                 switch (item as! String)
                 {
-
                 case "Accounts" , "Servers" :
                     if State.fromVC != item as? String
                     {
@@ -64,7 +81,6 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         
         var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
         if State.currentServer != nil && State.currentWallet != nil
@@ -78,6 +94,37 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
 
+    }
+    
+    final func manageState()
+    {
+        switch (state.last!)
+        {
+        case "Profile" :
+            
+            if walletData != nil
+            {
+                if walletData.cosignatories.count > 0
+                {
+                    State.toVC = SegueToProfileMultisig
+                }
+                else if walletData.cosignatoryOf.count > 0
+                {
+                    State.toVC = SegueToProfileCosignatoryOf
+                }
+                else
+                {
+                    State.toVC = SegueToProfile
+                }
+                
+                state.removeLast()
+
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:State.toVC )
+            }
+            
+        default :
+            break
+        }
     }
     
     final func accountGetSuccessed(notification: NSNotification)
@@ -131,20 +178,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToGoogleMap )
             
         case "Profile":
-            if walletData.cosignatories.count > 0
-            {
-                State.toVC = SegueToProfileMultisig
-            }
-            else if walletData.cosignatoryOf.count > 0
-            {
-                State.toVC = SegueToProfileCosignatoryOf
-            }
-            else
-            {
-                State.toVC = SegueToProfile
-            }
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:State.toVC )
+            state.append("Profile")
             
         default:
             print("")

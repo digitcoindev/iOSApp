@@ -1,3 +1,4 @@
+
 import UIKit
 
 
@@ -22,7 +23,10 @@ class State: NSObject
         }
         set
         {
-            State.Store.stackVC.append(newValue!)
+            if State.Store.stackVC.last != newValue! 
+            {
+                State.Store.stackVC.append(newValue!)
+            }
         }
     }
     
@@ -41,9 +45,18 @@ class State: NSObject
     {
         get
         {
-            if State.Store.stackVC.count > 1
+            var inState = true
+            var value = State.Store.stackVC.last!
+            for ;inState;
             {
-                State.Store.stackVC.removeLast()
+                if State.Store.stackVC.count > 1 && State.Store.stackVC.last! == value
+                {
+                    State.Store.stackVC.removeLast()
+                }
+                else
+                {
+                    inState = false
+                }
             }
 
             return State.Store.stackVC.last!

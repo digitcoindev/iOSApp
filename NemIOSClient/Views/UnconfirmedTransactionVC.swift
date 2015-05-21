@@ -53,8 +53,8 @@ class UnconfirmedTransactionVC: UIViewController ,UITableViewDelegate
         {
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
-
-
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Unconfirmed transactions")
     }
 
     final func manageState()
@@ -81,42 +81,45 @@ class UnconfirmedTransactionVC: UIViewController ,UITableViewDelegate
             
         case "confirmCellWithTag" :
             
-            var transaction :MultisigTransaction = unconfirmedTransactions[selectedIndex] as! MultisigTransaction
-            
-            switch (transaction.innerTransaction.type)
+            if unconfirmedTransactions.count > selectedIndex
             {
-            case transferTransaction:
+                var transaction :MultisigTransaction = unconfirmedTransactions[selectedIndex] as! MultisigTransaction
                 
-                var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
-                sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
-                var innerTrans :TransferTransaction = transaction.innerTransaction as! TransferTransaction
-                sendTrans.multisigAccountAddress = AddressGenerator().generateAddress(innerTrans.signer)
-                
-                sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
-                sendTrans.fee = 6
-                sendTrans.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
-                sendTrans.version = 1
-                sendTrans.signer = walletData.publicKey
-
-                APIManager().prepareAnnounce(State.currentServer!, transaction: sendTrans)
-                
-            case multisigAggregateModificationTransaction:
-                
-                var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
-                sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
-                var innerTrans :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
-                sendTrans.multisigAccountAddress = AddressGenerator().generateAddress(innerTrans.signer)
-                
-                sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
-                sendTrans.fee = 6
-                sendTrans.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
-                sendTrans.version = 1
-                sendTrans.signer = walletData.publicKey
-                
-                APIManager().prepareAnnounce(State.currentServer!, transaction: sendTrans)
-
-            default :
-                break
+                switch (transaction.innerTransaction.type)
+                {
+                case transferTransaction:
+                    
+                    var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
+                    sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
+                    var innerTrans :TransferTransaction = transaction.innerTransaction as! TransferTransaction
+                    sendTrans.multisigAccountAddress = AddressGenerator().generateAddress(innerTrans.signer)
+                    
+                    sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
+                    sendTrans.fee = 6
+                    sendTrans.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
+                    sendTrans.version = 1
+                    sendTrans.signer = walletData.publicKey
+                    
+                    APIManager().prepareAnnounce(State.currentServer!, transaction: sendTrans)
+                    
+                case multisigAggregateModificationTransaction:
+                    
+                    var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
+                    sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
+                    var innerTrans :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
+                    sendTrans.multisigAccountAddress = AddressGenerator().generateAddress(innerTrans.signer)
+                    
+                    sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
+                    sendTrans.fee = 6
+                    sendTrans.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
+                    sendTrans.version = 1
+                    sendTrans.signer = walletData.publicKey
+                    
+                    APIManager().prepareAnnounce(State.currentServer!, transaction: sendTrans)
+                    
+                default :
+                    break
+                }
             }
             
             state.removeLast()
@@ -258,6 +261,24 @@ class UnconfirmedTransactionVC: UIViewController ,UITableViewDelegate
     {
         
         return unconfirmedTransactions.count
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        var transaction :MultisigTransaction = unconfirmedTransactions[indexPath.row] as! MultisigTransaction
+        
+        switch (transaction.innerTransaction.type)
+        {
+        case transferTransaction:
+            return 344
+            
+        case multisigAggregateModificationTransaction:
+            return 267
+            
+        default :
+            break
+        }
+        return 344
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell

@@ -46,17 +46,6 @@ class RegistrationVC: UIViewController
         sender.becomeFirstResponder()
     }
     
-    @IBAction func validatePassword(sender: AnyObject)
-    {
-        if(count(createPassword.text)  < 6 )
-        {
-            var alert :UIAlertView = UIAlertView(title: "Validation", message: "Too short password", delegate: self, cancelButtonTitle: "OK")
-            
-            alert.show()
-            createPassword.text = ""
-        }
-        repeatPassword.text = ""
-    }
     
     @IBAction func confirmPassword(sender: AnyObject)
     {
@@ -66,19 +55,30 @@ class RegistrationVC: UIViewController
     @IBAction func nextBtnPressed(sender: AnyObject)
     {
         var alert :UIAlertView!
-        var passwordValidate :Bool = false
-
-        if(createPassword.text != "")
+        
+        if createPassword.text != "" && repeatPassword.text != "" && userName.text != ""
         {
-            if(createPassword.text == repeatPassword.text)
+            if(createPassword.text != "" && Validate.password(createPassword.text))
             {
-                passwordValidate = true;
+                if(createPassword.text == repeatPassword.text)
+                {
+                    WalletGenerator().createWallet(userName.text, password: createPassword.text)
+                    
+                    State.fromVC = SegueToRegistrationVC
+                    State.toVC = SegueToLoginVC
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
+                }
+                else
+                {
+                    alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
+                    
+                    repeatPassword.text = ""
+                }
             }
             else
             {
-                alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
-                
-                repeatPassword.text = ""
+                alert  = UIAlertView(title: "Validation", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
             }
         }
         else
@@ -86,23 +86,7 @@ class RegistrationVC: UIViewController
             alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
         }
         
-        if(userName.text != "" )
-        {
-            if(passwordValidate)
-            {
-                WalletGenerator().createWallet(userName.text, password: createPassword.text)
-
-                State.fromVC = SegueToRegistrationVC
-                State.toVC = SegueToLoginVC
-            
-                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
-            }
-        }
-        else
-        {
-            alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
-            
-        }
+        
         if(alert != nil)
         {
             alert.show()

@@ -26,6 +26,8 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
         
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
+        
+        observer.postNotificationName("Title", object:"Servers" )
 
         servers = dataManager.getServers()
     }
@@ -95,8 +97,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     {
         if parent == nil
         {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatSuccessed", object:nil)
-            NSNotificationCenter.defaultCenter().removeObserver(self, name:"heartbeatDenied", object:nil)
+            NSNotificationCenter.defaultCenter().removeObserver(self)
         }
     }
     
