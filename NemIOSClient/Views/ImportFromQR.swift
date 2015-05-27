@@ -47,15 +47,22 @@ class ImportFromQR: UIViewController
     {
         if password.text! != "" && name.text! != ""
         {
+            if Validate.password(password.text)
+            {
             var dataManager :CoreDataManager = CoreDataManager()
         
             dataManager.addWallet(name.text!, password: HashManager.AES256Encrypt(password.text!) , privateKey : name.text)
         
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+            }
+            else
+            {
+                var alert :UIAlertView = UIAlertView(title: "Info", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
+            }
         }
         else
         {
-            var alert :UIAlertView = UIAlertView(title: "Error", message: "Input all fields!", delegate: self, cancelButtonTitle: "OK")
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "Input all fields!", delegate: self, cancelButtonTitle: "OK")
             
             alert.show()
         }

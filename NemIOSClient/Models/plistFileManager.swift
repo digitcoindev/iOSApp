@@ -30,7 +30,7 @@ class plistFileManager: NSObject
     
     func validatePair(way :String , password :String) -> Bool
     {
-        var data = fileManager.contentsAtPath(documents + "/ImportedAccounts/" + way)
+        var data = fileManager.contentsAtPath(documents + "/NEMfolder/" + way)
         if var str = data?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
         {
             var dataManager :CoreDataManager = CoreDataManager()
@@ -45,20 +45,20 @@ class plistFileManager: NSObject
     
     final func removeFileAtPath(path :String)->Bool
     {
-        if(!fileManager.fileExistsAtPath(documents + "/ImportedAccounts/" + path))
+        if(!fileManager.fileExistsAtPath(documents + "/NEMfolder/" + path))
         {
             return false
         }
         else
         {
-            fileManager.removeItemAtPath(documents + "/ImportedAccounts/" + path, error: &error)
+            fileManager.removeItemAtPath(documents + "/NEMfolder/" + path, error: &error)
             return true
         }
     }
     
     final func refreshImportData() ->Bool
     {
-        if var imports =  fileManager.contentsOfDirectoryAtPath(documents + "/ImportedAccounts", error: &error)
+        if var imports =  fileManager.contentsOfDirectoryAtPath(documents + "/NEMfolder", error: &error)
         {
             
             importFiles = NSMutableArray(array: imports)
@@ -74,23 +74,52 @@ class plistFileManager: NSObject
         
     }
     
+    final func readErrorLog() ->String?
+    {
+        if fileManager.fileExistsAtPath(documents + "/NEMfolder")
+        {
+            //reading
+            var text = String(contentsOfFile: documents + "/NEMfolder/error_logs", encoding: NSUTF8StringEncoding, error: nil)
+            
+            return text
+        }
+        
+        return nil
+    }
+    
+    final func writeErrorLog(str :String)
+    {
+        if(fileManager.fileExistsAtPath(documents + "/NEMfolder"))
+        {
+            var text :String = "\n"
+            
+            //reading
+            let text2 = String(contentsOfFile: documents + "/NEMfolder/error_logs", encoding: NSUTF8StringEncoding, error: nil)
+            
+            text = text2! + text
+             //writing
+            text.writeToFile(documents + "/NEMfolder/error_logs", atomically: false, encoding: NSUTF8StringEncoding, error: nil)
+        }
+    }
+    
     final func traceImportFolder()
     {
-        if(!fileManager.fileExistsAtPath(documents + "/ImportedAccounts"))
+        if(!fileManager.fileExistsAtPath(documents + "/NEMfolder"))
         {
             println("Add import folder...")
-            fileManager.createDirectoryAtPath(documents + "/ImportedAccounts", withIntermediateDirectories: false, attributes: nil, error: &error)
+            fileManager.createDirectoryAtPath(documents + "/NEMfolder", withIntermediateDirectories: false, attributes: nil, error: &error)
+            fileManager.createFileAtPath(documents + "/NEMfolder/error_logs", contents: nil, attributes: nil)
         }
     }
     
     final func deleteImportAccount(name :String) -> Bool
     {
         
-        if(!fileManager.fileExistsAtPath(documents + "/ImportedAccounts/" + name))
+        if(!fileManager.fileExistsAtPath(documents + "/NEMfolder/" + name))
         {
             println("Remove imported account")
             
-            fileManager.removeItemAtPath(documents + "/ImportedAccounts/" + name, error: &error)
+            fileManager.removeItemAtPath(documents + "/NEMfolder/" + name, error: &error)
             
             return true
         }

@@ -63,12 +63,17 @@ class CoreDataManager: NSObject
     
     final func getBlock(height : Double)->Block?
     {
+        blocks = getBlocks()
         for block in blocks as [Block]
         {
             if block.height == height
             {
                 return block
             }
+        }
+        if State.currentServer != nil
+        {
+            APIManager().getBlockWithHeight(State.currentServer!, height: Int(height))
         }
         
         return nil
@@ -203,8 +208,12 @@ class CoreDataManager: NSObject
     
     final func commit()
     {
-        self.managedObjectContext?.save(nil)
-
+        var error: NSError?
+        self.managedObjectContext?.save(&error)
+        if error != nil
+        {
+            println("Unresolved error \(error), \(error!.userInfo)")
+        }
     }
 
 }

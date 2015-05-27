@@ -14,7 +14,7 @@ class MainContainerVC: UIViewController
         
         if(wallets.count == 0)
         {
-            lastVC = SegueToRegistrationVC
+            lastVC = SegueToAddAccountVC
             
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToAddAccountVC )
             

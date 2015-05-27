@@ -106,7 +106,6 @@
 		DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */; };
 		DAC3A1801B03AE2800AABB61 /* Signature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17F1B03AE2800AABB61 /* Signature.swift */; };
 		DAC3A1821B04C04400AABB61 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */; };
-		DAC3A1881B0B62A500AABB61 /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1861B0B62A500AABB61 /* PopUp.swift */; };
 		DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */; };
 		DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
@@ -150,6 +149,10 @@
 		DAD5AD901A52E7850093E3DB /* PasswordValidationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */; };
 		DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* MessageVC.swift */; };
 		DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA272F1B0C8D4100EA09F8 /* Validate.swift */; };
+		DADA27331B0F4EB200EA09F8 /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA27311B0F4EB200EA09F8 /* PopUp.swift */; };
+		DADA27341B0F4EB200EA09F8 /* PopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADA27321B0F4EB200EA09F8 /* PopUp.xib */; };
+		DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA27361B13625A00EA09F8 /* MyHandler.m */; };
+		DADA27391B1463C200EA09F8 /* ExceptionSignalHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */; };
 		DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA33F71A72874500F14D6D /* WalletGenerator.swift */; };
 		DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA35991A76609800F14D6D /* NSData+Base64.m */; };
 		DADA37531A7683C300F14D6D /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = DADA373F1A7683C300F14D6D /* readme.md */; };
@@ -285,7 +288,6 @@
 		DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignatureTransaction.swift; path = Models/MultisigSignatureTransaction.swift; sourceTree = "<group>"; };
 		DAC3A17F1B03AE2800AABB61 /* Signature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Signature.swift; path = Models/Signature.swift; sourceTree = "<group>"; };
 		DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryViewController.swift; path = Views/HistoryViewController.swift; sourceTree = "<group>"; };
-		DAC3A1861B0B62A500AABB61 /* PopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopUp.swift; path = "Views/Additional controls/PopUp.swift"; sourceTree = "<group>"; };
 		DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSynchronizator.swift; path = Models/TimeSynchronizator.swift; sourceTree = "<group>"; };
 		DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = Models/AddressBookManager.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
@@ -329,6 +331,11 @@
 		DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordValidationVC.swift; path = Views/PasswordValidationVC.swift; sourceTree = "<group>"; };
 		DAD5AD911A52F2F30093E3DB /* MessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageVC.swift; path = Views/MessageVC.swift; sourceTree = "<group>"; };
 		DADA272F1B0C8D4100EA09F8 /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Models/Validate.swift; sourceTree = "<group>"; };
+		DADA27311B0F4EB200EA09F8 /* PopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopUp.swift; path = "Views/Additional controls/PopUp.swift"; sourceTree = "<group>"; };
+		DADA27321B0F4EB200EA09F8 /* PopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopUp.xib; path = "Views/Additional controls/PopUp.xib"; sourceTree = "<group>"; };
+		DADA27351B13625A00EA09F8 /* MyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyHandler.h; sourceTree = "<group>"; };
+		DADA27361B13625A00EA09F8 /* MyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyHandler.m; sourceTree = "<group>"; };
+		DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExceptionSignalHandler.swift; path = Models/ExceptionSignalHandler.swift; sourceTree = "<group>"; };
 		DADA33F71A72874500F14D6D /* WalletGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletGenerator.swift; path = Models/WalletGenerator.swift; sourceTree = "<group>"; };
 		DADA35991A76609800F14D6D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Models/NSData+Base64.m"; sourceTree = "<group>"; };
 		DADA359A1A76609800F14D6D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Models/NSData+Base64.h"; sourceTree = "<group>"; };
@@ -447,6 +454,7 @@
 				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
 				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
 				DADA272F1B0C8D4100EA09F8 /* Validate.swift */,
+				DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */,
 			);
 			name = Additional;
 			sourceTree = "<group>";
@@ -591,6 +599,8 @@
 		DA3558031A39D3BA00AFA5FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DADA27351B13625A00EA09F8 /* MyHandler.h */,
+				DADA27361B13625A00EA09F8 /* MyHandler.m */,
 				DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */,
 				DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */,
 				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
@@ -671,7 +681,8 @@
 				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
 				DA031ED71A9226E60021E98B /* TextFields */,
 				DAC3A1831B0B623D00AABB61 /* DropDown */,
-				DAC3A1861B0B62A500AABB61 /* PopUp.swift */,
+				DADA27311B0F4EB200EA09F8 /* PopUp.swift */,
+				DADA27321B0F4EB200EA09F8 /* PopUp.xib */,
 			);
 			name = "Additional controls";
 			sourceTree = "<group>";
@@ -1067,7 +1078,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = DA3557F71A39D3B800AFA5FD;
@@ -1122,6 +1132,7 @@
 				DA173CCD1A9E1161003AC21F /* add_icon.png in Resources */,
 				DAD1C8491A69664D0043D947 /* qr_icon.png in Resources */,
 				DA93FBDA1B0B753400549867 /* LocalizeBase.strings in Resources */,
+				DADA27341B0F4EB200EA09F8 /* PopUp.xib in Resources */,
 				DAD1C8451A69664D0043D947 /* send_email.png in Resources */,
 				DA173CCA1A9E1161003AC21F /* user_info.png in Resources */,
 				DAD1C84E1A69664D0043D947 /* key_icon.png in Resources */,
@@ -1195,6 +1206,7 @@
 				DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */,
 				DADA37531A7683C300F14D6D /* readme.md in Sources */,
 				DADA37561A7683C300F14D6D /* ge.c in Sources */,
+				DADA27391B1463C200EA09F8 /* ExceptionSignalHandler.swift in Sources */,
 				DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */,
 				DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */,
 				DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */,
@@ -1205,6 +1217,7 @@
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */,
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
+				DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
@@ -1225,8 +1238,8 @@
 				DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */,
 				DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */,
 				DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */,
+				DADA27331B0F4EB200EA09F8 /* PopUp.swift in Sources */,
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
-				DAC3A1881B0B62A500AABB61 /* PopUp.swift in Sources */,
 				DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */,
 				DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */,
 				DA3558421A3AFD2B00AFA5FD /* ServerContainerVC.swift in Sources */,
@@ -1388,7 +1401,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1411,7 +1424,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

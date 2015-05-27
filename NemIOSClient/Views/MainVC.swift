@@ -61,10 +61,16 @@ class MainVC: UIViewController
         
         if State.currentVC != SegueToMainMenu
         {
+            backBtn.hidden = true
             pages.changePage(SegueToMainMenu)
         }
         else
         {
+            if State.countVC >= 1
+            {
+                backBtn.hidden = false
+            }
+            
             pages.changePage(State.fromVC!)
         }
     }
@@ -86,11 +92,12 @@ class MainVC: UIViewController
     
     final func pageSelected(notification: NSNotification)
     {
+        
         if State.countVC >= 1
         {
             backBtn.hidden = false
         }
-        
+
         pages.changePage(notification.object as! String)
     }
 }

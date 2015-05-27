@@ -13,8 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
         
         GMSServices.provideAPIKey("AIzaSyBqvOZX3-rMlw9QJ-dJHa3k2DtPVtgz9Mc")
-
-        
+        InstallUncaughtExceptionHandler()
         return true
     }
 
@@ -71,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
             error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
-            
             
             var alert :UIAlertView = UIAlertView(title: "Upps", message: "Migration error . Unresolved error \(error), \(error!.userInfo)", delegate: self, cancelButtonTitle: "OK")
             alert.show()

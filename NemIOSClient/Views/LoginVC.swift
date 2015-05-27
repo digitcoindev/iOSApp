@@ -35,7 +35,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         
         observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
-        
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Accounts")
     }
     
@@ -77,14 +77,13 @@ class LoginVC: UIViewController , UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-//        var alert :PopUp = PopUp()
-//        alert.view.frame = self.tableView.frame
-//        self.presentViewController(alert, animated: true, completion: nil)
-//
+//        var popup = PopUp()
+//        popup.showIn(inView: self.view)
+//        popup.titleLable.text = "Info"
+//        popup.descriptionLable.text = "Successful"
         if State.currentServer != nil
         {
             State.currentWallet = wallets[indexPath.row]
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
             apiManager.heartbeat(State.currentServer!)
         }
         else

@@ -49,7 +49,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     
     @IBAction func returnFirstResponder(sender: AnyObject)
     {
-        (sender as! UITextField).becomeFirstResponder()
+        //(sender as! UITextField).becomeFirstResponder()
     }
     
     @IBAction func chouseTextField(sender: AnyObject)
@@ -60,7 +60,6 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     @IBAction func confirm(sender: AnyObject)
     {
         var alert :UIAlertView!
-        
         if name.text != ""  && key.text! != "" && repeatPassword.text != "" && password.text != ""
         {
             if password.text == repeatPassword.text && Validate.password(password.text)
@@ -150,7 +149,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     
     @IBAction func hideKeyBoard(sender: AnyObject)
     {
-        (sender as! UITextField).becomeFirstResponder()
+        //(sender as! UITextField).becomeFirstResponder()
         
         if repeatPassword.text != password.text
         {

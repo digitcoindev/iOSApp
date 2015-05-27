@@ -53,12 +53,12 @@ class RegistrationVC: UIViewController
     }
     
     @IBAction func nextBtnPressed(sender: AnyObject)
-    {
+    {        
         var alert :UIAlertView!
         
         if createPassword.text != "" && repeatPassword.text != "" && userName.text != ""
         {
-            if(createPassword.text != "" && Validate.password(createPassword.text))
+            if Validate.password(createPassword.text)
             {
                 if(createPassword.text == repeatPassword.text)
                 {

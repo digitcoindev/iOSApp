@@ -132,7 +132,11 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
     {
         if  State.currentServer != nil
         {
-            (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as! ServerViewCell).disSelect()
+            var oldIndexPath = NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)
+            if oldIndexPath != indexPath
+            {
+                (tableView.cellForRowAtIndexPath(NSIndexPath(forRow: servers.indexOfObject(State.currentServer!), inSection: 0)) as! ServerViewCell).disSelect()
+            }
         }
         
         var selectedServer :Server = servers[indexPath.row] as! Server

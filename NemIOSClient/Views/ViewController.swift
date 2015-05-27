@@ -66,6 +66,18 @@ class ViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        var errorLogs = plistFileManager().readErrorLog()
+        if errorLogs != nil
+        {
+            if errorLogs != ""
+            {
+                var alert :UIAlertView = UIAlertView(title: "Info", message: "Error copied to pasteboard ", delegate: self, cancelButtonTitle: "OK")
+                alert.show()
+
+                UIPasteboard.generalPasteboard().string = errorLogs
+            }
+        }
     }
     
     override func viewDidAppear(animated: Bool)

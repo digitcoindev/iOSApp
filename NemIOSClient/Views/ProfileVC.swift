@@ -134,6 +134,13 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
             }
             
             state.removeLast()
+            
+//            if self.currentCosignatories.count == 0
+//            {
+//                self.tableView.frame = CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.width, 0)
+//                self.tableView.becomeFirstResponder()
+//            }
+            
             self.tableView.reloadData()
             
         case "prepareAnnounceSuccessed" :

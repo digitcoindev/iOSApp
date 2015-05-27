@@ -89,10 +89,6 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             
             apiManager.accountGet(State.currentServer!, account_address: address)
         }
-        else
-        {
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
-        }
 
     }
     
@@ -102,7 +98,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         {
         case "Profile" :
             
-            if walletData != nil
+            if walletData != nil 
             {
                 if walletData.cosignatories.count > 0
                 {

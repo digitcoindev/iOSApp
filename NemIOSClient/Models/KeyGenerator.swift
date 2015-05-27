@@ -17,9 +17,10 @@ class KeyGenerator: NSObject
     {       
         var publicKeyBytes: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         var privateKeyBytes: Array<UInt8> = Array(privateKey.utf8)
-        
+        println("pre")
         createPublicKey(&publicKeyBytes, &privateKeyBytes)
-        
+        println("aft")
+
         let publicKey :String = NSString(bytes: publicKeyBytes, length: publicKeyBytes.count, encoding: NSUTF8StringEncoding) as! String
         
         return publicKey
