@@ -87,9 +87,7 @@ public struct RIPEMD {
     // Takes a string representation of a hexadecimal number and returns a
     // string represenation of the resulting 160 bit hash.
     public static func hexStringDigest (input : String, bitlength:Int = 160) -> String {
-        println("21")
         let digest: NSData = hexStringDigest(input, bitlength: bitlength)
-        println("22")
         return digest.toHexString()
     }
     

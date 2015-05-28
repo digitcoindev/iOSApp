@@ -51,9 +51,8 @@ void createPrivateKey(unsigned char *out_private_key)
         out_private_key[i] = converted_private_key[i];
     }
 }
-void createPublicKey(unsigned char *public_key, unsigned char *private_key)
-{
-    printf("11\n");
+void createPublicKey(unsigned char *public_key, const unsigned char *private_key)
+{   
     unsigned char private_key_bytes[privateKeyPartSize];
     for (int i=0 ;i < privateKeyPartSize;++i)
     {
@@ -81,7 +80,6 @@ void createPublicKey(unsigned char *public_key, unsigned char *private_key)
     {
         sprintf(&public_key[ i * 2], "%02x", in_public_key[i]);
     }
-    printf("20\n");
 }
 void Sign(unsigned char *signature, unsigned char *data, int32_t dataSize, unsigned char *public_key ,unsigned char *privateKey)
 {
