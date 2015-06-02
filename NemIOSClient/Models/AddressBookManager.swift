@@ -5,8 +5,7 @@ class AddressBookManager: NSObject
 {
     struct Store
     {
-        static let addressBook : ABAddressBookRef? = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
-        static var isAllowed :Bool = false
+        static var addressBook : ABAddressBookRef?
         static var contacts :NSArray = NSArray()
     }
     
@@ -22,7 +21,7 @@ class AddressBookManager: NSObject
     {
         get
         {
-        return Store.addressBook!
+            return Store.addressBook!
         }
     }
     
@@ -30,25 +29,47 @@ class AddressBookManager: NSObject
     {
         get
         {
-            return Store.isAllowed
+            if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Denied || ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Restricted)
+            {
+                return false
+            }
+            else
+            {
+                return true
+            }
         }
     }
     
     final class func create()
     {
-        ABAddressBookRequestAccessWithCompletion(Store.addressBook,
+       if AddressBookManager.isAllowed
+       {
+            Store.addressBook = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
+            
+            ABAddressBookRequestAccessWithCompletion(addressBook,
             {
-                (granted : Bool, error: CFError!) -> Void in
-                if granted == true
+                success, error in
+                
+                if success
                 {
-                    Store.isAllowed = true
-                    Store.contacts = ABAddressBookCopyArrayOfAllPeople(Store.addressBook).takeRetainedValue()
+                    ABAddressBookRequestAccessWithCompletion(Store.addressBook,
+                        {
+                            (granted : Bool, error: CFError!) -> Void in
+                            if granted == true
+                            {
+                                Store.contacts = ABAddressBookCopyArrayOfAllPeople(Store.addressBook).takeRetainedValue()
+                            }
+                    })
                 }
-        })
+            })
+        }
     }
     
     final class func refresh()
     {
-        Store.contacts = ABAddressBookCopyArrayOfAllPeople(Store.addressBook).takeRetainedValue()
+        if AddressBookManager.isAllowed
+        {
+            Store.contacts = ABAddressBookCopyArrayOfAllPeople(Store.addressBook).takeRetainedValue()
+        }
     }
 }

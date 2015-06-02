@@ -78,6 +78,12 @@ class ViewController: UIViewController
                 UIPasteboard.generalPasteboard().string = errorLogs
             }
         }
+        
+//        var payload :Array<UInt8> = "Hello".hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+//        var payload2 :Array<UInt8> = "хелло".hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+//        var payload3 :Array<UInt8> = "こんにちは".hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+        
+
     }
     
     override func viewDidAppear(animated: Bool)

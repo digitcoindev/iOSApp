@@ -6,8 +6,6 @@ class MainVC: UIViewController
     @IBOutlet weak var status: UILabel!
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
-    @IBOutlet weak var indicator: UIButton!
-    @IBOutlet weak var indicatorLable: UILabel!
     
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     

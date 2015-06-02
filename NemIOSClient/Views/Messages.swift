@@ -50,7 +50,11 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         correspondents = State.currentWallet!.correspondents.allObjects as! [Correspondent]
         displayList = correspondents
 
-        findCorrespondentName()
+        if AddressBookManager.isAllowed
+        {
+            findCorrespondentName()
+        }
+        
         refreshTransactionList()
         
         if (State.currentContact != nil && State.toVC == SegueToPasswordValidation )
@@ -431,16 +435,23 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         State.currentContact = correspondents[indexPath.row] as Correspondent
-        if walletData.cosignatories.count == 0
+        if walletData != nil
         {
-            State.toVC = SegueToMessageVC
+            if walletData.cosignatories.count == 0
+            {
+                State.toVC = SegueToMessageVC
+            }
+            else
+            {
+                State.toVC = SegueToMessageMultisignVC
+            }
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
         }
         else
         {
-            State.toVC = SegueToMessageMultisignVC
+            self.tableView.cellForRowAtIndexPath(indexPath)?.selected = false
         }
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
     }
     
     final func getNameWithAddress(name :String) -> String
@@ -484,9 +495,16 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
 
     @IBAction func addressBook(sender: AnyObject)
     {
-        State.toVC = SegueToMessages
-                
-        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )
+        if AddressBookManager.isAllowed
+        {
+            State.toVC = SegueToMessages
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )        }
+        else
+        {
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
+            alert.show()
+        }
     }
     func keyboardWillShow(notification: NSNotification)
     {

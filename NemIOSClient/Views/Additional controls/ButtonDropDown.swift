@@ -23,7 +23,7 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
 
     func setup()
     {
-        tableView = UITableView(frame: CGRectMake(0,self.bounds.height, self.bounds.width, dropMenuHeight))
+        tableView = UITableView(frame: CGRectMake(0,self.frame.height, self.frame.width, dropMenuHeight))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.hidden = true
@@ -53,7 +53,7 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
         dropMenuHeight = height
         dinamicDropDown = false
         
-        tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, dropMenuHeight);
+        tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, self.frame.size.width, dropMenuHeight);
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -98,6 +98,8 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     
     final func touchUpInside()
     {
+        tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, self.frame.size.width, dropMenuHeight);
+
         if content.count == 0
         {
             tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, 0)

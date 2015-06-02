@@ -208,12 +208,7 @@ class CoreDataManager: NSObject
     
     final func commit()
     {
-        var error: NSError?
-        self.managedObjectContext?.save(&error)
-        if error != nil
-        {
-            println("Unresolved error \(error), \(error!.userInfo)")
-        }
+        self.managedObjectContext?.save(nil)
     }
 
 }

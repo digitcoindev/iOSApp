@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
         
         GMSServices.provideAPIKey("AIzaSyBqvOZX3-rMlw9QJ-dJHa3k2DtPVtgz9Mc")
-        InstallUncaughtExceptionHandler()
+        //InstallUncaughtExceptionHandler()
         return true
     }
 

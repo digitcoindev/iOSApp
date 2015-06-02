@@ -19,17 +19,32 @@ const size_t seedSize = 32;
 const size_t hash_512_Size = 64;
 const size_t hash_256_Size = 32;
 
+void toHex(unsigned char *outHex, unsigned  char *inBytes, int32_t inBytesLen )
+{
+    const char szNibbleToHex[] = {"0123456789abcdef" };
+    
+    for (int i = 0; i < inBytesLen; i++)
+    {
+        int nNibble = inBytes[i] >> 4;
+        outHex[2 * i]  = szNibbleToHex[nNibble];
+        
+        nNibble = inBytes[i] & 0x0F;
+        outHex[2 * i + 1]  = szNibbleToHex[nNibble];
+        
+    }
+}
+
 void SHA256_hash(unsigned char *out,unsigned  char *in , int32_t inLen )
 {
     uint8_t md[hash_256_Size];
 
     keccak((uint8_t *) in, inLen, md, hash_256_Size);
-    
-    for(int i = 0;i < hash_256_Size;i++)
-    {
-        sprintf(&out[i * 2], "%02x", md[i]);
-    }
+
+    toHex(out, &md, hash_256_Size);
+
+
 }
+
 void createPrivateKey(unsigned char *out_private_key)
 {
     unsigned char  private_key[privateKeySize], seed[seedSize];
@@ -51,7 +66,8 @@ void createPrivateKey(unsigned char *out_private_key)
         out_private_key[i] = converted_private_key[i];
     }
 }
-void createPublicKey(unsigned char *public_key, const unsigned char *private_key)
+
+void createPublicKey(unsigned char *public_key,  unsigned char *private_key)
 {   
     unsigned char private_key_bytes[privateKeyPartSize];
     for (int i=0 ;i < privateKeyPartSize;++i)
@@ -71,6 +87,7 @@ void createPublicKey(unsigned char *public_key, const unsigned char *private_key
     
     ge_p3 A;
     unsigned char in_public_key[publicKeySize];
+    unsigned char buffer[publicKeySize * 2];
     
     ge_scalarmult_base(&A, private_key_hash);
     
@@ -78,8 +95,14 @@ void createPublicKey(unsigned char *public_key, const unsigned char *private_key
     
     for(int i=0;i < publicKeySize;i++)
     {
-        sprintf(&public_key[ i * 2], "%02x", in_public_key[i]);
+        sprintf(&buffer[ i * 2], "%02x", in_public_key[i]);
     }
+    
+    for(int i=0;i < publicKeySize * 2;i++)
+    {
+        public_key[i] = buffer[i];
+    }
+    
 }
 void Sign(unsigned char *signature, unsigned char *data, int32_t dataSize, unsigned char *public_key ,unsigned char *privateKey)
 {
@@ -146,5 +169,4 @@ void Sign(unsigned char *signature, unsigned char *data, int32_t dataSize, unsig
     sc_muladd(signature + signaturePartRAM, hram, privateKeyRightPart, r);
     
     free(privateKeyRightPart);
-    
 }

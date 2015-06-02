@@ -33,6 +33,8 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
         
         var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
+        observer.addObserver(self, selector: "prepareAnnounceSuccessed:", name: "prepareAnnounceSuccessed", object: nil)
+        observer.addObserver(self, selector: "prepareAnnounceDenied:", name: "prepareAnnounceDenied", object: nil)
         observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -118,6 +120,30 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
             walletBalance.text = "\((walletData.balance / 1000000).format(format)) XEM"
             state.removeLast()
             
+        case "prepareAnnounceSuccessed" :
+            state.removeLast()
+            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "SUCCESS", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+                {
+                    alertAction -> Void in
+            }
+            
+            alert1.addAction(ok)
+            self.presentViewController(alert1, animated: true, completion: nil)
+            
+        case "prepareAnnounceDenied" :
+            state.removeLast()
+            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "DENIED\nTry again later. Or check connection to server.", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+                {
+                    alertAction -> Void in
+            }
+            
+            alert1.addAction(ok)
+            self.presentViewController(alert1, animated: true, completion: nil)
+            
         default :
             break
         }
@@ -133,6 +159,25 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
     final func accountGetDenied(notification: NSNotification)
     {
         state.append("accountGetDenied")
+    }
+    
+    final func prepareAnnounceSuccessed(notification: NSNotification)
+    {
+        var json = notification.object as! NSDictionary
+        var message :String = json.objectForKey("message") as! String
+        if message == "SUCCESS"
+        {
+            state.append("prepareAnnounceSuccessed")
+        }
+        else
+        {
+            state.append("prepareAnnounceDenied")
+        }
+    }
+    
+    final func prepareAnnounceDenied(notification: NSNotification)
+    {
+        state.append("prepareAnnounceDenied")
     }
     
     @IBAction func touchDown(sender: AnyObject)
@@ -167,7 +212,7 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
                     transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
                     transaction.amount = Double(xems)
                     transaction.message.payload = InputMessage.text
-                    transaction.fee = transactionFee
+                    transaction.fee = transactionFee 
                     transaction.recipient = contact.address
                     transaction.type = 257
                     transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
@@ -200,13 +245,13 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
     
     final func countTransactionFee()
     {
-        if xems > 8
+        if xems >= 8
         {
             transactionFee = max(2, 99 * atan(Double(xems) / 0.15))
         }
         else
         {
-            transactionFee = 10
+            transactionFee = 10 - Double(xems)
         }
         
         if count(InputMessage.text.utf16) != 0

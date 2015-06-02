@@ -12,6 +12,7 @@ class ServerCustomVC: UIViewController
     
     var state :String = "none"
     var timer :NSTimer!
+    var newServer :Server? = nil
     
     var apiManager :APIManager = APIManager()
     let dataManager :CoreDataManager = CoreDataManager()
@@ -43,7 +44,7 @@ class ServerCustomVC: UIViewController
             
             var loadData :LoadData = dataManager.getLoadData()
             
-            loadData.currentServer = dataManager.getServers().last!
+            loadData.currentServer = newServer!
             dataManager.commit()
             
             State.currentServer = dataManager.getServers().last!
@@ -98,7 +99,24 @@ class ServerCustomVC: UIViewController
         }
         else
         {
-            dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
+            var servers :[Server] = dataManager.getServers()
+            newServer = nil
+            
+            for server in servers
+            {
+                if server.protocolType == protocolType.text && server.address == serverAddress.text && server.port == serverPort.text
+                {
+                    newServer = server
+                    
+                    break
+                }
+            }
+            
+            if newServer == nil
+            {
+                newServer = dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
+            }
+            
             apiManager.heartbeat(dataManager.getServers().last!)
             
             serverAddress.text = ""
