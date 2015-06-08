@@ -103,8 +103,8 @@ class DashboardContainer: UIViewController
         case SegueToCreateQRResult:
             self.performSegueWithIdentifier(SegueToCreateQRResult, sender: nil)
             
-        case SegueToAddFriend:
-            self.performSegueWithIdentifier(SegueToAddFriend, sender: nil)
+        case SegueToScanQR:
+            self.performSegueWithIdentifier(SegueToScanQR, sender: nil)
             
         case SegueToSendTransaction:
             self.performSegueWithIdentifier(SegueToSendTransaction, sender: nil)

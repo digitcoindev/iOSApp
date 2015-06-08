@@ -9,7 +9,10 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
     @IBOutlet weak var xems: UILabel!
     @IBOutlet weak var share: UIButton!
     @IBOutlet weak var mail: UIButton!
+    @IBOutlet weak var invoiceNumber: UILabel!
     
+    var invoice = State.invoice!
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -21,17 +24,30 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
         
         State.currentVC = SegueToCreateQRResult
         
-        xems.text = "\(State.amount)" + " XEM"
+        invoiceNumber.text = "#\(invoice.number)"
+        xems.text = "\(invoice.amount)" + " XEM"
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var address_Normal = AddressGenerator().generateAddressFromPrivateKey(privateKey)
         
-        address.text = publicKey as String
+        address.text = address_Normal
+        
+        var login = State.currentWallet!.login
+        var password = State.currentWallet!.password
+        var salt = State.currentWallet!.salt
+        var privateKey_Normal = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        var privateKey_AES = HashManager.AES256Encrypt(privateKey_Normal, key: "my qr key")
+        var objects = [invoice.name, invoice.address, invoice.amount, invoice.message]
+        var keys = ["name", "address", "amount", "message"]
+        
+        var jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects as [AnyObject], forKeys: keys)
+        var jsonDictionary :NSDictionary = NSDictionary(objects: [3, jsonAccountDictionary], forKeys: ["type", "data"])
+        var jsonData :NSData = NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions.allZeros, error: nil)!
+        var base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
         
         var qr :QR = QR()
-        var qrText :String = "{\"address\":\"\(address.text!)\",\"amount\":\"\(State.amount)\"}"
         
-        qrImage.image =  qr.createQR(qrText)
+        qrImage.image =  qr.createQR(base64String)
 
     }
     
@@ -47,7 +63,7 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
         {
             var facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            facebookSheet.setInitialText("Scan this QR if you want to send me \(State.amount) XEM\nThank you , and goodluck!")
+            facebookSheet.setInitialText("Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!")
             facebookSheet.addImage(qrImage.image!)
             self.presentViewController(facebookSheet, animated: true, completion: nil)
             
@@ -69,7 +85,7 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
             
             myMail.setSubject("NEM")
             
-            var sentfrom = "Scan this QR if you want to send me \(State.amount) XEM\nThank you , and goodluck!"
+            var sentfrom = "Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!"
             myMail.setMessageBody(sentfrom, isHTML: true)
             
             var image = qrImage.image!

@@ -13,7 +13,8 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
     var transactionFee :Double = 10;
     var walletData :AccountGetMetaData!
     var xems :Int = 0
-    let contact :Correspondent = State.currentContact!
+    let invoice :InvoiceData? = State.invoice
+    var contact :Correspondent? = State.currentContact
     
     var state :[String] = ["none"]
     
@@ -30,6 +31,7 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
         }
         
         State.currentVC = SegueToSendTransaction
+        
         
         var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
@@ -54,7 +56,16 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
         
-        correspondentAddress.text = contact.address
+        if State.invoice != nil
+        {
+            contact = CoreDataManager().getCorrespondent(nil, address: invoice!.address, name: invoice!.name)
+            InputAmound.text = "\(invoice!.amount)"
+            InputMessage.text = "\(invoice!.message)"
+            
+            countTransactionFee()
+        }
+        
+        correspondentAddress.text = contact!.address
         walletBalance.text = ""
         transactionFeeLable.text = ""
 
@@ -213,7 +224,7 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
                     transaction.amount = Double(xems)
                     transaction.message.payload = InputMessage.text
                     transaction.fee = transactionFee 
-                    transaction.recipient = contact.address
+                    transaction.recipient = contact!.address
                     transaction.type = 257
                     transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
                     transaction.message.type = 1
@@ -247,7 +258,7 @@ class SendTransactionVC: UIViewController ,UIScrollViewDelegate
     {
         if xems >= 8
         {
-            transactionFee = max(2, 99 * atan(Double(xems) / 0.15))
+            transactionFee = max(2, 99 * atan(Double(xems) / 150000))
         }
         else
         {

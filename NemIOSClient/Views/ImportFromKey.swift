@@ -49,7 +49,7 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     
     @IBAction func returnFirstResponder(sender: AnyObject)
     {
-        //(sender as! UITextField).becomeFirstResponder()
+        (sender as! UITextField).becomeFirstResponder()
     }
     
     @IBAction func chouseTextField(sender: AnyObject)
@@ -105,12 +105,12 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
                     
                 default:
                     
-                    keyValide = Validate.privateKey(key.text)
+                    keyValide = Validate.key(key.text)
                 }
                 
                 if keyValide
                 {
-                    dataManager.addWallet(name.text, password: HashManager.AES256Encrypt(password.text), privateKey : HashManager.AES256Encrypt(key.text!))
+                    WalletGenerator().createWallet(name.text, password: password.text, privateKey: key.text)
                     
                     State.fromVC = SegueToImportFromKey
                     State.toVC = SegueToLoginVC

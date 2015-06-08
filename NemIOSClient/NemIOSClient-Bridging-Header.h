@@ -3,6 +3,7 @@
 //
 #include <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
+#import <CommonCrypto/CommonKeyDerivation.h>
 
 #import "MyHandler.h"
 

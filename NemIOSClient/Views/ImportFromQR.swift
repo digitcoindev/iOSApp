@@ -3,13 +3,6 @@ import UIKit
 class ImportFromQR: UIViewController
 {
     @IBOutlet weak var screenScaner: QR!
-    @IBOutlet weak var addB: UIButton!
-    @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var password: UITextField!
-    
-    var accountData :String!
-    var showKeyboard :Bool = true
-    var currentField :UITextField!
     
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
 
@@ -30,94 +23,48 @@ class ImportFromQR: UIViewController
         
         observer.postNotificationName("Title", object:"Scan your account" )
 
-        addB.enabled = false
-
         screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
     }
     
     func detectedQR(notification: NSNotification)
     {
-        accountData = notification.object as! String
+        var base64String :String = notification.object as! String
+        var jsonData :NSData = NSData(base64EncodedString: base64String)
+        var err: NSError?
+        var jsonStructure :NSDictionary? = NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves, error: &err) as? NSDictionary
         
-        addB.enabled = true
-    }
-    
-    
-    @IBAction func addAccount(sender: AnyObject)
-    {
-        if password.text! != "" && name.text! != ""
+
+        if err != nil || jsonStructure == nil
         {
-            if Validate.password(password.text)
-            {
-            var dataManager :CoreDataManager = CoreDataManager()
-        
-            dataManager.addWallet(name.text!, password: HashManager.AES256Encrypt(password.text!) , privateKey : name.text)
-        
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
-            }
-            else
-            {
-                var alert :UIAlertView = UIAlertView(title: "Info", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
-            }
+            screenScaner.play()
         }
-        else
+        else if jsonStructure!.objectForKey("type") as! Int == 3
         {
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "Input all fields!", delegate: self, cancelButtonTitle: "OK")
+            jsonStructure = jsonStructure!.objectForKey("data") as? NSDictionary
             
-            alert.show()
-        }
-    }
-    
-    @IBAction func hideKeyBoard(sender: AnyObject)
-    {
-        (sender as! UITextField).becomeFirstResponder()
-    }
-    
-    @IBAction func chouseTextField(sender: AnyObject)
-    {
-        currentField = sender as! UITextField
-    }
-    
-    func keyboardWillShow(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            var animationDuration = 0.1
-            
-            if (keyboardHeight > (currentField.frame.origin.y - 5))
+            if jsonStructure != nil
             {
-                keyboardHeight = (currentField.frame.origin.y - 5 )as CGFloat
+                var privateKey_AES = jsonStructure!.objectForKey("private") as! String
+                var privateKey = HashManager.AES256Decrypt(privateKey_AES, key: "my qr key")
+                var privateKey_Encrypted = HashManager.AES256Encrypt(privateKey)
+                var login = jsonStructure!.objectForKey("login") as! String
+                var password = jsonStructure!.objectForKey("password") as! String
+                var salt = jsonStructure!.objectForKey("salt") as! String
+                
+                WalletGenerator().importWallet(login, password: password, privateKey: privateKey_Encrypted ,salt: salt)
+                var alert :UIAlertController = UIAlertController(title: "Info", message: "Account: \(login)\nSuccessfully added.", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
+                    {
+                        alertAction -> Void in
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
+                    }
+                
+                alert.addAction(ok)
+                
+                self.presentViewController(alert, animated: true, completion: nil)
             }
-            
-            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                {
-                    self.view.frame = CGRectMake(0, -keyboardHeight , self.view.bounds.width, self.view.bounds.height)
-                }, completion: nil)
-            
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
-            
-            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                {
-                    self.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-                    
-                }, completion: nil)
         }
     }
     

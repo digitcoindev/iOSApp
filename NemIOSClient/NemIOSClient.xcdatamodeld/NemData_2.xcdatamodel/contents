@@ -11,13 +11,6 @@
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wallet" inverseName="correspondents" inverseEntity="Wallet" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="owner" inverseEntity="Transaction" syncable="YES"/>
     </entity>
-    <entity name="Invoice" representedClassName="NemIOSClient.Invoice" syncable="YES">
-        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="amount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="number" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-    </entity>
     <entity name="LoadData" representedClassName="NemIOSClient.LoadData" syncable="YES">
         <relationship name="currentServer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Server" syncable="YES"/>
     </entity>
@@ -56,6 +49,5 @@
         <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
         <element name="Transaction" positionX="-45" positionY="72" width="128" height="253"/>
         <element name="Wallet" positionX="-54" positionY="27" width="128" height="120"/>
-        <element name="Invoice" positionX="-45" positionY="153" width="128" height="120"/>
     </elements>
 </model>

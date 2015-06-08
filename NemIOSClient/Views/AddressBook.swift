@@ -134,9 +134,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         self.contacts = ABAddressBookCopyArrayOfAllPeople(self.addressBook).takeRetainedValue()
         self.tableView.reloadData()
     }
-    
-    // MARK: - Table view data source
-    
+        
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         

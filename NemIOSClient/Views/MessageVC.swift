@@ -33,6 +33,11 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     {
         super.viewDidLoad()
         
+        if State.invoice != nil
+        {
+            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToSendTransaction )
+        }
+        
         if State.fromVC != SegueToMessageVC
         {
             State.fromVC = SegueToMessageVC
@@ -71,6 +76,8 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         observer.postNotificationName("scrollToEnd", object:nil )
         
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
+        
+        
     }
     
 
@@ -185,6 +192,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     
     @IBAction func createTransaction(sender: AnyObject)
     {
+        State.invoice = nil
         NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToSendTransaction )
     }
     

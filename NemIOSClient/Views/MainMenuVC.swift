@@ -21,7 +21,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         super.viewDidLoad()
                 
         menu = deviceManager.getMenuItems()
-        
+        menu = [SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToMessages, SegueToGoogleMap , SegueToProfile, SegueToExportAccount]
         State.currentVC = SegueToMainMenu
         
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
@@ -37,10 +37,10 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                 switch (item as! String)
                 {
                     
-                case "Registration" :
+                case SegueToRegistrationVC :
                     break
                     
-                case "Profile" ,"Dashboard":
+                case SegueToProfile ,SegueToDashboard, SegueToExportAccount:
                     if State.fromVC == SegueToLoginVC
                     {
                         break
@@ -65,7 +65,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             {
                 switch (item as! String)
                 {
-                case "Accounts" , "Servers" :
+                case SegueToLoginVC , SegueToServerVC :
                     if State.fromVC != item as? String
                     {
                         menuItems.addObject(item)
@@ -96,7 +96,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     {
         switch (state.last!)
         {
-        case "Profile" :
+        case SegueToProfile :
             
             if walletData != nil 
             {
@@ -144,6 +144,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     {
         var cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as! MainViewCell
         cell.title.text = menuItems.objectAtIndex(indexPath.row) as? String
+        
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
@@ -153,31 +154,17 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
        
         switch (page)
         {
-        case "Registration":
-            State.toVC = SegueToRegistrationVC
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToRegistrationVC )
             
-        case "Accounts":
-            State.toVC = SegueToLoginVC
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
-            
-        case "Servers":
-            State.toVC = SegueToServerVC
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerVC )
-            
-        case "Dashboard":
+        case SegueToDashboard:
             State.toVC = SegueToMessages
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
             
-        case "Map":
-            State.toVC = SegueToGoogleMap
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToGoogleMap )
-            
-        case "Profile":
-            state.append("Profile")
+        case SegueToProfile:
+            state.append(SegueToProfile)
             
         default:
-            print("")
+            State.toVC = page
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:page )
             
         }
     }

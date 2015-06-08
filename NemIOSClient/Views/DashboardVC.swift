@@ -13,14 +13,16 @@ class DashboardVC: UIViewController
         
         State.currentVC = SegueToDashboard
         
-    }
-    
-    override func viewDidAppear(animated: Bool)
-    {
         self.Messages.imageEdgeInsets = UIEdgeInsetsMake(15, self.Messages.bounds.width / 2 - 20, 25, self.Messages.bounds.width / 2 - 20)
         self.AddFriend.imageEdgeInsets = UIEdgeInsetsMake(15, self.AddFriend.bounds.width / 2 - 20, 25, self.AddFriend.bounds.width / 2 - 20)
         self.CreateQR.imageEdgeInsets = UIEdgeInsetsMake(15, self.CreateQR.bounds.width / 2 - 20, 25, self.CreateQR.bounds.width / 2 - 20)
         self.UserInfo.imageEdgeInsets = UIEdgeInsetsMake(15, self.UserInfo.bounds.width / 2 - 20, 25, self.UserInfo.bounds.width / 2 - 20)
+        
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+
     }
     
     deinit
@@ -48,7 +50,7 @@ class DashboardVC: UIViewController
     
     @IBAction func scanQR(sender: AnyObject)
     {
-        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddFriend )
+        NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToScanQR )
     }
 
     @IBAction func userInfo(sender: AnyObject)

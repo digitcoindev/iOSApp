@@ -12,7 +12,7 @@ class State: NSObject
         static var currentWallet : Wallet!
         static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
-        static var amount :Int = 0
+        static var invoice :InvoiceData? = nil
 
     }
     final class var fromVC: String?
@@ -100,10 +100,10 @@ class State: NSObject
         set { State.Store.currentContact = newValue}
     }
     
-    final class var amount: Int
+    final class var invoice: InvoiceData?
         {
-        get { return State.Store.amount }
-        set { State.Store.amount = newValue }
+        get { return State.Store.invoice }
+        set { State.Store.invoice = newValue }
     }
     
     override init()

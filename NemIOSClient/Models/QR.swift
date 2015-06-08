@@ -66,7 +66,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
                     
                     qrImg = UIImageView(image: createQR(currentresult))
                     qrImg.frame = CGRect(x: 0, y:0, width: self.frame.width, height: self.frame.height)
-                    qrImg.contentMode = UIViewContentMode.Center
+                    qrImg.contentMode = UIViewContentMode.ScaleAspectFit
                     
                     self.addSubview(qrImg)
                     
@@ -77,8 +77,16 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
             }
         }
     }
+    
+    final func refresh()
+    {
+        qrImg.removeFromSuperview()
+        self.layer.addSublayer(previewLayer)
+    }
+    
     final func play()
     {
+        refresh()
         session.startRunning()
     }
     

@@ -29,7 +29,7 @@
 		DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CE41AA9E8EF003AC21F /* Base32.swift */; };
 		DA173CE81AADA6EA003AC21F /* logged_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CE61AADA6EA003AC21F /* logged_icon.png */; };
 		DA173CE91AADA6EA003AC21F /* add_contact_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CE71AADA6EA003AC21F /* add_contact_icon.png */; };
-		DA173CEC1AADA92D003AC21F /* AddFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CEB1AADA92D003AC21F /* AddFriend.swift */; };
+		DA173CEC1AADA92D003AC21F /* ScanQRVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */; };
 		DA194DF91A41D50E0030C882 /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194DF81A41D50E0030C882 /* RegistrationVC.swift */; };
 		DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E031A41E9A00030C882 /* LoginVC.swift */; };
 		DA194E071A4323520030C882 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E061A4323520030C882 /* APIManager.swift */; };
@@ -48,6 +48,7 @@
 		DA2BE9C51AB330E100E48D8F /* TransactionPostMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */; };
 		DA2D3EA11AE918B500C7E4F9 /* KeyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D3EA01AE918B500C7E4F9 /* KeyCell.swift */; };
 		DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2EE67B1A63CBDD008D34D7 /* Correspondent.swift */; };
+		DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3403971B21E4DB00D514C4 /* Invoice.swift */; };
 		DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */; };
 		DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA3558071A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld */; };
 		DA3558101A39D3BA00AFA5FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA35580F1A39D3BA00AFA5FD /* Images.xcassets */; };
@@ -111,6 +112,7 @@
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
 		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
 		DACF9C3C1A49C5F700550FB9 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */; };
+		DAD08D671B25E095005E97FE /* zoom.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD08D661B25E095005E97FE /* zoom.png */; };
 		DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1492D1A6D47260036FFDA /* CustomMessageCell.swift */; };
 		DAD1C7FD1A6932E30043D947 /* ImportFromKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */; };
 		DAD1C7FF1A694E970043D947 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1C7FE1A694E970043D947 /* MessageCell.swift */; };
@@ -167,6 +169,10 @@
 		DADA375C1A7683C300F14D6D /* sign.c in Sources */ = {isa = PBXBuildFile; fileRef = DADA37501A7683C300F14D6D /* sign.c */; };
 		DADA375D1A7683C300F14D6D /* verify.c in Sources */ = {isa = PBXBuildFile; fileRef = DADA37511A7683C300F14D6D /* verify.c */; };
 		DADA375E1A7683C300F14D6D /* generator.c in Sources */ = {isa = PBXBuildFile; fileRef = DADA37521A7683C300F14D6D /* generator.c */; };
+		DADDA2451B21C74900F3F5F5 /* ExportAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */; };
+		DADDA24B1B21D0EC00F3F5F5 /* SeguesConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */; };
+		DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24C1B21D17800F3F5F5 /* Constants.swift */; };
+		DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24E1B21D1B500F3F5F5 /* Structs.swift */; };
 		DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */; };
 		DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */; };
 /* End PBXBuildFile section */
@@ -205,7 +211,7 @@
 		DA173CE41AA9E8EF003AC21F /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
 		DA173CE61AADA6EA003AC21F /* logged_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logged_icon.png; sourceTree = "<group>"; };
 		DA173CE71AADA6EA003AC21F /* add_contact_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_contact_icon.png; sourceTree = "<group>"; };
-		DA173CEB1AADA92D003AC21F /* AddFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddFriend.swift; path = Views/AddFriend.swift; sourceTree = "<group>"; };
+		DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScanQRVC.swift; path = Views/ScanQRVC.swift; sourceTree = "<group>"; };
 		DA194DF81A41D50E0030C882 /* RegistrationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationVC.swift; path = Views/RegistrationVC.swift; sourceTree = "<group>"; };
 		DA194DFC1A41DE5E0030C882 /* NemIOSClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NemIOSClient-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA194E031A41E9A00030C882 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginVC.swift; path = Views/LoginVC.swift; sourceTree = "<group>"; };
@@ -224,6 +230,8 @@
 		DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionPostMetaData.swift; path = Models/TransactionPostMetaData.swift; sourceTree = "<group>"; };
 		DA2D3EA01AE918B500C7E4F9 /* KeyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyCell.swift; path = Models/KeyCell.swift; sourceTree = "<group>"; };
 		DA2EE67B1A63CBDD008D34D7 /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = "Core Data Models/Correspondent.swift"; sourceTree = "<group>"; };
+		DA3403961B21E3CE00D514C4 /* NemData_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemData_2.xcdatamodel; sourceTree = "<group>"; };
+		DA3403971B21E4DB00D514C4 /* Invoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invoice.swift; path = Models/Invoice.swift; sourceTree = "<group>"; };
 		DA3558001A39D3B900AFA5FD /* NemIOSClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NemIOSClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3558041A39D3BA00AFA5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -293,6 +301,7 @@
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
 		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
 		DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = Models/CoreDataManager.swift; sourceTree = "<group>"; };
+		DAD08D661B25E095005E97FE /* zoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom.png; sourceTree = "<group>"; };
 		DAD1492D1A6D47260036FFDA /* CustomMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomMessageCell.swift; path = "Views/Additional controls/CustomMessageCell.swift"; sourceTree = "<group>"; };
 		DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromKey.swift; path = Views/ImportFromKey.swift; sourceTree = "<group>"; };
 		DAD1C7FE1A694E970043D947 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageCell.swift; path = "Views/Additional controls/MessageCell.swift"; sourceTree = "<group>"; };
@@ -358,6 +367,10 @@
 		DADA37501A7683C300F14D6D /* sign.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sign.c; sourceTree = "<group>"; };
 		DADA37511A7683C300F14D6D /* verify.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = verify.c; sourceTree = "<group>"; };
 		DADA37521A7683C300F14D6D /* generator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generator.c; sourceTree = "<group>"; };
+		DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExportAccountVC.swift; path = Views/ExportAccountVC.swift; sourceTree = "<group>"; };
+		DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeguesConfiguration.swift; path = Models/SeguesConfiguration.swift; sourceTree = "<group>"; };
+		DADDA24C1B21D17800F3F5F5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Models/Constants.swift; sourceTree = "<group>"; };
+		DADDA24E1B21D1B500F3F5F5 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Structs.swift; path = Models/Structs.swift; sourceTree = "<group>"; };
 		DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountGetMetaData.swift; path = Models/AccountGetMetaData.swift; sourceTree = "<group>"; };
 		DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageGetMetaData.swift; path = Models/MessageGetMetaData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -519,8 +532,8 @@
 				DA173CEA1AADA8ED003AC21F /* UserInfo */,
 				DA031ED81A922AE20021E98B /* Messager */,
 				DA031EDB1A922FF00021E98B /* CreateQR */,
-				DA173CEB1AADA92D003AC21F /* AddFriend.swift */,
-				DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */,
+				DADDA2411B21C6D400F3F5F5 /* ScanQR */,
+				DADDA2421B21C70300F3F5F5 /* AddressBook */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -690,6 +703,7 @@
 		DA35583B1A3ADFD200AFA5FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DADDA2461B21D09700F3F5F5 /* Configuration */,
 				DA89F1101AD697A900105BB0 /* Transactions */,
 				DA08D9B71AC0268B00B93EBE /* Utils */,
 				DA64A4CA1A5A86DB005833A4 /* QR */,
@@ -853,6 +867,7 @@
 				DA4BB2EB1A82536700FAA877 /* LoadData.swift */,
 				DA2BE9C11AB2F0C800E48D8F /* Transaction.swift */,
 				DA73CD7C1AB7241600B86021 /* Block.swift */,
+				DA3403971B21E4DB00D514C4 /* Invoice.swift */,
 			);
 			name = "Core Data Models";
 			sourceTree = "<group>";
@@ -871,6 +886,7 @@
 				DA173CC61A9E1161003AC21F /* user_info.png */,
 				DA173CC71A9E1161003AC21F /* qr_code_icon.png */,
 				DA173CC81A9E1161003AC21F /* message_icon.png */,
+				DAD08D661B25E095005E97FE /* zoom.png */,
 				DA173CC91A9E1161003AC21F /* add_icon.png */,
 				DAD1C82D1A69664D0043D947 /* tab_dropdown_arrow.png */,
 				DAD1C82E1A69664D0043D947 /* share_icon.png */,
@@ -936,6 +952,7 @@
 		DAD5AD8A1A52DC620093E3DB /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				DADDA2431B21C71C00F3F5F5 /* Export Account */,
 				DAD21B961AFB72E000F6B861 /* Menu */,
 				DA89F1131AD6A62100105BB0 /* Login */,
 				DAD21B871AEFC18A00F6B861 /* Profile */,
@@ -997,6 +1014,40 @@
 				DADA37511A7683C300F14D6D /* verify.c */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		DADDA2411B21C6D400F3F5F5 /* ScanQR */ = {
+			isa = PBXGroup;
+			children = (
+				DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */,
+			);
+			name = ScanQR;
+			sourceTree = "<group>";
+		};
+		DADDA2421B21C70300F3F5F5 /* AddressBook */ = {
+			isa = PBXGroup;
+			children = (
+				DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */,
+			);
+			name = AddressBook;
+			sourceTree = "<group>";
+		};
+		DADDA2431B21C71C00F3F5F5 /* Export Account */ = {
+			isa = PBXGroup;
+			children = (
+				DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */,
+			);
+			name = "Export Account";
+			sourceTree = "<group>";
+		};
+		DADDA2461B21D09700F3F5F5 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */,
+				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
+				DADDA24E1B21D1B500F3F5F5 /* Structs.swift */,
+			);
+			name = Configuration;
 			sourceTree = "<group>";
 		};
 		DAF138291AB08F2A0069AC3A /* API */ = {
@@ -1112,6 +1163,7 @@
 				DA3558101A39D3BA00AFA5FD /* Images.xcassets in Resources */,
 				DAC28C941A96008700EE3B22 /* GoogleMaps.bundle in Resources */,
 				DAD1C84D1A69664D0043D947 /* logo.png in Resources */,
+				DAD08D671B25E095005E97FE /* zoom.png in Resources */,
 				DAD1C84B1A69664D0043D947 /* menu_icon.png in Resources */,
 				DAD1C8461A69664D0043D947 /* search_icon.png in Resources */,
 				DAD1C84F1A69664D0043D947 /* import_icon.png in Resources */,
@@ -1182,6 +1234,7 @@
 				DAC3A17A1B01EBB700AABB61 /* UnconfirmedTransactionCell.swift in Sources */,
 				DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */,
 				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
+				DADDA24B1B21D0EC00F3F5F5 /* SeguesConfiguration.swift in Sources */,
 				DA0059371A4882B300638C57 /* State.swift in Sources */,
 				DADA37581A7683C300F14D6D /* keypair.c in Sources */,
 				DA08D9B91AC026F400B93EBE /* UInt8Utils.swift in Sources */,
@@ -1190,6 +1243,7 @@
 				DA35582B1A39D75400AFA5FD /* ViewController.swift in Sources */,
 				DA2199221A68222900E2F8DD /* UserInfoVC.swift in Sources */,
 				DA8780B91A5BFDF400AA24E2 /* ImportFromQR.swift in Sources */,
+				DADDA2451B21C74900F3F5F5 /* ExportAccountVC.swift in Sources */,
 				DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */,
 				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				DADA37591A7683C300F14D6D /* sc.c in Sources */,
@@ -1206,6 +1260,7 @@
 				DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */,
 				DADA37531A7683C300F14D6D /* readme.md in Sources */,
 				DADA37561A7683C300F14D6D /* ge.c in Sources */,
+				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
 				DADA27391B1463C200EA09F8 /* ExceptionSignalHandler.swift in Sources */,
 				DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */,
 				DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */,
@@ -1234,7 +1289,8 @@
 				DAD1C7FD1A6932E30043D947 /* ImportFromKey.swift in Sources */,
 				DA08D9BD1AC027C700B93EBE /* StringUtils.swift in Sources */,
 				DAD1C7FF1A694E970043D947 /* MessageCell.swift in Sources */,
-				DA173CEC1AADA92D003AC21F /* AddFriend.swift in Sources */,
+				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
+				DA173CEC1AADA92D003AC21F /* ScanQRVC.swift in Sources */,
 				DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */,
 				DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */,
 				DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */,
@@ -1252,6 +1308,7 @@
 				DADA37541A7683C300F14D6D /* add_scalar.c in Sources */,
 				DA173CD71AA85B91003AC21F /* keccak.c in Sources */,
 				DA2978991AB9B083002F65BD /* Crypto.m in Sources */,
+				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
 				DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */,
 				DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */,
 				DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */,
@@ -1503,6 +1560,7 @@
 		DA3558071A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				DA3403961B21E3CE00D514C4 /* NemData_2.xcdatamodel */,
 				DA3558081A39D3BA00AFA5FD /* NemIOSClient.xcdatamodel */,
 			);
 			currentVersion = DA3558081A39D3BA00AFA5FD /* NemIOSClient.xcdatamodel */;

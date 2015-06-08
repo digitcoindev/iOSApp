@@ -28,8 +28,12 @@ class PasswordValidationVC: UIViewController
     }
 
     @IBAction func passwordValidation(sender: AnyObject)
-    {        
-        if( password.text == HashManager.AES256Decrypt(State.currentWallet!.password) )
+    {
+        var salt :NSData = NSData.fromHexString(State.currentWallet!.salt)
+        
+        let passwordHash :NSData? = HashManager.generateAesKeyForString(password.text, salt:salt, roundCount:2000, error:nil)
+        
+        if( passwordHash!.toHexString() == State.currentWallet!.password)
         {
             NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:State.toVC )
         }

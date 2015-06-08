@@ -1,7 +1,8 @@
 import UIKit
 import AddressBook
+import AddressBookUI
 
-class AddFriend: UIViewController
+class ScanQRVC: UIViewController
 {
     @IBOutlet weak var qrScaner: QR!
     
@@ -12,12 +13,12 @@ class AddFriend: UIViewController
     {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToAddFriend
+        if State.fromVC != SegueToScanQR
         {
-            State.fromVC = SegueToAddFriend
+            State.fromVC = SegueToScanQR
         }
         
-        State.currentVC = SegueToAddFriend
+        State.currentVC = SegueToScanQR
         
         observer.addObserver(self, selector: "detectedQR:", name: "Scan QR", object: nil)
         
@@ -27,7 +28,64 @@ class AddFriend: UIViewController
 
     }
 
+    
     final func detectedQR(notification: NSNotification)
+    {
+        var base64String :String = notification.object as! String
+        if base64String != "Empty scan"
+        {
+            var jsonData :NSData = NSData(base64EncodedString: base64String)
+            var err: NSError?
+            var jsonStructure :NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves, error: &err) as! NSDictionary
+            
+            switch (jsonStructure.objectForKey("type") as! Int)
+            {
+            case 1:
+                
+                var friendDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
+                
+                if AddressBookManager.isAllowed
+                {
+                    addFriend(friendDictionary)
+                }
+                else
+                {
+                    var alert :UIAlertView = UIAlertView(title: "Info", message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
+                    alert.show()
+                }
+                
+            case 3:
+                
+                var invoiceDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
+                
+                performInvoice(invoiceDictionary)
+                
+            default :
+                qrScaner.play()
+                break
+            }
+        }
+    }
+    
+    final func performInvoice(invoiceDictionary :NSDictionary)
+    {
+        var invoice :InvoiceData = InvoiceData()
+        
+        invoice.address = invoiceDictionary.objectForKey("address") as! String
+        invoice.name = invoiceDictionary.objectForKey("name") as! String
+        invoice.amount = invoiceDictionary.objectForKey("amount") as! Int
+        invoice.message = invoiceDictionary.objectForKey("message") as! String
+        
+        State.invoice = invoice
+        
+        if State.invoice != nil
+        {
+            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToSendTransaction )
+        }
+
+    }
+    
+    final func addFriend(friendDictionary :NSDictionary)
     {
         ABAddressBookRequestAccessWithCompletion(addressBook,
             {
@@ -39,12 +97,13 @@ class AddFriend: UIViewController
                     var error: Unmanaged<CFErrorRef>? = nil
                     var emailMultiValue :ABMutableMultiValueRef = ABMultiValueCreateMutable(ABPropertyType(kABPersonEmailProperty)).takeRetainedValue()
                     
-                    var alert1 :UIAlertController = UIAlertController(title: "Add NEM account", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
+                    var alert1 :UIAlertController = UIAlertController(title: "Add NEM contact", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     var firstName :UITextField!
                     alert1.addTextFieldWithConfigurationHandler
                         {
                             textField -> Void in
+                            textField.text = friendDictionary.objectForKey("name") as! String
                             textField.placeholder = "firstName"
                             textField.keyboardType = UIKeyboardType.ASCIICapable
                             textField.returnKeyType = UIReturnKeyType.Done
@@ -57,6 +116,7 @@ class AddFriend: UIViewController
                     alert1.addTextFieldWithConfigurationHandler
                         {
                             textField -> Void in
+                            textField.text = friendDictionary.objectForKey("surname") as! String
                             textField.placeholder = "lastName"
                             textField.keyboardType = UIKeyboardType.ASCIICapable
                             textField.returnKeyType = UIReturnKeyType.Done
@@ -69,7 +129,7 @@ class AddFriend: UIViewController
                     alert1.addTextFieldWithConfigurationHandler
                         {
                             textField -> Void in
-                            textField.text = notification.object as! String
+                            textField.text = friendDictionary.objectForKey("address") as! String
                             textField.keyboardType = UIKeyboardType.ASCIICapable
                             textField.returnKeyType = UIReturnKeyType.Done
                             
@@ -99,6 +159,7 @@ class AddFriend: UIViewController
                         {
                             alertAction -> Void in
                             alert1.dismissViewControllerAnimated(true, completion: nil)
+                            self.qrScaner.play()
                     }
                     
                     alert1.addAction(addNEMaddress)
@@ -113,7 +174,6 @@ class AddFriend: UIViewController
                     alert.show()
                 }
         })
-
     }
     
     override func didReceiveMemoryWarning()

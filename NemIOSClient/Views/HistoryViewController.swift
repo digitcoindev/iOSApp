@@ -189,6 +189,12 @@ class HistoryViewController: UIViewController , UITableViewDelegate
         {
             var  cell = tableView.dequeueReusableCellWithIdentifier("title") as! KeyCell
             
+            var maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.frame, byRoundingCorners: UIRectCorner.TopLeft | UIRectCorner.TopRight, cornerRadii: CGSizeMake(10, 10))
+            var maskLayer :CAShapeLayer = CAShapeLayer()
+            maskLayer.frame = cell.bounds
+            maskLayer.path = maskPath.CGPath
+            cell.layer.mask = maskLayer
+            
             cell.key.text = ""
             
             var dateFormatter = NSDateFormatter()
@@ -211,28 +217,36 @@ class HistoryViewController: UIViewController , UITableViewDelegate
         else
         {
             var modification :AccountModification = modifications[indexPath.section].modifications[indexPath.row - 1]
+            var cell :KeyCell? = nil
             if modification.modificationType == 1
             {
-                var cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("add") as! KeyCell
+                cell = self.tableView.dequeueReusableCellWithIdentifier("add") as? KeyCell
                 
-                cell.key.text = ""
-                cell.cellIndex = indexPath.row
+                cell!.key.text = ""
+                cell!.cellIndex = indexPath.row
                 
-                cell.key.text = modification.publicKey
-                
-                return cell
+                cell!.key.text = modification.publicKey
             }
             else
             {
-                var cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("delete") as! KeyCell
+                cell = self.tableView.dequeueReusableCellWithIdentifier("delete") as? KeyCell
                 
-                cell.key.text = ""
-                cell.cellIndex = indexPath.row
+                cell!.key.text = ""
+                cell!.cellIndex = indexPath.row
                 
-                cell.key.text = modification.publicKey
-                
-                return cell
+                cell!.key.text = modification.publicKey
             }
+            
+            if indexPath.row == modifications[indexPath.section].modifications.count && cell != nil
+            {
+                var maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.frame, byRoundingCorners: UIRectCorner.BottomLeft | UIRectCorner.BottomRight, cornerRadii: CGSizeMake(10, 10))
+                var maskLayer :CAShapeLayer = CAShapeLayer()
+                maskLayer.frame = cell!.bounds
+                maskLayer.path = maskPath.CGPath
+                cell!.layer.mask = maskLayer
+            }
+            
+            return cell!
         }
     }
     

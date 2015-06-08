@@ -129,4 +129,5 @@
         return [hash substringToIndex:length];
     }
 }
+
 @end

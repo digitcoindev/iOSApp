@@ -154,7 +154,6 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
                             findUnconfirmed = true
                             NSNotificationCenter.defaultCenter().removeObserver(self)
                             self.presentViewController(alert, animated: true, completion: nil)
-
                         }
                     }
                     
@@ -437,6 +436,8 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         State.currentContact = correspondents[indexPath.row] as Correspondent
         if walletData != nil
         {
+            State.invoice = nil
+            
             if walletData.cosignatories.count == 0
             {
                 State.toVC = SegueToMessageVC

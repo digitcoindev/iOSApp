@@ -1,63 +1,5 @@
 import UIKit
 
-let SegueToServerVC : String =  "Servers"
-let SegueToRegistrationVC : String =  "Registration"
-let SegueToLoginVC : String =  "Accounts"
-let SegueToServerTable : String =  "serverTable"
-let SegueToServerCustom : String =  "serverCustom"
-let SegueToMainVC : String =  "Main"
-let SegueToMainMenu : String =  "Menu"
-let SegueToDashboard : String =  "Dashboard"
-let SegueToPasswordValidation : String =  "Password"
-let SegueToMessageVC : String =  "Message"
-let SegueToMessageMultisignVC : String =  "Message2"
-let SegueToQRCode : String =  "QR Code"
-let SegueToAddAccountVC :String = "Import Accouts"
-let SegueToImportFromQR :String = "Import from QR"
-let SegueToAddressBook :String = "Address Book"
-let SegueToMessages :String = "Messages"
-let SegueToUserInfo :String = "User Info"
-let SegueToImportFromKey :String = "Import from key"
-let SegueToCreateQRInput :String = "CreateQRInput"
-let SegueToCreateQRResult :String = "CreateQRResult"
-let SegueToGoogleMap :String = "Map"
-let SegueToAddFriend :String = "Add Friend"
-let SegueToProfile :String = "Profile"
-let SegueToProfileMultisig :String = "ProfileMultisig"
-let SegueToProfileCosignatoryOf :String = "ProfileCosignatoryOf"
-let SegueToSendTransaction :String = "SendTransaction"
-let SegueTomultisigAccountManager :String = "multisigAccountManager"
-let SegueToUnconfirmedTransactionVC :String = "UnconfirmedTransactionVC"
-let SegueToHistoryVC :String = "History"
-
-let transferTransaction :Int = 257
-let importanceTransaction :Int = 2049
-let multisigAggregateModificationTransaction :Int = 4097
-let multisigSignatureTransaction :Int = 4098
-let multisigTransaction :Int = 4100
-
-let testNetwork :UInt8 = 152
-let mainNetwork :UInt8 = 104
-let noNetwork :UInt8 = 0
-let network :UInt8 = testNetwork
-
-let genesis_block_time :Double = 1427587212
-let waitTime :Double = 21600
-
-struct AccountModification
-{
-    var lengthOfModification :Int!
-    var modificationType :Int!
-    var lengthOfPublicKey :Int!
-    var publicKey :String!
-    
-    init()
-    {
-        lengthOfModification = 40
-        lengthOfPublicKey = 32
-    }
-}
-
 class ViewController: UIViewController
 {
     let deviceData : plistFileManager = plistFileManager()
@@ -78,12 +20,6 @@ class ViewController: UIViewController
                 UIPasteboard.generalPasteboard().string = errorLogs
             }
         }
-        
-//        var payload :Array<UInt8> = "Hello".hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
-//        var payload2 :Array<UInt8> = "хелло".hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
-//        var payload3 :Array<UInt8> = "こんにちは".hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
-        
-
     }
     
     override func viewDidAppear(animated: Bool)

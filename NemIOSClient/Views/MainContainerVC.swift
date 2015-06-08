@@ -122,11 +122,14 @@ class MainContainerVC: UIViewController
                 
             case SegueTomultisigAccountManager:
                 self.performSegueWithIdentifier(SegueTomultisigAccountManager, sender: nil)
-            
-            case SegueToHistoryVC:
-                    self.performSegueWithIdentifier(SegueToHistoryVC, sender: nil)
                 
-            case SegueToPasswordValidation , SegueToUnconfirmedTransactionVC , SegueToSendTransaction , SegueToMessageVC , SegueToMessageMultisignVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToAddFriend:
+            case SegueToHistoryVC:
+                self.performSegueWithIdentifier(SegueToHistoryVC, sender: nil)
+                
+            case SegueToExportAccount:
+                self.performSegueWithIdentifier(SegueToExportAccount, sender: nil)
+                
+            case SegueToPasswordValidation , SegueToUnconfirmedTransactionVC , SegueToSendTransaction , SegueToMessageVC , SegueToMessageMultisignVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToScanQR:
                 
                 State.toVC = page as String
                 NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )

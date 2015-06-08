@@ -253,7 +253,11 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
                 
                 var isError :Bool = false
                 
-                if oldPassword.text != HashManager.AES256Decrypt(State.currentWallet!.password)
+                var salt :NSData = HashManager.salt(length: 128)
+                
+                let passwordHash :NSData? = HashManager.generateAesKeyForString(oldPassword.text, salt:salt, roundCount:2000, error:nil)
+                
+                if passwordHash != HashManager.AES256Decrypt(State.currentWallet!.password)
                 {
                     alert1.message = "Wrong old password"
                     oldPassword.text = ""
@@ -270,7 +274,12 @@ class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate 
                 
                 if !isError
                 {
-                    State.currentWallet!.password = HashManager.AES256Encrypt(newPassword.text)
+                    var salt :NSData = HashManager.salt(length: 128)
+                    
+                    let passwordHash :NSData? = HashManager.generateAesKeyForString(newPassword.text, salt:salt, roundCount:2000, error:nil)
+                    
+                    State.currentWallet!.password = passwordHash!.toHexString()
+                    State.currentWallet!.salt = salt.toHexString()
                     
                     CoreDataManager().commit()
                 }
