@@ -3,7 +3,6 @@ import UIKit
 
 class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDelegate
 {
-    
     let dataManager : CoreDataManager = CoreDataManager()
     let deviceManager : plistFileManager = plistFileManager()
     
@@ -19,7 +18,9 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     override func viewDidLoad()
     {
         super.viewDidLoad()
-                
+        
+        State.currentVC = SegueToMainMenu
+
         menu = deviceManager.getMenuItems()
         menu = [SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToMessages, SegueToGoogleMap , SegueToProfile, SegueToExportAccount]
         State.currentVC = SegueToMainMenu
@@ -40,7 +41,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                 case SegueToRegistrationVC :
                     break
                     
-                case SegueToProfile ,SegueToDashboard, SegueToExportAccount:
+                case SegueToProfile ,SegueToDashboard, SegueToExportAccount , SegueToMessages, SegueToGoogleMap :
                     if State.fromVC == SegueToLoginVC
                     {
                         break

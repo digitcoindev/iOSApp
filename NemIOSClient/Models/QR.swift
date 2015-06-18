@@ -6,7 +6,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
     let previewLayer = AVCaptureVideoPreviewLayer()
     var currentresult :String!
     var session :AVCaptureSession = AVCaptureSession()
-    var qrImg :UIImageView!
+    var qrImg :UIImageView = UIImageView()
     let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
 
     override init(frame: CGRect)
@@ -41,6 +41,12 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
             
             self.layer.addSublayer(previewLayer)
             session.startRunning()
+            
+            qrImg.hidden = true
+            qrImg.frame = CGRect(x: 0, y:0, width: self.frame.width, height: self.frame.height)
+            qrImg.contentMode = UIViewContentMode.ScaleAspectFit
+            
+            self.addSubview(qrImg)
         }
         else
         {
@@ -62,37 +68,30 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
                 {
                     currentresult =  metadataObject.stringValue
                     
+                    qrImg.image = createQR(currentresult)
+                    
                     self.stop()
                     
-                    qrImg = UIImageView(image: createQR(currentresult))
-                    qrImg.frame = CGRect(x: 0, y:0, width: self.frame.width, height: self.frame.height)
-                    qrImg.contentMode = UIViewContentMode.ScaleAspectFit
-                    
-                    self.addSubview(qrImg)
-                    
                     NSNotificationCenter.defaultCenter().postNotificationName("Scan QR", object:currentresult)
-                    
-                    previewLayer.removeFromSuperlayer()
                 }
             }
         }
     }
     
-    final func refresh()
-    {
-        qrImg.removeFromSuperview()
-        self.layer.addSublayer(previewLayer)
-    }
-    
     final func play()
     {
-        refresh()
         session.startRunning()
+        qrImg.hidden = true
+        previewLayer.hidden = false
+
     }
     
     final func stop()
     {
         session.stopRunning()
+        previewLayer.hidden = true
+        qrImg.hidden = false
+
     }
     
     final func createQR(inputStr :String) -> UIImage

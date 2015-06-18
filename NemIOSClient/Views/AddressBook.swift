@@ -134,6 +134,11 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         self.contacts = ABAddressBookCopyArrayOfAllPeople(self.addressBook).takeRetainedValue()
         self.tableView.reloadData()
     }
+    
+    final func sortContacts()
+    {
+        
+    }
         
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {

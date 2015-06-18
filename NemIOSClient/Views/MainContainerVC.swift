@@ -39,9 +39,10 @@ class MainContainerVC: UIViewController
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
     {
-        
         if (self.childViewControllers.count > 0)
         {
+            NSNotificationCenter.defaultCenter().removeObserver(self.childViewControllers.first as! UIViewController)
+
             self.swapFromViewController(self.childViewControllers.first as! UIViewController, toViewController: segue.destinationViewController as! UIViewController)
         }
         else
@@ -74,7 +75,19 @@ class MainContainerVC: UIViewController
                 toViewController.didMoveToParentViewController(self)
         })
     }
+    
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         
+        for vc in self.childViewControllers
+        {
+            NSNotificationCenter.defaultCenter().removeObserver(vc as! UIViewController)
+            
+            (vc as! UIViewController).removeFromParentViewController()
+        }
+    }
+    
     final func changePage(page :String)
     {
         if(page != lastVC )

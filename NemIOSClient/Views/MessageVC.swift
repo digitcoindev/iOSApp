@@ -111,6 +111,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 defineData()
                 
                 self.tableView.reloadData()
+                NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
                 state.removeLast()
             }
 
@@ -305,7 +306,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 
                 cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
                 
-                if(indexPath.row == tableView.numberOfRowsInSection(0) - 1)
+                if(indexPath.row == transactions.count )
                 {
                     NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
                 }
@@ -444,6 +445,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 if cosignatory.publicKey == transaction.signer
                 {
                     definedCell.type = "outCell"
+                    break
                 }
             }
             
@@ -452,6 +454,7 @@ class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                 if cosignatory.publicKey == transaction.signer
                 {
                     definedCell.type = "outCell"
+                    break
                 }
             }
             

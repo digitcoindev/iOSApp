@@ -44,10 +44,10 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
         searchBar.delegate = self
         tableView.tableHeaderView = searchBar
-        searchBar.showsCancelButton = true
+        searchBar.showsCancelButton = false
         tableView.setContentOffset(CGPoint(x: 0, y: searchBar.frame.height), animated: false)
 
-        correspondents = State.currentWallet!.correspondents.allObjects as! [Correspondent]
+        correspondents = sortCorrespondents(State.currentWallet!.correspondents.allObjects as! [Correspondent])
         displayList = correspondents
 
         if AddressBookManager.isAllowed
@@ -86,8 +86,10 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         switch (state.last!)
         {
         case "accountTransfersAllSuccessed" :
-            correspondents = State.currentWallet!.correspondents.allObjects as! [Correspondent]
+            
+            correspondents = sortCorrespondents(State.currentWallet!.correspondents.allObjects as! [Correspondent])
             displayList = correspondents
+            
             tableView.reloadData()
             state.removeLast()
             
@@ -107,8 +109,9 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
             state.removeLast()
             
-        case "accountGetDeied" :
+        case "accountGetDenied" :
             self.balance.text = "Lost connection"
+            state.removeLast()
             
         case "unconfirmedTransactionsSuccessed" :
             
@@ -262,8 +265,6 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     final func accountGetDenied(notification: NSNotification)
     {
         state.append("accountGetDenied")
-        
-        self.balance.text = ""
     }
     
     final func unconfirmedTransactionsSuccessed(notification: NSNotification)
@@ -314,6 +315,93 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
     {
         state.append("accountTransfersAllDenied")
     }
+    
+    final func getLastMessage(messages :[Transaction])-> Transaction?
+    {
+        if messages.count > 0
+        {
+            var message :Transaction = messages.first!
+            
+            for messageIN in messages
+            {
+                if (messageIN.id.integerValue > message.id.integerValue)
+                {
+                    message = messageIN
+                }
+            }
+            
+            return message
+        }
+        else
+        {
+            return nil
+        }
+    }
+    
+    final func sortCorrespondents(correspondents :[Correspondent])->[Correspondent]
+    {
+        var correspondentsIn = correspondents
+        var data :[CorrespondentCellData] = [CorrespondentCellData]()
+        
+        for correspondent in correspondentsIn
+        {
+            var value = CorrespondentCellData()
+            value.correspondent = correspondent
+            value.lastMessage = getLastMessage(correspondent.transactions.allObjects as! [Transaction])
+            data.append(value)
+        }
+        
+        for var index = 0 ; index < data.count ; index++
+        {
+            var sorted = true
+            
+            for var indexIN = 0 ; indexIN < data.count - 1 ; indexIN++
+            {
+                var firstValue :Int!
+                if data[indexIN].lastMessage != nil
+                {
+                    firstValue = data[indexIN].lastMessage!.id.integerValue
+                }
+                else
+                {
+                    firstValue = -1
+                }
+                
+                var secondValue :Int!
+                if data[indexIN + 1].lastMessage != nil
+                {
+                    secondValue = data[indexIN + 1].lastMessage!.id.integerValue
+                }
+                else
+                {
+                    secondValue = -1
+                }
+                
+                if firstValue < secondValue || (secondValue == -1 &&  secondValue != firstValue)
+                {
+                    var accum = data[indexIN + 1]
+                    data[indexIN + 1] = data[indexIN]
+                    data[indexIN] = accum
+                    
+                    sorted = false
+                }
+            }
+            
+            if sorted
+            {
+                break
+            }
+        }
+        
+        correspondentsIn.removeAll(keepCapacity: false)
+        
+        for correspondent in data
+        {
+            correspondentsIn.append(correspondent.correspondent)
+        }
+        
+        return correspondentsIn
+    }
 
     override func viewDidAppear(animated: Bool)
     {
@@ -353,8 +441,6 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         }
         
         tableView.reloadData()
-
-        
     }
     override func didReceiveMemoryWarning()
     {
@@ -393,23 +479,21 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         
         if messages.count > 0
         {
-            var message :Transaction = messages.first!
-            
-            for messageIN in messages
+            var message :Transaction? = getLastMessage(messages)
+            if message != nil
             {
-                if (messageIN.id.integerValue > message.id.integerValue)
-                {
-                    message = messageIN
-                }
+                cell.message.text = message!.message_payload
             }
-            
-            cell.message.text = message.message_payload
+            else
+            {
+                cell.message.text = ""
+            }
             
             var dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            var timeStamp = Double(message.timeStamp )
-            var block = dataManager.getBlock(Double(message.height))
+            var timeStamp = Double(message!.timeStamp )
+            var block = dataManager.getBlock(Double(message!.height))
             
             if block != nil
             {

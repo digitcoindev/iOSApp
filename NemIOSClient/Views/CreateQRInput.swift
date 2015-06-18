@@ -32,6 +32,28 @@ class CreateQRInput: UIViewController
         super.didReceiveMemoryWarning()
     }
 
+    @IBAction func hideKeyboard(sender: AnyObject)
+    {
+        if name.text == ""
+        {
+            name.becomeFirstResponder()
+        }
+        else if amount.text == ""
+        {
+            amount.becomeFirstResponder()
+        }
+        else if message.text == ""
+        {
+            message.becomeFirstResponder()
+        }
+        else
+        {
+            
+        }
+        
+        sender.becomeFirstResponder()
+    }
+    
     @IBAction func confirm(sender: AnyObject)
     {
         var canCreate :Bool = true

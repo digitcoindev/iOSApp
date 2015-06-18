@@ -172,10 +172,9 @@ class HistoryViewController: UIViewController , UITableViewDelegate
         state.append("accountTransfersAllSuccessed")
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
         return modifications.count
-        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -189,12 +188,13 @@ class HistoryViewController: UIViewController , UITableViewDelegate
         {
             var  cell = tableView.dequeueReusableCellWithIdentifier("title") as! KeyCell
             
-            var maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.frame, byRoundingCorners: UIRectCorner.TopLeft | UIRectCorner.TopRight, cornerRadii: CGSizeMake(10, 10))
-            var maskLayer :CAShapeLayer = CAShapeLayer()
+            let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: UIRectCorner.TopLeft | UIRectCorner.TopRight, cornerRadii: CGSizeMake(10, 10))
+            let maskLayer :CAShapeLayer = CAShapeLayer()
             maskLayer.frame = cell.bounds
             maskLayer.path = maskPath.CGPath
             cell.layer.mask = maskLayer
-            
+            cell.layer.masksToBounds = true
+
             cell.key.text = ""
             
             var dateFormatter = NSDateFormatter()
@@ -239,11 +239,12 @@ class HistoryViewController: UIViewController , UITableViewDelegate
             
             if indexPath.row == modifications[indexPath.section].modifications.count && cell != nil
             {
-                var maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.frame, byRoundingCorners: UIRectCorner.BottomLeft | UIRectCorner.BottomRight, cornerRadii: CGSizeMake(10, 10))
+                var maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: UIRectCorner.BottomLeft | UIRectCorner.BottomRight, cornerRadii: CGSizeMake(10, 10))
                 var maskLayer :CAShapeLayer = CAShapeLayer()
                 maskLayer.frame = cell!.bounds
                 maskLayer.path = maskPath.CGPath
                 cell!.layer.mask = maskLayer
+                cell!.layer.masksToBounds = true
             }
             
             return cell!

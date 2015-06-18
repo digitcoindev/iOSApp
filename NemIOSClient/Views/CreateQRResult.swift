@@ -61,7 +61,7 @@ class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
     {
         
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
-        {
+        {            
             var facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             facebookSheet.setInitialText("Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!")
             facebookSheet.addImage(qrImage.image!)

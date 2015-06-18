@@ -47,10 +47,6 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func returnFirstResponder(sender: AnyObject)
-    {
-        (sender as! UITextField).becomeFirstResponder()
-    }
     
     @IBAction func chouseTextField(sender: AnyObject)
     {
@@ -149,11 +145,23 @@ class ImportFromKey: UIViewController ,UIScrollViewDelegate
     
     @IBAction func hideKeyBoard(sender: AnyObject)
     {
-        //(sender as! UITextField).becomeFirstResponder()
-        
-        if repeatPassword.text != password.text
+        if key.text == ""
         {
-            repeatPassword.text = ""
+            key.becomeFirstResponder()
+        }else if name.text == ""
+        {
+            name.becomeFirstResponder()
+        }else if password.text == ""
+        {
+            password.becomeFirstResponder()
+        }else if repeatPassword.text == ""
+        {
+            repeatPassword.becomeFirstResponder()
+        }
+        
+        if repeatPassword.text != password.text &&  password.text != ""
+        {
+            repeatPassword.becomeFirstResponder()
         }
     }
     

@@ -43,7 +43,16 @@ class RegistrationVC: UIViewController
 
     @IBAction func closeKeyboard(sender: UITextField)
     {
-        sender.becomeFirstResponder()
+        if userName.text == ""
+        {
+            userName.becomeFirstResponder()
+        }else if createPassword.text == ""
+        {
+            createPassword.becomeFirstResponder()
+        }else if repeatPassword.text == ""
+        {
+            repeatPassword.becomeFirstResponder()
+        }
     }
     
     
@@ -72,13 +81,16 @@ class RegistrationVC: UIViewController
                 else
                 {
                     alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
-                    
+
                     repeatPassword.text = ""
+                    createPassword.text = ""
                 }
             }
             else
             {
                 alert  = UIAlertView(title: "Validation", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
+                
+                repeatPassword.text = ""
             }
         }
         else

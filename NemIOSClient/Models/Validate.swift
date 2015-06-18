@@ -52,8 +52,14 @@ class Validate: NSObject
         var validator :Array<UInt8> = Array<UInt8>("0123456789abcdef".utf8)
         var keyArray :Array<UInt8> = Array<UInt8>(inputText!.utf8)
         
-        if keyArray.count == length
+        if keyArray.count == length || keyArray.count == length + 2
         {
+            if keyArray.count == length + 2
+            {
+                keyArray.removeAtIndex(0)
+                keyArray.removeAtIndex(0)
+            }
+            
             for value in keyArray
             {
                 var find = false

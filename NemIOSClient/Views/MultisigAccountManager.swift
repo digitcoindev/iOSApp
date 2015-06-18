@@ -82,20 +82,36 @@ class MultisigAccountManager: UIViewController  , UITableViewDelegate
             {
                 var content :[String] = [String]()
                 var contentActions :[funcBlock] = [funcBlock]()
-                for account in walletData.cosignatoryOf
+                
+                if  walletData.cosignatoryOf.count == 0
                 {
-                    content.append(account.address)
+                    content.append("This account")
                     contentActions.append(
                         {
                             () -> () in
                             
                             if State.currentServer != nil
                             {
-                                APIManager().accountGet(State.currentServer!, account_address: account.address)
+                                APIManager().accountGet(State.currentServer!, account_address: self.walletData.address)
                             }
                     })
                 }
-                
+                else
+                {
+                    for account in walletData.cosignatoryOf
+                    {
+                        content.append(account.address)
+                        contentActions.append(
+                            {
+                                () -> () in
+                                
+                                if State.currentServer != nil
+                                {
+                                    APIManager().accountGet(State.currentServer!, account_address: account.address)
+                                }
+                        })
+                    }
+                }
                 chooseAccount.setContent(content, contentActions: contentActions)
             }
             else
@@ -221,6 +237,8 @@ class MultisigAccountManager: UIViewController  , UITableViewDelegate
             }
             
             (sender as! UITextField).text = ""
+            keyValidator.hidden = true
+
         }
     }
 
@@ -326,6 +344,7 @@ class MultisigAccountManager: UIViewController  , UITableViewDelegate
                     transaction.version = 1
                     transaction.signer = publickey
                     transaction.privateKey = privateKey
+                    transaction.minCosignatory = self.walletData.cosignatories.count - self.removeArray.count + self.addArray.count
                     
                     for cosignatori in self.removeArray
                     {

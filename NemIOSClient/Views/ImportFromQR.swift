@@ -66,6 +66,10 @@ class ImportFromQR: UIViewController
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         }
+        else
+        {
+            screenScaner.play()
+        }
     }
     
     override func didReceiveMemoryWarning()

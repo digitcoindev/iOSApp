@@ -49,7 +49,7 @@ class ServerCustomVC: UIViewController
             
             State.currentServer = dataManager.getServers().last!
             
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:State.lastVC )
             
         case "Denied" :
             State.currentServer = nil
@@ -120,8 +120,8 @@ class ServerCustomVC: UIViewController
             apiManager.heartbeat(dataManager.getServers().last!)
             
             serverAddress.text = ""
-            protocolType.text = ""
-            serverPort.text = ""
+            protocolType.text = "http"
+            serverPort.text = "7890"
         }
     }
     

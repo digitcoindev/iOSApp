@@ -1,6 +1,8 @@
 import UIKit
+import Social
+import MessageUI
 
-class ExportAccountVC: UIViewController
+class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
 {
     @IBOutlet weak var qrImage: UIImageView!
     
@@ -36,7 +38,32 @@ class ExportAccountVC: UIViewController
         
         qrImage.image =  qr.createQR(base64String)
     }
-
+    @IBAction func mailBtn(sender: AnyObject)
+    {
+        if(MFMailComposeViewController.canSendMail()){
+            var myMail : MFMailComposeViewController = MFMailComposeViewController()
+            
+            myMail.mailComposeDelegate = self
+            
+            myMail.setSubject("NEM")
+            
+            var sentfrom = "Scan this QR if you want to import : \"\(State.currentWallet!.login)\" account."
+            myMail.setMessageBody(sentfrom, isHTML: true)
+            
+            var image = qrImage.image!
+            var imageData = UIImageJPEGRepresentation(image, 1.0)
+            
+            myMail.addAttachmentData(imageData, mimeType: "image/jped", fileName: "image")
+            
+            //Display the view controller
+            self.presentViewController(myMail, animated: true, completion: nil)
+        }
+        else
+        {
+            var alert :UIAlertView = UIAlertView(title: "Info", message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
+            alert.show()
+        }
+    }
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()

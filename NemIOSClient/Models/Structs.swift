@@ -35,3 +35,9 @@ struct InvoiceData
         }
     }
 }
+
+struct CorrespondentCellData
+{
+    var correspondent :Correspondent!
+    var lastMessage :Transaction?
+}

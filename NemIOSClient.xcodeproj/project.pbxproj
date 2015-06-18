@@ -68,6 +68,7 @@
 		DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AF0761A975CCF00299B0A /* GoogleMap.swift */; };
 		DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF0791A976A6B00299B0A /* CoreLocation.framework */; };
 		DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF07B1A977CD600299B0A /* MessageUI.framework */; };
+		DA4BB02F1B3016B600EEF713 /* NEM_shield_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DA4BB02E1B3016B600EEF713 /* NEM_shield_logo.png */; };
 		DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */; };
 		DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2EB1A82536700FAA877 /* LoadData.swift */; };
 		DA64A4C91A56D483005833A4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4C81A56D483005833A4 /* AddressBook.framework */; };
@@ -175,6 +176,7 @@
 		DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24E1B21D1B500F3F5F5 /* Structs.swift */; };
 		DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */; };
 		DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */; };
+		DAFA74BD1B2AEEF100AA461D /* consignatories_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAFA74BC1B2AEEF100AA461D /* consignatories_icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -257,6 +259,7 @@
 		DA4AF0761A975CCF00299B0A /* GoogleMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleMap.swift; path = Views/GoogleMap.swift; sourceTree = "<group>"; };
 		DA4AF0791A976A6B00299B0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DA4AF07B1A977CD600299B0A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		DA4BB02E1B3016B600EEF713 /* NEM_shield_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NEM_shield_logo.png; sourceTree = "<group>"; };
 		DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyGenerator.swift; path = Models/KeyGenerator.swift; sourceTree = "<group>"; };
 		DA4BB2EB1A82536700FAA877 /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
 		DA64A4C81A56D483005833A4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -373,6 +376,7 @@
 		DADDA24E1B21D1B500F3F5F5 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Structs.swift; path = Models/Structs.swift; sourceTree = "<group>"; };
 		DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountGetMetaData.swift; path = Models/AccountGetMetaData.swift; sourceTree = "<group>"; };
 		DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageGetMetaData.swift; path = Models/MessageGetMetaData.swift; sourceTree = "<group>"; };
+		DAFA74BC1B2AEEF100AA461D /* consignatories_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = consignatories_icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -694,8 +698,7 @@
 				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
 				DA031ED71A9226E60021E98B /* TextFields */,
 				DAC3A1831B0B623D00AABB61 /* DropDown */,
-				DADA27311B0F4EB200EA09F8 /* PopUp.swift */,
-				DADA27321B0F4EB200EA09F8 /* PopUp.xib */,
+				DAFA74BE1B2AF5BB00AA461D /* PopUp */,
 			);
 			name = "Additional controls";
 			sourceTree = "<group>";
@@ -875,6 +878,8 @@
 		DAD1C8001A6965AA0043D947 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				DA4BB02E1B3016B600EEF713 /* NEM_shield_logo.png */,
+				DAFA74BC1B2AEEF100AA461D /* consignatories_icon.png */,
 				DAD48DDA1AE90123008F0814 /* add_key_icon.png */,
 				DAD48DDB1AE90123008F0814 /* confirm_icon.png */,
 				DAD48DDC1AE90123008F0814 /* delete_icon.png */,
@@ -1059,6 +1064,15 @@
 			name = API;
 			sourceTree = "<group>";
 		};
+		DAFA74BE1B2AF5BB00AA461D /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				DADA27311B0F4EB200EA09F8 /* PopUp.swift */,
+				DADA27321B0F4EB200EA09F8 /* PopUp.xib */,
+			);
+			name = PopUp;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1149,6 +1163,7 @@
 			files = (
 				DA4369D11A6411D400868BAD /* welcome.png in Resources */,
 				DAD1C8531A69664D0043D947 /* create_qr_icon.png in Resources */,
+				DA4BB02F1B3016B600EEF713 /* NEM_shield_logo.png in Resources */,
 				DAD1C8541A69664D0043D947 /* bg.png in Resources */,
 				DAD48DE31AE90123008F0814 /* edit_password_icon.png in Resources */,
 				DAD1C8471A69664D0043D947 /* radio_btn_passive.png in Resources */,
@@ -1183,6 +1198,7 @@
 				DAD1C8521A69664D0043D947 /* custom_icon.png in Resources */,
 				DA173CCD1A9E1161003AC21F /* add_icon.png in Resources */,
 				DAD1C8491A69664D0043D947 /* qr_icon.png in Resources */,
+				DAFA74BD1B2AEEF100AA461D /* consignatories_icon.png in Resources */,
 				DA93FBDA1B0B753400549867 /* LocalizeBase.strings in Resources */,
 				DADA27341B0F4EB200EA09F8 /* PopUp.xib in Resources */,
 				DAD1C8451A69664D0043D947 /* send_email.png in Resources */,

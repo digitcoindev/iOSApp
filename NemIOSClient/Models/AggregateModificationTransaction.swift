@@ -3,11 +3,12 @@ import UIKit
 class AggregateModificationTransaction: TransactionPostMetaData
 {
     var modifications :[AccountModification] = [AccountModification]()
+    var minCosignatory :Int!
     
     override init()
     {
         super.init()
-     
+        minCosignatory = 0
         type = multisigAggregateModificationTransaction
     }
     

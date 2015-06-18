@@ -34,12 +34,12 @@ class APIManager: NSObject
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+                
                 if(err != nil)
                 {
                     println(err!.localizedDescription)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("heartbeatDenied", object:nil)
-                    
                     
                     println("NIS is not available!")
                 }
@@ -49,9 +49,8 @@ class APIManager: NSObject
                     
                     println("\nRequest : /heartbeat")
                     
-                    //println("\nSucces : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
-                    
                     self.timeSynchronize(server)
+
                     NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
                 }
         })
@@ -129,18 +128,19 @@ class APIManager: NSObject
                     
                     println("NIS is not available!")
                 }
-                else
+                else if (layers! as NSDictionary).objectForKey("error")  == nil
                 {
                     var requestData :AccountGetMetaData = AccountGetMetaData()
                     
                     requestData.getFrom(layers! as NSDictionary)
                                         
                     println("\nRequest : /account/get")
-
-                    //println("\nSucces :\n\t address : \(requestData.address)\n\t balance : \(requestData.balance)\n\t importance : \(requestData.importance)\n\t publicKey : \(requestData.publicKey!)\n\t label : \(requestData.label!)\n\t harvestedBlocks : \(requestData.harvestedBlocks)\n\t cosignatoryOf : \(requestData.cosignatoryOf!)\n\t status : \(requestData.status)\n\t remoteStatus : \(requestData.remoteStatus)")
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("accountGetSuccessed", object:requestData )
-                    
+                }
+                else
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("accountGetDenied", object:nil)
                 }
         })
         
@@ -174,7 +174,7 @@ class APIManager: NSObject
                     
                     println("NIS is not available!")
                 }
-                else
+                else if (layers! as NSDictionary).objectForKey("error")  == nil
                 {
                     var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
                     
@@ -197,8 +197,6 @@ class APIManager: NSObject
                             requestData.getFrom(transaction)
                             requestDataAll.append(requestData)
                             
-                            //println("\nSucces :\n\t timeStamp : \(requestData.timeStamp)\n\t amount : \(requestData.amount)\n\t fee : \(requestData.fee)\n\t recipient : \(requestData.recipient)\n\t type : \(requestData.type)\n\t deadline : \(requestData.deadline)\n\t payload : \(requestData.message.payload)\n\t id : \(requestData.message.type)\n\t version : \(requestData.version)\n\t signer : \(requestData.signer)")
-                            
                         case multisigAggregateModificationTransaction :
                             
                             var requestData :AggregateModificationTransaction = AggregateModificationTransaction()
@@ -206,24 +204,6 @@ class APIManager: NSObject
                             requestData.getBeginFrom(meta)
                             requestData.getFrom(transaction)
                             requestDataAll.append(requestData)
-                            
-//                            println("\nSucces :")
-//                            println("\ttimeStamp : \(requestData.timeStamp)")
-//                            println("\tdeadline : \(requestData.deadline)")
-//                            println("\tversion : \(requestData.version)")
-//                            println("\tsigner : \(requestData.signer)")
-
-//                            for mod :AccountModification in requestData.modifications
-//                            {
-//                                if (mod.modificationType == 1)
-//                                {
-//                                    println("\tmodification (add) : \(mod.publicKey)")
-//                                }
-//                                else
-//                                {
-//                                    println("\tmodification (delete) : \(mod.publicKey)")
-//                                }
-//                            }
                             
                         case multisigTransaction :
                             
@@ -240,6 +220,10 @@ class APIManager: NSObject
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllSuccessed", object:requestDataAll )
                     
+                }
+                else
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllDenied", object:nil)
                 }
         })
         
@@ -274,7 +258,7 @@ class APIManager: NSObject
                     
                     println("NIS is not available!")
                 }
-                else
+                else if (layers! as NSDictionary).objectForKey("error")  == nil
                 {
                     var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
                     
@@ -303,7 +287,6 @@ class APIManager: NSObject
                             
                             requestDataAll.append(requestData)
                             
-                            //println("\nSucces :\n\t timeStamp : \(requestData.timeStamp)\n\t amount : \(requestData.amount)\n\t fee : \(requestData.fee)\n\t recipient : \(requestData.recipient)\n\t type : \(requestData.type)\n\t deadline : \(requestData.deadline)\n\t payload : \(requestData.message.payload)\n\t id : \(requestData.message.type)\n\t version : \(requestData.version)\n\t signer : \(requestData.signer)")
                             
                         case multisigAggregateModificationTransaction :
                             
@@ -316,24 +299,6 @@ class APIManager: NSObject
                             
                             requestData.getFrom(transaction)
                             requestDataAll.append(requestData)
-
-//                            println("\nSucces :")
-//                            println("\ttimeStamp : \(requestData.timeStamp)")
-//                            println("\tdeadline : \(requestData.deadline)")
-//                            println("\tversion : \(requestData.version)")
-//                            println("\tsigner : \(requestData.signer)")
-                            
-//                            for mod :AccountModification in requestData.modifications
-//                            {
-//                                if (mod.modificationType == 1)
-//                                {
-//                                    println("\tmodification (add) : \(mod.publicKey)")
-//                                }
-//                                else
-//                                {
-//                                    println("\tmodification (delete) : \(mod.publicKey)")
-//                                }
-//                            }
                             
                         case multisigTransaction :
                             
@@ -354,6 +319,10 @@ class APIManager: NSObject
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("unconfirmedTransactionsSuccessed", object:requestDataAll )
                     
+                }
+                else
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllDenied", object:nil)
                 }
         })
         
@@ -390,10 +359,14 @@ class APIManager: NSObject
                     
                     println("NIS is not available!")
                 }
-                else
+                else if (json! as NSDictionary).objectForKey("error")  == nil
                 {
                     CoreDataManager().addBlock(height, timeStamp: (json!.objectForKey("timeStamp") as! Double) )
                     NSNotificationCenter.defaultCenter().postNotificationName("getBlockWithHeightSuccessed", object:nil)
+                }
+                else
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("getBlockWithHeightDenied", object:nil)
                 }
         })
         
@@ -432,11 +405,15 @@ class APIManager: NSObject
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceDenied", object:nil)
                                     }
-                else
+                else if (json! as NSDictionary).objectForKey("error")  == nil
                 {
                     println(json)
                     NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceSuccessed", object:json)
 
+                }
+                else
+                {
+                    NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceDenied", object:nil)
                 }
        })
         

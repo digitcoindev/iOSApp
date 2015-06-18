@@ -61,7 +61,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
                     }
                 }
                 
-                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:State.lastVC )
             }
             
             timer.invalidate()

@@ -79,7 +79,7 @@ class HashManager: NSObject
     
     final class func generateAesKeyForString(string: String, salt: NSData, roundCount: Int?, error: NSErrorPointer) -> NSData?
     {
-        let nsDerivedKey = NSMutableData(length: 256)
+        let nsDerivedKey = NSMutableData(length: 128)
         var actualRoundCount: UInt32
         
         let algorithm: CCPBKDFAlgorithm        = CCPBKDFAlgorithm(kCCPBKDF2)
