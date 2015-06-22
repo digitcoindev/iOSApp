@@ -271,7 +271,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egl-87-68X" userLabel="account address field">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egl-87-68X" userLabel="account address field" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="8" y="178" width="304" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="zJK-1I-UMH"/>
@@ -306,7 +306,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsgsdnfgodns;lnglksdngflkngdlgnsld" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naU-ho-vPb" userLabel="login field">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsgsdnfgodns;lnglksdngflkngdlgnsld" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naU-ho-vPb" userLabel="login field" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="8" y="42" width="304" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="Sqn-6J-JSu"/>
@@ -323,7 +323,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixZ-mt-K8z" userLabel="account type">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixZ-mt-K8z" userLabel="account type" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="8" y="110" width="304" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="fMl-tC-Dle"/>
@@ -412,7 +412,7 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jxw-cQ-6k9" userLabel="account address field">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jxw-cQ-6k9" userLabel="account address field" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="8" y="178" width="304" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="01s-4s-hda"/>
@@ -473,7 +473,7 @@
                                             <action selector="history:" destination="uBG-tF-zib" eventType="touchUpInside" id="jDA-hD-Qir"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsgsdnfgodns;lnglksdngflkngdlgnsld" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8n-RZ-GUv" userLabel="login field">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsgsdnfgodns;lnglksdngflkngdlgnsld" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8n-RZ-GUv" userLabel="login field" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="8" y="42" width="282" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="RFR-J3-ABc"/>
@@ -490,7 +490,7 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkw-Cd-o6l" userLabel="account type">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkw-Cd-o6l" userLabel="account type" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="8" y="110" width="304" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="g1j-t5-Nka"/>
@@ -520,7 +520,7 @@
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nky-Ut-Pdj" id="abm-Ee-xOy">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="gggggggggggggggggggggggggggggggggggggg" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hMi-Ly-2P7">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="gggggggggggggggggggggggggggggggggggggg" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hMi-Ly-2P7" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="8" width="288" height="42"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -632,7 +632,7 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4c-nA-UXx" userLabel="account address field">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4c-nA-UXx" userLabel="account address field" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="8" y="178" width="304" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="hQh-1K-Vkq"/>
@@ -690,7 +690,7 @@
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FHI-Ss-sqF" id="jbA-NU-Wxx">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DKy-Hh-CxG">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DKy-Hh-CxG" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="8" width="288" height="42"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -715,7 +715,7 @@
                                             <outlet property="delegate" destination="isa-xa-QXR" id="J35-Gs-B0N"/>
                                         </connections>
                                     </tableView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsgsdnfgodns;lnglksdngflkngdlgnsld" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdF-70-lC3" userLabel="login field">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsgsdnfgodns;lnglksdngflkngdlgnsld" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdF-70-lC3" userLabel="login field" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="8" y="42" width="282" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="6ED-2I-tXb"/>
@@ -732,7 +732,7 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVn-Lt-Ga9" userLabel="account type">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TC7EZMI3MPOX2EIPUVHYQ655IXB74CSOXKQTJKLM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVn-Lt-Ga9" userLabel="account type" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="8" y="110" width="304" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="3cz-cv-LaC"/>
@@ -900,7 +900,7 @@
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jln-o5-r32" id="K23-Uw-A9Y">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HZS-Qd-YgJ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HZS-Qd-YgJ" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="10" width="242" height="51"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1585,7 +1585,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="TDRSHNACHGHZQQB42JEFYVI5SO4RX7CTOBUCCCZT" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AL6-bT-N80">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="TDRSHNACHGHZQQB42JEFYVI5SO4RX7CTOBUCCCZT" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AL6-bT-N80" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="12" width="304" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="304" id="0Av-mX-vaU"/>
@@ -1639,7 +1639,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="getting account data ..." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjS-1A-ypX">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="getting account data ..." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjS-1A-ypX" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="91" y="8" width="229" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="WfP-V5-4NP"/>
@@ -1751,7 +1751,7 @@
                                 <rect key="frame" x="0.0" y="403" width="320" height="47"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="47" id="p4J-VB-sF0"/>
+                                    <constraint firstAttribute="height" constant="47" id="G5m-V6-Ytv"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="70" minY="4" maxX="200" maxY="4"/>
@@ -1763,8 +1763,8 @@
                                     <action selector="addContact:" destination="0Hz-01-Tiz" eventType="touchUpInside" id="ksa-MC-lLD"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="K9E-Bm-Zm0">
-                                <rect key="frame" x="16" y="8" width="288" height="387"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="K9E-Bm-Zm0">
+                                <rect key="frame" x="16" y="70" width="288" height="325"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="address cell" id="vtL-c7-pjq" customClass="AddressCell" customModule="NemIOSClient" customModuleProvider="target">
@@ -1798,22 +1798,86 @@
                                     <outlet property="delegate" destination="0Hz-01-Tiz" id="nXP-oa-Qav"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4a-Pp-98o">
+                                <rect key="frame" x="16" y="8" width="226" height="54"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Contacts" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h55-Bv-L6S" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="8" width="164" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="n5N-9x-mgI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                        <connections>
+                                            <action selector="endAction:" destination="0Hz-01-Tiz" eventType="editingDidEndOnExit" id="fCe-de-TLK"/>
+                                            <action selector="filterChanged:" destination="0Hz-01-Tiz" eventType="editingChanged" id="fKe-j3-gSb"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5r-9P-zaJ">
+                                        <rect key="frame" x="180" y="8" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="38" id="Bhs-k5-ZgM"/>
+                                            <constraint firstAttribute="height" constant="38" id="hIC-uf-rOi"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                        <state key="normal" image="search_icon.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="endAction:" destination="0Hz-01-Tiz" eventType="touchUpInside" id="qu1-je-Ngn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="k5r-9P-zaJ" secondAttribute="centerY" id="3va-yF-66e"/>
+                                    <constraint firstAttribute="height" constant="54" id="BMO-TW-S26"/>
+                                    <constraint firstAttribute="trailing" secondItem="k5r-9P-zaJ" secondAttribute="trailing" constant="8" id="P62-y7-wKe"/>
+                                    <constraint firstItem="h55-Bv-L6S" firstAttribute="leading" secondItem="D4a-Pp-98o" secondAttribute="leading" constant="8" id="iF0-5T-AYO"/>
+                                    <constraint firstAttribute="centerY" secondItem="h55-Bv-L6S" secondAttribute="centerY" id="jed-Bd-COs"/>
+                                    <constraint firstItem="k5r-9P-zaJ" firstAttribute="leading" secondItem="h55-Bv-L6S" secondAttribute="trailing" constant="8" id="tjH-c0-2Cr"/>
+                                    <constraint firstItem="k5r-9P-zaJ" firstAttribute="leading" secondItem="h55-Bv-L6S" secondAttribute="trailing" constant="8" id="tlT-Vc-7kE"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FjC-g4-HXw" customClass="FilterButton" customModule="NemIOSClient" customModuleProvider="target">
+                                <rect key="frame" x="250" y="8" width="54" height="54"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="cjO-Ks-WTn"/>
+                                    <constraint firstAttribute="width" constant="54" id="ecO-Yq-0Ym"/>
+                                </constraints>
+                                <state key="normal" image="NEM_shield_logo.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="filterChanged:" destination="0Hz-01-Tiz" eventType="touchUpInside" id="oec-qQ-p3X"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="BdQ-EL-0ZK" firstAttribute="top" secondItem="jKg-Mq-uHQ" secondAttribute="bottom" id="69C-EP-2z7"/>
-                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="top" secondItem="K9E-Bm-Zm0" secondAttribute="bottom" constant="8" id="Gn5-Vh-Owk"/>
-                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="trailing" secondItem="BLI-cY-rgK" secondAttribute="trailingMargin" id="HbD-u3-tvI"/>
-                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="top" secondItem="DyI-bL-baf" secondAttribute="bottom" constant="8" id="JnR-oA-RwY"/>
-                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" id="bve-pd-t22"/>
-                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" constant="-16" id="lD2-jE-Mr2"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="jKg-Mq-uHQ" secondAttribute="trailing" constant="-16" id="wzo-fe-gpt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jKg-Mq-uHQ" secondAttribute="trailing" constant="-16" id="4Zc-Aj-FBx"/>
+                            <constraint firstItem="D4a-Pp-98o" firstAttribute="top" secondItem="DyI-bL-baf" secondAttribute="bottom" constant="8" id="7ik-ad-caE"/>
+                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="trailing" secondItem="BLI-cY-rgK" secondAttribute="trailingMargin" id="OZM-Mh-hkh"/>
+                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" id="TV3-EX-i4s"/>
+                            <constraint firstItem="D4a-Pp-98o" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" id="WuK-w5-SbU"/>
+                            <constraint firstItem="FjC-g4-HXw" firstAttribute="leading" secondItem="D4a-Pp-98o" secondAttribute="trailing" constant="8" id="ejL-br-pds"/>
+                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="leading" secondItem="BLI-cY-rgK" secondAttribute="leadingMargin" constant="-16" id="hfm-jy-CSe"/>
+                            <constraint firstItem="BdQ-EL-0ZK" firstAttribute="top" secondItem="jKg-Mq-uHQ" secondAttribute="bottom" id="lG5-hf-Yti"/>
+                            <constraint firstItem="jKg-Mq-uHQ" firstAttribute="top" secondItem="K9E-Bm-Zm0" secondAttribute="bottom" constant="8" id="mT9-ar-Zsd"/>
+                            <constraint firstItem="FjC-g4-HXw" firstAttribute="top" secondItem="DyI-bL-baf" secondAttribute="bottom" constant="8" id="n3v-R5-RBL"/>
+                            <constraint firstItem="K9E-Bm-Zm0" firstAttribute="top" secondItem="FjC-g4-HXw" secondAttribute="bottom" constant="8" id="uNy-x0-pyL"/>
+                            <constraint firstItem="FjC-g4-HXw" firstAttribute="trailing" secondItem="BLI-cY-rgK" secondAttribute="trailingMargin" id="wA4-gY-cvk"/>
+                            <constraint firstItem="FjC-g4-HXw" firstAttribute="leading" secondItem="D4a-Pp-98o" secondAttribute="trailing" constant="8" id="z0Z-xt-zcf"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="450"/>
                     <connections>
+                        <outlet property="filter" destination="FjC-g4-HXw" id="HeO-XJ-mBH"/>
+                        <outlet property="searchContainer" destination="D4a-Pp-98o" id="CTR-jR-dzT"/>
+                        <outlet property="searchTextField" destination="h55-Bv-L6S" id="TwV-OH-LVg"/>
                         <outlet property="tableView" destination="K9E-Bm-Zm0" id="RKv-uS-0l7"/>
                     </connections>
                 </viewController>
@@ -2307,7 +2371,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCRXYUQIMFA7AOGL5LF3YWLC7VABLYUMJ5ACBUNL" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="949-u9-HDh">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCRXYUQIMFA7AOGL5LF3YWLC7VABLYUMJ5ACBUNL" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="949-u9-HDh" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="95" y="77" width="217" height="60"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2514,7 +2578,7 @@
                                     <action selector="menu:" destination="hAq-aU-PFF" eventType="touchUpInside" id="7Lf-BB-PJ0"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wellcome to NEM" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-os-rlB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wellcome to NEM" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="1xb-os-rlB" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="55" y="35" width="210" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="QIx-mu-SqY"/>
@@ -2879,13 +2943,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="493"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LXK-Ld-bi3">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LXK-Ld-bi3">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="415"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4O-9S-xWe">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4O-9S-xWe">
                                 <rect key="frame" x="0.0" y="423" width="320" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="HAb-au-O8h"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
@@ -2899,6 +2966,15 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="LXK-Ld-bi3" firstAttribute="leading" secondItem="8Rc-zV-jvT" secondAttribute="leadingMargin" constant="-16" id="19R-JH-1KQ"/>
+                            <constraint firstItem="Sdm-tC-cjG" firstAttribute="top" secondItem="h4O-9S-xWe" secondAttribute="bottom" id="KRF-y4-7Qq"/>
+                            <constraint firstItem="h4O-9S-xWe" firstAttribute="top" secondItem="LXK-Ld-bi3" secondAttribute="bottom" constant="8" id="LLF-oL-CnY"/>
+                            <constraint firstItem="LXK-Ld-bi3" firstAttribute="top" secondItem="3Zr-4y-Dcc" secondAttribute="bottom" id="Xpm-JW-GJL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="h4O-9S-xWe" secondAttribute="trailing" constant="-16" id="YAQ-2o-kct"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LXK-Ld-bi3" secondAttribute="trailing" constant="-16" id="dbF-qN-cS0"/>
+                            <constraint firstItem="h4O-9S-xWe" firstAttribute="leading" secondItem="8Rc-zV-jvT" secondAttribute="leadingMargin" constant="-16" id="tGI-77-vTw"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -2986,7 +3062,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TALICELCD3XPH4FFI5STGGNS" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DXt-JU-o5X">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TALICELCD3XPH4FFI5STGGNS" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DXt-JU-o5X" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="21" y="399" width="278" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="0CL-on-Vix"/>
@@ -3187,7 +3263,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dfgdgdfgdgfdhfdhghfghdghdfdfhghhdhggdfhdfhdf" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBZ-zW-fxq">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dfgdgdfgdgfdhfdhghfghdghdfdfhghhdhggdfhdfhdf" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBZ-zW-fxq" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="55" y="236" width="210" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="OXU-wU-wZp"/>
@@ -3367,7 +3443,7 @@
                                                         <action selector="confirmTouchUpInside:" destination="DcC-uz-TOo" eventType="touchUpInside" id="qxT-Va-teM"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jfv-gn-YGA">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jfv-gn-YGA" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="41" width="304" height="47"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="47" id="xZP-OZ-LSh"/>
@@ -3394,7 +3470,7 @@
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" textAlignment="center" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nj6-9L-LSv">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" textAlignment="center" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nj6-9L-LSv" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="217" width="304" height="47"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="47" id="vYu-Yh-hPy"/>
@@ -3422,7 +3498,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUs-Ii-olM">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUs-Ii-olM" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="129" width="304" height="47"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="47" id="TI6-aW-C8N"/>
@@ -3502,7 +3578,7 @@
                                                         <action selector="showTouchUpInside:" destination="bI7-eB-7h9" eventType="touchUpInside" id="8Bw-1A-SRc"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asd-DQ-lMH">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asd-DQ-lMH" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="41" width="304" height="47"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="47" id="b4b-Q0-iap"/>
@@ -3520,7 +3596,7 @@
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shf-OJ-HQ6">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shf-OJ-HQ6" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="129" width="304" height="47"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="47" id="Jdp-tT-5Hf"/>
@@ -3668,7 +3744,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="T8g-u3-tjg">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="T8g-u3-tjg" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="54" y="8" width="258" height="49"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="49" id="O6x-Jb-UXV"/>
@@ -3698,7 +3774,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sQ9-3L-kN2" id="IeS-VU-3TR">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="bxB-bJ-QmF">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG" lineBreakMode="clip" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="bxB-bJ-QmF" customClass="NEMLabel" customModule="NemIOSClient" customModuleProvider="target">
                                                     <rect key="frame" x="54" y="8" width="258" height="49"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="49" id="Sl4-Ll-y1H"/>
@@ -3844,6 +3920,7 @@
         <image name="qr_code_icon.png" width="44" height="43"/>
         <image name="qr_icon.png" width="69" height="69"/>
         <image name="radio_btn_passive.png" width="38" height="39"/>
+        <image name="search_icon.png" width="34" height="34"/>
         <image name="share_icon.png" width="47" height="49"/>
         <image name="user_info.png" width="48" height="47"/>
         <image name="zoom.png" width="44" height="44"/>

@@ -44,7 +44,7 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
         searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
         searchBar.delegate = self
         tableView.tableHeaderView = searchBar
-        searchBar.showsCancelButton = false
+        searchBar.showsCancelButton = true
         tableView.setContentOffset(CGPoint(x: 0, y: searchBar.frame.height), animated: false)
 
         correspondents = sortCorrespondents(State.currentWallet!.correspondents.allObjects as! [Correspondent])
@@ -95,7 +95,11 @@ class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
             
         case "accountGetSuccessed" :
             var format = ".0"
-            self.balance.text = "\((walletData.balance / 1000000).format(format))"
+            var balanceText = NSMutableAttributedString(string: "\((walletData.balance / 1000000).format(format))", attributes: [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)])
+            balanceText.appendAttributedString(NSMutableAttributedString(string: " XEM"))
+            
+            self.balance.attributedText = balanceText
+
             if walletData.cosignatoryOf.count > 0
             {
                 unconfirmedTransactions.removeAll(keepCapacity: false)

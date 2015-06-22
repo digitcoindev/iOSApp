@@ -112,7 +112,9 @@
 		DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
 		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
+		DACF4A091B344B2600FB3EE1 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACF4A081B344B2600FB3EE1 /* FilterButton.swift */; };
 		DACF9C3C1A49C5F700550FB9 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */; };
+		DAD086A71B38036C00197CA3 /* NEMLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD086A61B38036C00197CA3 /* NEMLabel.swift */; };
 		DAD08D671B25E095005E97FE /* zoom.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD08D661B25E095005E97FE /* zoom.png */; };
 		DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1492D1A6D47260036FFDA /* CustomMessageCell.swift */; };
 		DAD1C7FD1A6932E30043D947 /* ImportFromKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */; };
@@ -303,7 +305,9 @@
 		DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = Models/AddressBookManager.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
 		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
+		DACF4A081B344B2600FB3EE1 /* FilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterButton.swift; path = "Views/Additional controls/FilterButton.swift"; sourceTree = "<group>"; };
 		DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = Models/CoreDataManager.swift; sourceTree = "<group>"; };
+		DAD086A61B38036C00197CA3 /* NEMLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NEMLabel.swift; path = "Views/Additional controls/NEMLabel.swift"; sourceTree = "<group>"; };
 		DAD08D661B25E095005E97FE /* zoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom.png; sourceTree = "<group>"; };
 		DAD1492D1A6D47260036FFDA /* CustomMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomMessageCell.swift; path = "Views/Additional controls/CustomMessageCell.swift"; sourceTree = "<group>"; };
 		DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromKey.swift; path = Views/ImportFromKey.swift; sourceTree = "<group>"; };
@@ -699,6 +703,7 @@
 				DA031ED71A9226E60021E98B /* TextFields */,
 				DAC3A1831B0B623D00AABB61 /* DropDown */,
 				DAFA74BE1B2AF5BB00AA461D /* PopUp */,
+				DAD086A61B38036C00197CA3 /* NEMLabel.swift */,
 			);
 			name = "Additional controls";
 			sourceTree = "<group>";
@@ -756,6 +761,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */,
+				DACF4A081B344B2600FB3EE1 /* FilterButton.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -1232,6 +1238,7 @@
 				DAC3A1821B04C04400AABB61 /* HistoryViewController.swift in Sources */,
 				DA89F1151AD6A69100105BB0 /* ProfileVC.swift in Sources */,
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
+				DAD086A71B38036C00197CA3 /* NEMLabel.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
 				DA08D9BB1AC0277800B93EBE /* NSDataUtils.swift in Sources */,
 				DADA375D1A7683C300F14D6D /* verify.c in Sources */,
@@ -1277,6 +1284,7 @@
 				DADA37531A7683C300F14D6D /* readme.md in Sources */,
 				DADA37561A7683C300F14D6D /* ge.c in Sources */,
 				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
+				DACF4A091B344B2600FB3EE1 /* FilterButton.swift in Sources */,
 				DADA27391B1463C200EA09F8 /* ExceptionSignalHandler.swift in Sources */,
 				DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */,
 				DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */,

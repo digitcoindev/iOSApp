@@ -38,6 +38,7 @@ class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
         
         qrImage.image =  qr.createQR(base64String)
     }
+    
     @IBAction func mailBtn(sender: AnyObject)
     {
         if(MFMailComposeViewController.canSendMail()){
@@ -64,6 +65,12 @@ class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
             alert.show()
         }
     }
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!)
+    {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()

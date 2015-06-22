@@ -4,10 +4,14 @@ import AddressBook
 class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var filter: FilterButton!
+    @IBOutlet weak var searchContainer: UIView!
+    @IBOutlet weak var searchTextField: NEMTextField!
     
     let dataManager :CoreDataManager = CoreDataManager()
     let addressBook : ABAddressBookRef? = AddressBookManager.addressBook
-    var contacts :NSArray = AddressBookManager.contacts
+    var contacts :NSArray? = AddressBookManager.contacts
+    var displayList :NSMutableArray = NSMutableArray()
     var walletData :AccountGetMetaData!
 
     override func viewDidLoad()
@@ -20,8 +24,6 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         }
         
         State.currentVC = SegueToAddressBook
-        
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Contacts")
         
@@ -33,6 +35,14 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
             
             APIManager().accountGet(State.currentServer!, account_address: account_address)
         }
+        
+        self.filterChanged(self)
+        
+        searchContainer.layer.cornerRadius = 5
+        filter.layer.cornerRadius = 5
+        tableView.layer.cornerRadius = 5
+        
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
     }
 
     final func accountGetSuccessed(notification: NSNotification)
@@ -44,7 +54,90 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     {
         super.didReceiveMemoryWarning()
     }
+    
+    @IBAction func endAction(sender: AnyObject)
+    {
+        searchTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func filterChanged(sender: AnyObject)
+    {
+        displayList.removeAllObjects()
+        
+        if contacts == nil || contacts!.count == 0
+        {
+            return
+        }
+        
+        for contact in contacts!
+        {
+            var isValidValue = false
+            var needToAddSearchFilter = self.searchTextField.text != nil && self.searchTextField.text != ""
+            
+            if needToAddSearchFilter
+            {
+                if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil
+                {
+                    if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text).evaluateWithObject(ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as! String)
+                    {
+                        isValidValue = true
+                    }
+                }
+                
+                if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil
+                {
+                    if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text).evaluateWithObject(ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as! String)
+                    {
+                        isValidValue = true
+                    }
+                }
+            }
+            else
+            {
+                isValidValue = true
+            }
+            
+            if !isValidValue
+            {
+                continue
+            }
+            
 
+            let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
+            let count  :Int = ABMultiValueGetCount(emails)
+            
+            if count > 0
+            {
+                var isConnectedNEMAddress = false
+                
+                for var index:CFIndex = 0; index < count; ++index
+                {
+                    var lable  = ABMultiValueCopyLabelAtIndex(emails, index)
+                    if lable != nil
+                    {
+                        if lable.takeUnretainedValue()  == "NEM"
+                        {
+                            isConnectedNEMAddress = true
+                        }
+                    }
+                }
+                
+                if self.filter.isFilterActive != isConnectedNEMAddress
+                {
+                    continue
+                }
+            }
+            else if self.filter.isFilterActive
+            {
+                continue
+            }
+            
+            displayList.addObject(contact)
+        }
+        
+        self.tableView.reloadData()
+    }
+    
     @IBAction func addContact(sender: AnyObject)
     {
         ABAddressBookRequestAccessWithCompletion(addressBook,
@@ -108,8 +201,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                             
                             AddressBookManager.refresh()
                             self.contacts = AddressBookManager.contacts
-                                
-                            self.tableView.reloadData()
+                            self.filterChanged(self)
                         }
                     
                     
@@ -143,13 +235,13 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         
-        return contacts.count
+        return displayList.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         var cell : AddressCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as! AddressCell
-        var person :ABRecordRef = contacts[indexPath.row]
+        var person :ABRecordRef = displayList[indexPath.row]
         
         cell.user.text = ""
         
@@ -222,10 +314,11 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
                         var error: Unmanaged<CFErrorRef>? = nil
                         
                         ABMultiValueAddValueAndLabel(emailMultiValue, address.text, "NEM", nil)
-                        ABRecordSetValue(self.contacts[indexPath.row], kABPersonEmailProperty, emailMultiValue, &error)
+                        ABRecordSetValue(self.displayList[indexPath.row], kABPersonEmailProperty, emailMultiValue, &error)
                         ABAddressBookSave(self.addressBook, &error)
                         
-                        self.tableView.reloadData()
+                        self.contacts = AddressBookManager.contacts
+                        self.filterChanged(self)
                     }
 
             }
@@ -247,7 +340,7 @@ class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
         {
             if walletData.publicKey != nil
             {
-                var person :ABRecordRef = contacts[indexPath.row]
+                var person :ABRecordRef = displayList[indexPath.row]
                 
                 let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue()
                 let count  :Int = ABMultiValueGetCount(emails)
