@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
+		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
 		DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MainMenuVC.swift */; };
 		DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00593A1A48830D00638C57 /* ServerTableVC.swift */; };
 		DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED51A9226E10021E98B /* NEMTextField.swift */; };
 		DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED91A922FEC0021E98B /* CreateQRInput.swift */; };
-		DA08D9B91AC026F400B93EBE /* UInt8Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9B81AC026F400B93EBE /* UInt8Utils.swift */; };
-		DA08D9BB1AC0277800B93EBE /* NSDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9BA1AC0277800B93EBE /* NSDataUtils.swift */; };
-		DA08D9BD1AC027C700B93EBE /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9BC1AC027C700B93EBE /* StringUtils.swift */; };
+		DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */; };
+		DA08D9BB1AC0277800B93EBE /* NSDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9BA1AC0277800B93EBE /* NSDataExtensions.swift */; };
+		DA08D9BD1AC027C700B93EBE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9BC1AC027C700B93EBE /* StringExtensions.swift */; };
 		DA08D9C11AC037B600B93EBE /* SignManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9C01AC037B600B93EBE /* SignManager.swift */; };
 		DA173CCA1A9E1161003AC21F /* user_info.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC61A9E1161003AC21F /* user_info.png */; };
 		DA173CCB1A9E1161003AC21F /* qr_code_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CC71A9E1161003AC21F /* qr_code_icon.png */; };
@@ -78,7 +80,7 @@
 		DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4DD1A5AC021005833A4 /* Wallet.swift */; };
 		DA64A4E11A5ACF0C005833A4 /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */; };
 		DA675E5E1ADEAA130069F611 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */; };
-		DA7336551AD29EF80029C5D6 /* DoubleUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */; };
+		DA7336551AD29EF80029C5D6 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */; };
 		DA73CD7D1AB7241600B86021 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA73CD7C1AB7241600B86021 /* Block.swift */; };
 		DA8780B91A5BFDF400AA24E2 /* ImportFromQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */; };
 		DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1111AD6982100105BB0 /* TransferTransaction.swift */; };
@@ -192,14 +194,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
+		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
 		DA0059381A4882ED00638C57 /* MainMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuVC.swift; path = Views/MainMenuVC.swift; sourceTree = "<group>"; };
 		DA00593A1A48830D00638C57 /* ServerTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerTableVC.swift; path = Views/ServerTableVC.swift; sourceTree = "<group>"; };
 		DA031ED51A9226E10021E98B /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEMTextField.swift; sourceTree = "<group>"; };
 		DA031ED91A922FEC0021E98B /* CreateQRInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRInput.swift; path = Views/CreateQRInput.swift; sourceTree = "<group>"; };
-		DA08D9B81AC026F400B93EBE /* UInt8Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt8Utils.swift; path = Models/UInt8Utils.swift; sourceTree = "<group>"; };
-		DA08D9BA1AC0277800B93EBE /* NSDataUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataUtils.swift; sourceTree = "<group>"; };
-		DA08D9BC1AC027C700B93EBE /* StringUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringUtils.swift; path = Models/StringUtils.swift; sourceTree = "<group>"; };
+		DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt8Extensions.swift; path = Models/UInt8Extensions.swift; sourceTree = "<group>"; };
+		DA08D9BA1AC0277800B93EBE /* NSDataExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataExtensions.swift; sourceTree = "<group>"; };
+		DA08D9BC1AC027C700B93EBE /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Models/StringExtensions.swift; sourceTree = "<group>"; };
 		DA08D9C01AC037B600B93EBE /* SignManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignManager.swift; path = Models/SignManager.swift; sourceTree = "<group>"; };
 		DA173CC61A9E1161003AC21F /* user_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = user_info.png; path = Images/Icons/user_info.png; sourceTree = "<group>"; };
 		DA173CC71A9E1161003AC21F /* qr_code_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = qr_code_icon.png; path = Images/Icons/qr_code_icon.png; sourceTree = "<group>"; };
@@ -270,7 +274,7 @@
 		DA64A4CF1A5A88C4005833A4 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		DA64A4DD1A5AC021005833A4 /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wallet.swift; path = "Core Data Models/Wallet.swift"; sourceTree = "<group>"; };
 		DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddAccount.swift; path = Views/AddAccount.swift; sourceTree = "<group>"; };
-		DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleUtils.swift; path = Models/DoubleUtils.swift; sourceTree = "<group>"; };
+		DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleExtensions.swift; path = Models/DoubleExtensions.swift; sourceTree = "<group>"; };
 		DA73CD7C1AB7241600B86021 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = "Core Data Models/Block.swift"; sourceTree = "<group>"; };
 		DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromQR.swift; path = Views/ImportFromQR.swift; sourceTree = "<group>"; };
 		DA89F1111AD6982100105BB0 /* TransferTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransferTransaction.swift; path = Models/TransferTransaction.swift; sourceTree = "<group>"; };
@@ -451,10 +455,11 @@
 		DA08D9B71AC0268B00B93EBE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				DA7336541AD29EF80029C5D6 /* DoubleUtils.swift */,
-				DA08D9B81AC026F400B93EBE /* UInt8Utils.swift */,
-				DA08D9BA1AC0277800B93EBE /* NSDataUtils.swift */,
-				DA08D9BC1AC027C700B93EBE /* StringUtils.swift */,
+				DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */,
+				DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */,
+				DA08D9BA1AC0277800B93EBE /* NSDataExtensions.swift */,
+				DA08D9BC1AC027C700B93EBE /* StringExtensions.swift */,
+				98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -762,6 +767,7 @@
 			children = (
 				DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */,
 				DACF4A081B344B2600FB3EE1 /* FilterButton.swift */,
+				98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -1240,7 +1246,7 @@
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
 				DAD086A71B38036C00197CA3 /* NEMLabel.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
-				DA08D9BB1AC0277800B93EBE /* NSDataUtils.swift in Sources */,
+				DA08D9BB1AC0277800B93EBE /* NSDataExtensions.swift in Sources */,
 				DADA375D1A7683C300F14D6D /* verify.c in Sources */,
 				DA194E091A4323B40030C882 /* HashManager.swift in Sources */,
 				DA35583D1A3AE0A500AFA5FD /* plistFileManager.swift in Sources */,
@@ -1260,7 +1266,7 @@
 				DADDA24B1B21D0EC00F3F5F5 /* SeguesConfiguration.swift in Sources */,
 				DA0059371A4882B300638C57 /* State.swift in Sources */,
 				DADA37581A7683C300F14D6D /* keypair.c in Sources */,
-				DA08D9B91AC026F400B93EBE /* UInt8Utils.swift in Sources */,
+				DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */,
 				DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */,
 				DAD5AD8E1A52DD880093E3DB /* DashboardVC.swift in Sources */,
 				DA35582B1A39D75400AFA5FD /* ViewController.swift in Sources */,
@@ -1270,8 +1276,9 @@
 				DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */,
 				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				DADA37591A7683C300F14D6D /* sc.c in Sources */,
+				98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */,
 				DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */,
-				DA7336551AD29EF80029C5D6 /* DoubleUtils.swift in Sources */,
+				DA7336551AD29EF80029C5D6 /* DoubleExtensions.swift in Sources */,
 				DA2D3EA11AE918B500C7E4F9 /* KeyCell.swift in Sources */,
 				DA173CDE1AA87CBC003AC21F /* RIPEMD.swift in Sources */,
 				DACF9C3C1A49C5F700550FB9 /* CoreDataManager.swift in Sources */,
@@ -1300,6 +1307,7 @@
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
 				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
+				98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */,
 				DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */,
 				DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */,
 				DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */,
@@ -1311,7 +1319,7 @@
 				DA194E0F1A444F2A0030C882 /* MainContainerVC.swift in Sources */,
 				DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */,
 				DAD1C7FD1A6932E30043D947 /* ImportFromKey.swift in Sources */,
-				DA08D9BD1AC027C700B93EBE /* StringUtils.swift in Sources */,
+				DA08D9BD1AC027C700B93EBE /* StringExtensions.swift in Sources */,
 				DAD1C7FF1A694E970043D947 /* MessageCell.swift in Sources */,
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
 				DA173CEC1AADA92D003AC21F /* ScanQRVC.swift in Sources */,
@@ -1421,7 +1429,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_OWNER = bodyabilas;
+				INSTALL_OWNER = dominik.l.p;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1460,7 +1468,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_OWNER = bodyabilas;
+				INSTALL_OWNER = dominik.l.p;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";

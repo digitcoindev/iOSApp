@@ -1,6 +1,6 @@
 import UIKit
 
-class UserInfoVC: UIViewController
+class UserInfoVC: AbstractViewController
 {
 
     @IBOutlet weak var qrImg: UIImageView!
@@ -23,23 +23,8 @@ class UserInfoVC: UIViewController
         var address :String = AddressGenerator().generateAddress(publicKey)
         
         keyLable.text = address
-        
-        var name_surmane = split(State.currentWallet!.login) {$0 == " "}
-        var name :String = ""
-        var surname :String = ""
-        for var i = 0 ; i < name_surmane.count ; i++
-        {
-            if i != name_surmane.count - 1
-            {
-                name += name_surmane[i]
-            }
-            else
-            {
-                surname += name_surmane[i]
-            }
-        }
-        
-        var jsonFriendDictionary :NSDictionary = NSDictionary(objects: [address, name, surname], forKeys: ["address", "name", "surname"])
+                
+        var jsonFriendDictionary :NSDictionary = NSDictionary(objects: [address, State.currentWallet!.login], forKeys: ["address", "name"])
         var jsonDictionary :NSDictionary = NSDictionary(objects: [1, jsonFriendDictionary], forKeys: ["type", "data"])
         var jsonData :NSData = NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions.allZeros, error: nil)!
         var base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)

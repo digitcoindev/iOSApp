@@ -1,6 +1,6 @@
 import UIKit
 
-class ImportFromQR: UIViewController
+class ImportFromQR: AbstractViewController
 {
     @IBOutlet weak var screenScaner: QR!
     

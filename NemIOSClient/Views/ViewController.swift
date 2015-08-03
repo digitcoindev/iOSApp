@@ -27,9 +27,7 @@ class ViewController: UIViewController
         AddressBookManager.create()
         
         self.performSegueWithIdentifier(SegueToMainVC, sender: self)
-        
-//        self.presentViewController(alert1, animated: true, completion: nil)
-        
+                
 //        private key : 5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d
 //        public key : cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1
 //        address :TCUPVQC77TAMH7QKPFP5OT3TLUV4JYRPV6CEGJXW

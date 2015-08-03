@@ -1,7 +1,7 @@
 
 import UIKit
 
-class DashboardContainer: UIViewController
+class DashboardContainer: AbstractViewController
 {
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     

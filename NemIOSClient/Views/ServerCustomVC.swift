@@ -1,6 +1,6 @@
 import UIKit
 
-class ServerCustomVC: UIViewController
+class ServerCustomVC: AbstractViewController
 {
     @IBOutlet weak var protocolType: UITextField!
     @IBOutlet weak var serverAddress: UITextField!

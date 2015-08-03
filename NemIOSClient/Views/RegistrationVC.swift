@@ -1,5 +1,5 @@
 import UIKit
-class RegistrationVC: UIViewController
+class RegistrationVC: AbstractViewController
 {
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var createPassword: UITextField!

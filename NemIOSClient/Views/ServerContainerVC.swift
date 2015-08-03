@@ -1,7 +1,7 @@
 import UIKit
 
 
-class ServerContainerVC: UIViewController
+class ServerContainerVC: AbstractViewController
 {
 
     var curentPage :Int = 0

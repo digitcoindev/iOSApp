@@ -2,7 +2,7 @@ import UIKit
 import Social
 import MessageUI
 
-class CreateQRResult: UIViewController , MFMailComposeViewControllerDelegate
+class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelegate
 {
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var address: UILabel!

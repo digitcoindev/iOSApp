@@ -2,7 +2,7 @@ import UIKit
 import AddressBook
 import AddressBookUI
 
-class ScanQRVC: UIViewController
+class ScanQRVC: AbstractViewController
 {
     @IBOutlet weak var qrScaner: QR!
     

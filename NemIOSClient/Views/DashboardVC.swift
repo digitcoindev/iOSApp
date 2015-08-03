@@ -1,6 +1,6 @@
 import UIKit
 
-class DashboardVC: UIViewController
+class DashboardVC: AbstractViewController
 {
     @IBOutlet weak var Messages: UIButton!
     @IBOutlet weak var AddFriend: UIButton!

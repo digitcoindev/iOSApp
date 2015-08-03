@@ -1,7 +1,7 @@
 import UIKit
 import AddressBook
 
-class Messages: UIViewController , UITableViewDelegate ,UISearchBarDelegate
+class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var address: UITextField!

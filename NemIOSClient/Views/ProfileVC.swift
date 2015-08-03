@@ -1,6 +1,6 @@
 import UIKit
 
-class ProfileVC: UIViewController , UITableViewDataSource , UITableViewDelegate ,UIScrollViewDelegate
+class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDelegate ,UIScrollViewDelegate
 {
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var tableView: UITableView?

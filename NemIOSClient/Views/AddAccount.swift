@@ -1,51 +1,60 @@
 import UIKit
 
-class AddAccount: UIViewController
+class AddAccount: AbstractViewController
 {
+    //MARK: - IBOulets
+
+    @IBOutlet weak var backButton: UIButton!
+    
+    //MARK: - Variables
 
     @IBOutlet weak var custom: UIButton!
     @IBOutlet weak var qr: UIButton!
     @IBOutlet weak var key: UIButton!
 
-    override func viewDidLoad()
-    {
+    //MARK: - Load Methods
+
+    override func viewDidLoad(){
         super.viewDidLoad()
         
-        if State.fromVC != SegueToAddAccountVC
-        {
-            State.fromVC = SegueToAddAccountVC
-        }
-        
+        State.fromVC = SegueToAddAccountVC
         State.currentVC = SegueToAddAccountVC
 
-        custom.layer.cornerRadius = 2
+        custom.layer.cornerRadius = 5
+        qr.layer.cornerRadius = 5
+        key.layer.cornerRadius = 5
         
-        qr.layer.cornerRadius = 2
-        key.layer.cornerRadius = 2
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"" )
-    }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        
+        if State.countVC <= 1{
+            backButton.hidden = true
+        }
     }
     
-    @IBAction func Custom(sender: AnyObject)
-    {
+    override func delegateIsSetted() {
+ 
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    //MARK: - IBActions
+    
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
+    }
+    
+    @IBAction func Custom(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToRegistrationVC )
     }
 
     
-    @IBAction func QR(sender: AnyObject)
-    {
+    @IBAction func QR(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToImportFromQR )
     }
     
-    @IBAction func Key(sender: AnyObject)
-    {
+    @IBAction func Key(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToImportFromKey )
     }
-    
 }

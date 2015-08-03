@@ -1,5 +1,6 @@
 import UIKit
-class ServerViewController: UIViewController
+
+class ServerViewController: AbstractViewController
 {
     @IBOutlet weak var predefinedBtn: UIButton!
     @IBOutlet weak var customBtn: UIButton!

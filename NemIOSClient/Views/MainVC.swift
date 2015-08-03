@@ -1,101 +1,48 @@
 import UIKit
 
-class MainVC: UIViewController
+@objc protocol MainVCDelegate
+{
+    func pageSelected(page :String)
+}
+
+class MainVC: UIViewController , MainVCDelegate
 {
     
-    @IBOutlet weak var status: UILabel!
-    @IBOutlet weak var menuBtn: UIButton!
-    @IBOutlet weak var backBtn: UIButton!
-    
-    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
-    
-    var pages :MainContainerVC = MainContainerVC()
-    var deviceData :plistFileManager = plistFileManager()
-    var pagesTitles :NSMutableArray = NSMutableArray()
+    //MARK: - Private Variables
 
-    override func viewDidLoad()
-    {
+    private var _pages :MainContainerVC = MainContainerVC()
+
+    //MARK: - Load Methods
+
+    override func viewDidLoad(){
         super.viewDidLoad()
+        
         self.view.multipleTouchEnabled = false
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        
-        observer.addObserver(self, selector: "pageSelected:", name: "MenuPage", object: nil)
-        observer.addObserver(self, selector: "changeTitle:", name: "Title", object: nil)
-                
-        backBtn.hidden = true
-        
-        
-        pagesTitles  = deviceData.getMenuItems()
-    
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Dashboard")
-                
     }
     
-    
-    
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning(){
         super.didReceiveMemoryWarning()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
-    {
-        if(segue.identifier == "mainContainer")
-        {
-            pages = segue.destinationViewController as! MainContainerVC
-        }
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle
-    {
+    override func preferredStatusBarStyle() -> UIStatusBarStyle{
         return UIStatusBarStyle.LightContent
     }
     
-    @IBAction func menu(sender: AnyObject)
-    {
-        status.text = SegueToMainMenu as String
-        
-        if State.currentVC != SegueToMainMenu
-        {
-            backBtn.hidden = true
-            pages.changePage(SegueToMainMenu)
-        }
-        else
-        {
-            if State.countVC >= 1
-            {
-                backBtn.hidden = false
-            }
-            
-            pages.changePage(State.fromVC!)
+    //MARK: - Segue Helper
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
+        if(segue.identifier == "mainContainer") {
+            _pages = segue.destinationViewController as! MainContainerVC
+            _pages.delegate = self
         }
     }
     
-    @IBAction func backVC(sender: AnyObject)
-    {
-        if State.countVC <= 2
-        {
-            backBtn.hidden = true
-        }
-        
-        pages.changePage(State.lastVC)
-    }
+    //MARK: - MainVCdDelegate Methods
     
-    final func changeTitle(notification: NSNotification)
-    {
-        status.text = notification.object as? String
+    final func pageSelected(page :String){
+        _pages.changePage(page)
     }
-    
-    final func pageSelected(notification: NSNotification)
-    {
-        
-        if State.countVC >= 1
-        {
-            backBtn.hidden = false
-        }
 
-        pages.changePage(notification.object as! String)
-    }
 }

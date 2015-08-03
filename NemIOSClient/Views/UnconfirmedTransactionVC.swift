@@ -1,6 +1,6 @@
 import UIKit
 
-class UnconfirmedTransactionVC: UIViewController ,UITableViewDelegate
+class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
 {
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     @IBOutlet weak var tableView: UITableView!

@@ -1,6 +1,6 @@
 import UIKit
 
-class PasswordValidationVC: UIViewController
+class PasswordValidationVC: AbstractViewController
 {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UIButton!

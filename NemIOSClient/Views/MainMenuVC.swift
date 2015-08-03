@@ -6,6 +6,8 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     let dataManager : CoreDataManager = CoreDataManager()
     let deviceManager : plistFileManager = plistFileManager()
     
+    var delegate :AnyObject?
+    
     var state :[String] = ["none"]
     var timer :NSTimer!
     

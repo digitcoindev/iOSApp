@@ -1,6 +1,6 @@
 import UIKit
 
-class HistoryViewController: UIViewController , UITableViewDelegate
+class HistoryViewController: AbstractViewController , UITableViewDelegate
 {
     var walletData :AccountGetMetaData!
     var timer :NSTimer!

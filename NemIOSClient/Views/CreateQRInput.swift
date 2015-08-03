@@ -1,6 +1,6 @@
 import UIKit
 
-class CreateQRInput: UIViewController
+class CreateQRInput: AbstractViewController
 {
     @IBOutlet weak var scroll: UIScrollView!
     

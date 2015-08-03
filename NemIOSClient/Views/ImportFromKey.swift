@@ -1,6 +1,6 @@
 import UIKit
 
-class ImportFromKey: UIViewController ,UIScrollViewDelegate
+class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
 {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var password: UITextField!

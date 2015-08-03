@@ -1,7 +1,7 @@
 import UIKit
 import AddressBook
 
-class AddressBook: UIViewController , UITableViewDelegate , UIAlertViewDelegate
+class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filter: FilterButton!

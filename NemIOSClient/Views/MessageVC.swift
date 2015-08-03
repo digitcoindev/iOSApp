@@ -6,7 +6,7 @@ struct DefinedCell
     var height :CGFloat = 44
 }
 
-class MessageVC: UIViewController , UITableViewDelegate , UIAlertViewDelegate
+class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var balance: UILabel!

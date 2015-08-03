@@ -1,44 +1,51 @@
 import UIKit
 
-class MainContainerVC: UIViewController
+class MainContainerVC: AbstractViewController
 {
-    let dataManager :CoreDataManager = CoreDataManager()
-    var lastVC :String = ""
+    //MARK: - Private Variables
+
+    private let _dataManager :CoreDataManager = CoreDataManager()
+    private var _lastVC :String = ""
     
-    override func viewDidLoad()
-    {
+    //MARK: - Load Methods
+
+    override func viewDidLoad(){
         super.viewDidLoad()
         
         
-        var wallets :[Wallet] = dataManager.getWallets()
+        var wallets :[Wallet] = _dataManager.getWallets()
         
         if(wallets.count == 0)
         {
-            lastVC = SegueToAddAccountVC
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToAddAccountVC )
+            _lastVC = SegueToAddAccountVC
             
             self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self);
         }
         else 
         {
-            lastVC = SegueToLoginVC
+            _lastVC = SegueToLoginVC
 
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToLoginVC )
-            
             self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
         }
     }
     
+    override func delegateIsSetted(){
+        for vc in self.childViewControllers
+        {
+            (vc as! AbstractViewController).delegate = self.delegate
+        }
+    }
     
-    
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning(){
         super.didReceiveMemoryWarning()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
-    {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
+        if self.delegate != nil
+        {
+            (segue.destinationViewController as! AbstractViewController).delegate = self.delegate
+        }
+        
         if (self.childViewControllers.count > 0)
         {
             NSNotificationCenter.defaultCenter().removeObserver(self.childViewControllers.first as! UIViewController)
@@ -56,8 +63,7 @@ class MainContainerVC: UIViewController
         
     }
     
-    func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController )
-    {
+    func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController ){
         toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         fromViewController.willMoveToParentViewController(nil)
         
@@ -76,8 +82,7 @@ class MainContainerVC: UIViewController
         })
     }
     
-    deinit
-    {
+    deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self)
         
         for vc in self.childViewControllers
@@ -88,11 +93,12 @@ class MainContainerVC: UIViewController
         }
     }
     
-    final func changePage(page :String)
-    {
-        if(page != lastVC )
+    //MARK: - Navigation Methods
+    
+    final func changePage(page :String){
+        if(page != _lastVC )
         {
-            lastVC = page
+            _lastVC = page
             
             switch(page)
                 {

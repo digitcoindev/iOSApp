@@ -1,6 +1,6 @@
 import UIKit
 
-class SendTransactionVC: UIViewController ,UIScrollViewDelegate
+class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
 {
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var InputMessage: NEMTextField!

@@ -1,6 +1,6 @@
 import UIKit
 
-class LoginVC: UIViewController , UITableViewDelegate
+class LoginVC: AbstractViewController , UITableViewDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -36,7 +36,7 @@ class LoginVC: UIViewController , UITableViewDelegate
         observer.addObserver(self, selector: "logIn:", name: "heartbeatSuccessed", object: nil)
         observer.addObserver(self, selector: "serverDenied:", name: "heartbeatDenied", object: nil)
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Accounts")
+        //NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Accounts")
     }
     
     deinit

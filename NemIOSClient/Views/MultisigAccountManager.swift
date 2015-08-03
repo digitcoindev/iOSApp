@@ -1,6 +1,6 @@
 import UIKit
 
-class MultisigAccountManager: UIViewController  , UITableViewDelegate
+class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
 {
 
     @IBOutlet weak var scroll: UIScrollView!
