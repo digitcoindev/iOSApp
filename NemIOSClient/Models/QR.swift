@@ -1,29 +1,37 @@
 import UIKit
 import AVFoundation
 
+@objc protocol QRDelegate
+{
+    func detectedQRWithString(text :String)
+    optional func failedWithError(text :String)
+}
+
 class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
 {
+    //MARK: - Local Variables
+
+    var delegate :AnyObject? = nil
     let previewLayer = AVCaptureVideoPreviewLayer()
     var currentresult :String!
-    var session :AVCaptureSession = AVCaptureSession()
-    var qrImg :UIImageView = UIImageView()
+    let session :AVCaptureSession = AVCaptureSession()
+    let qrImg :UIImageView = UIImageView()
     let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
 
-    override init(frame: CGRect)
-    {
+    //MARK: - Load Methods
+
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    required init(coder aDecoder: NSCoder)
-    {
+    required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
+    //MARK: - QR Methods
 
-    final func scanQR(width :CGFloat , height :CGFloat)
-    {
-        if((device) != nil)
-        {
+    final func scanQR(width :CGFloat , height :CGFloat) {
+        if((device) != nil) {
             let input = AVCaptureDeviceInput.deviceInputWithDevice(device, error: nil) as! AVCaptureDeviceInput
             let output = AVCaptureMetadataOutput()
             let bounds:CGRect = CGRect(x: width / 2, y: height / 2, width: width, height: height)
@@ -48,54 +56,56 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
             
             self.addSubview(qrImg)
         }
-        else
-        {
-            NSNotificationCenter.defaultCenter().postNotificationName("Scan QR", object:"Empty scan")
+        else {
+            var errorString = "Fail to access device camera"
             
-            var alert :UIAlertView = UIAlertView(title: "Error", message: "Fail to access device camera", delegate: self, cancelButtonTitle: "OK")
+            if self.delegate != nil && self.delegate!.respondsToSelector("failedWithError:") {
+                (self.delegate as! QRDelegate).failedWithError!(errorString)
+            }
+            
+            var alert :UIAlertView = UIAlertView(title: "Error", message: errorString, delegate: self, cancelButtonTitle: "OK")
             
             alert.show()
         }
     }
     
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!)
-    {
-        for item in metadataObjects
-        {
-            if let metadataObject = item as? AVMetadataMachineReadableCodeObject
-            {
-                if metadataObject.type == AVMetadataObjectTypeQRCode
-                {
+    //MARK: - QR Methods Helper
+
+    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+        for item in metadataObjects {
+            if let metadataObject = item as? AVMetadataMachineReadableCodeObject {
+                if metadataObject.type == AVMetadataObjectTypeQRCode {
                     currentresult =  metadataObject.stringValue
                     
                     qrImg.image = createQR(currentresult)
                     
                     self.stop()
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName("Scan QR", object:currentresult)
+                    if self.delegate != nil && self.delegate!.respondsToSelector("detectedQRWithString:") {
+                        (self.delegate as! QRDelegate).detectedQRWithString(currentresult)
+                    }
                 }
             }
         }
     }
     
-    final func play()
-    {
+    //MARK: - Control Methods
+
+    final func play() {
         session.startRunning()
         qrImg.hidden = true
         previewLayer.hidden = false
-
     }
     
-    final func stop()
-    {
+    final func stop() {
         session.stopRunning()
         previewLayer.hidden = true
         qrImg.hidden = false
-
     }
     
-    final func createQR(inputStr :String) -> UIImage
-    {
+    //MARK: - QR Helper Methods
+    
+    final func createQR(inputStr :String) -> UIImage {
         var qrCIImage: CIImage = createQRForString(inputStr)
         var qrUIImage: UIImage = createNonInterpolatedUIImageFromCIImage(qrCIImage, scale: 10);
         UIImage(CGImage: qrUIImage.CGImage, scale: 1.0, orientation: .DownMirrored)
@@ -103,8 +113,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
         return UIImage(CGImage: qrUIImage.CGImage, scale: 1.0, orientation: .DownMirrored)!
     }
     
-    func createQRForString (qrString :NSString ) -> CIImage
-    {
+    func createQRForString (qrString :NSString ) -> CIImage {
         var srtingData: NSData  = qrString.dataUsingEncoding(NSUTF8StringEncoding)!
         var qrFilter: CIFilter = CIFilter(name: "CIQRCodeGenerator")
         
@@ -114,8 +123,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
         return qrFilter.outputImage;
     }
     
-    func createNonInterpolatedUIImageFromCIImage(image:CIImage , scale:CGFloat) -> UIImage
-    {
+    func createNonInterpolatedUIImageFromCIImage(image:CIImage , scale:CGFloat) -> UIImage {
         var cgImage: CGImageRef = CIContext(options: nil).createCGImage(image, fromRect: image.extent())
         
         UIGraphicsBeginImageContext(CGSizeMake(image.extent().size.width * scale, image.extent().size.height * scale ))

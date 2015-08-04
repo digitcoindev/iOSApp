@@ -1,49 +1,61 @@
 import UIKit
 
-class ImportFromQR: AbstractViewController
+class ImportFromQR: AbstractViewController, QRDelegate
 {
-    @IBOutlet weak var screenScaner: QR!
-    
-    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    //MARK: - IBOulets
 
-    override func viewDidLoad()
-    {
+    @IBOutlet weak var screenScaner: QR!
+    @IBOutlet weak var backButton: UIButton!
+    
+    //MARK: - Load Methods
+
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToImportFromQR
-        {
-            State.fromVC = SegueToImportFromQR
-        }
-        
+        State.fromVC = SegueToImportFromQR
         State.currentVC = SegueToImportFromQR
 
-        observer.addObserver(self, selector: "detectedQR:", name: "Scan QR", object: nil)
+        screenScaner.delegate = self
+        
+        let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        observer.postNotificationName("Title", object:"Scan your account" )
-
         screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
+        
+        if State.countVC <= 1{
+            backButton.hidden = true
+        }
     }
     
-    func detectedQR(notification: NSNotification)
-    {
-        var base64String :String = notification.object as! String
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    //MARK: - IBAction
+    
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
+    }
+    
+    //MARK: - QRDelegate Methods
+    
+    func detectedQRWithString(text: String) {
+        var base64String :String = text
         var jsonData :NSData = NSData(base64EncodedString: base64String)
         var err: NSError?
         var jsonStructure :NSDictionary? = NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves, error: &err) as? NSDictionary
-        
 
-        if err != nil || jsonStructure == nil
-        {
+        if err != nil || jsonStructure == nil {
             screenScaner.play()
         }
-        else if jsonStructure!.objectForKey("type") as! Int == 3
-        {
+        else if jsonStructure!.objectForKey("type") as! Int == 3 {
             jsonStructure = jsonStructure!.objectForKey("data") as? NSDictionary
             
-            if jsonStructure != nil
-            {
+            if jsonStructure != nil {
                 var privateKey_AES = jsonStructure!.objectForKey("private") as! String
                 var privateKey = HashManager.AES256Decrypt(privateKey_AES, key: "my qr key")
                 var privateKey_Encrypted = HashManager.AES256Encrypt(privateKey)
@@ -66,14 +78,8 @@ class ImportFromQR: AbstractViewController
                 self.presentViewController(alert, animated: true, completion: nil)
             }
         }
-        else
-        {
+        else {
             screenScaner.play()
         }
-    }
-    
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
     }
 }

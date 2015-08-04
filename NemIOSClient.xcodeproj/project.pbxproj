@@ -156,8 +156,6 @@
 		DAD5AD901A52E7850093E3DB /* PasswordValidationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */; };
 		DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* MessageVC.swift */; };
 		DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA272F1B0C8D4100EA09F8 /* Validate.swift */; };
-		DADA27331B0F4EB200EA09F8 /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA27311B0F4EB200EA09F8 /* PopUp.swift */; };
-		DADA27341B0F4EB200EA09F8 /* PopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADA27321B0F4EB200EA09F8 /* PopUp.xib */; };
 		DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA27361B13625A00EA09F8 /* MyHandler.m */; };
 		DADA27391B1463C200EA09F8 /* ExceptionSignalHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */; };
 		DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA33F71A72874500F14D6D /* WalletGenerator.swift */; };
@@ -351,8 +349,6 @@
 		DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordValidationVC.swift; path = Views/PasswordValidationVC.swift; sourceTree = "<group>"; };
 		DAD5AD911A52F2F30093E3DB /* MessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageVC.swift; path = Views/MessageVC.swift; sourceTree = "<group>"; };
 		DADA272F1B0C8D4100EA09F8 /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Models/Validate.swift; sourceTree = "<group>"; };
-		DADA27311B0F4EB200EA09F8 /* PopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopUp.swift; path = "Views/Additional controls/PopUp.swift"; sourceTree = "<group>"; };
-		DADA27321B0F4EB200EA09F8 /* PopUp.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PopUp.xib; path = "Views/Additional controls/PopUp.xib"; sourceTree = "<group>"; };
 		DADA27351B13625A00EA09F8 /* MyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyHandler.h; sourceTree = "<group>"; };
 		DADA27361B13625A00EA09F8 /* MyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyHandler.m; sourceTree = "<group>"; };
 		DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExceptionSignalHandler.swift; path = Models/ExceptionSignalHandler.swift; sourceTree = "<group>"; };
@@ -656,7 +652,6 @@
 		DA3558281A39D44800AFA5FD /* LaunchSourses */ = {
 			isa = PBXGroup;
 			children = (
-				DA35580F1A39D3BA00AFA5FD /* Images.xcassets */,
 				DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */,
 			);
 			name = LaunchSourses;
@@ -707,7 +702,6 @@
 				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
 				DA031ED71A9226E60021E98B /* TextFields */,
 				DAC3A1831B0B623D00AABB61 /* DropDown */,
-				DAFA74BE1B2AF5BB00AA461D /* PopUp */,
 				DAD086A61B38036C00197CA3 /* NEMLabel.swift */,
 			);
 			name = "Additional controls";
@@ -775,6 +769,7 @@
 		DA4369CF1A6411B800868BAD /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				DA35580F1A39D3BA00AFA5FD /* Images.xcassets */,
 				DA4369D01A6411D400868BAD /* welcome.png */,
 				DAD1C8001A6965AA0043D947 /* Icons */,
 			);
@@ -1076,15 +1071,6 @@
 			name = API;
 			sourceTree = "<group>";
 		};
-		DAFA74BE1B2AF5BB00AA461D /* PopUp */ = {
-			isa = PBXGroup;
-			children = (
-				DADA27311B0F4EB200EA09F8 /* PopUp.swift */,
-				DADA27321B0F4EB200EA09F8 /* PopUp.xib */,
-			);
-			name = PopUp;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1212,7 +1198,6 @@
 				DAD1C8491A69664D0043D947 /* qr_icon.png in Resources */,
 				DAFA74BD1B2AEEF100AA461D /* consignatories_icon.png in Resources */,
 				DA93FBDA1B0B753400549867 /* LocalizeBase.strings in Resources */,
-				DADA27341B0F4EB200EA09F8 /* PopUp.xib in Resources */,
 				DAD1C8451A69664D0043D947 /* send_email.png in Resources */,
 				DA173CCA1A9E1161003AC21F /* user_info.png in Resources */,
 				DAD1C84E1A69664D0043D947 /* key_icon.png in Resources */,
@@ -1326,7 +1311,6 @@
 				DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */,
 				DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */,
 				DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */,
-				DADA27331B0F4EB200EA09F8 /* PopUp.swift in Sources */,
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
 				DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */,
 				DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */,

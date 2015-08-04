@@ -6,8 +6,6 @@ class AddAccount: AbstractViewController
 
     @IBOutlet weak var backButton: UIButton!
     
-    //MARK: - Variables
-
     @IBOutlet weak var custom: UIButton!
     @IBOutlet weak var qr: UIButton!
     @IBOutlet weak var key: UIButton!
@@ -46,15 +44,21 @@ class AddAccount: AbstractViewController
     }
     
     @IBAction func Custom(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToRegistrationVC )
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToRegistrationVC)
+        }
     }
 
     
     @IBAction func QR(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToImportFromQR )
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToImportFromQR)
+        }
     }
     
     @IBAction func Key(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToImportFromKey )
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToImportFromKey)
+        }
     }
 }

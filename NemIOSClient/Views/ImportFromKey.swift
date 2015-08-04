@@ -2,64 +2,104 @@ import UIKit
 
 class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
 {
+    //MARK: - IBOulets
+
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var add: UIButton!
     @IBOutlet weak var repeatPassword: UITextField!
     @IBOutlet weak var key: UITextField!
     @IBOutlet weak var scroll: UIScrollView!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var backButton: UIButton!
 
-    let dataManager : CoreDataManager = CoreDataManager()
-    var showKeyboard :Bool = true
-    var currentField :UITextField!
+    //MARK: - Variables
+
+    var _showKeyboard  :Bool = true
+    var _currentField  :UITextField!
     
-    override func viewDidLoad()
-    {
+    //MARK: - Load Methods
+
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToImportFromKey
-        {
-            State.fromVC = SegueToImportFromKey
-        }
-        
+        State.fromVC = SegueToImportFromKey
         State.currentVC = SegueToImportFromKey
 
-        password.layer.cornerRadius = 2
-        repeatPassword.layer.cornerRadius = 2
-        name.layer.cornerRadius = 2
+        contentView.layer.cornerRadius = 10
+        contentView.clipsToBounds = true
         
         var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        center.postNotificationName("Title", object:"Import from key" )
-
+        
+        if State.countVC <= 1 {
+            backButton.hidden = true
+        }
     }
     
-    deinit
-    {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillShow", object:nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:"keyboardWillHide", object:nil)
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    
-    @IBAction func chouseTextField(sender: AnyObject)
-    {
-        currentField = sender as! UITextField
+    //MARK: - IBAction
+
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
     }
     
-    @IBAction func confirm(sender: AnyObject)
-    {
-        var alert :UIAlertView!
-        if name.text != ""  && key.text! != "" && repeatPassword.text != "" && password.text != ""
+    @IBAction func chouseTextField(sender: UITextField) {
+        _currentField  = sender
+        validateField(sender)
+        
+        scroll.scrollRectToVisible(_currentField.convertRect(_currentField.frame, toView: self.view), animated: true)
+    }
+    
+    @IBAction func validateField(sender: UITextField){
+        
+        switch sender
         {
-            if password.text == repeatPassword.text && Validate.password(password.text)
-            {
+        case password , repeatPassword:
+            
+            if Validate.password(password.text){
+                sender.textColor = UIColor.greenColor()
+            } else {
+                sender.textColor = UIColor.redColor()
+            }
+            
+            if sender.text != password.text{
+                sender.textColor = UIColor.redColor()
+            }
+            
+            if sender.text == "" {
+                sender.textColor = UIColor.blackColor()
+            }
+            
+        case key:
+            
+            if Validate.key(key.text) {
+                sender.textColor = UIColor.greenColor()
+            }
+            else {
+                sender.textColor = UIColor.redColor()
+            }
+            
+        default:
+            break
+        }
+    }
+    
+    @IBAction func confirm(sender: AnyObject) {
+        var alert :UIAlertView!
+        if name.text != ""  && key.text! != "" && repeatPassword.text != "" && password.text != "" {
+            if password.text == repeatPassword.text && Validate.password(password.text) {
                 var keyValide :Bool = true
                 switch (key.text)
                 {
@@ -104,8 +144,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     keyValide = Validate.key(key.text)
                 }
                 
-                if keyValide
-                {
+                if keyValide {
                     WalletGenerator().createWallet(name.text, password: password.text, privateKey: key.text)
                     
                     State.fromVC = SegueToImportFromKey
@@ -113,62 +152,58 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
                 }
-                else
-                {
+                else {
                     alert  = UIAlertView(title: "Validation", message: "Invalide private key.\nPlease check it.", delegate: self, cancelButtonTitle: "OK")
                 }
             }
-            else if !Validate.password(password.text)
-            {
+            else if !Validate.password(password.text) {
                 alert  = UIAlertView(title: "Validation", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
                 
                 repeatPassword.text = ""
             }
-            else
-            {
+            else {
                 alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
                 
                 repeatPassword.text = ""
             }
         }
-        else
-        {
+        else {
             alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
             
         }
         
-        if(alert != nil)
-        {
+        if(alert != nil) {
             alert.show()
         }
     }
     
-    @IBAction func hideKeyBoard(sender: AnyObject)
-    {
-        if key.text == ""
+    @IBAction func changeField(sender: UITextField) {
+        switch sender
         {
-            key.becomeFirstResponder()
-        }else if name.text == ""
-        {
+        case key:
+            
             name.becomeFirstResponder()
-        }else if password.text == ""
-        {
+            chouseTextField(name)
+            
+        case name:
+            
             password.becomeFirstResponder()
-        }else if repeatPassword.text == ""
-        {
+            chouseTextField(password)
+            
+        case password:
+            
             repeatPassword.becomeFirstResponder()
-        }
-        
-        if repeatPassword.text != password.text &&  password.text != ""
-        {
-            repeatPassword.becomeFirstResponder()
+            chouseTextField(repeatPassword)
+            
+        default :
+            break
         }
     }
     
-    func keyboardWillShow(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
+    //MARK: - Keyboard Delegate
+    
+    final func keyboardWillShow(notification: NSNotification) {
+        if( _showKeyboard ) {
             var info:NSDictionary = notification.userInfo!
             var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             
@@ -178,17 +213,13 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
 
             keyboardHeight -= self.view.frame.height - self.scroll.frame.height
             
-            self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight - 10, 0)
-            self.scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 15, 0)
- 
-            
+            scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight - 10, 0)
+            scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 15, 0)
         }
     }
     
-    func keyboardWillHide(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
+    func keyboardWillHide(notification: NSNotification) {
+        if( _showKeyboard ) {
             self.scroll.contentInset = UIEdgeInsetsZero
             self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
         }

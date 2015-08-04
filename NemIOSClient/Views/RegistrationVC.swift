@@ -1,72 +1,96 @@
 import UIKit
 class RegistrationVC: AbstractViewController
 {
+    //MARK: - Private Variables
+
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var createPassword: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
     
-    let dataManager : CoreDataManager = CoreDataManager()
-    var showKeyboard :Bool = true
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var backButton: UIButton!
     
-    var currentField :UITextField!
+    //MARK: - Private Variables
+
+    private var _currentField :UITextField!
     
-    override func viewDidLoad()
-    {
+    //MARK: - Load Methods
+
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        userName.layer.cornerRadius = 2
-        createPassword.layer.cornerRadius = 2
-        repeatPassword.layer.cornerRadius = 2
+        contentView.layer.cornerRadius = 10
+        contentView.clipsToBounds = true
         
-        if State.fromVC != SegueToRegistrationVC
-        {
-            State.fromVC = SegueToRegistrationVC
-        }
-        
+        State.fromVC = SegueToRegistrationVC
         State.currentVC = SegueToRegistrationVC
-
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object: "New Account" )
-
+        
+        if State.countVC <= 1{
+            backButton.hidden = true
+        }
     }
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    //MARK: - IBAction
 
-    @IBAction func chouseTextField(sender: UITextField)
-    {
-        currentField = sender
-    }
-
-
-    @IBAction func closeKeyboard(sender: UITextField)
-    {
-        if userName.text == ""
-        {
-            userName.becomeFirstResponder()
-        }else if createPassword.text == ""
-        {
-            createPassword.becomeFirstResponder()
-        }else if repeatPassword.text == ""
-        {
-            repeatPassword.becomeFirstResponder()
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         }
     }
     
-    
-    @IBAction func confirmPassword(sender: AnyObject)
-    {
-
+    @IBAction func chouseTextField(sender: UITextField) {
+       _currentField = sender
     }
     
-    @IBAction func nextBtnPressed(sender: AnyObject)
-    {        
+    @IBAction func cofigurateField(sender: UITextField) {
+
+        validateField(sender)
+    }
+    
+
+    @IBAction func changeTextField(sender: UITextField) {
+        if sender == userName{
+            createPassword.becomeFirstResponder()
+            chouseTextField(createPassword)
+        } else if createPassword == sender {
+            repeatPassword.becomeFirstResponder()
+            chouseTextField(repeatPassword)
+        }
+    }
+    
+    @IBAction func validateField(sender: UITextField){
+        
+        switch sender
+        {
+        case createPassword , repeatPassword:
+            
+            if Validate.password(createPassword.text){
+                sender.textColor = UIColor.greenColor()
+            } else {
+                sender.textColor = UIColor.redColor()
+            }
+            
+            if sender.text != createPassword.text{
+                sender.textColor = UIColor.redColor()
+            }
+            
+            if sender.text == "" {
+                sender.textColor = UIColor.blackColor()
+            }
+            
+        default:
+            break
+        }
+    }
+    
+    @IBAction func nextBtnPressed(sender: AnyObject) {        
         var alert :UIAlertView!
         
-        if createPassword.text != "" && repeatPassword.text != "" && userName.text != ""
-        {
+        if createPassword.text != "" && repeatPassword.text != "" && userName.text != "" {
             if Validate.password(createPassword.text)
             {
                 if(createPassword.text == repeatPassword.text)
@@ -76,31 +100,23 @@ class RegistrationVC: AbstractViewController
                     State.fromVC = SegueToRegistrationVC
                     State.toVC = SegueToLoginVC
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
+                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                        (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+                    }
                 }
-                else
-                {
+                else {
                     alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
-
-                    repeatPassword.text = ""
-                    createPassword.text = ""
                 }
             }
-            else
-            {
+            else {
                 alert  = UIAlertView(title: "Validation", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
-                
-                repeatPassword.text = ""
             }
         }
-        else
-        {
+        else {
             alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
         }
         
-        
-        if(alert != nil)
-        {
+        if(alert != nil) {
             alert.show()
         }
         
