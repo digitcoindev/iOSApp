@@ -20,7 +20,7 @@ class PasswordValidationVC: AbstractViewController
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Validation")
+        NSNotificationCenter.defaultCenter().postNotificationName("Title", object: NSLocalizedString("VALIDATION", comment: "Title"))
 
         currentField = password
         password.layer.cornerRadius = 2

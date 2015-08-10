@@ -54,7 +54,7 @@ class ServerCustomVC: AbstractViewController
         case "Denied" :
             State.currentServer = nil
 
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "This server is currently unavailable.", delegate: self, cancelButtonTitle: "OK")
+            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "This server is currently unavailable.", delegate: self, cancelButtonTitle: "OK")
             alert.show()
             
         default :
@@ -89,12 +89,12 @@ class ServerCustomVC: AbstractViewController
     {
         if serverAddress.text == "" || serverPort.text == "" || protocolType.text == ""
         {
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "To add new server you must fill all fields", delegate: self, cancelButtonTitle: "OK")
+            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "To add new server you must fill all fields", delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
         else if protocolType.text != "http"
         {
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "Available only \"http\" protocol type.", delegate: self, cancelButtonTitle: "OK")
+            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Available only \"http\" protocol type.", delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
         else

@@ -64,13 +64,17 @@ class ImportFromQR: AbstractViewController, QRDelegate
                 var salt = jsonStructure!.objectForKey("salt") as! String
                 
                 WalletGenerator().importWallet(login, password: password, privateKey: privateKey_Encrypted ,salt: salt)
-                var alert :UIAlertController = UIAlertController(title: "Info", message: "Account: \(login)\nSuccessfully added.", preferredStyle: UIAlertControllerStyle.Alert)
+                var alert :UIAlertController = UIAlertController(   title: NSLocalizedString("INFO", comment: "Title"),
+                                                                    message: String(format: NSLocalizedString("ACCOUNT_ADDING_SUCCESS", comment: ""), login),
+                                                                    preferredStyle: UIAlertControllerStyle.Alert)
                 
                 var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
                     {
                         alertAction -> Void in
                         
-                        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
+                        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+                        }
                     }
                 
                 alert.addAction(ok)

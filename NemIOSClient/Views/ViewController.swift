@@ -14,7 +14,7 @@ class ViewController: UIViewController
         {
             if errorLogs != ""
             {
-                var alert :UIAlertView = UIAlertView(title: "Info", message: "Error copied to pasteboard ", delegate: self, cancelButtonTitle: "OK")
+                var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Error copied to pasteboard ", delegate: self, cancelButtonTitle: "OK")
                 alert.show()
 
                 UIPasteboard.generalPasteboard().string = errorLogs

@@ -1,25 +1,29 @@
 import UIKit
 
+@objc protocol APIManagerDelegate
+{
+    optional func heartbeatDenied()
+    optional func heartbeatSuccessed()
+}
+
 class APIManager: NSObject
 {
     let session = NSURLSession.sharedSession()
+    var delegate :AnyObject!
     
-    override init()
-    {
+    override init() {
         super.init()
     }
     
     //URLSession
     
-    func endSession()
-    {
+    func endSession() {
         session.finishTasksAndInvalidate()
     }
     
     //API
     
-    final func heartbeat(server :Server) -> Bool
-    {
+    final func heartbeat(server :Server) -> Bool {
         var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
         var err: NSError?
         
@@ -27,31 +31,32 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {
+        var task = session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
                 
-                if(err != nil)
-                {
+                if(err != nil) {
                     println(err!.localizedDescription)
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatDenied", object:nil)
+                    if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatDenied") {
+                        (self.delegate as! APIManagerDelegate).heartbeatDenied!()
+                    }
                     
                     println("NIS is not available!")
                 }
-                else
-                {
+                else {
                     var message :String = (layers! as NSDictionary).objectForKey("message") as! String
                     
                     println("\nRequest : /heartbeat")
                     
                     self.timeSynchronize(server)
 
-                    NSNotificationCenter.defaultCenter().postNotificationName("heartbeatSuccessed", object:layers )
+                    if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatSuccessed") {
+                        (self.delegate as! APIManagerDelegate).heartbeatSuccessed!()
+                    }
                 }
         })
         
@@ -60,51 +65,7 @@ class APIManager: NSObject
         return true
     }
     
-    final func testHeartbeat(server :Server) -> Bool
-    {
-        var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
-        var err: NSError?
-        
-        request.HTTPMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {
-                data, response, error -> Void in
-                
-                var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                var err: NSError?
-                var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                if(err != nil)
-                {
-                    println(err!.localizedDescription)
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName("testHeartbeatDenied", object:nil)
-                    
-                    
-                    println("NIS is not available!")
-                }
-                else
-                {
-                    var message :String = (layers! as NSDictionary).objectForKey("message") as! String
-                    
-                    println("\nRequest : /heartbeat")
-                    
-                    //println("\nSucces : \n\tCode : \(code)\n\tType : \(type)\n\tMessage : \(message)")
-                    
-                    self.timeSynchronize(server)
-                    NSNotificationCenter.defaultCenter().postNotificationName("testHeartbeatSuccessed", object:layers )
-                }
-        })
-        
-        task.resume()
-        
-        return true
-    }
-    
-    final func accountGet(server :Server, account_address :String) -> Bool
-    {        
+    final func accountGet(server :Server, account_address :String) -> Bool {        
         var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/get?address=" + account_address))!)
         var err: NSError?
         
@@ -112,15 +73,13 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {
+        var task = session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                if(err != nil)
-                {
+                if(err != nil) {
                     println(err!.localizedDescription)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("accountGetDenied", object:nil)
@@ -128,8 +87,7 @@ class APIManager: NSObject
                     
                     println("NIS is not available!")
                 }
-                else if (layers! as NSDictionary).objectForKey("error")  == nil
-                {
+                else if (layers! as NSDictionary).objectForKey("error")  == nil {
                     var requestData :AccountGetMetaData = AccountGetMetaData()
                     
                     requestData.getFrom(layers! as NSDictionary)
@@ -138,8 +96,7 @@ class APIManager: NSObject
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("accountGetSuccessed", object:requestData )
                 }
-                else
-                {
+                else {
                     NSNotificationCenter.defaultCenter().postNotificationName("accountGetDenied", object:nil)
                 }
         })
@@ -149,8 +106,7 @@ class APIManager: NSObject
         return true
     }
     
-    final func accountTransfersAll(server :Server, account_address :String) -> Bool
-    {
+    final func accountTransfersAll(server :Server, account_address :String) -> Bool {
         var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/transfers/all?address=" + account_address))!)
         var err: NSError?
         
@@ -158,15 +114,13 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {
+        var task = session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                if(err != nil)
-                {
+                if(err != nil) {
                     println(err!.localizedDescription)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllDenied", object:nil)
@@ -174,8 +128,7 @@ class APIManager: NSObject
                     
                     println("NIS is not available!")
                 }
-                else if (layers! as NSDictionary).objectForKey("error")  == nil
-                {
+                else if (layers! as NSDictionary).objectForKey("error")  == nil {
                     var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
                     
                     var requestDataAll :[TransactionPostMetaData] = [TransactionPostMetaData]()
@@ -187,8 +140,7 @@ class APIManager: NSObject
                         var meta :NSDictionary = object.objectForKey("meta") as! NSDictionary
                         var transaction :NSDictionary = object.objectForKey("transaction") as! NSDictionary
                         
-                        switch(transaction.objectForKey("type") as! Int)
-                        {
+                        switch(transaction.objectForKey("type") as! Int) {
                         case transferTransaction :
                             
                             var requestData :TransferTransaction = TransferTransaction()
@@ -221,8 +173,7 @@ class APIManager: NSObject
                     NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllSuccessed", object:requestDataAll )
                     
                 }
-                else
-                {
+                else {
                     NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllDenied", object:nil)
                 }
         })
@@ -233,8 +184,7 @@ class APIManager: NSObject
         return true
     }
     
-    final func unconfirmedTransactions(server :Server, account_address :String) -> Bool
-    {
+    final func unconfirmedTransactions(server :Server, account_address :String) -> Bool {
         var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/unconfirmedTransactions?address=" + account_address))!)
         var err: NSError?
         
@@ -242,15 +192,13 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {
+        var task = session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                if(err != nil)
-                {
+                if(err != nil) {
                     println(err!.localizedDescription)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllDenied", object:nil)
@@ -258,8 +206,7 @@ class APIManager: NSObject
                     
                     println("NIS is not available!")
                 }
-                else if (layers! as NSDictionary).objectForKey("error")  == nil
-                {
+                else if (layers! as NSDictionary).objectForKey("error")  == nil {
                     var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
                     
                     var requestDataAll :[TransactionPostMetaData] = [TransactionPostMetaData]()
@@ -272,8 +219,7 @@ class APIManager: NSObject
                         
                         var transaction :NSDictionary = object.objectForKey("transaction") as! NSDictionary
                         
-                        switch(transaction.objectForKey("type") as! Int)
-                        {
+                        switch(transaction.objectForKey("type") as! Int) {
                         case transferTransaction :
                             
                             var requestData :TransferTransaction = TransferTransaction()
@@ -320,8 +266,7 @@ class APIManager: NSObject
                     NSNotificationCenter.defaultCenter().postNotificationName("unconfirmedTransactionsSuccessed", object:requestDataAll )
                     
                 }
-                else
-                {
+                else {
                     NSNotificationCenter.defaultCenter().postNotificationName("accountTransfersAllDenied", object:nil)
                 }
         })
@@ -332,8 +277,7 @@ class APIManager: NSObject
         return true
     }
     
-    final func getBlockWithHeight(server :Server ,height :Int ) -> Bool
-    {
+    final func getBlockWithHeight(server :Server ,height :Int ) -> Bool {
         var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/block/at/public"))!)       
         request.HTTPMethod = "POST"
         
@@ -345,27 +289,23 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {           data, response, error -> Void in
+        var task = session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var json :NSDictionary? = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
                 
-                if(err != nil)
-                {
+                if(err != nil) {
                     println(err!.localizedDescription)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("getBlockWithHeightDenied", object:nil)
                     
                     println("NIS is not available!")
                 }
-                else if (json! as NSDictionary).objectForKey("error")  == nil
-                {
+                else if (json! as NSDictionary).objectForKey("error")  == nil {
                     CoreDataManager().addBlock(height, timeStamp: (json!.objectForKey("timeStamp") as! Double) )
                     NSNotificationCenter.defaultCenter().postNotificationName("getBlockWithHeightSuccessed", object:nil)
                 }
-                else
-                {
+                else {
                     NSNotificationCenter.defaultCenter().postNotificationName("getBlockWithHeightDenied", object:nil)
                 }
         })
@@ -375,8 +315,7 @@ class APIManager: NSObject
         return true
     }
     
-    final func prepareAnnounce(server :Server, transaction :TransactionPostMetaData) -> Bool
-    {
+    final func prepareAnnounce(server :Server, transaction :TransactionPostMetaData) -> Bool {
 
         var signedTransaction :SignedTransactionMetaData = SignManager.signTransaction(transaction)
         
@@ -393,26 +332,22 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {           data, response, error -> Void in
+        var task = session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var json  = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
                 
-                if(err != nil)
-                {
+                if(err != nil) {
                     println(err!.localizedDescription)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceDenied", object:nil)
                                     }
-                else if (json! as NSDictionary).objectForKey("error")  == nil
-                {
+                else if (json! as NSDictionary).objectForKey("error")  == nil {
                     println(json)
                     NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceSuccessed", object:json)
 
                 }
-                else
-                {
+                else {
                     NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceDenied", object:nil)
                 }
        })
@@ -420,8 +355,7 @@ class APIManager: NSObject
         task.resume()
         return true
     }
-    final func timeSynchronize(server :Server) -> Bool
-    {
+    final func timeSynchronize(server :Server) -> Bool {
         
         var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/time-sync/network-time" ))!)
         var err: NSError?
@@ -430,19 +364,16 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler:
-            {
+        var task = session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                if(err != nil)
-                {
+                if(err != nil) {
                     println(err!.localizedDescription)
                 }
-                else
-                {
+                else {
                     var date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as! Double
                     
                     TimeSynchronizator.nemTime = date / 1000

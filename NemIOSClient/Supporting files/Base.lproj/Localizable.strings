@@ -1,0 +1,8 @@
+"VALIDATION" = "Validation";
+"PASSOWORD_DIFERENCE_ERROR" = "Different passwords";
+"PASSOWORD_LENGTH_ERROR" = "Your password must be at least 6 characters.";
+"FIELDS_EMPTY_ERROR" = "Input all fields";
+"PRIVATE_KEY_ERROR_1." = "Invalide private key.\nPlease check it.";
+"ACCOUNT_ADDING_SUCCESS" = "Account: %@\nSuccessfully added."; // %@ will be replaced by the account name
+"INFO" = "Info";
+"SERVER_UNAVAILABLE" = "Server is  unavailable. Try again later or check your server.";

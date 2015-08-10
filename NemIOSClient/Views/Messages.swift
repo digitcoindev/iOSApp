@@ -138,7 +138,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     
                     if inTransaction.signer != walletData.publicKey && !find
                     {
-                        var alert :UIAlertController = UIAlertController(title: "Info", message: "You have unconfirmed transactions that need to be signed up!", preferredStyle: UIAlertControllerStyle.Alert)
+                        var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "You have unconfirmed transactions that need to be signed up!", preferredStyle: UIAlertControllerStyle.Alert)
                         
                         var ok :UIAlertAction = UIAlertAction(title: "Show transactions", style: UIAlertActionStyle.Default)
                             {
@@ -591,7 +591,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )        }
         else
         {
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
+            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
     }

@@ -1,0 +1,8 @@
+"VALIDATION" = "Валідація";
+"PASSOWORD_DIFERENCE_ERROR" = "Різні паролі";
+"PASSOWORD_LENGTH_ERROR" = "Пароль має бути ,як мінімум 6 символів";
+"FIELDS_EMPTY_ERROR" = "Заповніть всі поля";
+"PRIVATE_KEY_ERROR_1" = "Некоректний приватний ключ\nБудь ласка перевірте його.";
+"ACCOUNT_ADDING_SUCCESS" = "Акаунт: %@\nУспішно доданий."; // %@ will be replaced by the account name
+"INFO" = "Довідка";
+"SERVER_UNAVAILABLE" = "Сервер не доступний. Повторість спробу пізніше.";

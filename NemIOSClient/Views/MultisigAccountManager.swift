@@ -134,7 +134,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             
         case "prepareAnnounceSuccessed" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "Changes are confirmed and await \nfor server validation", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are confirmed and await \nfor server validation", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                 {
@@ -146,7 +146,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             
         case "prepareAnnounceDenied" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "Changes are not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                 {
@@ -283,7 +283,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         
         if removeArray.count > 1
         {
-            var alert :UIAlertController = UIAlertController(title: "Info", message: "Yikes. You can remove only one cosignatori per transaction.", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. You can remove only one cosignatori per transaction.", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                 {
@@ -305,7 +305,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         }
         else if (addArray.count - removeArray.count + walletData.cosignatories.count) > 16
         {
-            var alert :UIAlertController = UIAlertController(title: "Info", message: "Yikes. Too many cosignatories.", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. Too many cosignatories.", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                 {

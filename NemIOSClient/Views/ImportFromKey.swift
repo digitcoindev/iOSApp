@@ -12,11 +12,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var backButton: UIButton!
-
-    //MARK: - Variables
-
-    var _showKeyboard  :Bool = true
-    var _currentField  :UITextField!
     
     //MARK: - Load Methods
 
@@ -56,10 +51,9 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     }
     
     @IBAction func chouseTextField(sender: UITextField) {
-        _currentField  = sender
         validateField(sender)
         
-        scroll.scrollRectToVisible(_currentField.convertRect(_currentField.frame, toView: self.view), animated: true)
+        scroll.scrollRectToVisible(sender.convertRect(sender.frame, toView: self.view), animated: true)
     }
     
     @IBAction func validateField(sender: UITextField){
@@ -153,22 +147,22 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
                 }
                 else {
-                    alert  = UIAlertView(title: "Validation", message: "Invalide private key.\nPlease check it.", delegate: self, cancelButtonTitle: "OK")
+                    alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PRIVATE_KEY_ERROR_1", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
                 }
             }
             else if !Validate.password(password.text) {
-                alert  = UIAlertView(title: "Validation", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
+                alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PASSOWORD_LENGTH_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
                 
                 repeatPassword.text = ""
             }
             else {
-                alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
+                alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PASSOWORD_DIFERENCE_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
                 
                 repeatPassword.text = ""
             }
         }
         else {
-            alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
+            alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             
         }
         
@@ -203,26 +197,21 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     //MARK: - Keyboard Delegate
     
     final func keyboardWillShow(notification: NSNotification) {
-        if( _showKeyboard ) {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            var animationDuration = 0.1
-
-            keyboardHeight -= self.view.frame.height - self.scroll.frame.height
-            
-            scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight - 10, 0)
-            scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 15, 0)
-        }
+        var info:NSDictionary = notification.userInfo!
+        var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        var keyboardHeight:CGFloat = keyboardSize.height
+        
+        var animationDuration = 0.1
+        
+        keyboardHeight -= self.view.frame.height - self.scroll.frame.height
+        
+        scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight - 10, 0)
+        scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 15, 0)
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if( _showKeyboard ) {
-            self.scroll.contentInset = UIEdgeInsetsZero
-            self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
-        }
+        self.scroll.contentInset = UIEdgeInsetsZero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }
-    
 }

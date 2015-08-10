@@ -7,13 +7,10 @@ class RegistrationVC: AbstractViewController
     @IBOutlet weak var createPassword: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
     
+    @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var backButton: UIButton!
-    
-    //MARK: - Private Variables
-
-    private var _currentField :UITextField!
-    
+        
     //MARK: - Load Methods
 
     override func viewDidLoad() {
@@ -25,9 +22,14 @@ class RegistrationVC: AbstractViewController
         State.fromVC = SegueToRegistrationVC
         State.currentVC = SegueToRegistrationVC
         
-        if State.countVC <= 1{
+        if State.countVC <= 1 {
             backButton.hidden = true
         }
+        
+        var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        
+        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +45,7 @@ class RegistrationVC: AbstractViewController
     }
     
     @IBAction func chouseTextField(sender: UITextField) {
-       _currentField = sender
+        scroll.scrollRectToVisible(self.view.convertRect(sender.frame, fromView: sender), animated: true)
     }
     
     @IBAction func cofigurateField(sender: UITextField) {
@@ -90,6 +92,8 @@ class RegistrationVC: AbstractViewController
     @IBAction func nextBtnPressed(sender: AnyObject) {        
         var alert :UIAlertView!
         
+        var a = NSLocalizedString("VALIDATION", comment: "Title")
+
         if createPassword.text != "" && repeatPassword.text != "" && userName.text != "" {
             if Validate.password(createPassword.text)
             {
@@ -105,20 +109,41 @@ class RegistrationVC: AbstractViewController
                     }
                 }
                 else {
-                    alert  = UIAlertView(title: "Validation", message: "Different passwords", delegate: self, cancelButtonTitle: "OK")
+                    alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message:  NSLocalizedString("PASSOWORD_DIFERENCE_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
                 }
             }
             else {
-                alert  = UIAlertView(title: "Validation", message: "Your password must be at least 6 characters.", delegate: self, cancelButtonTitle: "OK")
+                alert  = UIAlertView(title:  NSLocalizedString("VALIDATION", comment: "Title"), message:  NSLocalizedString("PASSOWORD_LENGTH_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             }
         }
         else {
-            alert  = UIAlertView(title: "Validation", message: "Input all fields", delegate: self, cancelButtonTitle: "OK")
+                        
+            alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message:String(format: NSLocalizedString("ACCOUNT_ADDING_SUCCESS", comment: ""), "fff"), delegate: self, cancelButtonTitle: "OK")
         }
         
         if(alert != nil) {
             alert.show()
         }
+    }
+    
+    //MARK: - Keyboard Delegate
+    
+    final func keyboardWillShow(notification: NSNotification) {
+        var info:NSDictionary = notification.userInfo!
+        var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
+        var keyboardHeight:CGFloat = keyboardSize.height
+        
+        var animationDuration = 0.1
+        
+        keyboardHeight -= self.view.frame.height - self.scroll.frame.height
+        
+        scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight - 10, 0)
+        scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 15, 0)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        self.scroll.contentInset = UIEdgeInsetsZero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }
 }

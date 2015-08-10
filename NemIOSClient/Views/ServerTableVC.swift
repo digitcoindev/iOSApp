@@ -69,7 +69,7 @@ class ServerTableVC: UITableViewController , UITableViewDataSource, UITableViewD
             
         case "Denied" :
             State.currentServer = nil
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "Server is  unavailable.", delegate: self, cancelButtonTitle: "OK")
+            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Server is  unavailable.", delegate: self, cancelButtonTitle: "OK")
             alert.show()
             state.removeLast()
 

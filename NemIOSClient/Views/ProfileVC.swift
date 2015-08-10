@@ -240,7 +240,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
                 
                 if !Validate.password(newPassword.text)
                 {
-                    alert1.message = "Your password must be at least 6 characters."
+                    alert1.message = "PASSOWORD_LENGTH_ERROR"
                     repeatPassword.text = ""
                     newPassword.text = ""
                     isError = true

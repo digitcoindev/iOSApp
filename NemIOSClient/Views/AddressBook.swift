@@ -391,7 +391,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
             }
             else
             {
-                var alert :UIAlertView = UIAlertView(title: "Info", message: "Your account could not sent transactions. Please increase your balance", delegate: self, cancelButtonTitle: "OK")
+                var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your account could not sent transactions. Please increase your balance", delegate: self, cancelButtonTitle: "OK")
                 alert.show()
 
             }

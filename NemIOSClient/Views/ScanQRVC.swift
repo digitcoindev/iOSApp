@@ -50,7 +50,7 @@ class ScanQRVC: AbstractViewController
                 }
                 else
                 {
-                    var alert :UIAlertView = UIAlertView(title: "Info", message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
+                    var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 }
                 
@@ -170,7 +170,7 @@ class ScanQRVC: AbstractViewController
                 }
                 else
                 {
-                    var alert :UIAlertView = UIAlertView(title: "Info", message: "Can not access adressbook.", delegate: self, cancelButtonTitle: "OK")
+                    var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Can not access adressbook.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 }
         })

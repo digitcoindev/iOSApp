@@ -133,7 +133,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             
         case "prepareAnnounceSuccessed" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "SUCCESS", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "SUCCESS", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
                 {
@@ -145,7 +145,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             
         case "prepareAnnounceDenied" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: "Info", message: "DENIED\nTry again later. Or check connection to server.", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "DENIED\nTry again later. Or check connection to server.", preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
                 {
@@ -241,7 +241,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             }
             else
             {
-                var alert :UIAlertController = UIAlertController(title: "Info", message: "Not enough money", preferredStyle: UIAlertControllerStyle.Alert)
+                var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Not enough money", preferredStyle: UIAlertControllerStyle.Alert)
                 
                 var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                     {

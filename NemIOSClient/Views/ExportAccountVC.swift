@@ -61,7 +61,7 @@ class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
         }
         else
         {
-            var alert :UIAlertView = UIAlertView(title: "Info", message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
+            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
     }

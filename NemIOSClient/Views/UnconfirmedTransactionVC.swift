@@ -146,7 +146,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
                 }
             }
             
-            var alert :UIAlertController = UIAlertController(title: "Info", message: text, preferredStyle: UIAlertControllerStyle.Alert)
+            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: text, preferredStyle: UIAlertControllerStyle.Alert)
             
             var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
             {

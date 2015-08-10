@@ -48,6 +48,13 @@ class CoreDataManager: NSObject
         commit()
     }
     
+    final func deleteWallet(#wallet :Wallet)
+    {
+        self.managedObjectContext!.deleteObject(wallet)
+        
+        commit()
+    }
+    
     //Block
     
     final func getBlocks()->[Block]
