@@ -6,13 +6,9 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addWallet: UIButton!
     
-    
-    
     //MARK: - Variables
 
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
-    var timer :NSTimer!
-    var state :[String] = ["none"]
     
     var dataManager :CoreDataManager = CoreDataManager()
     var apiManager :APIManager = APIManager()
@@ -27,20 +23,17 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        wallets  = dataManager.getWallets()
-        
-        if State.fromVC != SegueToLoginVC {
-            State.fromVC = SegueToLoginVC
-        }
-                
+        State.fromVC = SegueToLoginVC
         State.currentVC = SegueToLoginVC
         
+        apiManager.delegate = self
+        
+        wallets  = dataManager.getWallets()
+
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
-        
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
-    }
+        }
 
     override func didMoveToParentViewController(parent: UIViewController?) {
         if parent == nil {
@@ -65,7 +58,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         
         for cell in self.tableView.visibleCells() {
             (cell as! WalletCell).inEditingState = !_isEditing
-            (cell as! WalletCell).layoutCell(animated: !_isEditing)
+            (cell as! WalletCell).layoutCell(animated: true)
         }
         
         _isEditing = !_isEditing
@@ -87,15 +80,17 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if State.currentServer != nil {
-            State.currentWallet = wallets[indexPath.row]
-            apiManager.heartbeat(State.currentServer!)
-        }
-        else {
-            State.toVC = SegueToServerVC
-            
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
+        if !_isEditing {
+            if State.currentServer != nil {
+                State.currentWallet = wallets[indexPath.row]
+                apiManager.heartbeat(State.currentServer!)
+            }
+            else {
+                State.toVC = SegueToServerVC
+                
+                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
+                }
             }
         }
     }
@@ -115,50 +110,23 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     
     //MARK: - APIManagerDelegate Methods
     
-    final func heartbeatSuccessed() {
-        state.append("logIN")
-    }
-    
-    final func heartbeatDenied() {
-        state.append("serverDenied")
-    }
-    
-    //MARK: - APIManagerDelegate Methods Helper
-    
-    final func manageState() {
-        switch state.last! {
-        case "logIN" :
+    final func heartbeatResponceFromServer(server :Server ,successed :Bool) {
+        if successed {
+            APIManager().timeSynchronize(server)
             
-            APIManager().timeSynchronize(State.currentServer!)
-            
-            timer.invalidate()
-            for var index :Int = 0 ; index < state.count ; index++
-            {
-                if state[index] == "serverDenied"
-                {
-                    state.removeAtIndex(index)
-                    index--
-                }
-            }
             State.toVC = SegueToMessages
             
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
             }
+        } else {
             
-            state.removeLast()
+            State.currentServer = nil
+            State.toVC = SegueToServerVC
             
-        case "serverDenied" :
-            
-            timer.invalidate()
-            
-            var alert :UIAlertView = UIAlertView(   title: NSLocalizedString("INFO", comment: "Title"),
-                                                    message: NSLocalizedString("SERVER_UNAVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
-            alert.show()
-            state.removeLast()
-            
-        default :
-            break
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
+            }
         }
     }
 }

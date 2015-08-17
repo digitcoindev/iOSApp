@@ -6,3 +6,4 @@
 "ACCOUNT_ADDING_SUCCESS" = "Account: %@\nSuccessfully added."; // %@ will be replaced by the account name
 "INFO" = "Info";
 "SERVER_UNAVAILABLE" = "Server is  unavailable. Try again later or check your server.";
+"SERVER_PROTOCOL_NOT_AVAILABLE" = "Available only \"http\" protocol type.";

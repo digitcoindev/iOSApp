@@ -5,4 +5,4 @@
 "PRIVATE_KEY_ERROR_1" = "Некоректний приватний ключ\nБудь ласка перевірте його.";
 "ACCOUNT_ADDING_SUCCESS" = "Акаунт: %@\nУспішно доданий."; // %@ will be replaced by the account name
 "INFO" = "Довідка";
-"SERVER_UNAVAILABLE" = "Сервер не доступний. Повторість спробу пізніше.";
+"SERVER_UNAVAILABLE" = "Сервер не доступний. Повторіть спробу пізніше.";

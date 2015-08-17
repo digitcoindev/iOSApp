@@ -65,7 +65,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
                 
                 WalletGenerator().importWallet(login, password: password, privateKey: privateKey_Encrypted ,salt: salt)
                 var alert :UIAlertController = UIAlertController(   title: NSLocalizedString("INFO", comment: "Title"),
-                                                                    message: String(format: NSLocalizedString("ACCOUNT_ADDING_SUCCESS", comment: ""), login),
+                                                                    message: String(format: NSLocalizedString("ACCOUNT_ADDING_SUCCESS", comment: "Description"), login),
                                                                     preferredStyle: UIAlertControllerStyle.Alert)
                 
                 var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)

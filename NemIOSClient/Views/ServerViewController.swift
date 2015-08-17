@@ -1,96 +1,164 @@
 import UIKit
 
-class ServerViewController: AbstractViewController
+class ServerViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate, ServerCellDelegate, APIManagerDelegate, AddCustomServerDelegate
 {
-    @IBOutlet weak var predefinedBtn: UIButton!
-    @IBOutlet weak var customBtn: UIButton!
-    @IBOutlet weak var container: UIView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var topView: UIView!
     
+    private let _dataManager : CoreDataManager = CoreDataManager()
+    private let _apiManager :APIManager = APIManager()
+    private var _isEditing = false
+    private var _tempSubViews :[UIView] = []
     
-    var arrow: UIButton!
-    
-    var pages :ServerContainerVC = ServerContainerVC();
-    
-    let dataManager : CoreDataManager = CoreDataManager()
-    var servers : NSArray = NSArray()
-    
-    override func viewDidLoad()
-    {
+    var servers : [Server] = []
+
+    override func viewDidLoad() {
         super.viewDidLoad()
-        
-        predefinedBtn.highlighted = false
-        customBtn.highlighted = true
-        
-        if State.fromVC != SegueToServerVC
-        {
-            State.fromVC = SegueToServerVC
-        }
-        
+
+        State.fromVC = SegueToServerVC
         State.currentVC = SegueToServerVC
 
-        servers = dataManager.getServers()
+        _apiManager.delegate = self
         
-        var arrowImg :UIImage = UIImage(named: "tab_dropdown_arrow.png")!
+        servers = _dataManager.getServers()
         
-        arrow = UIButton(frame: CGRect(x: 0, y: 0, width: arrowImg.size.width as CGFloat, height:  arrowImg.size.height as CGFloat))
-        arrow.setBackgroundImage(arrowImg, forState: UIControlState.Normal)
-        arrow.highlighted = true
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Servers")
-
-        self.view.addSubview(arrow)
-        
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
     }
     
-    deinit
-    {
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+
+    override func viewDidAppear(animated: Bool) {
+        
+    }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
-    {
-        if(segue.identifier == "serverContainer")
-        {
-            pages = segue.destinationViewController as! ServerContainerVC
+    // MARK: - IBAction
+
+    @IBAction func addAccountTouchUpInside(sender: AnyObject) {
+        var storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        var serverCustomVC :AddCustomServerVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomServer") as! AddCustomServerVC
+        serverCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - topView.frame.height)
+        serverCustomVC.view.layer.opacity = 0
+        serverCustomVC.delegate = self
+        
+        _tempSubViews.append(serverCustomVC.view)
+        self.view.addSubview(serverCustomVC.view)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            serverCustomVC.view.layer.opacity = 1
+            }, completion: nil)
+    }
+    
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         }
     }
-
-    override func viewDidAppear(animated: Bool)
-    {
-        arrow.layer.frame.origin = CGPoint(x: self.view.frame.width / 4 , y:  predefinedBtn.frame.origin.y + predefinedBtn.frame.height)
+    
+    @IBAction func editButtonTouchUpInside(sender: AnyObject) {
+        for cell in self.tableView.visibleCells() {
+            (cell as! ServerViewCell).inEditingState = !_isEditing
+            (cell as! ServerViewCell).layoutCell(animated: true)
+        }
+        
+        _isEditing = !_isEditing
     }
     
-    @IBAction func predefinedSector(sender: AnyObject)
-    {
-        arrow.layer.frame.origin = CGPoint(x: predefinedBtn.frame.origin.x + predefinedBtn.frame.width / 2 , y:  predefinedBtn.frame.origin.y + predefinedBtn.frame.height )
-        
+    // MARK: - TableViewDelegate Methods
     
-        predefinedBtn.highlighted = false
-        customBtn.highlighted = true
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return servers.count
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 74
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as! ServerViewCell
+        cell.delegate = self
         
-        if pages.curentPage != 0
-        {
-            pages.changePage(0)
+        var cellData  : Server = servers[indexPath.row]
+        cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
+        if servers[indexPath.row] == State.currentServer {
+            cell.isActiveServer = true
+        }
+        return cell
+
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if  State.currentServer != nil {
+            
+            var oldIndex = 0
+            
+            for var i = 0 ; i < servers.count ; i++ {
+                if servers[i] == State.currentServer! {
+                    oldIndex = i
+                }
+            }
+            
+            var oldIndexPath = NSIndexPath(forRow: oldIndex, inSection: 0)
+            
+            if oldIndexPath != indexPath {
+                var serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as! ServerViewCell
+                
+                serverCell.isActiveServer = false
+            }
+        }
+        
+        var selectedServer :Server = servers[indexPath.row]
+        
+        State.currentServer = selectedServer
+        
+        _apiManager.heartbeat(selectedServer)
+    }
+    
+    //MARK: - ServerCell Delegate
+    
+    func deleteCell(cell :UITableViewCell) {
+        var index :NSIndexPath = tableView.indexPathForCell(cell)!
+        
+        if index.row < servers.count {
+            _dataManager.deleteServer(server: servers[index.row])
+            servers.removeAtIndex(index.row)
+            
+            tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
         }
     }
     
-    @IBAction func customServer(sender: AnyObject)
-    {
-        arrow.layer.frame.origin = CGPoint(x: customBtn.frame.origin.x + customBtn.frame.width / 2 , y:  customBtn.frame.origin.y + customBtn.frame.height  )
-
-        predefinedBtn.highlighted = true
-        customBtn.highlighted = false
-        
-        
-        if pages.curentPage != 1
-        {
-            pages.changePage(1)
+    //MARK: - AddCustomServerDelegate Methods
+    
+    func serverAdded(successfuly: Bool) {
+        if successfuly {
+            servers = _dataManager.getServers()
+            tableView.reloadData()
+        }
+    }
+    
+    //MARK: - APIManagerDelegate Methods
+    
+    final func heartbeatResponceFromServer(server :Server ,successed :Bool) {
+        if successed {
+            _apiManager.timeSynchronize(State.currentServer!)
+            
+            var loadData :LoadData = _dataManager.getLoadData()
+            
+            loadData.currentServer = State.currentServer!
+            _dataManager.commit()
+            
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+            }
+        } else {
+            State.currentServer = nil
+            
+            var alert :UIAlertView = UIAlertView(   title: NSLocalizedString("INFO", comment: "Title"),
+                message: NSLocalizedString("SERVER_UNAVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+            alert.show()
         }
     }
 }

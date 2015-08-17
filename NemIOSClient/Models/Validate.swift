@@ -98,4 +98,17 @@ class Validate: NSObject
                 
         return true
     }
+    
+    final class func stringNotEmpty(inputText :String?) -> Bool
+    {
+        if inputText == nil {
+            return false
+        }
+        
+        if inputText == "" {
+            return false
+        }
+        
+        return true
+    }
 }

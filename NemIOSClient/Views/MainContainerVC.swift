@@ -76,21 +76,10 @@ class MainContainerVC: AbstractViewController
             , completion:
             {
                 finish in
-                NSNotificationCenter.defaultCenter().removeObserver(fromViewController)
+                
                 fromViewController.removeFromParentViewController()
                 toViewController.didMoveToParentViewController(self)
-        })
-    }
-    
-    deinit{
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        
-        for vc in self.childViewControllers
-        {
-            NSNotificationCenter.defaultCenter().removeObserver(vc as! UIViewController)
-            
-            (vc as! UIViewController).removeFromParentViewController()
-        }
+            })
     }
     
     //MARK: - Navigation Methods
@@ -151,8 +140,11 @@ class MainContainerVC: AbstractViewController
             case SegueToPasswordValidation , SegueToUnconfirmedTransactionVC , SegueToSendTransaction , SegueToMessageVC , SegueToMessageMultisignVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToScanQR:
                 
                 State.toVC = page as String
-                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToDashboard )
-
+                
+                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
+                }
+                
                 break
                 
             default:

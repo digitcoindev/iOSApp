@@ -144,7 +144,9 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     State.fromVC = SegueToImportFromKey
                     State.toVC = SegueToLoginVC
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object: SegueToLoginVC )
+                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                        (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+                    }
                 }
                 else {
                     alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PRIVATE_KEY_ERROR_1", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
@@ -206,7 +208,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         
         keyboardHeight -= self.view.frame.height - self.scroll.frame.height
         
-        scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight - 10, 0)
+        scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight - 15, 0)
         scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 15, 0)
     }
     

@@ -244,6 +244,13 @@ class CoreDataManager: NSObject
         return server
     }
     
+    final func deleteServer(#server :Server)
+    {
+        self.managedObjectContext!.deleteObject(server)
+        
+        commit()
+    }
+    
     //LoadData
     
     final func getLoadData()->LoadData

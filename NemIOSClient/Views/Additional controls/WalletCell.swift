@@ -13,7 +13,6 @@ class WalletCell: UITableViewCell
     
     var inEditingState :Bool = false
     var delegate :AnyObject? = nil
-    private var _isInitiated :Bool = false
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -22,14 +21,13 @@ class WalletCell: UITableViewCell
         }
     
     override func layoutSubviews() {
-        layoutCell(animated: (_isInitiated) ? true : false)
+        layoutCell(animated: false)
     }
     
     final func layoutCell(#animated :Bool) {
         var duration = (animated) ? 0.5 : 0.1
         
         if !inEditingState {
-            
             UIView.animateWithDuration(duration, animations: { () -> Void in
                 self.editingView.frame = CGRect(x: -self.editingView.frame.width,
                                                 y: 0,

@@ -14,7 +14,6 @@
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
 		DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MainMenuVC.swift */; };
-		DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA00593A1A48830D00638C57 /* ServerTableVC.swift */; };
 		DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED51A9226E10021E98B /* NEMTextField.swift */; };
 		DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED91A922FEC0021E98B /* CreateQRInput.swift */; };
 		DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */; };
@@ -60,9 +59,8 @@
 		DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558361A39F9D700AFA5FD /* ServerViewController.swift */; };
 		DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558391A39FDC300AFA5FD /* ServerViewCell.swift */; };
 		DA35583D1A3AE0A500AFA5FD /* plistFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */; };
-		DA3558421A3AFD2B00AFA5FD /* ServerContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558411A3AFD2B00AFA5FD /* ServerContainerVC.swift */; };
 		DA3558441A3B014400AFA5FD /* ConnectionSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558431A3B014400AFA5FD /* ConnectionSegue.swift */; };
-		DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558451A40771300AFA5FD /* ServerCustomVC.swift */; };
+		DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */; };
 		DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */; };
 		DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */; };
 		DA3BE20E1A5FFEF400CAC733 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20D1A5FFEF400CAC733 /* Messages.swift */; };
@@ -157,7 +155,6 @@
 		DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* MessageVC.swift */; };
 		DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA272F1B0C8D4100EA09F8 /* Validate.swift */; };
 		DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA27361B13625A00EA09F8 /* MyHandler.m */; };
-		DADA27391B1463C200EA09F8 /* ExceptionSignalHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */; };
 		DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA33F71A72874500F14D6D /* WalletGenerator.swift */; };
 		DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA35991A76609800F14D6D /* NSData+Base64.m */; };
 		DADA37531A7683C300F14D6D /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = DADA373F1A7683C300F14D6D /* readme.md */; };
@@ -198,7 +195,6 @@
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
 		DA0059381A4882ED00638C57 /* MainMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuVC.swift; path = Views/MainMenuVC.swift; sourceTree = "<group>"; };
-		DA00593A1A48830D00638C57 /* ServerTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerTableVC.swift; path = Views/ServerTableVC.swift; sourceTree = "<group>"; };
 		DA031ED51A9226E10021E98B /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEMTextField.swift; sourceTree = "<group>"; };
 		DA031ED91A922FEC0021E98B /* CreateQRInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRInput.swift; path = Views/CreateQRInput.swift; sourceTree = "<group>"; };
 		DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt8Extensions.swift; path = Models/UInt8Extensions.swift; sourceTree = "<group>"; };
@@ -254,9 +250,8 @@
 		DA3558361A39F9D700AFA5FD /* ServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerViewController.swift; path = Views/ServerViewController.swift; sourceTree = "<group>"; };
 		DA3558391A39FDC300AFA5FD /* ServerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerViewCell.swift; path = "Views/Additional controls/ServerViewCell.swift"; sourceTree = "<group>"; };
 		DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = plistFileManager.swift; path = Models/plistFileManager.swift; sourceTree = "<group>"; };
-		DA3558411A3AFD2B00AFA5FD /* ServerContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerContainerVC.swift; path = Views/ServerContainerVC.swift; sourceTree = "<group>"; };
 		DA3558431A3B014400AFA5FD /* ConnectionSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionSegue.swift; path = "Views/Additional controls/ConnectionSegue.swift"; sourceTree = "<group>"; };
-		DA3558451A40771300AFA5FD /* ServerCustomVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerCustomVC.swift; path = Views/ServerCustomVC.swift; sourceTree = "<group>"; };
+		DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomServerVC.swift; path = Views/AddCustomServerVC.swift; sourceTree = "<group>"; };
 		DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Views/Additional controls/AddressCell.swift"; sourceTree = "<group>"; };
 		DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBook.swift; path = Views/AddressBook.swift; sourceTree = "<group>"; };
 		DA3BE20D1A5FFEF400CAC733 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Messages.swift; path = Views/Messages.swift; sourceTree = "<group>"; };
@@ -352,7 +347,6 @@
 		DADA272F1B0C8D4100EA09F8 /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Models/Validate.swift; sourceTree = "<group>"; };
 		DADA27351B13625A00EA09F8 /* MyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyHandler.h; sourceTree = "<group>"; };
 		DADA27361B13625A00EA09F8 /* MyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyHandler.m; sourceTree = "<group>"; };
-		DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExceptionSignalHandler.swift; path = Models/ExceptionSignalHandler.swift; sourceTree = "<group>"; };
 		DADA33F71A72874500F14D6D /* WalletGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletGenerator.swift; path = Models/WalletGenerator.swift; sourceTree = "<group>"; };
 		DADA35991A76609800F14D6D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Models/NSData+Base64.m"; sourceTree = "<group>"; };
 		DADA359A1A76609800F14D6D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Models/NSData+Base64.h"; sourceTree = "<group>"; };
@@ -429,6 +423,38 @@
 			name = Base64;
 			sourceTree = "<group>";
 		};
+		9809BE2E1B7B45DF0028D082 /* Hash */ = {
+			isa = PBXGroup;
+			children = (
+				DA194E081A4323B40030C882 /* HashManager.swift */,
+			);
+			name = Hash;
+			sourceTree = "<group>";
+		};
+		9809BE2F1B7B45EA0028D082 /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
+			);
+			name = Transaction;
+			sourceTree = "<group>";
+		};
+		9809BE301B7B46080028D082 /* AddressBook */ = {
+			isa = PBXGroup;
+			children = (
+				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
+			);
+			name = AddressBook;
+			sourceTree = "<group>";
+		};
+		9809BE321B7B462B0028D082 /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				DADA272F1B0C8D4100EA09F8 /* Validate.swift */,
+			);
+			name = Validation;
+			sourceTree = "<group>";
+		};
 		DA031ED71A9226E60021E98B /* TextFields */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,18 +505,6 @@
 			name = Data;
 			sourceTree = "<group>";
 		};
-		DA08D9BF1AC0376E00B93EBE /* Additional */ = {
-			isa = PBXGroup;
-			children = (
-				DA194E081A4323B40030C882 /* HashManager.swift */,
-				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
-				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
-				DADA272F1B0C8D4100EA09F8 /* Validate.swift */,
-				DADA27381B1463C200EA09F8 /* ExceptionSignalHandler.swift */,
-			);
-			name = Additional;
-			sourceTree = "<group>";
-		};
 		DA173CE11AA87CCE003AC21F /* RIPEMD-160 */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,8 +542,10 @@
 			isa = PBXGroup;
 			children = (
 				DAC8BA9E1ACD53BC00BB95B0 /* State */,
-				DAF138291AB08F2A0069AC3A /* API */,
-				DA08D9BF1AC0376E00B93EBE /* Additional */,
+				9809BE2E1B7B45DF0028D082 /* Hash */,
+				9809BE2F1B7B45EA0028D082 /* Transaction */,
+				9809BE301B7B46080028D082 /* AddressBook */,
+				9809BE321B7B462B0028D082 /* Validation */,
 				DA08D9BE1AC0372C00B93EBE /* Data */,
 			);
 			name = Managers;
@@ -725,6 +741,7 @@
 				DA08D9B71AC0268B00B93EBE /* Utils */,
 				DA64A4CA1A5A86DB005833A4 /* QR */,
 				DA194E051A431C690030C882 /* Crypto */,
+				DAF138291AB08F2A0069AC3A /* API */,
 				DA194E0A1A4323BF0030C882 /* Managers */,
 				DADA33F91A72874900F14D6D /* Generators */,
 			);
@@ -735,9 +752,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3558361A39F9D700AFA5FD /* ServerViewController.swift */,
-				DA3558411A3AFD2B00AFA5FD /* ServerContainerVC.swift */,
-				DA00593A1A48830D00638C57 /* ServerTableVC.swift */,
-				DA3558451A40771300AFA5FD /* ServerCustomVC.swift */,
+				DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */,
 			);
 			name = "Choose server";
 			sourceTree = "<group>";
@@ -745,9 +760,9 @@
 		DA3DD8A61A6E9DC400B45BF5 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				DA8A892D1A4C52300072FE08 /* WalletCell.swift */,
 				DA3558391A39FDC300AFA5FD /* ServerViewCell.swift */,
 				DA194E111A4456330030C882 /* MainViewCell.swift */,
-				DA8A892D1A4C52300072FE08 /* WalletCell.swift */,
 				DAD1492D1A6D47260036FFDA /* CustomMessageCell.swift */,
 				DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */,
 				DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */,
@@ -1278,7 +1293,6 @@
 				DADA37561A7683C300F14D6D /* ge.c in Sources */,
 				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
 				DACF4A091B344B2600FB3EE1 /* FilterButton.swift in Sources */,
-				DADA27391B1463C200EA09F8 /* ExceptionSignalHandler.swift in Sources */,
 				DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */,
 				DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */,
 				DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */,
@@ -1287,12 +1301,11 @@
 				DA194E071A4323520030C882 /* APIManager.swift in Sources */,
 				DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
-				DA00593B1A48830D00638C57 /* ServerTableVC.swift in Sources */,
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
 				DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
-				DA3558461A40771300AFA5FD /* ServerCustomVC.swift in Sources */,
+				DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */,
 				98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */,
 				DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */,
 				DA2EE67C1A63CBDD008D34D7 /* Correspondent.swift in Sources */,
@@ -1315,7 +1328,6 @@
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
 				DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */,
 				DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */,
-				DA3558421A3AFD2B00AFA5FD /* ServerContainerVC.swift in Sources */,
 				DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */,
 				DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */,
 				DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */,

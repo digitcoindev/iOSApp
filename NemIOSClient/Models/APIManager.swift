@@ -2,13 +2,13 @@ import UIKit
 
 @objc protocol APIManagerDelegate
 {
-    optional func heartbeatDenied()
-    optional func heartbeatSuccessed()
+    optional func heartbeatResponceFromServer(server :Server ,successed :Bool)
 }
 
 class APIManager: NSObject
 {
-    let session = NSURLSession.sharedSession()
+    private let _session = NSURLSession.sharedSession()
+    private let _apiDipatchQueue :dispatch_queue_t = dispatch_queue_create("Api queu", nil)
     var delegate :AnyObject!
     
     override init() {
@@ -16,53 +16,69 @@ class APIManager: NSObject
     }
     
     //URLSession
-    
+//    let puzzleGeneratorQueue :dispatch_queue_t = dispatch_queue_create("puzzle generator queue", nil)
+//    
+//    dispatch_async(puzzleGeneratorQueue,
+//    {
+//    () -> Void in
+//    self.puzzleGenerator.generatePuzzleWith(puzzleImage:  self.sourceImage!, puzzlesInRow: self.pieceInRow!)
+//    })
     func endSession() {
-        session.finishTasksAndInvalidate()
+        _session.finishTasksAndInvalidate()
     }
     
     //API
     
-    final func heartbeat(server :Server) -> Bool {
-        var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
-        var err: NSError?
-        
-        request.HTTPMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        var task = session.dataTaskWithRequest(request, completionHandler: {
-                data, response, error -> Void in
+    final func heartbeat(server :Server) {
+        dispatch_async(_apiDipatchQueue,
+            {
+                () -> Void in
                 
-                var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+                var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
                 var err: NSError?
-                var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
                 
-                if(err != nil) {
-                    println(err!.localizedDescription)
+                request.HTTPMethod = "GET"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.addValue("application/json", forHTTPHeaderField: "Accept")
+                
+                var task = self._session.dataTaskWithRequest(request, completionHandler: {
+                    data, response, error -> Void in
                     
-                    if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatDenied") {
-                        (self.delegate as! APIManagerDelegate).heartbeatDenied!()
-                    }
+                    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+                    var err: NSError?
+                    var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
                     
-                    println("NIS is not available!")
-                }
-                else {
-                    var message :String = (layers! as NSDictionary).objectForKey("message") as! String
-                    
-                    println("\nRequest : /heartbeat")
-                    
-                    self.timeSynchronize(server)
+                    if(err != nil) {
+                        println(err!.localizedDescription)
+                        
+                        
+                        dispatch_async(dispatch_get_main_queue())
+                            {
+                                if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatResponceFromServer:successed:") {
+                                    (self.delegate as! APIManagerDelegate).heartbeatResponceFromServer!(server ,successed :false)
+                                }
+                        }
 
-                    if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatSuccessed") {
-                        (self.delegate as! APIManagerDelegate).heartbeatSuccessed!()
+                        println("NIS is not available!")
                     }
-                }
+                    else {
+                        var message :String = (layers! as NSDictionary).objectForKey("message") as! String
+                        
+                        println("\nRequest : /heartbeat")
+                        
+                        self.timeSynchronize(server)
+                        
+                        dispatch_async(dispatch_get_main_queue())
+                            {
+                                if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatResponceFromServer:successed:") {
+                                    (self.delegate as! APIManagerDelegate).heartbeatResponceFromServer!(server ,successed :true)
+                                }
+                        }
+                    }
+                })
+                
+                task.resume()
         })
-        
-        task.resume()
-        
-        return true
     }
     
     final func accountGet(server :Server, account_address :String) -> Bool {        
@@ -73,7 +89,7 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler: {
+        var task = _session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
@@ -114,7 +130,7 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler: {
+        var task = _session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
@@ -192,7 +208,7 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler: {
+        var task = _session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
@@ -289,7 +305,7 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
+        var task = _session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var json :NSDictionary? = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
@@ -332,7 +348,7 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
+        var task = _session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
                 var err: NSError?
                 var json  = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
@@ -364,7 +380,7 @@ class APIManager: NSObject
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        var task = session.dataTaskWithRequest(request, completionHandler: {
+        var task = _session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
                 
                 var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
