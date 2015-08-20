@@ -52,8 +52,8 @@ class DashboardContainer: AbstractViewController
     
     //MARK: - Navigation Methods
     
-    final func pageSelected(notification: NSNotification) {
-        switch(notification.object as! String) {
+    final func changePage(page :String) {
+        switch(page) {
             
         case SegueToMessages:
             self.performSegueWithIdentifier(SegueToMessages, sender: nil)

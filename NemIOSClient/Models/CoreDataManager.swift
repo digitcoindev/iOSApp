@@ -85,9 +85,7 @@ class CoreDataManager: NSObject
         {
             if(fetchResults.count == 0)
             {
-                Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "127.0.0.1", port: "7890")
-                
-                commit()
+                _createDefaultServers()
                 
                 fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Server]
             }
@@ -96,12 +94,19 @@ class CoreDataManager: NSObject
         }
         else
         {            
-            Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "127.0.0.1", port: "7890")
+            _createDefaultServers()
             
             var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Server]
             
             return fetchResults!
         }
+    }
+    private final func _createDefaultServers()
+    {
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "192.168.88.27", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "127.0.0.1", port: "7890")
+        
+        commit()
     }
     
     final func addServer(name: String, address: String, port: String) -> Server

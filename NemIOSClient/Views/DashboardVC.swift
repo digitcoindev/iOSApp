@@ -1,10 +1,11 @@
 import UIKit
 
-class DashboardVC: AbstractViewController
+class DashboardVC: AbstractViewController, MainVCDelegate
 {
     @IBOutlet weak var containerView: UIView!
     
     // MARK: - Load Methods
+    private var _pages :DashboardContainer = DashboardContainer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +19,8 @@ class DashboardVC: AbstractViewController
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
         if(segue.identifier == "mainContainer") {
-            var container = segue.destinationViewController as! DashboardContainer
-            container.delegate = self.delegate
+            _pages = segue.destinationViewController as! DashboardContainer
+            _pages.delegate = self
         }
     }
     
@@ -37,6 +38,12 @@ class DashboardVC: AbstractViewController
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToAddressBook)
         }
+    }
+    
+    //MARK: - MainVCdDelegate Methods
+    
+    final func pageSelected(page :String){
+        _pages.changePage(page)
     }
     
 //    @IBAction func inputAddress(sender: UITextField)

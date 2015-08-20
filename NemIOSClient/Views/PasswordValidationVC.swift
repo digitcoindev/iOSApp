@@ -1,13 +1,18 @@
 import UIKit
+import LocalAuthentication
 
 class PasswordValidationVC: AbstractViewController
 {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UIButton!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var contentView: UIView!
     
     var showKeyboard :Bool = true
     var currentField :UITextField!
     let dataMeneger: CoreDataManager  = CoreDataManager()
+    
+    // MARK: - Load Methods
 
     override func viewDidLoad()
     {
@@ -15,18 +20,21 @@ class PasswordValidationVC: AbstractViewController
 
         State.currentVC = SegueToPasswordValidation
         
-        var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        containerView.layer.cornerRadius = 5
+        containerView.clipsToBounds = true
         
-        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object: NSLocalizedString("VALIDATION", comment: "Title"))
-
         currentField = password
-        password.layer.cornerRadius = 2
-        confirm.layer.cornerRadius = 2
+        authenticateUser()
+    }
+    
+    
+    override func didReceiveMemoryWarning()
+    {
+        super.didReceiveMemoryWarning()
     }
 
+    // MARK: - IBAction
+    
     @IBAction func passwordValidation(sender: AnyObject)
     {
         var salt :NSData = NSData.fromHexString(State.currentWallet!.salt)
@@ -35,7 +43,9 @@ class PasswordValidationVC: AbstractViewController
         
         if( passwordHash!.toHexString() == State.currentWallet!.password)
         {
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:State.toVC )
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
+            }
         }
     }
     
@@ -43,53 +53,62 @@ class PasswordValidationVC: AbstractViewController
     {
         (sender as! UITextField).becomeFirstResponder()
     }
-    
-    final func keyboardWillShow(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            var animationDuration = 0.1
-            
-            if (keyboardHeight > (currentField.frame.origin.y - 5))
-            {
-                keyboardHeight = (currentField.frame.origin.y - 5 )as CGFloat
+
+    // MARK: - Touch Id
+
+    func authenticateUser() {
+        
+        let context = LAContext()
+        context.maxBiometryFailures = 10
+        var error: NSError?
+        var reasonString = "Authentication is needed to access messages."
+        
+        if context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.localizedFallbackTitle = ""
+
+            [context .evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: NSError?) -> Void in
+                
+                if success {
+                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                        (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
+                    }
+                }
+                else{
+                    println(evalPolicyError!.localizedDescription)
+                    
+                    switch evalPolicyError!.code {
+                        
+                    case LAError.SystemCancel.rawValue:
+                        println("Authentication was cancelled by the system")
+                        
+                    case LAError.UserCancel.rawValue:
+                        println("Authentication was cancelled by the user")
+                        
+                    case LAError.UserFallback.rawValue:
+                        println("User selected to enter custom password")
+                        
+                    default:
+                        println("Authentication failed")
+                    }
+                }
+                
+            })]
+        }
+        else{
+            switch error!.code{
+                
+            case LAError.TouchIDNotEnrolled.rawValue:
+                println("TouchID is not enrolled")
+                
+            case LAError.PasscodeNotSet.rawValue:
+                println("A passcode has not been set")
+                
+            default:
+                println("TouchID not available")
             }
             
-            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                {
-                    self.view.frame = CGRectMake(0, -keyboardHeight , self.view.bounds.width, self.view.bounds.height)
-                }, completion: nil)
+            println(error!.localizedDescription)
             
         }
     }
-    
-    final func keyboardWillHide(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
-            
-            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                {
-                    self.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-                    
-                }, completion: nil)
-        }
-    }
-    
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-    }
-
 }

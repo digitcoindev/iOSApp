@@ -59,8 +59,6 @@ class WalletCell: UITableViewCell
             
             deleteButton.hidden = false
         }
-        
-        inEditingState = !inEditingState
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

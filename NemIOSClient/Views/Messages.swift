@@ -371,18 +371,12 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             switch message!.message.type{
             case 1:
                 cell.message.text = message!.message.payload.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
-//            case 2:
-//                
-//                var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-//                var publicKey = KeyGenerator.generatePublicKey(privateKey)
-//                
-//                if message!.signer == publicKey {
-//                    cell.message.text = MessageCrypto.decrypt(message!.message.payload.asByteArray(), recipientPrivateKey: <#String#>, senderPublicKey: cellData.s)
-//                }
-//                
-//                cell.message.text = MessageCrypto.decrypt(message!.message.payload.asByteArray(), recipientPrivateKey: <#String#>, senderPublicKey: cellData.s)
+                
+            case 2:
+                cell.message.text = "encrypted message (not implemented)"
+
             default :
-                break
+                cell.message.text = ""
             }
             cell.message.text = message!.message.payload
         }
@@ -397,21 +391,28 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         timeStamp += genesis_block_time
         
+        if dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp)) == dateFormatter.stringFromDate(NSDate()) {
+            dateFormatter.dateFormat = "HH:mm:ss"
+        }
+        
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
         var color :UIColor!
+        var vector :String = ""
         if message?.recipient != account_address {
             color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
+            vector = "+"
         } else {
             color = UIColor.redColor()
+            vector = "-"
         }
         
         var attribute = [NSForegroundColorAttributeName : color]
         
         var format = ".0"
-        var amount = " \((message!.amount / 1000000).format(format)) XEM"
+        var amount = vector + "\((message!.amount / 1000000).format(format)) XEM"
         
         cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
                 
@@ -430,7 +431,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 State.toVC = SegueToMessageMultisignVC
             }
             
-//            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+            }
         }
         else {
             self.tableView.cellForRowAtIndexPath(indexPath)?.selected = false

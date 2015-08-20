@@ -14,6 +14,7 @@
 		9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
 		9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D41B846FE200B532CC /* MessageCrypto.swift */; };
+		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
 		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
@@ -196,6 +197,7 @@
 		9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesButtonTypeOne.swift; path = "Views/Additional controls/MessagesButtonTypeOne.swift"; sourceTree = "<group>"; };
 		9823A4D11B8339B400B532CC /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = Models/Correspondent.swift; sourceTree = "<group>"; };
 		9823A4D41B846FE200B532CC /* MessageCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageCrypto.swift; path = Models/MessageCrypto.swift; sourceTree = "<group>"; };
+		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */,
 				DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */,
 				DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */,
 				DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */,
@@ -826,6 +829,7 @@
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */,
 				DA4AF07B1A977CD600299B0A /* MessageUI.framework */,
 				DA4AF0791A976A6B00299B0A /* CoreLocation.framework */,
 				DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */,

@@ -76,6 +76,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         cell.delegate = self
         var cellData  :Wallet = wallets[indexPath.row]
         cell.walletName.text = cellData.login as String
+        cell.layoutCell(animated: false)
         return cell
     }
     
