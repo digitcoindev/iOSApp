@@ -19,7 +19,7 @@ class UserInfoVC: AbstractViewController
         State.currentVC = SegueToUserInfo
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var publicKey = KeyGenerator.generatePublicKey(privateKey)
         var address :String = AddressGenerator().generateAddress(publicKey)
         
         keyLable.text = address

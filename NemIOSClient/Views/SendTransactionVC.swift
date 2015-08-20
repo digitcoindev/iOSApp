@@ -58,7 +58,6 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         
         if State.invoice != nil
         {
-            contact = CoreDataManager().getCorrespondent(nil, address: invoice!.address, name: invoice!.name)
             InputAmound.text = "\(invoice!.amount)"
             InputMessage.text = "\(invoice!.message)"
             
@@ -91,7 +90,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         {
         case "accountGetSuccessed" :
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publicKey = KeyGenerator().generatePublicKey(privateKey)
+            var publicKey = KeyGenerator.generatePublicKey(privateKey)
             
             if publicKey == walletData.publicKey
             {

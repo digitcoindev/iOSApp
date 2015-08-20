@@ -31,7 +31,7 @@ class TransferTransaction: TransactionPostMetaData
         
         if message.objectForKey("payload") != nil
         {
-            self.message.payload = (message.objectForKey("payload") as! String).stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+            self.message.payload = message.objectForKey("payload") as! String
             self.message.type = message.objectForKey("type") as! Double
         }
         else

@@ -38,7 +38,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         observer.addObserver(self, selector: "unconfirmedTransactionsSuccessed:", name: "unconfirmedTransactionsSuccessed", object: nil)
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var publicKey = KeyGenerator.generatePublicKey(privateKey)
         var account_address = AddressGenerator().generateAddress(publicKey)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -221,7 +221,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
     final func unconfirmedTransactionsSuccessed(notification: NSNotification)
     {
         unconfirmedTransactions +=  notification.object as! [TransactionPostMetaData]
-        var publicKey = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        var publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
         
         for var i = 0 ; i < unconfirmedTransactions.count ; i++
         {

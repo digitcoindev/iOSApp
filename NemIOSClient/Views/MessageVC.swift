@@ -17,7 +17,7 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
     let dataManager :CoreDataManager = CoreDataManager()
     let contact :Correspondent = State.currentContact!
     
-    var transactions  :[Transaction]!
+    var transactions  :[TransferTransaction]!
     var unconfirmedTransactions  :[TransferTransaction] = [TransferTransaction]()
     var definedCells :[DefinedCell] = [DefinedCell]()
     
@@ -45,7 +45,7 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
         
         State.currentVC = SegueToMessageVC
 
-        transactions = contact.transactions.allObjects as! [Transaction]
+        //transactions = contact.transactions.allObjects as! [TransferTransaction]
         
         sortMessages()
         
@@ -274,12 +274,12 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
                 cell = self.tableView.dequeueReusableCellWithIdentifier(definedCells[index].type) as! CustomMessageCell
                 
                 var transaction = transactions[index]
-                var message :NSMutableAttributedString = NSMutableAttributedString(string: transactions[index].message_payload , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)!])
+                var message :NSMutableAttributedString = NSMutableAttributedString(string: transactions[index].message.payload , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)!])
                 
                 if(transactions[index].amount as! Int != 0)
                 {
                     var text :String = "\(Int(Double(transactions[index].amount) / 1000000) ) XEM"
-                    if transactions[index].message_payload != ""
+                    if transactions[index].message.payload != ""
                     {
                         text = "\n" + text
                     }
@@ -297,12 +297,6 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
                 dateFormatter.dateFormat = "HH:mm dd.MM.yy "
                 
                 var timeStamp = Double(transactions[index].timeStamp)
-                var block = dataManager.getBlock(Double((transactions[index] as Transaction).height))
-                
-                if block != nil
-                {
-                    timeStamp += Double(block!.timeStamp) / 1000
-                }
                 
                 cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
                 
@@ -397,7 +391,7 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
     
     func sortMessages()
     {
-        var accum :Transaction!
+        var accum :TransferTransaction!
         for(var index = 0; index < transactions.count; index++)
         {
             var sorted = true
@@ -406,9 +400,9 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
             {
                 var height :Double!
                 
-                var valueA :Double = Double((transactions[index] as Transaction).id)
+                var valueA :Double = Double((transactions[index] as TransferTransaction).id)
                 
-                var valueB :Double = Double((transactions[index + 1] as Transaction).id)
+                var valueB :Double = Double((transactions[index + 1] as TransferTransaction).id)
                 
                 if valueA > valueB
                 {
@@ -428,7 +422,7 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
     
     final func defineData()
     {
-        var publicKey :String = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        var publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
         for transaction in transactions
         {
             var definedCell : DefinedCell = DefinedCell()
@@ -458,7 +452,7 @@ class MessageVC: AbstractViewController , UITableViewDelegate , UIAlertViewDeleg
                 }
             }
             
-            var height :CGFloat = heightForView(transaction.message_payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 66)
+            var height :CGFloat = heightForView(transaction.message.payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 66)
             
             if  transaction.amount as! Int != 0
             {

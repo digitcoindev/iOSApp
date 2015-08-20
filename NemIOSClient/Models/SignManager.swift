@@ -32,7 +32,7 @@ class SignManager: NSObject
     final class func signatureGeneration(data : Array<UInt8> )->Array<UInt8>
     {
         var myPrivateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var myPublicKey = KeyGenerator().generatePublicKey(myPrivateKey)
+        var myPublicKey = KeyGenerator.generatePublicKey(myPrivateKey)
 
         var processData : Array<UInt8> = Array(data)
         var privateKey :Array<UInt8> = Array(myPrivateKey.utf8)
@@ -70,7 +70,7 @@ class SignManager: NSObject
             break
         }
         
-        var publicKey = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        var publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
         
         if publicKey != transaction.signer
         {
@@ -99,7 +99,7 @@ class SignManager: NSObject
         {
             transactionType = String(Int64(multisigTransaction), radix: 16).asByteArrayEndian(4)
             fee = String(Int64(6 * 1000000), radix: 16).asByteArrayEndian(8)
-            var myPublicKey = KeyGenerator().generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            var myPublicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
 
             publicKey = myPublicKey.asByteArray()
 

@@ -20,6 +20,36 @@ class ViewController: UIViewController
                 UIPasteboard.generalPasteboard().string = errorLogs
             }
         }
+        
+//        var message = "Get me encrypted"
+//        var senderPrivateKey = "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d"
+//        var senderPublicKey = "cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1"
+//        
+//        var recipientPrivateKey = "168fd919078c8a2fb04183c6214ca80e9aed8ebd2fe1dd283f12cab869678bfd"
+//        var recipientPublicKey = "abac2ee3d4aaa7a3bfb65261a00cc04c761521527dd3f2cf741e2815cbba83ac"
+//        
+//        var leftPrivateKey = "6ffa04f529d52354fe139172d0529d9710065ff0ecaba60bf2233ad06731c1ba"
+//        var leftPublicKey = "59d89076964742ef2a2089d26a5aa1d2c7a7bb052a46c1de159891e91ad3d76e"
+//        
+//        var ar :Array<UInt8> = Array(count: 32, repeatedValue: 0)
+//        var ar2 :Array<UInt8> = Array(count: 32, repeatedValue: 0)
+//        
+//        //ed25519_key_exchange(&ar, &senderPublicKey, &recipientPrivateKey)
+//        //ed25519_key_exchange(&ar2, &recipientPublicKey, &senderPrivateKey)
+//        
+//        var arD = NSData(bytes: &ar, length: 32).toHexString()
+//        var arD2 = NSData(bytes: &ar2, length: 32).toHexString()
+//        
+//        var encryptedBytes :Array<UInt8> = MessageCrypto.encrypt(message, senderPrivateKey: senderPrivateKey, recipientPublicKey: recipientPublicKey)
+//        
+//        var mesage2 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: recipientPrivateKey, senderPublicKey: senderPublicKey)
+//        var mesage3 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: senderPrivateKey, senderPublicKey: recipientPublicKey)
+//        var mesage4 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: senderPrivateKey, senderPublicKey: senderPublicKey)
+//        var mesage5 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: leftPrivateKey, senderPublicKey: senderPublicKey)
+//        var mesage6 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: senderPrivateKey, senderPublicKey: leftPublicKey)
+//        var mesage7 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: leftPrivateKey, senderPublicKey: leftPublicKey)
+        
+
     }
     
     override func viewDidAppear(animated: Bool)

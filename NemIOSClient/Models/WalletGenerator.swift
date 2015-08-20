@@ -9,7 +9,7 @@ class WalletGenerator: NSObject
         
         if privateKeyString == nil
         {
-            privateKeyString = KeyGenerator().generatePrivateKey()
+            privateKeyString = KeyGenerator.generatePrivateKey()
         }
         
         let privateKeyHash :String = HashManager.AES256Encrypt(privateKeyString!)

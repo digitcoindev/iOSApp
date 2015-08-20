@@ -2,25 +2,25 @@ import UIKit
 
 class KeyGenerator: NSObject
 {
-    final func generatePrivateKey()->String
+    final class func generatePrivateKey()->String
     {
-        var privateKeyBytes: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        var privateKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
         
         createPrivateKey(&privateKeyBytes)
         
-        let privateKey :String = NSString(bytes: privateKeyBytes, length: privateKeyBytes.count, encoding: NSUTF8StringEncoding) as! String
+        let privateKey :String = NSData(bytes: &privateKeyBytes, length: 32).toHexString()
         
         return privateKey
     }
     
-    final func generatePublicKey(privateKey: String)->String
+    final class func generatePublicKey(privateKey: String)->String
     {       
-        var publicKeyBytes: Array<UInt8> = Array(count: 64, repeatedValue: 0)
-        var privateKeyBytes: Array<UInt8> = Array(privateKey.utf8)
+        var publicKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
+        var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(32)
         
         createPublicKey(&publicKeyBytes, &privateKeyBytes)
         
-        let publicKey :String = NSString(bytes: publicKeyBytes, length: publicKeyBytes.count, encoding: NSUTF8StringEncoding) as! String
+        let publicKey :String = NSData(bytes: &publicKeyBytes, length: 32).toHexString()
 
         return publicKey
 

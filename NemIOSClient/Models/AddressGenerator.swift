@@ -40,7 +40,7 @@ class AddressGenerator: NSObject
     
     final func generateAddressFromPrivateKey(privateKey: String)->String
     {
-        var publicKey :String =  KeyGenerator().generatePublicKey(privateKey)
+        var publicKey :String =  KeyGenerator.generatePublicKey(privateKey)
         
         return generateAddress(publicKey)
     }

@@ -1,219 +1,276 @@
 import UIKit
 import AddressBook
 
-class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegate
+class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegate, APIManagerDelegate
 {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var address: UITextField!
-    @IBOutlet weak var key: UILabel!
-    @IBOutlet weak var balance: UILabel!
-
-    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
-    let dataManager : CoreDataManager = CoreDataManager()
+    @IBOutlet weak var userInfo: NEMLabel!
     
-    var state :[String] = ["none"]
-    var timer :NSTimer!
+    let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData!
     
-    var unconfirmedTransactions  :[TransactionPostMetaData] = [TransactionPostMetaData]()
-    var findUnconfirmed = false
-    var apiManager :APIManager = APIManager()
-    var correspondents :[Correspondent]!
-    var displayList :NSArray = NSArray()
-    var searchBar : UISearchBar!
-    var searchText :String = ""
-    var showKeyboard :Bool = false
+    private var _unconfirmedTransactions  :[TransactionPostMetaData] = [TransactionPostMetaData]()
+    private var _apiManager :APIManager = APIManager()
+    private var _correspondents :[Correspondent] = []
     
-    override func viewDidLoad()
-    {
+    private var _displayList :NSArray = NSArray()
+    private var _searchBar : UISearchBar!
+    private var _searchText :String = ""
+    
+    // MARK: - Load Methods
+
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToMessages
-        {
-            State.fromVC = SegueToMessages
-        }
-
+        State.fromVC = SegueToMessages
         State.currentVC = SegueToMessages
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Dashboard")
-
-        address.layer.cornerRadius = 2
         tableView.layer.cornerRadius = 2
-        searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
-        searchBar.delegate = self
-        tableView.tableHeaderView = searchBar
-        searchBar.showsCancelButton = true
-        tableView.setContentOffset(CGPoint(x: 0, y: searchBar.frame.height), animated: false)
+        _apiManager.delegate = self
+        
+        _searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
+        _searchBar.delegate = self
+        tableView.tableHeaderView = _searchBar
+        _searchBar.showsCancelButton = true
+        tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
 
-        correspondents = sortCorrespondents(State.currentWallet!.correspondents.allObjects as! [Correspondent])
-        displayList = correspondents
+        _displayList = _correspondents
 
-        if AddressBookManager.isAllowed
-        {
+        if AddressBookManager.isAllowed {
             findCorrespondentName()
         }
         
         refreshTransactionList()
         
-        if (State.currentContact != nil && State.toVC == SegueToPasswordValidation )
-        {
+        if (State.currentContact != nil && State.toVC == SegueToPasswordValidation ) {
             State.toVC = SegueToMessageVC
             
-            observer.postNotificationName("DashboardPage", object:SegueToPasswordValidation )
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+            }
         }
-        
-        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
-        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
-        observer.addObserver(self, selector: "unconfirmedTransactionsDenied:", name: "unconfirmedTransactionsDenied", object: nil)
-        observer.addObserver(self, selector: "unconfirmedTransactionsSuccessed:", name: "unconfirmedTransactionsSuccessed", object: nil)
-        observer.addObserver(self, selector: "accountTransfersAllDenied:", name: "accountTransfersAllDenied", object: nil)
-        observer.addObserver(self, selector: "accountTransfersAllSuccessed:", name: "accountTransfersAllSuccessed", object: nil)
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
     }
     
-    deinit
-    {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func viewDidAppear(animated: Bool) {
+        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
     }
     
-    final func manageState()
-    {
-        switch (state.last!)
-        {
-        case "accountTransfersAllSuccessed" :
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+    }
+    
+    // MARK: - APIManagerDelegate Methods
+    
+    final func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        if let responceAccount = account {
+            walletData = responceAccount
+            var userDescrription :NSMutableAttributedString!
             
-            correspondents = sortCorrespondents(State.currentWallet!.correspondents.allObjects as! [Correspondent])
-            displayList = correspondents
+            if let wallet = State.currentWallet {
+                userDescrription = NSMutableAttributedString(string: "\(wallet.login)")
+            }
             
-            tableView.reloadData()
-            state.removeLast()
-            
-        case "accountGetSuccessed" :
             var format = ".0"
-            var balanceText = NSMutableAttributedString(string: "\((walletData.balance / 1000000).format(format))", attributes: [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)])
-            balanceText.appendAttributedString(NSMutableAttributedString(string: " XEM"))
+            var attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
+            var balance = " \((walletData.balance / 1000000).format(format)) XEM"
             
-            self.balance.attributedText = balanceText
-
-            if walletData.cosignatoryOf.count > 0
-            {
-                unconfirmedTransactions.removeAll(keepCapacity: false)
-                findUnconfirmed = false
+            userDescrription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
+            
+            self.userInfo.attributedText = userDescrription
+            
+            if walletData.cosignatoryOf.count > 0 {
+                _unconfirmedTransactions.removeAll(keepCapacity: false)
                 
-                for cosignatory in walletData.cosignatoryOf
-                {
-                    APIManager().unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
+                for cosignatory in walletData.cosignatoryOf {
+                    _apiManager.unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
                 }
             }
             
-            state.removeLast()
-            
-        case "accountGetDenied" :
-            self.balance.text = "Lost connection"
-            state.removeLast()
-            
-        case "unconfirmedTransactionsSuccessed" :
-            
-            for inTransaction in unconfirmedTransactions
-            {
-                switch(inTransaction.type)
-                {
-                case multisigTransaction:
-                    var transaction :MultisigTransaction = inTransaction as! MultisigTransaction
-                    var find = false
-                    
-                    for sign in transaction.signatures
-                    {
-                        if walletData.publicKey == sign.signer
-                        {
-                            find = true
-                            break
-                        }
-                    }
-                    
-                    if inTransaction.signer != walletData.publicKey && !find
-                    {
-                        var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "You have unconfirmed transactions that need to be signed up!", preferredStyle: UIAlertControllerStyle.Alert)
-                        
-                        var ok :UIAlertAction = UIAlertAction(title: "Show transactions", style: UIAlertActionStyle.Default)
-                            {
-                                alertAction -> Void in
-                                
-                                NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToUnconfirmedTransactionVC )
+        } else {
+            self.userInfo.attributedText = NSMutableAttributedString(string: NSLocalizedString("LOST_CONNECTION", comment: "Title"), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+        }
+    }
 
-                            }
-                        
-                        var cancel :UIAlertAction = UIAlertAction(title: "Remind later", style: UIAlertActionStyle.Default)
-                            {
-                                alertAction -> Void in
-                            }
-                        
-                        alert.addAction(cancel)
-                        alert.addAction(ok)
-                        
-                        if !findUnconfirmed
-                        {
-                            findUnconfirmed = true
-                            NSNotificationCenter.defaultCenter().removeObserver(self)
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        }
-                    }
+    final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
+        if let data = data {
+            var transactions :[TransferTransaction] = []
+            for inData in data {
+                switch (inData.type) {
+                case transferTransaction :
+                    transactions.append(inData as! TransferTransaction)
                     
+                case multisigTransaction:
+                    
+                    var multisigT  = inData as! MultisigTransaction
+                    
+                    switch(multisigT.innerTransaction.type) {
+                    case transferTransaction :
+                        transactions.append(multisigT.innerTransaction as! TransferTransaction)
+                        
+                    default:
+                        break
+                    }
                 default:
                     break
                 }
-                
-                if findUnconfirmed
-                {
-                    break
-                }
             }
-            state.removeLast()
             
-        default :
-            break
+            _correspondents = Correspondent.generateCorespondetsFromTransactions(transactions)
+            _displayList = _correspondents
+            
+            tableView.reloadData()
+
+        } else {
+            self.userInfo.attributedText = NSMutableAttributedString(string: NSLocalizedString("LOST_CONNECTION", comment: "Title"), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
     }
     
-    final func findCorrespondentName()
-    {
+    final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
+        if let data = data {
+            var showAlert = (_unconfirmedTransactions.count == 0) ? true : false
+            _unconfirmedTransactions += data
+            
+            var findUnconfirmed = false
+            if showAlert {
+                for inTransaction in _unconfirmedTransactions {
+                    switch(inTransaction.type) {
+                    case multisigTransaction:
+                        var transaction :MultisigTransaction = inTransaction as! MultisigTransaction
+                        var find = false
+                        
+                        for sign in transaction.signatures {
+                            if walletData.publicKey == sign.signer {
+                                find = true
+                                break
+                            }
+                        }
+                        
+                        if inTransaction.signer != walletData.publicKey && !find {
+                            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("UNCONFIRMED_TRANSACTIONS_DETECTED", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+                            
+                            var ok :UIAlertAction = UIAlertAction(title: NSLocalizedString("SHOW_TRANSACTIONS", comment: "Title"), style: UIAlertActionStyle.Default) {
+                                    alertAction -> Void in
+                                    
+                                    NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToUnconfirmedTransactionVC )
+                                    
+                            }
+                            
+                            var cancel :UIAlertAction = UIAlertAction(title: NSLocalizedString("REMIND_LATER", comment: "Title"), style: UIAlertActionStyle.Default) {
+                                    alertAction -> Void in
+                            }
+                            
+                            alert.addAction(cancel)
+                            alert.addAction(ok)
+                            
+                            if !findUnconfirmed {
+                                findUnconfirmed = true
+                                self.presentViewController(alert, animated: true, completion: nil)
+                            }
+                        }
+                        
+                    default:
+                        break
+                    }
+                    
+                    if findUnconfirmed {
+                        break
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - IBAction
+
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
+    }
+    
+    // MARK: - Help Methods
+    
+    final func sort_correspondents(_correspondents :[Correspondent])->[Correspondent] {
+        var _correspondentsIn = _correspondents
+        var data :[CorrespondentCellData] = [CorrespondentCellData]()
+        
+        for correspondent in _correspondentsIn {
+            var value = CorrespondentCellData()
+            value.correspondent = correspondent
+            value.lastMessage = correspondent.transaction
+            data.append(value)
+        }
+        
+        for var index = 0 ; index < data.count ; index++ {
+            var sorted = true
+            
+            for var indexIN = 0 ; indexIN < data.count - 1 ; indexIN++ {
+                var firstValue :Int!
+                if data[indexIN].lastMessage != nil {
+                    firstValue = Int(data[indexIN].lastMessage!.id)
+                }
+                else {
+                    firstValue = -1
+                }
+                
+                var secondValue :Int!
+                if data[indexIN + 1].lastMessage != nil {
+                    secondValue = Int(data[indexIN + 1].lastMessage!.id)
+                }
+                else {
+                    secondValue = -1
+                }
+                
+                if firstValue < secondValue || (secondValue == -1 &&  secondValue != firstValue) {
+                    var accum = data[indexIN + 1]
+                    data[indexIN + 1] = data[indexIN]
+                    data[indexIN] = accum
+                    
+                    sorted = false
+                }
+            }
+            
+            if sorted {
+                break
+            }
+        }
+        
+        _correspondentsIn.removeAll(keepCapacity: false)
+        
+        for correspondent in data {
+            _correspondentsIn.append(correspondent.correspondent)
+        }
+        
+        return _correspondentsIn
+    }
+    
+    final func findCorrespondentName() {
         var contacts :NSArray = AddressBookManager.contacts
         
-        for correspondent in correspondents
-        {
-            if count(correspondent.name.utf16) > 20
-            {
+        for correspondent in _correspondents {
+            if count(correspondent.name.utf16) > 20 {
                 var find = false
-                for contact in contacts
-                {
+                for contact in contacts {
                     let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
                     let count  :Int = ABMultiValueGetCount(emails)
                     
-                    if count > 0
-                    {
-                        for var index:CFIndex = 0; index < count; ++index
-                        {
+                    if count > 0 {
+                        for var index:CFIndex = 0; index < count; ++index {
                             var lable  = ABMultiValueCopyLabelAtIndex(emails, index)
-                            if lable != nil
-                            {
-                                if lable.takeUnretainedValue()  == "NEM"
-                                {
+                            if lable != nil {
+                                if lable.takeUnretainedValue()  == "NEM" {
                                     var value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
-                                    if value == correspondent.name
-                                    {
-                                        if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil
-                                        {
+                                    if value == correspondent.name {
+                                        if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil {
                                             correspondent.name = (ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString as! String) + " "
                                         }
                                         
-                                        if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil
-                                        {
-                                             correspondent.name =  correspondent.name +  ((ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as! String)
+                                        if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil {
+                                            correspondent.name =  correspondent.name +  ((ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as! String)
                                         }
                                         
                                         find = true
@@ -221,15 +278,13 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                                 }
                             }
                             
-                            if find
-                            {
+                            if find {
                                 break
                             }
                         }
                     }
                     
-                    if find
-                    {
+                    if find {
                         break
                     }
                 }
@@ -239,398 +294,146 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         }
     }
     
-    final func refreshTransactionList()
-    {
+    final func refreshTransactionList() {
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey = KeyGenerator().generatePublicKey(privateKey)
+        var publicKey = KeyGenerator.generatePublicKey(privateKey)
         var account_address = AddressGenerator().generateAddress(publicKey)
         
-        self.key.text = account_address
-        
-        if State.currentServer != nil
-        {
-            apiManager.accountGet(State.currentServer!, account_address: account_address)
-            apiManager.accountTransfersAll(State.currentServer!, account_address: account_address)
+        if State.currentServer != nil {
+            _apiManager.accountGet(State.currentServer!, account_address: account_address)
+            _apiManager.accountTransfersAll(State.currentServer!, account_address: account_address)
         }
-        else
-        {
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
-        }
-    }
-    
-    final func accountGetSuccessed(notification: NSNotification)
-    {
-        state.append("accountGetSuccessed")
-       
-        walletData = (notification.object as! AccountGetMetaData)
-    }
-    
-    final func accountGetDenied(notification: NSNotification)
-    {
-        state.append("accountGetDenied")
-    }
-    
-    final func unconfirmedTransactionsSuccessed(notification: NSNotification)
-    {
-        unconfirmedTransactions +=  notification.object as! [TransactionPostMetaData]
-        
-        state.append("unconfirmedTransactionsSuccessed")
-    }
-    
-    final func unconfirmedTransactionsDenied(notification: NSNotification)
-    {
-        state.append("unconfirmedTransactionsAllDenied")
-    }
-    
-    final func accountTransfersAllSuccessed(notification: NSNotification)
-    {
-        var data :[TransactionPostMetaData] = notification.object as! [TransactionPostMetaData]
-        
-        for inData in data
-        {
-            switch (inData.type)
-            {
-            case transferTransaction :
-                dataManager.addTransaction(inData as! TransferTransaction)
-                
-            case multisigTransaction:
-                
-                var multisigT  = inData as! MultisigTransaction
-                
-                switch(multisigT.innerTransaction.type)
-                {
-                case transferTransaction :
-                    dataManager.addTransaction(multisigT.innerTransaction as! TransferTransaction)
-                    
-                default:
-                    break
-                }
-                
-            default:
-                break
+        else {
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerTable)
             }
         }
-      
-        state.append("accountTransfersAllSuccessed")
     }
     
-    final func accountTransfersAllDenied(notification: NSNotification)
-    {
-        state.append("accountTransfersAllDenied")
-    }
+    // MARK: - Search Bar Data Sourse
     
-    final func getLastMessage(messages :[Transaction])-> Transaction?
-    {
-        if messages.count > 0
-        {
-            var message :Transaction = messages.first!
-            
-            for messageIN in messages
-            {
-                if (messageIN.id.integerValue > message.id.integerValue)
-                {
-                    message = messageIN
-                }
-            }
-            
-            return message
-        }
-        else
-        {
-            return nil
-        }
-    }
-    
-    final func sortCorrespondents(correspondents :[Correspondent])->[Correspondent]
-    {
-        var correspondentsIn = correspondents
-        var data :[CorrespondentCellData] = [CorrespondentCellData]()
-        
-        for correspondent in correspondentsIn
-        {
-            var value = CorrespondentCellData()
-            value.correspondent = correspondent
-            value.lastMessage = getLastMessage(correspondent.transactions.allObjects as! [Transaction])
-            data.append(value)
-        }
-        
-        for var index = 0 ; index < data.count ; index++
-        {
-            var sorted = true
-            
-            for var indexIN = 0 ; indexIN < data.count - 1 ; indexIN++
-            {
-                var firstValue :Int!
-                if data[indexIN].lastMessage != nil
-                {
-                    firstValue = data[indexIN].lastMessage!.id.integerValue
-                }
-                else
-                {
-                    firstValue = -1
-                }
-                
-                var secondValue :Int!
-                if data[indexIN + 1].lastMessage != nil
-                {
-                    secondValue = data[indexIN + 1].lastMessage!.id.integerValue
-                }
-                else
-                {
-                    secondValue = -1
-                }
-                
-                if firstValue < secondValue || (secondValue == -1 &&  secondValue != firstValue)
-                {
-                    var accum = data[indexIN + 1]
-                    data[indexIN + 1] = data[indexIN]
-                    data[indexIN] = accum
-                    
-                    sorted = false
-                }
-            }
-            
-            if sorted
-            {
-                break
-            }
-        }
-        
-        correspondentsIn.removeAll(keepCapacity: false)
-        
-        for correspondent in data
-        {
-            correspondentsIn.append(correspondent.correspondent)
-        }
-        
-        return correspondentsIn
-    }
-
-    override func viewDidAppear(animated: Bool)
-    {
-        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar)
-    {
+    func _searchBarCancelButtonClicked(searchBar: UISearchBar) {
         tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
         
-        displayList = correspondents
+        _displayList = _correspondents
         
         tableView.reloadData()
-        self.searchBar.resignFirstResponder()
+        _searchBar.resignFirstResponder()
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar)
-    {
-        searchBar.showsCancelButton = true
+    func _searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        _searchBar.showsCancelButton = true
     }
     
-    func searchBarResultsListButtonClicked(searchBar: UISearchBar)
-    {
+    func _searchBarResultsListButtonClicked(searchBar: UISearchBar) {
         resignFirstResponder()
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
-    {
-        if searchText == ""
-        {
-            displayList = correspondents
+    func _searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
+        if _searchText == "" {
+            _displayList = _correspondents
         }
-        else
-        {
-            var predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",searchText)
-            displayList = (correspondents as NSArray).filteredArrayUsingPredicate(predicate)
+        else {
+            var predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
+            _displayList = (_correspondents as NSArray).filteredArrayUsingPredicate(predicate)
         }
         
         tableView.reloadData()
     }
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        
-    }
-
-    // MARK: - Table view data source
     
-    func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool
-    {
+    // MARK: - Table View Data Sourse
+    
+    func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
         return false
     }
     
-    func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!)
-    {
-        if (editingStyle == UITableViewCellEditingStyle.Delete)
-        {
+    func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
             println("delete")
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return displayList.count
+        return _displayList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! MessageCell
-        var cellData  : Correspondent = displayList[indexPath.row] as! Correspondent
-        var messages :[Transaction] = cellData.transactions.allObjects as! [Transaction]
+        var cellData  : Correspondent = _displayList[indexPath.row] as! Correspondent
+        var message :TransferTransaction? = cellData.transaction
         
         cell.name.text = "  " + cellData.name
         
-        if messages.count > 0
-        {
-            var message :Transaction? = getLastMessage(messages)
-            if message != nil
-            {
-                cell.message.text = message!.message_payload
-            }
-            else
-            {
-                cell.message.text = ""
-            }
+        if message != nil {
             
-            var dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            
-            var timeStamp = Double(message!.timeStamp )
-            var block = dataManager.getBlock(Double(message!.height))
-            
-            if block != nil
-            {
-                timeStamp += Double(block!.timeStamp) / 1000
+            switch message!.message.type{
+            case 1:
+                cell.message.text = message!.message.payload.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+//            case 2:
+//                
+//                var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+//                var publicKey = KeyGenerator.generatePublicKey(privateKey)
+//                
+//                if message!.signer == publicKey {
+//                    cell.message.text = MessageCrypto.decrypt(message!.message.payload.asByteArray(), recipientPrivateKey: <#String#>, senderPublicKey: cellData.s)
+//                }
+//                
+//                cell.message.text = MessageCrypto.decrypt(message!.message.payload.asByteArray(), recipientPrivateKey: <#String#>, senderPublicKey: cellData.s)
+            default :
+                break
             }
-            else
-            {
-                println("Error")
-            }
-            
-            timeStamp += genesis_block_time
-
-            cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
+            cell.message.text = message!.message.payload
         }
-        else
-        {
-            cell.detailTextLabel?.text = ""
+        else {
+            cell.message.text = ""
         }
+        
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        var timeStamp = Double(message!.timeStamp )
+        
+        timeStamp += genesis_block_time
+        
+        cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
+        
+        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
+        var color :UIColor!
+        if message?.recipient != account_address {
+            color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
+        } else {
+            color = UIColor.redColor()
+        }
+        
+        var attribute = [NSForegroundColorAttributeName : color]
+        
+        var format = ".0"
+        var amount = " \((message!.amount / 1000000).format(format)) XEM"
+        
+        cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
+                
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
-        State.currentContact = correspondents[indexPath.row] as Correspondent
-        if walletData != nil
-        {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        State.currentContact = _correspondents[indexPath.row] as Correspondent
+        if walletData != nil {
             State.invoice = nil
             
-            if walletData.cosignatories.count == 0
-            {
+            if walletData.cosignatories.count == 0 {
                 State.toVC = SegueToMessageVC
             }
-            else
-            {
+            else {
                 State.toVC = SegueToMessageMultisignVC
             }
             
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
+//            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
         }
-        else
-        {
+        else {
             self.tableView.cellForRowAtIndexPath(indexPath)?.selected = false
-        }
-    }
-    
-    final func getNameWithAddress(name :String) -> String
-    {
-        return name
-    }
-    
-    @IBAction func showKeyboard(sender: AnyObject)
-    {
-        showKeyboard = true
-    }
-    
-    @IBAction func inputAddress(sender: UITextField)
-    {
-        if sender.text != ""
-        {
-            var find :Bool = false
-            
-            for correspondetn in correspondents
-            {
-                if correspondetn.public_key == sender.text
-                {
-                    State.currentContact = correspondetn as Correspondent
-                    State.toVC = SegueToMessageVC
-                    
-                    find = true
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
-                }
-            }
-            
-            if !find
-            {
-                State.currentContact = dataManager.addCorrespondent(sender.text, name: sender.text , address : sender.text ,owner: State.currentWallet!)
-                State.toVC = SegueToMessageVC
-                
-                NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToPasswordValidation )
-            }
-        }
-    }
-
-    @IBAction func addressBook(sender: AnyObject)
-    {
-        if AddressBookManager.isAllowed
-        {
-            State.toVC = SegueToMessages
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )        }
-        else
-        {
-            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
-            alert.show()
-        }
-    }
-    func keyboardWillShow(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            var animationDuration = 0.25
-            
-            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                {
-                    self.view.frame = CGRectMake(0, -keyboardHeight, self.view.bounds.width, self.view.bounds.height)
-                }, completion: nil)
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification)
-    {
-        if(showKeyboard)
-        {
-            var info:NSDictionary = notification.userInfo!
-            var keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-            
-            var keyboardHeight:CGFloat = keyboardSize.height
-            
-            
-            
-            var animationDuration:CGFloat = info[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
-            
-            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
-                {
-                    self.view.frame = CGRectMake(0, (self.view.frame.origin.y + keyboardHeight), self.view.bounds.width, self.view.bounds.height)
-                    
-                }, completion: nil)
         }
     }
 }

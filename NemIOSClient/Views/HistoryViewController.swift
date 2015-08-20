@@ -56,7 +56,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         {
         case "accountGetSuccessed" :
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publicKey = KeyGenerator().generatePublicKey(privateKey)
+            var publicKey = KeyGenerator.generatePublicKey(privateKey)
             
             if publicKey == walletData.publicKey
             {
@@ -104,15 +104,6 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
 
         case "accountTransfersAllSuccessed" :
 
-            for modification in modifications
-            {
-                var block = dataManager.getBlock(Double(modification.height))
-                
-                if block == nil
-                {
-                    apiManager.getBlockWithHeight(State.currentServer!, height: Int(modification.height))
-                }
-            }
             
             self.tableView.reloadData()
             state.removeLast()
@@ -201,12 +192,6 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
             var timeStamp = Double(modifications[indexPath.section].timeStamp )
-            var block = dataManager.getBlock(Double(modifications[indexPath.section].height))
-            
-            if block != nil
-            {
-                timeStamp += Double(block!.timeStamp) / 1000
-            }
             
             timeStamp += genesis_block_time
             

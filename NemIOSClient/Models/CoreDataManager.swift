@@ -3,8 +3,6 @@ import CoreData
 
 class CoreDataManager: NSObject
 {
-    var blocks :[Block] = [Block]()
-    
     lazy var managedObjectContext : NSManagedObjectContext? =
     {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -55,68 +53,7 @@ class CoreDataManager: NSObject
         commit()
     }
     
-    //Block
-    
-    final func getBlocks()->[Block]
-    {
-        let fetchRequest = NSFetchRequest(entityName: "Block")
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Block]
-        {
-            return fetchResults
-        }
-        return [Block]()
-    }
-    
-    final func getBlock(height : Double)->Block?
-    {
-        blocks = getBlocks()
-        for block in blocks as [Block]
-        {
-            if block.height == height
-            {
-                return block
-            }
-        }
-        if State.currentServer != nil
-        {
-            APIManager().getBlockWithHeight(State.currentServer!, height: Int(height))
-        }
-        
-        return nil
-    }
-    
-    final func addBlock(height: Int, timeStamp: Double)->Block
-    {
-        var block = Block.createInManagedObjectContext(self.managedObjectContext!,height: Double(height), timeStamp:timeStamp)
-        
-        commit()
-        
-        return block
-    }
-    
-    //Transaction
-    
-    final func getTransaction()->[Transaction]
-    {
-        let fetchRequest = NSFetchRequest(entityName: "Transaction")
-        
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Transaction]
-        {
-            return fetchResults
-        }
-        
-        return [Transaction]()
-    }
-    
-    final func addTransaction(transaction :TransactionPostMetaData)
-    {
-        Transaction.createInManagedObjectContext(self.managedObjectContext!,transaction :transaction)
-        
-        commit()
-    }
-    
-    //Invoice
+     //Invoice
     
     final func getInvoice()->[Invoice]
     {
@@ -138,75 +75,7 @@ class CoreDataManager: NSObject
         return result
     }
     
-    //Correspondent
-    
-    final func getCorrespondents()->[Correspondent]
-    {
-        return State.currentWallet!.correspondents.allObjects as! [Correspondent]
-    }
-    
-    final func getCorrespondent(key :String? , address :String? , name :String?) -> Correspondent
-    {
-        let fetchRequest = NSFetchRequest(entityName: "Correspondent")
-        
-        var fetchResults :[Correspondent] = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Correspondent]
-        
-        for correspondent in fetchResults
-        {
-            if key != nil
-            {
-                if correspondent.public_key == key
-                {
-                    return correspondent
-                }
-            }
-            if address != nil
-            {
-                if correspondent.address == address
-                {
-                    return correspondent
-                }
-            }
-        }
-        
-        var correspondentKey = key
-        var correspondentAddress = address
-        var correspondentName = name
-        
-        if key == nil
-        {
-            correspondentKey = ""
-        }
-        if address == nil
-        {
-            correspondentAddress = ""
-        }
-        else if key != nil
-        {
-            correspondentAddress = AddressGenerator().generateAddress(correspondentKey!)
-        }
-        if correspondentName == nil
-        {
-            correspondentName = correspondentAddress
-        }
-        
-        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: correspondentKey!, name: correspondentName! , address : correspondentAddress! ,owner: State.currentWallet!)
-        
-        commit()
-        
-        return corespondent
-    }
-    
-    final func addCorrespondent( key: String, name: String , address :String , owner: Wallet) -> Correspondent
-    {
-        var corespondent :Correspondent = Correspondent.createInManagedObjectContext(self.managedObjectContext!,  key: key, name: name , address : address,owner: owner)
-        
-        commit()
-        
-        return corespondent
-    }
-
-    //Server
+     //Server
 
     final func getServers()->[Server]
     {

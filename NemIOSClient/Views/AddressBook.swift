@@ -30,7 +30,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
         if State.currentServer != nil
         {
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publicKey = KeyGenerator().generatePublicKey(privateKey)
+            var publicKey = KeyGenerator.generatePublicKey(privateKey)
             var account_address = AddressGenerator().generateAddress(publicKey)
             
             APIManager().accountGet(State.currentServer!, account_address: account_address)
@@ -371,21 +371,22 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
                 State.currentContact = nil
                 
                 State.toVC = SegueToPasswordValidation
-                
-                var correspondents : NSArray = dataManager.getCorrespondents()
-                
-                for correspondent  in correspondents
-                {
-                   if (correspondent as! Correspondent).public_key == key
-                   {
-                        State.currentContact = correspondent as? Correspondent
-                        break
-                    }
-                }
-                if State.currentContact == nil
-                {
-                    State.currentContact = dataManager.addCorrespondent(key, name: title , address : key ,owner: State.currentWallet!)
-                }
+//                
+//                var correspondents : NSArray = dataManager.getCorrespondents()
+//                
+//                for correspondent  in correspondents
+//                {
+//                   if (correspondent as! Correspondent).public_key == key
+//                   {
+//                        State.currentContact = correspondent as? Correspondent
+//                        break
+//                    }
+//                }
+//                
+//                if State.currentContact == nil
+//                {
+//                    State.currentContact = dataManager.addCorrespondent(key, name: title , address : key ,owner: State.currentWallet!)
+//                }
 
                 NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )
             }

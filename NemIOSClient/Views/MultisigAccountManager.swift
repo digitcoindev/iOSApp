@@ -76,7 +76,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         {
         case "accountGetSuccessed" :
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publicKey = KeyGenerator().generatePublicKey(privateKey)
+            var publicKey = KeyGenerator.generatePublicKey(privateKey)
             
             if publicKey == walletData.publicKey
             {

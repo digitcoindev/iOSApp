@@ -2,6 +2,8 @@ import UIKit
 
 class ServerViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate, ServerCellDelegate, APIManagerDelegate, AddCustomServerDelegate
 {
+    // MARK: - Variables
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topView: UIView!
     
@@ -11,6 +13,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     private var _tempSubViews :[UIView] = []
     
     var servers : [Server] = []
+
+    // MARK: - Load Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()

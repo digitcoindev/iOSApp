@@ -6,3 +6,7 @@
 "ACCOUNT_ADDING_SUCCESS" = "Акаунт: %@\nУспішно доданий."; // %@ will be replaced by the account name
 "INFO" = "Довідка";
 "SERVER_UNAVAILABLE" = "Сервер не доступний. Повторіть спробу пізніше.";
+"LOST_CONNECTION" = "З'єднання втрачено.";
+"UNCONFIRMED_TRANSACTIONS_DETECTED" = "У вас є непідписані транзакції.";
+"SHOW_TRANSACTIONS" = "Переглянути";
+"REMIND_LATER" = "Нагадати пізніше";

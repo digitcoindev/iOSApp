@@ -1,46 +1,32 @@
-
 import UIKit
 
 class DashboardContainer: AbstractViewController
 {
+    //MARK: - Private Variables
+
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     
-    override func viewDidLoad()
-    {
+    //MARK: - Load Methods
+
+    override func viewDidLoad() {
         super.viewDidLoad()
-        
-        observer.addObserver(self, selector: "pageSelected:", name: "DashboardPage", object: nil)
         
         self.performSegueWithIdentifier(State.toVC, sender: self);
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    deinit
-    {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        
-        for vc in self.childViewControllers
-        {
-            NSNotificationCenter.defaultCenter().removeObserver(vc as! UIViewController)
-            
-            (vc as! UIViewController).removeFromParentViewController()
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if self.delegate != nil {
+            (segue.destinationViewController as! AbstractViewController).delegate = self.delegate
         }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
-    {
         
-        if (self.childViewControllers.count > 0)
-        {
+        if (self.childViewControllers.count > 0) {
             self.swapFromViewController(self.childViewControllers.first as! UIViewController, toViewController: segue.destinationViewController as! UIViewController)
         }
-        else
-        {
-            
+        else {
             self.addChildViewController(segue.destinationViewController as! UIViewController)
             (segue.destinationViewController as! UIViewController).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
             self.view .addSubview((segue.destinationViewController as! UIViewController).view)
@@ -49,17 +35,14 @@ class DashboardContainer: AbstractViewController
         
     }
     
-    func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController )
-    {
+    func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController ) {
         toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         fromViewController.willMoveToParentViewController(nil)
         self.addChildViewController(toViewController)
-        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations:
-            {
+        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {
                 value in
             }
-            , completion:
-            {
+            , completion: {
                 finish in
                 
                 fromViewController.removeFromParentViewController()
@@ -67,10 +50,10 @@ class DashboardContainer: AbstractViewController
         })
     }
     
-    final func pageSelected(notification: NSNotification)
-    {
-        switch(notification.object as! String)
-        {
+    //MARK: - Navigation Methods
+    
+    final func pageSelected(notification: NSNotification) {
+        switch(notification.object as! String) {
             
         case SegueToMessages:
             self.performSegueWithIdentifier(SegueToMessages, sender: nil)

@@ -42,7 +42,6 @@ void SHA256_hash(unsigned char *out,unsigned  char *in , int32_t inLen )
 
     toHex(out, &md, hash_256_Size);
 
-
 }
 
 void createPrivateKey(unsigned char *out_private_key)
@@ -52,55 +51,34 @@ void createPrivateKey(unsigned char *out_private_key)
     ed25519_create_seed(seed);
     
     keccak((uint8_t *) seed, seedSize, private_key, privateKeySize);
-
-    char converted_private_key[privateKeySize];
-    int i;
     
-    for(i=0;i < privateKeySize / 2;i++)
+    for (int i = 0; i < privateKeyPartSize; i++)
     {
-        sprintf(&converted_private_key[ i * 2], "%02x", private_key[i]);
-    }
-    
-    for (i = 0; i < privateKeySize; i++)
-    {
-        out_private_key[i] = converted_private_key[i];
+        out_private_key[i] = private_key[i];
     }
 }
 
 void createPublicKey(unsigned char *public_key,  unsigned char *private_key)
 {   
-    unsigned char private_key_bytes[privateKeyPartSize];
-    for (int i=0 ;i < privateKeyPartSize;++i)
-    {
-        int value;
-        sscanf(private_key + 2 * i,"%02x",&value);
-        private_key_bytes[privateKeyPartSize - 1 - i ] = value;
-    }
 
     unsigned char private_key_hash[privateKeySize];
     
-    keccak((uint8_t *) private_key_bytes, privateKeyPartSize, private_key_hash, privateKeySize);
+    keccak((uint8_t *) private_key, privateKeyPartSize, private_key_hash, privateKeySize);
     
     private_key_hash[0] &= 248;
     private_key_hash[31] &= 127;
     private_key_hash[31] |= 64;
     
     ge_p3 A;
-    unsigned char in_public_key[publicKeySize];
-    unsigned char buffer[publicKeySize * 2];
+    unsigned char public_key_buffer [publicKeySize];
     
     ge_scalarmult_base(&A, private_key_hash);
     
-    ge_p3_tobytes(in_public_key, &A);
+    ge_p3_tobytes(public_key_buffer, &A);
     
-    for(int i=0;i < publicKeySize;i++)
+    for(int i=0;i < publicKeySize ;i++)
     {
-        sprintf(&buffer[ i * 2], "%02x", in_public_key[i]);
-    }
-    
-    for(int i=0;i < publicKeySize * 2;i++)
-    {
-        public_key[i] = buffer[i];
+        public_key[i] = public_key_buffer[i];
     }
     
 }
