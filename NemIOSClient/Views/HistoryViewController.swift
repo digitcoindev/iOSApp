@@ -14,12 +14,10 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
     var dataManager :CoreDataManager = CoreDataManager()
     var apiManager :APIManager =  APIManager()
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToHistoryVC
-        {
+        if State.fromVC != SegueToHistoryVC {
             State.fromVC = SegueToHistoryVC
         }
         
@@ -37,12 +35,10 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
         
-        if State.currentServer != nil
-        {
+        if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)
         }
-        else
-        {
+        else {
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
         
@@ -50,20 +46,16 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
 
     }
     
-    final func manageState()
-    {
-        switch (state.last!)
-        {
+    final func manageState() {
+        switch (state.last!) {
         case "accountGetSuccessed" :
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
             var publicKey = KeyGenerator.generatePublicKey(privateKey)
             
-            if publicKey == walletData.publicKey
-            {
+            if publicKey == walletData.publicKey {
                 var content :[String] = [String]()
                 var contentActions :[funcBlock] = [funcBlock]()
-                if walletData.cosignatoryOf.count > 0
-                {
+                if walletData.cosignatoryOf.count > 0 {
                     for account in walletData.cosignatoryOf
                     {
                         content.append(account.address)
@@ -80,22 +72,18 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
                     chooseAccount.setContent(content, contentActions: contentActions)
 
                 }
-                else
-                {
+                else {
                     APIManager().accountTransfersAll(State.currentServer!, account_address: walletData.address)
                     chooseAccount.setTitle("This account" as String, forState: UIControlState.Normal)
                     chooseAccount.setTitle("This account" as String, forState: UIControlState.Selected)
                     chooseAccount.setTitle("This account" as String, forState: UIControlState.Disabled)
                 }
             }
-            else
-            {
-                if State.currentServer != nil
-                {
+            else {
+                if State.currentServer != nil {
                     APIManager().accountTransfersAll(State.currentServer!, account_address: walletData.address)
                 }
-                else
-                {
+                else {
                     NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
                 }
 
@@ -113,34 +101,28 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         }
     }
     
-    final func accountGetSuccessed(notification: NSNotification)
-    {
+    final func accountGetSuccessed(notification: NSNotification) {
         state.append("accountGetSuccessed")
         
         walletData = (notification.object as! AccountGetMetaData)
     }
     
-    final func accountGetDenied(notification: NSNotification)
-    {
+    final func accountGetDenied(notification: NSNotification) {
         state.append("accountGetDenied")
     }
 
-    final func accountTransfersAllSuccessed(notification: NSNotification)
-    {
+    final func accountTransfersAllSuccessed(notification: NSNotification) {
         var data :[TransactionPostMetaData] = notification.object as! [TransactionPostMetaData]
         
         modifications.removeAll(keepCapacity: false)
         
-        for inData in data
-        {
-            switch (inData.type)
-            {
+        for inData in data {
+            switch (inData.type) {
             case multisigTransaction:
                 
                 var multisigT  = inData as! MultisigTransaction
                 
-                switch(multisigT.innerTransaction.type)
-                {
+                switch(multisigT.innerTransaction.type) {
                 case multisigAggregateModificationTransaction :
                     
                     var modTransaction :AggregateModificationTransaction = multisigT.innerTransaction as! AggregateModificationTransaction
@@ -163,20 +145,16 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         state.append("accountTransfersAllSuccessed")
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return modifications.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return modifications[section].modifications.count + 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        if indexPath.row == 0
-        {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
             var  cell = tableView.dequeueReusableCellWithIdentifier("title") as! KeyCell
             
             let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: UIRectCorner.TopLeft | UIRectCorner.TopRight, cornerRadii: CGSizeMake(10, 10))
@@ -199,12 +177,10 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
             
             return cell
         }
-        else
-        {
+        else {
             var modification :AccountModification = modifications[indexPath.section].modifications[indexPath.row - 1]
             var cell :KeyCell? = nil
-            if modification.modificationType == 1
-            {
+            if modification.modificationType == 1 {
                 cell = self.tableView.dequeueReusableCellWithIdentifier("add") as? KeyCell
                 
                 cell!.key.text = ""
@@ -212,8 +188,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
                 
                 cell!.key.text = modification.publicKey
             }
-            else
-            {
+            else {
                 cell = self.tableView.dequeueReusableCellWithIdentifier("delete") as? KeyCell
                 
                 cell!.key.text = ""
@@ -222,8 +197,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
                 cell!.key.text = modification.publicKey
             }
             
-            if indexPath.row == modifications[indexPath.section].modifications.count && cell != nil
-            {
+            if indexPath.row == modifications[indexPath.section].modifications.count && cell != nil {
                 var maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: UIRectCorner.BottomLeft | UIRectCorner.BottomRight, cornerRadii: CGSizeMake(10, 10))
                 var maskLayer :CAShapeLayer = CAShapeLayer()
                 maskLayer.frame = cell!.bounds
@@ -236,8 +210,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         }
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }

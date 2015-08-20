@@ -209,35 +209,26 @@ func Base32Decode(data: String, alphabet: Array<Int>, characters: Array<String>)
 
 extension String
 {
-	var base32EncodedString: String?
-        {
-		get
-        {
-			if let data = (self as NSString).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            {
+	var base32EncodedString: String? {
+		get {
+			if let data = (self as NSString).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
 				return Base32Encode(data)
-			} else
-            {
+			} else {
 				return nil
 			}
 		}
 	}
 	
-	var base32DecodedData: NSData?
-    {
-		get
-        {
+	var base32DecodedData: NSData? {
+		get {
 			return Base32Decode(self)
 		}
 	}
 	
-	func base32DecodedString(encoding: NSStringEncoding = NSUTF8StringEncoding) -> String?
-    {
-		if let data = self.base32DecodedData
-        {
+	func base32DecodedString(encoding: NSStringEncoding = NSUTF8StringEncoding) -> String? {
+		if let data = self.base32DecodedData {
 			return NSString(data: data, encoding: encoding)! as? String
-		} else
-        {
+		} else {
 			return nil
 		}
 	}

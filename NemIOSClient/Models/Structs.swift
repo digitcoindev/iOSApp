@@ -5,8 +5,7 @@ struct AccountModification
     var lengthOfPublicKey :Int!
     var publicKey :String!
     
-    init()
-    {
+    init() {
         lengthOfModification = 40
         lengthOfPublicKey = 32
     }
@@ -20,17 +19,14 @@ struct InvoiceData
     var name :String!
     var number :Int!
     
-    init()
-    {
+    init() {
         message = ""
         amount = 0
         number = 0
-        if State.currentWallet != nil
-        {
+        if State.currentWallet != nil {
             name = State.currentWallet!.login
         }
-        else
-        {
+        else {
             name = ""
         }
     }

@@ -12,8 +12,7 @@ class Signature: NSObject
     var version :Double!
     var signer :String!
 
-    final func fromDictionary(dictionary :NSDictionary) -> Signature
-    {
+    final func fromDictionary(dictionary :NSDictionary) -> Signature {
         self.timeStamp = dictionary.objectForKey("timeStamp") as! Double
         self.otherHash = (dictionary.objectForKey("otherHash") as! NSDictionary).objectForKey("data") as! String
         self.otherAccount = dictionary.objectForKey("otherAccount") as! String

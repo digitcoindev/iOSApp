@@ -9,32 +9,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     let dataManager : CoreDataManager = CoreDataManager()
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
-    {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         GMSServices.provideAPIKey("AIzaSyBqvOZX3-rMlw9QJ-dJHa3k2DtPVtgz9Mc")
         //InstallUncaughtExceptionHandler()
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication)
-    {
+    func applicationWillResignActive(application: UIApplication) {
     }
     
-    func applicationDidEnterBackground(application: UIApplication)
-    {
+    func applicationDidEnterBackground(application: UIApplication) {
     }
 
-    func applicationWillEnterForeground(application: UIApplication)
-    {
+    func applicationWillEnterForeground(application: UIApplication) {
     }
 
-    func applicationDidBecomeActive(application: UIApplication)
-    {
+    func applicationDidBecomeActive(application: UIApplication) {
     }
 
-    func applicationWillTerminate(application: UIApplication)
-    {
+    func applicationWillTerminate(application: UIApplication) {
         self.saveContext()
         
         CoreDataManager().commit()
@@ -42,20 +36,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     // MARK: - Core Data stack
 
-    lazy var applicationDocumentsDirectory: NSURL =
-    {
+    lazy var applicationDocumentsDirectory: NSURL = {
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1] as! NSURL
     }()
 
-    lazy var managedObjectModel: NSManagedObjectModel =
-    {
+    lazy var managedObjectModel: NSManagedObjectModel = {
         let modelURL = NSBundle.mainBundle().URLForResource("NemIOSClient", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelURL)!
     }()
 
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? =
-    {
+    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("MyLog.sqlite")
         var error: NSError? = nil
@@ -80,11 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         return coordinator
     }()
 
-    lazy var managedObjectContext: NSManagedObjectContext? =
-    {
+    lazy var managedObjectContext: NSManagedObjectContext? = {
         let coordinator = self.persistentStoreCoordinator
-        if coordinator == nil
-        {
+        if coordinator == nil {
             return nil
         }
         var managedObjectContext = NSManagedObjectContext()
@@ -94,13 +83,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     // MARK: - Core Data Saving support
 
-    func saveContext ()
-    {
-        if let moc = self.managedObjectContext
-        {
+    func saveContext () {
+        if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error)
-            {
+            if moc.hasChanges && !moc.save(&error) {
                 NSLog("Unresolved error \(error), \(error!.userInfo)")
                 abort()
             }

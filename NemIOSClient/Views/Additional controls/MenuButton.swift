@@ -2,18 +2,14 @@ import UIKit
 
 class MenuButton: UIButton
 {
-    override var highlighted: Bool 
-        {
+    override var highlighted: Bool  {
 
-        didSet
-        {
+        didSet {
 
-            if (highlighted)
-            {
+            if (highlighted) {
                 self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             }
-            else
-            {
+            else {
                 self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             }
         }

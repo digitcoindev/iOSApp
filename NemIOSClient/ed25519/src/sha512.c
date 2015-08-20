@@ -178,10 +178,8 @@ int sha512_update (sha512_context * md, const unsigned char *in, size_t inlen)
     if (md->curlen > sizeof(md->buf)) {                             
        return 1;                                                            
     }                                                                                       
-    while (inlen > 0)
-    {
-        if (md->curlen == 0 && inlen >= 128)
-        {
+    while (inlen > 0) {
+        if (md->curlen == 0 && inlen >= 128) {
            if ((err = sha512_compress (md, (unsigned char *)in)) != 0)
            {
               return err;                                                                   
@@ -190,8 +188,7 @@ int sha512_update (sha512_context * md, const unsigned char *in, size_t inlen)
            in             += 128;                                                    
            inlen          -= 128;                                                    
         }
-        else
-        {
+        else {
            n = MIN(inlen, (128 - md->curlen));
 
            for (i = 0; i < n; i++)

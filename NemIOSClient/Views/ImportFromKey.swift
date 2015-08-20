@@ -58,8 +58,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     
     @IBAction func validateField(sender: UITextField){
         
-        switch sender
-        {
+        switch sender {
         case password , repeatPassword:
             
             if Validate.password(password.text){
@@ -95,8 +94,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         if name.text != ""  && key.text! != "" && repeatPassword.text != "" && password.text != "" {
             if password.text == repeatPassword.text && Validate.password(password.text) {
                 var keyValide :Bool = true
-                switch (key.text)
-                {
+                switch (key.text) {
                 case "1":
                     
                     key.text = "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d"
@@ -174,8 +172,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     }
     
     @IBAction func changeField(sender: UITextField) {
-        switch sender
-        {
+        switch sender {
         case key:
             
             name.becomeFirstResponder()

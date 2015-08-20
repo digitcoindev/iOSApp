@@ -17,8 +17,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     var walletData :AccountGetMetaData!
     var apiManager :APIManager = APIManager()
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         State.currentVC = SegueToMainMenu
@@ -32,13 +31,10 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
                 
-        for item in menu
-        {
-            if(State.currentWallet != nil && State.currentServer != nil)
-            {
+        for item in menu {
+            if(State.currentWallet != nil && State.currentServer != nil) {
                 
-                switch (item as! String)
-                {
+                switch (item as! String) {
                     
                 case SegueToRegistrationVC :
                     break
@@ -64,10 +60,8 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
                     break
                 }
             }
-            else
-            {
-                switch (item as! String)
-                {
+            else {
+                switch (item as! String) {
                 case SegueToLoginVC , SegueToServerVC :
                     if State.fromVC != item as? String
                     {
@@ -86,8 +80,7 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
-        if State.currentServer != nil && State.currentWallet != nil
-        {
+        if State.currentServer != nil && State.currentWallet != nil {
             var address :String = AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
             
             apiManager.accountGet(State.currentServer!, account_address: address)
@@ -95,24 +88,18 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
 
     }
     
-    final func manageState()
-    {
-        switch (state.last!)
-        {
+    final func manageState() {
+        switch (state.last!) {
         case SegueToProfile :
             
-            if walletData != nil 
-            {
-                if walletData.cosignatories.count > 0
-                {
+            if walletData != nil  {
+                if walletData.cosignatories.count > 0 {
                     State.toVC = SegueToProfileMultisig
                 }
-                else if walletData.cosignatoryOf.count > 0
-                {
+                else if walletData.cosignatoryOf.count > 0 {
                     State.toVC = SegueToProfileCosignatoryOf
                 }
-                else
-                {
+                else {
                     State.toVC = SegueToProfile
                 }
                 
@@ -126,37 +113,31 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
         }
     }
     
-    final func accountGetSuccessed(notification: NSNotification)
-    {
+    final func accountGetSuccessed(notification: NSNotification) {
         walletData = (notification.object as! AccountGetMetaData)
     }
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     // MARK: - Table view data source
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as! MainViewCell
         cell.title.text = menuItems.objectAtIndex(indexPath.row) as? String
         
         return cell
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var page: String  = menuItems.objectAtIndex(indexPath.row) as! String
         
        
-        switch (page)
-        {
+        switch (page) {
             
         case SegueToDashboard:
             State.toVC = SegueToMessages

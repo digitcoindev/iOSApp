@@ -6,8 +6,7 @@ class LoadData: NSManagedObject
 
     @NSManaged var currentServer: NemIOSClient.Server
     
-    class func createInManagedObjectContext(moc: NSManagedObjectContext) -> LoadData
-    {
+    class func createInManagedObjectContext(moc: NSManagedObjectContext) -> LoadData {
         let newItem = NSEntityDescription.insertNewObjectForEntityForName("LoadData", inManagedObjectContext: moc) as! LoadData
         
         

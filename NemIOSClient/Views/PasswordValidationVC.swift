@@ -14,8 +14,7 @@ class PasswordValidationVC: AbstractViewController
     
     // MARK: - Load Methods
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         State.currentVC = SegueToPasswordValidation
@@ -28,29 +27,25 @@ class PasswordValidationVC: AbstractViewController
     }
     
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
     // MARK: - IBAction
     
-    @IBAction func passwordValidation(sender: AnyObject)
-    {
+    @IBAction func passwordValidation(sender: AnyObject) {
         var salt :NSData = NSData.fromHexString(State.currentWallet!.salt)
         
         let passwordHash :NSData? = HashManager.generateAesKeyForString(password.text, salt:salt, roundCount:2000, error:nil)
         
-        if( passwordHash!.toHexString() == State.currentWallet!.password)
-        {
+        if( passwordHash!.toHexString() == State.currentWallet!.password) {
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
             }
         }
     }
     
-    @IBAction func hideKeyBoard(sender: AnyObject)
-    {
+    @IBAction func hideKeyBoard(sender: AnyObject) {
         (sender as! UITextField).becomeFirstResponder()
     }
 

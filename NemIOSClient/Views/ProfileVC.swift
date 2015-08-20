@@ -24,13 +24,11 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
     
     var currentCosignatories :[String] = [String]()
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        if keyValidator != nil
-        {
+        if keyValidator != nil {
             keyValidator.hidden = true
             addCosignatori.autocorrectionType = UITextAutocorrectionType.No
         }
@@ -38,8 +36,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         State.currentVC = SegueToProfile
         
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Profile")
-        if self.tableView != nil
-        {
+        if self.tableView != nil {
             self.tableView!.tableFooterView = UIView(frame: CGRectZero)
             self.tableView!.layer.cornerRadius = 5
         }
@@ -49,81 +46,65 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
-        if State.currentServer != nil
-        {
+        if State.currentServer != nil {
             var address :String = AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
                 
             apiManager.accountGet(State.currentServer!, account_address: address)
         }
-        else
-        {
+        else {
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
                 
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
     }
     
-    deinit
-    {
+    deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    final func manageState()
-    {
-        switch (state.last!)
-        {
+    final func manageState() {
+        switch (state.last!) {
         case "accountGetSuccessed" :
             var stateWallet = State.currentWallet!
             
             userLogin.text = stateWallet.login
             userAddress.text =  AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(stateWallet.privateKey))
             
-            if walletData.cosignatories.count > 0
-            {
+            if walletData.cosignatories.count > 0 {
                 accountType.text = "multisign account"
                 
-                if State.fromVC != SegueToProfileMultisig
-                {
+                if State.fromVC != SegueToProfileMultisig {
                     State.fromVC = SegueToProfileMultisig
                 }
-                if State.currentVC == SegueToProfile
-                {
+                if State.currentVC == SegueToProfile {
                     State.currentVC = SegueToProfileMultisig
                 }
                 
-                for account in walletData.cosignatories
-                {
+                for account in walletData.cosignatories {
                     currentCosignatories.append(account.publicKey as String)
                 }
             }
-            else if walletData.cosignatoryOf.count > 0
-            {
+            else if walletData.cosignatoryOf.count > 0 {
                 accountType.text = "is cosignatory"
                 
-                if State.fromVC != SegueToProfileCosignatoryOf
-                {
+                if State.fromVC != SegueToProfileCosignatoryOf {
                     State.fromVC = SegueToProfileCosignatoryOf
                 }
                 
-                if State.currentVC == SegueToProfile
-                {
+                if State.currentVC == SegueToProfile {
                     State.currentVC = SegueToProfileCosignatoryOf
                 }
                 
-                for account in walletData.cosignatoryOf
-                {
+                for account in walletData.cosignatoryOf {
                     currentCosignatories.append(account.publicKey as String)
                 }
             }
-            else
-            {
-                if State.fromVC != SegueToProfile
-                {
+            else {
+                if State.fromVC != SegueToProfile {
                     State.fromVC = SegueToProfile
                 }
                 
@@ -135,8 +116,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
             state.removeLast()
             
             
-            if self.tableView != nil
-            {
+            if self.tableView != nil {
                 self.tableView!.reloadData()
             }
             
@@ -149,20 +129,17 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         }
     }
     
-    final func accountGetSuccessed(notification: NSNotification)
-    {
+    final func accountGetSuccessed(notification: NSNotification) {
         state.append("accountGetSuccessed")
         
         walletData = (notification.object as! AccountGetMetaData)
     }
     
-    final func accountGetDenied(notification: NSNotification)
-    {
+    final func accountGetDenied(notification: NSNotification) {
         state.append("accountGetDenied")
     }
     
-    final func deleteCellAtIndex(notification: NSNotification)
-    {
+    final func deleteCellAtIndex(notification: NSNotification) {
         var index = notification.object as! Int
         var indexPath = NSIndexPath(forRow: index, inSection: 0)
         
@@ -170,13 +147,11 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         self.tableView!.deleteRowsAtIndexPaths([indexPath] , withRowAnimation: .Fade)
     }
     
-    @IBAction func changePassword(sender: AnyObject)
-    {
+    @IBAction func changePassword(sender: AnyObject) {
         var alert1 :UIAlertController = UIAlertController(title: "Change password", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
         
         var oldPassword :UITextField!
-        alert1.addTextFieldWithConfigurationHandler
-            {
+        alert1.addTextFieldWithConfigurationHandler {
                 textField -> Void in
                 textField.placeholder = "old password"
                 textField.keyboardType = UIKeyboardType.ASCIICapable
@@ -188,8 +163,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         }
         
         var newPassword :UITextField!
-        alert1.addTextFieldWithConfigurationHandler
-            {
+        alert1.addTextFieldWithConfigurationHandler {
                 textField -> Void in
                 textField.placeholder = "new password"
                 textField.keyboardType = UIKeyboardType.ASCIICapable
@@ -201,8 +175,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         }
         
         var repeatPassword :UITextField!
-        alert1.addTextFieldWithConfigurationHandler
-            {
+        alert1.addTextFieldWithConfigurationHandler {
                 textField -> Void in
                 textField.placeholder = "repeat password"
                 textField.keyboardType = UIKeyboardType.ASCIICapable
@@ -213,8 +186,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
                 
         }
         
-        var change :UIAlertAction = UIAlertAction(title: "Change", style: UIAlertActionStyle.Default)
-            {
+        var change :UIAlertAction = UIAlertAction(title: "Change", style: UIAlertActionStyle.Default) {
                 alertAction -> Void in
                 
                 var isError :Bool = false
@@ -223,31 +195,27 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
                 
                 let passwordHash :NSData? = HashManager.generateAesKeyForString(oldPassword.text, salt:salt, roundCount:2000, error:nil)
                 
-                if passwordHash!.toHexString() != State.currentWallet!.password
-                {
+                if passwordHash!.toHexString() != State.currentWallet!.password {
                     alert1.message = "Wrong old password"
                     oldPassword.text = ""
                     isError = true
                 }
                 
-                if newPassword.text != repeatPassword.text
-                {
+                if newPassword.text != repeatPassword.text {
                     alert1.message = "Passwords not equal"
                     repeatPassword.text = ""
                     newPassword.text = ""
                     isError = true
                 }
                 
-                if !Validate.password(newPassword.text)
-                {
+                if !Validate.password(newPassword.text) {
                     alert1.message = "PASSOWORD_LENGTH_ERROR"
                     repeatPassword.text = ""
                     newPassword.text = ""
                     isError = true
                 }
                 
-                if !isError
-                {
+                if !isError {
                     let passwordHash :NSData? = HashManager.generateAesKeyForString(newPassword.text, salt:salt, roundCount:2000, error:nil)
                     
                     State.currentWallet!.password = passwordHash!.toHexString()
@@ -255,15 +223,13 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
                     
                     CoreDataManager().commit()
                 }
-                else
-                {
+                else {
                     self.presentViewController(alert1, animated: true, completion: nil)
                 }
             }
         
         
-        var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive)
-            {
+        var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) {
                 alertAction -> Void in
             }
         
@@ -273,25 +239,21 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         self.presentViewController(alert1, animated: true, completion: nil)
     }
     
-    @IBAction func history(sender: AnyObject)
-    {
+    @IBAction func history(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToHistoryVC )
     }
     
-    @IBAction func manageAccount(sender: AnyObject)
-    {
+    @IBAction func manageAccount(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueTomultisigAccountManager )
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currentCosignatories.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell :KeyCell = self.tableView!.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
         
         cell.key.text = ""

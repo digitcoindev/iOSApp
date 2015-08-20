@@ -84,8 +84,7 @@ class ServerViewCell: UITableViewCell
     }
     @IBAction func deleteCell(sender: AnyObject){
         
-        if _inEditingState
-        {
+        if _inEditingState {
             if self.delegate != nil && self.delegate!.respondsToSelector("deleteCell:") {
                 (self.delegate as! ServerCellDelegate).deleteCell!(self)
             }

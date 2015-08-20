@@ -7,12 +7,10 @@ class UserInfoVC: AbstractViewController
     @IBOutlet weak var keyLable: UILabel!
     
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
-        if State.fromVC != SegueToUserInfo
-        {
+        if State.fromVC != SegueToUserInfo {
             State.fromVC = SegueToUserInfo
         }
         
@@ -32,8 +30,7 @@ class UserInfoVC: AbstractViewController
         qrImg.image =  qr.createQR(base64String)
     }
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
 
     }

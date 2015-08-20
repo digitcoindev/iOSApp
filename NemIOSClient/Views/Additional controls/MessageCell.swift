@@ -9,15 +9,13 @@ class MessageCell: UITableViewCell
 
     @IBOutlet weak var cellContentView: UIView!
     
-    override func awakeFromNib()
-    {
+    override func awakeFromNib() {
         super.awakeFromNib()
         
         cellContentView.layer.cornerRadius = 5
     }
     
-    override func setSelected(selected: Bool, animated: Bool)
-    {
+    override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }

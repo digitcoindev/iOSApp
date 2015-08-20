@@ -9,39 +9,33 @@ class UnconfirmedTransactionCell: UITableViewCell
     @IBOutlet weak var confirm: UIButton!
     @IBOutlet weak var showChanges: UIButton!
     
-    override func awakeFromNib()
-    {
+    override func awakeFromNib() {
         super.awakeFromNib()
         
         fromAccount.text = ""
         toAccount.text = ""
-        if message != nil
-        {
+        if message != nil {
             message.text = ""
             xem.text = "0 XEM"
         }
         
         confirm.layer.cornerRadius = 5
         
-        if showChanges != nil
-        {
+        if showChanges != nil {
             showChanges.layer.cornerRadius = 5
         }
         self.layer.cornerRadius = 10
     }
 
-    @IBAction func confirmTouchUpInside(sender: AnyObject)
-    {
+    @IBAction func confirmTouchUpInside(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("confirmCellWithTag", object:self.tag )
     }
-    @IBAction func showTouchUpInside(sender: AnyObject)
-    {
+    @IBAction func showTouchUpInside(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("showCellWithTag", object:self.tag )
 
     }
     
-    override func setSelected(selected: Bool, animated: Bool)
-    {
+    override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }

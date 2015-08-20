@@ -28,8 +28,7 @@ const NSInteger UncaughtExceptionHandlerReportAddressCount = 5;
          i = UncaughtExceptionHandlerSkipAddressCount;
          i < UncaughtExceptionHandlerSkipAddressCount +
          UncaughtExceptionHandlerReportAddressCount;
-         i++)
-    {
+         i++) {
         [backtrace addObject:[NSString stringWithUTF8String:strs[i]]];
     }
     free(strs);
@@ -59,8 +58,7 @@ void HandleException(NSException *exception)
 void SignalHandler(int signal)
 {
     int32_t exceptionCount = OSAtomicIncrement32(&UncaughtExceptionCount);
-    if (exceptionCount > UncaughtExceptionMaximum)
-    {
+    if (exceptionCount > UncaughtExceptionMaximum) {
         return;
     }
     

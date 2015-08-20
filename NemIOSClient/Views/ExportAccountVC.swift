@@ -8,12 +8,10 @@ class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
     
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToExportAccount
-        {
+        if State.fromVC != SegueToExportAccount {
             State.fromVC = SegueToExportAccount
         }
         
@@ -39,8 +37,7 @@ class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
         qrImage.image =  qr.createQR(base64String)
     }
     
-    @IBAction func mailBtn(sender: AnyObject)
-    {
+    @IBAction func mailBtn(sender: AnyObject) {
         if(MFMailComposeViewController.canSendMail()){
             var myMail : MFMailComposeViewController = MFMailComposeViewController()
             
@@ -59,20 +56,17 @@ class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
             //Display the view controller
             self.presentViewController(myMail, animated: true, completion: nil)
         }
-        else
-        {
+        else {
             var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!)
-    {
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }

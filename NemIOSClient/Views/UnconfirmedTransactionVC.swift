@@ -12,12 +12,10 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
     var unconfirmedTransactions  :[TransactionPostMetaData] = [TransactionPostMetaData]()
     var apiManager :APIManager = APIManager()
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToUnconfirmedTransactionVC
-        {
+        if State.fromVC != SegueToUnconfirmedTransactionVC {
             State.fromVC = SegueToUnconfirmedTransactionVC
         }
         
@@ -44,30 +42,24 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        if State.currentServer != nil
-        {
+        if State.currentServer != nil {
             apiManager.accountGet(State.currentServer!, account_address: account_address)
             apiManager.accountTransfersAll(State.currentServer!, account_address: account_address)
         }
-        else
-        {
+        else {
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
         
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Unconfirmed transactions")
     }
 
-    final func manageState()
-    {
-        switch (state.last!)
-        {
+    final func manageState() {
+        switch (state.last!) {
         case "accountGetSuccessed" :
-            if walletData.cosignatoryOf.count > 0
-            {
+            if walletData.cosignatoryOf.count > 0 {
                 unconfirmedTransactions.removeAll(keepCapacity: false)
                 
-                for cosignatory in walletData.cosignatoryOf
-                {
+                for cosignatory in walletData.cosignatoryOf {
                     APIManager().unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
                 }
             }
@@ -81,12 +73,10 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             
         case "confirmCellWithTag" :
             
-            if unconfirmedTransactions.count > selectedIndex
-            {
+            if unconfirmedTransactions.count > selectedIndex {
                 var transaction :MultisigTransaction = unconfirmedTransactions[selectedIndex] as! MultisigTransaction
                 
-                switch (transaction.innerTransaction.type)
-                {
+                switch (transaction.innerTransaction.type) {
                 case transferTransaction:
                     
                     var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
@@ -132,15 +122,12 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             
             text += AddressGenerator().generateAddress(transaction.signer) + "\n"
             
-            for modification in transaction.modifications
-            {
-                if modification.modificationType == 1
-                {
+            for modification in transaction.modifications {
+                if modification.modificationType == 1 {
                     text += "Add :\n"
                     text += modification.publicKey + "\n"
                 }
-                else
-                {
+                else {
                     text += "Delete :\n"
                     text += modification.publicKey + "\n"
                 }
@@ -148,8 +135,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             
             var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: text, preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
-            {
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                 alertAction -> Void in
             }
             
@@ -160,15 +146,12 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             
         case "prepareAnnounceSuccessed" :
             state.removeLast()
-            if(selectedIndex > -1 && selectedIndex < unconfirmedTransactions.count )
-            {
+            if(selectedIndex > -1 && selectedIndex < unconfirmedTransactions.count ) {
                 unconfirmedTransactions.removeAtIndex(selectedIndex)
-                if unconfirmedTransactions.count == 0
-                {
+                if unconfirmedTransactions.count == 0 {
                     NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:State.lastVC )
                 }
-                else
-                {
+                else {
                     tableView.reloadData()
                 }
                 selectedIndex = -1
@@ -182,59 +165,48 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         }
     }
     
-    final func accountGetSuccessed(notification: NSNotification)
-    {
+    final func accountGetSuccessed(notification: NSNotification) {
         state.append("accountGetSuccessed")
         
         walletData = (notification.object as! AccountGetMetaData)
     }
     
-    final func accountGetDenied(notification: NSNotification)
-    {
+    final func accountGetDenied(notification: NSNotification) {
         state.append("accountGetDenied")
     }
     
-    final func confirmCellWithTag(notification: NSNotification)
-    {
+    final func confirmCellWithTag(notification: NSNotification) {
         state.append("confirmCellWithTag")
         selectedIndex = notification.object as! Int
         
     }
     
-    final func prepareAnnounceSuccessed(notification: NSNotification)
-    {
+    final func prepareAnnounceSuccessed(notification: NSNotification) {
         state.append("prepareAnnounceSuccessed")
         
     }
     
-    final func prepareAnnounceDenied(notification: NSNotification)
-    {
+    final func prepareAnnounceDenied(notification: NSNotification) {
         state.append("prepareAnnounceDenied")
     }
     
-    final func showCellWithTag(notification: NSNotification)
-    {
+    final func showCellWithTag(notification: NSNotification) {
         state.append("showCellWithTag")
         selectedIndex = notification.object as! Int
     }
     
-    final func unconfirmedTransactionsSuccessed(notification: NSNotification)
-    {
+    final func unconfirmedTransactionsSuccessed(notification: NSNotification) {
         unconfirmedTransactions +=  notification.object as! [TransactionPostMetaData]
         var publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
         
-        for var i = 0 ; i < unconfirmedTransactions.count ; i++
-        {
-            if unconfirmedTransactions[i].type != multisigTransaction
-            {
+        for var i = 0 ; i < unconfirmedTransactions.count ; i++ {
+            if unconfirmedTransactions[i].type != multisigTransaction {
                 unconfirmedTransactions.removeAtIndex(i)
             }
-            else
-            {
+            else {
                 var transaction :MultisigTransaction = unconfirmedTransactions[i] as! MultisigTransaction
                 
-                for sign in transaction.signatures
-                {
+                for sign in transaction.signatures {
                     if publicKey == sign.signer
                     {
                         unconfirmedTransactions.removeAtIndex(i)
@@ -247,28 +219,23 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         state.append("unconfirmedTransactionsSuccessed")
     }
     
-    final func unconfirmedTransactionsDenied(notification: NSNotification)
-    {
+    final func unconfirmedTransactionsDenied(notification: NSNotification) {
         state.append("unconfirmedTransactionsAllDenied")
     }
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return unconfirmedTransactions.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
-    {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var transaction :MultisigTransaction = unconfirmedTransactions[indexPath.row] as! MultisigTransaction
         
-        switch (transaction.innerTransaction.type)
-        {
+        switch (transaction.innerTransaction.type) {
         case transferTransaction:
             return 344
             
@@ -281,12 +248,10 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         return 344
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var transaction :MultisigTransaction = unconfirmedTransactions[indexPath.row] as! MultisigTransaction
         
-        switch (transaction.innerTransaction.type)
-        {
+        switch (transaction.innerTransaction.type) {
         case transferTransaction:
             var cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
             cell.fromAccount.text = AddressGenerator().generateAddress(((transaction.innerTransaction) as! TransferTransaction).signer)

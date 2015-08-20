@@ -13,12 +13,10 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
     
     var invoice = State.invoice!
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToCreateQRResult
-        {
+        if State.fromVC != SegueToCreateQRResult {
             State.fromVC = SegueToCreateQRResult
         }
         
@@ -51,33 +49,28 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
 
     }
     
-    override func viewDidAppear(animated: Bool)
-    {
+    override func viewDidAppear(animated: Bool) {
         self.share.imageEdgeInsets = UIEdgeInsetsMake(10, self.share.bounds.width / 2 - 20, 30, self.share.bounds.width / 2 - 20)
         self.mail.imageEdgeInsets = UIEdgeInsetsMake(10, self.mail.bounds.width / 2 - 20, 30, self.mail.bounds.width / 2 - 20)
     }
 
-    @IBAction func shareBtn(sender: AnyObject)
-    {
+    @IBAction func shareBtn(sender: AnyObject) {
         
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook)
-        {            
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {            
             var facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             facebookSheet.setInitialText("Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!")
             facebookSheet.addImage(qrImage.image!)
             self.presentViewController(facebookSheet, animated: true, completion: nil)
             
         }
-        else
-        {
+        else {
             var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     
-    @IBAction func mailBtn(sender: AnyObject)
-    {
+    @IBAction func mailBtn(sender: AnyObject) {
         if(MFMailComposeViewController.canSendMail()){
             var myMail : MFMailComposeViewController = MFMailComposeViewController()
             
@@ -96,20 +89,17 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
             //Display the view controller
             self.presentViewController(myMail, animated: true, completion: nil)
         }
-        else
-        {
+        else {
             var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!)
-    {
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 

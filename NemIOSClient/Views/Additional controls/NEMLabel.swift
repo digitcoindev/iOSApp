@@ -3,8 +3,7 @@ import UIKit
 class NEMLabel: UILabel
 {
     var copylable :UILabel!
-    required init(coder aDecoder: NSCoder)
-    {
+    required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         self.userInteractionEnabled = true
@@ -25,8 +24,7 @@ class NEMLabel: UILabel
         self.addSubview(copylable)
     }
     
-    final func longPressDetected()
-    {
+    final func longPressDetected() {
         var pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
         pasteBoard.string = self.text
         copylable.hidden = false
@@ -34,8 +32,7 @@ class NEMLabel: UILabel
         NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: Selector("hideCopyLable"), userInfo: nil, repeats: false)
     }
     
-    func hideCopyLable()
-    {
+    func hideCopyLable() {
         copylable.hidden = true
     }
 }

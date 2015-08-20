@@ -10,12 +10,10 @@ class CreateQRInput: AbstractViewController
     
     var showRect :CGRect = CGRectZero
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToCreateQRInput
-        {
+        if State.fromVC != SegueToCreateQRInput {
             State.fromVC = SegueToCreateQRInput
         }
         
@@ -27,50 +25,40 @@ class CreateQRInput: AbstractViewController
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    @IBAction func hideKeyboard(sender: AnyObject)
-    {
-        if name.text == ""
-        {
+    @IBAction func hideKeyboard(sender: AnyObject) {
+        if name.text == "" {
             name.becomeFirstResponder()
         }
-        else if amount.text == ""
-        {
+        else if amount.text == "" {
             amount.becomeFirstResponder()
         }
-        else if message.text == ""
-        {
+        else if message.text == "" {
             message.becomeFirstResponder()
         }
-        else
-        {
+        else {
             
         }
         
         sender.becomeFirstResponder()
     }
     
-    @IBAction func confirm(sender: AnyObject)
-    {
+    @IBAction func confirm(sender: AnyObject) {
         var canCreate :Bool = true
         
-        if amount.text.toInt() == nil
-        {
+        if amount.text.toInt() == nil {
             canCreate = false
             amount.text = ""
         }
         
-        if name.text == ""
-        {
+        if name.text == "" {
             canCreate = false
         }
         
-        if canCreate
-        {
+        if canCreate {
             var invoice :InvoiceData = InvoiceData()
             invoice.name = name.text
             invoice.message = message.text
@@ -86,13 +74,11 @@ class CreateQRInput: AbstractViewController
         }
     }
     
-    @IBAction func touchDown(sender: AnyObject)
-    {
+    @IBAction func touchDown(sender: AnyObject) {
         showRect = sender.frame
     }
     
-    func keyboardWillShow(notification: NSNotification)
-    {
+    func keyboardWillShow(notification: NSNotification) {
         var info:NSDictionary = notification.userInfo!
         var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
@@ -108,8 +94,7 @@ class CreateQRInput: AbstractViewController
         self.scroll.scrollRectToVisible(showRect, animated: true)
     }
     
-    func keyboardWillHide(notification: NSNotification)
-    {
+    func keyboardWillHide(notification: NSNotification) {
         self.scroll.contentInset = UIEdgeInsetsZero
         self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }

@@ -7,15 +7,13 @@ class ImportanceTransferTransaction: TransactionPostMetaData
     var mode :Int!
     
     
-    override init()
-    {
+    override init() {
         super.init()
         
         type = importanceTransaction
     }
     
-    final override func getFrom(dictionary: NSDictionary)
-    {
+    final override func getFrom(dictionary: NSDictionary) {
         
     }
 }

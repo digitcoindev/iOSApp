@@ -4,22 +4,18 @@ class MultisigTransaction: TransactionPostMetaData
 {
     var innerTransaction : TransactionPostMetaData!
     var signatures :[Signature] = [Signature]()
-    override init()
-    {
+    override init() {
         super.init()
         
         type = multisigTransaction
     }
     
-    final override func getFrom(dictionary: NSDictionary)
-    {
-        if dictionary.objectForKey("signature") != nil
-        {
+    final override func getFrom(dictionary: NSDictionary) {
+        if dictionary.objectForKey("signature") != nil {
             self.signature = dictionary.objectForKey("signature") as! String
         }
         
-        for dic in dictionary.objectForKey("signatures") as! [NSDictionary]
-        {
+        for dic in dictionary.objectForKey("signatures") as! [NSDictionary] {
             var sign :Signature = Signature().fromDictionary(dic)
             self.signatures.append(sign)
         }
@@ -33,8 +29,7 @@ class MultisigTransaction: TransactionPostMetaData
         
         var innerDictionary :NSDictionary = dictionary.objectForKey("otherTrans") as! NSDictionary
          
-        switch(innerDictionary.objectForKey("type") as! Int)
-        {
+        switch(innerDictionary.objectForKey("type") as! Int) {
             
         case transferTransaction:
             var transaction :TransferTransaction = TransferTransaction()

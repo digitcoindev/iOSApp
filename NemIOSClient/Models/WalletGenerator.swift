@@ -3,12 +3,10 @@ class WalletGenerator: NSObject
 {
     let dataManager : CoreDataManager = CoreDataManager()
 
-    final func createWallet(login: String , password :String , privateKey :String? = nil)
-    {
+    final func createWallet(login: String , password :String , privateKey :String? = nil) {
         var privateKeyString :String? = privateKey
         
-        if privateKeyString == nil
-        {
+        if privateKeyString == nil {
             privateKeyString = KeyGenerator.generatePrivateKey()
         }
         
@@ -22,8 +20,7 @@ class WalletGenerator: NSObject
 
     }
     
-    final func importWallet(login: String , password :String , privateKey :String , salt :String)
-    {
+    final func importWallet(login: String , password :String , privateKey :String , salt :String) {
         dataManager.addWallet(login, password: password ,privateKey: privateKey, salt: salt)
     }
 }

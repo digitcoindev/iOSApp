@@ -11,12 +11,10 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
     
     var showMe = true
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
-        if State.fromVC != SegueToGoogleMap
-        {
+        if State.fromVC != SegueToGoogleMap {
             State.fromVC = SegueToGoogleMap
         }
         
@@ -27,14 +25,12 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         
-        if CLLocationManager.locationServicesEnabled()
-        {
+        if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        else
-        {
+        else {
             println("Location service disabled");
         }
         camera = GMSCameraPosition.cameraWithLatitude(0,
@@ -49,12 +45,10 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
 
     }
 
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!)
-    {
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         var locValue:CLLocationCoordinate2D = manager.location.coordinate
         
-        if showMe
-        {
+        if showMe {
             mapView.camera = GMSCameraPosition.cameraWithLatitude(locValue.latitude,
             longitude:locValue.longitude, zoom:16)
             
@@ -69,8 +63,7 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
 
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }

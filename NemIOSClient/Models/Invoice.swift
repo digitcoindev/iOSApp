@@ -10,8 +10,7 @@ class Invoice: NSManagedObject
     @NSManaged var amount: NSNumber
     @NSManaged var message: String
 
-    class func createInManagedObjectContext(moc: NSManagedObjectContext, address: String, name: String , message: String , amount: Int , number: Int ) -> Invoice
-    {
+    class func createInManagedObjectContext(moc: NSManagedObjectContext, address: String, name: String , message: String , amount: Int , number: Int ) -> Invoice {
         let newItem = NSEntityDescription.insertNewObjectForEntityForName("Invoice", inManagedObjectContext: moc) as! Invoice
         newItem.address = address
         newItem.name = name

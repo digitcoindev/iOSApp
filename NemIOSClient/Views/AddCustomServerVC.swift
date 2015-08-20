@@ -25,8 +25,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
     
     //MARK: - Load Methods
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.userInteractionEnabled = true
@@ -42,8 +41,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
         contentView.clipsToBounds = true
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
@@ -54,8 +52,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
         self.removeFromParentViewController()
     }
     
-    @IBAction func textFieldChange(sender: UITextField)
-    {
+    @IBAction func textFieldChange(sender: UITextField) {
         switch sender {
         case protocolType:
             serverAddress.becomeFirstResponder()
@@ -68,35 +65,28 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
         }
     }
     
-    @IBAction func addServer(sender: AnyObject)
-    {
-        if !Validate.stringNotEmpty(serverAddress.text) || !Validate.stringNotEmpty(serverPort.text) || !Validate.stringNotEmpty(protocolType.text)
-        {
+    @IBAction func addServer(sender: AnyObject) {
+        if !Validate.stringNotEmpty(serverAddress.text) || !Validate.stringNotEmpty(serverPort.text) || !Validate.stringNotEmpty(protocolType.text) {
             var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
-        else if protocolType.text != "http"
-        {
+        else if protocolType.text != "http" {
             var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("SERVER_PROTOCOL_NOT_AVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
-        else
-        {
+        else {
             var servers :[Server] =  _dataManager.getServers()
             _newServer = nil
             
-            for server in servers
-            {
-                if server.protocolType == protocolType.text && server.address == serverAddress.text && server.port == serverPort.text
-                {
+            for server in servers {
+                if server.protocolType == protocolType.text && server.address == serverAddress.text && server.port == serverPort.text {
                     _newServer = server
                     
                     break
                 }
             }
             
-            if _newServer == nil
-            {
+            if _newServer == nil {
                 _newServer =  _dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
             }
                         

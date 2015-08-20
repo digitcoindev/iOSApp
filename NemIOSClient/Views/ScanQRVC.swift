@@ -9,12 +9,10 @@ class ScanQRVC: AbstractViewController
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     let addressBook : ABAddressBookRef? = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToScanQR
-        {
+        if State.fromVC != SegueToScanQR {
             State.fromVC = SegueToScanQR
         }
         
@@ -29,27 +27,22 @@ class ScanQRVC: AbstractViewController
     }
 
     
-    final func detectedQR(notification: NSNotification)
-    {
+    final func detectedQR(notification: NSNotification) {
         var base64String :String = notification.object as! String
-        if base64String != "Empty scan"
-        {
+        if base64String != "Empty scan" {
             var jsonData :NSData = NSData(base64EncodedString: base64String)
             var err: NSError?
             var jsonStructure :NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves, error: &err) as! NSDictionary
             
-            switch (jsonStructure.objectForKey("type") as! Int)
-            {
+            switch (jsonStructure.objectForKey("type") as! Int) {
             case 1:
                 
                 var friendDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
                 
-                if AddressBookManager.isAllowed
-                {
+                if AddressBookManager.isAllowed {
                     addFriend(friendDictionary)
                 }
-                else
-                {
+                else {
                     var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 }
@@ -67,8 +60,7 @@ class ScanQRVC: AbstractViewController
         }
     }
     
-    final func performInvoice(invoiceDictionary :NSDictionary)
-    {
+    final func performInvoice(invoiceDictionary :NSDictionary) {
         var invoice :InvoiceData = InvoiceData()
         
         invoice.address = invoiceDictionary.objectForKey("address") as! String
@@ -78,20 +70,16 @@ class ScanQRVC: AbstractViewController
         
         State.invoice = invoice
         
-        if State.invoice != nil
-        {
+        if State.invoice != nil {
             NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToSendTransaction )
         }
 
     }
     
-    final func addFriend(friendDictionary :NSDictionary)
-    {
-        ABAddressBookRequestAccessWithCompletion(addressBook,
-            {
+    final func addFriend(friendDictionary :NSDictionary) {
+        ABAddressBookRequestAccessWithCompletion(addressBook, {
                 (granted : Bool, error: CFError!) -> Void in
-                if granted == true
-                {
+                if granted == true {
                     var newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
                     
                     var error: Unmanaged<CFErrorRef>? = nil
@@ -168,16 +156,14 @@ class ScanQRVC: AbstractViewController
                     self.presentViewController(alert1, animated: true, completion: nil)
                     
                 }
-                else
-                {
+                else {
                     var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Can not access adressbook.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 }
         })
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }

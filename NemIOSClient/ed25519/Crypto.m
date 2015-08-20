@@ -10,8 +10,7 @@
     CC_SHA256(str, strlen(str), result);
     
     NSMutableString *ret = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH*2];
-    for(int i = 0; i<CC_SHA256_DIGEST_LENGTH; i++)
-    {
+    for(int i = 0; i<CC_SHA256_DIGEST_LENGTH; i++) {
         [ret appendFormat:@"%02x",result[i]];
     }
     return ret;
@@ -48,8 +47,7 @@
                                           buffer, bufferSize, /* output */
                                           &numBytesEncrypted);
     
-    if (cryptStatus == kCCSuccess)
-    {
+    if (cryptStatus == kCCSuccess) {
         //the returned NSData takes ownership of the buffer and will free it on deallocation
         return [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
     }
@@ -84,8 +82,7 @@
                                           buffer, bufferSize, /* output */
                                           &numBytesDecrypted);
     
-    if (cryptStatus == kCCSuccess)
-    {
+    if (cryptStatus == kCCSuccess) {
         //the returned NSData takes ownership of the buffer and will free it on deallocation
         return [NSData dataWithBytesNoCopy:buffer length:numBytesDecrypted];
     }
@@ -120,12 +117,10 @@
     hash = [hash stringByReplacingOccurrencesOfString:@"<" withString:@""];
     hash = [hash stringByReplacingOccurrencesOfString:@">" withString:@""];
     
-    if(length > [hash length])
-    {
+    if(length > [hash length]) {
         return  hash;
     }
-    else
-    {
+    else {
         return [hash substringToIndex:length];
     }
 }

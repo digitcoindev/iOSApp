@@ -66,8 +66,7 @@ class RegistrationVC: AbstractViewController
     
     @IBAction func validateField(sender: UITextField){
         
-        switch sender
-        {
+        switch sender {
         case createPassword , repeatPassword:
             
             if Validate.password(createPassword.text){
@@ -95,10 +94,8 @@ class RegistrationVC: AbstractViewController
         var a = NSLocalizedString("VALIDATION", comment: "Title")
 
         if createPassword.text != "" && repeatPassword.text != "" && userName.text != "" {
-            if Validate.password(createPassword.text)
-            {
-                if(createPassword.text == repeatPassword.text)
-                {
+            if Validate.password(createPassword.text) {
+                if(createPassword.text == repeatPassword.text) {
                     WalletGenerator().createWallet(userName.text, password: createPassword.text)
                     
                     State.fromVC = SegueToRegistrationVC

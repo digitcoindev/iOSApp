@@ -27,8 +27,7 @@ class APIManager: NSObject
     //API
     
     final func heartbeat(server :Server) {
-        dispatch_async(_apiDipatchQueue,
-            {
+        dispatch_async(_apiDipatchQueue, {
                 () -> Void in
                 
                 var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
@@ -79,8 +78,7 @@ class APIManager: NSObject
     }
     
     final func accountGet(server :Server, account_address :String)  {
-        dispatch_async(_apiDipatchQueue,
-            {
+        dispatch_async(_apiDipatchQueue, {
                 () -> Void in
                 
                 var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/get?address=" + account_address))!)
@@ -133,8 +131,7 @@ class APIManager: NSObject
     }
     
     final func accountTransfersAll(server :Server, account_address :String) {
-        dispatch_async(_apiDipatchQueue,
-            {
+        dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
                 var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/transfers/all?address=" + account_address))!)
@@ -221,8 +218,7 @@ class APIManager: NSObject
     
     final func unconfirmedTransactions(server :Server, account_address :String) {
 
-        dispatch_async(_apiDipatchQueue,
-            {
+        dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
                 var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/unconfirmedTransactions?address=" + account_address))!)
@@ -321,8 +317,7 @@ class APIManager: NSObject
     }
     
     final func prepareAnnounce(server :Server, transaction :TransactionPostMetaData) {
-        dispatch_async(_apiDipatchQueue,
-            {
+        dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
                 var signedTransaction :SignedTransactionMetaData = SignManager.signTransaction(transaction)
@@ -365,8 +360,7 @@ class APIManager: NSObject
     }
     
     final func timeSynchronize(server :Server) {
-        dispatch_async(_apiDipatchQueue,
-            {
+        dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
                 var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/time-sync/network-time" ))!)

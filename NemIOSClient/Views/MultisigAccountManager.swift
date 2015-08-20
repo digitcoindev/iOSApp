@@ -22,12 +22,10 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
     var removeArray :[AccountGetMetaData]!
     var addArray = [String]()
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
-        if State.fromVC != SegueTomultisigAccountManager
-        {
+        if State.fromVC != SegueTomultisigAccountManager {
             State.fromVC = SegueTomultisigAccountManager
         }
         
@@ -58,33 +56,27 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
         
-        if State.currentServer != nil
-        {
+        if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)
         }
-        else
-        {
+        else {
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
         
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
     }
     
-    final func manageState()
-    {
-        switch (state.last!)
-        {
+    final func manageState() {
+        switch (state.last!) {
         case "accountGetSuccessed" :
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
             var publicKey = KeyGenerator.generatePublicKey(privateKey)
             
-            if publicKey == walletData.publicKey
-            {
+            if publicKey == walletData.publicKey {
                 var content :[String] = [String]()
                 var contentActions :[funcBlock] = [funcBlock]()
                 
-                if  walletData.cosignatoryOf.count == 0
-                {
+                if  walletData.cosignatoryOf.count == 0 {
                     content.append("This account")
                     contentActions.append(
                         {
@@ -96,8 +88,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
                             }
                     })
                 }
-                else
-                {
+                else {
                     for account in walletData.cosignatoryOf
                     {
                         content.append(account.address)
@@ -114,8 +105,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
                 }
                 chooseAccount.setContent(content, contentActions: contentActions)
             }
-            else
-            {
+            else {
                 lableTableOf.hidden = false
                 background.hidden = false
                 inputField.hidden = false
@@ -123,8 +113,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
                 keyValidator.hidden = false
                 scroll.scrollEnabled = true
 
-                for account in walletData.cosignatories
-                {
+                for account in walletData.cosignatories {
                     currentCosignatories.append(account.publicKey as String)
                 }
                 self.tableView.reloadData()
@@ -136,8 +125,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             state.removeLast()
             var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are confirmed and await \nfor server validation", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
-                {
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
             }
             
@@ -148,8 +136,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             state.removeLast()
             var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
-                {
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
             }
             
@@ -161,36 +148,30 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         }
     }
 
-    final func accountGetSuccessed(notification: NSNotification)
-    {
+    final func accountGetSuccessed(notification: NSNotification) {
         state.append("accountGetSuccessed")
         
         walletData = (notification.object as! AccountGetMetaData)
     }
     
-    final func accountGetDenied(notification: NSNotification)
-    {
+    final func accountGetDenied(notification: NSNotification) {
         state.append("accountGetDenied")
     }
     
-    final func prepareAnnounceSuccessed(notification: NSNotification)
-    {
+    final func prepareAnnounceSuccessed(notification: NSNotification) {
         state.append("prepareAnnounceSuccessed")
         
     }
     
-    final func prepareAnnounceDenied(notification: NSNotification)
-    {
+    final func prepareAnnounceDenied(notification: NSNotification) {
         state.append("prepareAnnounceDenied")
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currentCosignatories.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
         
         cell.key.text = ""
@@ -201,13 +182,11 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
     }
     
-    final func deleteCellAtIndex(notification: NSNotification)
-    {
+    final func deleteCellAtIndex(notification: NSNotification) {
         var index = notification.object as! Int
         var indexPath = NSIndexPath(forRow: index, inSection: 0)
         
@@ -215,23 +194,18 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         self.tableView.deleteRowsAtIndexPaths([indexPath] , withRowAnimation: .Fade)
     }
     
-    @IBAction func addChanges(sender: AnyObject)
-    {
+    @IBAction func addChanges(sender: AnyObject) {
         var newPublicKey :String = (sender as! UITextField).text
-        if Swift.count(newPublicKey.utf16) == 64
-        {
+        if Swift.count(newPublicKey.utf16) == 64 {
             var find : Bool = false
-            for publicKey in currentCosignatories
-            {
-                if publicKey == newPublicKey
-                {
+            for publicKey in currentCosignatories {
+                if publicKey == newPublicKey {
                     find = true
                     break
                 }
             }
             
-            if !find
-            {
+            if !find {
                 currentCosignatories.append(newPublicKey)
                 tableView.reloadData()
             }
@@ -242,51 +216,40 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         }
     }
 
-    @IBAction func typing(sender: NEMTextField)
-    {
-        if Swift.count(sender.text.utf16) == 64
-        {
+    @IBAction func typing(sender: NEMTextField) {
+        if Swift.count(sender.text.utf16) == 64 {
             keyValidator.hidden = false
         }
-        else
-        {
+        else {
             keyValidator.hidden = true
         }
     }
     
-    @IBAction func getRect(sender: NEMTextField)
-    {
+    @IBAction func getRect(sender: NEMTextField) {
         showRect = sender.frame
     }
     
-    @IBAction func saveChanges(sender: AnyObject)
-    {
+    @IBAction func saveChanges(sender: AnyObject) {
         removeArray = walletData.cosignatories
         
-        for publicKey in currentCosignatories
-        {
+        for publicKey in currentCosignatories {
             var find = false
-            for var index = 0 ; index < removeArray.count ;index++
-            {
-                if publicKey == removeArray[index].publicKey as String
-                {
+            for var index = 0 ; index < removeArray.count ;index++ {
+                if publicKey == removeArray[index].publicKey as String {
                     find = true
                     removeArray.removeAtIndex(index)
                 }
             }
             
-            if !find
-            {
+            if !find {
                 addArray.append(publicKey)
             }
         }
         
-        if removeArray.count > 1
-        {
+        if removeArray.count > 1 {
             var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. You can remove only one cosignatori per transaction.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
-                {
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                     
                     self.currentCosignatories.removeAll(keepCapacity: false)
@@ -303,12 +266,10 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             
             self.presentViewController(alert, animated: true, completion: nil)
         }
-        else if (addArray.count - removeArray.count + walletData.cosignatories.count) > 16
-        {
+        else if (addArray.count - removeArray.count + walletData.cosignatories.count) > 16 {
             var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. Too many cosignatories.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
-                {
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                     
                     self.currentCosignatories.removeAll(keepCapacity: false)
@@ -325,14 +286,12 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             
             self.presentViewController(alert, animated: true, completion: nil)
         }
-        else
-        {
+        else {
             var fee = 10 + 6 * Int64(addArray.count + removeArray.count)
             
             var alert1 :UIAlertController = UIAlertController(title: "Confirmation", message: "Are you agree with changes? It will cost \(fee) XEM", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var confirm :UIAlertAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default)
-                {
+            var confirm :UIAlertAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
                     
                     var transaction :AggregateModificationTransaction = AggregateModificationTransaction()
@@ -375,8 +334,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             }
             
             
-            var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive)
-                {
+            var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                     
                     self.currentCosignatories.removeAll(keepCapacity: false)
@@ -399,8 +357,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         }
     }
 
-    func keyboardWillShow(notification: NSNotification)
-    {
+    func keyboardWillShow(notification: NSNotification) {
         var info:NSDictionary = notification.userInfo!
         var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
@@ -416,14 +373,12 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         self.scroll.scrollRectToVisible(showRect, animated: true)
     }
     
-    func keyboardWillHide(notification: NSNotification)
-    {
+    func keyboardWillHide(notification: NSNotification) {
         self.scroll.contentInset = UIEdgeInsetsZero
         self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     

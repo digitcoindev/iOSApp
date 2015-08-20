@@ -23,8 +23,7 @@ void toHex(unsigned char *outHex, unsigned  char *inBytes, int32_t inBytesLen )
 {
     const char szNibbleToHex[] = {"0123456789abcdef" };
     
-    for (int i = 0; i < inBytesLen; i++)
-    {
+    for (int i = 0; i < inBytesLen; i++) {
         int nNibble = inBytes[i] >> 4;
         outHex[2 * i]  = szNibbleToHex[nNibble];
         
@@ -52,8 +51,7 @@ void createPrivateKey(unsigned char *out_private_key)
     
     keccak((uint8_t *) seed, seedSize, private_key, privateKeySize);
     
-    for (int i = 0; i < privateKeyPartSize; i++)
-    {
+    for (int i = 0; i < privateKeyPartSize; i++) {
         out_private_key[i] = private_key[i];
     }
 }
@@ -76,8 +74,7 @@ void createPublicKey(unsigned char *public_key,  unsigned char *private_key)
     
     ge_p3_tobytes(public_key_buffer, &A);
     
-    for(int i=0;i < publicKeySize ;i++)
-    {
+    for(int i=0;i < publicKeySize ;i++) {
         public_key[i] = public_key_buffer[i];
     }
     
@@ -93,8 +90,7 @@ void Sign(unsigned char *signature, unsigned char *data, int32_t dataSize, unsig
     
     ge_p3 R;
     
-    for (int i=0 ;i < privateKeyPartSize;++i)
-    {
+    for (int i=0 ;i < privateKeyPartSize;++i) {
         int value;
         sscanf(privateKey + 2 * i,"%02x",&value);
         private_key_bytes[privateKeyPartSize - 1 - i ] = value;
@@ -118,8 +114,7 @@ void Sign(unsigned char *signature, unsigned char *data, int32_t dataSize, unsig
     ge_scalarmult_base(&R, r);
     ge_p3_tobytes(signature, &R);
     
-    for (int i = 0 ;i < publicKeySize;++i)
-    {
+    for (int i = 0 ;i < publicKeySize;++i) {
         int value;
         sscanf(public_key + 2 * i,"%02x",&value);
         private_key_bytes[i] = value;

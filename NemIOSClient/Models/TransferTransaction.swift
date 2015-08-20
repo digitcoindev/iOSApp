@@ -6,17 +6,14 @@ class TransferTransaction: TransactionPostMetaData
     var recipient :String!
     var message :MessageGetMetaData = MessageGetMetaData()
     
-    override init()
-    {
+    override init() {
         super.init()
         
         type = transferTransaction
     }
     
-    final override func getFrom(dictionary: NSDictionary)
-    {
-        if dictionary.objectForKey("signature") != nil
-        {
+    final override func getFrom(dictionary: NSDictionary) {
+        if dictionary.objectForKey("signature") != nil {
             self.signature = dictionary.objectForKey("signature") as! String
         }
         
@@ -29,13 +26,11 @@ class TransferTransaction: TransactionPostMetaData
 
         var message : NSDictionary = dictionary.objectForKey("message") as! NSDictionary
         
-        if message.objectForKey("payload") != nil
-        {
+        if message.objectForKey("payload") != nil {
             self.message.payload = message.objectForKey("payload") as! String
             self.message.type = message.objectForKey("type") as! Double
         }
-        else
-        {
+        else {
             self.message.payload = ""
             self.message.type = 0
         }

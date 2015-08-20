@@ -2,8 +2,7 @@ import UIKit
 
 class KeyGenerator: NSObject
 {
-    final class func generatePrivateKey()->String
-    {
+    final class func generatePrivateKey()->String {
         var privateKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
         
         createPrivateKey(&privateKeyBytes)
@@ -13,8 +12,7 @@ class KeyGenerator: NSObject
         return privateKey
     }
     
-    final class func generatePublicKey(privateKey: String)->String
-    {       
+    final class func generatePublicKey(privateKey: String)->String {       
         var publicKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
         var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(32)
         

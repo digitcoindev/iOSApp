@@ -5,15 +5,12 @@ class ViewController: UIViewController
     let deviceData : plistFileManager = plistFileManager()
     let dataManager :CoreDataManager = CoreDataManager()
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         var errorLogs = plistFileManager().readErrorLog()
-        if errorLogs != nil
-        {
-            if errorLogs != ""
-            {
+        if errorLogs != nil {
+            if errorLogs != "" {
                 var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Error copied to pasteboard ", delegate: self, cancelButtonTitle: "OK")
                 alert.show()
 
@@ -52,8 +49,7 @@ class ViewController: UIViewController
 
     }
     
-    override func viewDidAppear(animated: Bool)
-    {
+    override func viewDidAppear(animated: Bool) {
         AddressBookManager.create()
         
         self.performSegueWithIdentifier(SegueToMainVC, sender: self)
@@ -124,8 +120,7 @@ class ViewController: UIViewController
 //        address key : TCXKX7BR7Q7UKH5ZHRCJGG6GCLKDIERJYNGOEIRF
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 

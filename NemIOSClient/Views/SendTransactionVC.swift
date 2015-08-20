@@ -21,12 +21,10 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
     var timer :NSTimer!
     var showRect :CGRect = CGRectZero
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToSendTransaction
-        {
+        if State.fromVC != SegueToSendTransaction {
             State.fromVC = SegueToSendTransaction
         }
         
@@ -47,17 +45,14 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
         
-        if State.currentServer != nil
-        {
+        if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)
         }
-        else
-        {
+        else {
             NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
         }
         
-        if State.invoice != nil
-        {
+        if State.invoice != nil {
             InputAmound.text = "\(invoice!.amount)"
             InputMessage.text = "\(invoice!.message)"
             
@@ -72,34 +67,28 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
 
     }
 
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    deinit
-    {
+    deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     
     
-    final func manageState()
-    {
-        switch (state.last!)
-        {
+    final func manageState() {
+        switch (state.last!) {
         case "accountGetSuccessed" :
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
             var publicKey = KeyGenerator.generatePublicKey(privateKey)
             
-            if publicKey == walletData.publicKey
-            {
+            if publicKey == walletData.publicKey {
                 var content :[String] = [String]()
                 var contentActions :[funcBlock] = [funcBlock]()
                 var accountAddress :String = self.walletData.address
                 content.append("This account")
-                contentActions.append(
-                {
+                contentActions.append( {
                     () -> () in
                 
                     if State.currentServer != nil
@@ -108,8 +97,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
                     }
                 })
                 
-                for account in walletData.cosignatoryOf
-                {
+                for account in walletData.cosignatoryOf {
                     content.append(account.address)
                     contentActions.append(
                     {
@@ -134,8 +122,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             state.removeLast()
             var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "SUCCESS", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
-                {
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
             }
             
@@ -146,8 +133,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             state.removeLast()
             var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "DENIED\nTry again later. Or check connection to server.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
-                {
+            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
             }
             
@@ -159,64 +145,50 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         }
     }
 
-    final func accountGetSuccessed(notification: NSNotification)
-    {
+    final func accountGetSuccessed(notification: NSNotification) {
         state.append("accountGetSuccessed")
         
         walletData = (notification.object as! AccountGetMetaData)
     }
     
-    final func accountGetDenied(notification: NSNotification)
-    {
+    final func accountGetDenied(notification: NSNotification) {
         state.append("accountGetDenied")
     }
     
-    final func prepareAnnounceSuccessed(notification: NSNotification)
-    {
+    final func prepareAnnounceSuccessed(notification: NSNotification) {
         var json = notification.object as! NSDictionary
         var message :String = json.objectForKey("message") as! String
-        if message == "SUCCESS"
-        {
+        if message == "SUCCESS" {
             state.append("prepareAnnounceSuccessed")
         }
-        else
-        {
+        else {
             state.append("prepareAnnounceDenied")
         }
     }
     
-    final func prepareAnnounceDenied(notification: NSNotification)
-    {
+    final func prepareAnnounceDenied(notification: NSNotification) {
         state.append("prepareAnnounceDenied")
     }
     
-    @IBAction func touchDown(sender: AnyObject)
-    {
+    @IBAction func touchDown(sender: AnyObject) {
         showRect = sender.frame
     }
     
-    @IBAction func addXEMs(sender: AnyObject)
-    {
-        if (sender as! UITextField).text.toInt() != nil
-        {
+    @IBAction func addXEMs(sender: AnyObject) {
+        if (sender as! UITextField).text.toInt() != nil {
             self.xems = (sender as! UITextField).text.toInt()!
         }
-        else
-        {
+        else {
             self.xems = 0
         }
         
         countTransactionFee()
     }
     
-    @IBAction func send(sender: AnyObject)
-    {
-        if walletData != nil
-        {
-            if Int64(walletData.balance) > Int64(xems)
-            {
-                if (InputMessage.text != "" || xems != 0 ) && State.currentServer != nil
-                {
+    @IBAction func send(sender: AnyObject) {
+        if walletData != nil {
+            if Int64(walletData.balance) > Int64(xems) {
+                if (InputMessage.text != "" || xems != 0 ) && State.currentServer != nil {
                     var transaction :TransferTransaction = TransferTransaction()
                     
                     transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
@@ -238,8 +210,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
                     transactionFeeLable.text = ""
                 }
             }
-            else
-            {
+            else {
                 var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Not enough money", preferredStyle: UIAlertControllerStyle.Alert)
                 
                 var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
@@ -253,37 +224,30 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         }
     }
     
-    final func countTransactionFee()
-    {
-        if xems >= 8
-        {
+    final func countTransactionFee() {
+        if xems >= 8 {
             transactionFee = max(2, 99 * atan(Double(xems) / 150000))
         }
-        else
-        {
+        else {
             transactionFee = 10 - Double(xems)
         }
         
-        if count(InputMessage.text.utf16) != 0
-        {
+        if count(InputMessage.text.utf16) != 0 {
             transactionFee += Double(2 * max(1, Int( count(InputMessage.text.utf16) / 16)))
         }
         
         self.transactionFeeLable.text = "\(Int64(transactionFee)) XEM"
     }
     
-    @IBAction func typing(sender: NEMTextField)
-    {
+    @IBAction func typing(sender: NEMTextField) {
         countTransactionFee()
     }
     
-    @IBAction func closeKeyboard(sender: UITextField)
-    {
+    @IBAction func closeKeyboard(sender: UITextField) {
         sender.becomeFirstResponder()
     }
     
-    func keyboardWillShow(notification: NSNotification)
-    {
+    func keyboardWillShow(notification: NSNotification) {
         var info:NSDictionary = notification.userInfo!
         var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
@@ -299,8 +263,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         self.scroll.scrollRectToVisible(showRect, animated: true)
     }
     
-    func keyboardWillHide(notification: NSNotification)
-    {
+    func keyboardWillHide(notification: NSNotification) {
         self.scroll.contentInset = UIEdgeInsetsZero
         self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }

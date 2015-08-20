@@ -5,17 +5,14 @@ class AggregateModificationTransaction: TransactionPostMetaData
     var modifications :[AccountModification] = [AccountModification]()
     var minCosignatory :Int!
     
-    override init()
-    {
+    override init() {
         super.init()
         minCosignatory = 0
         type = multisigAggregateModificationTransaction
     }
     
-    final func addModification(type :Int , publicKey :String)
-    {
-        if count(publicKey.utf16) != 64
-        {
+    final func addModification(type :Int , publicKey :String) {
+        if count(publicKey.utf16) != 64 {
             println("ERROR. Modification receive public key with wrong length (length : \(count(publicKey.utf16) / 2) bytes)")
         }
         
@@ -26,20 +23,17 @@ class AggregateModificationTransaction: TransactionPostMetaData
         self.modifications.append(modification)
     }
     
-    final override func getFrom(dictionary: NSDictionary)
-    {
+    final override func getFrom(dictionary: NSDictionary) {
         self.timeStamp = dictionary.objectForKey("timeStamp") as! Double
         self.deadline = dictionary.objectForKey("deadline") as! Double
         self.version = dictionary.objectForKey("version") as! Double
         self.signer = dictionary.objectForKey("signer") as! String
         
-        if dictionary.objectForKey("signature") != nil
-        {
+        if dictionary.objectForKey("signature") != nil {
             self.signature = dictionary.objectForKey("signature") as! String
         }
 
-        for modification in dictionary.objectForKey("modifications") as! [NSDictionary]
-        {
+        for modification in dictionary.objectForKey("modifications") as! [NSDictionary] {
         self.addModification(modification.objectForKey("modificationType") as! Int, publicKey: modification.objectForKey("cosignatoryAccount") as! String)
         }
         

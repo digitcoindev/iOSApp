@@ -14,12 +14,10 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
     var displayList :NSMutableArray = NSMutableArray()
     var walletData :AccountGetMetaData!
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
-        if State.fromVC != SegueToAddressBook
-        {
+        if State.fromVC != SegueToAddressBook {
             State.fromVC = SegueToAddressBook
         }
         
@@ -27,8 +25,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Contacts")
         
-        if State.currentServer != nil
-        {
+        if State.currentServer != nil {
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
             var publicKey = KeyGenerator.generatePublicKey(privateKey)
             var account_address = AddressGenerator().generateAddress(publicKey)
@@ -45,60 +42,49 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
     }
 
-    final func accountGetSuccessed(notification: NSNotification)
-    {
+    final func accountGetSuccessed(notification: NSNotification) {
         walletData = (notification.object as! AccountGetMetaData)
     }
     
-    override func didReceiveMemoryWarning()
-    {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func endAction(sender: AnyObject)
-    {
+    @IBAction func endAction(sender: AnyObject) {
         searchTextField.becomeFirstResponder()
     }
     
-    @IBAction func filterChanged(sender: AnyObject)
-    {
+    @IBAction func filterChanged(sender: AnyObject) {
         displayList.removeAllObjects()
         
-        if contacts == nil || contacts!.count == 0
-        {
+        if contacts == nil || contacts!.count == 0 {
             return
         }
         
-        for contact in contacts!
-        {
+        for contact in contacts! {
             var isValidValue = false
             var needToAddSearchFilter = self.searchTextField.text != nil && self.searchTextField.text != ""
             
-            if needToAddSearchFilter
-            {
-                if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil
-                {
+            if needToAddSearchFilter {
+                if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil {
                     if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text).evaluateWithObject(ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as! String)
                     {
                         isValidValue = true
                     }
                 }
                 
-                if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil
-                {
+                if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil {
                     if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text).evaluateWithObject(ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as! String)
                     {
                         isValidValue = true
                     }
                 }
             }
-            else
-            {
+            else {
                 isValidValue = true
             }
             
-            if !isValidValue
-            {
+            if !isValidValue {
                 continue
             }
             
@@ -106,12 +92,10 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
             let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
             let count  :Int = ABMultiValueGetCount(emails)
             
-            if count > 0
-            {
+            if count > 0 {
                 var isConnectedNEMAddress = false
                 
-                for var index:CFIndex = 0; index < count; ++index
-                {
+                for var index:CFIndex = 0; index < count; ++index {
                     var lable  = ABMultiValueCopyLabelAtIndex(emails, index)
                     if lable != nil
                     {
@@ -122,13 +106,11 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
                     }
                 }
                 
-                if self.filter.isFilterActive != isConnectedNEMAddress
-                {
+                if self.filter.isFilterActive != isConnectedNEMAddress {
                     continue
                 }
             }
-            else if self.filter.isFilterActive
-            {
+            else if self.filter.isFilterActive {
                 continue
             }
             
@@ -138,13 +120,10 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
         self.tableView.reloadData()
     }
     
-    @IBAction func addContact(sender: AnyObject)
-    {
-        ABAddressBookRequestAccessWithCompletion(addressBook,
-            {
+    @IBAction func addContact(sender: AnyObject) {
+        ABAddressBookRequestAccessWithCompletion(addressBook, {
                 (granted : Bool, error: CFError!) -> Void in
-                if granted == true
-                {
+                if granted == true {
                     var newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
                     
                     var error: Unmanaged<CFErrorRef>? = nil
@@ -216,8 +195,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
                     
                     self.presentViewController(alert1, animated: true, completion: nil)
                 }
-                else
-                {
+                else {
                     println("No access.")
                     
                 }
@@ -227,44 +205,36 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
         self.tableView.reloadData()
     }
     
-    final func sortContacts()
-    {
+    final func sortContacts() {
         
     }
         
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return displayList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : AddressCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as! AddressCell
         var person :ABRecordRef = displayList[indexPath.row]
         
         cell.user.text = ""
         
-        if ABRecordCopyValue(person, kABPersonFirstNameProperty) != nil
-        {
+        if ABRecordCopyValue(person, kABPersonFirstNameProperty) != nil {
             cell.user.text = (ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as! String) + " "
         }
         
-        if  ABRecordCopyValue(person, kABPersonLastNameProperty) != nil
-        {
+        if  ABRecordCopyValue(person, kABPersonLastNameProperty) != nil {
             cell.user.text = cell.user.text! + ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as String)
         }
         
         let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
         let count  :Int = ABMultiValueGetCount(emails)
         
-        if count > 0
-        {
-            for var index:CFIndex = 0; index < count; ++index
-            {
+        if count > 0 {
+            for var index:CFIndex = 0; index < count; ++index {
                 var lable  = ABMultiValueCopyLabelAtIndex(emails, index)
-                if lable != nil
-                {
+                if lable != nil {
                     if lable.takeUnretainedValue()  == "NEM"
                     {
                         cell.indicator.hidden = false
@@ -276,25 +246,21 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
                 }
             }
         }
-        else
-        {
+        else {
             cell.indicator.hidden = true
         }
 
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var cell :AddressCell = tableView.cellForRowAtIndexPath(indexPath) as! AddressCell
         
-        if cell.indicator.hidden
-        {
+        if cell.indicator.hidden {
             var alert1 :UIAlertController = UIAlertController(title: "Add NEM address", message: "Input new address", preferredStyle: UIAlertControllerStyle.Alert)
             
             var address :UITextField!
-            alert1.addTextFieldWithConfigurationHandler
-                {
+            alert1.addTextFieldWithConfigurationHandler {
                     textField -> Void in
                     textField.placeholder = "address"
                     textField.keyboardType = UIKeyboardType.ASCIICapable
@@ -304,8 +270,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
                     
             }
             
-            var addNEMaddress :UIAlertAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default)
-                {
+            var addNEMaddress :UIAlertAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
                     
                     if(address != "")
@@ -323,8 +288,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
 
             }
             
-            var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
-                {
+            var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
                     alertAction -> Void in
                     alert1.dismissViewControllerAnimated(true, completion: nil)
                     cell.setSelected(false, animated: true)
@@ -336,10 +300,8 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
             self.presentViewController(alert1, animated: true, completion: nil)
 
         }
-        else if walletData != nil
-        {
-            if walletData.publicKey != nil
-            {
+        else if walletData != nil {
+            if walletData.publicKey != nil {
                 var person :ABRecordRef = displayList[indexPath.row]
                 
                 let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue()
@@ -347,8 +309,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
                 
                 var key :String!
 
-                for var index = 0; index < count; ++index
-                {
+                for var index = 0; index < count; ++index {
                     var lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue() as String
                     if lable == "NEM"
                     {
@@ -358,13 +319,11 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
                 }
                 var title :String = ""
                 
-                if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString
-                {
+                if var name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString {
                     title = (name as String)
                 }
                 
-                if ABRecordCopyValue(person, kABPersonLastNameProperty) != nil
-                {
+                if ABRecordCopyValue(person, kABPersonLastNameProperty) != nil {
                     title = title + " " +  ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as! NSString) as String)
                 }
                 
@@ -390,8 +349,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
 
                 NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToMessages )
             }
-            else
-            {
+            else {
                 var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your account could not sent transactions. Please increase your balance", delegate: self, cancelButtonTitle: "OK")
                 alert.show()
 
