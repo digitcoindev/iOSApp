@@ -68,19 +68,19 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     final func accountGetResponceWithAccount(account: AccountGetMetaData?) {
         if let responceAccount = account {
             walletData = responceAccount
-            var userDescrription :NSMutableAttributedString!
+            var userDescription :NSMutableAttributedString!
             
             if let wallet = State.currentWallet {
-                userDescrription = NSMutableAttributedString(string: "\(wallet.login)")
+                userDescription = NSMutableAttributedString(string: "\(wallet.login)")
             }
             
             var format = ".0"
             var attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
             var balance = " \((walletData.balance / 1000000).format(format)) XEM"
             
-            userDescrription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
+            userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
             
-            self.userInfo.attributedText = userDescrription
+            self.userInfo.attributedText = userDescription
             
             if walletData.cosignatoryOf.count > 0 {
                 _unconfirmedTransactions.removeAll(keepCapacity: false)
@@ -298,7 +298,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         var publicKey = KeyGenerator.generatePublicKey(privateKey)
-        var account_address = AddressGenerator().generateAddress(publicKey)
+        var account_address = AddressGenerator.generateAddress(publicKey)
         
         if State.currentServer != nil {
             _apiManager.accountGet(State.currentServer!, account_address: account_address)
@@ -362,23 +362,13 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! MessageCell
         var cellData  : Correspondent = _displayList[indexPath.row] as! Correspondent
-        var message :TransferTransaction? = cellData.transaction
+        var transaction :TransferTransaction? = cellData.transaction
         
         cell.name.text = "  " + cellData.name
         
-        if message != nil {
+        if transaction != nil {
             
-            switch message!.message.type{
-            case 1:
-                cell.message.text = message!.message.payload.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
-                
-            case 2:
-                cell.message.text = "encrypted message (not implemented)"
-
-            default :
-                cell.message.text = ""
-            }
-            cell.message.text = message!.message.payload
+            cell.message.text = MessageCrypto.getMessageStringFrom(transaction!.message)
         }
         else {
             cell.message.text = ""
@@ -387,7 +377,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         var dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        var timeStamp = Double(message!.timeStamp )
+        var timeStamp = Double(transaction!.timeStamp )
         
         timeStamp += genesis_block_time
         
@@ -398,10 +388,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
+        var account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         var color :UIColor!
         var vector :String = ""
-        if message?.recipient != account_address {
+        if transaction?.recipient != account_address {
             color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
             vector = "+"
         } else {
@@ -412,7 +402,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         var attribute = [NSForegroundColorAttributeName : color]
         
         var format = ".0"
-        var amount = vector + "\((message!.amount / 1000000).format(format)) XEM"
+        var amount = vector + "\((transaction!.amount / 1000000).format(format)) XEM"
         
         cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
                 

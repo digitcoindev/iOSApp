@@ -22,13 +22,13 @@ class Correspondent: NSObject {
         
         if State.currentWallet != nil {
             privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
+            account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         }
         
         for transaction in transactions {
             var find = false
             
-            var signerAddress = AddressGenerator().generateAddress(transaction.signer)
+            var signerAddress = AddressGenerator.generateAddress(transaction.signer)
             
             for correspondent in correspondents {
                 if correspondent.address == signerAddress && signerAddress != account_address {

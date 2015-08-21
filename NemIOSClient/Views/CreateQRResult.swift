@@ -26,7 +26,7 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
         xems.text = "\(invoice.amount)" + " XEM"
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var address_Normal = AddressGenerator().generateAddressFromPrivateKey(privateKey)
+        var address_Normal = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         address.text = address_Normal
         

@@ -37,7 +37,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         var publicKey = KeyGenerator.generatePublicKey(privateKey)
-        var account_address = AddressGenerator().generateAddress(publicKey)
+        var account_address = AddressGenerator.generateAddress(publicKey)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -82,7 +82,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
                     var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
                     sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
                     var innerTrans :TransferTransaction = transaction.innerTransaction as! TransferTransaction
-                    sendTrans.multisigAccountAddress = AddressGenerator().generateAddress(innerTrans.signer)
+                    sendTrans.multisigAccountAddress = AddressGenerator.generateAddress(innerTrans.signer)
                     
                     sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
                     sendTrans.fee = 6
@@ -97,7 +97,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
                     var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
                     sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
                     var innerTrans :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
-                    sendTrans.multisigAccountAddress = AddressGenerator().generateAddress(innerTrans.signer)
+                    sendTrans.multisigAccountAddress = AddressGenerator.generateAddress(innerTrans.signer)
                     
                     sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
                     sendTrans.fee = 6
@@ -120,7 +120,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             
             var transaction :AggregateModificationTransaction = (unconfirmedTransactions[selectedIndex] as! MultisigTransaction).innerTransaction as! AggregateModificationTransaction
             
-            text += AddressGenerator().generateAddress(transaction.signer) + "\n"
+            text += AddressGenerator.generateAddress(transaction.signer) + "\n"
             
             for modification in transaction.modifications {
                 if modification.modificationType == 1 {
@@ -254,7 +254,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         switch (transaction.innerTransaction.type) {
         case transferTransaction:
             var cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
-            cell.fromAccount.text = AddressGenerator().generateAddress(((transaction.innerTransaction) as! TransferTransaction).signer)
+            cell.fromAccount.text = AddressGenerator.generateAddress(((transaction.innerTransaction) as! TransferTransaction).signer)
             cell.toAccount.text = ((transaction.innerTransaction) as! TransferTransaction).recipient
             cell.message.text = ((transaction.innerTransaction) as! TransferTransaction).message.payload
             
@@ -272,8 +272,8 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             var format = ".0"
             
             cell.tag = indexPath.row
-            cell.fromAccount.text = AddressGenerator().generateAddress(innerTrnsaction.signer)
-            cell.toAccount.text = AddressGenerator().generateAddress(innerTrnsaction.signer)
+            cell.fromAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)
+            cell.toAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)
             
             return cell
             

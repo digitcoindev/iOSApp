@@ -65,4 +65,22 @@ class MessageCrypto: NSObject {
         
         return messageData.hexadecimalString().stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding)!
     }
+    
+    final class func getMessageStringFrom(message :MessageGetMetaData)-> String? {
+        
+        switch message.type {
+        case 1:
+            if message.payload.asByteArray().first == UInt8(0xfe) {
+                return (message.payload as NSString).substringWithRange(NSRange(location: 2, length: count(message.payload) - 2))
+            } else {
+                return message.payload.stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+            }
+            
+        case 2:
+            return "encrypted message (not implemented)"
+            
+        default :
+            return nil
+        }
+    }
 }

@@ -28,7 +28,7 @@ class AddressBook: AbstractViewController , UITableViewDelegate , UIAlertViewDel
         if State.currentServer != nil {
             var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
             var publicKey = KeyGenerator.generatePublicKey(privateKey)
-            var account_address = AddressGenerator().generateAddress(publicKey)
+            var account_address = AddressGenerator.generateAddress(publicKey)
             
             APIManager().accountGet(State.currentServer!, account_address: account_address)
         }

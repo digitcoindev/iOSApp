@@ -54,7 +54,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         scroll.scrollEnabled = false
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
+        var account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)

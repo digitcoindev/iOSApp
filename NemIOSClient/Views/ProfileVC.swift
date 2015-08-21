@@ -47,7 +47,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
         if State.currentServer != nil {
-            var address :String = AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            var address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
                 
             apiManager.accountGet(State.currentServer!, account_address: address)
         }
@@ -72,7 +72,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
             var stateWallet = State.currentWallet!
             
             userLogin.text = stateWallet.login
-            userAddress.text =  AddressGenerator().generateAddressFromPrivateKey(HashManager.AES256Decrypt(stateWallet.privateKey))
+            userAddress.text =  AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(stateWallet.privateKey))
             
             if walletData.cosignatories.count > 0 {
                 accountType.text = "multisign account"

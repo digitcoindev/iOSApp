@@ -43,7 +43,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         observer.postNotificationName("Title", object:"Create transaction" )
         
         var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var account_address = AddressGenerator().generateAddressFromPrivateKey(privateKey)
+        var account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)

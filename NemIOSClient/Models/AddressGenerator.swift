@@ -4,7 +4,7 @@ import UIKit
 class AddressGenerator: NSObject
 {
 
-    final func generateAddress(publicKey: String)->String {
+    final class func generateAddress(publicKey: String)->String {
         var inBuffer: Array<UInt8> = publicKey.asByteArray()
 
         var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)
@@ -37,9 +37,9 @@ class AddressGenerator: NSObject
         return result
     }
     
-    final func generateAddressFromPrivateKey(privateKey: String)->String {
+    final class func generateAddressFromPrivateKey(privateKey: String)->String {
         var publicKey :String =  KeyGenerator.generatePublicKey(privateKey)
         
-        return generateAddress(publicKey)
+        return AddressGenerator.generateAddress(publicKey)
     }
 }
