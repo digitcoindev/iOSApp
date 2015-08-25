@@ -6,6 +6,7 @@ import UIKit
     optional func accountGetResponceWithAccount(account :AccountGetMetaData?)
     optional func accountTransfersAllResponceWithTransactions(data :[TransactionPostMetaData]?)
     optional func unconfirmedTransactionsResponceWithTransactions(data :[TransactionPostMetaData]?)
+    optional func prepareAnnounceResponceWithTransactions(data :[TransactionPostMetaData]?)
 }
 
 class APIManager: NSObject
@@ -59,8 +60,6 @@ class APIManager: NSObject
                     }
                     else {
                         var message :String = (layers! as NSDictionary).objectForKey("message") as! String
-                        
-                        println("\nRequest : /heartbeat")
                         
                         self.timeSynchronize(server)
                         
@@ -265,6 +264,7 @@ class APIManager: NSObject
                                     requestData.data = metaData
                                 }
                                 
+                                requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
                                 requestDataAll.append(requestData)
                                 
@@ -277,6 +277,7 @@ class APIManager: NSObject
                                     requestData.data = meta.objectForKey("data") as! String
                                 }
                                 
+                                requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
                                 requestDataAll.append(requestData)
                                 
@@ -289,6 +290,7 @@ class APIManager: NSObject
                                     requestData.data = meta.objectForKey("data") as! String
                                 }
                                 
+                                requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
                                 requestDataAll.append(requestData)
                                 
@@ -343,15 +345,37 @@ class APIManager: NSObject
                     if(err != nil) {
                         println(err!.localizedDescription)
                         
-                        NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceDenied", object:nil)
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                                (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!(nil)
+                            }
+                        }
                     }
                     else if (json! as NSDictionary).objectForKey("error")  == nil {
-                        println(json)
-                        NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceSuccessed", object:json)
+
+                        var message :String = (json! as NSDictionary).objectForKey("message") as! String
                         
+                        if message == "SUCCESS" {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                                    (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!([transaction])
+                                }
+                            }
+                        }
+                        else {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                                    (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!([])
+                                }
+                            }
+                        }
                     }
                     else {
-                        NSNotificationCenter.defaultCenter().postNotificationName("prepareAnnounceDenied", object:nil)
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                                (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!(nil)
+                            }
+                        }
                     }
                 })
                 

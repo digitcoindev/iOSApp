@@ -18,6 +18,8 @@ class ViewController: UIViewController
             }
         }
         
+
+        
 //        var message = "Get me encrypted"
 //        var senderPrivateKey = "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d"
 //        var senderPublicKey = "cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1"

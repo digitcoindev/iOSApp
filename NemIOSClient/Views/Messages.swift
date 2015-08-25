@@ -343,17 +343,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     }
     
     // MARK: - Table View Data Sourse
-    
-    func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
-        return false
-    }
-    
-    func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
-        if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            println("delete")
-        }
-    }
-    
+        
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return _displayList.count
@@ -414,11 +404,14 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         if walletData != nil {
             State.invoice = nil
             
-            if walletData.cosignatories.count == 0 {
-                State.toVC = SegueToMessageVC
-            }
-            else {
+            if walletData.cosignatories.count > 0 {
                 State.toVC = SegueToMessageMultisignVC
+            }
+            else if walletData.cosignatoryOf.count > 0 {
+                State.toVC = SegueToMessageCosignatoryVC
+
+            } else {
+                State.toVC = SegueToMessageVC
             }
             
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {

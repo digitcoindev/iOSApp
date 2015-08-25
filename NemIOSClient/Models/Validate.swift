@@ -93,4 +93,16 @@ class Validate: NSObject
         
         return true
     }
+    
+    final class func hexString(text : String) -> Bool {
+        var error :NSError? = nil
+        let regex = NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive, error: &error)
+        let found = regex?.firstMatchInString(text, options: nil, range: NSMakeRange(0, count(text)))
+        
+        if found == nil || found?.range.location == NSNotFound || count(text) % 2 != 0 {
+            return false
+        }
+        
+        return true
+    }
 }

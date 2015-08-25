@@ -11,3 +11,8 @@
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed up!";
 "SHOW_TRANSACTIONS" = "Show transactions";
 "REMIND_LATER" = "Remind later";
+"EMPTY_MESSAGE" = "Empty message";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "Not enough money";
+ "TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
+"TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
+"NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";

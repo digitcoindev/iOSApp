@@ -143,13 +143,13 @@ class SignManager: NSObject
         result = result + amount
         
         if transaction.message.payload != "" {
-            var payload :Array<UInt8> = transaction.message.payload.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+            var payload :Array<UInt8> = transaction.message.payload.asByteArray()
             var length :Int = payload.count + 8
             
             var messageLength :Array<UInt8> = String(length, radix: 16).asByteArrayEndian(4)
             result = result + messageLength
             
-            var messageType :Array<UInt8> = [1 , 0 , 0, 0 ]
+            var messageType :Array<UInt8> = [UInt8(transaction.message.type) , 0 , 0, 0 ]
             result = result + messageType
             
             var payloadLength :Array<UInt8> = String(payload.count, radix: 16).asByteArrayEndian(4)

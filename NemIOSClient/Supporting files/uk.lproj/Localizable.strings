@@ -10,3 +10,8 @@
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "У вас є непідписані транзакції.";
 "SHOW_TRANSACTIONS" = "Переглянути";
 "REMIND_LATER" = "Нагадати пізніше";
+"EMPTY_MESSAGE" = "Пусте повідомленя";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "Недостатньо коштів";
+ "TRANSACTION_ANOUNCE_SUCCESS" = "Успіх";
+"TRANSACTION_ANOUNCE_FAILED" = "ВІДХИЛЕНО\nСпробуйте пізніше. Або перевірте зєднання зі сервером.";
+"NOT_A_HEX_STRING" = "Не хекс стрінга.";
