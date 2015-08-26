@@ -55,48 +55,17 @@ class DashboardContainer: AbstractViewController
     final func changePage(page :String) {
         switch(page) {
             
-        case SegueToMessages:
-            self.performSegueWithIdentifier(SegueToMessages, sender: nil)
-            break;
+        case    SegueToMessages, SegueToQRCode, SegueToUserInfo, SegueToAddressBook, SegueToMessageVC, SegueToMessageMultisignVC,
+                SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToCreateQRInput, SegueToCreateQRResult, SegueToScanQR, SegueToSendTransaction,
+                SegueToUnconfirmedTransactionVC:
             
-        case SegueToQRCode:
-            self.performSegueWithIdentifier(SegueToQRCode, sender: nil)
-            break;
-            
-        case SegueToUserInfo:
-            self.performSegueWithIdentifier(SegueToUserInfo, sender: nil)
-            break;
-            
-        case SegueToAddressBook:
-            self.performSegueWithIdentifier(SegueToAddressBook, sender: nil)
-            break;
-            
-        case SegueToMessageVC:
-            self.performSegueWithIdentifier(SegueToMessageVC, sender: nil)
-            
-        case SegueToMessageMultisignVC:
-            self.performSegueWithIdentifier(SegueToMessageMultisignVC, sender: nil)
-            
-        case SegueToPasswordValidation:
-            self.performSegueWithIdentifier(SegueToPasswordValidation, sender: nil)
-            
-        case SegueToCreateQRInput:
-            self.performSegueWithIdentifier(SegueToCreateQRInput, sender: nil)
-            
-        case SegueToCreateQRResult:
-            self.performSegueWithIdentifier(SegueToCreateQRResult, sender: nil)
-            
-        case SegueToScanQR:
-            self.performSegueWithIdentifier(SegueToScanQR, sender: nil)
-            
-        case SegueToSendTransaction:
-            self.performSegueWithIdentifier(SegueToSendTransaction, sender: nil)
-            
-        case SegueToUnconfirmedTransactionVC:
-                self.performSegueWithIdentifier(SegueToUnconfirmedTransactionVC, sender: nil)
+            self.performSegueWithIdentifier(page, sender: nil)
             
         default:
-            break;
+            
+            if self.delegate != nil && self.delegate!.respondsToSelector("switchToPage:") {
+                (self.delegate as! DashboardVCDelegate).switchToPage(page)
+            }
         }
     }
 }

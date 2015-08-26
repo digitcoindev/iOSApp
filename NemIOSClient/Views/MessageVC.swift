@@ -6,7 +6,7 @@ struct DefinedCell
     var height :CGFloat = 44
 }
 
-class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate
+class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate 
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
@@ -74,6 +74,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             }
         }
         
+        contactInfo.text = contact.name
+        
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         scrollToEnd()
     }
@@ -85,7 +87,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     override func viewDidAppear(animated: Bool) {
-        contactInfo.text = contact.name
 
         var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
@@ -126,6 +127,29 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
     }
     
+    @IBAction func accountsButtonDidTouchInside(sender: AnyObject){
+        var storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        var accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+        
+        accounts.view.frame = CGRect(x: tableView.frame.origin.x + 10,
+            y:  tableView.frame.origin.y + 10,
+            width: tableView.frame.width - 20,
+            height: tableView.frame.height - 20)
+        
+        accounts.view.layer.opacity = 0
+        accounts.delegate = self
+        
+        accounts.wallets = walletData.cosignatoryOf
+        
+        self.view.addSubview(accounts.view)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            accounts.view.layer.opacity = 1
+            }, completion: nil)
+
+    }
+    
     @IBAction func sendButtonTouchUpInside(sender: AnyObject) {
         
         if walletData == nil || State.currentServer == nil {
@@ -138,7 +162,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             if Int64(walletData.balance) > Int64(amount) {
                 transaction.amount = Double(amount)
             } else {
-                var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("ACCOUNT_NOT_ENOUGHT_MONEY", comment: "Descripton") , preferredStyle: UIAlertControllerStyle.Alert)
+                var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("ACCOUNT_NOT_ENOUGHT_MONEY", comment: "Description") , preferredStyle: UIAlertControllerStyle.Alert)
                 
                 var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
@@ -641,6 +665,29 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             alert.addAction(ok)
             self.presentViewController(alert, animated: true, completion: nil)
         }
+    }
+    
+    //MARK: - AccountsChousePopUpDelegate Methods
+
+    func didChouseAccount(account: AccountGetMetaData) {
+        walletData = account
+        
+        var userDescription :NSMutableAttributedString!
+        
+        if let wallet = State.currentWallet {
+            userDescription = NSMutableAttributedString(string: "\(walletData.address)")
+        }
+        
+        var format = ".0"
+        var attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
+        var balance = " \((self.walletData.balance / 1000000).format(format)) XEM"
+        
+        userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
+        
+        dispatch_async(dispatch_get_main_queue() , {
+            () -> Void in
+            self.userInfo.attributedText = userDescription
+        })
     }
     
     //MARK: - Keyboard Methods

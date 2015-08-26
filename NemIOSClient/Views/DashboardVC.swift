@@ -1,6 +1,10 @@
 import UIKit
 
-class DashboardVC: AbstractViewController, MainVCDelegate
+protocol DashboardVCDelegate {
+    func switchToPage(page :String)
+}
+
+class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
 {
     @IBOutlet weak var containerView: UIView!
     
@@ -27,16 +31,17 @@ class DashboardVC: AbstractViewController, MainVCDelegate
     // MARK: - IBAction
 
     @IBAction func messagesButtonTouchUpInside(sender: AnyObject) {
-        
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
-        }
+        self.switchToPage(SegueToMessages)
     }
     
     @IBAction func addressBookButtonTouchUpInside(sender: AnyObject) {
-        
+        self.switchToPage(SegueToAddressBook)
+    }
+    //MARK: - Navigation Methods
+    
+    final func switchToPage(page :String) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddressBook)
+            (self.delegate as! MainVCDelegate).pageSelected(page)
         }
     }
     

@@ -264,7 +264,6 @@ class APIManager: NSObject
                                     requestData.data = metaData
                                 }
                                 
-                                requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
                                 requestDataAll.append(requestData)
                                 
@@ -277,7 +276,6 @@ class APIManager: NSObject
                                     requestData.data = meta.objectForKey("data") as! String
                                 }
                                 
-                                requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
                                 requestDataAll.append(requestData)
                                 
@@ -290,7 +288,6 @@ class APIManager: NSObject
                                     requestData.data = meta.objectForKey("data") as! String
                                 }
                                 
-                                requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
                                 requestDataAll.append(requestData)
                                 

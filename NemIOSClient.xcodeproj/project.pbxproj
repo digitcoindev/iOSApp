@@ -14,6 +14,7 @@
 		9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
 		9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D41B846FE200B532CC /* MessageCrypto.swift */; };
+		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
 		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
 		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
@@ -197,6 +198,7 @@
 		9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesButtonTypeOne.swift; path = "Views/Additional controls/MessagesButtonTypeOne.swift"; sourceTree = "<group>"; };
 		9823A4D11B8339B400B532CC /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = Models/Correspondent.swift; sourceTree = "<group>"; };
 		9823A4D41B846FE200B532CC /* MessageCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageCrypto.swift; path = Models/MessageCrypto.swift; sourceTree = "<group>"; };
+		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */,
 				DAD21B991AFB735600F6B861 /* SendTransactionVC.swift */,
 				DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */,
+				984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */,
 			);
 			name = Messager;
 			sourceTree = "<group>";
@@ -1293,6 +1296,7 @@
 				DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */,
 				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				DADA37591A7683C300F14D6D /* sc.c in Sources */,
+				984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */,
 				98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */,
 				DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */,
 				DA7336551AD29EF80029C5D6 /* DoubleExtensions.swift in Sources */,
