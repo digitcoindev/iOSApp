@@ -12,8 +12,8 @@ class AggregateModificationTransaction: TransactionPostMetaData
     }
     
     final func addModification(type :Int , publicKey :String) {
-        if count(publicKey.utf16) != 64 {
-            println("ERROR. Modification receive public key with wrong length (length : \(count(publicKey.utf16) / 2) bytes)")
+        if publicKey.utf16.count != 64 {
+            print("ERROR. Modification receive public key with wrong length (length : \(publicKey.utf16.count / 2) bytes)")
         }
         
         var modification :AccountModification = AccountModification()

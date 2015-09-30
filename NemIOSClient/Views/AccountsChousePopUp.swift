@@ -40,7 +40,7 @@ class AccountsChousePopUp: AbstractViewController, UITableViewDelegate, UITableV
     }
    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell :WalletCell = tableView.dequeueReusableCellWithIdentifier("AccountsChousePopUpCell") as! WalletCell
+        let cell :WalletCell = tableView.dequeueReusableCellWithIdentifier("AccountsChousePopUpCell") as! WalletCell
         
         cell.walletName.text = _wallets[indexPath.row].address
         

@@ -28,28 +28,27 @@ class ScanQRVC: AbstractViewController
 
     
     final func detectedQR(notification: NSNotification) {
-        var base64String :String = notification.object as! String
+        let base64String :String = notification.object as! String
         if base64String != "Empty scan" {
-            var jsonData :NSData = NSData(base64EncodedString: base64String)
-            var err: NSError?
-            var jsonStructure :NSDictionary = NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves, error: &err) as! NSDictionary
+            let jsonData :NSData = NSData(base64EncodedString: base64String)
+            let jsonStructure :NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as! NSDictionary
             
             switch (jsonStructure.objectForKey("type") as! Int) {
             case 1:
                 
-                var friendDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
+                let friendDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
                 
                 if AddressBookManager.isAllowed {
                     addFriend(friendDictionary)
                 }
                 else {
-                    var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
+                    let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 }
                 
             case 3:
                 
-                var invoiceDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
+                let invoiceDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
                 
                 performInvoice(invoiceDictionary)
                 
@@ -80,18 +79,18 @@ class ScanQRVC: AbstractViewController
         ABAddressBookRequestAccessWithCompletion(addressBook, {
                 (granted : Bool, error: CFError!) -> Void in
                 if granted == true {
-                    var newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
+                    let newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
                     
                     var error: Unmanaged<CFErrorRef>? = nil
-                    var emailMultiValue :ABMutableMultiValueRef = ABMultiValueCreateMutable(ABPropertyType(kABPersonEmailProperty)).takeRetainedValue()
+                    let emailMultiValue :ABMutableMultiValueRef = ABMultiValueCreateMutable(ABPropertyType(kABPersonEmailProperty)).takeRetainedValue()
                     
-                    var alert1 :UIAlertController = UIAlertController(title: "Add NEM contact", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert1 :UIAlertController = UIAlertController(title: "Add NEM contact", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     var firstName :UITextField!
                     alert1.addTextFieldWithConfigurationHandler
                         {
                             textField -> Void in
-                            textField.text = friendDictionary.objectForKey("name") as! String
+                            textField.text = friendDictionary.objectForKey("name") as? String
                             textField.placeholder = "firstName"
                             textField.keyboardType = UIKeyboardType.ASCIICapable
                             textField.returnKeyType = UIReturnKeyType.Done
@@ -104,7 +103,7 @@ class ScanQRVC: AbstractViewController
                     alert1.addTextFieldWithConfigurationHandler
                         {
                             textField -> Void in
-                            textField.text = friendDictionary.objectForKey("surname") as! String
+                            textField.text = friendDictionary.objectForKey("surname") as? String
                             textField.placeholder = "lastName"
                             textField.keyboardType = UIKeyboardType.ASCIICapable
                             textField.returnKeyType = UIReturnKeyType.Done
@@ -117,7 +116,7 @@ class ScanQRVC: AbstractViewController
                     alert1.addTextFieldWithConfigurationHandler
                         {
                             textField -> Void in
-                            textField.text = friendDictionary.objectForKey("address") as! String
+                            textField.text = friendDictionary.objectForKey("address") as? String
                             textField.keyboardType = UIKeyboardType.ASCIICapable
                             textField.returnKeyType = UIReturnKeyType.Done
                             
@@ -125,7 +124,7 @@ class ScanQRVC: AbstractViewController
                             
                     }
                     
-                    var addNEMaddress :UIAlertAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default)
+                    let addNEMaddress :UIAlertAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default)
                         {
                             alertAction -> Void in
                             
@@ -143,7 +142,7 @@ class ScanQRVC: AbstractViewController
                     }
                     
                     
-                    var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
+                    let cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
                         {
                             alertAction -> Void in
                             alert1.dismissViewControllerAnimated(true, completion: nil)
@@ -157,7 +156,7 @@ class ScanQRVC: AbstractViewController
                     
                 }
                 else {
-                    var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Can not access adressbook.", delegate: self, cancelButtonTitle: "OK")
+                    let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Can not access adressbook.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 }
         })

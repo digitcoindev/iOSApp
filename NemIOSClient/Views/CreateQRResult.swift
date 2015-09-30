@@ -25,25 +25,25 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
         invoiceNumber.text = "#\(invoice.number)"
         xems.text = "\(invoice.amount)" + " XEM"
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var address_Normal = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        let address_Normal = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         address.text = address_Normal
         
-        var login = State.currentWallet!.login
-        var password = State.currentWallet!.password
-        var salt = State.currentWallet!.salt
-        var privateKey_Normal = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var privateKey_AES = HashManager.AES256Encrypt(privateKey_Normal, key: "my qr key")
-        var objects = [invoice.name, invoice.address, invoice.amount, invoice.message]
-        var keys = ["name", "address", "amount", "message"]
+        //var login = State.currentWallet!.login
+        //var password = State.currentWallet!.password
+       // var salt = State.currentWallet!.salt
+        //let privateKey_Normal = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        //var privateKey_AES = HashManager.AES256Encrypt(privateKey_Normal, key: "my qr key")
+        let objects = [invoice.name, invoice.address, invoice.amount, invoice.message]
+        let keys = ["name", "address", "amount", "message"]
         
-        var jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects as [AnyObject], forKeys: keys)
-        var jsonDictionary :NSDictionary = NSDictionary(objects: [3, jsonAccountDictionary], forKeys: ["type", "data"])
-        var jsonData :NSData = NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions.allZeros, error: nil)!
-        var base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
+        let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects as [AnyObject], forKeys: keys)
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [3, jsonAccountDictionary], forKeys: ["type", "data"])
+        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
+        let base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
         
-        var qr :QR = QR()
+        let qr :QR = QR()
         
         qrImage.image =  qr.createQR(base64String)
 
@@ -57,14 +57,14 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
     @IBAction func shareBtn(sender: AnyObject) {
         
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {            
-            var facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             facebookSheet.setInitialText("Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!")
             facebookSheet.addImage(qrImage.image!)
             self.presentViewController(facebookSheet, animated: true, completion: nil)
             
         }
         else {
-            var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
@@ -72,30 +72,30 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
     
     @IBAction func mailBtn(sender: AnyObject) {
         if(MFMailComposeViewController.canSendMail()){
-            var myMail : MFMailComposeViewController = MFMailComposeViewController()
+            let myMail : MFMailComposeViewController = MFMailComposeViewController()
             
             myMail.mailComposeDelegate = self
             
             myMail.setSubject("NEM")
             
-            var sentfrom = "Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!"
+            let sentfrom = "Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!"
             myMail.setMessageBody(sentfrom, isHTML: true)
             
-            var image = qrImage.image!
-            var imageData = UIImageJPEGRepresentation(image, 1.0)
+            let image = qrImage.image!
+            let imageData = UIImageJPEGRepresentation(image, 1.0)
             
-            myMail.addAttachmentData(imageData, mimeType: "image/jped", fileName: "image")
+            myMail.addAttachmentData(imageData!, mimeType: "image/jped", fileName: "image")
             
             //Display the view controller
             self.presentViewController(myMail, animated: true, completion: nil)
         }
         else {
-            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
+            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

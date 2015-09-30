@@ -1,7 +1,7 @@
 
 import UIKit
 
-class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDelegate
+class MainMenuVC:  UITableViewController 
 {
     let dataManager : CoreDataManager = CoreDataManager()
     let deviceManager : plistFileManager = plistFileManager()
@@ -76,12 +76,12 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
             }
         }
         
-        var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
         if State.currentServer != nil && State.currentWallet != nil {
-            var address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            let address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
             
             apiManager.accountGet(State.currentServer!, account_address: address)
         }
@@ -128,13 +128,13 @@ class MainMenuVC:  UITableViewController , UITableViewDataSource, UITableViewDel
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as! MainViewCell
+        let cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as! MainViewCell
         cell.title.text = menuItems.objectAtIndex(indexPath.row) as? String
         
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var page: String  = menuItems.objectAtIndex(indexPath.row) as! String
+        let page: String  = menuItems.objectAtIndex(indexPath.row) as! String
         
        
         switch (page) {

@@ -27,9 +27,8 @@ class plistFileManager: NSObject
     }
     
     func validatePair(way :String , password :String) -> Bool {
-        var data = fileManager.contentsAtPath(documents + "/NEMfolder/" + way)
-        if var str = data?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions()) {
-            var dataManager :CoreDataManager = CoreDataManager()
+        let data = fileManager.contentsAtPath(documents + "/NEMfolder/" + way)
+        if let str = data?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions()) {
             if(HashManager.AES256Decrypt(str, key: password) == way) {
                 return true
             }
@@ -43,20 +42,25 @@ class plistFileManager: NSObject
             return false
         }
         else {
-            fileManager.removeItemAtPath(documents + "/NEMfolder/" + path, error: &error)
+            do {
+                try fileManager.removeItemAtPath(documents + "/NEMfolder/" + path)
+            } catch let error1 as NSError {
+                error = error1
+            }
             return true
         }
     }
     
     final func refreshImportData() ->Bool {
-        if var imports =  fileManager.contentsOfDirectoryAtPath(documents + "/NEMfolder", error: &error) {
+        do {
+            let imports =  try fileManager.contentsOfDirectoryAtPath(documents + "/NEMfolder")
             
             importFiles = NSMutableArray(array: imports)
             
             return true
-        }
-        else {
-            println("No accounts found...")
+        } catch let error1 as NSError {
+            error = error1
+            print("No accounts found...")
             
             return false
         }
@@ -66,7 +70,7 @@ class plistFileManager: NSObject
     final func readErrorLog() ->String? {
         if fileManager.fileExistsAtPath(documents + "/NEMfolder") {
             //reading
-            var text = String(contentsOfFile: documents + "/NEMfolder/error_logs", encoding: NSUTF8StringEncoding, error: nil)
+            let text = try? String(contentsOfFile: documents + "/NEMfolder/error_logs", encoding: NSUTF8StringEncoding)
             
             return text
         }
@@ -79,18 +83,25 @@ class plistFileManager: NSObject
             var text :String = "\n"
             
             //reading
-            let text2 = String(contentsOfFile: documents + "/NEMfolder/error_logs", encoding: NSUTF8StringEncoding, error: nil)
+            let text2 = try? String(contentsOfFile: documents + "/NEMfolder/error_logs", encoding: NSUTF8StringEncoding)
             
             text = text2! + text
-             //writing
-            text.writeToFile(documents + "/NEMfolder/error_logs", atomically: false, encoding: NSUTF8StringEncoding, error: nil)
+            do {
+                //writing
+                try text.writeToFile(documents + "/NEMfolder/error_logs", atomically: false, encoding: NSUTF8StringEncoding)
+            } catch _ {
+            }
         }
     }
     
     final func traceImportFolder() {
         if(!fileManager.fileExistsAtPath(documents + "/NEMfolder")) {
-            println("Add import folder...")
-            fileManager.createDirectoryAtPath(documents + "/NEMfolder", withIntermediateDirectories: false, attributes: nil, error: &error)
+            print("Add import folder...")
+            do {
+                try fileManager.createDirectoryAtPath(documents + "/NEMfolder", withIntermediateDirectories: false, attributes: nil)
+            } catch let error1 as NSError {
+                error = error1
+            }
             fileManager.createFileAtPath(documents + "/NEMfolder/error_logs", contents: nil, attributes: nil)
         }
     }
@@ -98,9 +109,13 @@ class plistFileManager: NSObject
     final func deleteImportAccount(name :String) -> Bool {
         
         if(!fileManager.fileExistsAtPath(documents + "/NEMfolder/" + name)) {
-            println("Remove imported account")
+            print("Remove imported account")
             
-            fileManager.removeItemAtPath(documents + "/NEMfolder/" + name, error: &error)
+            do {
+                try fileManager.removeItemAtPath(documents + "/NEMfolder/" + name)
+            } catch let error1 as NSError {
+                error = error1
+            }
             
             return true
         }

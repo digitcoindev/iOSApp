@@ -24,12 +24,12 @@ class DashboardContainer: AbstractViewController
         }
         
         if (self.childViewControllers.count > 0) {
-            self.swapFromViewController(self.childViewControllers.first as! UIViewController, toViewController: segue.destinationViewController as! UIViewController)
+            self.swapFromViewController(self.childViewControllers.first!, toViewController: segue.destinationViewController)
         }
         else {
-            self.addChildViewController(segue.destinationViewController as! UIViewController)
-            (segue.destinationViewController as! UIViewController).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-            self.view .addSubview((segue.destinationViewController as! UIViewController).view)
+            self.addChildViewController(segue.destinationViewController )
+            (segue.destinationViewController ).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+            self.view .addSubview((segue.destinationViewController ).view)
             segue.destinationViewController.didMoveToParentViewController(self)
         }
         

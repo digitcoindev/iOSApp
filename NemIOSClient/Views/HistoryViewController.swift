@@ -23,7 +23,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         
         State.currentVC = SegueToHistoryVC
         
-        var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
@@ -32,8 +32,8 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         observer.postNotificationName("Title", object:"History" )
 
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)
@@ -49,8 +49,8 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
     final func manageState() {
         switch (state.last!) {
         case "accountGetSuccessed" :
-            var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publicKey = KeyGenerator.generatePublicKey(privateKey)
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+            let publicKey = KeyGenerator.generatePublicKey(privateKey)
             
             if publicKey == walletData.publicKey {
                 var content :[String] = [String]()
@@ -112,7 +112,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
     }
 
     final func accountTransfersAllSuccessed(notification: NSNotification) {
-        var data :[TransactionPostMetaData] = notification.object as! [TransactionPostMetaData]
+        let data :[TransactionPostMetaData] = notification.object as! [TransactionPostMetaData]
         
         modifications.removeAll(keepCapacity: false)
         
@@ -120,12 +120,12 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
             switch (inData.type) {
             case multisigTransaction:
                 
-                var multisigT  = inData as! MultisigTransaction
+                let multisigT  = inData as! MultisigTransaction
                 
                 switch(multisigT.innerTransaction.type) {
                 case multisigAggregateModificationTransaction :
                     
-                    var modTransaction :AggregateModificationTransaction = multisigT.innerTransaction as! AggregateModificationTransaction
+                    let modTransaction :AggregateModificationTransaction = multisigT.innerTransaction as! AggregateModificationTransaction
                     modifications.append(modTransaction)
                     
                 default:
@@ -134,7 +134,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
                 
             case multisigAggregateModificationTransaction:
                 
-                var modTransaction :AggregateModificationTransaction = inData as! AggregateModificationTransaction
+                let modTransaction :AggregateModificationTransaction = inData as! AggregateModificationTransaction
                 modifications.append(modTransaction)
                 
             default:
@@ -155,9 +155,9 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            var  cell = tableView.dequeueReusableCellWithIdentifier("title") as! KeyCell
+            let  cell = tableView.dequeueReusableCellWithIdentifier("title") as! KeyCell
             
-            let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: UIRectCorner.TopLeft | UIRectCorner.TopRight, cornerRadii: CGSizeMake(10, 10))
+            let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: [UIRectCorner.TopLeft, UIRectCorner.TopRight], cornerRadii: CGSizeMake(10, 10))
             let maskLayer :CAShapeLayer = CAShapeLayer()
             maskLayer.frame = cell.bounds
             maskLayer.path = maskPath.CGPath
@@ -166,7 +166,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
 
             cell.key.text = ""
             
-            var dateFormatter = NSDateFormatter()
+            let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
             var timeStamp = Double(modifications[indexPath.section].timeStamp )
@@ -178,7 +178,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
             return cell
         }
         else {
-            var modification :AccountModification = modifications[indexPath.section].modifications[indexPath.row - 1]
+            let modification :AccountModification = modifications[indexPath.section].modifications[indexPath.row - 1]
             var cell :KeyCell? = nil
             if modification.modificationType == 1 {
                 cell = self.tableView.dequeueReusableCellWithIdentifier("add") as? KeyCell
@@ -198,8 +198,8 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
             }
             
             if indexPath.row == modifications[indexPath.section].modifications.count && cell != nil {
-                var maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: UIRectCorner.BottomLeft | UIRectCorner.BottomRight, cornerRadii: CGSizeMake(10, 10))
-                var maskLayer :CAShapeLayer = CAShapeLayer()
+                let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: [UIRectCorner.BottomLeft, UIRectCorner.BottomRight], cornerRadii: CGSizeMake(10, 10))
+                let maskLayer :CAShapeLayer = CAShapeLayer()
                 maskLayer.frame = cell!.bounds
                 maskLayer.path = maskPath.CGPath
                 cell!.layer.mask = maskLayer

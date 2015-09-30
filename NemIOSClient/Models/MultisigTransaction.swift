@@ -16,7 +16,7 @@ class MultisigTransaction: TransactionPostMetaData
         }
         
         for dic in dictionary.objectForKey("signatures") as! [NSDictionary] {
-            var sign :Signature = Signature().fromDictionary(dic)
+            let sign :Signature = Signature().fromDictionary(dic)
             self.signatures.append(sign)
         }
         
@@ -27,33 +27,33 @@ class MultisigTransaction: TransactionPostMetaData
         self.version = dictionary.objectForKey("version") as! Double
         self.signer = dictionary.objectForKey("signer") as! String
         
-        var innerDictionary :NSDictionary = dictionary.objectForKey("otherTrans") as! NSDictionary
+        let innerDictionary :NSDictionary = dictionary.objectForKey("otherTrans") as! NSDictionary
          
         switch(innerDictionary.objectForKey("type") as! Int) {
             
         case transferTransaction:
-            var transaction :TransferTransaction = TransferTransaction()
+            let transaction :TransferTransaction = TransferTransaction()
             transaction.id = self.id
             transaction.height = self.height
-            transaction.hash = self.hash
+            transaction.hashString = self.hashString
             transaction.getFrom(innerDictionary)
             transaction.signature = self.signature
             self.innerTransaction = transaction
             
         case importanceTransaction:
-            var transaction :ImportanceTransferTransaction = ImportanceTransferTransaction()
+            let transaction :ImportanceTransferTransaction = ImportanceTransferTransaction()
             transaction.id = self.id
             transaction.height = self.height
-            transaction.hash = self.hash
+            transaction.hashString = self.hashString
             transaction.getFrom(innerDictionary)
             transaction.signature = self.signature
             self.innerTransaction = transaction
             
         case multisigAggregateModificationTransaction:
-            var transaction :AggregateModificationTransaction = AggregateModificationTransaction()
+            let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
             transaction.id = self.id
             transaction.height = self.height
-            transaction.hash = self.hash
+            transaction.hashString = self.hashString
             transaction.getFrom(innerDictionary)
             transaction.signature = self.signature
             self.innerTransaction = transaction

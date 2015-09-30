@@ -7,8 +7,8 @@ class Validate: NSObject
             return false
         }
         
-        var validator :Array<UInt8> = Array<UInt8>("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".utf8)
-        var keyArray :Array<UInt8> = Array<UInt8>(inputText!.utf8)
+        let validator :Array<UInt8> = Array<UInt8>("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".utf8)
+        let keyArray :Array<UInt8> = Array<UInt8>(inputText!.utf8)
         
         if keyArray.count == length {
             for value in keyArray {
@@ -40,7 +40,7 @@ class Validate: NSObject
             return false
         }
         
-        var validator :Array<UInt8> = Array<UInt8>("0123456789abcdef".utf8)
+        let validator :Array<UInt8> = Array<UInt8>("0123456789abcdef".utf8)
         var keyArray :Array<UInt8> = Array<UInt8>(inputText!.utf8)
         
         if keyArray.count == length || keyArray.count == length + 2 {
@@ -73,7 +73,7 @@ class Validate: NSObject
     }
     
     final class func password(inputText :String) -> Bool {
-        var keyArray :Array<UInt8> = Array<UInt8>(inputText.utf8)
+        let keyArray :Array<UInt8> = Array<UInt8>(inputText.utf8)
         
         if keyArray.count < 6 {
             return false
@@ -95,11 +95,16 @@ class Validate: NSObject
     }
     
     final class func hexString(text : String) -> Bool {
-        var error :NSError? = nil
-        let regex = NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive, error: &error)
-        let found = regex?.firstMatchInString(text, options: nil, range: NSMakeRange(0, count(text)))
+        let regex: NSRegularExpression?
+        do {
+            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive)
+        } catch {
+            regex = nil
+        }
         
-        if found == nil || found?.range.location == NSNotFound || count(text) % 2 != 0 {
+        let found = regex?.firstMatchInString(text, options: [], range: NSMakeRange(0, text.characters.count))
+        
+        if found == nil || found?.range.location == NSNotFound || text.characters.count % 2 != 0 {
             return false
         }
         

@@ -31,23 +31,17 @@ class APIManager: NSObject
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
                 
-                var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
-                var err: NSError?
-                
+                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/heartbeat"))!)
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
                 
-                var task = self._session.dataTaskWithRequest(request, completionHandler: {
+                let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
-                    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    var err: NSError?
-                    var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
                     
-                    if(err != nil) {
-                        println(err!.localizedDescription)
-                        
+                    if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
@@ -56,10 +50,9 @@ class APIManager: NSObject
                                 }
                         }
                         
-                        println("NIS is not available!")
+                        print("NIS is not available!")
                     }
                     else {
-                        var message :String = (layers! as NSDictionary).objectForKey("message") as! String
                         
                         self.timeSynchronize(server)
                         
@@ -80,21 +73,17 @@ class APIManager: NSObject
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
                 
-                var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/get?address=" + account_address))!)
-                var err: NSError?
-                
+                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/get?address=" + account_address))!)
+            
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
                 
-                var task = self._session.dataTaskWithRequest(request, completionHandler: {
+                let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
-                    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    var err: NSError?
-                    var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                    if(err != nil) {
-                        println(err!.localizedDescription)
+                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
+                    if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
@@ -104,7 +93,7 @@ class APIManager: NSObject
                         }
                     }
                     else if (layers! as NSDictionary).objectForKey("error")  == nil {
-                        var requestData :AccountGetMetaData = AccountGetMetaData()
+                        let requestData :AccountGetMetaData = AccountGetMetaData()
                         
                         requestData.getFrom(layers! as NSDictionary)
                         
@@ -133,21 +122,17 @@ class APIManager: NSObject
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
-                var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/transfers/all?address=" + account_address))!)
-                var err: NSError?
-                
+                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/transfers/all?address=" + account_address))!)
+            
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
                 
-                var task = self._session.dataTaskWithRequest(request, completionHandler: {
+                let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
-                    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    var err: NSError?
-                    var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                    if(err != nil) {
-                        println(err!.localizedDescription)
+                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
+                    if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
                             if self.delegate != nil && self.delegate!.respondsToSelector("accountTransfersAllResponceWithTransactions:") {
@@ -156,19 +141,19 @@ class APIManager: NSObject
                         }
                     }
                     else if (layers! as NSDictionary).objectForKey("error")  == nil {
-                        var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
+                        let data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
                         
                         var requestDataAll :[TransactionPostMetaData] = [TransactionPostMetaData]()
                         
                         for object in data
                         {
-                            var meta :NSDictionary = object.objectForKey("meta") as! NSDictionary
-                            var transaction :NSDictionary = object.objectForKey("transaction") as! NSDictionary
+                            let meta :NSDictionary = object.objectForKey("meta") as! NSDictionary
+                            let transaction :NSDictionary = object.objectForKey("transaction") as! NSDictionary
                             
                             switch(transaction.objectForKey("type") as! Int) {
                             case transferTransaction :
                                 
-                                var requestData :TransferTransaction = TransferTransaction()
+                                let requestData :TransferTransaction = TransferTransaction()
                                 
                                 requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
@@ -176,7 +161,7 @@ class APIManager: NSObject
                                 
                             case multisigAggregateModificationTransaction :
                                 
-                                var requestData :AggregateModificationTransaction = AggregateModificationTransaction()
+                                let requestData :AggregateModificationTransaction = AggregateModificationTransaction()
                                 
                                 requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
@@ -184,7 +169,7 @@ class APIManager: NSObject
                                 
                             case multisigTransaction :
                                 
-                                var requestData :MultisigTransaction = MultisigTransaction()
+                                let requestData :MultisigTransaction = MultisigTransaction()
                                 
                                 requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
@@ -220,21 +205,17 @@ class APIManager: NSObject
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
-                var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/unconfirmedTransactions?address=" + account_address))!)
-                var err: NSError?
-                
+                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/unconfirmedTransactions?address=" + account_address))!)
+            
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
                 
-                var task = self._session.dataTaskWithRequest(request, completionHandler: {
+                let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
-                    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    var err: NSError?
-                    var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                    if(err != nil) {
-                        println(err!.localizedDescription)
+                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
+                    if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
                             if self.delegate != nil && self.delegate!.respondsToSelector("unconfirmedTransactionsResponceWithTransactions:") {
@@ -243,21 +224,21 @@ class APIManager: NSObject
                         }
                     }
                     else if (layers! as NSDictionary).objectForKey("error")  == nil {
-                        var data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
+                        let data :[NSDictionary] = (layers! as NSDictionary).objectForKey("data") as! [NSDictionary]
                         
                         var requestDataAll :[TransactionPostMetaData] = [TransactionPostMetaData]()
                         
-                        println("\nRequest : /account/unconfirmedTransactions")
+                        print("\nRequest : /account/unconfirmedTransactions")
                         
                         for object in data {
-                            var meta :NSDictionary = object.objectForKey("meta") as! NSDictionary
+                            let meta :NSDictionary = object.objectForKey("meta") as! NSDictionary
                             
-                            var transaction :NSDictionary = object.objectForKey("transaction") as! NSDictionary
+                            let transaction :NSDictionary = object.objectForKey("transaction") as! NSDictionary
                             
                             switch(transaction.objectForKey("type") as! Int) {
                             case transferTransaction :
                                 
-                                var requestData :TransferTransaction = TransferTransaction()
+                                let requestData :TransferTransaction = TransferTransaction()
                                 
                                 if  let metaData = meta.objectForKey("data") as? String
                                 {
@@ -269,7 +250,7 @@ class APIManager: NSObject
                                 
                             case multisigAggregateModificationTransaction :
                                 
-                                var requestData :AggregateModificationTransaction = AggregateModificationTransaction()
+                                let requestData :AggregateModificationTransaction = AggregateModificationTransaction()
                                 
                                 if  meta.objectForKey("data") != nil
                                 {
@@ -281,7 +262,7 @@ class APIManager: NSObject
                                 
                             case multisigTransaction :
                                 
-                                var requestData :MultisigTransaction = MultisigTransaction()
+                                let requestData :MultisigTransaction = MultisigTransaction()
                                 
                                 if  meta.objectForKey("data") != nil
                                 {
@@ -319,28 +300,28 @@ class APIManager: NSObject
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
-                var signedTransaction :SignedTransactionMetaData = SignManager.signTransaction(transaction)
+                let signedTransaction :SignedTransactionMetaData = SignManager.signTransaction(transaction)
                 
-                var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/transaction/announce"))!)
+                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/transaction/announce"))!)
                 
                 request.HTTPMethod = "POST"
                 
-                var params = ["data" : signedTransaction.dataT ,  "signature" : signedTransaction.signatureT ] as Dictionary<String, String>
+                let params = ["data" : signedTransaction.dataT ,  "signature" : signedTransaction.signatureT ] as Dictionary<String, String>
                 
-                var err: NSError?
-                var str = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
+                var str: NSData?
+                do {
+                    str = try NSJSONSerialization.dataWithJSONObject(params, options: [])
+                } catch  {
+                    str = nil
+                }
                 
                 request.HTTPBody = str
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
                 
-                var task = self._session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
-                    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    var err: NSError?
-                    var json  = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                    
-                    if(err != nil) {
-                        println(err!.localizedDescription)
+                let task = self._session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
+                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
+                    if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
                             if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
@@ -348,9 +329,9 @@ class APIManager: NSObject
                             }
                         }
                     }
-                    else if (json! as NSDictionary).objectForKey("error")  == nil {
+                    else if (layers! as NSDictionary).objectForKey("error")  == nil {
 
-                        var message :String = (json! as NSDictionary).objectForKey("message") as! String
+                        let message :String = (layers! as NSDictionary).objectForKey("message") as! String
                         
                         if message == "SUCCESS" {
                             dispatch_async(dispatch_get_main_queue()) {
@@ -384,24 +365,18 @@ class APIManager: NSObject
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
-                var request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/time-sync/network-time" ))!)
-                var err: NSError?
-                
+                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/time-sync/network-time" ))!)
+            
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
                 
-                var task = self._session.dataTaskWithRequest(request, completionHandler: {
+                let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
-                    var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    var err: NSError?
-                    var layers = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
-                    if(err != nil) {
-                        println(err!.localizedDescription)
-                    }
-                    else {
-                        var date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as! Double
+                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
+                    if(layers != nil) {
+                        let date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as! Double
                         
                         TimeSynchronizator.nemTime = date / 1000
                     }

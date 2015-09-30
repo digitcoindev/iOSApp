@@ -9,10 +9,10 @@ class AddressGenerator: NSObject
 
         var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         SHA256_hash(&stepOneSHA256, &inBuffer ,32)
-        var stepOneSHA256Text: String = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as! String
+        let stepOneSHA256Text: String = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as! String
         
-        var stepTwoRIPEMD160Text: String = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
-        var stepTwoRIPEMD160Buffer: Array<UInt8> = stepTwoRIPEMD160Text.asByteArray()
+        let stepTwoRIPEMD160Text: String = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
+        let stepTwoRIPEMD160Buffer: Array<UInt8> = stepTwoRIPEMD160Text.asByteArray()
         
         var version: Array<UInt8> = Array<UInt8>()
         version.append(network)
@@ -22,7 +22,7 @@ class AddressGenerator: NSObject
         
         SHA256_hash(&checksumHash, &stepThreeVersionPrefixedRipemd160Buffer ,21)
         
-        var checksumText: String = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as! String
+        let checksumText: String = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as! String
         var checksumBuffer: Array<UInt8> = checksumText.asByteArray()
         var checksum: Array<UInt8> = Array<UInt8>()
         checksum.append(checksumBuffer[0])
@@ -30,15 +30,15 @@ class AddressGenerator: NSObject
         checksum.append(checksumBuffer[2])
         checksum.append(checksumBuffer[3])
 
-        var stepFourResultBuffer =  stepThreeVersionPrefixedRipemd160Buffer + checksum
+        let stepFourResultBuffer =  stepThreeVersionPrefixedRipemd160Buffer + checksum
         
-        var result :String = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
+        let result :String = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
 
         return result
     }
     
     final class func generateAddressFromPrivateKey(privateKey: String)->String {
-        var publicKey :String =  KeyGenerator.generatePublicKey(privateKey)
+        let publicKey :String =  KeyGenerator.generatePublicKey(privateKey)
         
         return AddressGenerator.generateAddress(publicKey)
     }

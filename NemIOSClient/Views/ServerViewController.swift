@@ -41,9 +41,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     // MARK: - IBAction
 
     @IBAction func addAccountTouchUpInside(sender: AnyObject) {
-        var storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        var serverCustomVC :AddCustomServerVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomServer") as! AddCustomServerVC
+        let serverCustomVC :AddCustomServerVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomServer") as! AddCustomServerVC
         serverCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - topView.frame.height)
         serverCustomVC.view.layer.opacity = 0
         serverCustomVC.delegate = self
@@ -63,7 +63,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
-        for cell in self.tableView.visibleCells() {
+        for cell in self.tableView.visibleCells {
             (cell as! ServerViewCell).inEditingState = !_isEditing
             (cell as! ServerViewCell).layoutCell(animated: true)
         }
@@ -82,10 +82,10 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as! ServerViewCell
+        let cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as! ServerViewCell
         cell.delegate = self
         
-        var cellData  : Server = servers[indexPath.row]
+        let cellData  : Server = servers[indexPath.row]
         cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
         if servers[indexPath.row] == State.currentServer {
             cell.isActiveServer = true
@@ -105,16 +105,16 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
                 }
             }
             
-            var oldIndexPath = NSIndexPath(forRow: oldIndex, inSection: 0)
+            let oldIndexPath = NSIndexPath(forRow: oldIndex, inSection: 0)
             
             if oldIndexPath != indexPath {
-                var serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as! ServerViewCell
+                let serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as! ServerViewCell
                 
                 serverCell.isActiveServer = false
             }
         }
         
-        var selectedServer :Server = servers[indexPath.row]
+        let selectedServer :Server = servers[indexPath.row]
         
         State.currentServer = selectedServer
         
@@ -124,7 +124,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     //MARK: - ServerCell Delegate
     
     func deleteCell(cell :UITableViewCell) {
-        var index :NSIndexPath = tableView.indexPathForCell(cell)!
+        let index :NSIndexPath = tableView.indexPathForCell(cell)!
         
         if index.row < servers.count {
             _dataManager.deleteServer(server: servers[index.row])
@@ -149,7 +149,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         if successed {
             _apiManager.timeSynchronize(State.currentServer!)
             
-            var loadData :LoadData = _dataManager.getLoadData()
+            let loadData :LoadData = _dataManager.getLoadData()
             
             loadData.currentServer = State.currentServer!
             _dataManager.commit()
@@ -160,7 +160,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         } else {
             State.currentServer = nil
             
-            var alert :UIAlertView = UIAlertView(   title: NSLocalizedString("INFO", comment: "Title"),
+            let alert :UIAlertView = UIAlertView(   title: NSLocalizedString("INFO", comment: "Title"),
                 message: NSLocalizedString("SERVER_UNAVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }

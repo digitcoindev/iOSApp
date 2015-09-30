@@ -10,7 +10,7 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     var contentAtions: [funcBlock] = [funcBlock]()
     var selectedRow :Int!
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setup()
     }
@@ -30,7 +30,7 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     }
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        var frame :CGRect = CGRectMake(0,self.bounds.height, self.bounds.width, tableView.bounds.height)
+        let frame :CGRect = CGRectMake(0,self.bounds.height, self.bounds.width, tableView.bounds.height)
         if CGRectContainsPoint(frame, point) && !tableView.hidden {
             return tableView
         }
@@ -54,7 +54,7 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : UITableViewCell = UITableViewCell()
+        let cell : UITableViewCell = UITableViewCell()
         cell.textLabel!.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
         cell.textLabel!.text = content[indexPath.row]
         

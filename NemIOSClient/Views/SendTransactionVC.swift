@@ -31,7 +31,7 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         State.currentVC = SegueToSendTransaction
         
         
-        var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         observer.addObserver(self, selector: "prepareAnnounceSuccessed:", name: "prepareAnnounceSuccessed", object: nil)
         observer.addObserver(self, selector: "prepareAnnounceDenied:", name: "prepareAnnounceDenied", object: nil)
@@ -42,8 +42,8 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         
         observer.postNotificationName("Title", object:"Create transaction" )
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)
@@ -80,13 +80,13 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
     final func manageState() {
         switch (state.last!) {
         case "accountGetSuccessed" :
-            var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publicKey = KeyGenerator.generatePublicKey(privateKey)
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+            let publicKey = KeyGenerator.generatePublicKey(privateKey)
             
             if publicKey == walletData.publicKey {
                 var content :[String] = [String]()
                 var contentActions :[funcBlock] = [funcBlock]()
-                var accountAddress :String = self.walletData.address
+                let accountAddress :String = self.walletData.address
                 content.append("This account")
                 contentActions.append( {
                     () -> () in
@@ -114,15 +114,15 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
                 
             }
 
-            var format = ".0"
+            let format = ".0"
             walletBalance.text = "\((walletData.balance / 1000000).format(format)) XEM"
             state.removeLast()
             
         case "prepareAnnounceSuccessed" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "SUCCESS", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "SUCCESS", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
             }
             
@@ -131,9 +131,9 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             
         case "prepareAnnounceDenied" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "DENIED\nTry again later. Or check connection to server.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "DENIED\nTry again later. Or check connection to server.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
             }
             
@@ -156,8 +156,8 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
     }
     
     final func prepareAnnounceSuccessed(notification: NSNotification) {
-        var json = notification.object as! NSDictionary
-        var message :String = json.objectForKey("message") as! String
+        let json = notification.object as! NSDictionary
+        let message :String = json.objectForKey("message") as! String
         if message == "SUCCESS" {
             state.append("prepareAnnounceSuccessed")
         }
@@ -175,8 +175,8 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
     }
     
     @IBAction func addXEMs(sender: AnyObject) {
-        if (sender as! UITextField).text.toInt() != nil {
-            self.xems = (sender as! UITextField).text.toInt()!
+        if Int((sender as! UITextField).text!) != nil {
+            self.xems = Int((sender as! UITextField).text!)!
         }
         else {
             self.xems = 0
@@ -189,11 +189,11 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         if walletData != nil {
             if Int64(walletData.balance) > Int64(xems) {
                 if (InputMessage.text != "" || xems != 0 ) && State.currentServer != nil {
-                    var transaction :TransferTransaction = TransferTransaction()
+                    let transaction :TransferTransaction = TransferTransaction()
                     
                     transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
                     transaction.amount = Double(xems)
-                    transaction.message.payload = InputMessage.text
+                    transaction.message.payload = InputMessage.text!
                     transaction.fee = transactionFee 
                     transaction.recipient = contact!.address
                     transaction.type = 257
@@ -211,9 +211,9 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
                 }
             }
             else {
-                var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Not enough money", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Not enough money", preferredStyle: UIAlertControllerStyle.Alert)
                 
-                var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
+                let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive)
                     {
                         alertAction -> Void in
                 }
@@ -232,8 +232,8 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             transactionFee = 10 - Double(xems)
         }
         
-        if count(InputMessage.text.utf16) != 0 {
-            transactionFee += Double(2 * max(1, Int( count(InputMessage.text.utf16) / 16)))
+        if InputMessage.text!.utf16.count != 0 {
+            transactionFee += Double(2 * max(1, Int( InputMessage.text!.utf16.count / 16)))
         }
         
         self.transactionFeeLable.text = "\(Int64(transactionFee)) XEM"
@@ -248,13 +248,11 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        var info:NSDictionary = notification.userInfo!
-        var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         var keyboardHeight:CGFloat = keyboardSize.height
-        
-        var animationDuration = 0.1
-        
+                
         keyboardHeight -= self.view.frame.height - self.scroll.frame.height
         
         self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)

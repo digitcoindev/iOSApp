@@ -24,7 +24,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
         
-        var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
@@ -61,7 +61,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         switch sender {
         case password , repeatPassword:
             
-            if Validate.password(password.text){
+            if Validate.password(password.text!){
                 sender.textColor = UIColor.greenColor()
             } else {
                 sender.textColor = UIColor.redColor()
@@ -92,9 +92,9 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     @IBAction func confirm(sender: AnyObject) {
         var alert :UIAlertView!
         if name.text != ""  && key.text! != "" && repeatPassword.text != "" && password.text != "" {
-            if password.text == repeatPassword.text && Validate.password(password.text) {
+            if password.text == repeatPassword.text && Validate.password(password.text!) {
                 var keyValide :Bool = true
-                switch (key.text) {
+                switch (key.text!) {
                 case "1":
                     
                     key.text = "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d"
@@ -137,7 +137,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                 }
                 
                 if keyValide {
-                    WalletGenerator().createWallet(name.text, password: password.text, privateKey: key.text)
+                    WalletGenerator().createWallet(name.text!, password: password.text!, privateKey: key.text)
                     
                     State.fromVC = SegueToImportFromKey
                     State.toVC = SegueToLoginVC
@@ -150,7 +150,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PRIVATE_KEY_ERROR_1", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
                 }
             }
-            else if !Validate.password(password.text) {
+            else if !Validate.password(password.text!) {
                 alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PASSOWORD_LENGTH_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
                 
                 repeatPassword.text = ""
@@ -196,12 +196,10 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     //MARK: - Keyboard Delegate
     
     final func keyboardWillShow(notification: NSNotification) {
-        var info:NSDictionary = notification.userInfo!
-        var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         var keyboardHeight:CGFloat = keyboardSize.height
-        
-        var animationDuration = 0.1
         
         keyboardHeight -= self.view.frame.height - self.scroll.frame.height
         

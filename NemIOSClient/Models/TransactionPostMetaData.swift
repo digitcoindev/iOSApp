@@ -1,10 +1,10 @@
 import UIKit
 
-class TransactionPostMetaData
+class TransactionPostMetaData: NSObject
 {
     var id :Double!
     var height :Double!
-    var hash :String!
+    var hashString :String!
     var signature :String!
     var data :String!
     
@@ -17,7 +17,7 @@ class TransactionPostMetaData
     var deadline :Double!
     var publicKeys :[String] = [String]()
     
-    init() {
+    override init() {
         
     }
     
@@ -28,6 +28,6 @@ class TransactionPostMetaData
     func getBeginFrom(dictionary: NSDictionary) {
         self.id = dictionary.objectForKey("id") as! Double
         self.height = dictionary.objectForKey("height") as! Double
-        self.hash = dictionary.objectForKey("hash")!.objectForKey("data") as! String
+        self.hashString = dictionary.objectForKey("hash")!.objectForKey("data") as! String
     }
 }

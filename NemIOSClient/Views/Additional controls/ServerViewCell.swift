@@ -37,18 +37,18 @@ class ServerViewCell: UITableViewCell
     
     var delegate :AnyObject? = nil
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         _inEditingState = false
         self.contentView.clipsToBounds = true
     }
     
-    final func layoutCell(#animated :Bool) {
-        var duration = (animated) ? 0.5 : 0.1
+    final func layoutCell(animated animated :Bool) {
+        let duration = (animated) ? 0.5 : 0.1
         if !_inEditingState {
             
-            var cons: NSLayoutConstraint? = self.contentView.constraints().first as? NSLayoutConstraint
+            let cons: NSLayoutConstraint? = self.contentView.constraints.first!
             cons?.constant = -58
             
             
@@ -65,7 +65,7 @@ class ServerViewCell: UITableViewCell
             })
         } else {
             
-            var cons: NSLayoutConstraint? = self.contentView.constraints().first as? NSLayoutConstraint
+            let cons: NSLayoutConstraint? = self.contentView.constraints.first
             cons?.constant = 0
             
             

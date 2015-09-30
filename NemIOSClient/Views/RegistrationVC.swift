@@ -26,7 +26,7 @@ class RegistrationVC: AbstractViewController
             backButton.hidden = true
         }
         
-        var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
@@ -69,7 +69,7 @@ class RegistrationVC: AbstractViewController
         switch sender {
         case createPassword , repeatPassword:
             
-            if Validate.password(createPassword.text){
+            if Validate.password(createPassword.text!){
                 sender.textColor = UIColor.greenColor()
             } else {
                 sender.textColor = UIColor.redColor()
@@ -91,12 +91,10 @@ class RegistrationVC: AbstractViewController
     @IBAction func nextBtnPressed(sender: AnyObject) {        
         var alert :UIAlertView!
         
-        var a = NSLocalizedString("VALIDATION", comment: "Title")
-
         if createPassword.text != "" && repeatPassword.text != "" && userName.text != "" {
-            if Validate.password(createPassword.text) {
+            if Validate.password(createPassword.text!) {
                 if(createPassword.text == repeatPassword.text) {
-                    WalletGenerator().createWallet(userName.text, password: createPassword.text)
+                    WalletGenerator().createWallet(userName.text!, password: createPassword.text!)
                     
                     State.fromVC = SegueToRegistrationVC
                     State.toVC = SegueToLoginVC
@@ -126,12 +124,10 @@ class RegistrationVC: AbstractViewController
     //MARK: - Keyboard Delegate
     
     final func keyboardWillShow(notification: NSNotification) {
-        var info:NSDictionary = notification.userInfo!
-        var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         var keyboardHeight:CGFloat = keyboardSize.height
-        
-        var animationDuration = 0.1
         
         keyboardHeight -= self.view.frame.height - self.scroll.frame.height
         

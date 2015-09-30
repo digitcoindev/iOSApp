@@ -36,7 +36,7 @@ class State: NSObject
     final class var lastVC:String {
         get {
             var inState = true
-            var value = State.Store.stackVC.last!
+            let value = State.Store.stackVC.last!
             for ;inState; {
                 if State.Store.stackVC.count > 1 && State.Store.stackVC.last! == value {
                     State.Store.stackVC.removeLast()

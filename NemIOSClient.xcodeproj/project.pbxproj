@@ -18,6 +18,7 @@
 		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
 		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
+		D8B91FD79BFFA2DD50D69DC6 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FC49EEC35A6802600EA0E3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
 		DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MainMenuVC.swift */; };
 		DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED51A9226E10021E98B /* NEMTextField.swift */; };
@@ -93,7 +94,6 @@
 		DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA971FDB1A67C2A00039ADB4 /* Foundation.framework */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
 		DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */; };
-		DAC28C921A96000600EE3B22 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C911A96000600EE3B22 /* GoogleMaps.framework */; };
 		DAC28C941A96008700EE3B22 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */; };
 		DAC28C961A96011900EE3B22 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C951A96011900EE3B22 /* CoreData.framework */; };
 		DAC28C981A96012700EE3B22 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C971A96012600EE3B22 /* CoreText.framework */; };
@@ -192,6 +192,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18FC49EEC35A6802600EA0E3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9809BE281B75008F0028D082 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9809BE2B1B789EBD0028D082 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardButtonBox.swift; path = "Views/Additional controls/DashboardButtonBox.swift"; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
+		B7116021E29489DE6208293D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
 		DA0059381A4882ED00638C57 /* MainMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuVC.swift; path = Views/MainMenuVC.swift; sourceTree = "<group>"; };
 		DA031ED51A9226E10021E98B /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEMTextField.swift; sourceTree = "<group>"; };
@@ -287,7 +289,6 @@
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
 		DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRResult.swift; path = Views/CreateQRResult.swift; sourceTree = "<group>"; };
 		DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		DAC28C911A96000600EE3B22 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		DAC28C951A96011900EE3B22 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DAC28C971A96012600EE3B22 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -382,6 +383,7 @@
 		DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountGetMetaData.swift; path = Models/AccountGetMetaData.swift; sourceTree = "<group>"; };
 		DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageGetMetaData.swift; path = Models/MessageGetMetaData.swift; sourceTree = "<group>"; };
 		DAFA74BC1B2AEEF100AA461D /* consignatories_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = consignatories_icon.png; sourceTree = "<group>"; };
+		E431108AB9AA7663DC38FDE0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,11 +405,11 @@
 				DAC28C9A1A96013300EE3B22 /* GLKit.framework in Frameworks */,
 				DAC28C981A96012700EE3B22 /* CoreText.framework in Frameworks */,
 				DAC28C961A96011900EE3B22 /* CoreData.framework in Frameworks */,
-				DAC28C921A96000600EE3B22 /* GoogleMaps.framework in Frameworks */,
 				DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */,
 				DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */,
 				DA64A4CE1A5A88BE005833A4 /* AVFoundation.framework in Frameworks */,
 				DA64A4C91A56D483005833A4 /* AddressBook.framework in Frameworks */,
+				D8B91FD79BFFA2DD50D69DC6 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +423,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F6B0EDCAAFB999E4C85F895 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B7116021E29489DE6208293D /* Pods.debug.xcconfig */,
+				E431108AB9AA7663DC38FDE0 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		9809BDE81B74E8300028D082 /* Base64 */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +646,7 @@
 				DA64A4D21A5A892D005833A4 /* Frameworks */,
 				DA35581B1A39D3BC00AFA5FD /* NemIOSClientTests */,
 				DA3558011A39D3B900AFA5FD /* Products */,
+				0F6B0EDCAAFB999E4C85F895 /* Pods */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 0;
@@ -845,12 +857,12 @@
 				DAC28C991A96013300EE3B22 /* GLKit.framework */,
 				DAC28C971A96012600EE3B22 /* CoreText.framework */,
 				DAC28C951A96011900EE3B22 /* CoreData.framework */,
-				DAC28C911A96000600EE3B22 /* GoogleMaps.framework */,
 				DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */,
 				DA971FDB1A67C2A00039ADB4 /* Foundation.framework */,
 				DA64A4CF1A5A88C4005833A4 /* Social.framework */,
 				DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */,
 				DA64A4C81A56D483005833A4 /* AddressBook.framework */,
+				18FC49EEC35A6802600EA0E3 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1111,9 +1123,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA3558221A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NemIOSClient" */;
 			buildPhases = (
+				FCE3F5EF1E726FE05D9A4E34 /* Check Pods Manifest.lock */,
 				DA3557FC1A39D3B900AFA5FD /* Sources */,
 				DA3557FD1A39D3B900AFA5FD /* Frameworks */,
 				DA3557FE1A39D3B900AFA5FD /* Resources */,
+				1AF3143E7927A69ABBAB6C23 /* Embed Pods Frameworks */,
+				8CD05CA170AF24C83D4F3FFA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1148,7 +1163,9 @@
 		DA3557F81A39D3B900AFA5FD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Artygeek;
 				TargetAttributes = {
 					DA3557FF1A39D3B900AFA5FD = {
@@ -1249,6 +1266,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1AF3143E7927A69ABBAB6C23 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8CD05CA170AF24C83D4F3FFA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FCE3F5EF1E726FE05D9A4E34 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA3557FC1A39D3B900AFA5FD /* Sources */ = {
@@ -1434,6 +1499,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1498,6 +1564,7 @@
 		};
 		DA3558231A39D3BC00AFA5FD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7116021E29489DE6208293D /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1511,6 +1578,7 @@
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/NemIOSClient-Bridging-Header.h";
@@ -1521,6 +1589,7 @@
 		};
 		DA3558241A39D3BC00AFA5FD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E431108AB9AA7663DC38FDE0 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1534,6 +1603,7 @@
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/NemIOSClient-Bridging-Header.h";
@@ -1555,6 +1625,7 @@
 				);
 				INFOPLIST_FILE = NemIOSClientTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NemIOSClient.app/NemIOSClient";
 			};
@@ -1570,6 +1641,7 @@
 				);
 				INFOPLIST_FILE = NemIOSClientTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NemIOSClient.app/NemIOSClient";
 			};

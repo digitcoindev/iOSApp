@@ -31,7 +31,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         
         State.currentVC = SegueTomultisigAccountManager
         
-        var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
@@ -53,8 +53,8 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         keyValidator.hidden = true
         scroll.scrollEnabled = false
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         if State.currentServer != nil {
             APIManager().accountGet(State.currentServer!, account_address: account_address)
@@ -69,8 +69,8 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
     final func manageState() {
         switch (state.last!) {
         case "accountGetSuccessed" :
-            var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            var publicKey = KeyGenerator.generatePublicKey(privateKey)
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+            let publicKey = KeyGenerator.generatePublicKey(privateKey)
             
             if publicKey == walletData.publicKey {
                 var content :[String] = [String]()
@@ -123,9 +123,9 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             
         case "prepareAnnounceSuccessed" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are confirmed and await \nfor server validation", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are confirmed and await \nfor server validation", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
             }
             
@@ -134,9 +134,9 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             
         case "prepareAnnounceDenied" :
             state.removeLast()
-            var alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
             }
             
@@ -172,7 +172,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
+        let cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
         
         cell.key.text = ""
         cell.cellIndex = indexPath.row
@@ -187,16 +187,16 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
     }
     
     final func deleteCellAtIndex(notification: NSNotification) {
-        var index = notification.object as! Int
-        var indexPath = NSIndexPath(forRow: index, inSection: 0)
+        let index = notification.object as! Int
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
         
         currentCosignatories.removeAtIndex(index)
         self.tableView.deleteRowsAtIndexPaths([indexPath] , withRowAnimation: .Fade)
     }
     
     @IBAction func addChanges(sender: AnyObject) {
-        var newPublicKey :String = (sender as! UITextField).text
-        if Swift.count(newPublicKey.utf16) == 64 {
+        let newPublicKey :String = (sender as! UITextField).text!
+        if newPublicKey.utf16.count == 64 {
             var find : Bool = false
             for publicKey in currentCosignatories {
                 if publicKey == newPublicKey {
@@ -217,7 +217,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
     }
 
     @IBAction func typing(sender: NEMTextField) {
-        if Swift.count(sender.text.utf16) == 64 {
+        if sender.text!.utf16.count == 64 {
             keyValidator.hidden = false
         }
         else {
@@ -247,9 +247,9 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         }
         
         if removeArray.count > 1 {
-            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. You can remove only one cosignatori per transaction.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. You can remove only one cosignatori per transaction.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                     
                     self.currentCosignatories.removeAll(keepCapacity: false)
@@ -267,9 +267,9 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             self.presentViewController(alert, animated: true, completion: nil)
         }
         else if (addArray.count - removeArray.count + walletData.cosignatories.count) > 16 {
-            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. Too many cosignatories.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. Too many cosignatories.", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                     
                     self.currentCosignatories.removeAll(keepCapacity: false)
@@ -287,16 +287,16 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             self.presentViewController(alert, animated: true, completion: nil)
         }
         else {
-            var fee = 10 + 6 * Int64(addArray.count + removeArray.count)
+            let fee = 10 + 6 * Int64(addArray.count + removeArray.count)
             
-            var alert1 :UIAlertController = UIAlertController(title: "Confirmation", message: "Are you agree with changes? It will cost \(fee) XEM", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert1 :UIAlertController = UIAlertController(title: "Confirmation", message: "Are you agree with changes? It will cost \(fee) XEM", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var confirm :UIAlertAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default) {
+            let confirm :UIAlertAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
                     
-                    var transaction :AggregateModificationTransaction = AggregateModificationTransaction()
-                    var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-                    var publickey = self.walletData.publicKey
+                    let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
+                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+                    let publickey = self.walletData.publicKey
                     
                     transaction.timeStamp = TimeSynchronizator.nemTime
                     transaction.deadline = TimeSynchronizator.nemTime + waitTime
@@ -334,7 +334,7 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             }
             
             
-            var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) {
+            let cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                     
                     self.currentCosignatories.removeAll(keepCapacity: false)
@@ -358,13 +358,11 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
     }
 
     func keyboardWillShow(notification: NSNotification) {
-        var info:NSDictionary = notification.userInfo!
-        var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         var keyboardHeight:CGFloat = keyboardSize.height
-        
-        var animationDuration = 0.1
-        
+                
         keyboardHeight -= self.view.frame.height - self.scroll.frame.height
         
         self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)

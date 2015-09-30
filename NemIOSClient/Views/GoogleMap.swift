@@ -31,7 +31,7 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
             locationManager.startUpdatingLocation()
         }
         else {
-            println("Location service disabled");
+            print("Location service disabled");
         }
         camera = GMSCameraPosition.cameraWithLatitude(0,
             longitude:0, zoom:1)
@@ -45,8 +45,8 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
 
     }
 
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        var locValue:CLLocationCoordinate2D = manager.location.coordinate
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         
         if showMe {
             mapView.camera = GMSCameraPosition.cameraWithLatitude(locValue.latitude,

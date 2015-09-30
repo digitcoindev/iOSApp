@@ -28,7 +28,7 @@ class Correspondent: NSObject {
         for transaction in transactions {
             var find = false
             
-            var signerAddress = AddressGenerator.generateAddress(transaction.signer)
+            let signerAddress = AddressGenerator.generateAddress(transaction.signer)
             
             for correspondent in correspondents {
                 if correspondent.address == signerAddress && signerAddress != account_address {
@@ -44,7 +44,7 @@ class Correspondent: NSObject {
             }
             
             if !find {
-                var correspondent = Correspondent()
+                let correspondent = Correspondent()
                 correspondent.address = (account_address != signerAddress) ? signerAddress : transaction.recipient
                 correspondent.name = correspondent.address
                 correspondent.transaction = transaction

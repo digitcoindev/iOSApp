@@ -3,12 +3,12 @@ import Foundation
 
 func Base32Encode(data: NSData) -> String {
 	let alphabet = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "2", "3", "4", "5", "6", "7"]
-	return Base32Encode(data, alphabet)
+	return Base32Encode(data, alphabet: alphabet)
 }
 
 func Base32HexEncode(data: NSData) -> String {
 	let alphabet = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V"]
-	return Base32Encode(data, alphabet)
+	return Base32Encode(data, alphabet: alphabet)
 }
 
 func Base32Decode(data: String) -> NSData? {
@@ -32,7 +32,7 @@ func Base32Decode(data: String) -> NSData? {
 		__,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xE0 - 0xEF
 		__,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xF0 - 0xFF
 	]
-	return Base32Decode(data, alphabet, characters)
+	return Base32Decode(data, alphabet: alphabet, characters: characters)
 }
 
 //func Base32HexDecode(data: String) -> NSData? {
@@ -41,12 +41,10 @@ func Base32Decode(data: String) -> NSData? {
 //}
 
 func Base32Encode(data: NSData, alphabet: Array<String>) -> String {
-	let numberOfBlocks = Int(ceil(Double(data.length) / Double(5)))
-	
 	var result = String()
 	
 	let bytes = UnsafePointer<UInt8>(data.bytes)
-	for byteIndex in stride(from: 0, to: data.length, by: 5) {
+	for byteIndex in 0.stride(to: data.length, by: 5) {
 		let maxOffset = (byteIndex + 5 >= data.length) ? data.length : byteIndex + 5
 		let numberOfBytes = maxOffset - byteIndex
 		
@@ -117,11 +115,11 @@ func Base32Encode(data: NSData, alphabet: Array<String>) -> String {
 func Base32Decode(data: String, alphabet: Array<Int>, characters: Array<String>) -> NSData? {
 	var processingData = ""
 
-	for char in data.uppercaseString {
+	for char in data.uppercaseString.characters {
 		let str = String(char)
-		if contains(characters, str) {
+		if characters.contains(str) {
 			processingData += str
-		} else if !contains(characters, str) && str != "=" {
+		} else if !characters.contains(str) && str != "=" {
 			return nil
 		}
 	}
@@ -151,7 +149,7 @@ func Base32Decode(data: String, alphabet: Array<Int>, characters: Array<String>)
 		let base32Bytes = UnsafePointer<UInt8>(base32Data.bytes)
 		
 		var decodedByteIndex = 0;
-		for byteIndex in stride(from: 0, to: base32Data.length, by: 8) {
+		for byteIndex in 0.stride(to: base32Data.length, by: 8) {
 			let maxOffset = (byteIndex + 8 >= base32Data.length) ? base32Data.length : byteIndex + 8
 			let numberOfBytes = maxOffset - byteIndex
 			
@@ -227,7 +225,7 @@ extension String
 	
 	func base32DecodedString(encoding: NSStringEncoding = NSUTF8StringEncoding) -> String? {
 		if let data = self.base32DecodedData {
-			return NSString(data: data, encoding: encoding)! as? String
+			return NSString(data: data, encoding: encoding)! as String
 		} else {
 			return nil
 		}

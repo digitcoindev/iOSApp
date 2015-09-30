@@ -14,7 +14,7 @@ class WalletCell: UITableViewCell
     var inEditingState :Bool = false
     var delegate :AnyObject? = nil
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         inEditingState = false
@@ -24,8 +24,8 @@ class WalletCell: UITableViewCell
         layoutCell(animated: false)
     }
     
-    final func layoutCell(#animated :Bool) {
-        var duration = (animated) ? 0.5 : 0.1
+    final func layoutCell(animated animated :Bool) {
+        let duration = (animated) ? 0.5 : 0.1
         
         if !inEditingState {
             UIView.animateWithDuration(duration, animations: { () -> Void in

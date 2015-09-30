@@ -14,8 +14,8 @@ class AccountGetMetaData: NSObject
     var remoteStatus : String!
     
     final func getFrom(dictionary :NSDictionary) -> AccountGetMetaData {
-        var accountData :NSDictionary = dictionary.objectForKey("account") as! NSDictionary
-        var metaData :NSDictionary = dictionary.objectForKey("meta") as! NSDictionary
+        let accountData :NSDictionary = dictionary.objectForKey("account") as! NSDictionary
+        let metaData :NSDictionary = dictionary.objectForKey("meta") as! NSDictionary
 
         
         self.address = accountData.objectForKey("address") as! String
@@ -27,13 +27,13 @@ class AccountGetMetaData: NSObject
         self.status = metaData.objectForKey("status") as! String
         self.remoteStatus = metaData.objectForKey("remoteStatus") as! String
         
-        var cosignatoryOfDic :[NSDictionary] = metaData.objectForKey("cosignatoryOf") as! [NSDictionary]
+        let cosignatoryOfDic :[NSDictionary] = metaData.objectForKey("cosignatoryOf") as! [NSDictionary]
         
         for accountDic in cosignatoryOfDic {
             self.cosignatoryOf.append(AccountGetMetaData().getCosignatory(accountDic))
         }
         
-        var cosignatoriesDic :[NSDictionary] = metaData.objectForKey("cosignatories") as! [NSDictionary]
+        let cosignatoriesDic :[NSDictionary] = metaData.objectForKey("cosignatories") as! [NSDictionary]
         
         for cosignatoryDic in cosignatoriesDic {
             self.cosignatories.append(AccountGetMetaData().getCosignatory(cosignatoryDic))

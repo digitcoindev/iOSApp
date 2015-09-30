@@ -41,13 +41,13 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
             self.tableView!.layer.cornerRadius = 5
         }
 
-        var observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
         observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         
         if State.currentServer != nil {
-            var address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            let address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
                 
             apiManager.accountGet(State.currentServer!, account_address: address)
         }
@@ -69,7 +69,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
     final func manageState() {
         switch (state.last!) {
         case "accountGetSuccessed" :
-            var stateWallet = State.currentWallet!
+            let stateWallet = State.currentWallet!
             
             userLogin.text = stateWallet.login
             userAddress.text =  AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(stateWallet.privateKey))
@@ -140,15 +140,15 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
     }
     
     final func deleteCellAtIndex(notification: NSNotification) {
-        var index = notification.object as! Int
-        var indexPath = NSIndexPath(forRow: index, inSection: 0)
+        let index = notification.object as! Int
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
         
         currentCosignatories.removeAtIndex(index)
         self.tableView!.deleteRowsAtIndexPaths([indexPath] , withRowAnimation: .Fade)
     }
     
     @IBAction func changePassword(sender: AnyObject) {
-        var alert1 :UIAlertController = UIAlertController(title: "Change password", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert1 :UIAlertController = UIAlertController(title: "Change password", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
         
         var oldPassword :UITextField!
         alert1.addTextFieldWithConfigurationHandler {
@@ -186,14 +186,14 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
                 
         }
         
-        var change :UIAlertAction = UIAlertAction(title: "Change", style: UIAlertActionStyle.Default) {
+        let change :UIAlertAction = UIAlertAction(title: "Change", style: UIAlertActionStyle.Default) {
                 alertAction -> Void in
                 
                 var isError :Bool = false
                 
-                var salt :NSData = NSData.fromHexString(State.currentWallet!.salt)
+                let salt :NSData = NSData.fromHexString(State.currentWallet!.salt)
                 
-                let passwordHash :NSData? = HashManager.generateAesKeyForString(oldPassword.text, salt:salt, roundCount:2000, error:nil)
+                let passwordHash :NSData? = try? HashManager.generateAesKeyForString(oldPassword.text!, salt:salt, roundCount:2000)!
                 
                 if passwordHash!.toHexString() != State.currentWallet!.password {
                     alert1.message = "Wrong old password"
@@ -208,7 +208,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
                     isError = true
                 }
                 
-                if !Validate.password(newPassword.text) {
+                if !Validate.password(newPassword.text!) {
                     alert1.message = "PASSOWORD_LENGTH_ERROR"
                     repeatPassword.text = ""
                     newPassword.text = ""
@@ -216,7 +216,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
                 }
                 
                 if !isError {
-                    let passwordHash :NSData? = HashManager.generateAesKeyForString(newPassword.text, salt:salt, roundCount:2000, error:nil)
+                    let passwordHash :NSData? = try? HashManager.generateAesKeyForString(newPassword.text!, salt:salt, roundCount:2000)!
                     
                     State.currentWallet!.password = passwordHash!.toHexString()
                     State.currentWallet!.salt = salt.toHexString()
@@ -229,7 +229,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
             }
         
         
-        var cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) {
+        let cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) {
                 alertAction -> Void in
             }
         
@@ -254,7 +254,7 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell :KeyCell = self.tableView!.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
+        let cell :KeyCell = self.tableView!.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
         
         cell.key.text = ""
         cell.cellIndex = indexPath.row

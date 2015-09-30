@@ -22,11 +22,11 @@ class CoreDataManager: NSObject
     final func getWallets()->[Wallet] {
         let fetchRequest = NSFetchRequest(entityName: "Wallet")
         
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Wallet] {
+        if let fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [Wallet] {
             return fetchResults
         }
         else {
-            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Wallet]
+            let fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [Wallet]
             
             return fetchResults!
         }
@@ -38,7 +38,7 @@ class CoreDataManager: NSObject
         commit()
     }
     
-    final func deleteWallet(#wallet :Wallet) {
+    final func deleteWallet(wallet wallet :Wallet) {
         self.managedObjectContext!.deleteObject(wallet)
         
         commit()
@@ -49,7 +49,7 @@ class CoreDataManager: NSObject
     final func getInvoice()->[Invoice] {
         let fetchRequest = NSFetchRequest(entityName: "Invoice")
         
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Invoice] {
+        if let fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [Invoice] {
             return fetchResults
         }
         
@@ -57,8 +57,8 @@ class CoreDataManager: NSObject
     }
     
     final func addInvoice(invoice:InvoiceData)->Invoice {
-        var number = getInvoice().count
-        var result = Invoice.createInManagedObjectContext(self.managedObjectContext!, address: invoice.address, name: invoice.name, message: invoice.message, amount: invoice.amount, number:number )
+        let number = getInvoice().count
+        let result = Invoice.createInManagedObjectContext(self.managedObjectContext!, address: invoice.address, name: invoice.name, message: invoice.message, amount: invoice.amount, number:number )
         commit()
         return result
     }
@@ -68,11 +68,11 @@ class CoreDataManager: NSObject
     final func getServers()->[Server] {
         let fetchRequest = NSFetchRequest(entityName: "Server")
         
-        if var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Server] {
+        if var fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [Server] {
             if(fetchResults.count == 0) {
                 _createDefaultServers()
                 
-                fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Server]
+                fetchResults = (try! managedObjectContext!.executeFetchRequest(fetchRequest)) as! [Server]
             }
             
             return fetchResults
@@ -80,7 +80,7 @@ class CoreDataManager: NSObject
         else {            
             _createDefaultServers()
             
-            var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [Server]
+            let fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [Server]
             
             return fetchResults!
         }
@@ -93,14 +93,14 @@ class CoreDataManager: NSObject
     }
     
     final func addServer(name: String, address: String, port: String) -> Server {
-        var server = Server.createInManagedObjectContext(self.managedObjectContext!, name: name, address: address, port: port)
+        let server = Server.createInManagedObjectContext(self.managedObjectContext!, name: name, address: address, port: port)
         
         commit()
         
         return server
     }
     
-    final func deleteServer(#server :Server) {
+    final func deleteServer(server server :Server) {
         self.managedObjectContext!.deleteObject(server)
         
         commit()
@@ -110,12 +110,12 @@ class CoreDataManager: NSObject
     
     final func getLoadData()->LoadData {
         let fetchRequest = NSFetchRequest(entityName: "LoadData")
-        var fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [LoadData]
+        let fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [LoadData]
         if (fetchResults?.count > 0) {
             return fetchResults?.first! as LoadData!
         }
         else {
-            var corespondent :LoadData = LoadData.createInManagedObjectContext(self.managedObjectContext!)
+            let corespondent :LoadData = LoadData.createInManagedObjectContext(self.managedObjectContext!)
             
             commit()
             
@@ -126,7 +126,10 @@ class CoreDataManager: NSObject
     //General
     
     final func commit() {
-        self.managedObjectContext?.save(nil)
+        do {
+            try self.managedObjectContext?.save()
+        } catch _ {
+        }
     }
 
 }

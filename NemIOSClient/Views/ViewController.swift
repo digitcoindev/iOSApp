@@ -8,10 +8,10 @@ class ViewController: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var errorLogs = plistFileManager().readErrorLog()
+        let errorLogs = plistFileManager().readErrorLog()
         if errorLogs != nil {
             if errorLogs != "" {
-                var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Error copied to pasteboard ", delegate: self, cancelButtonTitle: "OK")
+                let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Error copied to pasteboard ", delegate: self, cancelButtonTitle: "OK")
                 alert.show()
 
                 UIPasteboard.generalPasteboard().string = errorLogs

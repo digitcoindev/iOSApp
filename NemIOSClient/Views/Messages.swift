@@ -74,9 +74,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 userDescription = NSMutableAttributedString(string: "\(wallet.login)")
             }
             
-            var format = ".0"
-            var attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-            var balance = " \((walletData.balance / 1000000).format(format)) XEM"
+            let format = ".0"
+            let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
+            let balance = " \((walletData.balance / 1000000).format(format)) XEM"
             
             userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
             
@@ -105,7 +105,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     
                 case multisigTransaction:
                     
-                    var multisigT  = inData as! MultisigTransaction
+                    let multisigT  = inData as! MultisigTransaction
                     
                     switch(multisigT.innerTransaction.type) {
                     case transferTransaction :
@@ -131,7 +131,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     
     final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
-            var showAlert = (_unconfirmedTransactions.count == 0) ? true : false
+            let showAlert = (_unconfirmedTransactions.count == 0) ? true : false
             _unconfirmedTransactions += data
             
             var findUnconfirmed = false
@@ -139,7 +139,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 for inTransaction in _unconfirmedTransactions {
                     switch(inTransaction.type) {
                     case multisigTransaction:
-                        var transaction :MultisigTransaction = inTransaction as! MultisigTransaction
+                        let transaction :MultisigTransaction = inTransaction as! MultisigTransaction
                         var find = false
                         
                         for sign in transaction.signatures {
@@ -150,16 +150,16 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                         }
                         
                         if inTransaction.signer != walletData.publicKey && !find {
-                            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("UNCONFIRMED_TRANSACTIONS_DETECTED", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+                            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("UNCONFIRMED_TRANSACTIONS_DETECTED", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
                             
-                            var ok :UIAlertAction = UIAlertAction(title: NSLocalizedString("SHOW_TRANSACTIONS", comment: "Title"), style: UIAlertActionStyle.Default) {
+                            let ok :UIAlertAction = UIAlertAction(title: NSLocalizedString("SHOW_TRANSACTIONS", comment: "Title"), style: UIAlertActionStyle.Default) {
                                     alertAction -> Void in
                                     
                                     NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToUnconfirmedTransactionVC )
                                     
                             }
                             
-                            var cancel :UIAlertAction = UIAlertAction(title: NSLocalizedString("REMIND_LATER", comment: "Title"), style: UIAlertActionStyle.Default) {
+                            let cancel :UIAlertAction = UIAlertAction(title: NSLocalizedString("REMIND_LATER", comment: "Title"), style: UIAlertActionStyle.Default) {
                                     alertAction -> Void in
                             }
                             
@@ -226,7 +226,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 }
                 
                 if firstValue < secondValue || (secondValue == -1 &&  secondValue != firstValue) {
-                    var accum = data[indexIN + 1]
+                    let accum = data[indexIN + 1]
                     data[indexIN + 1] = data[indexIN]
                     data[indexIN] = accum
                     
@@ -249,10 +249,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     }
     
     final func findCorrespondentName() {
-        var contacts :NSArray = AddressBookManager.contacts
+        let contacts :NSArray = AddressBookManager.contacts
         
         for correspondent in _correspondents {
-            if count(correspondent.name.utf16) > 20 {
+            if correspondent.name.utf16.count > 20 {
                 var find = false
                 for contact in contacts {
                     let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
@@ -260,17 +260,17 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     
                     if count > 0 {
                         for var index:CFIndex = 0; index < count; ++index {
-                            var lable  = ABMultiValueCopyLabelAtIndex(emails, index)
+                            let lable  = ABMultiValueCopyLabelAtIndex(emails, index)
                             if lable != nil {
                                 if lable.takeUnretainedValue()  == "NEM" {
-                                    var value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
+                                    let value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
                                     if value == correspondent.name {
                                         if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil {
                                             correspondent.name = (ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString as! String) + " "
                                         }
                                         
                                         if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil {
-                                            correspondent.name =  correspondent.name +  ((ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as! String)
+                                            correspondent.name =  correspondent.name +  ((ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as String)
                                         }
                                         
                                         find = true
@@ -296,9 +296,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     
     final func refreshTransactionList() {
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey = KeyGenerator.generatePublicKey(privateKey)
-        var account_address = AddressGenerator.generateAddress(publicKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey)
+        let account_address = AddressGenerator.generateAddress(publicKey)
         
         if State.currentServer != nil {
             _apiManager.accountGet(State.currentServer!, account_address: account_address)
@@ -335,7 +335,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             _displayList = _correspondents
         }
         else {
-            var predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
+            let predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
             _displayList = (_correspondents as NSArray).filteredArrayUsingPredicate(predicate)
         }
         
@@ -350,9 +350,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! MessageCell
-        var cellData  : Correspondent = _displayList[indexPath.row] as! Correspondent
-        var transaction :TransferTransaction? = cellData.transaction
+        let cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! MessageCell
+        let cellData  : Correspondent = _displayList[indexPath.row] as! Correspondent
+        let transaction :TransferTransaction? = cellData.transaction
         
         cell.name.text = "  " + cellData.name
         
@@ -364,7 +364,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             cell.message.text = ""
         }
         
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
         var timeStamp = Double(transaction!.timeStamp )
@@ -377,8 +377,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         var color :UIColor!
         var vector :String = ""
         if transaction?.recipient != account_address {
@@ -389,10 +389,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             vector = "-"
         }
         
-        var attribute = [NSForegroundColorAttributeName : color]
+        let attribute = [NSForegroundColorAttributeName : color]
         
-        var format = ".0"
-        var amount = vector + "\((transaction!.amount / 1000000).format(format)) XEM"
+        let format = ".0"
+        let amount = vector + "\((transaction!.amount / 1000000).format(format)) XEM"
         
         cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
                 

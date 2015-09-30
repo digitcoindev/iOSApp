@@ -5,15 +5,20 @@ extension String
     func dataFromHexadecimalString() -> NSData? {
         let trimmedString = self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<> ")).stringByReplacingOccurrencesOfString(" ", withString: "")
         
-        var error: NSError?
-        let regex = NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive, error: &error)
-        let found = regex?.firstMatchInString(trimmedString, options: nil, range: NSMakeRange(0, count(trimmedString)))
+        let regex: NSRegularExpression?
+        do {
+            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive)
+        } catch {
+            regex = nil
+        }
         
-        if found == nil || found?.range.location == NSNotFound || count(trimmedString) % 2 != 0 {
+        let found = regex?.firstMatchInString(trimmedString, options: [], range: NSMakeRange(0, trimmedString.characters.count))
+        
+        if found == nil || found?.range.location == NSNotFound || trimmedString.characters.count % 2 != 0 {
             return nil
         }
         
-        let data = NSMutableData(capacity: count(trimmedString) / 2)
+        let data = NSMutableData(capacity: trimmedString.characters.count / 2)
         
         for var index = trimmedString.startIndex; index < trimmedString.endIndex; index = index.successor().successor() {
             let byteString = trimmedString.substringWithRange(Range<String.Index>(start: index, end: index.successor().successor()))
@@ -38,7 +43,7 @@ extension String
     }
     
     func asByteArray()-> Array<UInt8> {
-        var arrayLength :Int = count(self.utf16)
+        var arrayLength :Int = self.utf16.count
         var hexString = self
         
         if arrayLength % 2 != 0 {
@@ -50,14 +55,14 @@ extension String
         
         var buffer : Array<UInt8> = Array(count: arrayLength , repeatedValue: 0)
         for var index :Int = 0 ; index < arrayLength  ; index++ {
-            var substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+            let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
             buffer[index] = UInt8(substring, radix: 16)!
         }
         return buffer
     }
     
     func asByteArray(length: Int)-> Array<UInt8> {
-        var arrayLength :Int = count(self.utf16)
+        var arrayLength :Int = self.utf16.count
         var hexString = self
         
         if arrayLength % 2 != 0 {
@@ -69,7 +74,7 @@ extension String
         
         var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
         for var index :Int = 0 ; index < arrayLength  ; index++ {
-            var substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+            let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
             buffer[index] = UInt8(substring, radix: 16)!
         }
         
@@ -77,7 +82,7 @@ extension String
     }
     
     func asByteArrayEndian(length: Int)-> Array<UInt8> {
-        var arrayLength :Int = count(self.utf16)
+        var arrayLength :Int = self.utf16.count
         var hexString = self
         
         if arrayLength % 2 != 0 {
@@ -89,7 +94,7 @@ extension String
         
         var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
         for var index :Int = 0 ; index < arrayLength  ; index++ {
-            var substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+            let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
             buffer[arrayLength - index - 1] = UInt8(substring, radix: 16)!
         }
         

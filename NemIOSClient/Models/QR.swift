@@ -24,7 +24,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
         super.init(frame: frame)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -32,7 +32,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
 
     final func scanQR(width :CGFloat , height :CGFloat) {
         if((device) != nil) {
-            let input = AVCaptureDeviceInput.deviceInputWithDevice(device, error: nil) as! AVCaptureDeviceInput
+            let input = try? AVCaptureDeviceInput(device: device)
             let output = AVCaptureMetadataOutput()
             let bounds:CGRect = CGRect(x: width / 2, y: height / 2, width: width, height: height)
 
@@ -57,13 +57,13 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
             self.addSubview(qrImg)
         }
         else {
-            var errorString = "Fail to access device camera"
+            let errorString = "Fail to access device camera"
             
             if self.delegate != nil && self.delegate!.respondsToSelector("failedWithError:") {
                 (self.delegate as! QRDelegate).failedWithError!(errorString)
             }
             
-            var alert :UIAlertView = UIAlertView(title: "Error", message: errorString, delegate: self, cancelButtonTitle: "OK")
+            let alert :UIAlertView = UIAlertView(title: "Error", message: errorString, delegate: self, cancelButtonTitle: "OK")
             
             alert.show()
         }
@@ -106,33 +106,32 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
     //MARK: - QR Helper Methods
     
     final func createQR(inputStr :String) -> UIImage {
-        var qrCIImage: CIImage = createQRForString(inputStr)
-        var qrUIImage: UIImage = createNonInterpolatedUIImageFromCIImage(qrCIImage, scale: 10);
-        UIImage(CGImage: qrUIImage.CGImage, scale: 1.0, orientation: .DownMirrored)
+        let qrCIImage: CIImage = createQRForString(inputStr)
+        let qrUIImage: UIImage = createNonInterpolatedUIImageFromCIImage(qrCIImage, scale: 10);
         
-        return UIImage(CGImage: qrUIImage.CGImage, scale: 1.0, orientation: .DownMirrored)!
+        return UIImage(CGImage: qrUIImage.CGImage!, scale: 1.0, orientation: .DownMirrored)
     }
     
     func createQRForString (qrString :NSString ) -> CIImage {
-        var srtingData: NSData  = qrString.dataUsingEncoding(NSUTF8StringEncoding)!
-        var qrFilter: CIFilter = CIFilter(name: "CIQRCodeGenerator")
+        let srtingData: NSData  = qrString.dataUsingEncoding(NSUTF8StringEncoding)!
+        let qrFilter: CIFilter = CIFilter(name: "CIQRCodeGenerator")!
         
         qrFilter.setValue(srtingData, forKey: "inputMessage")
         qrFilter.setValue("M", forKey: "inputCorrectionLevel")
         
-        return qrFilter.outputImage;
+        return qrFilter.outputImage!;
     }
     
     func createNonInterpolatedUIImageFromCIImage(image:CIImage , scale:CGFloat) -> UIImage {
-        var cgImage: CGImageRef = CIContext(options: nil).createCGImage(image, fromRect: image.extent())
+        let cgImage: CGImageRef = CIContext(options: nil).createCGImage(image, fromRect: image.extent)
         
-        UIGraphicsBeginImageContext(CGSizeMake(image.extent().size.width * scale, image.extent().size.height * scale ))
-        var context: CGContextRef = UIGraphicsGetCurrentContext()
+        UIGraphicsBeginImageContext(CGSizeMake(image.extent.size.width * scale, image.extent.size.height * scale ))
+        let context: CGContextRef = UIGraphicsGetCurrentContext()!
         
-        CGContextSetInterpolationQuality(context, kCGInterpolationNone)
+        CGContextSetInterpolationQuality(context, CGInterpolationQuality.None)
         CGContextDrawImage(context, CGContextGetClipBoundingBox(context), cgImage)
         
-        var scaledImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let scaledImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
         

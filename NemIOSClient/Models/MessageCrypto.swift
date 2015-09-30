@@ -2,7 +2,7 @@ import UIKit
 
 class MessageCrypto: NSObject {
     final class func encrypt(message :String ,senderPrivateKey :String, recipientPublicKey :String) -> Array<UInt8> {
-        var saltData = HashManager.salt(length: 32)
+        let saltData = HashManager.salt(length: 32)
         var saltBytes: Array<UInt8> = "872860a4e45343f353c2597af8b2a87e1450d6e5e5eeb529a049ffef648abd33".asByteArrayEndian(32)
         saltData.getBytes(&saltBytes, length: 32)
         
@@ -21,20 +21,18 @@ class MessageCrypto: NSObject {
         let sharedSecretSHA256 = HashManager().SHA256Encrypt(sharedSecretData.hexadecimalString())
         
         var messageBytes = message.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
-        var messageData = NSData(bytes: &messageBytes, length: messageBytes.count)
+        let messageData = NSData(bytes: &messageBytes, length: messageBytes.count)
         
-        var randomIV =  NSData().generateRandomIV(11).base64EncodingWithLineLength(0)
-        var customizedIV =  "480cf91a6ac0597641db41111f9f3c75"
-        var customizedIVBytes: Array<UInt8> = customizedIV.asByteArray()
+        //var randomIV =  NSData().generateRandomIV(11).base64EncodingWithLineLength(0)
+        let customizedIV =  "480cf91a6ac0597641db41111f9f3c75"
+        let customizedIVBytes: Array<UInt8> = customizedIV.asByteArray()
         
         messageData.AES256EncryptWithKey(sharedSecretSHA256, iv: customizedIV)
         
         var encryptedBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
         messageData.getBytes(&encryptedBytes, length: 32)
         
-        var result = saltBytes + customizedIVBytes + encryptedBytes
-
-        var a = NSData(bytes: &result, length: 80)
+        let result = saltBytes + customizedIVBytes + encryptedBytes
         
         return result
     }
@@ -57,9 +55,9 @@ class MessageCrypto: NSObject {
             sharedSecretBytes[index] ^= saltBytes[index]
         }
         
-        var messageData :NSData = NSData(bytes: &encBytes, length: 32)
-        var sharedSecretData :NSData = NSData(bytes: &sharedSecretBytes, length: 32)
-        var ivData :NSData = NSData(bytes: &ivBytes, length: 32)
+        let messageData :NSData = NSData(bytes: &encBytes, length: 32)
+        let sharedSecretData :NSData = NSData(bytes: &sharedSecretBytes, length: 32)
+        let ivData :NSData = NSData(bytes: &ivBytes, length: 32)
         messageData.AES256DecryptWithKey(sharedSecretData.hexadecimalString(), iv: ivData.hexadecimalString())
         
         
@@ -71,7 +69,7 @@ class MessageCrypto: NSObject {
         switch message.type {
         case 1:
             if message.payload.asByteArray().first == UInt8(0xfe) {
-                return (message.payload as NSString).substringWithRange(NSRange(location: 2, length: count(message.payload) - 2))
+                return (message.payload as NSString).substringWithRange(NSRange(location: 2, length: message.payload.characters.count - 2))
             } else {
                 return message.payload.stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding)
             }

@@ -35,9 +35,9 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         observer.addObserver(self, selector: "unconfirmedTransactionsDenied:", name: "unconfirmedTransactionsDenied", object: nil)
         observer.addObserver(self, selector: "unconfirmedTransactionsSuccessed:", name: "unconfirmedTransactionsSuccessed", object: nil)
         
-        var privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        var publicKey = KeyGenerator.generatePublicKey(privateKey)
-        var account_address = AddressGenerator.generateAddress(publicKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey)
+        let account_address = AddressGenerator.generateAddress(publicKey)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -74,14 +74,14 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
         case "confirmCellWithTag" :
             
             if unconfirmedTransactions.count > selectedIndex {
-                var transaction :MultisigTransaction = unconfirmedTransactions[selectedIndex] as! MultisigTransaction
+                let transaction :MultisigTransaction = unconfirmedTransactions[selectedIndex] as! MultisigTransaction
                 
                 switch (transaction.innerTransaction.type) {
                 case transferTransaction:
                     
-                    var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
+                    let sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
                     sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
-                    var innerTrans :TransferTransaction = transaction.innerTransaction as! TransferTransaction
+                    let innerTrans :TransferTransaction = transaction.innerTransaction as! TransferTransaction
                     sendTrans.multisigAccountAddress = AddressGenerator.generateAddress(innerTrans.signer)
                     
                     sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
@@ -94,9 +94,9 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
                     
                 case multisigAggregateModificationTransaction:
                     
-                    var sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
+                    let sendTrans :MultisigSignatureTransaction = MultisigSignatureTransaction()
                     sendTrans.transactionHash = unconfirmedTransactions[selectedIndex].data
-                    var innerTrans :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
+                    let innerTrans :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
                     sendTrans.multisigAccountAddress = AddressGenerator.generateAddress(innerTrans.signer)
                     
                     sendTrans.timeStamp = Double(Int(TimeSynchronizator.nemTime))
@@ -118,7 +118,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             
             var text :String = "Account : "
             
-            var transaction :AggregateModificationTransaction = (unconfirmedTransactions[selectedIndex] as! MultisigTransaction).innerTransaction as! AggregateModificationTransaction
+            let transaction :AggregateModificationTransaction = (unconfirmedTransactions[selectedIndex] as! MultisigTransaction).innerTransaction as! AggregateModificationTransaction
             
             text += AddressGenerator.generateAddress(transaction.signer) + "\n"
             
@@ -133,9 +133,9 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
                 }
             }
             
-            var alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: text, preferredStyle: UIAlertControllerStyle.Alert)
             
-            var ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                 alertAction -> Void in
             }
             
@@ -197,14 +197,14 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
     
     final func unconfirmedTransactionsSuccessed(notification: NSNotification) {
         unconfirmedTransactions +=  notification.object as! [TransactionPostMetaData]
-        var publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
         
         for var i = 0 ; i < unconfirmedTransactions.count ; i++ {
             if unconfirmedTransactions[i].type != multisigTransaction {
                 unconfirmedTransactions.removeAtIndex(i)
             }
             else {
-                var transaction :MultisigTransaction = unconfirmedTransactions[i] as! MultisigTransaction
+                let transaction :MultisigTransaction = unconfirmedTransactions[i] as! MultisigTransaction
                 
                 for sign in transaction.signatures {
                     if publicKey == sign.signer
@@ -233,7 +233,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var transaction :MultisigTransaction = unconfirmedTransactions[indexPath.row] as! MultisigTransaction
+        let transaction :MultisigTransaction = unconfirmedTransactions[indexPath.row] as! MultisigTransaction
         
         switch (transaction.innerTransaction.type) {
         case transferTransaction:
@@ -249,16 +249,16 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var transaction :MultisigTransaction = unconfirmedTransactions[indexPath.row] as! MultisigTransaction
+        let transaction :MultisigTransaction = unconfirmedTransactions[indexPath.row] as! MultisigTransaction
         
         switch (transaction.innerTransaction.type) {
         case transferTransaction:
-            var cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
+            let cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
             cell.fromAccount.text = AddressGenerator.generateAddress(((transaction.innerTransaction) as! TransferTransaction).signer)
             cell.toAccount.text = ((transaction.innerTransaction) as! TransferTransaction).recipient
             cell.message.text = ((transaction.innerTransaction) as! TransferTransaction).message.payload
             
-            var format = ".0"
+            let format = ".0"
             cell.xem.text = "\((((transaction.innerTransaction) as! TransferTransaction).amount / 1000000).format(format)) XEM"
             
             cell.tag = indexPath.row
@@ -267,9 +267,8 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate
             
         case multisigAggregateModificationTransaction:
             
-            var innerTrnsaction :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
-            var cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("multisigAggregateModificationTransaction") as! UnconfirmedTransactionCell
-            var format = ".0"
+            let innerTrnsaction :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
+            let cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("multisigAggregateModificationTransaction") as! UnconfirmedTransactionCell
             
             cell.tag = indexPath.row
             cell.fromAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)

@@ -56,7 +56,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
         
-        for cell in self.tableView.visibleCells() {
+        for cell in self.tableView.visibleCells {
             (cell as! WalletCell).inEditingState = !_isEditing
             (cell as! WalletCell).layoutCell(animated: true)
         }
@@ -71,10 +71,10 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as! WalletCell
+        let cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as! WalletCell
         cell.inEditingState = _isEditing
         cell.delegate = self
-        var cellData  :Wallet = wallets[indexPath.row]
+        let cellData  :Wallet = wallets[indexPath.row]
         cell.walletName.text = cellData.login as String
         cell.layoutCell(animated: false)
         return cell
@@ -99,7 +99,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     //MARK: - WalletCell Delegate
     
     func deleteCell(cell :UITableViewCell){
-        var index :NSIndexPath = tableView.indexPathForCell(cell)!
+        let index :NSIndexPath = tableView.indexPathForCell(cell)!
         
         if index.row < wallets.count {
             dataManager.deleteWallet(wallet: wallets[index.row])

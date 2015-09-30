@@ -3,12 +3,12 @@ import UIKit
 class NEMLabel: UILabel
 {
     var copylable :UILabel!
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         self.userInteractionEnabled = true
         
-        var recogniser :UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "longPressDetected")
+        let recogniser :UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "longPressDetected")
         recogniser.minimumPressDuration = 1
         self.addGestureRecognizer(recogniser)
         
@@ -25,7 +25,7 @@ class NEMLabel: UILabel
     }
     
     final func longPressDetected() {
-        var pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
+        let pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
         pasteBoard.string = self.text
         copylable.hidden = false
         

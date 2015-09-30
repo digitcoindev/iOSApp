@@ -4,7 +4,7 @@ class FilterButton: UIButton {
 
     var isFilterActive = true
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         self.addTarget(self, action: "touchUpInside", forControlEvents: UIControlEvents.TouchUpInside)

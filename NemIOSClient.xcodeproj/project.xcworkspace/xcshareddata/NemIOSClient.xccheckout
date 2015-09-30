@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E9E78733-067E-492D-AECA-CAA645908B19</string>
+	<key>IDESourceControlProjectName</key>
+	<string>NemIOSClient</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F83161CB638E9D80840ACBBE2803AF0AC6406A42</key>
+		<string>https://bitbucket.org/neweconomymovement/iosnemclient.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>NemIOSClient.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F83161CB638E9D80840ACBBE2803AF0AC6406A42</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/neweconomymovement/iosnemclient.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F83161CB638E9D80840ACBBE2803AF0AC6406A42</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F83161CB638E9D80840ACBBE2803AF0AC6406A42</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iosnemclient</string>
+		</dict>
+	</array>
+</dict>
+</plist>

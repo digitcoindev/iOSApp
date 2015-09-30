@@ -30,7 +30,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
         
         self.view.userInteractionEnabled = true
 
-        var center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
@@ -67,15 +67,15 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
     
     @IBAction func addServer(sender: AnyObject) {
         if !Validate.stringNotEmpty(serverAddress.text) || !Validate.stringNotEmpty(serverPort.text) || !Validate.stringNotEmpty(protocolType.text) {
-            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
         else if protocolType.text != "http" {
-            var alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("SERVER_PROTOCOL_NOT_AVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("SERVER_PROTOCOL_NOT_AVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
         else {
-            var servers :[Server] =  _dataManager.getServers()
+            let servers :[Server] =  _dataManager.getServers()
             _newServer = nil
             
             for server in servers {
@@ -87,7 +87,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
             }
             
             if _newServer == nil {
-                _newServer =  _dataManager.addServer(protocolType.text, address: serverAddress.text ,port: serverPort.text)
+                _newServer =  _dataManager.addServer(protocolType.text!, address: serverAddress.text! ,port: serverPort.text!)
             }
                         
             if self.delegate != nil && self.delegate!.respondsToSelector("serverAdded:") {
@@ -106,13 +106,11 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
     //MARK: - Keyboard Delegate
     
     final func keyboardWillShow(notification: NSNotification) {
-        var info:NSDictionary = notification.userInfo!
-        var keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         var keyboardHeight:CGFloat = keyboardSize.height
-        
-        var animationDuration = 0.1
-        
+                
         keyboardHeight -= self.view.frame.height - self.scroll.frame.height
         
         scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
