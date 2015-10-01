@@ -2,12 +2,12 @@ import UIKit
 
 class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, WalletCellDelegate
 {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addWallet: UIButton!
     
     //MARK: - Variables
-
+    
     let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     
     var dataManager :CoreDataManager = CoreDataManager()
@@ -19,26 +19,20 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     private var _isEditing = false
     
     //MARK: - Load Methods
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         State.fromVC = SegueToLoginVC
         State.currentVC = SegueToLoginVC
         
         apiManager.delegate = self
         
         wallets  = dataManager.getWallets()
-
+        
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5
-        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
-        }
 
-    override func didMoveToParentViewController(parent: UIViewController?) {
-        if parent == nil {
-            NSNotificationCenter.defaultCenter().removeObserver(self)
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,7 +40,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     }
     
     //MARK: - IBAction
-
+    
     @IBAction func addNewWallet(sender: AnyObject) {
         
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
@@ -77,6 +71,9 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         let cellData  :Wallet = wallets[indexPath.row]
         cell.walletName.text = cellData.login as String
         cell.layoutCell(animated: false)
+        cell.layoutMargins = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+        
         return cell
     }
     
@@ -104,7 +101,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         if index.row < wallets.count {
             dataManager.deleteWallet(wallet: wallets[index.row])
             wallets.removeAtIndex(index.row)
-
+            
             tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
         }
     }

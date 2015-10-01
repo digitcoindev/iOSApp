@@ -31,17 +31,18 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         _searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
         _searchBar.delegate = self
         tableView.tableHeaderView = _searchBar
-        _searchBar.showsCancelButton = true
+        _searchBar.showsCancelButton = false
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
 
         _displayList = _correspondents
-
-        if AddressBookManager.isAllowed {
-            findCorrespondentName()
-        }
         
-        refreshTransactionList()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.refreshTransactionList()
+            if AddressBookManager.isAllowed {
+                self.findCorrespondentName()
+            }
+        })
         
         if (State.currentContact != nil && State.toVC == SegueToPasswordValidation ) {
             State.toVC = SegueToMessageVC
@@ -289,8 +290,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     }
                 }
             }
-            
-            dataManager.commit()
         }
     }
     
@@ -313,7 +312,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     
     // MARK: - Search Bar Data Sourse
     
-    func _searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
         
         _displayList = _correspondents
@@ -322,15 +321,15 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         _searchBar.resignFirstResponder()
     }
     
-    func _searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         _searchBar.showsCancelButton = true
     }
     
-    func _searchBarResultsListButtonClicked(searchBar: UISearchBar) {
+    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
         resignFirstResponder()
     }
     
-    func _searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
+    func searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
         if _searchText == "" {
             _displayList = _correspondents
         }

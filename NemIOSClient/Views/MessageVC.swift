@@ -6,7 +6,7 @@ struct DefinedCell
     var height :CGFloat = 44
 }
 
-class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate 
+class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
@@ -25,18 +25,18 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     private var _isHex = false
     private var _isEnc = false
-    
+    var _mainWallet :AccountGetMetaData? = nil
     var walletData :AccountGetMetaData!
     
     let dataManager :CoreDataManager = CoreDataManager()
     let contact :Correspondent = State.currentContact!
-
+    
     let rowLength :Int = 21
     let textSizeCommon :CGFloat = 12
     let textSizeXEM :CGFloat = 14
     
     // MARK: - Load Methods
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,7 +44,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         State.currentVC = SegueToMessageVC
         
         _apiManager.delegate = self
-
+        
         if accountsButton != nil {
             accountsButton.layer.cornerRadius = 5
         }
@@ -87,7 +87,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     override func viewDidAppear(animated: Bool) {
-
+        
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -95,13 +95,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     // MARK: - IBAction
-
+    
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         }
     }
-
+    
     @IBAction func amoundFieldDidEndOnExit(sender: UITextField) {
         if Int(sender.text!) == nil {
             sender.text = "0"
@@ -117,7 +117,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     @IBAction func hexTouchUpInside(sender: UIButton) {
         _isHex = !_isHex
         sender.backgroundColor = (_isHex) ? UIColor(red: 65 / 255, green: 206 / 255, blue: 123 / 255, alpha: 1) :
-                                            UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
+            UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
         
     }
     
@@ -135,19 +135,27 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         accounts.view.frame = CGRect(x: tableView.frame.origin.x + 10,
             y:  tableView.frame.origin.y + 10,
             width: tableView.frame.width - 20,
-            height: tableView.frame.height - 20)
+            height: tableView.frame.height - 11)
         
         accounts.view.layer.opacity = 0
         accounts.delegate = self
         
-        accounts.wallets = walletData.cosignatoryOf
+        var wallets = _mainWallet?.cosignatoryOf ?? []
+        if _mainWallet != nil
+        {
+            wallets.append(self._mainWallet!)
+        }
+        accounts.wallets = wallets
         
-        self.view.addSubview(accounts.view)
+        if accounts.wallets.count > 0
+        {
+            self.view.addSubview(accounts.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                accounts.view.layer.opacity = 1
+                }, completion: nil)
+        }
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            accounts.view.layer.opacity = 1
-            }, completion: nil)
-
     }
     
     @IBAction func sendButtonTouchUpInside(sender: AnyObject) {
@@ -195,7 +203,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 self.presentViewController(alert, animated: true, completion: nil)
                 
                 return
-
+                
             }
             
             text = (_isEnc) ? text : text
@@ -318,9 +326,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             } else {
                 height += 30
             }
-    
+            
             definedCell.height =  height
-
+            
             data.append(definedCell)
         }
         
@@ -345,9 +353,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     func scrollToEnd() {
         var indexPath :NSIndexPath!
         
-            if (tableView.numberOfRowsInSection(0) != 0) {
-                indexPath = NSIndexPath(forRow: tableView.numberOfRowsInSection(0) - 1 , inSection: 0)
-            }
+        if (tableView.numberOfRowsInSection(0) != 0) {
+            indexPath = NSIndexPath(forRow: tableView.numberOfRowsInSection(0) - 1 , inSection: 0)
+        }
         
         if indexPath != nil {
             tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
@@ -367,6 +375,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         if( !(indexPath.row == 0) ) {
             var index :Int = 0
             var cell : CustomMessageCell!
@@ -414,7 +423,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 
                 return cell
             } else {
-            
+                
                 index = indexPath.row - _transactions.count - 2
                 
                 if index < 0 {
@@ -477,28 +486,30 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             return _definedCells[indexPath.row - 2].height
         }
     }
-
+    
     // MARK: - APIManagerDelegate Methods
     
     final func accountGetResponceWithAccount(account: AccountGetMetaData?) {
         dispatch_async(_operationDipatchQueue, {
             () -> Void in
             if let responceAccount = account {
+                self._mainWallet = responceAccount
                 self.walletData = responceAccount
-                var userDescription :NSMutableAttributedString!
-                
-                if let wallet = State.currentWallet {
-                    userDescription = NSMutableAttributedString(string: "\(wallet.login)")
-                }
-                
-                let format = ".0"
-                let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-                let balance = " \((self.walletData.balance / 1000000).format(format)) XEM"
-                
-                userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
                 
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
+                    var userDescription :NSMutableAttributedString!
+                    
+                    if let wallet = State.currentWallet {
+                        userDescription = NSMutableAttributedString(string: "\(wallet.login)")
+                    }
+                    
+                    let format = ".0"
+                    let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
+                    let balance = " \((self.walletData.balance / 1000000).format(format)) XEM"
+                    
+                    userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
+                    
                     self.userInfo.attributedText = userDescription
                 })
                 
@@ -667,7 +678,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     //MARK: - AccountsChousePopUpDelegate Methods
-
+    
     func didChouseAccount(account: AccountGetMetaData) {
         walletData = account
         
@@ -699,7 +710,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - height)
-
+            
             }, completion: { (successed :Bool) -> Void in })
     }
     
@@ -712,7 +723,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + height)
-
+            
             }, completion: { (successed :Bool) -> Void in })
     }
     

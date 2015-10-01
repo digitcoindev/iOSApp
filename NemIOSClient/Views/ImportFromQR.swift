@@ -22,11 +22,13 @@ class ImportFromQR: AbstractViewController, QRDelegate
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
-        
         if State.countVC <= 1{
             backButton.hidden = true
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
     }
     
     override func didReceiveMemoryWarning() {

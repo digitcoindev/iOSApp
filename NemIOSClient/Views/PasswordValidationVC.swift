@@ -64,9 +64,11 @@ class PasswordValidationVC: AbstractViewController
         [context .evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: NSError?) -> Void in
             
             if success {
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                    (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
-                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                        (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
+                    }
+                })
             }
             else{
                 print(evalPolicyError!.localizedDescription)
@@ -88,20 +90,21 @@ class PasswordValidationVC: AbstractViewController
             }
             
         })]
-        
-        switch error!.code{
+        if error != nil
+        {
+            switch error!.code{
+                
+            case LAError.TouchIDNotEnrolled.rawValue:
+                print("TouchID is not enrolled")
+                
+            case LAError.PasscodeNotSet.rawValue:
+                print("A passcode has not been set")
+                
+            default:
+                print("TouchID not available")
+            }
             
-        case LAError.TouchIDNotEnrolled.rawValue:
-            print("TouchID is not enrolled")
-            
-        case LAError.PasscodeNotSet.rawValue:
-            print("A passcode has not been set")
-            
-        default:
-            print("TouchID not available")
+            print(error!.localizedDescription)
         }
-        
-        print(error!.localizedDescription)
-        
     }
 }

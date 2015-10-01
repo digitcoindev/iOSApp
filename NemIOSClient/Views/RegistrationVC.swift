@@ -113,7 +113,7 @@ class RegistrationVC: AbstractViewController
         }
         else {
                         
-            alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message:String(format: NSLocalizedString("ACCOUNT_ADDING_SUCCESS", comment: ""), "fff"), delegate: self, cancelButtonTitle: "OK")
+            alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
         }
         
         if(alert != nil) {
