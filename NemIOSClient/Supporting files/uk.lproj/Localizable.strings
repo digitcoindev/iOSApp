@@ -15,3 +15,4 @@
  "TRANSACTION_ANOUNCE_SUCCESS" = "Успіх";
 "TRANSACTION_ANOUNCE_FAILED" = "ВІДХИЛЕНО\nСпробуйте пізніше. Або перевірте зєднання зі сервером.";
 "NOT_A_HEX_STRING" = "Не хекс стрінга.";
+"CHANGE_CONTACT" = "Змінити контакт";

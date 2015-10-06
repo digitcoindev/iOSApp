@@ -1,6 +1,6 @@
 import UIKit
 
-class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, WalletCellDelegate
+class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate
 {
     
     @IBOutlet weak var tableView: UITableView!
@@ -51,8 +51,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
         
         for cell in self.tableView.visibleCells {
-            (cell as! WalletCell).inEditingState = !_isEditing
-            (cell as! WalletCell).layoutCell(animated: true)
+            (cell as! WalletCell).isEditable = _isEditing
         }
         
         _isEditing = !_isEditing
@@ -66,13 +65,11 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as! WalletCell
-        cell.inEditingState = _isEditing
-        cell.delegate = self
+        cell.isEditable = !_isEditing
+        cell.editDelegate = self
         let cellData  :Wallet = wallets[indexPath.row]
-        cell.walletName.text = cellData.login as String
-        cell.layoutCell(animated: false)
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
+        
+        cell.infoLabel.attributedText = NSMutableAttributedString(string: cellData.login as String , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!])
         
         return cell
     }
@@ -93,9 +90,9 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         }
     }
     
-    //MARK: - WalletCell Delegate
+    //MARK: - EditableTableViewCellDelegate Delegate
     
-    func deleteCell(cell :UITableViewCell){
+    func deleteCell(cell: EditableTableViewCell){
         let index :NSIndexPath = tableView.indexPathForCell(cell)!
         
         if index.row < wallets.count {

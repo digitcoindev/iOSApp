@@ -2,36 +2,17 @@ import UIKit
 
 class Validate: NSObject
 {
-    final class func address(inputText :String? ,length: Int = 64) -> Bool {
+    final class func address(inputText :String? ,length: Int = 40) -> Bool {
         if inputText == nil {
             return false
         }
         
-        let validator :Array<UInt8> = Array<UInt8>("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".utf8)
-        let keyArray :Array<UInt8> = Array<UInt8>(inputText!.utf8)
+        let expresion = "^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$"
         
-        if keyArray.count == length {
-            for value in keyArray {
-                var find = false
-                
-                for valueChecker in validator {
-                    if value == valueChecker
-                    {
-                        find = true
-                        break
-                    }
-                }
-                
-                if !find {
-                    return false
-                }
-            }
-        }
-        else {
-            return false
-        }
-        
-        return true
+        let range = inputText!.rangeOfString(expresion, options:.RegularExpressionSearch)
+
+        let result = range != nil ? true : false
+        return result
 
     }
     

@@ -12,10 +12,10 @@ class FilterButton: UIButton {
     
     final func touchUpInside() {
         if isFilterActive {
-            self.setImage(UIImage(named: "logged_icon.png"), forState: UIControlState.Normal)
+            self.setImage(UIImage(named: "logo _passive"), forState: UIControlState.Normal)
         }
         else {
-            self.setImage(UIImage(named: "NEM_shield_logo.png"), forState: UIControlState.Normal)
+            self.setImage(UIImage(named: "logo _active"), forState: UIControlState.Normal)
         }
         
         isFilterActive = !isFilterActive

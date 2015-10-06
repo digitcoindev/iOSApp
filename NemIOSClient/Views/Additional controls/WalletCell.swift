@@ -1,74 +1,30 @@
 import UIKit
 
-@objc protocol WalletCellDelegate
+class WalletCell: EditableTableViewCell
 {
-    optional func deleteCell(cell :UITableViewCell)
-}
-
-class WalletCell: UITableViewCell
-{
-    @IBOutlet weak var walletName: UILabel!
-    @IBOutlet weak var editingView: UIView!
-    @IBOutlet weak var deleteButton: UIButton!
+    // MARK: properties
     
-    var inEditingState :Bool = false
-    var delegate :AnyObject? = nil
+    let infoLabel: UILabel = UILabel()
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    // MARK: inizializers
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
-        inEditingState = false
-        }
-    
-    override func layoutSubviews() {
-        layoutCell(animated: false)
+        infoLabel.text = "loading ..."
+        
+        _contentView?.addSubview(infoLabel)
     }
     
-    final func layoutCell(animated animated :Bool) {
-        let duration = (animated) ? 0.5 : 0.1
+    // MARK: layout
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        if !inEditingState {
-            UIView.animateWithDuration(duration, animations: { () -> Void in
-                self.editingView.frame = CGRect(x: -self.editingView.frame.width,
-                                                y: 0,
-                                                width: self.editingView.frame.width,
-                                                height: self.editingView.frame.height)
-                
-                self.walletName.frame = CGRect( x: 15,
-                                                y: 0,
-                                                width: self.bounds.width - 15,
-                                                height: self.bounds.height)
-            })
-            deleteButton.hidden = true
-            
-        } else {
-            
-            UIView.animateWithDuration(duration, animations: { () -> Void in
-                
-                self.editingView.frame = CGRect(x: 15,
-                    y: 0,
-                    width: self.editingView.frame.width,
-                    height: self.editingView.frame.height)
-                
-                            
-                self.walletName.frame = CGRect( x: self.editingView.frame.width + self.editingView.frame.origin.x,
-                                                y: 0,
-                                                width: self.bounds.width - self.editingView.bounds.width - self.deleteButton.frame.width,
-                                                height: self.bounds.height)
-            })
-            
-            deleteButton.hidden = false
-        }
+        infoLabel.frame = CGRect(x: _SEPARATOR_OFFSET_, y: 0, width: _contentView!.frame.width , height: _contentView!.frame.height)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
     }
-    @IBAction func deleteCell(sender: AnyObject){
-        if self.delegate != nil && self.delegate!.respondsToSelector("deleteCell:") {
-            (self.delegate as! WalletCellDelegate).deleteCell!(self)
-        }
-    }
-
 }

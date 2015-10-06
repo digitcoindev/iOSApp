@@ -11,11 +11,7 @@ class MessageCrypto: NSObject {
         var senderPrivateKeyBytes: Array<UInt8> = senderPrivateKey.asByteArray()
         var recipientPublicKeyBytes: Array<UInt8> = recipientPublicKey.asByteArray()
         
-        ed25519_key_exchange(&sharedSecretBytes, &recipientPublicKeyBytes, &senderPrivateKeyBytes)
-        
-        for var index = 0 ; index < sharedSecretBytes.count ; index++ {
-            sharedSecretBytes[index] ^= saltBytes[index]
-        }
+        ed25519_key_exchange_nem(&sharedSecretBytes, &recipientPublicKeyBytes, &senderPrivateKeyBytes, &saltBytes)
         
         let sharedSecretData  = NSData(bytes: &sharedSecretBytes, length: 32)
         let sharedSecretSHA256 = HashManager().SHA256Encrypt(sharedSecretData.hexadecimalString())
@@ -40,7 +36,7 @@ class MessageCrypto: NSObject {
     final class func decrypt(messageBytes :Array<UInt8> ,recipientPrivateKey :String, senderPublicKey :String) -> String {
         
         
-        let saltBytes :Array<UInt8> = Array(messageBytes[0..<32])
+        var saltBytes :Array<UInt8> = Array(messageBytes[0..<32])
         var ivBytes :Array<UInt8> = Array(messageBytes[32..<48])
         var encBytes :Array<UInt8> = Array(messageBytes[48..<messageBytes.count])
      
@@ -49,11 +45,7 @@ class MessageCrypto: NSObject {
         
         var sharedSecretBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
 
-        ed25519_key_exchange(&sharedSecretBytes, &senderPublicKeyBytes, &recipientPrivateKeyBytes)
-
-        for var index = 0 ; index < sharedSecretBytes.count ; index++ {
-            sharedSecretBytes[index] ^= saltBytes[index]
-        }
+        ed25519_key_exchange_nem(&sharedSecretBytes, &senderPublicKeyBytes, &recipientPrivateKeyBytes, &saltBytes)
         
         let messageData :NSData = NSData(bytes: &encBytes, length: 32)
         let sharedSecretData :NSData = NSData(bytes: &sharedSecretBytes, length: 32)

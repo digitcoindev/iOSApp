@@ -39,6 +39,18 @@ class APIManager: NSObject
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
+                    if(data == nil) {
+                        
+                        dispatch_async(dispatch_get_main_queue())
+                            {
+                                if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatResponceFromServer:successed:") {
+                                    (self.delegate as! APIManagerDelegate).heartbeatResponceFromServer!(server ,successed :false)
+                                }
+                        }
+                        
+                        return
+                    }
+                    
                     let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
                     
                     if(layers == nil) {
@@ -81,6 +93,18 @@ class APIManager: NSObject
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
+                    
+                    if(data == nil) {
+                        
+                        dispatch_async(dispatch_get_main_queue())
+                            {
+                                if self.delegate != nil && self.delegate!.respondsToSelector("accountGetResponceWithAccount:") {
+                                    (self.delegate as! APIManagerDelegate).accountGetResponceWithAccount!(nil)
+                                }
+                        }
+                        
+                        return
+                    }
                     
                     let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
                     if(layers == nil) {
@@ -130,6 +154,17 @@ class APIManager: NSObject
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
+                    
+                    if(data == nil) {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("accountTransfersAllResponceWithTransactions:") {
+                                (self.delegate as! APIManagerDelegate).accountTransfersAllResponceWithTransactions!(nil)
+                            }
+                        }
+                        
+                        return
+                    }
                     
                     let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
                     if(layers == nil) {
@@ -213,6 +248,17 @@ class APIManager: NSObject
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
+                    
+                    if(data == nil) {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("unconfirmedTransactionsResponceWithTransactions:") {
+                                (self.delegate as! APIManagerDelegate).unconfirmedTransactionsResponceWithTransactions!(nil)
+                            }
+                        }
+                        
+                        return
+                    }
                     
                     let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
                     if(layers == nil) {
@@ -319,7 +365,20 @@ class APIManager: NSObject
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
                 
-                let task = self._session.dataTaskWithRequest(request, completionHandler: {           data, response, error -> Void in
+                let task = self._session.dataTaskWithRequest(request, completionHandler: {
+                    data, response, error -> Void in
+                    
+                    if(data == nil) {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                                (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!(nil)
+                            }
+                        }
+                        
+                        return
+                    }
+                    
                     let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
                     if(layers == nil) {
                         

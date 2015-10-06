@@ -16,3 +16,4 @@
  "TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
 "TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
 "NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
+"CHANGE_CONTACT" = "Change Contact";
