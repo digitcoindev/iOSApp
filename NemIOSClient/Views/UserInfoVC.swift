@@ -2,16 +2,18 @@ import UIKit
 
 class UserInfoVC: AbstractViewController
 {
+    // MARK: - @IBOutlet
 
-//    @IBOutlet weak var qrImg: UIImageView!
-//    @IBOutlet weak var keyLable: UILabel!
-    
     @IBOutlet weak var qrImageView: UIImageView!
     @IBOutlet weak var userAddress: UILabel!
     @IBOutlet weak var userName: UITextField!
     
+    // MARK: - Private Variables
+
     private var address :String!
     
+    // MARK: - Load Metods
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,6 +29,9 @@ class UserInfoVC: AbstractViewController
         
         _generateQR()
     }
+    
+    // MARK: - @IBAction
+
     @IBAction func nameChanged(sender: AnyObject) {
         userName.becomeFirstResponder()
         
