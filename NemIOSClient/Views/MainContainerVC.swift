@@ -127,7 +127,7 @@ class MainContainerVC: AbstractViewController
             case SegueToExportAccount:
                 self.performSegueWithIdentifier(SegueToExportAccount, sender: nil)
                 
-            case SegueToPasswordValidation , SegueToUnconfirmedTransactionVC , SegueToSendTransaction , SegueToMessageVC , SegueToMessageMultisignVC , SegueToAddressBook , SegueToUserInfo , SegueToQRCode , SegueToImportFromQR , SegueToMessages , SegueToCreateQRInput , SegueToCreateQRResult ,SegueToScanQR:
+            case SegueToPasswordValidation, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToQRCode, SegueToImportFromQR,  SegueToMessages, SegueToCreateQRInput, SegueToCreateQRResult, SegueToScanQR, SegueToQRController:
                 
                 State.toVC = page as String
                 

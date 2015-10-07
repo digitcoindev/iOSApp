@@ -14,7 +14,11 @@
 		9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
 		9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D41B846FE200B532CC /* MessageCrypto.swift */; };
+		9833B70C1BC5506B009836F9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9833B70B1BC5506B009836F9 /* Enums.swift */; settings = {ASSET_TAGS = (); }; };
 		983579AE1BC3EC49009AF518 /* MessageToContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */; settings = {ASSET_TAGS = (); }; };
+		983579B41BC518EA009AF518 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B31BC518EA009AF518 /* QRViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B51BC51CF3009AF518 /* QRContainerVC.swift */; settings = {ASSET_TAGS = (); }; };
+		983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */; settings = {ASSET_TAGS = (); }; };
 		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
 		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; settings = {ASSET_TAGS = (); }; };
 		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
@@ -201,7 +205,11 @@
 		9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesButtonTypeOne.swift; path = "Views/Additional controls/MessagesButtonTypeOne.swift"; sourceTree = "<group>"; };
 		9823A4D11B8339B400B532CC /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = Models/Correspondent.swift; sourceTree = "<group>"; };
 		9823A4D41B846FE200B532CC /* MessageCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageCrypto.swift; path = Models/MessageCrypto.swift; sourceTree = "<group>"; };
+		9833B70B1BC5506B009836F9 /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Enums.swift; path = Models/Enums.swift; sourceTree = "<group>"; };
 		983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToContactVC.swift; path = Views/MessageToContactVC.swift; sourceTree = "<group>"; };
+		983579B31BC518EA009AF518 /* QRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRViewController.swift; path = Views/QRViewController.swift; sourceTree = "<group>"; };
+		983579B51BC51CF3009AF518 /* QRContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRContainerVC.swift; path = Views/QRContainerVC.swift; sourceTree = "<group>"; };
+		983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISegmentedControlExtensions.swift; path = Models/UISegmentedControlExtensions.swift; sourceTree = "<group>"; };
 		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
@@ -486,6 +494,15 @@
 			name = General;
 			sourceTree = "<group>";
 		};
+		983579B21BC505A2009AF518 /* QR Controller */ = {
+			isa = PBXGroup;
+			children = (
+				983579B31BC518EA009AF518 /* QRViewController.swift */,
+				983579B51BC51CF3009AF518 /* QRContainerVC.swift */,
+			);
+			name = "QR Controller";
+			sourceTree = "<group>";
+		};
 		DA031ED71A9226E60021E98B /* TextFields */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,6 +541,7 @@
 				DA08D9BA1AC0277800B93EBE /* NSDataExtensions.swift */,
 				DA08D9BC1AC027C700B93EBE /* StringExtensions.swift */,
 				98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */,
+				983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -596,6 +614,7 @@
 		DA21991E1A68036200E2F8DD /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				983579B21BC505A2009AF518 /* QR Controller */,
 				DAD21B981AFB730400F6B861 /* Main */,
 				DA173CEA1AADA8ED003AC21F /* UserInfo */,
 				DA031ED81A922AE20021E98B /* Messager */,
@@ -1109,6 +1128,7 @@
 				DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */,
 				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
 				DADDA24E1B21D1B500F3F5F5 /* Structs.swift */,
+				9833B70B1BC5506B009836F9 /* Enums.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -1328,10 +1348,12 @@
 				DA08D9C11AC037B600B93EBE /* SignManager.swift in Sources */,
 				DAD21B9A1AFB735600F6B861 /* SendTransactionVC.swift in Sources */,
 				DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */,
+				983579B41BC518EA009AF518 /* QRViewController.swift in Sources */,
 				DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */,
 				9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */,
 				DAC3A1821B04C04400AABB61 /* HistoryViewController.swift in Sources */,
 				DA89F1151AD6A69100105BB0 /* ProfileVC.swift in Sources */,
+				983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */,
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
 				DAD086A71B38036C00197CA3 /* NEMLabel.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
@@ -1355,6 +1377,7 @@
 				98FE074E1BBE7C29009017CD /* EditableTableViewCell.swift in Sources */,
 				DADDA24B1B21D0EC00F3F5F5 /* SeguesConfiguration.swift in Sources */,
 				DA0059371A4882B300638C57 /* State.swift in Sources */,
+				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
 				DADA37581A7683C300F14D6D /* keypair.c in Sources */,
 				DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */,
 				DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */,
@@ -1396,6 +1419,7 @@
 				DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
+				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
 				DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,

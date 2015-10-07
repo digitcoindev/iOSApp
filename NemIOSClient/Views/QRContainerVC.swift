@@ -1,13 +1,21 @@
+//
+//  QRContainerVC.swift
+//  NemIOSClient
+//
+//  Created by Lyubomir Dominik on 07.10.15.
+//  Copyright © 2015 Artygeek. All rights reserved.
+//
+
 import UIKit
 
-class DashboardContainer: AbstractViewController
+class QRContainerVC: AbstractViewController
 {
     //MARK: - Load Methods
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        changePage(State.toVC)
+        self.performSegueWithIdentifier(State.toVC, sender: self);
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,7 +44,7 @@ class DashboardContainer: AbstractViewController
         fromViewController.willMoveToParentViewController(nil)
         self.addChildViewController(toViewController)
         self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {
-                value in
+            value in
             }
             , completion: {
                 finish in
@@ -51,23 +59,11 @@ class DashboardContainer: AbstractViewController
     final func changePage(page :String) {
         switch(page) {
             
-        case    SegueToMessages, SegueToQRCode, SegueToAddressBook, SegueToMessageVC, SegueToMessageMultisignVC,
-                SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToCreateQRInput, SegueToCreateQRResult, SegueToScanQR, SegueToSendTransaction,
-                SegueToUnconfirmedTransactionVC, SegueToQRController:
-            
+        case    SegueToUserInfo:
             self.performSegueWithIdentifier(page, sender: nil)
             
-        case  SegueToUserInfo:
-            
-            State.toVC = page
-            
-            self.performSegueWithIdentifier(SegueToQRController, sender: nil)
-            
         default:
-            
-            if self.delegate != nil && self.delegate!.respondsToSelector("switchToPage:") {
-                (self.delegate as! DashboardVCDelegate).switchToPage(page)
-            }
+            break
         }
     }
 }

@@ -29,3 +29,5 @@ let SegueTomultisigAccountManager :String = "multisigAccountManager"
 let SegueToUnconfirmedTransactionVC :String = "UnconfirmedTransactionVC"
 let SegueToHistoryVC :String = "History"
 let SegueToExportAccount :String = "Export Account"
+let SegueToQRController :String = "SegueToQRController"
+

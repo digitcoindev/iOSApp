@@ -14,6 +14,7 @@ class State: NSObject
         static var invoice :InvoiceData? = nil
 
     }
+    
     final class var fromVC: String? {
         get {
             return State.Store.stackVC.last

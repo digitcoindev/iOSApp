@@ -144,6 +144,12 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         _addContact()
     }
     
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
+    }
+    
     // MARK: - Table View Data Sourse
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -200,56 +206,6 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         } else if _walletData != nil {
             _sendMessageTo(displayList[indexPath.row])
         }
-        
-//        else if _walletData != nil {
-//            if _walletData.publicKey != nil {
-//                let person :ABRecordRef = displayList[indexPath.row]
-//                
-//                let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeRetainedValue()
-//                let count  :Int = ABMultiValueGetCount(emails)
-//                
-//                var key :String!
-//                
-//                for var index = 0; index < count; ++index {
-//                    let lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue() as String
-//                    if lable == "NEM"
-//                    {
-//                        key = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
-//                        break
-//                    }
-//                }
-//                var title :String = ""
-//                
-//                if let name = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString {
-//                    title = (name as String)
-//                }
-//                
-//                if ABRecordCopyValue(person, kABPersonLastNameProperty) != nil {
-//                    title = title + " " +  ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as! NSString) as String)
-//                }
-//                
-//                State.currentContact = nil
-//                
-//                State.toVC = SegueToPasswordValidation
-//                
-//                if Validate.address(key) {
-//                    let correspondent :Correspondent = Correspondent()
-//                    correspondent.address = key
-//                    correspondent.name = title
-//                    State.currentContact = correspondent
-//                    
-//                }
-//                
-//                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
-//                }
-//            }
-//            else {
-//                let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your account could not sent transactions. Please increase your balance", delegate: self, cancelButtonTitle: "OK")
-//                alert.show()
-//                
-//            }
-//        }
     }
     
     // MARK: -  Private Helpers
