@@ -11,13 +11,18 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     @IBOutlet weak var searchContainer: UIView!
     @IBOutlet weak var searchTextField: NEMTextField!
     
+    // MARK: - Static Variables
+
+    static var newContact :ABRecordRef? = nil
+    
     // MARK: - Private Variables
 
     private let _apiManager :APIManager = APIManager()
     private var _tempController: AbstractViewController? = nil
     private var _walletData :AccountGetMetaData!
     private var _isEditing = false
-
+    private var _newContact :ABRecordRef? = nil
+    
     // MARK: - Properties
 
     var contacts :NSArray? = AddressBookManager.contacts
@@ -41,6 +46,9 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             _apiManager.accountGet(State.currentServer!, account_address: account_address)
         }
         
+        _newContact = AddressBook.newContact
+        AddressBook.newContact = nil
+        filter.setFilterToState((_newContact == nil) ? true : false)
         self.filterChanged(self)
         
         searchContainer.layer.cornerRadius = 5
@@ -167,6 +175,12 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         cell.isEditable = !_isEditing
         cell.infoLabel.text = ""
         
+        if (_newContact?.isEqual(person)) ?? false {
+            _newContact = nil
+            
+            cell.selectContact()
+        }
+        
         if ABRecordCopyValue(person, kABPersonFirstNameProperty) != nil {
             cell.infoLabel.text = (ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as! String) + " "
         }
@@ -280,6 +294,13 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     func contactAdded(successfuly: Bool) {
         if successfuly {
+            
+            _newContact = AddressBook.newContact
+            AddressBook.newContact = nil
+            
+            if _newContact != nil {
+                filter.setFilterToState(true)
+            }
             AddressBookManager.refresh({ () -> Void in
                 self.contacts = AddressBookManager.contacts
                 self.filterChanged(self)
@@ -289,6 +310,14 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     func contactChanged(successfuly: Bool) {
         if successfuly {
+            
+            _newContact = AddressBook.newContact
+            AddressBook.newContact = nil
+            
+            if _newContact != nil {
+                filter.setFilterToState(true)
+            }
+            
             AddressBookManager.refresh({ () -> Void in
                 self.contacts = AddressBookManager.contacts
                 self.filterChanged(self)

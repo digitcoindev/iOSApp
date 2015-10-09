@@ -13,8 +13,6 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        State.currentVC = SegueToDashboard
     }
     
     override func didReceiveMemoryWarning() {

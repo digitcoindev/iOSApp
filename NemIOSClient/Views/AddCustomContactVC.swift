@@ -79,9 +79,12 @@ class AddCustomContactVC: AbstractViewController {
     
     final private func _changeContact() {
         if Validate.stringNotEmpty(firstName.text) && Validate.stringNotEmpty(lastName.text) && Validate.address(address.text) {
-            AddressBookManager.changeContact(self.contact!, address: address.text!, name: firstName.text!, surname: lastName.text!, responce: { () -> Void in
-                if self.delegate != nil {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            AddressBookManager.changeContact(self.contact!, address: address.text!, name: firstName.text!, surname: lastName.text!, responce: { (contact :ABRecordRef?) -> Void in                if self.delegate != nil {
+                
+                AddressBook.newContact = contact
+
+                    dispatch_async(dispatch_get_main_queue(), {
+                        () -> Void in
                         self.view.removeFromSuperview()
                         self.removeFromParentViewController()
                         (self.delegate as! AddCustomContactDelegate).contactAdded(true)
@@ -93,8 +96,9 @@ class AddCustomContactVC: AbstractViewController {
     
     final private func _addContact() {
         if Validate.stringNotEmpty(firstName.text) && Validate.stringNotEmpty(lastName.text) && Validate.address(address.text) {
-            AddressBookManager.addContact(firstName.text!, surname: lastName.text!, address: address.text!){
-                () -> Void in
+            AddressBookManager.addContact(firstName.text!, surname: lastName.text!, address: address.text!, responce: { (contact :ABRecordRef?) -> Void in
+                
+                AddressBook.newContact = contact
                 
                 if self.delegate != nil {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -103,7 +107,7 @@ class AddCustomContactVC: AbstractViewController {
                         (self.delegate as! AddCustomContactDelegate).contactAdded(true)
                     })
                 }
-            }
+            })
         }
     }
     

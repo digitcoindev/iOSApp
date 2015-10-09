@@ -2,41 +2,41 @@ import UIKit
 import AddressBook
 import AddressBookUI
 
-class ScanQRVC: AbstractViewController
+class ScanQRVC: AbstractViewController, QRDelegate
 {
     @IBOutlet weak var qrScaner: QR!
     
-    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
     let addressBook : ABAddressBookRef? = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToScanQR {
-            State.fromVC = SegueToScanQR
-        }
-        
+        State.fromVC = SegueToScanQR
         State.currentVC = SegueToScanQR
-        
-        observer.addObserver(self, selector: "detectedQR:", name: "Scan QR", object: nil)
-        
+        qrScaner.delegate = self
+    }
+    override func viewDidAppear(animated: Bool) {
         qrScaner.scanQR(qrScaner.frame.width , height: qrScaner.frame.height )
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Scan your friend")
-
     }
 
-    
-    final func detectedQR(notification: NSNotification) {
-        let base64String :String = notification.object as! String
+    func detectedQRWithString(text: String) {
+        let base64String :String = text
         if base64String != "Empty scan" {
             let jsonData :NSData = NSData(base64EncodedString: base64String)
-            let jsonStructure :NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as! NSDictionary
+            var jsonStructure :NSDictionary? = nil
+
+            jsonStructure = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as? NSDictionary
+
+            if jsonStructure == nil {
+                qrScaner.play()
+                return 
+            }
             
-            switch (jsonStructure.objectForKey("type") as! Int) {
+            
+            switch (jsonStructure!.objectForKey("type") as! Int) {
             case 1:
                 
-                let friendDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
+                let friendDictionary :NSDictionary = jsonStructure!.objectForKey("data") as! NSDictionary
                 
                 if AddressBookManager.isAllowed {
                     addFriend(friendDictionary)
@@ -48,7 +48,7 @@ class ScanQRVC: AbstractViewController
                 
             case 3:
                 
-                let invoiceDictionary :NSDictionary = jsonStructure.objectForKey("data") as! NSDictionary
+                let invoiceDictionary :NSDictionary = jsonStructure!.objectForKey("data") as! NSDictionary
                 
                 performInvoice(invoiceDictionary)
                 
@@ -58,6 +58,14 @@ class ScanQRVC: AbstractViewController
             }
         }
     }
+    
+    func failedWithError(text: String) {
+        let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: text, delegate: self, cancelButtonTitle: "OK")
+        alert.show()
+    }
+    
+    final func detectedQR(notification: NSNotification) {
+            }
     
     final func performInvoice(invoiceDictionary :NSDictionary) {
         var invoice :InvoiceData = InvoiceData()

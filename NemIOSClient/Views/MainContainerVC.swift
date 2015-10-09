@@ -5,7 +5,6 @@ class MainContainerVC: AbstractViewController
     //MARK: - Private Variables
 
     private let _dataManager :CoreDataManager = CoreDataManager()
-    private var _lastVC :String = ""
     
     //MARK: - Load Methods
 
@@ -16,13 +15,9 @@ class MainContainerVC: AbstractViewController
         let wallets :[Wallet] = _dataManager.getWallets()
         
         if(wallets.count == 0) {
-            _lastVC = SegueToAddAccountVC
-            
             self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self);
         }
         else  {
-            _lastVC = SegueToLoginVC
-
             self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
         }
     }
@@ -77,57 +72,14 @@ class MainContainerVC: AbstractViewController
     //MARK: - Navigation Methods
     
     final func changePage(page :String){
-        if(page != _lastVC ) {
-            _lastVC = page
+        if(page != State.currentVC ) {
             
             switch(page) {
                 
-            case SegueToMainMenu:
-                self.performSegueWithIdentifier(SegueToMainMenu, sender: nil)
+            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToProfile, SegueToProfileMultisig, SegueToProfileCosignatoryOf, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHistoryVC, SegueToExportAccount:
+                self.performSegueWithIdentifier(page, sender: nil)
                 
-            case SegueToRegistrationVC:
-                self.performSegueWithIdentifier(SegueToRegistrationVC, sender: nil)
-                
-            case SegueToLoginVC:
-                self.performSegueWithIdentifier(SegueToLoginVC, sender: nil)
-                
-            case SegueToServerVC:
-                self.performSegueWithIdentifier(SegueToServerVC, sender: nil)
-                
-            case SegueToDashboard:
-                self.performSegueWithIdentifier(SegueToDashboard, sender: nil)
-                                
-            case SegueToAddAccountVC:
-                self.performSegueWithIdentifier(SegueToAddAccountVC, sender: nil)
-                               
-            case SegueToImportFromQR:
-                self.performSegueWithIdentifier(SegueToImportFromQR, sender: nil)
-                
-            case SegueToImportFromKey:
-                self.performSegueWithIdentifier(SegueToImportFromKey, sender: nil)
-                
-            case SegueToProfile:
-                self.performSegueWithIdentifier(SegueToProfile, sender: nil)
-                
-            case SegueToProfileMultisig:
-                self.performSegueWithIdentifier(SegueToProfileMultisig, sender: nil)
-                
-            case SegueToProfileCosignatoryOf:
-                self.performSegueWithIdentifier(SegueToProfileCosignatoryOf, sender: nil)
-                
-            case SegueToGoogleMap:
-                self.performSegueWithIdentifier(SegueToGoogleMap, sender: nil)
-                
-            case SegueTomultisigAccountManager:
-                self.performSegueWithIdentifier(SegueTomultisigAccountManager, sender: nil)
-                
-            case SegueToHistoryVC:
-                self.performSegueWithIdentifier(SegueToHistoryVC, sender: nil)
-                
-            case SegueToExportAccount:
-                self.performSegueWithIdentifier(SegueToExportAccount, sender: nil)
-                
-            case SegueToPasswordValidation, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToQRCode, SegueToImportFromQR,  SegueToMessages, SegueToCreateQRInput, SegueToCreateQRResult, SegueToScanQR, SegueToQRController:
+            case SegueToPasswordValidation, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController, SegueToMainMenu:
                 
                 State.toVC = page as String
                 

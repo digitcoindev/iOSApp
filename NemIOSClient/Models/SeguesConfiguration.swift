@@ -1,33 +1,44 @@
-let SegueToServerVC : String =  "Servers"
+let SegueToMainVC : String =  "Main"
+
+//MARK: Main Controller
 let SegueToRegistrationVC : String =  "Registration"
+let SegueToServerVC : String =  "Servers"
 let SegueToLoginVC : String =  "Accounts"
+
+//MARK: Server Controller
+
 let SegueToServerTable : String =  "serverTable"
 let SegueToServerCustom : String =  "serverCustom"
-let SegueToMainVC : String =  "Main"
-let SegueToMainMenu : String =  "Menu"
+let SegueToAddAccountVC :String = "Import Accouts"
+let SegueToImportFromQR :String = "Import from QR"
+let SegueToImportFromKey :String = "Import from key"
+let SegueToGoogleMap :String = "Map"
+let SegueToProfile :String = "Profile"
+let SegueToProfileMultisig :String = "ProfileMultisig"
+let SegueToProfileCosignatoryOf :String = "ProfileCosignatoryOf"
+let SegueTomultisigAccountManager :String = "multisigAccountManager"
+let SegueToHistoryVC :String = "History"
+let SegueToExportAccount :String = "Export Account"
+
+//MARK: Dashboard Controller
+
 let SegueToDashboard : String =  "Dashboard"
+let SegueToMainMenu : String =  "Menu"
 let SegueToPasswordValidation : String =  "Password"
 let SegueToMessageVC : String =  "Message"
 let SegueToMessageMultisignVC : String =  "Message2"
 let SegueToMessageCosignatoryVC : String =  "Message3"
-let SegueToQRCode : String =  "QR Code"
-let SegueToAddAccountVC :String = "Import Accouts"
-let SegueToImportFromQR :String = "Import from QR"
 let SegueToAddressBook :String = "Address Book"
 let SegueToMessages :String = "Messages"
+
+//MARK: QR Controller
+
 let SegueToUserInfo :String = "User Info"
-let SegueToImportFromKey :String = "Import from key"
-let SegueToCreateQRInput :String = "CreateQRInput"
-let SegueToCreateQRResult :String = "CreateQRResult"
-let SegueToGoogleMap :String = "Map"
+let SegueToCreateInvoice :String = "Create QR Invoice"
+let SegueToCreateInvoiceResult :String = "Invoice Result"
 let SegueToScanQR :String = "Scan QR"
-let SegueToProfile :String = "Profile"
-let SegueToProfileMultisig :String = "ProfileMultisig"
-let SegueToProfileCosignatoryOf :String = "ProfileCosignatoryOf"
+
 let SegueToSendTransaction :String = "SendTransaction"
-let SegueTomultisigAccountManager :String = "multisigAccountManager"
 let SegueToUnconfirmedTransactionVC :String = "UnconfirmedTransactionVC"
-let SegueToHistoryVC :String = "History"
-let SegueToExportAccount :String = "Export Account"
 let SegueToQRController :String = "SegueToQRController"
 

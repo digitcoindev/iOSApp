@@ -43,7 +43,7 @@ class QRContainerVC: AbstractViewController
         toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         fromViewController.willMoveToParentViewController(nil)
         self.addChildViewController(toViewController)
-        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {
+        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: {
             value in
             }
             , completion: {
@@ -59,7 +59,7 @@ class QRContainerVC: AbstractViewController
     final func changePage(page :String) {
         switch(page) {
             
-        case    SegueToUserInfo:
+        case SegueToUserInfo, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR:
             self.performSegueWithIdentifier(page, sender: nil)
             
         default:

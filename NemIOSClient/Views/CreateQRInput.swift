@@ -2,27 +2,17 @@ import UIKit
 
 class CreateQRInput: AbstractViewController
 {
-    @IBOutlet weak var scroll: UIScrollView!
-    
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var message: NEMTextField!
     @IBOutlet weak var name: NEMTextField!
     @IBOutlet weak var amount: UITextField!
     
-    var showRect :CGRect = CGRectZero
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToCreateQRInput {
-            State.fromVC = SegueToCreateQRInput
-        }
-        
-        State.currentVC = SegueToCreateQRInput
-        
-        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        State.fromVC = SegueToCreateInvoice
+        State.currentVC = SegueToCreateInvoice
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,11 +29,6 @@ class CreateQRInput: AbstractViewController
         else if message.text == "" {
             message.becomeFirstResponder()
         }
-        else {
-            
-        }
-        
-        sender.becomeFirstResponder()
     }
     
     @IBAction func confirm(sender: AnyObject) {
@@ -66,34 +51,11 @@ class CreateQRInput: AbstractViewController
             invoice.amount = Int(amount.text!)
             invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
             
-            
             State.invoice = invoice
 
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToCreateQRResult )
-            
+            if self.delegate != nil && self.delegate!.respondsToSelector("changePage:") {
+                (self.delegate as! QRViewController).changePage(SegueToCreateInvoiceResult)
+            }
         }
-    }
-    
-    @IBAction func touchDown(sender: AnyObject) {
-        showRect = sender.frame
-    }
-    
-    func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        
-        var keyboardHeight:CGFloat = keyboardSize.height
-                
-        keyboardHeight -= self.view.frame.height - self.scroll.frame.height
-        
-        self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-        
-        self.scroll.scrollRectToVisible(showRect, animated: true)
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }
 }

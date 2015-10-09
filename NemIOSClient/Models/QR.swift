@@ -11,7 +11,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
 {
     //MARK: - Local Variables
 
-    var delegate :AnyObject? = nil
+    var delegate :QRDelegate? = nil
     let previewLayer = AVCaptureVideoPreviewLayer()
     var currentresult :String!
     let session :AVCaptureSession = AVCaptureSession()
@@ -59,8 +59,8 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
         else {
             let errorString = "Fail to access device camera"
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("failedWithError:") {
-                (self.delegate as! QRDelegate).failedWithError!(errorString)
+            if self.delegate != nil {
+                self.delegate!.failedWithError!(errorString)
             }
             
             let alert :UIAlertView = UIAlertView(title: "Error", message: errorString, delegate: self, cancelButtonTitle: "OK")
@@ -81,8 +81,8 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
                     
                     self.stop()
                     
-                    if self.delegate != nil && self.delegate!.respondsToSelector("detectedQRWithString:") {
-                        (self.delegate as! QRDelegate).detectedQRWithString(currentresult)
+                    if self.delegate != nil {
+                        self.delegate!.detectedQRWithString(currentresult)
                     }
                 }
             }

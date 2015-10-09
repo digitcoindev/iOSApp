@@ -1,8 +1,14 @@
 import UIKit
 
 class FilterButton: UIButton {
-
-    var isFilterActive = true
+    
+    private var _isFilterActive = true
+    
+    var isFilterActive :Bool {
+        get {
+            return _isFilterActive
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -11,13 +17,23 @@ class FilterButton: UIButton {
     }
     
     final func touchUpInside() {
-        if isFilterActive {
-            self.setImage(UIImage(named: "logo _passive"), forState: UIControlState.Normal)
-        }
-        else {
-            self.setImage(UIImage(named: "logo _active"), forState: UIControlState.Normal)
+        
+        setFilterToState(nil)
+    }
+    
+    final func setFilterToState(active: Bool?) {
+        
+        if active != nil {
+            _isFilterActive = active!
+        } else {
+            _isFilterActive = !_isFilterActive
         }
         
-        isFilterActive = !isFilterActive
+        if _isFilterActive {
+            self.setImage(UIImage(named: "logo _active"), forState: UIControlState.Normal)
+        }
+        else {
+            self.setImage(UIImage(named: "logo _passive"), forState: UIControlState.Normal)
+        }
     }
 }

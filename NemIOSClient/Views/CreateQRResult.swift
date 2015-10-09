@@ -4,62 +4,81 @@ import MessageUI
 
 class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelegate
 {
-    @IBOutlet weak var qrImage: UIImageView!
-    @IBOutlet weak var address: UILabel!
-    @IBOutlet weak var xems: UILabel!
-    @IBOutlet weak var share: UIButton!
-    @IBOutlet weak var mail: UIButton!
-    @IBOutlet weak var invoiceNumber: UILabel!
+    // MARK: - @IBOutlet
     
-    var invoice = State.invoice!
-
+    @IBOutlet weak var qrImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
+    
+    // MARK: - Private Variables
+    
+    private var invoice = State.invoice
+    
+    // MARK: - Load Metods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToCreateQRResult {
-            State.fromVC = SegueToCreateQRResult
+        State.fromVC = SegueToCreateInvoiceResult
+        State.currentVC = SegueToCreateInvoiceResult
+        
+        if invoice != nil {
+            _generateQR()
+            State.invoice = nil
+            
+            var titleText :NSMutableAttributedString = NSMutableAttributedString(string: "NAME: " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
+            var contentText :NSMutableAttributedString = NSMutableAttributedString(string: invoice!.name , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
+            
+            titleText.appendAttributedString(contentText)
+            nameLabel.attributedText = titleText
+            
+            titleText = NSMutableAttributedString(string: "AMOUNT: " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
+            contentText = NSMutableAttributedString(string: "\(invoice!.amount) XEM" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
+            
+            titleText.appendAttributedString(contentText)
+            amountLabel.attributedText = titleText
+            
+            titleText = NSMutableAttributedString(string: "MESSAGE: " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
+            contentText = NSMutableAttributedString(string: invoice!.message , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
+            
+            titleText.appendAttributedString(contentText)
+            messageLabel.attributedText = titleText
         }
-        
-        State.currentVC = SegueToCreateQRResult
-        
-        invoiceNumber.text = "#\(invoice.number)"
-        xems.text = "\(invoice.amount)" + " XEM"
-        
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let address_Normal = AddressGenerator.generateAddressFromPrivateKey(privateKey)
-        
-        address.text = address_Normal
-        
-        //var login = State.currentWallet!.login
-        //var password = State.currentWallet!.password
-       // var salt = State.currentWallet!.salt
-        //let privateKey_Normal = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        //var privateKey_AES = HashManager.AES256Encrypt(privateKey_Normal, key: "my qr key")
-        let objects = [invoice.name, invoice.address, invoice.amount, invoice.message]
-        let keys = ["name", "address", "amount", "message"]
-        
-        let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects as [AnyObject], forKeys: keys)
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [3, jsonAccountDictionary], forKeys: ["type", "data"])
-        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
-        let base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
-        
-        let qr :QR = QR()
-        
-        qrImage.image =  qr.createQR(base64String)
-
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.share.imageEdgeInsets = UIEdgeInsetsMake(10, self.share.bounds.width / 2 - 20, 30, self.share.bounds.width / 2 - 20)
-        self.mail.imageEdgeInsets = UIEdgeInsetsMake(10, self.mail.bounds.width / 2 - 20, 30, self.mail.bounds.width / 2 - 20)
+        
     }
-
+    
+    // MARK: - @IBAction
+    
+    @IBAction func copyQR(sender: AnyObject) {
+        var copyString :String = ""
+        
+        if invoice != nil {
+            copyString += "Name: \(invoice!.name) \n"
+            copyString += "Address: \(invoice!.address) \n"
+            copyString += "Amount: \(invoice!.amount) \n"
+            copyString += "Message: \(invoice!.message) \n"
+        } else {
+            copyString += "Empty QR"
+        }
+        
+        let pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
+        pasteBoard.string = copyString
+    }
+    
+    @IBAction func shareQR(sender: AnyObject) {
+        
+    }
+    
     @IBAction func shareBtn(sender: AnyObject) {
         
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {            
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            facebookSheet.setInitialText("Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!")
-            facebookSheet.addImage(qrImage.image!)
+            facebookSheet.setInitialText("Scan this QR if you want to send me \(invoice!.amount) XEM\nThank you , and goodluck!")
+            facebookSheet.addImage(qrImageView.image!)
             self.presentViewController(facebookSheet, animated: true, completion: nil)
             
         }
@@ -78,10 +97,10 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
             
             myMail.setSubject("NEM")
             
-            let sentfrom = "Scan this QR if you want to send me \(invoice.amount) XEM\nThank you , and goodluck!"
+            let sentfrom = "Scan this QR if you want to send me \(invoice!.amount) XEM\nThank you , and goodluck!"
             myMail.setMessageBody(sentfrom, isHTML: true)
             
-            let image = qrImage.image!
+            let image = qrImageView.image!
             let imageData = UIImageJPEGRepresentation(image, 1.0)
             
             myMail.addAttachmentData(imageData!, mimeType: "image/jped", fileName: "image")
@@ -95,12 +114,32 @@ class CreateQRResult: AbstractViewController , MFMailComposeViewControllerDelega
         }
     }
     
+    // MARK: -  Private Helpers
+    
+    private final func _generateQR()
+    {
+        let userDictionary: [String : AnyObject] = [
+            QRKeys.Address.rawValue : invoice!.address,
+            QRKeys.Name.rawValue : invoice!.name,
+            QRKeys.Amount.rawValue : invoice!.amount,
+            QRKeys.Message.rawValue : invoice!.message
+        ]
+        
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.Invoice.rawValue, userDictionary], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue])
+        
+        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
+        
+        let base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+        let qr :QR = QR()
+        
+        qrImageView.image =  qr.createQR(base64String)
+    }
+    
+    // MARK: -  MFMailComposeViewControllerDelegate Methos
+    
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
+    
 }

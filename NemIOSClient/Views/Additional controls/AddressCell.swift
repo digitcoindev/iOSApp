@@ -8,6 +8,10 @@ class AddressCell: EditableTableViewCell
     let infoLabel: UILabel = UILabel()
     let icon: UIImageView = UIImageView()
     
+    // MARK: Private values 
+    
+    private var _defaultColor :UIColor = UIColor.whiteColor()
+    
     var isAddress :Bool {
         get {
             return _isAddress ?? false
@@ -62,5 +66,19 @@ class AddressCell: EditableTableViewCell
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    func selectContact() {
+        _contentView?.backgroundColor = UIColor(red: 51 / 256 , green: 191 / 256 , blue: 86 / 256 , alpha: 1)
+        
+        let delay = 2.0 * Double(NSEC_PER_SEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue(), {
+            self.deselectContact()
+        })
+    }
+    
+    func deselectContact() {
+        _contentView?.backgroundColor = _defaultColor
     }
 }

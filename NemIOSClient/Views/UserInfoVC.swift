@@ -24,7 +24,7 @@ class UserInfoVC: AbstractViewController
         let publicKey = KeyGenerator.generatePublicKey(privateKey)
         address = AddressGenerator.generateAddress(publicKey)
         
-        userAddress.text = address
+        userAddress.text = _normalize(address)
         userName.placeholder = State.currentWallet!.login
         
         _generateQR()
@@ -70,11 +70,11 @@ class UserInfoVC: AbstractViewController
     private final func _generateQR()
     {
         let userDictionary: [String : String] = [
-            QRKeys.Adress.rawValue : address,
+            QRKeys.Address.rawValue : address,
             QRKeys.Name.rawValue : Validate.stringNotEmpty(userName.text) ? userName.text! : State.currentWallet!.login
         ]
         
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [1, userDictionary], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue])
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.UserData.rawValue, userDictionary], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue])
         
         let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
         

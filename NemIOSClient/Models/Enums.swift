@@ -9,8 +9,15 @@
 import UIKit
 
 enum QRKeys: String {
-    case Adress = "address"
+    case Address = "address"
     case Name = "name"
+    case Amount = "amount"
+    case Message = "message"
     case DataType = "type"
     case Data = "data"
+}
+
+enum QRType: Int {
+    case UserData = 1
+    case Invoice = 3
 }

@@ -92,7 +92,7 @@ class AddressBookManager: NSObject
         })
     }
     
-    final class func changeContact(contact :ABRecordRef, address: String, name: String, surname: String, responce: (Void -> Void)?)
+    final class func changeContact(contact :ABRecordRef, address: String, name: String, surname: String, responce: (ABRecordRef? -> Void)?)
     {
         _actionWithAccess({ () -> Void in
             var error: Unmanaged<CFErrorRef>? = nil
@@ -108,14 +108,14 @@ class AddressBookManager: NSObject
                 
                 self.save(nil)
                 
-                responce?()
+                responce?(contact)
             } else {
-                print("error need to handle")
+                responce?(nil)
             }
         })
     }
     
-    final class func addContact(name: String, surname: String, address: String, responce: (Void -> Void)?)
+    final class func addContact(name: String, surname: String, address: String, responce: (ABRecordRef? -> Void)?)
     {
         _actionWithAccess({ () -> Void in
             let newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
@@ -132,9 +132,9 @@ class AddressBookManager: NSObject
             if error == nil {
                 self.save(nil)
                 
-                responce?()
+                responce?(newContact)
             } else {
-                print("error need to handle")
+                responce?(nil)
             }
         })
     }

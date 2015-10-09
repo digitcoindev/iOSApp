@@ -36,6 +36,7 @@ class State: NSObject
     }
     final class var lastVC:String {
         get {
+            print("+")
             var inState = true
             let value = State.Store.stackVC.last!
             for ;inState; {

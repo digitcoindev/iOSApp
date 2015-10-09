@@ -35,7 +35,7 @@ class DashboardContainer: AbstractViewController
         toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         fromViewController.willMoveToParentViewController(nil)
         self.addChildViewController(toViewController)
-        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {
+        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: {
                 value in
             }
             , completion: {
@@ -51,13 +51,13 @@ class DashboardContainer: AbstractViewController
     final func changePage(page :String) {
         switch(page) {
             
-        case    SegueToMessages, SegueToQRCode, SegueToAddressBook, SegueToMessageVC, SegueToMessageMultisignVC,
-                SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToCreateQRInput, SegueToCreateQRResult, SegueToScanQR, SegueToSendTransaction,
+        case    SegueToMessages, SegueToAddressBook, SegueToMessageVC, SegueToMessageMultisignVC,
+                SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToSendTransaction,
                 SegueToUnconfirmedTransactionVC, SegueToQRController:
             
             self.performSegueWithIdentifier(page, sender: nil)
             
-        case  SegueToUserInfo:
+        case  SegueToUserInfo, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR :
             
             State.toVC = page
             
