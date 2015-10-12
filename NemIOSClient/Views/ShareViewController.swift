@@ -9,6 +9,9 @@
 import UIKit
 
 class ShareViewController: AbstractViewController {
+    
+    @IBOutlet weak var contentView: UIView!
+    
     //MARK: - Private Variables
 
     var message :String? = nil
@@ -23,12 +26,18 @@ class ShareViewController: AbstractViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        _shareManager.delegate = self.delegate as? UIViewController
+        
+        contentView.layer.cornerRadius = 5
+        contentView.clipsToBounds = true
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
+    }
+    
+    override func delegateIsSetted() {
+        _shareManager.delegate = self.delegate as? UIViewController
     }
     
     //MARK: - @IBAction
@@ -39,7 +48,9 @@ class ShareViewController: AbstractViewController {
     }
     
     @IBAction func shareWithMail(sender: AnyObject) {
-        closePopUp(self)
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
+        
         var data :[NSData] = []
         
         for image in images ?? [] {
@@ -47,18 +58,20 @@ class ShareViewController: AbstractViewController {
             data.append(imageData!)
         }
         
-        _shareManager.mailSand(message, images: data)
+        _shareManager.mailSand(message ?? "", images: data)
     }
     
     @IBAction func shareWithFacebook(sender: AnyObject) {
-        closePopUp(self)
-
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
+        
         _shareManager.facebookPostToWall(message, images: images, urls: urls)
     }
     
     @IBAction func shareWithTwitter(sender: AnyObject) {
-        closePopUp(self)
-
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
+        
         _shareManager.twitterPostToWall(message, images: images, urls: urls)
     }
 }

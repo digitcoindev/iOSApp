@@ -44,7 +44,7 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
         }
         else {
-            let alert = UIAlertController(title: NSLocalizedString("SOCIAL_NEM_HEADER", comment: "Title"), message: NSLocalizedString("NO_FACEBOOK_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NO_FACEBOOK_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
             
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
             
@@ -74,7 +74,7 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
         }
         else {
-            let alert = UIAlertController(title: NSLocalizedString("SOCIAL_NEM_HEADER", comment: "Title"), message: NSLocalizedString("NO_TWITTER_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NO_TWITTER_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
             
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
             
@@ -100,9 +100,12 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
             self.delegate?.presentViewController(myMail, animated: true, completion: nil)
         }
-        else {
-            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NO_MAIL_ACCOUNT", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
-            alert.show()
+        else {            
+            let alert = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NO_MAIL_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            
+            self.delegate?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 

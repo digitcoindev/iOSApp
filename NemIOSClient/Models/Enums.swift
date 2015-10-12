@@ -19,5 +19,6 @@ enum QRKeys: String {
 
 enum QRType: Int {
     case UserData = 1
-    case Invoice = 3
+    case Invoice = 2
+    case AccountData = 3
 }

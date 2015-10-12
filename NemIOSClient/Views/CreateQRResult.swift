@@ -14,7 +14,8 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
     // MARK: - Private Variables
     
     private var invoice = State.invoice
-    
+    private var popup :AbstractViewController? = nil
+
     // MARK: - Load Metods
     
     override func viewDidLoad() {
@@ -70,48 +71,24 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
     }
     
     @IBAction func shareQR(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-    }
-    
-    @IBAction func shareBtn(sender: AnyObject) {
+        let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
+        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
+        shareVC.view.layer.opacity = 0
+        shareVC.delegate = self
         
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {
-            let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            facebookSheet.setInitialText("Scan this QR if you want to send me \(invoice!.amount) XEM\nThank you , and goodluck!")
-            facebookSheet.addImage(qrImageView.image!)
-            self.presentViewController(facebookSheet, animated: true, completion: nil)
+        shareVC.message = NSLocalizedString("INVOICE_HEADER", comment: "Message")
+        shareVC.images = [qrImageView.image!]
+        popup = shareVC
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.view.addSubview(shareVC.view)
             
-        }
-        else {
-            let alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
-    
-    @IBAction func mailBtn(sender: AnyObject) {
-        if(MFMailComposeViewController.canSendMail()){
-            let myMail : MFMailComposeViewController = MFMailComposeViewController()
-            
-            myMail.mailComposeDelegate = self
-            
-            myMail.setSubject("NEM")
-            
-            let sentfrom = "Scan this QR if you want to send me \(invoice!.amount) XEM\nThank you , and goodluck!"
-            myMail.setMessageBody(sentfrom, isHTML: true)
-            
-            let image = qrImageView.image!
-            let imageData = UIImageJPEGRepresentation(image, 1.0)
-            
-            myMail.addAttachmentData(imageData!, mimeType: "image/jped", fileName: "image")
-            
-            //Display the view controller
-            self.presentViewController(myMail, animated: true, completion: nil)
-        }
-        else {
-            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
-            alert.show()
-        }
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                shareVC.view.layer.opacity = 1
+                }, completion: nil)
+        })
     }
     
     // MARK: -  Private Helpers

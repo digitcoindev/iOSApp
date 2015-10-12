@@ -1,21 +1,33 @@
+// Common
+
+"INFO" = "Довідка";
+"SERVER_UNAVAILABLE" = "Сервер не доступний. Повторіть спробу пізніше.";
+"LOST_CONNECTION" = "З'єднання втрачено.";
+
+// Validation
+
 "VALIDATION" = "Валідація";
+
 "PASSOWORD_DIFERENCE_ERROR" = "Різні паролі";
 "PASSOWORD_LENGTH_ERROR" = "Пароль має бути ,як мінімум 6 символів";
 "FIELDS_EMPTY_ERROR" = "Заповніть всі поля";
 "PRIVATE_KEY_ERROR_1" = "Некоректний приватний ключ\nБудь ласка перевірте його.";
 "ACCOUNT_ADDING_SUCCESS" = "Акаунт: %@\nУспішно доданий."; // %@ will be replaced by the account name
-"INFO" = "Довідка";
-"SERVER_UNAVAILABLE" = "Сервер не доступний. Повторіть спробу пізніше.";
-"LOST_CONNECTION" = "З'єднання втрачено.";
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "У вас є непідписані транзакції.";
+
+// Text
+
 "SHOW_TRANSACTIONS" = "Переглянути";
 "REMIND_LATER" = "Нагадати пізніше";
 "EMPTY_MESSAGE" = "Пусте повідомленя";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Недостатньо коштів";
- "TRANSACTION_ANOUNCE_SUCCESS" = "Успіх";
+"CHANGE_CONTACT" = "Змінити контакт";
+
+// Transaction
+
+"TRANSACTION_ANOUNCE_SUCCESS" = "Успіх";
 "TRANSACTION_ANOUNCE_FAILED" = "ВІДХИЛЕНО\nСпробуйте пізніше. Або перевірте зєднання зі сервером.";
 "NOT_A_HEX_STRING" = "Не хекс стрінга.";
-"CHANGE_CONTACT" = "Змінити контакт";
 
 // Social
 
@@ -30,3 +42,7 @@
 // Contacts
 
 "CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";
+
+// Invoice
+
+"INVOICE_HEADER" = "Please scan this QR to finish payment";

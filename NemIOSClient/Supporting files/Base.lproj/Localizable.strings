@@ -1,34 +1,48 @@
+// Common
+
+"INFO" = "Info";
+"SERVER_UNAVAILABLE" = "Server is  unavailable. Try again later or check your server.";
+"LOST_CONNECTION" = "Lost connection";
+
+// Validation
+
 "VALIDATION" = "Validation";
 "PASSOWORD_DIFERENCE_ERROR" = "Different passwords";
 "PASSOWORD_LENGTH_ERROR" = "Your password must be at least 6 characters.";
 "FIELDS_EMPTY_ERROR" = "Input all fields";
 "PRIVATE_KEY_ERROR_1." = "Invalide private key.\nPlease check it.";
 "ACCOUNT_ADDING_SUCCESS" = "Account: %@\nSuccessfully added."; // %@ will be replaced by the account name
-"INFO" = "Info";
-"SERVER_UNAVAILABLE" = "Server is  unavailable. Try again later or check your server.";
 "SERVER_PROTOCOL_NOT_AVAILABLE" = "Available only \"http\" protocol type.";
-"LOST_CONNECTION" = "Lost connection";
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed up!";
+
+// Text
+
 "SHOW_TRANSACTIONS" = "Show transactions";
 "REMIND_LATER" = "Remind later";
 "EMPTY_MESSAGE" = "Empty message";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Not enough money";
- "TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
-"TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
-"NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
 "CHANGE_CONTACT" = "Change Contact";
 
+// Transaction
+
+"TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
+"TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
+"NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
 
 // Social
 
-"SOCIAL_NEM_HEADER" = "NEM IOS Client";
+"SOCIAL_NEM_HEADER" = "NEM IOS Клієнт";
 
 //  Acounts
 
-"NO_FACEBOOK_ACCOUNT" = "Please login to a Facebook account to share.";
-"NO_TWITTER_ACCOUNT" = "Please login to a Twitter account to share.";
-"NO_MAIL_ACCOUNT" = "No mail-account in your mail-client";
+"NO_FACEBOOK_ACCOUNT" = "Будьласка добавте фейсбук фкаунт у налаштуваннях.";
+"NO_TWITTER_ACCOUNT" = "Будьласка добавте твітер фкаунт у налаштуваннях.";
+"NO_MAIL_ACCOUNT" = "Немає поштового аккаунта вашому майл-клієнті.";
 
 // Contacts
 
 "CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";
+
+// Invoice
+
+"INVOICE_HEADER" = "Please scan this QR to finish payment";

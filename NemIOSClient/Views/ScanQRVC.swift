@@ -6,6 +6,8 @@ class ScanQRVC: AbstractViewController, QRDelegate
 {
     @IBOutlet weak var qrScaner: QR!
     
+    private var _tempController: AbstractViewController? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +34,7 @@ class ScanQRVC: AbstractViewController, QRDelegate
             
             
             switch (jsonStructure!.objectForKey("type") as! Int) {
-            case 1:
+            case QRType.UserData.rawValue:
                 
                 let friendDictionary :NSDictionary = jsonStructure!.objectForKey("data") as! NSDictionary
                 
@@ -49,7 +51,7 @@ class ScanQRVC: AbstractViewController, QRDelegate
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
                 
-            case 3:
+            case QRType.Invoice.rawValue:
                 
                 let invoiceDictionary :NSDictionary = jsonStructure!.objectForKey("data") as! NSDictionary
                 

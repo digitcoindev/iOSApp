@@ -11,6 +11,7 @@ class UserInfoVC: AbstractViewController
     // MARK: - Private Variables
 
     private var address :String!
+    private var popup :AbstractViewController? = nil
     
     // MARK: - Load Metods
 
@@ -45,9 +46,23 @@ class UserInfoVC: AbstractViewController
     }
     
     @IBAction func shareAddress(sender: AnyObject) {
- //       var shareManager :SocialManagerProtocol = SocialManager()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
+        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
+        shareVC.view.layer.opacity = 0
+        shareVC.delegate = self
         
+        shareVC.message = userAddress.text
+        popup = shareVC
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.view.addSubview(shareVC.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                shareVC.view.layer.opacity = 1
+                }, completion: nil)
+        })        
     }
     
     @IBAction func copyQR(sender: AnyObject) {
@@ -57,6 +72,24 @@ class UserInfoVC: AbstractViewController
     
     @IBAction func shareQR(sender: AnyObject) {
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
+        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
+        shareVC.view.layer.opacity = 0
+        shareVC.delegate = self
+        
+        shareVC.message = (Validate.stringNotEmpty(userName.text) ? userName.text! : State.currentWallet!.login) + ": " + address
+        shareVC.images = [qrImageView.image!]
+        popup = shareVC
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.view.addSubview(shareVC.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                shareVC.view.layer.opacity = 1
+                }, completion: nil)
+        })
     }
     
     private final func _normalize(text: String) -> String {

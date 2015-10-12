@@ -42,7 +42,8 @@ class AccountsChousePopUp: AbstractViewController, UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell :WalletCell = tableView.dequeueReusableCellWithIdentifier("AccountsChousePopUpCell") as! WalletCell
         
-        cell.infoLabel.text = _wallets[indexPath.row].address
+        cell.infoLabel.attributedText = NSMutableAttributedString(string: _wallets[indexPath.row].address , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!])
+        cell.isEditable = true
         
         return cell
     }

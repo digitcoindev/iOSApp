@@ -40,6 +40,9 @@ class AddCustomContactVC: AbstractViewController {
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        contentView.layer.cornerRadius = 5
+        contentView.clipsToBounds = true
 
     }
 

@@ -14,10 +14,7 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if State.fromVC != SegueToGoogleMap {
-            State.fromVC = SegueToGoogleMap
-        }
-        
+        State.fromVC = SegueToGoogleMap
         State.currentVC = SegueToGoogleMap
         
         self.locationManager.requestAlwaysAuthorization()
@@ -40,9 +37,6 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
         mapView.settings.compassButton = true
         
         self.view = mapView
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Map" )
-
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
