@@ -1,5 +1,5 @@
 import UIKit
-import AddressBook
+import Contacts
 
 class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegate, APIManagerDelegate
 {
@@ -39,7 +39,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         dispatch_async(dispatch_get_main_queue(), {
             self.refreshTransactionList()
-            if AddressBookManager.isAllowed {
+            if AddressBookManager.isAllowed ?? false {
                 self.findCorrespondentName()
             }
         })
@@ -256,32 +256,13 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             if correspondent.name.utf16.count > 20 {
                 var find = false
                 for contact in contacts {
-                    let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
-                    let count  :Int = ABMultiValueGetCount(emails)
+                    let emails: [CNLabeledValue] = contact.emailAddresses
                     
-                    if count > 0 {
-                        for var index:CFIndex = 0; index < count; ++index {
-                            let lable  = ABMultiValueCopyLabelAtIndex(emails, index)
-                            if lable != nil {
-                                if lable.takeUnretainedValue()  == "NEM" {
-                                    let value :String = ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String
-                                    if value == correspondent.name {
-                                        if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil {
-                                            correspondent.name = (ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString as! String) + " "
-                                        }
-                                        
-                                        if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil {
-                                            correspondent.name =  correspondent.name +  ((ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as String)
-                                        }
-                                        
-                                        find = true
-                                    }
-                                }
-                            }
-                            
-                            if find {
-                                break
-                            }
+                    for email in emails {
+                        if email.label == "NEM" && email.value as! String == correspondent.address {
+                            correspondent.name = (contact.givenName ?? "") + " " + (contact.familyName ?? "")
+                            find = true
+                            break
                         }
                     }
                     

@@ -6,8 +6,6 @@ class ScanQRVC: AbstractViewController, QRDelegate
 {
     @IBOutlet weak var qrScaner: QR!
     
-    let addressBook : ABAddressBookRef? = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,12 +36,17 @@ class ScanQRVC: AbstractViewController, QRDelegate
                 
                 let friendDictionary :NSDictionary = jsonStructure!.objectForKey("data") as! NSDictionary
                 
-                if AddressBookManager.isAllowed {
+                if (AddressBookManager.isAllowed ?? false) {
                     addFriend(friendDictionary)
                 }
                 else {
-                    let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.", delegate: self, cancelButtonTitle: "OK")
-                    alert.show()
+                    let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("CONTACTS_IS_UNAVAILABLE", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                        alert.dismissViewControllerAnimated(true, completion: nil)
+                    }))
+                    
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
                 
             case 3:
@@ -59,9 +62,14 @@ class ScanQRVC: AbstractViewController, QRDelegate
         }
     }
     
-    func failedWithError(text: String) {
-        let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: text, delegate: self, cancelButtonTitle: "OK")
-        alert.show()
+    func failedWithError(text: String) {       
+        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     final func detectedQR(notification: NSNotification) {
@@ -84,90 +92,24 @@ class ScanQRVC: AbstractViewController, QRDelegate
     }
     
     final func addFriend(friendDictionary :NSDictionary) {
-        ABAddressBookRequestAccessWithCompletion(addressBook, {
-                (granted : Bool, error: CFError!) -> Void in
-                if granted == true {
-                    let newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
-                    
-                    var error: Unmanaged<CFErrorRef>? = nil
-                    let emailMultiValue :ABMutableMultiValueRef = ABMultiValueCreateMutable(ABPropertyType(kABPersonEmailProperty)).takeRetainedValue()
-                    
-                    let alert1 :UIAlertController = UIAlertController(title: "Add NEM contact", message: "Input your data", preferredStyle: UIAlertControllerStyle.Alert)
-                    
-                    var firstName :UITextField!
-                    alert1.addTextFieldWithConfigurationHandler
-                        {
-                            textField -> Void in
-                            textField.text = friendDictionary.objectForKey("name") as? String
-                            textField.placeholder = "firstName"
-                            textField.keyboardType = UIKeyboardType.ASCIICapable
-                            textField.returnKeyType = UIReturnKeyType.Done
-                            
-                            firstName = textField
-                            
-                    }
-                    
-                    var lastName :UITextField!
-                    alert1.addTextFieldWithConfigurationHandler
-                        {
-                            textField -> Void in
-                            textField.text = friendDictionary.objectForKey("surname") as? String
-                            textField.placeholder = "lastName"
-                            textField.keyboardType = UIKeyboardType.ASCIICapable
-                            textField.returnKeyType = UIReturnKeyType.Done
-                            
-                            lastName = textField
-                            
-                    }
-                    
-                    var address :UITextField!
-                    alert1.addTextFieldWithConfigurationHandler
-                        {
-                            textField -> Void in
-                            textField.text = friendDictionary.objectForKey("address") as? String
-                            textField.keyboardType = UIKeyboardType.ASCIICapable
-                            textField.returnKeyType = UIReturnKeyType.Done
-                            
-                            address = textField
-                            
-                    }
-                    
-                    let addNEMaddress :UIAlertAction = UIAlertAction(title: "Add", style: UIAlertActionStyle.Default)
-                        {
-                            alertAction -> Void in
-                            
-                            ABRecordSetValue(newContact, kABPersonFirstNameProperty, firstName.text, &error)
-                            ABRecordSetValue(newContact, kABPersonLastNameProperty, lastName.text, &error)
-                            ABMultiValueAddValueAndLabel(emailMultiValue, address.text, "NEM", nil)
-                            ABRecordSetValue(newContact, kABPersonEmailProperty, emailMultiValue, &error)
-                            ABAddressBookAddRecord(self.addressBook, newContact, &error)
-                            ABAddressBookSave(self.addressBook, &error)
-                            
-                            State.toVC = SegueToMessages
-                            
-                            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToAddressBook )
-                            
-                    }
-                    
-                    
-                    let cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
-                        {
-                            alertAction -> Void in
-                            alert1.dismissViewControllerAnimated(true, completion: nil)
-                            self.qrScaner.play()
-                    }
-                    
-                    alert1.addAction(addNEMaddress)
-                    alert1.addAction(cancel)
-                    
-                    self.presentViewController(alert1, animated: true, completion: nil)
-                    
-                }
-                else {
-                    let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Can not access adressbook.", delegate: self, cancelButtonTitle: "OK")
-                    alert.show()
-                }
-        })
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let contactCustomVC :AddCustomContactVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AddCustomContactVC
+        contactCustomVC.view.frame = CGRect(x: 0, y: 0, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height)
+        contactCustomVC.view.layer.opacity = 0
+        contactCustomVC.delegate = self
+        
+        contactCustomVC.firstName.text = friendDictionary.objectForKey("name") as? String
+        contactCustomVC.lastName.text = friendDictionary.objectForKey("surname") as? String
+        contactCustomVC.address.text = friendDictionary.objectForKey("address") as? String
+        
+        self.view.addSubview(contactCustomVC.view)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            contactCustomVC.view.layer.opacity = 1
+            }, completion: nil)
+
     }
     
     override func didReceiveMemoryWarning() {

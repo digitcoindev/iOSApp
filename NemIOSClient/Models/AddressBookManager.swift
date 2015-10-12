@@ -1,203 +1,157 @@
 import UIKit
-import AddressBook
+import Contacts
 
 class AddressBookManager: NSObject
 {
     //MARK: - Static variables
     
     struct Store {
-        static var addressBook : ABAddressBookRef?
-        static var contacts :NSArray = NSArray()
+        static var contactStore = CNContactStore()
+        static var contacts :[CNContact] = []
         static var access :Bool = false
     }
     //MARK: - Properties
     
-    final class var contacts :NSArray {
+    final class var contacts :[CNContact] {
         get {
             return Store.contacts
         }
     }
     
-    final class var addressBook :ABAddressBookRef {
+    final class var contactStore :CNContactStore {
         get {
-            return Store.addressBook!
+            return Store.contactStore
         }
     }
     
-    final class var isAllowed :Bool {
+    final class var isAllowed :Bool? {
         get {
-            if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Denied || ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Restricted) {
-                return false
-            }
-            else {
-                return true
-            }
+            return _actionWithAccess(nil)
         }
     }
     
     //MARK: - Inizializers
     
     final class func create() {
-        if AddressBookManager.isAllowed
-        {
-            Store.addressBook = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
-            
-            ABAddressBookRequestAccessWithCompletion(addressBook,
-                {
-                    (granted : Bool, error: CFError!) -> Void in
-                    if granted == true
-                    {
-                        Store.contacts = ABAddressBookCopyArrayOfAllPeople(Store.addressBook).takeRetainedValue()
-                    }
-            })
-        }
+        refresh(nil)
     }
     
     //MARK: - Controllers
     
-    final class func getUserInfoFor(contact :ABRecordRef, responce: (String -> Void)?)
+    final class func addContact(contact :CNMutableContact, responce: (CNMutableContact? -> Void)?)
     {
-        _actionWithAccess({ () -> Void in
-            var title :String = ""
+        let state = _actionWithAccess({ () -> Void in
             
-            if let name = ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as? NSString {
-                title = (name as String)
-            }
-            
-            if let lastName = ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as? NSString {
-                title = title + " " + (lastName as String)
-            }
-            
-            responce?(title)
-        })
-    }
-    
-    final class func getNemAddressFor(contact :ABRecordRef, responce: ([String] -> Void)?)
-    {
-        _actionWithAccess({ () -> Void in
-            var address :[String] = []
-            
-            let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeRetainedValue()
-            let count  :Int = ABMultiValueGetCount(emails)
-            
-            for var index = 0; index < count; ++index {
-                let lable : String = ABMultiValueCopyLabelAtIndex(emails, index).takeRetainedValue() as String
-                if lable == "NEM"
-                {
-                    address.append(ABMultiValueCopyValueAtIndex(emails, index).takeUnretainedValue() as! String)
-                }
-            }
-            
-            responce?(address)
-        })
-    }
-    
-    final class func changeContact(contact :ABRecordRef, address: String, name: String, surname: String, responce: (ABRecordRef? -> Void)?)
-    {
-        _actionWithAccess({ () -> Void in
-            var error: Unmanaged<CFErrorRef>? = nil
-            let propertyType: NSNumber = kABMultiStringPropertyType
-            let emails: ABMultiValueRef = Unmanaged.fromOpaque(ABMultiValueCreateMutable(propertyType.unsignedIntValue).toOpaque()).takeUnretainedValue() as NSObject as ABMultiValueRef
-            
-            ABRecordSetValue(contact, kABPersonFirstNameProperty, name, &error)
-            ABRecordSetValue(contact, kABPersonLastNameProperty, surname, &error)
-            ABMultiValueAddValueAndLabel(emails, address, "NEM", nil)
-            ABRecordSetValue(contact, kABPersonEmailProperty, emails, &error)
-            
-            if error == nil {
-                
-                self.save(nil)
-                
-                responce?(contact)
-            } else {
+            let saveRequest = CNSaveRequest()
+            saveRequest.addContact(contact, toContainerWithIdentifier:nil)
+            do {
+                try contactStore.executeSaveRequest(saveRequest)
+            } catch let error as NSError {
+                print(error)
                 responce?(nil)
+                return
             }
+            
+            responce?(contact)
         })
+        
+        if !(state ?? true) {
+            responce?(nil)
+        }
     }
     
-    final class func addContact(name: String, surname: String, address: String, responce: (ABRecordRef? -> Void)?)
+    final class func updateContact(contact :CNMutableContact, responce: (CNMutableContact? -> Void)?)
     {
-        _actionWithAccess({ () -> Void in
-            let newContact  :ABRecordRef! = ABPersonCreate().takeRetainedValue()
-            let emailMultiValue :ABMutableMultiValueRef = ABMultiValueCreateMutable(ABPropertyType(kABPersonEmailProperty)).takeRetainedValue()
+        let state = _actionWithAccess({ () -> Void in
             
-            var error: Unmanaged<CFErrorRef>? = nil
-            
-            ABRecordSetValue(newContact, kABPersonFirstNameProperty, name, &error)
-            ABRecordSetValue(newContact, kABPersonLastNameProperty, surname, &error)
-            ABMultiValueAddValueAndLabel(emailMultiValue, address, "NEM", nil)
-            ABRecordSetValue(newContact, kABPersonEmailProperty, emailMultiValue, &error)
-            ABAddressBookAddRecord(Store.addressBook, newContact, &error)
-            
-            if error == nil {
-                self.save(nil)
-                
-                responce?(newContact)
-            } else {
+            let saveRequest = CNSaveRequest()
+            saveRequest.updateContact(contact)
+            do {
+                try contactStore.executeSaveRequest(saveRequest)
+            } catch let error as NSError {
+                print(error)
                 responce?(nil)
+                return
             }
-        })
-    }
-    
-    final class func deleteContact(contact :ABRecordRef, responce: (Void -> Void)?) {
-        _actionWithAccess({ () -> Void in
-            var error: Unmanaged<CFErrorRef>? = nil
             
-            ABAddressBookRemoveRecord(addressBook, contact, &error)
-            
-            if error == nil {
-                
-                self.save(nil)
-                
-                responce?()
-            } else {
-                print("error need to handle")
-            }
+            responce?(contact)
         })
-    }
-    
-    final class func refresh(responce: (Void -> Void)?) {
-        _actionWithAccess({ () -> Void in
-            Store.contacts = ABAddressBookCopyArrayOfAllPeople(Store.addressBook).takeRetainedValue()
-            responce?()
-        })
-    }
-    
-    final class func save(responce: (Void -> Void)?)
-    {
-        _actionWithAccess({ () -> Void in
-            var error: Unmanaged<CFErrorRef>? = nil
-            
-            ABAddressBookSave(Store.addressBook, &error)
-            
-            if error == nil {
-                responce?()
-            } else {
-                print("error need to handle")
-            }
-        })
-    }
-    
-    //MARK: - Private methods
-    
-    final private class func _actionWithAccess(action :(Void -> Void)?)
-    {
-        if AddressBookManager.isAllowed {
-            if !Store.access {
-                ABAddressBookRequestAccessWithCompletion(Store.addressBook,
-                    {
-                        (granted : Bool, error: CFError!) -> Void in
-                        Store.access = granted
-                        if granted == true
-                        {
-                            action?()
-                        }
-                })
-            } else {
-                action?()
-            }
+        
+        if !(state ?? true) {
+            responce?(nil)
         }
     }
     
     
+    final class func deleteContact(contact :CNContact, responce: (Void -> Void)?) {
+        let state = _actionWithAccess({ () -> Void in
+            let saveRequest = CNSaveRequest()
+            saveRequest.deleteContact(contact.mutableCopy() as! CNMutableContact)
+            do {
+                try contactStore.executeSaveRequest(saveRequest)
+            } catch let error as NSError {
+                print(error)
+                responce?()
+                return
+            }
+            
+            responce?()
+        })
+        
+        if !(state ?? true) {
+            responce?()
+        }
+    }
+    
+    final class func refresh(responce: (Void -> Void)?) {
+        let state = _actionWithAccess({ () -> Void in
+            
+            let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey]
+            let containerId = contactStore.defaultContainerIdentifier()
+            let predicate: NSPredicate = CNContact.predicateForContactsInContainerWithIdentifier(containerId)
+            
+            do {
+                Store.contacts = try contactStore.unifiedContactsMatchingPredicate(predicate, keysToFetch: keysToFetch)
+            } catch let error as NSError {
+                print(error)
+                return
+            }
+            
+            responce?()
+        })
+        
+        if !(state ?? true) {
+            responce?()
+        }
+    }
+    
+    //MARK: - Private methods
+    
+    final private class func _actionWithAccess(action :(Void -> Void)?) -> Bool?
+    {
+        let authorizationStatus = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
+        
+        switch authorizationStatus {
+        case .Authorized:
+            action?()
+            return true
+            
+        case .Denied:
+            return false
+            
+        case .NotDetermined:
+            if action != nil {
+                self.contactStore.requestAccessForEntityType(CNEntityType.Contacts, completionHandler: { (access, accessError) -> Void in
+                    if access {
+                        action!()
+                    }
+                })
+            }
+            
+        default:
+            return nil
+        }
+        
+        return nil
+    }
 }

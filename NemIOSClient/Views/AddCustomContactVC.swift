@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AddressBook
+import Contacts
 
 protocol AddCustomContactDelegate
 {
@@ -29,7 +29,7 @@ class AddCustomContactVC: AbstractViewController {
     
     //MARK: - Properties
     
-    var contact :ABRecordRef? = nil
+    var contact :CNContact? = nil
     
     //MARK: - Load Methods
 
@@ -55,11 +55,7 @@ class AddCustomContactVC: AbstractViewController {
     }
     
     @IBAction func addContact(sender: UIButton) {
-        if contact == nil {
-        _addContact()
-        } else {
-            _changeContact()
-        }
+        _changeContact()
     }
     
     @IBAction func textFieldChange(sender: UITextField) {
@@ -79,35 +75,60 @@ class AddCustomContactVC: AbstractViewController {
     
     final private func _changeContact() {
         if Validate.stringNotEmpty(firstName.text) && Validate.stringNotEmpty(lastName.text) && Validate.address(address.text) {
-            AddressBookManager.changeContact(self.contact!, address: address.text!, name: firstName.text!, surname: lastName.text!, responce: { (contact :ABRecordRef?) -> Void in                if self.delegate != nil {
+            
+            let mutableContact :CNMutableContact = ((self.contact) ?? CNContact()).mutableCopy() as! CNMutableContact
+            
+            mutableContact.givenName = firstName.text!
+            mutableContact.familyName = lastName.text!
+            
+            var newEmails :[CNLabeledValue] = []
+            var find = false
+            
+            for email in mutableContact.emailAddresses {
+                let newEmail = CNLabeledValue(label: email.label, value: (email.label == "NEM") ? address.text! : email.value)
+                newEmails.append(newEmail)
                 
-                AddressBook.newContact = contact
-
-                    dispatch_async(dispatch_get_main_queue(), {
-                        () -> Void in
-                        self.view.removeFromSuperview()
-                        self.removeFromParentViewController()
-                        (self.delegate as! AddCustomContactDelegate).contactAdded(true)
-                    })
+                if newEmail.value as! String == "NEM" {
+                    find = true
                 }
-            })
-        }
-    }
-    
-    final private func _addContact() {
-        if Validate.stringNotEmpty(firstName.text) && Validate.stringNotEmpty(lastName.text) && Validate.address(address.text) {
-            AddressBookManager.addContact(firstName.text!, surname: lastName.text!, address: address.text!, responce: { (contact :ABRecordRef?) -> Void in
-                
-                AddressBook.newContact = contact
-                
-                if self.delegate != nil {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.view.removeFromSuperview()
-                        self.removeFromParentViewController()
-                        (self.delegate as! AddCustomContactDelegate).contactAdded(true)
-                    })
-                }
-            })
+            }
+            
+            if !find {
+                let newEmail = CNLabeledValue(label: "NEM", value: address.text!)
+                newEmails.append(newEmail)
+            }
+            
+            mutableContact.emailAddresses = newEmails
+            if self.contact == nil {
+                AddressBookManager.addContact(mutableContact, responce: { (contact) -> Void in
+                    if self.delegate != nil {
+                        
+                        AddressBook.newContact = contact
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            () -> Void in
+                            self.view.removeFromSuperview()
+                            self.removeFromParentViewController()
+                            (self.delegate as! AddCustomContactDelegate).contactAdded(true)
+                        })
+                    }
+                })
+            } else {
+                AddressBookManager.updateContact(mutableContact, responce: { (contact) -> Void in
+                    if self.delegate != nil {
+                        
+                        AddressBook.newContact = contact
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            () -> Void in
+                            self.view.removeFromSuperview()
+                            self.removeFromParentViewController()
+                            (self.delegate as! AddCustomContactDelegate).contactChanged(true)
+                                
+                        })
+                    }
+                })
+            }
         }
     }
     

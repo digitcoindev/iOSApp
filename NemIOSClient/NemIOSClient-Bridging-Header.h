@@ -5,7 +5,6 @@
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonKeyDerivation.h>
 
-#import "MyHandler.h"
 
 #import "Crypto.h"
 #import "NSData+Base64.h"

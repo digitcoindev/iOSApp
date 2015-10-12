@@ -25,6 +25,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     private var _isHex = false
     private var _isEnc = false
+    
+    private var _canShowKeyboard = false
+    
     var _mainWallet :AccountGetMetaData? = nil
     var walletData :AccountGetMetaData!
     
@@ -706,6 +709,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         let info:NSDictionary = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
+        _canShowKeyboard = true
         let height:CGFloat = keyboardSize.height - 65
         
         UIView.animateWithDuration(0.25, animations: { () -> Void in
@@ -716,15 +720,16 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     func keyboardWillHide(notification: NSNotification) {
         
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        
-        let height:CGFloat = keyboardSize.height - 65
-        
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + height)
+        if _canShowKeyboard {
+            let info:NSDictionary = notification.userInfo!
+            let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             
-            }, completion: { (successed :Bool) -> Void in })
+            let height:CGFloat = keyboardSize.height - 65
+            
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + height)
+                
+                }, completion: { (successed :Bool) -> Void in })
+        }
     }
-    
 }

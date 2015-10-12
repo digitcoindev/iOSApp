@@ -11,9 +11,14 @@ class ViewController: UIViewController
         let errorLogs = plistFileManager().readErrorLog()
         if errorLogs != nil {
             if errorLogs != "" {
-                let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Error copied to pasteboard ", delegate: self, cancelButtonTitle: "OK")
-                alert.show()
-
+                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Error copied to pasteboard ", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                    alert.dismissViewControllerAnimated(true, completion: nil)
+                }))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+                
                 UIPasteboard.generalPasteboard().string = errorLogs
             }
         }

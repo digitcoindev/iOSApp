@@ -45,6 +45,8 @@ class UserInfoVC: AbstractViewController
     }
     
     @IBAction func shareAddress(sender: AnyObject) {
+ //       var shareManager :SocialManagerProtocol = SocialManager()
+        
         
     }
     

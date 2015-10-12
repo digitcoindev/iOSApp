@@ -13,6 +13,9 @@ class CreateQRInput: AbstractViewController
         
         State.fromVC = SegueToCreateInvoice
         State.currentVC = SegueToCreateInvoice
+        
+        containerView.layer.cornerRadius = 10
+        containerView.clipsToBounds = true
     }
 
     override func didReceiveMemoryWarning() {

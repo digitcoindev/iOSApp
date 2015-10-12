@@ -23,6 +23,8 @@
 		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; settings = {ASSET_TAGS = (); }; };
 		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
 		98BB95AC1BC7B185002151F7 /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AB1BC7B185002151F7 /* SocialManager.swift */; settings = {ASSET_TAGS = (); }; };
+		98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		98BB95B21BC7EE58002151F7 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98BB95B11BC7EE58002151F7 /* Contacts.framework */; };
 		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
 		98FE074E1BBE7C29009017CD /* EditableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -83,7 +85,6 @@
 		DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF07B1A977CD600299B0A /* MessageUI.framework */; };
 		DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */; };
 		DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2EB1A82536700FAA877 /* LoadData.swift */; };
-		DA64A4C91A56D483005833A4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4C81A56D483005833A4 /* AddressBook.framework */; };
 		DA64A4CC1A5A8704005833A4 /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4CB1A5A8704005833A4 /* QR.swift */; };
 		DA64A4CE1A5A88BE005833A4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */; };
 		DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CF1A5A88C4005833A4 /* Social.framework */; };
@@ -163,7 +164,6 @@
 		DAD5AD901A52E7850093E3DB /* PasswordValidationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */; };
 		DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* MessageVC.swift */; };
 		DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA272F1B0C8D4100EA09F8 /* Validate.swift */; };
-		DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA27361B13625A00EA09F8 /* MyHandler.m */; };
 		DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA33F71A72874500F14D6D /* WalletGenerator.swift */; };
 		DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA35991A76609800F14D6D /* NSData+Base64.m */; };
 		DADA37531A7683C300F14D6D /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = DADA373F1A7683C300F14D6D /* readme.md */; };
@@ -214,6 +214,8 @@
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98BB95AB1BC7B185002151F7 /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Models/SocialManager.swift; sourceTree = "<group>"; };
+		98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Views/ShareViewController.swift; sourceTree = "<group>"; };
+		98BB95B11BC7EE58002151F7 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
 		98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditableTableViewCell.swift; path = "Views/Additional controls/EditableTableViewCell.swift"; sourceTree = "<group>"; };
@@ -364,8 +366,6 @@
 		DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordValidationVC.swift; path = Views/PasswordValidationVC.swift; sourceTree = "<group>"; };
 		DAD5AD911A52F2F30093E3DB /* MessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageVC.swift; path = Views/MessageVC.swift; sourceTree = "<group>"; };
 		DADA272F1B0C8D4100EA09F8 /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Models/Validate.swift; sourceTree = "<group>"; };
-		DADA27351B13625A00EA09F8 /* MyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyHandler.h; sourceTree = "<group>"; };
-		DADA27361B13625A00EA09F8 /* MyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyHandler.m; sourceTree = "<group>"; };
 		DADA33F71A72874500F14D6D /* WalletGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletGenerator.swift; path = Models/WalletGenerator.swift; sourceTree = "<group>"; };
 		DADA35991A76609800F14D6D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Models/NSData+Base64.m"; sourceTree = "<group>"; };
 		DADA359A1A76609800F14D6D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Models/NSData+Base64.h"; sourceTree = "<group>"; };
@@ -403,6 +403,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98BB95B21BC7EE58002151F7 /* Contacts.framework in Frameworks */,
 				98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */,
 				DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */,
 				DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */,
@@ -420,7 +421,6 @@
 				DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */,
 				DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */,
 				DA64A4CE1A5A88BE005833A4 /* AVFoundation.framework in Frameworks */,
-				DA64A4C91A56D483005833A4 /* AddressBook.framework in Frameworks */,
 				D8B91FD79BFFA2DD50D69DC6 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,6 +512,14 @@
 				98BB95AB1BC7B185002151F7 /* SocialManager.swift */,
 			);
 			name = Social;
+			sourceTree = "<group>";
+		};
+		98BB95AE1BC7C3F3002151F7 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */,
+			);
+			name = Share;
 			sourceTree = "<group>";
 		};
 		DA031ED71A9226E60021E98B /* TextFields */ = {
@@ -708,8 +716,6 @@
 		DA3558031A39D3BA00AFA5FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				DADA27351B13625A00EA09F8 /* MyHandler.h */,
-				DADA27361B13625A00EA09F8 /* MyHandler.m */,
 				DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */,
 				DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */,
 				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
@@ -876,6 +882,7 @@
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				98BB95B11BC7EE58002151F7 /* Contacts.framework */,
 				98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */,
 				DA4AF07B1A977CD600299B0A /* MessageUI.framework */,
 				DA4AF0791A976A6B00299B0A /* CoreLocation.framework */,
@@ -1040,6 +1047,7 @@
 		DAD5AD8A1A52DC620093E3DB /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				98BB95AE1BC7C3F3002151F7 /* Share */,
 				DADDA2431B21C71C00F3F5F5 /* Export Account */,
 				DAD21B961AFB72E000F6B861 /* Menu */,
 				DA89F1131AD6A62100105BB0 /* Login */,
@@ -1398,6 +1406,7 @@
 				DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */,
 				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				DADA37591A7683C300F14D6D /* sc.c in Sources */,
+				98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */,
 				984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */,
 				98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */,
 				DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */,
@@ -1427,7 +1436,6 @@
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
 				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
-				DADA27371B13625A00EA09F8 /* MyHandler.m in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
 				DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */,
@@ -1555,7 +1563,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_OWNER = dominik.l.p;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -1594,7 +1602,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_OWNER = dominik.l.p;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
@@ -1617,7 +1625,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1643,7 +1651,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

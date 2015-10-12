@@ -17,3 +17,18 @@
 "TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
 "NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
 "CHANGE_CONTACT" = "Change Contact";
+
+
+// Social
+
+"SOCIAL_NEM_HEADER" = "NEM IOS Client";
+
+//  Acounts
+
+"NO_FACEBOOK_ACCOUNT" = "Please login to a Facebook account to share.";
+"NO_TWITTER_ACCOUNT" = "Please login to a Twitter account to share.";
+"NO_MAIL_ACCOUNT" = "No mail-account in your mail-client";
+
+// Contacts
+
+"CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";

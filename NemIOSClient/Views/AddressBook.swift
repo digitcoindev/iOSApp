@@ -1,5 +1,5 @@
 import UIKit
-import AddressBook
+import Contacts
 
 class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCustomContactDelegate
 {
@@ -13,7 +13,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     // MARK: - Static Variables
 
-    static var newContact :ABRecordRef? = nil
+    static var newContact :CNContact? = nil
     
     // MARK: - Private Variables
 
@@ -21,12 +21,12 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     private var _tempController: AbstractViewController? = nil
     private var _walletData :AccountGetMetaData!
     private var _isEditing = false
-    private var _newContact :ABRecordRef? = nil
+    private var _newContact :CNContact? = nil
     
     // MARK: - Properties
 
     var contacts :NSArray? = AddressBookManager.contacts
-    var displayList :NSMutableArray = NSMutableArray()
+    var displayList :[CNContact] = []
     
     // MARK: - Load Metods
 
@@ -79,73 +79,63 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     }
     
     @IBAction func filterChanged(sender: AnyObject) {
-        displayList.removeAllObjects()
+        displayList.removeAll()
         
         AddressBookManager.refresh({ () -> Void in
             self.contacts = AddressBookManager.contacts
-        })
-        
-        if contacts == nil || contacts!.count == 0 {
-            return
-        }
-        
-        for contact in contacts! {
-            var isValidValue = false
-            let needToAddSearchFilter = self.searchTextField.text != nil && self.searchTextField.text != ""
             
-            if needToAddSearchFilter {
-                if ABRecordCopyValue(contact, kABPersonFirstNameProperty) != nil {
-                    if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(ABRecordCopyValue(contact, kABPersonFirstNameProperty).takeUnretainedValue() as! String)
-                    {
-                        isValidValue = true
+            if self.contacts == nil || self.contacts!.count == 0 {
+                return
+            }
+            
+            for contact in self.contacts! {
+                var isValidValue = false
+                let needToAddSearchFilter = self.searchTextField.text != nil && self.searchTextField.text != ""
+                
+                if needToAddSearchFilter {
+                    if let name = contact.givenName {
+                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(name)
+                        {
+                            isValidValue = true
+                        }
                     }
+                    
+                    if let surname = contact.familyName {
+                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(surname)
+                        {
+                            isValidValue = true
+                        }
+                    }
+                }
+                else {
+                    isValidValue = true
                 }
                 
-                if ABRecordCopyValue(contact, kABPersonLastNameProperty) != nil {
-                    if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(ABRecordCopyValue(contact, kABPersonLastNameProperty).takeUnretainedValue() as! String)
-                    {
-                        isValidValue = true
-                    }
+                if !isValidValue {
+                    continue
                 }
-            }
-            else {
-                isValidValue = true
-            }
-            
-            if !isValidValue {
-                continue
-            }
-            
-            let emails: ABMultiValueRef = ABRecordCopyValue(contact, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
-            let count  :Int = ABMultiValueGetCount(emails)
-            
-            if count > 0 {
+                
+                let emails: [CNLabeledValue] = contact.emailAddresses
+                
                 var isConnectedNEMAddress = false
                 
-                for var index:CFIndex = 0; index < count; ++index {
-                    let lable  = ABMultiValueCopyLabelAtIndex(emails, index)
-                    if lable != nil
-                    {
-                        if lable.takeUnretainedValue()  == "NEM"
-                        {
-                            isConnectedNEMAddress = true
-                        }
+                for email in emails {
+                    if email.label == "NEM" {
+                        isConnectedNEMAddress = true
                     }
                 }
                 
                 if self.filter.isFilterActive != isConnectedNEMAddress {
                     continue
                 }
-            }
-            else if self.filter.isFilterActive {
-                continue
+                
+                self.displayList.append(contact as! CNContact)
             }
             
-            displayList.addObject(contact)
-        }
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.tableView.reloadData()
-        }
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.tableView.reloadData()
+            }
+        })
     }
     
     @IBAction func addNewContact(sender: AnyObject) {
@@ -171,7 +161,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : AddressCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as! AddressCell
         cell.editDelegate = self
-        let person :ABRecordRef = displayList[indexPath.row]
+        let person :CNContact = displayList[indexPath.row]
         cell.isEditable = !_isEditing
         cell.infoLabel.text = ""
         
@@ -181,33 +171,20 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             cell.selectContact()
         }
         
-        if ABRecordCopyValue(person, kABPersonFirstNameProperty) != nil {
-            cell.infoLabel.text = (ABRecordCopyValue(person, kABPersonFirstNameProperty).takeUnretainedValue() as! String) + " "
-        }
+        cell.infoLabel.text = person.givenName + " " + person.familyName
         
-        if  ABRecordCopyValue(person, kABPersonLastNameProperty) != nil {
-            cell.infoLabel.text = cell.infoLabel.text! + ((ABRecordCopyValue(person, kABPersonLastNameProperty).takeUnretainedValue() as? NSString)! as String)
-        }
+        let emails: [CNLabeledValue] = person.emailAddresses
         
-        let emails: ABMultiValueRef = ABRecordCopyValue(person, kABPersonEmailProperty).takeUnretainedValue()  as ABMultiValueRef
-        let count  :Int = ABMultiValueGetCount(emails)
+        var _isAddress = false
         
-        if count > 0 {
-            for var index:CFIndex = count - 1; index >= 0; --index {
-                let lable  = ABMultiValueCopyLabelAtIndex(emails, index)
-                if lable != nil {
-                    if lable.takeUnretainedValue()  == "NEM" {
-                        cell.isAddress = true
-                        break
-                    } else {
-                        cell.isAddress = false
-                    }
-                }
+        for email in emails {
+            if email.label == "NEM" {
+                _isAddress = true
+                break
             }
         }
-        else {
-            cell.isAddress = false
-        }
+        
+        cell.isAddress = _isAddress
         
         return cell
     }
@@ -224,7 +201,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     // MARK: -  Private Helpers
 
-    final private func _sendMessageTo(contact: ABRecordRef)
+    final private func _sendMessageTo(contact: CNContact)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
@@ -233,24 +210,21 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.delegate = self
         _tempController = contactCustomVC
-
-        AddressBookManager.getUserInfoFor(contact, responce: { (info) -> Void in
-            contactCustomVC.userInfoLabel.text = info
+        
+        contactCustomVC.userInfoLabel.text = contact.givenName + " " + contact.familyName
+        
+        for email in contact.emailAddresses{
+            if email.label == "NEM" {
+                contactCustomVC.userAddressLabel.text = email.value as? String ?? " "
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.view.addSubview(contactCustomVC.view)
             
-            AddressBookManager.getNemAddressFor(contact, responce: { (address) -> Void in
-                if address.count > 0 {
-                    contactCustomVC.userAddressLabel.text = address.last!
-                    
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.view.addSubview(contactCustomVC.view)
-                        
-                        UIView.animateWithDuration(0.5, animations: { () -> Void in
-                            contactCustomVC.view.layer.opacity = 1
-                            }, completion: nil)
-                    })
-                }
-            })
-            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                contactCustomVC.view.layer.opacity = 1
+                }, completion: nil)
         })
     }
     
@@ -271,7 +245,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             }, completion: nil)
     }
     
-    final private func _changeContact(contact: ABRecordRef)
+    final private func _changeContact(contact: CNContact)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
@@ -294,34 +268,38 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     func contactAdded(successfuly: Bool) {
         if successfuly {
-            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                for cell in self.tableView.visibleCells {
+                    (cell as! AddressCell).isEditable = false
+                }
+            })
+            _isEditing = false
             _newContact = AddressBook.newContact
             AddressBook.newContact = nil
             
             if _newContact != nil {
                 filter.setFilterToState(true)
             }
-            AddressBookManager.refresh({ () -> Void in
-                self.contacts = AddressBookManager.contacts
-                self.filterChanged(self)
-            })
+            self.filterChanged(self)
         }
     }
     
     func contactChanged(successfuly: Bool) {
         if successfuly {
             
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                for cell in self.tableView.visibleCells {
+                    (cell as! AddressCell).isEditable = false
+                }
+            })
+            _isEditing = false
             _newContact = AddressBook.newContact
             AddressBook.newContact = nil
             
             if _newContact != nil {
                 filter.setFilterToState(true)
             }
-            
-            AddressBookManager.refresh({ () -> Void in
-                self.contacts = AddressBookManager.contacts
-                self.filterChanged(self)
-            })
+            self.filterChanged(self)
         }
     }
     
@@ -333,7 +311,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         if index.row < displayList.count {
             AddressBookManager.deleteContact(displayList[index.row], responce: nil)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.displayList.removeObjectAtIndex(index.row)
+                self.displayList.removeAtIndex(index.row)
                 self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
 
             })

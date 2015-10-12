@@ -62,10 +62,6 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
             if self.delegate != nil {
                 self.delegate!.failedWithError!(errorString)
             }
-            
-            let alert :UIAlertView = UIAlertView(title: "Error", message: errorString, delegate: self, cancelButtonTitle: "OK")
-            
-            alert.show()
         }
     }
     

@@ -16,3 +16,17 @@
 "TRANSACTION_ANOUNCE_FAILED" = "ВІДХИЛЕНО\nСпробуйте пізніше. Або перевірте зєднання зі сервером.";
 "NOT_A_HEX_STRING" = "Не хекс стрінга.";
 "CHANGE_CONTACT" = "Змінити контакт";
+
+// Social
+
+"SOCIAL_NEM_HEADER" = "NEM IOS Клієнт";
+
+//  Acounts
+
+"NO_FACEBOOK_ACCOUNT" = "Будьласка добавте фейсбук фкаунт у налаштуваннях.";
+"NO_TWITTER_ACCOUNT" = "Будьласка добавте твітер фкаунт у налаштуваннях.";
+"NO_MAIL_ACCOUNT" = "Немає поштового аккаунта вашому майл-клієнті.";
+
+// Contacts
+
+"CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";
