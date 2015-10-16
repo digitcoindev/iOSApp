@@ -11,6 +11,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     private let _apiManager :APIManager = APIManager()
     private var _isEditing = false
     private var _tempSubViews :[UIView] = []
+    private var _alertShown :Bool = false
     
     var servers : [Server] = []
 
@@ -159,10 +160,19 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
             }
         } else {
             State.currentServer = nil
-            
-            let alert :UIAlertView = UIAlertView(   title: NSLocalizedString("INFO", comment: "Title"),
-                message: NSLocalizedString("SERVER_UNAVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
-            alert.show()
+            if !_alertShown {
+                _alertShown = true
+                
+                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("SERVER_UNAVAILABLE", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                    self._alertShown = false
+
+                    alert.dismissViewControllerAnimated(true, completion: nil)
+                }))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
         }
     }
 }

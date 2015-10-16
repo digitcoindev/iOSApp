@@ -69,8 +69,7 @@ class PasswordValidationVC: AbstractViewController
                         (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
                     }
                 })
-            }
-            else{
+            } else {
                 print(evalPolicyError!.localizedDescription)
                 
                 switch evalPolicyError!.code {

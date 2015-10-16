@@ -3,8 +3,8 @@
 #ifndef ED25519_NO_SEED
 
 #ifdef _WIN32
-#include <Windows.h>
-#include <Wincrypt.h>
+#include <windows.h>
+#include <wincrypt.h>
 #else
 #include <stdio.h>
 #endif
@@ -23,7 +23,15 @@ int ed25519_create_seed(unsigned char *seed) {
     }
 
     CryptReleaseContext(prov, 0);
+#else
+    FILE *f = fopen("/dev/urandom", "rb");
 
+    if (f == NULL) {
+        return 1;
+    }
+
+    fread(seed, 1, 32, f);
+    fclose(f);
 #endif
 
     return 0;

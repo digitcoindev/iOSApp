@@ -5,17 +5,13 @@ protocol EditableTableViewCellDelegate
     func deleteCell(cell: EditableTableViewCell)
 }
 
-class EditableTableViewCell: UITableViewCell
+class EditableTableViewCell: AbstactTableViewCell
 {
     // MARK: internal variables
 
     internal let _editView: UIView? = UIView()
-    internal let _contentView: UIView? = UIView()
     internal let _deleteView: UIView? = UIView()
-    
-    internal let _SMALL_OFFSET_ :CGFloat = 2
-    internal let _SEPARATOR_OFFSET_ :CGFloat = 15
-    
+
     // MARK: properties
     
     var editDelegate :EditableTableViewCellDelegate?
@@ -54,7 +50,6 @@ class EditableTableViewCell: UITableViewCell
         super.awakeFromNib()
         
         self.addSubview(_editView!)
-        self.addSubview(_contentView!)
         self.addSubview(_deleteView!)
         
         _editImageView.image = UIImage(named: "edit_account_icon")
@@ -98,7 +93,6 @@ class EditableTableViewCell: UITableViewCell
         _accum = _editView!.frame.origin.x + _editView!.frame.width
         
         _contentView?.frame = CGRect(x: _accum, y: 0, width: _deleteView!.frame.origin.x - _accum, height: self.frame.height)
-
     }
     
     // MARK: Actions

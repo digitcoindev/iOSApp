@@ -193,6 +193,12 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         }
     }
     
+    @IBAction func customMessage(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
+        }
+    }
+    
     // MARK: - Help Methods
     
     final func sort_correspondents(_correspondents :[Correspondent])->[Correspondent] {

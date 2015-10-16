@@ -88,7 +88,10 @@ class ScanQRVC: AbstractViewController, QRDelegate
         State.invoice = invoice
         
         if State.invoice != nil {
-            NSNotificationCenter.defaultCenter().postNotificationName("DashboardPage", object:SegueToSendTransaction )
+            let navDelegate = (self.delegate as? QRViewController)?.delegate as? MainVCDelegate
+            if navDelegate != nil  {
+                navDelegate!.pageSelected(SegueToSendTransaction)
+            }
         }
 
     }

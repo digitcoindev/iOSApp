@@ -12,4 +12,5 @@
 - (NSData*) AES256DecryptWithKey:(NSString*)key iv:(NSString *)iv;
 - (NSData *)generateRandomIV:(size_t)length;
 - (NSString*) sha256:(NSString *)key length:(NSInteger) length;
+
 @end

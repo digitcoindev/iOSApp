@@ -1,14 +1,19 @@
 import UIKit
 
-class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
+class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
 {
     @IBOutlet weak var scroll: UIScrollView!
-    @IBOutlet weak var InputMessage: NEMTextField!
-    @IBOutlet weak var InputAmound: NEMTextField!
-    @IBOutlet weak var walletBalance: UILabel!
-    @IBOutlet weak var correspondentAddress: UILabel!
-    @IBOutlet weak var chooseWalletButton: ButtonDropDown!
-    @IBOutlet weak var transactionFeeLable: UILabel!
+    @IBOutlet weak var toAddressTextField: NEMTextField!
+    @IBOutlet weak var amountTextField: NEMTextField!
+    @IBOutlet weak var messageTextField: NEMTextField!
+    @IBOutlet weak var feeTextField: NEMTextField!
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var chooseButon: ChouseButton!
+    
+    private var _apiManager = APIManager()
+    private var _mainWallet :AccountGetMetaData? = nil
+    private var _popup :AbstractViewController? = nil
     
     var transactionFee :Double = 10;
     var walletData :AccountGetMetaData!
@@ -20,156 +25,36 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
     
     var timer :NSTimer!
     var showRect :CGRect = CGRectZero
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToSendTransaction {
-            State.fromVC = SegueToSendTransaction
-        }
-        
+        State.fromVC = SegueToSendTransaction
         State.currentVC = SegueToSendTransaction
         
+        _apiManager.delegate = self
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: "prepareAnnounceSuccessed:", name: "prepareAnnounceSuccessed", object: nil)
-        observer.addObserver(self, selector: "prepareAnnounceDenied:", name: "prepareAnnounceDenied", object: nil)
-        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
-        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        
-        observer.postNotificationName("Title", object:"Create transaction" )
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         if State.currentServer != nil {
-            APIManager().accountGet(State.currentServer!, account_address: account_address)
-        }
-        else {
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
+            _apiManager.accountGet(State.currentServer!, account_address: account_address)
         }
         
         if State.invoice != nil {
-            InputAmound.text = "\(invoice!.amount)"
-            InputMessage.text = "\(invoice!.message)"
+            toAddressTextField.text = "\(invoice!.address)"
+            amountTextField.text = "\(invoice!.amount)"
+            messageTextField.text = "\(invoice!.message)"
             
             countTransactionFee()
         }
-        
-        correspondentAddress.text = contact!.address
-        walletBalance.text = ""
-        transactionFeeLable.text = ""
-
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
-
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    
-    
-    final func manageState() {
-        switch (state.last!) {
-        case "accountGetSuccessed" :
-            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            let publicKey = KeyGenerator.generatePublicKey(privateKey)
-            
-            if publicKey == walletData.publicKey {
-                var content :[String] = [String]()
-                var contentActions :[funcBlock] = [funcBlock]()
-                let accountAddress :String = self.walletData.address
-                content.append("This account")
-                contentActions.append( {
-                    () -> () in
-                
-                    if State.currentServer != nil
-                    {
-                        APIManager().accountGet(State.currentServer!, account_address: accountAddress)
-                    }
-                })
-                
-                for account in walletData.cosignatoryOf {
-                    content.append(account.address)
-                    contentActions.append(
-                    {
-                        () -> () in
-                        
-                        if State.currentServer != nil
-                        {
-                            APIManager().accountGet(State.currentServer!, account_address: account.address)
-                        }
-                    })
-                }
-                
-                chooseWalletButton.setContent(content, contentActions: contentActions)
-                
-            }
-
-            let format = ".0"
-            walletBalance.text = "\((walletData.balance / 1000000).format(format)) XEM"
-            state.removeLast()
-            
-        case "prepareAnnounceSuccessed" :
-            state.removeLast()
-            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "SUCCESS", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
-                    alertAction -> Void in
-            }
-            
-            alert1.addAction(ok)
-            self.presentViewController(alert1, animated: true, completion: nil)
-            
-        case "prepareAnnounceDenied" :
-            state.removeLast()
-            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "DENIED\nTry again later. Or check connection to server.", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
-                    alertAction -> Void in
-            }
-            
-            alert1.addAction(ok)
-            self.presentViewController(alert1, animated: true, completion: nil)
-            
-        default :
-            break
-        }
-    }
-
-    final func accountGetSuccessed(notification: NSNotification) {
-        state.append("accountGetSuccessed")
-        
-        walletData = (notification.object as! AccountGetMetaData)
-    }
-    
-    final func accountGetDenied(notification: NSNotification) {
-        state.append("accountGetDenied")
-    }
-    
-    final func prepareAnnounceSuccessed(notification: NSNotification) {
-        let json = notification.object as! NSDictionary
-        let message :String = json.objectForKey("message") as! String
-        if message == "SUCCESS" {
-            state.append("prepareAnnounceSuccessed")
-        }
-        else {
-            state.append("prepareAnnounceDenied")
-        }
-    }
-    
-    final func prepareAnnounceDenied(notification: NSNotification) {
-        state.append("prepareAnnounceDenied")
-    }
-    
     @IBAction func touchDown(sender: AnyObject) {
         showRect = sender.frame
     }
@@ -185,29 +70,23 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         countTransactionFee()
     }
     
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
+    }
+    
     @IBAction func send(sender: AnyObject) {
         if walletData != nil {
             if Int64(walletData.balance) > Int64(xems) {
-                if (InputMessage.text != "" || xems != 0 ) && State.currentServer != nil {
-                    let transaction :TransferTransaction = TransferTransaction()
+                if (messageTextField.text != "" || xems != 0 ) {
                     
-                    transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
-                    transaction.amount = Double(xems)
-                    transaction.message.payload = InputMessage.text!
-                    transaction.fee = transactionFee 
-                    transaction.recipient = contact!.address
-                    transaction.type = 257
-                    transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
-                    transaction.message.type = 1
-                    transaction.version = 1
-                    transaction.signer = walletData.publicKey
-                    
-                    APIManager().prepareAnnounce(State.currentServer!, transaction: transaction)
+                    _sendTransferTransaction()
                     
                     xems = 0;
-                    InputMessage.text = ""
-                    InputAmound.text = ""
-                    transactionFeeLable.text = ""
+                    messageTextField.text = ""
+                    amountTextField.text = ""
+                    feeTextField.text = ""
                 }
             }
             else {
@@ -224,6 +103,22 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
         }
     }
     
+    private final func _sendTransferTransaction() {
+        let transaction :TransferTransaction = TransferTransaction()
+        
+        transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
+        transaction.amount = Double(xems)
+        transaction.message.payload = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!
+        transaction.message.type = Double(MessageType.Normal.rawValue)
+        transaction.fee = transactionFee
+        transaction.recipient = toAddressTextField.text!
+        transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
+        transaction.version = 1
+        transaction.signer = walletData.publicKey
+        
+        _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
+    }
+    
     final func countTransactionFee() {
         if xems >= 8 {
             transactionFee = max(2, 99 * atan(Double(xems) / 150000))
@@ -232,28 +127,127 @@ class SendTransactionVC: AbstractViewController ,UIScrollViewDelegate
             transactionFee = 10 - Double(xems)
         }
         
-        if InputMessage.text!.utf16.count != 0 {
-            transactionFee += Double(2 * max(1, Int( InputMessage.text!.utf16.count / 16)))
+        if messageTextField.text!.utf16.count != 0 {
+            transactionFee += Double(2 * max(1, Int( messageTextField.text!.utf16.count / 16)))
         }
         
-        self.transactionFeeLable.text = "\(Int64(transactionFee)) XEM"
+        self.feeTextField.text = "\(Int64(transactionFee))"
     }
     
-    @IBAction func typing(sender: NEMTextField) {
+    @IBAction func endTyping(sender: NEMTextField) {
+        
+        if Int(amountTextField.text!) != nil {
+            self.xems = Int(amountTextField.text!)!
+        }
+        else {
+            self.xems = 0
+        }
+        
         countTransactionFee()
-    }
-    
-    @IBAction func closeKeyboard(sender: UITextField) {
         sender.becomeFirstResponder()
     }
+    
+    @IBAction func chouseAccount(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+        
+        accounts.view.frame = scroll.frame
+        
+        accounts.view.layer.opacity = 0
+        accounts.delegate = self
+        
+        var wallets = _mainWallet?.cosignatoryOf ?? []
+        
+        if _mainWallet != nil
+        {
+            wallets.append(self._mainWallet!)
+        }
+        accounts.wallets = wallets
+        
+        if accounts.wallets.count > 0
+        {
+            self.contentView.addSubview(accounts.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                accounts.view.layer.opacity = 1
+                }, completion: nil)
+        }
+    }
+    
+    //MARK: - APIManagerDelegate Methods
+    
+    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        walletData = account
+        
+        if _mainWallet == nil {
+            _mainWallet = walletData
+        }
+        
+        if account != nil {
+            chooseButon.setTitle(walletData.address, forState: UIControlState.Normal)
+            
+            let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Current Balance: ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+            
+            let format = ".0"
+            atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format(format))", attributes: [
+                NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
+                NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
+                ]))
+            
+            atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+            amountLabel.attributedText = atributedText
+        } else {
+            amountLabel.text = "Amount:"
+        }
+    }
+    
+    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+        
+        var message :String = ""
+        if (data ?? []).isEmpty {
+            message = NSLocalizedString("TRANSACTION_ANOUNCE_FAILED", comment: "Dsecription")
+        } else {
+            message = NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description")
+        }
+        
+        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            alertAction -> Void in
+        }
+        
+        alert.addAction(ok)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - AccountsChousePopUpDelegate Methods
+    
+    func didChouseAccount(account: AccountGetMetaData) {
+        walletData = account
+        chooseButon.setTitle(walletData.address, forState: UIControlState.Normal)
+        
+        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Current Balance:", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+        
+        let format = ".0"
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format(format))", attributes: [
+            NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
+            NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
+            ]))
+        
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        amountLabel.attributedText = atributedText
+    }
+    
+    //MARK: - KeyboardDelegate Methods
     
     func keyboardWillShow(notification: NSNotification) {
         let info:NSDictionary = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         var keyboardHeight:CGFloat = keyboardSize.height
-                
-        keyboardHeight -= self.view.frame.height - self.scroll.frame.height
+        
+        keyboardHeight -= self.view.frame.height - self.scroll.frame.height - 20
         
         self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
         self.scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)

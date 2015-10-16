@@ -10,6 +10,7 @@ class AccountGetMetaData: NSObject
     var harvestedBlocks : Double!
     var cosignatories :[AccountGetMetaData] = [AccountGetMetaData]()
     var cosignatoryOf: [AccountGetMetaData] = [AccountGetMetaData]()
+    var minCosignatories :Int? = nil
     var status : String!
     var remoteStatus : String!
     
@@ -36,7 +37,11 @@ class AccountGetMetaData: NSObject
         let cosignatoriesDic :[NSDictionary] = metaData.objectForKey("cosignatories") as! [NSDictionary]
         
         for cosignatoryDic in cosignatoriesDic {
-            self.cosignatories.append(AccountGetMetaData().getCosignatory(cosignatoryDic))
+            self.cosignatories.append(self.getCosignatory(cosignatoryDic))
+        }
+        
+        if  self.cosignatories.count > 0 {
+            self.minCosignatories = (accountData.objectForKey("multisigInfo") as! NSDictionary).objectForKey("minCosignatories") as? Int
         }
         
         return self

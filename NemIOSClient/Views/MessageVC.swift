@@ -2,11 +2,15 @@ import UIKit
 
 struct DefinedCell
 {
-    var type :String = ""
+    var type :ConversationCellType = ConversationCellType.Unknown
     var height :CGFloat = 44
+    var minCosignatories :Int? = nil
+    var detailsTop :NSAttributedString = NSAttributedString(string: "")
+    var detailsMiddle :NSAttributedString = NSAttributedString(string: "")
+    var detailsBottom :NSAttributedString = NSAttributedString(string: "")
 }
 
-class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
+class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate, DetailedTableViewCellDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
@@ -17,26 +21,34 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     @IBOutlet weak var amoundContainerView: UIView!
     @IBOutlet weak var contactInfo: UILabel!
     
-    private var _unconfirmedTransactions  :[TransferTransaction] = []
+    @IBOutlet weak var hexButton: UIButton!
+    @IBOutlet weak var encButton: UIButton!
+    
+    private var _unconfirmedTransactions  :[TransactionPostMetaData] = []
+    private var _transactions :[TransactionPostMetaData] = []
+    private var _definedCells :[DefinedCell] = []
+
     private var _apiManager :APIManager = APIManager()
     private var _operationDipatchQueue :dispatch_queue_t = dispatch_queue_create("Message VC operation queu", nil)
-    private var _definedCells :[DefinedCell] = []
-    private var _transactions  :[TransferTransaction] = []
+    
+    private let _contact :Correspondent = State.currentContact!
+    private var _accounts :[AccountGetMetaData] = []
+    private var _mainAccount :AccountGetMetaData? = nil
+    private var _activeAccount :AccountGetMetaData? = nil
     
     private var _isHex = false
     private var _isEnc = false
     
-    private var _canShowKeyboard = false
+    private var _canShowKeyboard = true
     
-    var _mainWallet :AccountGetMetaData? = nil
-    var walletData :AccountGetMetaData!
-    
-    let dataManager :CoreDataManager = CoreDataManager()
     let contact :Correspondent = State.currentContact!
     
-    let rowLength :Int = 21
-    let textSizeCommon :CGFloat = 12
-    let textSizeXEM :CGFloat = 14
+    private let rowLength :Int = 21
+    private let textSizeCommon :CGFloat = 12
+    private let textSizeXEM :CGFloat = 14
+    
+    private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
+    private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
     
     // MARK: - Load Methods
     
@@ -48,53 +60,25 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         _apiManager.delegate = self
         
-        if accountsButton != nil {
-            accountsButton.layer.cornerRadius = 5
-        }
-        
-        if sendButton != nil {
-            sendButton.layer.cornerRadius = 5
-        }
-        
-        if amoundContainerView != nil {
-            amoundContainerView.layer.cornerRadius = 5
-            amoundContainerView.clipsToBounds = true
-        }
-        
-        if messageField != nil {
-            messageField.layer.cornerRadius = 5
-        }
+        _initButtonsConfigs()
+        contactInfo.text = contact.name
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
-        if State.currentServer != nil {
-            _apiManager.accountGet(State.currentServer!, account_address: account_address)
-        }
-        else {
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerTable)
-            }
-        }
-        
-        contactInfo.text = contact.name
+        _apiManager.accountGet(State.currentServer!, account_address: account_address)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         scrollToEnd()
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     // MARK: - IBAction
@@ -112,22 +96,24 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     @IBAction func messageFieldDidEndOnExit(sender: UITextField) {
-        if sender.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count > 255 {
-            sender.text = ""
-        }
+
     }
     
     @IBAction func hexTouchUpInside(sender: UIButton) {
         _isHex = !_isHex
-        sender.backgroundColor = (_isHex) ? UIColor(red: 65 / 255, green: 206 / 255, blue: 123 / 255, alpha: 1) :
-            UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
+        sender.backgroundColor = (_isHex) ? greenColor : grayColor
         
+        _isEnc = false
+        encButton.backgroundColor = grayColor
+
     }
     
     @IBAction func encTouchUpInside(sender: UIButton) {
         _isEnc = !_isEnc
-        sender.backgroundColor = (_isEnc) ? UIColor(red: 65 / 255, green: 206 / 255, blue: 123 / 255, alpha: 1) :
-            UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
+        sender.backgroundColor = (_isEnc) ? greenColor : grayColor
+        
+        _isHex = false
+        hexButton.backgroundColor = grayColor
     }
     
     @IBAction func accountsButtonDidTouchInside(sender: AnyObject){
@@ -143,10 +129,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         accounts.view.layer.opacity = 0
         accounts.delegate = self
         
-        var wallets = _mainWallet?.cosignatoryOf ?? []
-        if _mainWallet != nil
+        var wallets = _mainAccount?.cosignatoryOf ?? []
+        if _mainAccount != nil
         {
-            wallets.append(self._mainWallet!)
+            wallets.append(self._mainAccount!)
         }
         accounts.wallets = wallets
         
@@ -163,14 +149,14 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     @IBAction func sendButtonTouchUpInside(sender: AnyObject) {
         
-        if walletData == nil || State.currentServer == nil {
+        if _activeAccount == nil || State.currentServer == nil {
             return
         }
         
         let transaction :TransferTransaction = TransferTransaction()
         
         if let amount = Int(amoundField.text!) {
-            if Int64(walletData.balance) > Int64(amount) {
+            if Int64(_activeAccount?.balance ?? -1) > Int64(amount) {
                 transaction.amount = Double(amount)
             } else {
                 let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("ACCOUNT_NOT_ENOUGHT_MONEY", comment: "Description") , preferredStyle: UIAlertControllerStyle.Alert)
@@ -192,10 +178,11 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         //TODO: Encrypted Messages
         
-        if messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count < 255 {
-            var text = (_isHex) ? "fe" + messageField.text! : messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+        var messageTextHex = (_isHex) ? "fe" + messageField.text! : messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+        
+        if messageTextHex!.asByteArray().count < 255 {
             
-            if !Validate.hexString(text!) {
+            if !Validate.hexString(messageTextHex!) {
                 let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NOT_A_HEX_STRING", comment: "Descripton") , preferredStyle: UIAlertControllerStyle.Alert)
                 
                 let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
@@ -206,13 +193,12 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 self.presentViewController(alert, animated: true, completion: nil)
                 
                 return
-                
             }
             
-            text = (_isEnc) ? text : text
+            messageTextHex = (_isEnc) ? messageTextHex : messageTextHex
             
-            transaction.message.payload = text!
-            transaction.message.type = (_isEnc) ? 2 : 1
+            transaction.message.payload = messageTextHex!
+            transaction.message.type = (_isEnc) ? Double(MessageType.Normal.rawValue) : Double(MessageType.Normal.rawValue)
             
         } else {
             messageField.text = ""
@@ -235,10 +221,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
         transaction.fee = fee
         transaction.recipient = contact.address
-        transaction.type = 257
+        transaction.type = transferTransaction
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
         transaction.version = 1
-        transaction.signer = walletData.publicKey
+        transaction.signer = _activeAccount?.publicKey
         
         _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
         
@@ -246,110 +232,134 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         amoundField.text = ""
     }
     
-    // MARK: - Helper Methods
-    
-    func setString(message :String)->CGFloat {
-        var numberOfRows :Int = 0
-        for component :String in message.componentsSeparatedByString("\n") {
-            numberOfRows += 1
-            numberOfRows += component.characters.count / rowLength
-        }
-        
-        let height : Int = numberOfRows * 17
-        
-        return CGFloat(height)
-    }
-    
-    func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat {
-        let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        label.font = font
-        label.text = text
-        
-        label.sizeToFit()
-        return label.frame.height
-    }
-    
-    func sortMessages() {
-        var accum :TransferTransaction!
-        for(var index = 0; index < _transactions.count; index++) {
-            var sorted = true
-            
-            for(var index = 0; index < _transactions.count - 1; index++) {
-                
-                let valueA :Double = Double((_transactions[index] as TransferTransaction).id)
-                
-                let valueB :Double = Double((_transactions[index + 1] as TransferTransaction).id)
-                
-                if valueA > valueB {
-                    sorted = false
-                    accum = _transactions[index]
-                    _transactions[index] = _transactions[index + 1]
-                    _transactions[index + 1] = accum
-                }
-            }
-            
-            if sorted {
-                break
-            }
-        }
-    }
-    
     final func defineData() {
         let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
         var data :[DefinedCell] = []
+        
         for transaction in _transactions {
             var definedCell : DefinedCell = DefinedCell()
-            definedCell.type = "inCell"
+            definedCell.type = .Incoming
             
             if (transaction.signer == publicKey) {
-                definedCell.type = "outCell"
+                definedCell.type = .Outgoing
             }
             
-            for cosignatory in walletData.cosignatories {
+            for cosignatory in _activeAccount!.cosignatories {
                 if cosignatory.publicKey == transaction.signer {
-                    definedCell.type = "outCell"
+                    definedCell.type = .Outgoing
                     break
                 }
             }
             
-            for cosignatory in walletData.cosignatoryOf {
+            for cosignatory in _activeAccount!.cosignatoryOf {
                 if cosignatory.publicKey == transaction.signer {
-                    definedCell.type = "outCell"
+                    definedCell.type = .Outgoing
                     break
                 }
             }
-            var text = MessageCrypto.getMessageStringFrom(transaction.message)
-            text = (text == nil) ? "" : text
-            var height :CGFloat = heightForView(text!, font: UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!, width: tableView.frame.width - 120)
             
-            if  Int(transaction.amount) != 0 {
-                height += heightForView("\n \(Int(Double(transaction.amount) / 1000000))" , font: UIFont(name: "HelveticaNeue", size: textSizeXEM)!, width: tableView.frame.width - 120)
-            } else {
-                height += 30
+            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
+            (transaction as! TransferTransaction)
+            
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: MessageCrypto.getMessageStringFrom(innertTransaction.message) ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            
+            if(Int(innertTransaction.amount) != 0) {
+                var text :String = "\(Int(innertTransaction.amount / 1000000) ) XEM"
+                if message != ""
+                {
+                    text = "\n" + text
+                }
+                
+                let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeXEM)! ])
+                message.appendAttributedString(messageXEMS)
             }
             
-            definedCell.height =  height
+            message = (message.length == 0) ? NSMutableAttributedString(string:NSLocalizedString("EMPTY_MESSAGE", comment: "Description") , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
+            
+            definedCell.height = _heightForCell(message, width: tableView.frame.width - 120) + 20
+
+            message = NSMutableAttributedString(string:"Id: " , attributes: nil)
+            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.id)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+            definedCell.detailsTop = message
+            
+            message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
+            message.appendAttributedString(NSMutableAttributedString(string:"\(Int(innertTransaction.fee / 1000000))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+            
+            definedCell.detailsMiddle = message
             
             data.append(definedCell)
         }
         
         for transaction in _unconfirmedTransactions {
             var definedCell : DefinedCell = DefinedCell()
-            definedCell.type = "unconfirmedCell"
+            definedCell.type = .Processing
             
-            var height :CGFloat = heightForView(transaction.message.payload, font: UIFont(name: "HelveticaNeue", size: textSizeCommon)!, width: tableView.frame.width - 60)
+            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
+                (transaction as! TransferTransaction)
             
-            if  transaction.amount != 0 {
-                height += heightForView("\n \(Int(Double(transaction.amount) / 1000000) )" , font: UIFont(name: "HelveticaNeue", size: textSizeXEM)!, width: tableView.frame.width - 60)
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: MessageCrypto.getMessageStringFrom(innertTransaction.message) ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            
+            if(Int(innertTransaction.amount) != 0) {
+                var text :String = "\(Int(innertTransaction.amount / 1000000) ) XEM"
+                if message != ""
+                {
+                    text = "\n" + text
+                }
+                
+                let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeXEM)! ])
+                message.appendAttributedString(messageXEMS)
             }
             
-            definedCell.height =  height
+            message = (message.length == 0) ? NSMutableAttributedString(string:NSLocalizedString("EMPTY_MESSAGE", comment: "Description") , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
+            
+            definedCell.height =  max(_heightForCell(message, width: tableView.frame.width - 120), CGFloat(80))
+            
+            
+            if transaction.type == multisigTransaction {
+                definedCell.minCosignatories = _getMinCosigFor(transaction as! MultisigTransaction)
+            }
+            
+            if transaction.type == multisigTransaction {
+                let signerAdress = AddressGenerator.generateAddress(innertTransaction.signer)
+                let singnaturesCount = (transaction as! MultisigTransaction).signatures.count
+                var cosignatories = 0
+                var minCosig = 0
+
+                for account in _accounts {
+                    if account.address == signerAdress {
+                        minCosig = account.minCosignatories!
+                        cosignatories = account.cosignatories.count
+                        break
+                    }
+                }
+                let attribute = [NSForegroundColorAttributeName : greenColor]
+
+                message = NSMutableAttributedString(string:"\(singnaturesCount)" , attributes: attribute)
+                message.appendAttributedString(NSMutableAttributedString(string:" of " , attributes: nil))
+                message.appendAttributedString(NSMutableAttributedString(string:"\(cosignatories)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:" XEM" , attributes: nil))
+                
+                definedCell.detailsTop = message
+                
+                message = NSMutableAttributedString(string:"Min " , attributes: nil)
+                message.appendAttributedString(NSMutableAttributedString(string:"\(minCosig)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:" Signers" , attributes: nil))
+                
+                definedCell.detailsMiddle = message
+                
+                message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
+                message.appendAttributedString(NSMutableAttributedString(string:"\(Int(innertTransaction.fee / 1000000))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                
+                definedCell.detailsBottom = message
+            } else {
+                message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
+                message.appendAttributedString(NSMutableAttributedString(string:"\(Int(innertTransaction.fee / 1000000))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                
+                definedCell.detailsMiddle = message
+            }
             
             data.append(definedCell)
         }
-        
         _definedCells = data
     }
     
@@ -381,50 +391,18 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         if( !(indexPath.row == 0) ) {
             var index :Int = 0
-            var cell : CustomMessageCell!
-            
+            let cell : ConversationTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("messageCell") as! ConversationTableViewCell
+            cell.detailDelegate = self
+            var transaction :TransactionPostMetaData!
+            var innertTransaction :TransferTransaction!
+
             if indexPath.row <= _transactions.count {
                 index = indexPath.row - 1
-                cell = self.tableView.dequeueReusableCellWithIdentifier(_definedCells[index].type) as! CustomMessageCell
-                
-                let transaction = _transactions[index]
-                var messageText = MessageCrypto.getMessageStringFrom(transaction.message)
-                
-                messageText = (messageText == nil) ? "" : messageText
-                
-                var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText! , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
-                
-                if(Int(_transactions[index].amount) != 0) {
-                    var text :String = "\(Int(_transactions[index].amount / 1000000) ) XEM"
-                    if _transactions[index].message.payload != ""
-                    {
-                        text = "\n" + text
-                    }
-                    
-                    let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeXEM)! ])
-                    message.appendAttributedString(messageXEMS)
-                }
-                message = (message.length == 0) ? NSMutableAttributedString(string:NSLocalizedString("EMPTY_MESSAGE", comment: "Description") , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
-                let messageDate :NSMutableAttributedString = NSMutableAttributedString(string:"\n" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)! ])
-                message.appendAttributedString(messageDate)
-                
-                cell.message.attributedText = message
-                
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "HH:mm dd.MM.yy "
-                
-                let timeStamp = Double(_transactions[index].timeStamp)
-                
-                cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
-                
-                if(indexPath.row == _transactions.count ) {
-                    NSNotificationCenter.defaultCenter().postNotificationName("scrollToEnd", object:nil )
-                }
-                
-                cell.message.layer.cornerRadius = 5
-                cell.message.layer.masksToBounds = true
-                
-                return cell
+                cell.cellType = _definedCells[indexPath.row - 1].type
+                cell.setDetails(_definedCells[indexPath.row - 1].detailsTop, middle: _definedCells[indexPath.row - 1].detailsMiddle, bottom: _definedCells[indexPath.row - 1].detailsBottom)
+                transaction = _transactions[index]
+                innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
+                    (transaction as! TransferTransaction)
             } else {
                 
                 index = indexPath.row - _transactions.count - 2
@@ -433,33 +411,43 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     let headerCell :UITableViewCell  = self.tableView.dequeueReusableCellWithIdentifier("groupHeader")!
                     return headerCell
                 }
-                
-                cell = self.tableView.dequeueReusableCellWithIdentifier(_definedCells[index + _transactions.count].type) as! CustomMessageCell
-                
-                let transaction :TransferTransaction = _unconfirmedTransactions[index]
-                
-                var messageText = MessageCrypto.getMessageStringFrom(transaction.message)
-                messageText = (messageText == nil) ? "" : messageText
-                
-                let message :NSMutableAttributedString = NSMutableAttributedString(string: messageText!, attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeCommon)!])
-                
-                if(transaction.amount  != 0) {
-                    var text :String = "\(Int(Double(transaction.amount) / 1000000) ) XEM"
-                    if transaction.message.payload != ""
-                    {
-                        text = "\n" + text
-                    }
-                    
-                    let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Bold", size: textSizeXEM)! ])
-                    message.appendAttributedString(messageXEMS)
+                cell.cellType = _definedCells[indexPath.row - 2].type
+                cell.setDetails(_definedCells[indexPath.row - 2].detailsTop, middle: _definedCells[indexPath.row - 2].detailsMiddle, bottom: _definedCells[indexPath.row - 2].detailsBottom)
+                transaction  = _unconfirmedTransactions[index]
+                innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
+                    (transaction as! TransferTransaction)
+            }
+            
+            var messageText = MessageCrypto.getMessageStringFrom(innertTransaction.message)
+            
+            messageText = (messageText == nil) ? "" : messageText
+            
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText! , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            
+            if(Int(innertTransaction.amount) != 0) {
+                var text :String = "\(Int(innertTransaction.amount / 1000000) ) XEM"
+                if messageText != ""
+                {
+                    text = "\n" + text
                 }
                 
-                cell.message.attributedText = message
-                cell.message.layer.cornerRadius = 5
-                cell.message.layer.masksToBounds = true
-                
-                return cell
+                let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeXEM)! ])
+                message.appendAttributedString(messageXEMS)
             }
+            
+            message = (message.length == 0) ? NSMutableAttributedString(string:NSLocalizedString("EMPTY_MESSAGE", comment: "Description") , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
+            cell.setMessage(message)
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "HH:mm dd.MM.yy "
+            
+            let timeStamp = Double(innertTransaction.timeStamp)
+            
+            cell.setDate(dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp)))
+            
+            if(indexPath.row == _transactions.count ) {
+                scrollToEnd()
+            }
+            return cell
         }
         
         let cell :UITableViewCell  = self.tableView.dequeueReusableCellWithIdentifier("simpl")!
@@ -490,14 +478,41 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         }
     }
     
+    //MARK: - DetailedTableViewCellDelegate Methods
+    
+    func showDetailsForCell(cell: DetailedTableViewCell) {
+        cell.detailsIsShown = true
+    }
+    
+    func hideDetailsForCell(cell: DetailedTableViewCell) {
+        cell.detailsIsShown = false
+    }
+    
     // MARK: - APIManagerDelegate Methods
     
     final func accountGetResponceWithAccount(account: AccountGetMetaData?) {
         dispatch_async(_operationDipatchQueue, {
             () -> Void in
             if let responceAccount = account {
-                self._mainWallet = responceAccount
-                self.walletData = responceAccount
+                
+                if  self._activeAccount == nil {
+                    self._activeAccount = responceAccount
+                }
+                
+                if self._mainAccount == nil {
+                    self._mainAccount = responceAccount
+                    self._accounts.append(self._mainAccount!)
+                    
+                    for multisigAccount in responceAccount.cosignatoryOf {
+                        self._apiManager.accountGet(State.currentServer!, account_address: multisigAccount.address)
+                    }
+                    
+                    self._refreshHistory()
+                } else {
+                    if self._accounts.count <= self._mainAccount!.cosignatoryOf.count {
+                        self._accounts.append(responceAccount)
+                    }
+                }
                 
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
@@ -509,24 +524,12 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     
                     let format = ".0"
                     let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-                    let balance = " \((self.walletData.balance / 1000000).format(format)) XEM"
+                    let balance = " \((self._activeAccount!.balance / 1000000).format(format)) XEM"
                     
                     userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
                     
                     self.userInfo.attributedText = userDescription
                 })
-                
-                self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self.walletData.address)
-                
-                if self.walletData.cosignatoryOf.count > 0 {
-                    self._unconfirmedTransactions.removeAll(keepCapacity: false)
-                    
-                    for cosignatory in self.walletData.cosignatoryOf {
-                        self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
-                    }
-                }
-                
-                self._apiManager.accountTransfersAll(State.currentServer!, account_address: self.walletData.address)
                 
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
@@ -541,49 +544,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         dispatch_async(_operationDipatchQueue, {
             () -> Void in
             if let data = data {
-                var _transactions :[TransferTransaction] = []
-                for inData in data {
-                    switch (inData.type) {
-                    case transferTransaction :
-                        _transactions.append(inData as! TransferTransaction)
-                        
-                    case multisigTransaction:
-                        
-                        let multisigT  = inData as! MultisigTransaction
-                        
-                        switch(multisigT.innerTransaction.type) {
-                        case transferTransaction :
-                            _transactions.append(multisigT.innerTransaction as! TransferTransaction)
-                            
-                        default:
-                            break
-                        }
-                    default:
-                        break
-                    }
-                }
                 
-                for var index = 0; index < _transactions.count; index++ {
-                    var needToSave = false
-                    if AddressGenerator.generateAddress(_transactions[index].signer) == self.walletData.address && _transactions[index].recipient == self.contact.address {
-                        needToSave = true
-                    }
-                    
-                    if AddressGenerator.generateAddress(_transactions[index].signer) == self.contact.address && _transactions[index].recipient == self.walletData.address {
-                        needToSave = true
-                    }
-                    
-                    if !needToSave {
-                        _transactions.removeAtIndex(index)
-                        index--
-                    }
-                }
+                self._transactions = self._findMessages(data)
                 
-                self._transactions = _transactions
-                
-                self.sortMessages()
-                
-                self._definedCells.removeAll(keepCapacity: false)
+                self._sortMessages()
                 self.defineData()
                 
                 dispatch_async(dispatch_get_main_queue() , {
@@ -606,41 +570,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             () -> Void in
             
             if let data = data {
-                var unconfirmedTransactions :[TransferTransaction] = []
-                for transaction in data {
-                    switch (transaction.type) {
-                    case transferTransaction :
-                        unconfirmedTransactions.append(transaction as! TransferTransaction)
-                        
-                    case multisigTransaction:
-                        
-                        let multisigT  = transaction as! MultisigTransaction
-                        
-                        switch(multisigT.innerTransaction.type) {
-                        case transferTransaction :
-                            let innerTransaction = multisigT.innerTransaction as! TransferTransaction
-                            unconfirmedTransactions.append(innerTransaction)
-                            
-                        default:
-                            break
-                        }
-                        
-                    default:
-                        break
-                    }
-                }
-                
-                let address :String = self.contact.address
-                
-                for var index = 0  ; index < unconfirmedTransactions.count ; index++ {
-                    if unconfirmedTransactions[index].recipient != address {
-                        unconfirmedTransactions.removeAtIndex(index)
-                        index--
-                    }
-                }
-                
-                self._unconfirmedTransactions += unconfirmedTransactions
-                self._definedCells.removeAll(keepCapacity: false)
+    
+                self._unconfirmedTransactions = self._findMessages(data)
                 self.defineData()
                 
                 dispatch_async(dispatch_get_main_queue() , {
@@ -659,6 +590,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if data != nil || data?.count > 0 {
+            self._refreshHistory()
             let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message:  NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
             
             let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
@@ -683,17 +615,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     //MARK: - AccountsChousePopUpDelegate Methods
     
     func didChouseAccount(account: AccountGetMetaData) {
-        walletData = account
+        _activeAccount = account
         
-        var userDescription :NSMutableAttributedString!
-        
-        if State.currentWallet != nil {
-            userDescription = NSMutableAttributedString(string: "\(walletData.address)")
-        }
+        let userDescription :NSMutableAttributedString = NSMutableAttributedString(string: "\(_activeAccount!.address)")
         
         let format = ".0"
         let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-        let balance = " \((self.walletData.balance / 1000000).format(format)) XEM"
+        let balance = " \((self._activeAccount!.balance / 1000000).format(format)) XEM"
         
         userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
         
@@ -703,23 +631,124 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         })
     }
     
+    //MARK: - Private Helpers
+    
+    private func _heightForCell(message: NSMutableAttributedString, width: CGFloat)-> CGFloat {
+        let label:MessageUILabel = MessageUILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
+        label.numberOfLines = 10
+        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        label.attributedText = message
+        
+        label.sizeToFit()
+        return label.frame.height
+    }
+    
+    private func _initButtonsConfigs() {
+        if accountsButton != nil {
+            accountsButton.layer.cornerRadius = 5
+        }
+        
+        if sendButton != nil {
+            sendButton.layer.cornerRadius = 5
+        }
+        
+        if amoundContainerView != nil {
+            amoundContainerView.layer.cornerRadius = 5
+            amoundContainerView.clipsToBounds = true
+        }
+        
+        if messageField != nil {
+            messageField.layer.cornerRadius = 5
+        }
+    }
+    
+    private func _findMessages(data: [TransactionPostMetaData]) -> [TransactionPostMetaData] {
+        var _transactions :[TransactionPostMetaData] = data
+        
+        for var index = 0; index < _transactions.count; index++ {
+            var needToSave = false
+            var recipient = ""
+            
+            if _transactions[index].type == transferTransaction {
+                recipient = (_transactions[index] as! TransferTransaction).recipient
+            } else if _transactions[index].type == multisigTransaction {
+                let innerTransaction = (_transactions[index] as! MultisigTransaction).innerTransaction
+                if innerTransaction.type == transferTransaction {
+                    recipient = (innerTransaction as! TransferTransaction).recipient
+                }
+            }
+            
+            if AddressGenerator.generateAddress(_transactions[index].signer) == self._mainAccount!.address && recipient == self.contact.address {
+                needToSave = true
+            }
+            
+            if AddressGenerator.generateAddress(_transactions[index].signer) == self.contact.address && recipient == self._mainAccount!.address {
+                needToSave = true
+            }
+            
+            if !needToSave {
+                _transactions.removeAtIndex(index)
+                index--
+            }
+        }
+        
+        return _transactions
+    }
+    
+    private final func _refreshHistory() {
+        self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
+        
+        if self._activeAccount!.cosignatoryOf.count > 0 {
+            
+            for cosignatory in self._activeAccount!.cosignatoryOf {
+                self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
+            }
+        }
+        
+        self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)
+    }
+    
+    private final func _getMinCosigFor(transaction: MultisigTransaction) -> Int? {
+        let innertTransaction =  (transaction.innerTransaction as! TransferTransaction)
+        let transactionsignerAddress = AddressGenerator.generateAddress(innertTransaction.signer)
+        
+        for account in _accounts {
+            if account.address == transactionsignerAddress {
+                return account.minCosignatories
+            }
+        }
+        
+        return nil
+    }
+    
+    func _sortMessages() {
+        var accum :TransactionPostMetaData!
+        for(var index = 0; index < _transactions.count; index++) {
+            var sorted = true
+            
+            for(var index = 0; index < _transactions.count - 1; index++) {
+                
+                let valueA :Double = Double(_transactions[index].id)
+                
+                let valueB :Double = Double(_transactions[index + 1].id)
+                
+                if valueA > valueB {
+                    sorted = false
+                    accum = _transactions[index]
+                    _transactions[index] = _transactions[index + 1]
+                    _transactions[index + 1] = accum
+                }
+            }
+            
+            if sorted {
+                break
+            }
+        }
+    }
+    
     //MARK: - Keyboard Methods
     
     func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        
-        _canShowKeyboard = true
-        let height:CGFloat = keyboardSize.height - 65
-        
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - height)
-            
-            }, completion: { (successed :Bool) -> Void in })
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        
         if _canShowKeyboard {
             let info:NSDictionary = notification.userInfo!
             let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
@@ -727,9 +756,31 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             let height:CGFloat = keyboardSize.height - 65
             
             UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + height)
-                
-                }, completion: { (successed :Bool) -> Void in })
+                self.view.frame.size.height = self.view.frame.height - height
+                }, completion: { (success) -> Void in
+                    self.scrollToEnd()
+
+            })
+            _canShowKeyboard = false
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        
+        if !_canShowKeyboard {
+            let info:NSDictionary = notification.userInfo!
+            let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            
+            let height:CGFloat = keyboardSize.height - 65
+            
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.view.frame.size.height = self.view.frame.height + height
+                }, completion: { (success) -> Void in
+                    self.scrollToEnd()
+                    
+            })
+            
+            _canShowKeyboard = true
         }
     }
 }

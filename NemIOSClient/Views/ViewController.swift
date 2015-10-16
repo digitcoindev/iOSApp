@@ -1,4 +1,5 @@
 import UIKit
+import CryptoSwift
 
 class ViewController: UIViewController
 {
@@ -23,6 +24,24 @@ class ViewController: UIViewController
             }
         }
         
+//         var message :Array<UInt8> = "c00112d34d1926b37241c6b2177f1b53d77533a15cc2f9552da4db5ec7721f43".asByteArray()
+//        let input: [UInt8] = "c00112d34d1926b37241c6b2177f1b53d77533a15cc2f9552da4db5ec7721f43".asByteArray()
+//        
+//        let key: [UInt8] = [0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]
+//        let iv: [UInt8] = AES.randomIV(AES.blockSize)
+//        
+//            let encrypted: [UInt8] = try! AES(key: key, iv: iv, blockMode: .CBC).encrypt(input, padding: PKCS7())
+//            let decrypted: [UInt8] = try! AES(key: input, iv: iv, blockMode: .CBC).decrypt(encrypted, padding: PKCS7())
+        
+        //let salt :Array<UInt8>  = Array(count: 32, repeatedValue: 0)
+//        var key :Array<UInt8> = "c00112d34d1926b37241c6b2177f1b53d77533a15cc2f9552da4db5ec7721f43".asByteArray()
+//        var iv :Array<UInt8>  = Array(count: 16, repeatedValue: 0)
+//        
+//        let message :NSData = NSData(bytes: "010203040506070809".asByteArray(), length: "010203040506070809".asByteArray().count)
+//        
+//        var res = message.aesEncrypt(key, iv: iv)?.hexadecimalString()
+//        print(res)
+        
 //        var message = "Get me encrypted"
 //        var senderPrivateKey = "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d"
 //        var senderPublicKey = "cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1"
@@ -33,16 +52,10 @@ class ViewController: UIViewController
 //        var leftPrivateKey = "6ffa04f529d52354fe139172d0529d9710065ff0ecaba60bf2233ad06731c1ba"
 //        var leftPublicKey = "59d89076964742ef2a2089d26a5aa1d2c7a7bb052a46c1de159891e91ad3d76e"
 //        
-//        var ar :Array<UInt8> = Array(count: 32, repeatedValue: 0)
-//        var ar2 :Array<UInt8> = Array(count: 32, repeatedValue: 0)
-//        
-//        //ed25519_key_exchange(&ar, &senderPublicKey, &recipientPrivateKey)
-//        //ed25519_key_exchange(&ar2, &recipientPublicKey, &senderPrivateKey)
-//        
-//        var arD = NSData(bytes: &ar, length: 32).toHexString()
-//        var arD2 = NSData(bytes: &ar2, length: 32).toHexString()
-//        
 //        var encryptedBytes :Array<UInt8> = MessageCrypto.encrypt(message, senderPrivateKey: senderPrivateKey, recipientPublicKey: recipientPublicKey)
+//        var encryptedBytes2 :Array<UInt8> = MessageCrypto.encrypt(message, senderPrivateKey: recipientPrivateKey, recipientPublicKey: senderPublicKey)
+//        
+//        var result = MessageCrypto.decrypt("7d059fd918754781bd7729498838f16d1d62b8a0764944f9cd1127af4713a4f8577043b8cb4cfe4dfab056fa1b04944dc79b9fdb62f58e1d4850ca2343c1fa93".asByteArray(), recipientPrivateKey: "c7a10487f0c2be5cf691b42864e13be95d172f67aa1c8e018932ce09f700d962", senderPublicKey: "cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1")
 //        
 //        var mesage2 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: recipientPrivateKey, senderPublicKey: senderPublicKey)
 //        var mesage3 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: senderPrivateKey, senderPublicKey: recipientPublicKey)
@@ -50,7 +63,7 @@ class ViewController: UIViewController
 //        var mesage5 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: leftPrivateKey, senderPublicKey: senderPublicKey)
 //        var mesage6 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: senderPrivateKey, senderPublicKey: leftPublicKey)
 //        var mesage7 :String = MessageCrypto.decrypt(encryptedBytes, recipientPrivateKey: leftPrivateKey, senderPublicKey: leftPublicKey)
-//        
+        
 
     }
     
@@ -58,6 +71,7 @@ class ViewController: UIViewController
         AddressBookManager.create()
         
         self.performSegueWithIdentifier(SegueToMainVC, sender: self)
+        
                 
 //        private key : 5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d
 //        public key : cba08dd72505e0c6aa0b7521598c7c63ecef72bd48175355f9dd977664e4fcd1
