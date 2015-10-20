@@ -4771,10 +4771,10 @@
             </objects>
             <point key="canvasLocation" x="121" y="1768"/>
         </scene>
-        <!--Google Map-->
+        <!--Map View Controller-->
         <scene sceneID="BS1-iU-ch7">
             <objects>
-                <viewController id="4cx-0I-zJp" customClass="GoogleMap" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4cx-0I-zJp" customClass="MapViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="apG-4Z-HQC"/>
                         <viewControllerLayoutGuide type="bottom" id="ibN-ea-If6"/>
@@ -4796,6 +4796,9 @@
                                         <state key="normal" image="arrow_back.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="backButtonTouchUpInside:" destination="4cx-0I-zJp" eventType="touchUpInside" id="mSG-nn-J6V"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcM-dC-1cv">
                                         <rect key="frame" x="144" y="0.0" width="33" height="40"/>
@@ -4815,27 +4818,26 @@
                                     <constraint firstItem="gcM-dC-1cv" firstAttribute="centerX" secondItem="xad-x4-9sC" secondAttribute="centerX" id="pQl-QD-34a"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qPK-pW-XW2">
-                                <rect key="frame" x="0.0" y="40" width="320" height="453"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOL-5C-uqe">
+                                <rect key="frame" x="0.0" y="41" width="320" height="452"/>
+                                <connections>
+                                    <segue destination="hnG-Fn-RJA" kind="embed" id="Lox-1Y-G5O"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="qPK-pW-XW2" secondAttribute="trailing" id="9Co-3j-Q11"/>
                             <constraint firstAttribute="trailing" secondItem="xad-x4-9sC" secondAttribute="trailing" id="Aa7-Jh-Lk8"/>
-                            <constraint firstItem="qPK-pW-XW2" firstAttribute="top" secondItem="xad-x4-9sC" secondAttribute="bottom" id="DFW-rs-o3V"/>
+                            <constraint firstAttribute="trailing" secondItem="TOL-5C-uqe" secondAttribute="trailing" id="AdV-2H-fMP"/>
                             <constraint firstItem="xad-x4-9sC" firstAttribute="leading" secondItem="9gl-az-p5b" secondAttribute="leading" id="Ips-wo-fPM"/>
-                            <constraint firstItem="ibN-ea-If6" firstAttribute="top" secondItem="qPK-pW-XW2" secondAttribute="bottom" id="JyZ-Zh-YRT"/>
-                            <constraint firstItem="qPK-pW-XW2" firstAttribute="leading" secondItem="9gl-az-p5b" secondAttribute="leading" id="fm0-gV-RuK"/>
+                            <constraint firstItem="ibN-ea-If6" firstAttribute="top" secondItem="TOL-5C-uqe" secondAttribute="bottom" id="VgX-Ia-Z5v"/>
                             <constraint firstItem="xad-x4-9sC" firstAttribute="top" secondItem="apG-4Z-HQC" secondAttribute="bottom" id="m0N-Ig-g2I"/>
+                            <constraint firstItem="TOL-5C-uqe" firstAttribute="leading" secondItem="9gl-az-p5b" secondAttribute="leading" id="uPR-0f-pVg"/>
+                            <constraint firstItem="TOL-5C-uqe" firstAttribute="top" secondItem="xad-x4-9sC" secondAttribute="bottom" constant="1" id="v0y-NG-dTG"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="493"/>
-                    <connections>
-                        <outlet property="mapView" destination="qPK-pW-XW2" id="Fj5-94-mdJ"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9V1-I5-LJ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5510,6 +5512,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LSo-tZ-LtA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1252" y="1767.5"/>
+        </scene>
+        <!--Google Map-->
+        <scene sceneID="qA1-rS-skc">
+            <objects>
+                <viewController id="hnG-Fn-RJA" customClass="GoogleMap" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yrx-JY-bVi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="452"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NZA-wJ-Rcs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2132" y="550"/>
         </scene>
     </scenes>
     <resources>

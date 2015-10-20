@@ -21,6 +21,7 @@
 		983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */; settings = {ASSET_TAGS = (); }; };
 		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
 		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; settings = {ASSET_TAGS = (); }; };
+		987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B878E1BD684CF00782B42 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
 		98BB95AC1BC7B185002151F7 /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AB1BC7B185002151F7 /* SocialManager.swift */; settings = {ASSET_TAGS = (); }; };
 		98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -214,6 +215,7 @@
 		983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISegmentedControlExtensions.swift; path = Models/UISegmentedControlExtensions.swift; sourceTree = "<group>"; };
 		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
+		987B878E1BD684CF00782B42 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Views/MapViewController.swift; sourceTree = "<group>"; };
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98BB95AB1BC7B185002151F7 /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Models/SocialManager.swift; sourceTree = "<group>"; };
 		98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Views/ShareViewController.swift; sourceTree = "<group>"; };
@@ -1079,6 +1081,7 @@
 			isa = PBXGroup;
 			children = (
 				DA4AF0761A975CCF00299B0A /* GoogleMap.swift */,
+				987B878E1BD684CF00782B42 /* MapViewController.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1448,6 +1451,7 @@
 				98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
+				987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */,
 				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,

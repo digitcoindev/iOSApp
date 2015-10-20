@@ -1,6 +1,6 @@
 PODS:
   - CryptoSwift (0.1.1)
-  - GoogleMaps (1.10.3)
+  - GoogleMaps (1.10.4)
 
 DEPENDENCIES:
   - CryptoSwift (from `https://github.com/krzyzanowskim/CryptoSwift`, branch `master`)
@@ -18,6 +18,6 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   CryptoSwift: c11640d3d66107efc8333e4131a5173f072b1d61
-  GoogleMaps: 945e4ac3b74bcca3ddada51df256eb7beddb474d
+  GoogleMaps: 134bcf57e8d489efbc0c29d532ed421554fabdb2
 
 COCOAPODS: 0.38.2

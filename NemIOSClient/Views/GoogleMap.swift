@@ -3,8 +3,6 @@ import CoreLocation
 
 class GoogleMap: AbstractViewController , CLLocationManagerDelegate
 {
-    @IBOutlet weak var mapView: UIView!
-
     var camera : GMSCameraPosition!
     var map : GMSMapView!
     var myMarker = GMSMarker()
@@ -38,7 +36,7 @@ class GoogleMap: AbstractViewController , CLLocationManagerDelegate
         
         map.settings.compassButton = true
         
-        mapView = map
+        self.view = map
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
