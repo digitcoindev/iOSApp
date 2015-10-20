@@ -66,7 +66,6 @@
 		DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CDC1AA87CBC003AC21F /* UInt32+CircularShift.swift */; };
 		DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */; };
 		DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CE41AA9E8EF003AC21F /* Base32.swift */; };
-		DA173CE81AADA6EA003AC21F /* logged_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CE61AADA6EA003AC21F /* logged_icon.png */; };
 		DA173CE91AADA6EA003AC21F /* add_contact_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA173CE71AADA6EA003AC21F /* add_contact_icon.png */; };
 		DA173CEC1AADA92D003AC21F /* ScanQRVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */; };
 		DA194DF91A41D50E0030C882 /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194DF81A41D50E0030C882 /* RegistrationVC.swift */; };
@@ -171,9 +170,7 @@
 		DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B941AFA1AF900F6B861 /* ButtonDropDown.swift */; };
 		DAD21B9A1AFB735600F6B861 /* SendTransactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B991AFB735600F6B861 /* SendTransactionVC.swift */; };
 		DAD21B9C1AFCD51F00F6B861 /* MultisigTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */; };
-		DAD48DE01AE90123008F0814 /* add_key_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD48DDA1AE90123008F0814 /* add_key_icon.png */; };
 		DAD48DE11AE90123008F0814 /* confirm_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD48DDB1AE90123008F0814 /* confirm_icon.png */; };
-		DAD48DE21AE90123008F0814 /* delete_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD48DDC1AE90123008F0814 /* delete_icon.png */; };
 		DAD48DE31AE90123008F0814 /* edit_password_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD48DDD1AE90123008F0814 /* edit_password_icon.png */; };
 		DAD48DE41AE90123008F0814 /* history_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD48DDE1AE90123008F0814 /* history_icon.png */; };
 		DAD48DE51AE90123008F0814 /* login_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAD48DDF1AE90123008F0814 /* login_icon.png */; };
@@ -271,7 +268,6 @@
 		DA173CDC1AA87CBC003AC21F /* UInt32+CircularShift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt32+CircularShift.swift"; sourceTree = "<group>"; };
 		DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressGenerator.swift; path = Models/AddressGenerator.swift; sourceTree = "<group>"; };
 		DA173CE41AA9E8EF003AC21F /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
-		DA173CE61AADA6EA003AC21F /* logged_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logged_icon.png; sourceTree = "<group>"; };
 		DA173CE71AADA6EA003AC21F /* add_contact_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_contact_icon.png; sourceTree = "<group>"; };
 		DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScanQRVC.swift; path = Views/ScanQRVC.swift; sourceTree = "<group>"; };
 		DA194DF81A41D50E0030C882 /* RegistrationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationVC.swift; path = Views/RegistrationVC.swift; sourceTree = "<group>"; };
@@ -385,9 +381,7 @@
 		DAD21B941AFA1AF900F6B861 /* ButtonDropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonDropDown.swift; path = "Views/Additional controls/ButtonDropDown.swift"; sourceTree = "<group>"; };
 		DAD21B991AFB735600F6B861 /* SendTransactionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendTransactionVC.swift; path = Views/SendTransactionVC.swift; sourceTree = "<group>"; };
 		DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigTransaction.swift; path = Models/MultisigTransaction.swift; sourceTree = "<group>"; };
-		DAD48DDA1AE90123008F0814 /* add_key_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_key_icon.png; sourceTree = "<group>"; };
 		DAD48DDB1AE90123008F0814 /* confirm_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = confirm_icon.png; sourceTree = "<group>"; };
-		DAD48DDC1AE90123008F0814 /* delete_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_icon.png; sourceTree = "<group>"; };
 		DAD48DDD1AE90123008F0814 /* edit_password_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_password_icon.png; sourceTree = "<group>"; };
 		DAD48DDE1AE90123008F0814 /* history_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = history_icon.png; sourceTree = "<group>"; };
 		DAD48DDF1AE90123008F0814 /* login_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_icon.png; sourceTree = "<group>"; };
@@ -1027,13 +1021,10 @@
 			isa = PBXGroup;
 			children = (
 				DAFA74BC1B2AEEF100AA461D /* consignatories_icon.png */,
-				DAD48DDA1AE90123008F0814 /* add_key_icon.png */,
 				DAD48DDB1AE90123008F0814 /* confirm_icon.png */,
-				DAD48DDC1AE90123008F0814 /* delete_icon.png */,
 				DAD48DDD1AE90123008F0814 /* edit_password_icon.png */,
 				DAD48DDE1AE90123008F0814 /* history_icon.png */,
 				DAD48DDF1AE90123008F0814 /* login_icon.png */,
-				DA173CE61AADA6EA003AC21F /* logged_icon.png */,
 				DA173CE71AADA6EA003AC21F /* add_contact_icon.png */,
 				DA173CC61A9E1161003AC21F /* user_info.png */,
 				DA173CC71A9E1161003AC21F /* qr_code_icon.png */,
@@ -1281,11 +1272,9 @@
 				DAD1C8541A69664D0043D947 /* bg.png in Resources */,
 				DAD48DE31AE90123008F0814 /* edit_password_icon.png in Resources */,
 				DAD1C8471A69664D0043D947 /* radio_btn_passive.png in Resources */,
-				DA173CE81AADA6EA003AC21F /* logged_icon.png in Resources */,
 				DAD1C8561A69664D0043D947 /* address_book_icon.png in Resources */,
 				DAD48DE51AE90123008F0814 /* login_icon.png in Resources */,
 				DAD1C8511A69664D0043D947 /* dollar_icon.png in Resources */,
-				DAD48DE01AE90123008F0814 /* add_key_icon.png in Resources */,
 				DAD1C8501A69664D0043D947 /* dropdown_arrow.png in Resources */,
 				DA3558101A39D3BA00AFA5FD /* Images.xcassets in Resources */,
 				DAC28C941A96008700EE3B22 /* GoogleMaps.bundle in Resources */,
@@ -1299,7 +1288,6 @@
 				DA173CCB1A9E1161003AC21F /* qr_code_icon.png in Resources */,
 				9809BE271B75008F0028D082 /* Localizable.strings in Resources */,
 				DAD1C8441A69664D0043D947 /* share_icon.png in Resources */,
-				DAD48DE21AE90123008F0814 /* delete_icon.png in Resources */,
 				DAD1C8551A69664D0043D947 /* arrow_back.png in Resources */,
 				DA173CE91AADA6EA003AC21F /* add_contact_icon.png in Resources */,
 				DA194E161A445B1D0030C882 /* UIConfig.plist in Resources */,
@@ -1574,6 +1562,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Taras Tsarenko (TWWK2EDBEZ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1620,6 +1609,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Taras Tsarenko (TWWK2EDBEZ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

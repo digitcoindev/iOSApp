@@ -367,7 +367,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         var color :UIColor!
         var vector :String = ""
-        if transaction?.recipient != account_address {
+        if transaction?.recipient == account_address {
             color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
             vector = "+"
         } else {

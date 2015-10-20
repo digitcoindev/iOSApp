@@ -48,13 +48,14 @@ class AccountGetMetaData: NSObject
     }
     
     final func getCosignatory(dictionary :NSDictionary) -> AccountGetMetaData {
-        self.address = dictionary.objectForKey("address") as! String
-        self.balance = dictionary.objectForKey("balance") as! Double
-        self.importance  = dictionary.objectForKey("importance") as! Double
-        self.publicKey = dictionary.objectForKey("publicKey") as! String
-        self.label = dictionary.objectForKey("label") as? String
-        self.harvestedBlocks = dictionary.objectForKey("harvestedBlocks") as! Double
+        let account = AccountGetMetaData()
+        account.address = dictionary.objectForKey("address") as! String
+        account.balance = dictionary.objectForKey("balance") as! Double
+        account.importance  = dictionary.objectForKey("importance") as! Double
+        account.publicKey = dictionary.objectForKey("publicKey") as! String
+        account.label = dictionary.objectForKey("label") as? String
+        account.harvestedBlocks = dictionary.objectForKey("harvestedBlocks") as! Double
         
-        return self
+        return account
     }
 }

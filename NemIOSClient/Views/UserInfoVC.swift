@@ -25,7 +25,7 @@ class UserInfoVC: AbstractViewController
         let publicKey = KeyGenerator.generatePublicKey(privateKey)
         address = AddressGenerator.generateAddress(publicKey)
         
-        userAddress.text = _normalize(address)
+        userAddress.text = address.nemAddressNormalised()
         userName.placeholder = State.currentWallet!.login
         
         _generateQR()
@@ -90,16 +90,6 @@ class UserInfoVC: AbstractViewController
                 shareVC.view.layer.opacity = 1
                 }, completion: nil)
         })
-    }
-    
-    private final func _normalize(text: String) -> String {
-        var newString = ""
-        for var i = 0 ; i < text.characters.count ; i+=4 {
-            let substring = (text as NSString).substringWithRange(NSRange(location: i, length: 4))
-            newString += substring + "-"
-        }
-        let length :Int = newString.characters.count - 1
-        return (newString as NSString).substringWithRange(NSRange(location: 0, length: length))
     }
     
     private final func _generateQR()

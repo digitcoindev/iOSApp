@@ -1,17 +1,17 @@
 import UIKit
 
-struct DefinedCell
-{
-    var type :ConversationCellType = ConversationCellType.Unknown
-    var height :CGFloat = 44
-    var minCosignatories :Int? = nil
-    var detailsTop :NSAttributedString = NSAttributedString(string: "")
-    var detailsMiddle :NSAttributedString = NSAttributedString(string: "")
-    var detailsBottom :NSAttributedString = NSAttributedString(string: "")
-}
-
 class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate, DetailedTableViewCellDelegate
 {
+    private struct DefinedCell
+    {
+        var type :ConversationCellType = ConversationCellType.Unknown
+        var height :CGFloat = 44
+        var minCosignatories :Int? = nil
+        var detailsTop :NSAttributedString = NSAttributedString(string: "")
+        var detailsMiddle :NSAttributedString = NSAttributedString(string: "")
+        var detailsBottom :NSAttributedString = NSAttributedString(string: "")
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
     @IBOutlet weak var amoundField: NEMTextField!
@@ -342,7 +342,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 definedCell.detailsTop = message
                 
                 message = NSMutableAttributedString(string:"Min " , attributes: nil)
-                message.appendAttributedString(NSMutableAttributedString(string:"\(minCosig)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:"\(((minCosig == 0) ? cosignatories : minCosig))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 message.appendAttributedString(NSMutableAttributedString(string:" Signers" , attributes: nil))
                 
                 definedCell.detailsMiddle = message

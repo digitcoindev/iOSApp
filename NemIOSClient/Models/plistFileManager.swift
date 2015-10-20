@@ -6,18 +6,13 @@ class plistFileManager: NSObject
     var documents : String = NSHomeDirectory().stringByAppendingString("/Documents")
     var error: NSError? = nil
     
-    var uiData : NSMutableDictionary = NSMutableDictionary()
     var importFiles :NSMutableArray = NSMutableArray()
 
     override init() {
         super.init()
         
-        uiData = NSMutableDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("UIConfig", ofType: "plist")!)!
-        
         traceImportFolder()
         refreshImportData()
-        
-        
      }
     
     // Import Accounts
@@ -124,17 +119,4 @@ class plistFileManager: NSObject
         }
         
     }
-    
-    //UIConfig
-    
-    final func getMenuItems() -> NSMutableArray {
-        return uiData.objectForKey("mainMenu") as! NSMutableArray
-    }
-    
-    //GENERAL
-    
-    final func commit() {
-        uiData.writeToFile(NSBundle.mainBundle().pathForResource("UIConfig", ofType: "plist")!, atomically: true)
-    }
-    
 }

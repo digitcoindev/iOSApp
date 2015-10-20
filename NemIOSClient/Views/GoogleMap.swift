@@ -1,10 +1,12 @@
 import UIKit
 import CoreLocation
 
-class GoogleMap: UIViewController , CLLocationManagerDelegate
+class GoogleMap: AbstractViewController , CLLocationManagerDelegate
 {
+    @IBOutlet weak var mapView: UIView!
+
     var camera : GMSCameraPosition!
-    var mapView : GMSMapView!
+    var map : GMSMapView!
     var myMarker = GMSMarker()
 
     let locationManager = CLLocationManager()
@@ -32,25 +34,25 @@ class GoogleMap: UIViewController , CLLocationManagerDelegate
         }
         camera = GMSCameraPosition.cameraWithLatitude(0,
             longitude:0, zoom:1)
-        mapView = GMSMapView.mapWithFrame(CGRectZero, camera:camera)
+        map = GMSMapView.mapWithFrame(CGRectZero, camera:camera)
         
-        mapView.settings.compassButton = true
+        map.settings.compassButton = true
         
-        self.view = mapView
+        mapView = map
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         
         if showMe {
-            mapView.camera = GMSCameraPosition.cameraWithLatitude(locValue.latitude,
+            map.camera = GMSCameraPosition.cameraWithLatitude(locValue.latitude,
             longitude:locValue.longitude, zoom:16)
             
             
             myMarker.position = locValue
             myMarker.snippet = "You are here!"
             myMarker.appearAnimation = kGMSMarkerAnimationPop
-            myMarker.map = mapView
+            myMarker.map = map
             
             showMe = false
         }

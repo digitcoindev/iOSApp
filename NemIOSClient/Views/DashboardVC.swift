@@ -58,7 +58,9 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     
     @IBAction func moreButtonTouchUpInside(sender: AnyObject) {
         
-        
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToGoogleMap)
+        }
     }
 
 }

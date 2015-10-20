@@ -101,4 +101,14 @@ extension String
         
         return buffer
     }
+    
+    func nemAddressNormalised() -> String {
+        var newString = ""
+        for var i = 0 ; i < self.characters.count ; i+=4 {
+            let substring = (self as NSString).substringWithRange(NSRange(location: i, length: 4))
+            newString += substring + "-"
+        }
+        let length :Int = newString.characters.count - 1
+        return (newString as NSString).substringWithRange(NSRange(location: 0, length: length))
+    }
 }

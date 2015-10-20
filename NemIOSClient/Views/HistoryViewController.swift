@@ -1,156 +1,82 @@
 import UIKit
 
-class HistoryViewController: AbstractViewController , UITableViewDelegate
+class HistoryViewController: AbstractViewController , UITableViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
 {
-    var walletData :AccountGetMetaData!
-    var timer :NSTimer!
-    var state :[String] = ["none"]
-    var currentCosignatories :[String] = [String]()
 
-    @IBOutlet weak var chooseAccount: ButtonDropDown!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var chouseButton: ChouseButton!
     
-    var modifications :[AggregateModificationTransaction] = [AggregateModificationTransaction]()
-    var dataManager :CoreDataManager = CoreDataManager()
-    var apiManager :APIManager =  APIManager()
+    private var _modifications :[AggregateModificationTransaction] = []
+    private var _mainAccount :AccountGetMetaData? = nil
+    private var _activeAccount :AccountGetMetaData? = nil
+    private var _currentCosignatories :[String] = []
+    private var _contentViews :[AbstractViewController] = []
+
+    private let _apiManager :APIManager =  APIManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToHistoryVC {
-            State.fromVC = SegueToHistoryVC
-        }
-        
+        State.fromVC = SegueToHistoryVC
         State.currentVC = SegueToHistoryVC
-        
-        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        
-        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
-        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
-        observer.addObserver(self, selector: "accountTransfersAllSuccessed:", name: "accountTransfersAllSuccessed", object: nil)
-        
-        observer.postNotificationName("Title", object:"History" )
-
+        _apiManager.delegate = self
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
-        if State.currentServer != nil {
-            APIManager().accountGet(State.currentServer!, account_address: account_address)
-        }
-        else {
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
-        }
-        
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
-
+        _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     
-    final func manageState() {
-        switch (state.last!) {
-        case "accountGetSuccessed" :
-            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            let publicKey = KeyGenerator.generatePublicKey(privateKey)
+    override func viewDidAppear(animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func chouseAccount(sender: AnyObject) {
+        if _contentViews.count == 0 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            if publicKey == walletData.publicKey {
-                var content :[String] = [String]()
-                var contentActions :[funcBlock] = [funcBlock]()
-                if walletData.cosignatoryOf.count > 0 {
-                    for account in walletData.cosignatoryOf
-                    {
-                        content.append(account.address)
-                        contentActions.append(
-                            {
-                                () -> () in
-                                
-                                if State.currentServer != nil
-                                {
-                                    self.apiManager.accountGet(State.currentServer!, account_address: account.address)
-                                }
-                        })
-                    }
-                    chooseAccount.setContent(content, contentActions: contentActions)
-
-                }
-                else {
-                    APIManager().accountTransfersAll(State.currentServer!, account_address: walletData.address)
-                    chooseAccount.setTitle("This account" as String, forState: UIControlState.Normal)
-                    chooseAccount.setTitle("This account" as String, forState: UIControlState.Selected)
-                    chooseAccount.setTitle("This account" as String, forState: UIControlState.Disabled)
-                }
-            }
-            else {
-                if State.currentServer != nil {
-                    APIManager().accountTransfersAll(State.currentServer!, account_address: walletData.address)
-                }
-                else {
-                    NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
-                }
-
-            }
-            state.removeLast()
-
-        case "accountTransfersAllSuccessed" :
-
+            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
             
-            self.tableView.reloadData()
-            state.removeLast()
-
-        default :
-            break
-        }
-    }
-    
-    final func accountGetSuccessed(notification: NSNotification) {
-        state.append("accountGetSuccessed")
-        
-        walletData = (notification.object as! AccountGetMetaData)
-    }
-    
-    final func accountGetDenied(notification: NSNotification) {
-        state.append("accountGetDenied")
-    }
-
-    final func accountTransfersAllSuccessed(notification: NSNotification) {
-        let data :[TransactionPostMetaData] = notification.object as! [TransactionPostMetaData]
-        
-        modifications.removeAll(keepCapacity: false)
-        
-        for inData in data {
-            switch (inData.type) {
-            case multisigTransaction:
-                
-                let multisigT  = inData as! MultisigTransaction
-                
-                switch(multisigT.innerTransaction.type) {
-                case multisigAggregateModificationTransaction :
-                    
-                    let modTransaction :AggregateModificationTransaction = multisigT.innerTransaction as! AggregateModificationTransaction
-                    modifications.append(modTransaction)
-                    
-                default:
-                    break
-                }
-                
-            case multisigAggregateModificationTransaction:
-                
-                let modTransaction :AggregateModificationTransaction = inData as! AggregateModificationTransaction
-                modifications.append(modTransaction)
-                
-            default:
-                break
+            accounts.view.frame = tableView.frame
+            
+            accounts.view.layer.opacity = 0
+            accounts.delegate = self
+            
+            var wallets = _mainAccount?.cosignatoryOf ?? []
+            
+            if _mainAccount != nil
+            {
+                wallets.append(self._mainAccount!)
             }
+            accounts.wallets = wallets
+            
+            if accounts.wallets.count > 0
+            {
+                _contentViews.append(accounts)
+                self.view.addSubview(accounts.view)
+                
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    accounts.view.layer.opacity = 1
+                    }, completion: nil)
+            }
+        } else {
+            _contentViews.first?.view.removeFromSuperview()
+            _contentViews.removeFirst()
         }
-        
-        state.append("accountTransfersAllSuccessed")
+    }
+    
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return modifications.count
+        return _modifications.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return modifications[section].modifications.count + 1
+        return _modifications[section].modifications.count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -169,7 +95,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            var timeStamp = Double(modifications[indexPath.section].timeStamp )
+            var timeStamp = Double(_modifications[indexPath.section].timeStamp )
             
             timeStamp += genesis_block_time
             
@@ -178,7 +104,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
             return cell
         }
         else {
-            let modification :AccountModification = modifications[indexPath.section].modifications[indexPath.row - 1]
+            let modification :AccountModification = _modifications[indexPath.section].modifications[indexPath.row - 1]
             var cell :KeyCell? = nil
             if modification.modificationType == 1 {
                 cell = self.tableView.dequeueReusableCellWithIdentifier("add") as? KeyCell
@@ -197,7 +123,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
                 cell!.key.text = modification.publicKey
             }
             
-            if indexPath.row == modifications[indexPath.section].modifications.count && cell != nil {
+            if indexPath.row == _modifications[indexPath.section].modifications.count && cell != nil {
                 let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: [UIRectCorner.BottomLeft, UIRectCorner.BottomRight], cornerRadii: CGSizeMake(10, 10))
                 let maskLayer :CAShapeLayer = CAShapeLayer()
                 maskLayer.frame = cell!.bounds
@@ -210,7 +136,68 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    //MARK: - AccountChousePopUp Methods
+    
+    func didChouseAccount(account: AccountGetMetaData) {
+        
+        if _contentViews.count > 0 {
+            _contentViews.first?.view.removeFromSuperview()
+            _contentViews.removeFirst()
+        }
+        
+        _activeAccount = account
+        _apiManager.accountTransfersAll(State.currentServer!, account_address: account.address)
+    }
+    
+    //MARK: - APIManagerDelegate Methods
+    
+    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        
+        if account != nil {
+            
+            chouseButton.setTitle(account?.address, forState: UIControlState.Normal)
+            
+            if _mainAccount == nil {
+                _mainAccount = account
+            }
+            
+            _activeAccount = account
+            _apiManager.accountTransfersAll(State.currentServer!, account_address: account!.address)
+        }
+    }
+    
+    func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
+        
+        _modifications.removeAll()
+        
+        for inData in data ?? [] {
+            switch (inData.type) {
+            case multisigTransaction:
+                
+                let multisigT  = inData as! MultisigTransaction
+                
+                switch(multisigT.innerTransaction.type) {
+                case multisigAggregateModificationTransaction :
+                    
+                    let modTransaction :AggregateModificationTransaction = multisigT.innerTransaction as! AggregateModificationTransaction
+                    _modifications.append(modTransaction)
+                    
+                default:
+                    break
+                }
+                
+            case multisigAggregateModificationTransaction:
+                
+                let modTransaction :AggregateModificationTransaction = inData as! AggregateModificationTransaction
+                _modifications.append(modTransaction)
+                
+            default:
+                break
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.tableView.reloadData()
+        }
     }
 }
