@@ -495,11 +495,21 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             () -> Void in
             if let responceAccount = account {
                 
+                if responceAccount.publicKey == nil {
+                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+                    let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+                    
+                    if account_address == responceAccount.address {
+                        responceAccount.publicKey = KeyGenerator.generatePublicKey(privateKey)
+                    }
+                }
+                
                 if  self._activeAccount == nil {
                     self._activeAccount = responceAccount
                 }
                 
                 if self._mainAccount == nil {
+                    
                     self._mainAccount = responceAccount
                     self._accounts.append(self._mainAccount!)
                     

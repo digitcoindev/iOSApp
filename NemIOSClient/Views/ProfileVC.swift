@@ -1,150 +1,66 @@
 import UIKit
 
-class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDelegate ,UIScrollViewDelegate
+class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
 {
-    @IBOutlet weak var scroll: UIScrollView!
-    @IBOutlet weak var tableView: UITableView?
-    @IBOutlet weak var userLogin: UILabel!
-    @IBOutlet weak var userAddress: UILabel!
-    @IBOutlet weak var keyValidator: UIImageView!
-    @IBOutlet weak var addCosignatori: NEMTextField!
-    @IBOutlet weak var accountType: UILabel!
+    private enum ProfileTab :Int {
+        case PrivateKey = 6
+        case History = 7
+        case Multisig = 8
+        case PrimariAccount = 9
+        case AccuntName = 10
+        case exportAccount = 11
+    }
     
     let dataManager :CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData!
     
-    var removeArray :[AccountGetMetaData]!
-    var addArray = [String]()
-
-    var apiManager :APIManager = APIManager()
-    var count = 4
-    var showRect :CGRect = CGRectZero
-    var state :[String] = ["none"]
-    var timer :NSTimer!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var topView: UIView!
     
-    var currentCosignatories :[String] = [String]()
+    
+    private var _mainAccount :AccountGetMetaData? = nil
+    private let _apiManager :APIManager =  APIManager()
+    
+    private var _titles :[String] = []
+    private var _content :[String] = []
+    
+    private var _popUp :AbstractViewController? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        if keyValidator != nil {
-            keyValidator.hidden = true
-            addCosignatori.autocorrectionType = UITextAutocorrectionType.No
-        }
-        
+        State.fromVC = SegueToProfile
         State.currentVC = SegueToProfile
         
-        NSNotificationCenter.defaultCenter().postNotificationName("Title", object:"Profile")
-        if self.tableView != nil {
-            self.tableView!.tableFooterView = UIView(frame: CGRectZero)
-            self.tableView!.layer.cornerRadius = 5
-        }
-
-        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        _apiManager.delegate = self
         
-        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
-        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        if State.currentServer != nil {
-            let address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        let address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
                 
-            apiManager.accountGet(State.currentServer!, account_address: address)
-        }
-        else {
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
-        }
-                
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
-    }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    final func manageState() {
-        switch (state.last!) {
-        case "accountGetSuccessed" :
-            let stateWallet = State.currentWallet!
-            
-            userLogin.text = stateWallet.login
-            userAddress.text =  AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(stateWallet.privateKey))
-            
-            if walletData.cosignatories.count > 0 {
-                accountType.text = "multisign account"
-                
-                if State.fromVC != SegueToProfileMultisig {
-                    State.fromVC = SegueToProfileMultisig
-                }
-                if State.currentVC == SegueToProfile {
-                    State.currentVC = SegueToProfileMultisig
-                }
-                
-                for account in walletData.cosignatories {
-                    currentCosignatories.append(account.publicKey as String)
-                }
-            }
-            else if walletData.cosignatoryOf.count > 0 {
-                accountType.text = "is cosignatory"
-                
-                if State.fromVC != SegueToProfileCosignatoryOf {
-                    State.fromVC = SegueToProfileCosignatoryOf
-                }
-                
-                if State.currentVC == SegueToProfile {
-                    State.currentVC = SegueToProfileCosignatoryOf
-                }
-                
-                for account in walletData.cosignatoryOf {
-                    currentCosignatories.append(account.publicKey as String)
-                }
-            }
-            else {
-                if State.fromVC != SegueToProfile {
-                    State.fromVC = SegueToProfile
-                }
-                
-                State.currentVC = SegueToProfile
-                
-                accountType.text = "simple account"
-            }
-            
-            state.removeLast()
-            
-            
-            if self.tableView != nil {
-                self.tableView!.reloadData()
-            }
-            
-        case "accountGetDenied":
-            
-            state.removeLast()
-
-        default :
-            break
-        }
-    }
-    
-    final func accountGetSuccessed(notification: NSNotification) {
-        state.append("accountGetSuccessed")
+        _apiManager.accountGet(State.currentServer!, account_address: address)
         
-        walletData = (notification.object as! AccountGetMetaData)
+        _titles += [
+            NSLocalizedString("ACCOUNT_NAME", comment: "Title") + ":",
+            NSLocalizedString("ACCOUNT_ADDRESS", comment: "Title") + ":",
+            NSLocalizedString("ACCOUNT_TYPE", comment: "Title") + ":",
+            NSLocalizedString("IMPORTANCE_SCORE", comment: "Title") + ":",
+            NSLocalizedString("PUBLIC_KEY", comment: "Title") + ":",
+            NSLocalizedString("DELEGATED_PRIVATE_KEY", comment: "Title") + ":",
+            NSLocalizedString("PRIVATE_KEY", comment: "Title") + ":",
+            NSLocalizedString("ACCOUNT_HISTORY", comment: "Title") + ":",
+            NSLocalizedString("MULTISIG", comment: "Title") + ":",
+            NSLocalizedString("PRIMARY_ACCOUNT", comment: "Title") + ":",
+            NSLocalizedString("ACCOUNT_NAME", comment: "Title") + ":",
+            NSLocalizedString("EXPORT_ACCOUNT", comment: "Title") + ":"
+        ]
     }
     
-    final func accountGetDenied(notification: NSNotification) {
-        state.append("accountGetDenied")
-    }
-    
-    final func deleteCellAtIndex(notification: NSNotification) {
-        let index = notification.object as! Int
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        
-        currentCosignatories.removeAtIndex(index)
-        self.tableView!.deleteRowsAtIndexPaths([indexPath] , withRowAnimation: .Fade)
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        }
     }
     
     @IBAction func changePassword(sender: AnyObject) {
@@ -239,28 +155,108 @@ class ProfileVC: AbstractViewController , UITableViewDataSource , UITableViewDel
         self.presentViewController(alert1, animated: true, completion: nil)
     }
     
-    @IBAction func history(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToHistoryVC )
-    }
-    
-    @IBAction func manageAccount(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueTomultisigAccountManager )
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentCosignatories.count
+        return max(_content.count, 1)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell :KeyCell = self.tableView!.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
         
-        cell.key.text = ""
-        cell.cellIndex = indexPath.row
+        if _content.count == 0 {
+            return self.tableView!.dequeueReusableCellWithIdentifier("Loading")!
+        }
         
-        cell.key.text = cell.key.text! + currentCosignatories[indexPath.row]
+        var cell :ProfileTableViewCell!
+        if indexPath.row < 6 {
+            cell = self.tableView!.dequeueReusableCellWithIdentifier("type one") as! ProfileTableViewCell
+        } else {
+            cell = self.tableView!.dequeueReusableCellWithIdentifier("type two") as! ProfileTableViewCell
+        }
+        
+        cell.title.text = _titles[indexPath.row]
+        cell.contentLabel.text = _content[indexPath.row]
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.row {
+        case ProfileTab.History.rawValue:
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToHistoryVC)
+            }
+        case ProfileTab.Multisig.rawValue :
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(SegueTomultisigAccountManager)
+            }
+            
+        default:
+            break
+        }
+    }
+    
+    //MARK: - Private Methods
+    
+    private final func _createPopUp(withId: String) {
+        if _popUp != nil {
+            _popUp!.view.removeFromSuperview()
+            _popUp!.removeFromParentViewController()
+            _popUp = nil
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AbstractViewController
+        popUpController.view.frame = CGRect(x: 0, y: topView.frame.height, width: popUpController.view.frame.width, height: popUpController.view.frame.height - topView.frame.height)
+        popUpController.view.layer.opacity = 0
+        popUpController.delegate = self
+        
+        _popUp = popUpController
+        self.view.addSubview(popUpController.view)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            popUpController.view.layer.opacity = 1
+            }, completion: nil)
+
+    }
+    
+    //MARK: - APIManagerDelegate Methods
+    
+    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        
+        if account != nil {
+            
+            _mainAccount = account
+            
+            var type :String = ""
+            if account!.cosignatories.count > 0 {
+                type = NSLocalizedString("MULTISIG_ACCOUNT", comment: "Description")
+            } else if account!.cosignatoryOf.count > 0 {
+                type = NSLocalizedString("COSIGNER_ACCOUNT", comment: "Description")
+            } else {
+                type = NSLocalizedString("NORMAL_ACCOUNT", comment: "Description")
+            }
+            
+            let importance = account!.importance.format(".0")
+            
+            _content = []
+            _content += [
+                State.currentWallet!.login,
+                account!.address.nemAddressNormalised(),
+                type,
+                importance,
+                account!.publicKey
+            ]
+            _content += [
+                NSLocalizedString("NO", comment: "Description") + "(Disabled)",
+                NSLocalizedString("GET_PRIVATE_KEY", comment: "Description") + "(Disabled)",
+                NSLocalizedString("VIEW_ACCOUNT_HISTORY", comment: "Description"),
+                NSLocalizedString("ADD_OR_REMOVE_COSIGNERS", comment: "Description"),
+                NSLocalizedString("SET_PRIMARY_ACCOUNT", comment: "Description") + "(Disabled)",
+                NSLocalizedString("CHANGE_ACCOUNT_NAMET", comment: "Description")  + "(Disabled)",
+                NSLocalizedString("CREATE_QR", comment: "Description"  + "(Disabled)")
+            ]
+            
+            tableView.reloadData()
+        }
     }
 }

@@ -1,125 +1,44 @@
 import UIKit
 
-class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
+class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIManagerDelegate
 {
 
-    @IBOutlet weak var scroll: UIScrollView!
-    @IBOutlet weak var chooseAccount: ButtonDropDown!
+    @IBOutlet weak var chouseButton: ChouseButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var keyValidator: UIImageView!
-
-    @IBOutlet weak var lableTableOf: UILabel!
-    @IBOutlet weak var inputField: NEMTextField!
-    @IBOutlet weak var background: UILabel!
-    @IBOutlet weak var saveButton: UIButton!
     
     var walletData :AccountGetMetaData!
     var timer :NSTimer!
     var state :[String] = ["none"]
-    var showRect :CGRect = CGRectZero
 
     var currentCosignatories :[String] = [String]()
     var removeArray :[AccountGetMetaData]!
     var addArray = [String]()
-
+    
+    private var _mainAccount :AccountGetMetaData? = nil
+    private var _activeAccount :AccountGetMetaData? = nil
+    
+    private let _apiManager :APIManager =  APIManager()
+    
+    private var _popUps :[AbstractViewController] = []
+    
+    private var _currentCosignatories :[String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if State.fromVC != SegueTomultisigAccountManager {
-            State.fromVC = SegueTomultisigAccountManager
-        }
-        
+        State.fromVC = SegueTomultisigAccountManager
         State.currentVC = SegueTomultisigAccountManager
         
-        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        
-        observer.addObserver(self, selector: "accountGetDenied:", name: "accountGetDenied", object: nil)
-        observer.addObserver(self, selector: "accountGetSuccessed:", name: "accountGetSuccessed", object: nil)
-        
-        observer.addObserver(self, selector: "prepareAnnounceSuccessed:", name: "prepareAnnounceSuccessed", object: nil)
-        observer.addObserver(self, selector: "prepareAnnounceDenied:", name: "prepareAnnounceDenied", object: nil)
-        
-        observer.addObserver(self, selector: "deleteCellAtIndex:", name: "deleteCellAtIndex", object: nil)
-        
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        
-        observer.postNotificationName("Title", object:"Manage Account" )
-        
-        lableTableOf.hidden = true
-        background.hidden = true
-        inputField.hidden = true
-        saveButton.hidden = true
-        keyValidator.hidden = true
-        scroll.scrollEnabled = false
+        _apiManager.delegate = self
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
-        if State.currentServer != nil {
-            APIManager().accountGet(State.currentServer!, account_address: account_address)
-        }
-        else {
-            NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToServerTable )
-        }
-        
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "manageState", userInfo: nil, repeats: true)
+        _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     
     final func manageState() {
         switch (state.last!) {
-        case "accountGetSuccessed" :
-            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            let publicKey = KeyGenerator.generatePublicKey(privateKey)
-            
-            if publicKey == walletData.publicKey {
-                var content :[String] = [String]()
-                var contentActions :[funcBlock] = [funcBlock]()
-                
-                if  walletData.cosignatoryOf.count == 0 {
-                    content.append("This account")
-                    contentActions.append(
-                        {
-                            () -> () in
-                            
-                            if State.currentServer != nil
-                            {
-                                APIManager().accountGet(State.currentServer!, account_address: self.walletData.address)
-                            }
-                    })
-                }
-                else {
-                    for account in walletData.cosignatoryOf
-                    {
-                        content.append(account.address)
-                        contentActions.append(
-                            {
-                                () -> () in
-                                
-                                if State.currentServer != nil
-                                {
-                                    APIManager().accountGet(State.currentServer!, account_address: account.address)
-                                }
-                        })
-                    }
-                }
-                chooseAccount.setContent(content, contentActions: contentActions)
-            }
-            else {
-                lableTableOf.hidden = false
-                background.hidden = false
-                inputField.hidden = false
-                saveButton.hidden = false
-                keyValidator.hidden = false
-                scroll.scrollEnabled = true
-
-                for account in walletData.cosignatories {
-                    currentCosignatories.append(account.publicKey as String)
-                }
-                self.tableView.reloadData()
-            }
-            
-            state.removeLast()
             
         case "prepareAnnounceSuccessed" :
             state.removeLast()
@@ -148,25 +67,6 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
         }
     }
 
-    final func accountGetSuccessed(notification: NSNotification) {
-        state.append("accountGetSuccessed")
-        
-        walletData = (notification.object as! AccountGetMetaData)
-    }
-    
-    final func accountGetDenied(notification: NSNotification) {
-        state.append("accountGetDenied")
-    }
-    
-    final func prepareAnnounceSuccessed(notification: NSNotification) {
-        state.append("prepareAnnounceSuccessed")
-        
-    }
-    
-    final func prepareAnnounceDenied(notification: NSNotification) {
-        state.append("prepareAnnounceDenied")
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currentCosignatories.count
     }
@@ -209,25 +109,9 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
                 currentCosignatories.append(newPublicKey)
                 tableView.reloadData()
             }
-            
-            (sender as! UITextField).text = ""
-            keyValidator.hidden = true
-
         }
     }
 
-    @IBAction func typing(sender: NEMTextField) {
-        if sender.text!.utf16.count == 64 {
-            keyValidator.hidden = false
-        }
-        else {
-            keyValidator.hidden = true
-        }
-    }
-    
-    @IBAction func getRect(sender: NEMTextField) {
-        showRect = sender.frame
-    }
     
     @IBAction func saveChanges(sender: AnyObject) {
         removeArray = walletData.cosignatories
@@ -356,28 +240,73 @@ class MultisigAccountManager: AbstractViewController  , UITableViewDelegate
             self.presentViewController(alert1, animated: true, completion: nil)
         }
     }
-
-    func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        
-        var keyboardHeight:CGFloat = keyboardSize.height
+    
+    @IBAction func chouseAccount(sender: AnyObject) {
+        if _popUps.count == 0 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+            
+            accounts.view.frame = tableView.frame
+            
+            accounts.view.layer.opacity = 0
+            accounts.delegate = self
+            
+            var wallets = _mainAccount?.cosignatoryOf ?? []
+            
+            if _mainAccount != nil
+            {
+                wallets.append(self._mainAccount!)
+            }
+            accounts.wallets = wallets
+            
+            if accounts.wallets.count > 0
+            {
+                _popUps.append(accounts)
+                self.view.addSubview(accounts.view)
                 
-        keyboardHeight -= self.view.frame.height - self.scroll.frame.height
-        
-        self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-        
-        self.scroll.scrollRectToVisible(showRect, animated: true)
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    accounts.view.layer.opacity = 1
+                    }, completion: nil)
+            }
+        } else {
+            _popUps.first?.view.removeFromSuperview()
+            _popUps.removeFirst()
+        }
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    private func _generateTableData() {
+    
+    }
+    
+    //MARK: - AccountChousePopUp Methods
+    
+    func didChouseAccount(account: AccountGetMetaData) {
+        
+        if _popUps.count > 0 {
+            _popUps.first?.view.removeFromSuperview()
+            _popUps.removeFirst()
+        }
+        _activeAccount = nil
+        _apiManager.accountGet(State.currentServer!, account_address: account.address)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+    //MARK: - APIManagerDelegate Methods
     
+    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        
+        if account != nil {
+            
+            chouseButton.setTitle(account?.address, forState: UIControlState.Normal)
+            
+            if _mainAccount == nil {
+                _mainAccount = account
+            }
+            
+            if _activeAccount == nil {
+                _activeAccount = account
+                _generateTableData()
+            }
+        }
+    }
 }

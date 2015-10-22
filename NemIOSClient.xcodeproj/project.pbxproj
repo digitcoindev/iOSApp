@@ -19,6 +19,7 @@
 		983579B41BC518EA009AF518 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B31BC518EA009AF518 /* QRViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B51BC51CF3009AF518 /* QRContainerVC.swift */; settings = {ASSET_TAGS = (); }; };
 		983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */; settings = {ASSET_TAGS = (); }; };
+		98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
 		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; settings = {ASSET_TAGS = (); }; };
 		987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B878E1BD684CF00782B42 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -213,6 +214,7 @@
 		983579B31BC518EA009AF518 /* QRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRViewController.swift; path = Views/QRViewController.swift; sourceTree = "<group>"; };
 		983579B51BC51CF3009AF518 /* QRContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRContainerVC.swift; path = Views/QRContainerVC.swift; sourceTree = "<group>"; };
 		983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISegmentedControlExtensions.swift; path = Models/UISegmentedControlExtensions.swift; sourceTree = "<group>"; };
+		98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileTableViewCell.swift; path = "Views/Additional controls/ProfileTableViewCell.swift"; sourceTree = "<group>"; };
 		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
 		987B878E1BD684CF00782B42 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Views/MapViewController.swift; sourceTree = "<group>"; };
@@ -890,6 +892,7 @@
 				DA2D3EA01AE918B500C7E4F9 /* KeyCell.swift */,
 				DA194E111A4456330030C882 /* MainViewCell.swift */,
 				98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */,
+				98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1455,6 +1458,7 @@
 				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
+				98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */,
 				DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */,
 				98BB95DA1BCCED5B002151F7 /* sc.c in Sources */,
 				98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */,

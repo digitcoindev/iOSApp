@@ -53,7 +53,7 @@ class MessageToContactVC: AbstractViewController {
             
             // TODO: Need to change to custom message
             
-            State.toVC = SegueToPasswordValidation
+            State.toVC = SegueToSendTransaction
             
             if (self.delegate as! AbstractViewController).delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector("pageSelected:") {
                 ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)

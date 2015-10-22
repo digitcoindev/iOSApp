@@ -14,6 +14,7 @@
 "ACCOUNT_ADDING_SUCCESS" = "Account: %@\nSuccessfully added."; // %@ will be replaced by the account name
 "SERVER_PROTOCOL_NOT_AVAILABLE" = "Available only \"http\" protocol type.";
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed up!";
+"NOT_ENOUGHT_MONEY" = "Not enought money";
 
 // Text
 
@@ -23,6 +24,32 @@
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Not enough money";
 "CHANGE_CONTACT" = "Change Contact";
 
+"ACCOUNT_NAME" = "Account Name";
+"ACCOUNT_ADDRESS" = "Account Address";
+"ACCOUNT_TYPE" = "Account Type";
+"IMPORTANCE_SCORE" = "Importance Score";
+"PUBLIC_KEY" = "Public Key";
+"DELEGATED_PRIVATE_KEY" = "Delegated Private Key";
+"PRIVATE_KEY" = "Private Key";
+"ACCOUNT_HISTORY" = "Account History";
+"MULTISIG" = "Multisig";
+"PRIMARY_ACCOUNT" = "Primary Account";
+"ACCOUNT_NAME" = "Account Name";
+"EXPORT_ACCOUNT" = "Export Acount";
+
+"MULTISIG_ACCOUNT" = "Multisig Account";
+"NORMAL_ACCOUNT" = "Simpl Account";
+"COSIGNER_ACCOUNT" = "Cosigner Account";
+
+"NO" = "No";
+
+"GET_PRIVATE_KEY" = "Get Private Key";
+"VIEW_ACCOUNT_HISTORY" = "View Account History";
+"ADD_OR_REMOVE_COSIGNERS" = "Add or Remove Cosigner(s)";
+"SET_PRIMARY_ACCOUNT" = "Set Primary Account";
+"CHANGE_ACCOUNT_NAMET" = "Change Account Name";
+"CREATE_QR" = "Create QR";
+
 // Transaction
 
 "TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
@@ -31,13 +58,13 @@
 
 // Social
 
-"SOCIAL_NEM_HEADER" = "NEM IOS Клієнт";
+"SOCIAL_NEM_HEADER" = "NEM IOS Client";
 
 //  Acounts
 
-"NO_FACEBOOK_ACCOUNT" = "Будьласка добавте фейсбук фкаунт у налаштуваннях.";
-"NO_TWITTER_ACCOUNT" = "Будьласка добавте твітер фкаунт у налаштуваннях.";
-"NO_MAIL_ACCOUNT" = "Немає поштового аккаунта вашому майл-клієнті.";
+"NO_FACEBOOK_ACCOUNT" = "Please add facebook account in settings.";
+"NO_TWITTER_ACCOUNT" = "Please add twitter account in settings.";
+"NO_MAIL_ACCOUNT" = "Please add mail account in your mail-client.";
 
 // Contacts
 

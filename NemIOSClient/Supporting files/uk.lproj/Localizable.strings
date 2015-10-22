@@ -14,6 +14,7 @@
 "PRIVATE_KEY_ERROR_1" = "Некоректний приватний ключ\nБудь ласка перевірте його.";
 "ACCOUNT_ADDING_SUCCESS" = "Акаунт: %@\nУспішно доданий."; // %@ will be replaced by the account name
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "У вас є непідписані транзакції.";
+"NOT_ENOUGHT_MONEY" = "Недостатньо коштів на рахунку";
 
 // Text
 
@@ -22,6 +23,32 @@
 "EMPTY_MESSAGE" = "Пусте повідомленя";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Недостатньо коштів";
 "CHANGE_CONTACT" = "Змінити контакт";
+
+"ACCOUNT_NAME" = "Імя акаунту";
+"ACCOUNT_ADDRESS" = "Адреса акаунту";
+"ACCOUNT_TYPE" = "Тип акаунту";
+"IMPORTANCE_SCORE" = "Коефіцієнт важності";
+"PUBLIC_KEY" = "Пулічний ключ";
+"DELEGATED_PRIVATE_KEY" = "Довірений приватний ключ";
+"PRIVATE_KEY" = "Приватний ключ";
+"ACCOUNT_HISTORY" = "Історія акаунту";
+"MULTISIG" = "Мульти-акаунт";
+"PRIMARY_ACCOUNT" = "Основний акаунт";
+"ACCOUNT_NAME" = "Назва акаунту";
+"EXPORT_ACCOUNT" = "Експортувати акаунт";
+
+"MULTISIG_ACCOUNT" = "Мульти-акаунт";
+"NORMAL_ACCOUNT" = "простоий акаун";
+"COSIGNER_ACCOUNT" = "акаунт-підписник";
+
+"NO" = "Немає";
+
+"GET_PRIVATE_KEY" = "Отримати приватний ключ";
+"VIEW_ACCOUNT_HISTORY" = "Показати історію акаунту";
+"ADD_OR_REMOVE_COSIGNERS" = "Додати або видалити підписника(-ів)";
+"SET_PRIMARY_ACCOUNT" = "Встановити, як основний акаунт";
+"CHANGE_ACCOUNT_NAMET" = "Змінити імя акаунту";
+"CREATE_QR" = "Створити QR";
 
 // Transaction
 
@@ -35,8 +62,8 @@
 
 //  Acounts
 
-"NO_FACEBOOK_ACCOUNT" = "Будьласка добавте фейсбук фкаунт у налаштуваннях.";
-"NO_TWITTER_ACCOUNT" = "Будьласка добавте твітер фкаунт у налаштуваннях.";
+"NO_FACEBOOK_ACCOUNT" = "Будьласка добавте фейсбук акаунт у налаштуваннях.";
+"NO_TWITTER_ACCOUNT" = "Будьласка добавте твітер акаунт у налаштуваннях.";
 "NO_MAIL_ACCOUNT" = "Немає поштового аккаунта вашому майл-клієнті.";
 
 // Contacts
