@@ -101,11 +101,10 @@ class UserInfoVC: AbstractViewController
         
         let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.UserData.rawValue, userDictionary], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue])
         
-        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
+        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions.PrettyPrinted)
         
-        let base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
         let qr :QR = QR()
-        qrImageView.image =  qr.createQR(base64String)
+        qrImageView.image =  qr.createQR(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
     }
 
     override func didReceiveMemoryWarning() {

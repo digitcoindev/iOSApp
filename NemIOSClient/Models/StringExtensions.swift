@@ -111,4 +111,16 @@ extension String
         let length :Int = newString.characters.count - 1
         return (newString as NSString).substringWithRange(NSRange(location: 0, length: length))
     }
+    
+    func nemKeyNormalized() -> String? {
+        if Validate.key(self) {
+            if self.asByteArray().count > 32 {
+                return (self as NSString).substringWithRange(NSRange(location: 0, length: 64))
+            } else {
+                return self
+            }
+        } else {
+            return nil
+        }
+    }
 }

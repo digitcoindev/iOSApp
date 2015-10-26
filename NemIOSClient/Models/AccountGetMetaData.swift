@@ -5,7 +5,7 @@ class AccountGetMetaData: NSObject
     var address : String!
     var balance : Double!
     var importance : Double!
-    var publicKey: String!
+    var publicKey: String?
     var label : String?
     var harvestedBlocks : Double!
     var cosignatories :[AccountGetMetaData] = [AccountGetMetaData]()
@@ -18,10 +18,9 @@ class AccountGetMetaData: NSObject
         let accountData :NSDictionary = dictionary.objectForKey("account") as! NSDictionary
         let metaData :NSDictionary = dictionary.objectForKey("meta") as! NSDictionary
 
-        
         self.address = accountData.objectForKey("address") as! String
         self.balance = accountData.objectForKey("balance") as! Double
-        self.importance  = accountData.objectForKey("importance") as! Double
+        self.importance  = accountData.objectForKey("importance") as! Double * 10000
         self.publicKey = accountData.objectForKey("publicKey") as? String
         self.label = accountData.objectForKey("label") as? String
         self.harvestedBlocks = accountData.objectForKey("harvestedBlocks") as! Double

@@ -22,7 +22,7 @@ class ServerViewCell: UITableViewCell
             return _isActiveServer
         }
         set {
-            _inEditingState = newValue
+            _isActiveServer = newValue
         }
     }
     
@@ -55,7 +55,6 @@ class ServerViewCell: UITableViewCell
             UIView.animateWithDuration(duration, animations: { () -> Void in
                 self.contentView.layoutIfNeeded()
                 }, completion: { (successed :Bool) -> Void in
-                   
                     if self._isActiveServer {
                         self.actionButton.setImage(UIImage(named: "server_indicator_active"), forState: UIControlState.Normal)
                     } else {

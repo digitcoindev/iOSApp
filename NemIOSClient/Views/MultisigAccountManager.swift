@@ -1,15 +1,11 @@
 import UIKit
 
-class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIManagerDelegate
+class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate, AccountsChousePopUpDelegate
 {
 
     @IBOutlet weak var chouseButton: ChouseButton!
     @IBOutlet weak var tableView: UITableView!
     
-    var walletData :AccountGetMetaData!
-    var timer :NSTimer!
-    var state :[String] = ["none"]
-
     var currentCosignatories :[String] = [String]()
     var removeArray :[AccountGetMetaData]!
     var addArray = [String]()
@@ -22,6 +18,8 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     private var _popUps :[AbstractViewController] = []
     
     private var _currentCosignatories :[String] = []
+    private var _addArray :[String] = []
+    private var _removeArray :[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,213 +29,147 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         
         _apiManager.delegate = self
         
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+        
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     
-    final func manageState() {
-        switch (state.last!) {
-            
-        case "prepareAnnounceSuccessed" :
-            state.removeLast()
-            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are confirmed and await \nfor server validation", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-            }
-            
-            alert1.addAction(ok)
-            self.presentViewController(alert1, animated: true, completion: nil)
-            
-        case "prepareAnnounceDenied" :
-            state.removeLast()
-            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Changes are not confirmed,\nplease try again later.", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-            }
-            
-            alert1.addAction(ok)
-            self.presentViewController(alert1, animated: true, completion: nil)
-            
-        default :
-            break
-        }
-    }
-
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentCosignatories.count
+        
+        var count = currentCosignatories.count + _addArray.count
+        count = (count > 0) ? count : 1
+        count = (count == 1) ? count : count + 1
+        return count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell :KeyCell = self.tableView.dequeueReusableCellWithIdentifier("KeyCell") as! KeyCell
         
-        cell.key.text = ""
-        cell.cellIndex = indexPath.row
-        
-        cell.key.text = cell.key.text! + currentCosignatories[indexPath.row]
-        
-        return cell
+        if indexPath.row == tableView.numberOfRowsInSection(0) - 1 {
+            if (_addArray.count + _removeArray.count) > 0 {
+                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("save cell")!
+                return cell
+            } else {
+                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
+                return cell
+            }
+        } else {
+            if indexPath.row >= _currentCosignatories.count + _addArray.count {
+                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
+                return cell
+            } else {
+                let cell :CosigTableViewCell = tableView.dequeueReusableCellWithIdentifier("save cell")! as! CosigTableViewCell
+                cell.infoLabel.numberOfLines = 2
+                
+                var index = 0
+                
+                if indexPath.row >= _currentCosignatories.count {
+                    index = indexPath.row - _currentCosignatories.count
+                    
+                    if index < _addArray.count {
+                        cell.isEditable = true
+                        cell.infoLabel.text = _addArray[index]
+                    }
+                    
+                } else {
+                    cell.isEditable = !(_removeArray.count > 0)
+                    cell.infoLabel.text = _currentCosignatories[indexPath.row]
+                }
+                
+                return cell
+            }
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
-    final func deleteCellAtIndex(notification: NSNotification) {
-        let index = notification.object as! Int
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        
-        currentCosignatories.removeAtIndex(index)
-        self.tableView.deleteRowsAtIndexPaths([indexPath] , withRowAnimation: .Fade)
-    }
-    
-    @IBAction func addChanges(sender: AnyObject) {
-        let newPublicKey :String = (sender as! UITextField).text!
-        if newPublicKey.utf16.count == 64 {
-            var find : Bool = false
-            for publicKey in currentCosignatories {
-                if publicKey == newPublicKey {
-                    find = true
-                    break
-                }
+        if indexPath.row == tableView.numberOfRowsInSection(0) - 1 {
+            if (_addArray.count + _removeArray.count) == 0 {
+                _addCosig()
             }
-            
-            if !find {
-                currentCosignatories.append(newPublicKey)
-                tableView.reloadData()
+        } else {
+            if indexPath.row == tableView.numberOfRowsInSection(0) - 2 {
+                if (_addArray.count + _removeArray.count) > 0 {
+                   _addCosig()
+                }
             }
         }
     }
-
+    
+    func deleteCell(cell: EditableTableViewCell) {
+        var index = tableView.indexPathForCell(cell)!.row
+        
+        if index >= _currentCosignatories.count {
+            index = index - _currentCosignatories.count
+            _addArray.removeAtIndex(index)
+        } else {
+            currentCosignatories.removeAtIndex(index)
+        }
+        
+        tableView.reloadData()
+    }
     
     @IBAction func saveChanges(sender: AnyObject) {
-        removeArray = walletData.cosignatories
         
-        for publicKey in currentCosignatories {
-            var find = false
-            for var index = 0 ; index < removeArray.count ;index++ {
-                if publicKey == removeArray[index].publicKey as String {
-                    find = true
-                    removeArray.removeAtIndex(index)
-                }
-            }
-            
-            if !find {
-                addArray.append(publicKey)
-            }
+        if _removeArray.count > 1 {
+            _showPopUp( NSLocalizedString("MULTISIG_REMOVE_COUNT_ERROR", comment: "Description"))
         }
-        
-        if removeArray.count > 1 {
-            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. You can remove only one cosignatori per transaction.", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-                    
-                    self.currentCosignatories.removeAll(keepCapacity: false)
-                    
-                    for cosignatory in self.walletData.cosignatories
-                    {
-                        self.currentCosignatories.append(cosignatory.publicKey as String)
-                    }
-                    
-                    self.tableView.reloadData()
-            }
-            
-            alert.addAction(ok)
-            
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else if (addArray.count - removeArray.count + walletData.cosignatories.count) > 16 {
-            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Yikes. Too many cosignatories.", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-                    
-                    self.currentCosignatories.removeAll(keepCapacity: false)
-                    
-                    for cosignatory in self.walletData.cosignatories
-                    {
-                        self.currentCosignatories.append(cosignatory.publicKey as String)
-                    }
-                    
-                    self.tableView.reloadData()
-            }
-            
-            alert.addAction(ok)
-            
-            self.presentViewController(alert, animated: true, completion: nil)
+        else if (_currentCosignatories.count + _addArray.count) > 16 {
+            _showPopUp( NSLocalizedString("MULTISIG_COSIGNATORIES_COUNT_ERROR", comment: "Description"))
         }
         else {
-            let fee = 10 + 6 * Int64(addArray.count + removeArray.count)
+            let fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
             
-            let alert1 :UIAlertController = UIAlertController(title: "Confirmation", message: "Are you agree with changes? It will cost \(fee) XEM", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message:
+                String(format: NSLocalizedString("MULTISIG_CHANGES_CONFIRMATION", comment: "Description"), fee), preferredStyle: UIAlertControllerStyle.Alert)
             
-            let confirm :UIAlertAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default) {
+            let confirm :UIAlertAction = UIAlertAction(title: NSLocalizedString("CONFIRM", comment: "Title"), style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
                     
                     let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
                     let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-                    let publickey = self.walletData.publicKey
+                    let publickey = self._activeAccount!.publicKey!
                     
                     transaction.timeStamp = TimeSynchronizator.nemTime
                     transaction.deadline = TimeSynchronizator.nemTime + waitTime
                     transaction.version = 1
                     transaction.signer = publickey
                     transaction.privateKey = privateKey
-                    transaction.minCosignatory = self.walletData.cosignatories.count - self.removeArray.count + self.addArray.count
+                    transaction.minCosignatory = 0
                     
-                    for cosignatori in self.removeArray
+                    for publickey in self._removeArray
                     {
-                        transaction.addModification(2, publicKey: cosignatori.publicKey as String)
+                        transaction.addModification(2, publicKey: publickey)
                     }
                     
-                    for publickey in self.addArray
+                    for publickey in self._addArray
                     {
                         transaction.addModification(1, publicKey: publickey)
                     }
                     
-                    transaction.fee = 10 + 6 * Double(self.addArray.count + self.removeArray.count)
+                transaction.fee = Double(fee)
                     
-                    APIManager().prepareAnnounce(State.currentServer!, transaction: transaction)
-                    
-                    self.currentCosignatories.removeAll(keepCapacity: false)
-                    
-                    for cosignatory in self.walletData.cosignatories
-                    {
-                        self.currentCosignatories.append(cosignatory.publicKey as String)
-                    }
-                    
-                    self.addArray.removeAll(keepCapacity: false)
-                    self.removeArray.removeAll(keepCapacity: false)
-                    
-                    self.tableView.reloadData()
-                    
+                    self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
             }
             
-            
-            let cancel :UIAlertAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-                    
-                    self.currentCosignatories.removeAll(keepCapacity: false)
-                    
-                    for cosignatory in self.walletData.cosignatories
-                    {
-                        self.currentCosignatories.append(cosignatory.publicKey as String)
-                    }
-                    
-                    self.addArray.removeAll(keepCapacity: false)
-                    self.removeArray.removeAll(keepCapacity: false)
-                    
-                    self.tableView.reloadData()
+            let cancel :UIAlertAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Title"), style: UIAlertActionStyle.Cancel) {
+                alertAction -> Void in
             }
             
             alert1.addAction(cancel)
             alert1.addAction(confirm)
             
             self.presentViewController(alert1, animated: true, completion: nil)
+        }
+    }
+    
+    //MARK: - @IBAction
+    
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         }
     }
     
@@ -275,8 +207,58 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         }
     }
     
-    private func _generateTableData() {
+    //MARK: - Private Methods
     
+    private func _addCosig() {
+        if _popUps.count == 0 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let popUp :AddCosigPopUp =  storyboard.instantiateViewControllerWithIdentifier("AddCustomCosig") as! AddCosigPopUp
+            popUp.view.frame = CGRect(x: 0, y: 60, width: popUp.view.frame.width, height: popUp.view.frame.height - 60)
+            popUp.view.layer.opacity = 0
+            popUp.delegate = self
+            
+            _popUps.append(popUp)
+            self.view.addSubview(popUp.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                popUp.view.layer.opacity = 1
+                }, completion: nil)
+        } else {
+            _popUps.first?.view.removeFromSuperview()
+            _popUps.removeFirst()
+        }
+    }
+    
+    private func _generateTableData() {
+        var newCosigList :[String] = []
+        
+        for cosig in _activeAccount!.cosignatories {
+            newCosigList.append(cosig.publicKey ?? "not registered in NIS" )
+        }
+        
+        _currentCosignatories = newCosigList
+        _addArray = []
+        _removeArray = []
+    }
+    
+    private final func _showPopUp(message :String){
+        
+        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            alertAction -> Void in
+        }
+        
+        alert.addAction(ok)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - AccountChousePopUp Methods
+
+    func addCosig(publicKey: String) {
+        _addArray.append(publicKey)
+        tableView.reloadData()
     }
     
     //MARK: - AccountChousePopUp Methods
@@ -306,6 +288,22 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             if _activeAccount == nil {
                 _activeAccount = account
                 _generateTableData()
+            }
+        }
+    }
+    
+    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+        if data != nil && data!.count > 0 {
+            func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+                
+                var message :String = ""
+                if (data ?? []).isEmpty {
+                    message = NSLocalizedString("TRANSACTION_ANOUNCE_FAILED", comment: "Dsecription")
+                } else {
+                    message = NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description")
+                }
+                
+                _showPopUp(message)
             }
         }
     }

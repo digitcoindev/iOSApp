@@ -136,8 +136,8 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     keyValide = Validate.key(key.text)
                 }
                 
-                if keyValide {
-                    WalletGenerator().createWallet(name.text!, password: password.text!, privateKey: key.text)
+                if let privateKey = key.text!.nemKeyNormalized() {
+                    WalletGenerator().createWallet(name.text!, password: password.text!, privateKey: privateKey)
                     
                     State.fromVC = SegueToImportFromKey
                     State.toVC = SegueToLoginVC

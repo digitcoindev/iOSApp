@@ -147,6 +147,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
         
         _activeAccount = account
         _apiManager.accountTransfersAll(State.currentServer!, account_address: account.address)
+        chouseButton.setTitle(account.address, forState: UIControlState.Normal)
     }
     
     //MARK: - APIManagerDelegate Methods

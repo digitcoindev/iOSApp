@@ -15,9 +15,12 @@
 "ACCOUNT_ADDING_SUCCESS" = "Акаунт: %@\nУспішно доданий."; // %@ will be replaced by the account name
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "У вас є непідписані транзакції.";
 "NOT_ENOUGHT_MONEY" = "Недостатньо коштів на рахунку";
+    "MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
+    "MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
 
 // Text
 
+"MULTISIG_CHANGES_CONFIRMATION" = "Ви згідні з змінами? це буде коштувати %@ XEM"; // %@ will be replaced by the transaction fee
 "SHOW_TRANSACTIONS" = "Переглянути";
 "REMIND_LATER" = "Нагадати пізніше";
 "EMPTY_MESSAGE" = "Пусте повідомленя";
@@ -27,8 +30,8 @@
 "ACCOUNT_NAME" = "Імя акаунту";
 "ACCOUNT_ADDRESS" = "Адреса акаунту";
 "ACCOUNT_TYPE" = "Тип акаунту";
-"IMPORTANCE_SCORE" = "Коефіцієнт важності";
-"PUBLIC_KEY" = "Пулічний ключ";
+"IMPORTANCE_SCORE" = "Коефіцієнт важливості";
+"PUBLIC_KEY" = "Публічний ключ";
 "DELEGATED_PRIVATE_KEY" = "Довірений приватний ключ";
 "PRIVATE_KEY" = "Приватний ключ";
 "ACCOUNT_HISTORY" = "Історія акаунту";
@@ -38,10 +41,12 @@
 "EXPORT_ACCOUNT" = "Експортувати акаунт";
 
 "MULTISIG_ACCOUNT" = "Мульти-акаунт";
-"NORMAL_ACCOUNT" = "простоий акаун";
+"NORMAL_ACCOUNT" = "простий акаунт";
 "COSIGNER_ACCOUNT" = "акаунт-підписник";
 
 "NO" = "Немає";
+"CONFIRM" = "Підтвердити";
+"CANCEL" = "Скасувати";
 
 "GET_PRIVATE_KEY" = "Отримати приватний ключ";
 "VIEW_ACCOUNT_HISTORY" = "Показати історію акаунту";

@@ -88,9 +88,13 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         
         let cellData  : Server = servers[indexPath.row]
         cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
+        
         if servers[indexPath.row] == State.currentServer {
             cell.isActiveServer = true
         }
+        
+        cell.inEditingState = _isEditing
+        cell.layoutCell(animated: false)
         return cell
 
     }

@@ -38,8 +38,6 @@ class MainContainerVC: AbstractViewController
         }
         
         if (self.childViewControllers.count > 0) {
-            NSNotificationCenter.defaultCenter().removeObserver(self.childViewControllers.first!)
-
             self.swapFromViewController(self.childViewControllers.first!, toViewController: segue.destinationViewController)
         }
         else {
@@ -76,10 +74,10 @@ class MainContainerVC: AbstractViewController
             
             switch(page) {
                 
-            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToProfile, SegueToProfileMultisig, SegueToProfileCosignatoryOf, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHistoryVC, SegueToExportAccount:
+            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToProfile, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHistoryVC, SegueToExportAccount, SegueToMainMenu:
                 self.performSegueWithIdentifier(page, sender: nil)
                 
-            case SegueToPasswordValidation, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController, SegueToMainMenu:
+            case SegueToPasswordValidation, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController:
                 
                 State.toVC = page as String
                 

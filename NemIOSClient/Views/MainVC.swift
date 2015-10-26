@@ -5,7 +5,7 @@ import UIKit
     func pageSelected(page :String)
 }
 
-class MainVC: UIViewController , MainVCDelegate
+class MainVC: AbstractViewController , MainVCDelegate
 {
     
     //MARK: - Private Variables

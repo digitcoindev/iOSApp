@@ -40,6 +40,10 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
         
+        if contact != nil {
+            toAddressTextField.text = "\(contact!.address)"
+        }
+        
         if State.invoice != nil {
             toAddressTextField.text = "\(invoice!.address)"
             amountTextField.text = "\(invoice!.amount)"
@@ -91,8 +95,15 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             var state = true
             
             state = (state && Validate.stringNotEmpty(toAddressTextField.text))
-            state = (state && Validate.stringNotEmpty(messageTextField.text))
-            state = (state && Validate.stringNotEmpty(amountTextField.text))
+            state = (state && (Validate.stringNotEmpty(messageTextField.text) || Validate.stringNotEmpty(amountTextField.text)))
+            
+            var findContent = Validate.stringNotEmpty(amountTextField.text)
+            findContent = findContent && (amountTextField.text != "0")
+            
+            if !findContent {
+                findContent = Validate.stringNotEmpty(messageTextField.text)
+            }
+            
             state = (state && Validate.stringNotEmpty(feeTextField.text))
             
             if state {

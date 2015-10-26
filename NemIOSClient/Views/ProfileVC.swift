@@ -1,6 +1,6 @@
 import UIKit
 
-class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
+class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate, ChangeNamePopUptDelegate
 {
     private enum ProfileTab :Int {
         case PrivateKey = 6
@@ -188,6 +188,8 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(SegueTomultisigAccountManager)
             }
+        case ProfileTab.AccuntName.rawValue:
+            _createPopUp("ChangeNamePopUpProfile")
             
         default:
             break
@@ -205,7 +207,7 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AbstractViewController
+        let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier(withId) as! AbstractViewController
         popUpController.view.frame = CGRect(x: 0, y: topView.frame.height, width: popUpController.view.frame.width, height: popUpController.view.frame.height - topView.frame.height)
         popUpController.view.layer.opacity = 0
         popUpController.delegate = self
@@ -217,6 +219,13 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
             popUpController.view.layer.opacity = 1
             }, completion: nil)
 
+    }
+    
+    //MARK: - ChangeNamePopUpDelegate Methods
+
+    func nameChanged(name :String) {
+        _content[0] = name
+        tableView.reloadData()
     }
     
     //MARK: - APIManagerDelegate Methods
@@ -236,7 +245,7 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
                 type = NSLocalizedString("NORMAL_ACCOUNT", comment: "Description")
             }
             
-            let importance = account!.importance.format(".0")
+            let importance = account!.importance.format(".2") + " ‱"
             
             _content = []
             _content += [
@@ -244,7 +253,7 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
                 account!.address.nemAddressNormalised(),
                 type,
                 importance,
-                account!.publicKey
+                account!.publicKey!
             ]
             _content += [
                 NSLocalizedString("NO", comment: "Description") + "(Disabled)",
@@ -252,7 +261,7 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
                 NSLocalizedString("VIEW_ACCOUNT_HISTORY", comment: "Description"),
                 NSLocalizedString("ADD_OR_REMOVE_COSIGNERS", comment: "Description"),
                 NSLocalizedString("SET_PRIMARY_ACCOUNT", comment: "Description") + "(Disabled)",
-                NSLocalizedString("CHANGE_ACCOUNT_NAMET", comment: "Description")  + "(Disabled)",
+                NSLocalizedString("CHANGE_ACCOUNT_NAMET", comment: "Description"),
                 NSLocalizedString("CREATE_QR", comment: "Description"  + "(Disabled)")
             ]
             

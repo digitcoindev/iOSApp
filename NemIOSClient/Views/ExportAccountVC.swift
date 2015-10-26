@@ -2,22 +2,17 @@ import UIKit
 import Social
 import MessageUI
 
-class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
+class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDelegate
 {
     @IBOutlet weak var qrImage: UIImageView!
     
-    let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+    private var popup :AbstractViewController? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC != SegueToExportAccount {
-            State.fromVC = SegueToExportAccount
-        }
-        
+        State.fromVC = SegueToExportAccount
         State.currentVC = SegueToExportAccount
-        
-        observer.addObserver(self, selector: "detectedQR:", name: "Scan QR", object: nil)
         
         let login = State.currentWallet!.login
         let password = State.currentWallet!.password
@@ -37,36 +32,30 @@ class ExportAccountVC: UIViewController , MFMailComposeViewControllerDelegate
         qrImage.image =  qr.createQR(base64String)
     }
     
-    @IBAction func mailBtn(sender: AnyObject) {
-        if(MFMailComposeViewController.canSendMail()){
-            let myMail : MFMailComposeViewController = MFMailComposeViewController()
-            
-            myMail.mailComposeDelegate = self
-            
-            myMail.setSubject("NEM")
-            
-            let sentfrom = "Scan this QR if you want to import : \"\(State.currentWallet!.login)\" account."
-            myMail.setMessageBody(sentfrom, isHTML: true)
-            
-            let image = qrImage.image!
-            let imageData = UIImageJPEGRepresentation(image, 1.0)
-            
-            myMail.addAttachmentData(imageData!, mimeType: "image/jped", fileName: "image")
-            
-            //Display the view controller
-            self.presentViewController(myMail, animated: true, completion: nil)
-        }
-        else {
-            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: "Your device can not send emails", delegate: self, cancelButtonTitle: "OK")
-            alert.show()
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    @IBAction func shareQR(sender: AnyObject) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
+        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
+        shareVC.view.layer.opacity = 0
+        shareVC.delegate = self
+        
+        shareVC.images = [qrImage.image!]
+        popup = shareVC
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.view.addSubview(shareVC.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                shareVC.view.layer.opacity = 1
+                }, completion: nil)
+        })
     }
 }

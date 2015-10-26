@@ -72,7 +72,11 @@ class Validate: NSObject
             return false
         }
         
-        return true
+        let regEx = "^ *$"
+        let range = inputText!.rangeOfString(regEx, options:.RegularExpressionSearch)
+        let result = range == nil ? true : false
+        
+        return result
     }
     
     final class func hexString(text : String) -> Bool {

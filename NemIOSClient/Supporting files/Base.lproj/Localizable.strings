@@ -15,9 +15,12 @@
 "SERVER_PROTOCOL_NOT_AVAILABLE" = "Available only \"http\" protocol type.";
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed up!";
 "NOT_ENOUGHT_MONEY" = "Not enought money";
+        "MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
+        "MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
 
 // Text
 
+    "MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM"; // %@ will be replaced by the transaction fee
 "SHOW_TRANSACTIONS" = "Show transactions";
 "REMIND_LATER" = "Remind later";
 "EMPTY_MESSAGE" = "Empty message";
@@ -42,6 +45,8 @@
 "COSIGNER_ACCOUNT" = "Cosigner Account";
 
 "NO" = "No";
+        "CONFIRM" = "Confirm";
+        "CANCEL" = "Cancel";
 
 "GET_PRIVATE_KEY" = "Get Private Key";
 "VIEW_ACCOUNT_HISTORY" = "View Account History";

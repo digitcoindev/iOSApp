@@ -22,7 +22,7 @@ class ScanQRVC: AbstractViewController, QRDelegate
     func detectedQRWithString(text: String) {
         let base64String :String = text
         if base64String != "Empty scan" {
-            let jsonData :NSData = NSData(base64EncodedString: base64String)
+            let jsonData :NSData = text.dataUsingEncoding(NSUTF8StringEncoding)!
             var jsonStructure :NSDictionary? = nil
 
             jsonStructure = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as? NSDictionary
