@@ -2,7 +2,7 @@ import UIKit
 import AddressBook
 import AddressBookUI
 
-class ScanQRVC: AbstractViewController, QRDelegate
+class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
 {
     @IBOutlet weak var qrScaner: QR!
     
@@ -108,6 +108,7 @@ class ScanQRVC: AbstractViewController, QRDelegate
         contactCustomVC.firstName.text = friendDictionary.objectForKey("name") as? String
         contactCustomVC.lastName.text = friendDictionary.objectForKey("surname") as? String
         contactCustomVC.address.text = friendDictionary.objectForKey("address") as? String
+        _tempController = contactCustomVC
         
         self.view.addSubview(contactCustomVC.view)
         
@@ -116,8 +117,22 @@ class ScanQRVC: AbstractViewController, QRDelegate
             }, completion: nil)
 
     }
+  
+    // MARK: -  AddCustomContactDelegate
+
+    func contactAdded(successfuly: Bool) {
+        if successfuly {
+            let navDelegate = (self.delegate as? QRViewController)?.delegate as? MainVCDelegate
+            if navDelegate != nil  {
+                navDelegate!.pageSelected(SegueToAddressBook)
+            }
+        }
+    }
+    func popUpClosed(successfuly :Bool) {
+        qrScaner.play()
+    }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func contactChanged(successfuly: Bool) {
+
     }
 }

@@ -14,43 +14,44 @@
 		9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
 		9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D41B846FE200B532CC /* MessageCrypto.swift */; };
-		9833B70C1BC5506B009836F9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9833B70B1BC5506B009836F9 /* Enums.swift */; settings = {ASSET_TAGS = (); }; };
-		983579AE1BC3EC49009AF518 /* MessageToContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */; settings = {ASSET_TAGS = (); }; };
-		983579B41BC518EA009AF518 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B31BC518EA009AF518 /* QRViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B51BC51CF3009AF518 /* QRContainerVC.swift */; settings = {ASSET_TAGS = (); }; };
-		983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */; settings = {ASSET_TAGS = (); }; };
-		98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		98428A741BDA5960004494D5 /* CosigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A731BDA5960004494D5 /* CosigTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		98428A761BDA689C004494D5 /* AddCosigPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A751BDA689C004494D5 /* AddCosigPopUp.swift */; settings = {ASSET_TAGS = (); }; };
+		9833B70C1BC5506B009836F9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9833B70B1BC5506B009836F9 /* Enums.swift */; };
+		983579AE1BC3EC49009AF518 /* MessageToContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */; };
+		983579B41BC518EA009AF518 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B31BC518EA009AF518 /* QRViewController.swift */; };
+		983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B51BC51CF3009AF518 /* QRContainerVC.swift */; };
+		983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */; };
+		98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */; };
+		98428A741BDA5960004494D5 /* CosigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A731BDA5960004494D5 /* CosigTableViewCell.swift */; };
+		98428A761BDA689C004494D5 /* AddCosigPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A751BDA689C004494D5 /* AddCosigPopUp.swift */; };
 		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
-		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; settings = {ASSET_TAGS = (); }; };
-		987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B878E1BD684CF00782B42 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; };
+		9877C6801BE138EB00AF9751 /* HarvestDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */; };
+		987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B878E1BD684CF00782B42 /* MapViewController.swift */; };
 		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
-		98BB95AC1BC7B185002151F7 /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AB1BC7B185002151F7 /* SocialManager.swift */; settings = {ASSET_TAGS = (); }; };
-		98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		98BB95AC1BC7B185002151F7 /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AB1BC7B185002151F7 /* SocialManager.swift */; };
+		98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */; };
 		98BB95B21BC7EE58002151F7 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98BB95B11BC7EE58002151F7 /* Contacts.framework */; };
-		98BB95D31BCCED5B002151F7 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95B91BCCED5B002151F7 /* readme.md */; settings = {ASSET_TAGS = (); }; };
-		98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95BB1BCCED5B002151F7 /* add_scalar.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95D51BCCED5B002151F7 /* fe.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95BD1BCCED5B002151F7 /* fe.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95D61BCCED5B002151F7 /* ge.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C01BCCED5B002151F7 /* ge.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C21BCCED5B002151F7 /* key_exchange.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95D91BCCED5B002151F7 /* keypair.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C41BCCED5B002151F7 /* keypair.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95DA1BCCED5B002151F7 /* sc.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C61BCCED5B002151F7 /* sc.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95DB1BCCED5B002151F7 /* seed.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C81BCCED5B002151F7 /* seed.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C91BCCED5B002151F7 /* sha3.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95DD1BCCED5B002151F7 /* sign.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95CB1BCCED5B002151F7 /* sign.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95DE1BCCED5B002151F7 /* verify.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95CC1BCCED5B002151F7 /* verify.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95E11BCCEDB6002151F7 /* generator.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E01BCCEDB6002151F7 /* generator.c */; settings = {ASSET_TAGS = (); }; };
-		98BB95E41BCCF463002151F7 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E31BCCF463002151F7 /* Crypto.m */; settings = {ASSET_TAGS = (); }; };
-		98BB95E61BCD2FAA002151F7 /* ChouseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */; settings = {ASSET_TAGS = (); }; };
-		98F3F53D1BD0EBE6004A6E19 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		98F3F53F1BD0EC4E004A6E19 /* AbstactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		98F3F5431BD12E38004A6E19 /* MessageUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5421BD12E38004A6E19 /* MessageUILabel.swift */; settings = {ASSET_TAGS = (); }; };
-		98F448951BDE4A00008E2BF4 /* ChangeNamePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */; settings = {ASSET_TAGS = (); }; };
+		98BB95D31BCCED5B002151F7 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95B91BCCED5B002151F7 /* readme.md */; };
+		98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95BB1BCCED5B002151F7 /* add_scalar.c */; };
+		98BB95D51BCCED5B002151F7 /* fe.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95BD1BCCED5B002151F7 /* fe.c */; };
+		98BB95D61BCCED5B002151F7 /* ge.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C01BCCED5B002151F7 /* ge.c */; };
+		98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C21BCCED5B002151F7 /* key_exchange.c */; };
+		98BB95D91BCCED5B002151F7 /* keypair.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C41BCCED5B002151F7 /* keypair.c */; };
+		98BB95DA1BCCED5B002151F7 /* sc.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C61BCCED5B002151F7 /* sc.c */; };
+		98BB95DB1BCCED5B002151F7 /* seed.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C81BCCED5B002151F7 /* seed.c */; };
+		98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95C91BCCED5B002151F7 /* sha3.c */; };
+		98BB95DD1BCCED5B002151F7 /* sign.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95CB1BCCED5B002151F7 /* sign.c */; };
+		98BB95DE1BCCED5B002151F7 /* verify.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95CC1BCCED5B002151F7 /* verify.c */; };
+		98BB95E11BCCEDB6002151F7 /* generator.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E01BCCEDB6002151F7 /* generator.c */; };
+		98BB95E41BCCF463002151F7 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E31BCCF463002151F7 /* Crypto.m */; };
+		98BB95E61BCD2FAA002151F7 /* ChouseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */; };
+		98F3F53D1BD0EBE6004A6E19 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */; };
+		98F3F53F1BD0EC4E004A6E19 /* AbstactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */; };
+		98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */; };
+		98F3F5431BD12E38004A6E19 /* MessageUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5421BD12E38004A6E19 /* MessageUILabel.swift */; };
+		98F448951BDE4A00008E2BF4 /* ChangeNamePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */; };
 		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
-		98FE074E1BBE7C29009017CD /* EditableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		98FE074E1BBE7C29009017CD /* EditableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */; };
 		D8B91FD79BFFA2DD50D69DC6 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FC49EEC35A6802600EA0E3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
 		DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MainMenuVC.swift */; };
@@ -222,6 +223,7 @@
 		98428A751BDA689C004494D5 /* AddCosigPopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCosigPopUp.swift; path = Views/AddCosigPopUp.swift; sourceTree = "<group>"; };
 		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
+		9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestDetailsVC.swift; path = Views/HarvestDetailsVC.swift; sourceTree = "<group>"; };
 		987B878E1BD684CF00782B42 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Views/MapViewController.swift; sourceTree = "<group>"; };
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98BB95AB1BC7B185002151F7 /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Models/SocialManager.swift; sourceTree = "<group>"; };
@@ -1077,6 +1079,7 @@
 				DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */,
 				98428A751BDA689C004494D5 /* AddCosigPopUp.swift */,
 				98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */,
+				9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -1497,6 +1500,7 @@
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
 				DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */,
 				DA194E041A41E9A00030C882 /* LoginVC.swift in Sources */,
+				9877C6801BE138EB00AF9751 /* HarvestDetailsVC.swift in Sources */,
 				DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */,
 				DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */,
 				DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */,
@@ -1583,6 +1587,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1630,6 +1635,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

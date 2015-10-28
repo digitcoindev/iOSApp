@@ -19,7 +19,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     var transactionFee :Double = 10;
     var walletData :AccountGetMetaData!
     var xems :Int = 0
-    let invoice :InvoiceData? = State.invoice
+    var invoice :InvoiceData? = nil
     var contact :Correspondent? = State.currentContact
     
     override func viewDidLoad() {
@@ -45,6 +45,8 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         
         if State.invoice != nil {
+            invoice = State.invoice
+            State.invoice = nil
             toAddressTextField.text = "\(invoice!.address)"
             amountTextField.text = "\(invoice!.amount)"
             messageTextField.text = "\(invoice!.message)"
@@ -208,30 +210,36 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     }
     
     @IBAction func chouseAccount(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
-        
-        accounts.view.frame = scroll.frame
-        
-        accounts.view.layer.opacity = 0
-        accounts.delegate = self
-        
-        var wallets = _mainWallet?.cosignatoryOf ?? []
-        
-        if _mainWallet != nil
-        {
-            wallets.append(self._mainWallet!)
-        }
-        accounts.wallets = wallets
-        
-        if accounts.wallets.count > 0
-        {
-            self.contentView.addSubview(accounts.view)
+        if _popup == nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                accounts.view.layer.opacity = 1
-                }, completion: nil)
+            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+            _popup = accounts
+            accounts.view.frame = CGRect(origin: CGPoint(x: scroll.frame.origin.x, y: scroll.frame.origin.y + 5 ), size: scroll.frame.size)
+            
+            accounts.view.layer.opacity = 0
+            accounts.delegate = self
+            
+            var wallets = _mainWallet?.cosignatoryOf ?? []
+            
+            if _mainWallet != nil
+            {
+                wallets.append(self._mainWallet!)
+            }
+            accounts.wallets = wallets
+            
+            if accounts.wallets.count > 0
+            {
+                self.contentView.addSubview(accounts.view)
+                
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    accounts.view.layer.opacity = 1
+                    }, completion: nil)
+            }
+        } else {
+            _popup!.view.removeFromSuperview()
+            _popup!.removeFromParentViewController()
+            _popup = nil
         }
     }
     

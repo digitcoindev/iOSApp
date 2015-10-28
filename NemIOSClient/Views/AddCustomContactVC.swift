@@ -11,6 +11,7 @@ import Contacts
 
 protocol AddCustomContactDelegate
 {
+    func popUpClosed(successfuly :Bool)
     func contactAdded(successfuly :Bool)
     func contactChanged(successfuly :Bool)
 }
@@ -77,7 +78,7 @@ class AddCustomContactVC: AbstractViewController {
     //MARK: - Private Helpers
     
     final private func _changeContact() {
-        if Validate.stringNotEmpty(firstName.text) && Validate.stringNotEmpty(lastName.text) && Validate.address(address.text) {
+        if (Validate.stringNotEmpty(firstName.text) || Validate.stringNotEmpty(lastName.text)) && Validate.address(address.text) {
             
             let mutableContact :CNMutableContact = ((self.contact) ?? CNContact()).mutableCopy() as! CNMutableContact
             

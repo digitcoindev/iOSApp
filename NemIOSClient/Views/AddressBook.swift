@@ -48,7 +48,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         
         _newContact = AddressBook.newContact
         AddressBook.newContact = nil
-        filter.setFilterToState((_newContact == nil) ? true : false)
+        filter.setFilterToState((_newContact == nil) ? false : true)
         self.filterChanged(self)
         
         searchContainer.layer.cornerRadius = 5
@@ -301,6 +301,11 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             }
             self.filterChanged(self)
         }
+    }
+    
+    func popUpClosed(successfuly :Bool)
+    {
+        
     }
     
     // MARK: - EditableTableViewCellDelegate Methods

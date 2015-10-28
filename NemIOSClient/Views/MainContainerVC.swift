@@ -52,6 +52,7 @@ class MainContainerVC: AbstractViewController
     
     func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController ){
         toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        NSNotificationCenter().removeObserver(self)
         fromViewController.willMoveToParentViewController(nil)
         
         self.addChildViewController(toViewController)
