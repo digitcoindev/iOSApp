@@ -82,7 +82,7 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
         
         invoice.address = invoiceDictionary.objectForKey("address") as! String
         invoice.name = invoiceDictionary.objectForKey("name") as! String
-        invoice.amount = invoiceDictionary.objectForKey("amount") as! Int
+        invoice.amount = invoiceDictionary.objectForKey("amount") as! Double
         invoice.message = invoiceDictionary.objectForKey("message") as! String
         
         State.invoice = invoice

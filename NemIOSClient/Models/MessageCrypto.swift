@@ -1,29 +1,26 @@
 import UIKit
 
 class MessageCrypto: NSObject {
-    final class func encrypt(message :String ,senderPrivateKey :String, recipientPublicKey :String) -> Array<UInt8> {
+    final class func encrypt(message :[UInt8] ,senderPrivateKey :String, recipientPublicKey :String) -> Array<UInt8> {
         
         let saltData = NSData().generateRandomIV(32)
-        var saltBytes: Array<UInt8> = Array(count: 32, repeatedValue: 6) //Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(saltData.bytes), count: saltData.length))
+        var saltBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(saltData.bytes), count: saltData.length))
         
-        var sharedSecretBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
+        var sharedSecretBytes: [UInt8] = Array(count: 32, repeatedValue: 0)
         
         var senderPrivateKeyBytes: Array<UInt8> = senderPrivateKey.asByteArrayEndian(32)
         var recipientPublicKeyBytes: Array<UInt8> = recipientPublicKey.asByteArray()
         
         ed25519_key_exchange_nem(&sharedSecretBytes, &recipientPublicKeyBytes, &senderPrivateKeyBytes, &saltBytes)
         
-        var messageBytes = message.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+        var messageBytes = message
         var messageData = NSData(bytes: &messageBytes, length: messageBytes.count)
         
-        let ivData :Array<UInt8> = Array(count: 16, repeatedValue: 7)//NSData().generateRandomIV(16)
-        let customizedIVBytes: Array<UInt8> = Array(count: 32, repeatedValue: 7)//Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData.bytes), count: ivData.length))
-        
-        messageData = messageData.aesEncrypt(sharedSecretBytes, iv: ivData)!
-        
-        var encryptedBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
-        messageData.getBytes(&encryptedBytes, length: 32)
-        
+        let ivData = NSData().generateRandomIV(16)
+        let customizedIVBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData.bytes), count: ivData.length))
+        messageData = messageData.aesEncrypt(sharedSecretBytes, iv: customizedIVBytes)!
+        var encryptedBytes: Array<UInt8> = Array(count: messageData.length, repeatedValue: 0)
+        messageData.getBytes(&encryptedBytes, length: messageData.length)
         let result = saltBytes + customizedIVBytes + encryptedBytes
         
         return result
@@ -42,29 +39,10 @@ class MessageCrypto: NSObject {
 
         ed25519_key_exchange_nem(&sharedSecretBytes, &senderPublicKeyBytes, &recipientPrivateKeyBytes, &saltBytes)
         
-        let messageData :NSData = NSData(bytes: &encBytes, length: encBytes.count)
+        var messageData :NSData = NSData(bytes: &encBytes, length: encBytes.count)
         
-        messageData.aesDecrypt(sharedSecretBytes, iv: ivBytes)
+        messageData = messageData.aesDecrypt(sharedSecretBytes, iv: ivBytes)!
         
-        var mes = NSString(data: messageData, encoding: NSUTF8StringEncoding)
-        return messageData.hexadecimalString().stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding) ?? ""
-    }
-    
-    final class func getMessageStringFrom(message :MessageGetMetaData)-> String? {
-        
-        switch message.type {
-        case 1:
-            if message.payload.asByteArray().first == UInt8(0xfe) {
-                return (message.payload as NSString).substringWithRange(NSRange(location: 2, length: message.payload.characters.count - 2))
-            } else {
-                return message.payload.stringFromHexadecimalStringUsingEncoding(NSUTF8StringEncoding)
-            }
-            
-        case 2:
-            return "encrypted message (not implemented)"
-            
-        default :
-            return nil
-        }
+        return (NSString(data: messageData, encoding: NSUTF8StringEncoding) as? String) ?? "Could not decrypt"
     }
 }

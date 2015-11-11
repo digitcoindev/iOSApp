@@ -7,7 +7,8 @@ class AccountGetMetaData: NSObject
     var importance : Double!
     var publicKey: String?
     var label : String?
-    var harvestedBlocks : Double!
+    var vestedBalance :Double?
+    var harvestedBlocks : Int!
     var cosignatories :[AccountGetMetaData] = [AccountGetMetaData]()
     var cosignatoryOf: [AccountGetMetaData] = [AccountGetMetaData]()
     var minCosignatories :Int? = nil
@@ -20,10 +21,11 @@ class AccountGetMetaData: NSObject
 
         self.address = accountData.objectForKey("address") as! String
         self.balance = accountData.objectForKey("balance") as! Double
+        self.vestedBalance = accountData.objectForKey("vestedBalance") as? Double
         self.importance  = accountData.objectForKey("importance") as! Double * 10000
         self.publicKey = accountData.objectForKey("publicKey") as? String
         self.label = accountData.objectForKey("label") as? String
-        self.harvestedBlocks = accountData.objectForKey("harvestedBlocks") as! Double
+        self.harvestedBlocks = accountData.objectForKey("harvestedBlocks") as! Int
         self.status = metaData.objectForKey("status") as! String
         self.remoteStatus = metaData.objectForKey("remoteStatus") as! String
         
@@ -51,9 +53,9 @@ class AccountGetMetaData: NSObject
         account.address = dictionary.objectForKey("address") as! String
         account.balance = dictionary.objectForKey("balance") as! Double
         account.importance  = dictionary.objectForKey("importance") as! Double
-        account.publicKey = dictionary.objectForKey("publicKey") as! String
+        account.publicKey = dictionary.objectForKey("publicKey") as? String
         account.label = dictionary.objectForKey("label") as? String
-        account.harvestedBlocks = dictionary.objectForKey("harvestedBlocks") as! Double
+        account.harvestedBlocks = dictionary.objectForKey("harvestedBlocks") as! Int
         
         return account
     }

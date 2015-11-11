@@ -50,10 +50,8 @@ class MessageToContactVC: AbstractViewController {
             correspondent.address = userAddressLabel.text!
             correspondent.name = userInfoLabel.text!
             State.currentContact = correspondent
-            
-            // TODO: Need to change to custom message
-            
-            State.toVC = SegueToSendTransaction
+                        
+            State.nextVC = SegueToSendTransaction
             
             if (self.delegate as! AbstractViewController).delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector("pageSelected:") {
                 ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)

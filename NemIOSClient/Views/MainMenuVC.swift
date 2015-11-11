@@ -14,7 +14,7 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         State.fromVC = SegueToMainMenu
         State.currentVC = SegueToMainMenu
         
-        menu = [SegueToLoginVC, SegueToServerVC, SegueToGoogleMap , SegueToProfile, SegueToExportAccount]
+        menu = [SegueToLoginVC, SegueToServerVC, SegueToGoogleMap , SegueToProfile, SegueToHarvestDetails, SegueToExportAccount]
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -43,7 +43,15 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as! MainViewCell
-        cell.title.text = menuItems.objectAtIndex(indexPath.row) as? String
+        var titleText = menuItems.objectAtIndex(indexPath.row) as? String
+        switch titleText!
+        {
+        case SegueToHarvestDetails:
+            titleText = "Harvest Details"
+        default:
+            break
+        }
+        cell.title.text = titleText
         
         return cell
     }

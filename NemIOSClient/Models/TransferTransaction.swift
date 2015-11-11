@@ -25,16 +25,9 @@ class TransferTransaction: TransactionPostMetaData
         self.deadline = dictionary.objectForKey("deadline") as! Double
 
         let message : NSDictionary = dictionary.objectForKey("message") as! NSDictionary
-        
-        if message.objectForKey("payload") != nil {
-            self.message.payload = message.objectForKey("payload") as! String
-            self.message.type = message.objectForKey("type") as! Double
-        }
-        else {
-            self.message.payload = ""
-            self.message.type = 0
-        }
-        
+        self.message.payload = (message.objectForKey("payload") as? String)?.asByteArray()
+        self.message.type = message.objectForKey("type") as? Int ?? 0
+                
         self.version = dictionary.objectForKey("version") as! Double
         self.signer = dictionary.objectForKey("signer") as! String
     }

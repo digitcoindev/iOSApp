@@ -6,13 +6,18 @@ protocol DashboardVCDelegate {
 
 class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
 {
-    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var messagesButton: DashboardButtonBox!
+    @IBOutlet weak var addressBookButton: DashboardButtonBox!
+    @IBOutlet weak var qrButton: DashboardButtonBox!
     
     // MARK: - Load Methods
     private var _pages :DashboardContainer = DashboardContainer()
+    private let _greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeState(State.toVC)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,7 +50,44 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     
     //MARK: - MainVCdDelegate Methods
     
+    final func changeState(page: String){
+        switch page {
+        case    SegueToMessages, SegueToMessageVC, SegueToMessageMultisignVC,
+        SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToSendTransaction,
+        SegueToUnconfirmedTransactionVC:
+            messagesButton.setImage(UIImage(named: "message_active"), forState: UIControlState.Normal)
+            addressBookButton.setImage(UIImage(named: "adress_passive"), forState: UIControlState.Normal)
+            qrButton.setImage(UIImage(named: "qr_passive"), forState: UIControlState.Normal)
+            
+            messagesButton.setTitleColor(_greenColor, forState: UIControlState.Normal)
+            addressBookButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            qrButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            
+        case SegueToAddressBook:
+            messagesButton.setImage(UIImage(named: "message_passive"), forState: UIControlState.Normal)
+            addressBookButton.setImage(UIImage(named: "adress_active"), forState: UIControlState.Normal)
+            qrButton.setImage(UIImage(named: "qr_passive"), forState: UIControlState.Normal)
+            
+            messagesButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            addressBookButton.setTitleColor(_greenColor, forState: UIControlState.Normal)
+            qrButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            
+        case SegueToQRController, SegueToUserInfo, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR:
+            messagesButton.setImage(UIImage(named: "message_passive"), forState: UIControlState.Normal)
+            addressBookButton.setImage(UIImage(named: "adress_passive"), forState: UIControlState.Normal)
+            qrButton.setImage(UIImage(named: "qr_active"), forState: UIControlState.Normal)
+            
+            messagesButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            addressBookButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            qrButton.setTitleColor(_greenColor, forState: UIControlState.Normal)
+            
+        default:
+            break
+        }
+    }
+    
     final func pageSelected(page :String){
+        changeState(page)
         _pages.changePage(page)
     }
         

@@ -253,10 +253,10 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
                 account!.address.nemAddressNormalised(),
                 type,
                 importance,
-                account!.publicKey!
+                KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey)),
+                HashManager.SHA256Encrypt(HashManager.AES256Decrypt(State.currentWallet!.privateKey).asByteArray())
             ]
             _content += [
-                NSLocalizedString("NO", comment: "Description") + "(Disabled)",
                 NSLocalizedString("GET_PRIVATE_KEY", comment: "Description") + "(Disabled)",
                 NSLocalizedString("VIEW_ACCOUNT_HISTORY", comment: "Description"),
                 NSLocalizedString("ADD_OR_REMOVE_COSIGNERS", comment: "Description"),

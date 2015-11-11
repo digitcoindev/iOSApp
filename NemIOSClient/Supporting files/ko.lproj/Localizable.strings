@@ -30,7 +30,7 @@
 "BALANCE" = "Balance";
 "VASTED_BALANCE" = "Vasted Balance";
 "DELEGATED_HARVESTING" = "Delegated Harvesting";
-"LAST_HARVESTED_BLOCK" = "Last %d Harvested Block(-s)"; // %d will be replaced by the blocks count
+"LAST_HARVESTED_BLOCK" = "Last %d Harvested Block(-s)"; // %@ will be replaced by the blocks count
 "NO_HARVESTED_BLOCK" = "No Harvested Blocks";
 
 "ACCOUNT_NAME" = "Account Name";

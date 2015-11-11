@@ -22,13 +22,13 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        State.cleanVCs()
         State.fromVC = SegueToLoginVC
         State.currentVC = SegueToLoginVC
         
         apiManager.delegate = self
         
-        wallets  = dataManager.getWallets()
+        wallets  = dataManager.getWallets().reverse()
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5

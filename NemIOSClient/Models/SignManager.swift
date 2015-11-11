@@ -1,3 +1,4 @@
+
 import UIKit
 
 class SignManager: NSObject
@@ -97,7 +98,7 @@ class SignManager: NSObject
         }
         else {
             transactionType = String(Int64(transaction.type), radix: 16).asByteArrayEndian(4)
-            fee = String(Int64(transaction.fee * 1000000), radix: 16).asByteArrayEndian(8)
+            fee = String(Int(transaction.fee) * 1000000, radix: 16).asByteArrayEndian(8)
             publicKey = transaction.signer.asByteArray()
 
         }
@@ -142,8 +143,8 @@ class SignManager: NSObject
         let amount = String(Int64(transaction.amount * 1000000), radix: 16).asByteArrayEndian(8)
         result = result + amount
         
-        if transaction.message.payload != "" {
-            let payload :Array<UInt8> = transaction.message.payload.asByteArray()
+        if transaction.message.payload != nil &&  transaction.message.payload!.count > 0 {
+            let payload :Array<UInt8> = transaction.message.payload!
             let length :Int = payload.count + 8
             
             let messageLength :Array<UInt8> = String(length, radix: 16).asByteArrayEndian(4)
@@ -156,7 +157,6 @@ class SignManager: NSObject
             result = result + payloadLength
             
             result = result + payload
-
         }
         else {
             let messageLength :Array<UInt8> = [0 , 0 , 0 , 0]

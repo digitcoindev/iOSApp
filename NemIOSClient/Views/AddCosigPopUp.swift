@@ -52,6 +52,8 @@ class AddCosigPopUp: AbstractViewController {
     @IBAction func addCosig(sender: AnyObject) {
         if Validate.stringNotEmpty(publicKey.text) && Validate.hexString(publicKey.text!){
             (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
+            self.view.removeFromSuperview()
+            self.removeFromParentViewController()
         }
     }
     //MARK: - Keyboard Delegate

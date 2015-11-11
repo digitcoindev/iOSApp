@@ -10,6 +10,8 @@ class PasswordValidationVC: AbstractViewController
     
     var showKeyboard :Bool = true
     var currentField :UITextField!
+    var passwordValue = State.currentWallet?.password
+    var saltValue = State.currentWallet?.salt
     let dataMeneger: CoreDataManager  = CoreDataManager()
     
     // MARK: - Load Methods
@@ -23,7 +25,13 @@ class PasswordValidationVC: AbstractViewController
         containerView.clipsToBounds = true
         
         currentField = password
-        authenticateUser()
+        
+        if State.importAccountData == nil {
+            authenticateUser()
+        } else {
+            passwordValue = State.importAccountData?.password ?? passwordValue
+            saltValue = State.importAccountData?.salt ?? saltValue
+        }
     }
     
     
@@ -34,13 +42,19 @@ class PasswordValidationVC: AbstractViewController
     // MARK: - IBAction
     
     @IBAction func passwordValidation(sender: AnyObject) {
-        let salt :NSData = NSData.fromHexString(State.currentWallet!.salt)
+        let salt :NSData = NSData.fromHexString(saltValue!)
         
         let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:salt, roundCount:2000)!
         
-        if( passwordHash!.toHexString() == State.currentWallet!.password) {
+        if passwordHash?.toHexString() == passwordValue! {
+            
+            if State.importAccountData != nil {
+                State.importAccountData!.completition?(success: true)
+                State.importAccountData = nil
+            }
+            
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
+                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             }
         }
     }
@@ -66,7 +80,7 @@ class PasswordValidationVC: AbstractViewController
             if success {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                        (self.delegate as! MainVCDelegate).pageSelected(State.toVC)
+                        (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
                     }
                 })
             } else {

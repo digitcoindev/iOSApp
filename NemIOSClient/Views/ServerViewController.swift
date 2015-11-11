@@ -88,15 +88,29 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         
         let cellData  : Server = servers[indexPath.row]
         cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
-        
         if servers[indexPath.row] == State.currentServer {
             cell.isActiveServer = true
         }
         
         cell.inEditingState = _isEditing
         cell.layoutCell(animated: false)
-        return cell
+        let fileName = "server \(cellData.address).png"
+        let fileService = FileService()
+        if fileService.fileExist(fileName) {
+            cell.flagImageView.image = UIImage(contentsOfFile: fileName.path())
+        } else {
+            cell.flagImageView.image = UIImage(named: "unknown_server_icon")
+            _apiManager.downloadImage(NSURL(string: "http://api.hostip.info/flag.php?ip=\(cellData.address)")!) { (image) -> Void in
+                
+                fileService.createFileWithName(fileName, data: UIImagePNGRepresentation(image)!, responce: { (state) -> Void in
+                    if state == FileServiceResponceState.Successed {
+                        self.tableView.reloadData()
+                    }
+                })
+            }
+        }
 
+        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

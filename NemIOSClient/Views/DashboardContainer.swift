@@ -64,9 +64,8 @@ class DashboardContainer: AbstractViewController
             self.performSegueWithIdentifier(SegueToQRController, sender: nil)
             
         default:
-            
-            if self.delegate != nil && self.delegate!.respondsToSelector("switchToPage:") {
-                (self.delegate as! DashboardVCDelegate).switchToPage(page)
+            if (self.delegate as? AbstractViewController)!.delegate != nil && self.delegate!.delegate.respondsToSelector("pageSelected:") {
+                ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(page)
             }
         }
     }

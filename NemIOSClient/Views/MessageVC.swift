@@ -90,7 +90,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     @IBAction func amoundFieldDidEndOnExit(sender: UITextField) {
-        if Int(sender.text!) == nil {
+        if Double(sender.text!) == nil {
             sender.text = "0"
         }
     }
@@ -155,9 +155,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let transaction :TransferTransaction = TransferTransaction()
         
-        if let amount = Int(amoundField.text!) {
-            if Int64(_activeAccount?.balance ?? -1) > Int64(amount) {
-                transaction.amount = Double(amount)
+        if let amount = Double(amoundField.text!) {
+            if Double(_activeAccount?.balance ?? -1) > amount {
+                transaction.amount = amount
             } else {
                 let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("ACCOUNT_NOT_ENOUGHT_MONEY", comment: "Description") , preferredStyle: UIAlertControllerStyle.Alert)
                 
@@ -175,51 +175,50 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             transaction.amount = 0
             return
         }
+                
+        let messageTextHex = (_isHex) ? "fe" + messageField.text! : messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
         
-        //TODO: Encrypted Messages
-        
-        var messageTextHex = (_isHex) ? "fe" + messageField.text! : messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
-        
-        if messageTextHex!.asByteArray().count < 255 {
+        if !Validate.hexString(messageTextHex!) {
+            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NOT_A_HEX_STRING", comment: "Descripton") , preferredStyle: UIAlertControllerStyle.Alert)
             
-            if !Validate.hexString(messageTextHex!) {
-                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NOT_A_HEX_STRING", comment: "Descripton") , preferredStyle: UIAlertControllerStyle.Alert)
-                
-                let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-                }
-                
-                alert.addAction(ok)
-                self.presentViewController(alert, animated: true, completion: nil)
-                
-                return
+            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+                alertAction -> Void in
             }
             
-            messageTextHex = (_isEnc) ? messageTextHex : messageTextHex
+            alert.addAction(ok)
+            self.presentViewController(alert, animated: true, completion: nil)
             
-            transaction.message.payload = messageTextHex!
-            transaction.message.type = (_isEnc) ? Double(MessageType.Normal.rawValue) : Double(MessageType.Normal.rawValue)
-            
-        } else {
-            messageField.text = ""
             return
         }
         
-        var fee = 0.0
+        var messageBytes :[UInt8] = messageTextHex!.asByteArray()
+
+        
+        if _isEnc && !_isHex
+        {
+            var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
+            encryptedMessage = MessageCrypto.encrypt(messageBytes, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey), recipientPublicKey: contact.public_key)
+            messageBytes = encryptedMessage
+        }
+        
+        transaction.message.payload = messageBytes
+        transaction.message.type = (_isEnc) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
+        
+        var fee = 0
         
         if transaction.amount >= 8 {
-            fee = max(2, 99 * atan(transaction.amount / 150000))
+            fee = Int(max(2, 99 * atan(transaction.amount / 150000)))
         }
         else {
-            fee = 10 - transaction.amount
+            fee = 10 - Int(transaction.amount)
         }
         
         if messageField.text!.utf16.count != 0 {
-            fee += Double(2 * max(1, Int( messageField.text!.utf16.count / 16)))
+            fee += Int(2 * max(1, Int( transaction.message.payload!.count / 16)))
         }
         
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
-        transaction.fee = fee
+        transaction.fee = Double(fee)
         transaction.recipient = contact.address
         transaction.type = transferTransaction
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
@@ -261,10 +260,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
             (transaction as! TransferTransaction)
             
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: MessageCrypto.getMessageStringFrom(innertTransaction.message) ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
-            if(Int(innertTransaction.amount) != 0) {
-                var text :String = "\(Int(innertTransaction.amount / 1000000) ) XEM"
+            if(innertTransaction.amount > 0) {
+                var text :String = "\(innertTransaction.amount / 1000000) XEM"
                 if message != ""
                 {
                     text = "\n" + text
@@ -283,7 +282,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             definedCell.detailsTop = message
             
             message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
-            message.appendAttributedString(NSMutableAttributedString(string:"\(Int(innertTransaction.fee / 1000000))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
             
             definedCell.detailsMiddle = message
             
@@ -297,10 +296,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
                 (transaction as! TransferTransaction)
             
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: MessageCrypto.getMessageStringFrom(innertTransaction.message) ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
-            if(Int(innertTransaction.amount) != 0) {
-                var text :String = "\(Int(innertTransaction.amount / 1000000) ) XEM"
+            if(innertTransaction.amount != 0) {
+                var text :String = "\(innertTransaction.amount / 1000000) XEM"
                 if message != ""
                 {
                     text = "\n" + text
@@ -348,12 +347,12 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 definedCell.detailsMiddle = message
                 
                 message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
-                message.appendAttributedString(NSMutableAttributedString(string:"\(Int(innertTransaction.fee / 1000000))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 
                 definedCell.detailsBottom = message
             } else {
                 message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
-                message.appendAttributedString(NSMutableAttributedString(string:"\(Int(innertTransaction.fee / 1000000))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 
                 definedCell.detailsMiddle = message
             }
@@ -418,14 +417,14 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     (transaction as! TransferTransaction)
             }
             
-            var messageText = MessageCrypto.getMessageStringFrom(innertTransaction.message)
+            var messageText = innertTransaction.message.getMessageString()
             
             messageText = (messageText == nil) ? "" : messageText
             
             var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText! , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
-            if(Int(innertTransaction.amount) != 0) {
-                var text :String = "\(Int(innertTransaction.amount / 1000000) ) XEM"
+            if(innertTransaction.amount > 0) {
+                var text :String = "\(innertTransaction.amount / 1000000) XEM"
                 if messageText != ""
                 {
                     text = "\n" + text
@@ -532,9 +531,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                         userDescription = NSMutableAttributedString(string: "\(wallet.login)")
                     }
                     
-                    let format = ".0"
                     let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-                    let balance = " \((self._activeAccount!.balance / 1000000).format(format)) XEM"
+                    let balance = " \(self._activeAccount!.balance / 1000000) XEM"
                     
                     userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
                     
@@ -581,7 +579,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             if let data = data {
     
-                self._unconfirmedTransactions = self._findMessages(data)
+                self._unconfirmedTransactions = self._findMessages(data).reverse()
                 self.defineData()
                 
                 dispatch_async(dispatch_get_main_queue() , {
@@ -599,7 +597,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
-        if data != nil || data?.count > 0 {
+        if !(data ?? []).isEmpty {
             self._refreshHistory()
             let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message:  NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
             
@@ -629,9 +627,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let userDescription :NSMutableAttributedString = NSMutableAttributedString(string: "\(_activeAccount!.address)")
         
-        let format = ".0"
         let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-        let balance = " \((self._activeAccount!.balance / 1000000).format(format)) XEM"
+        let balance = " \(self._activeAccount!.balance / 1000000) XEM"
         
         userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
         

@@ -4,6 +4,7 @@ import UIKit
 {
     optional func heartbeatResponceFromServer(server :Server ,successed :Bool)
     optional func accountGetResponceWithAccount(account :AccountGetMetaData?)
+    optional func accountHarvestResponceWithBlocks(blocks :[BlockGetMetaData]?)
     optional func accountTransfersAllResponceWithTransactions(data :[TransactionPostMetaData]?)
     optional func unconfirmedTransactionsResponceWithTransactions(data :[TransactionPostMetaData]?)
     optional func prepareAnnounceResponceWithTransactions(data :[TransactionPostMetaData]?)
@@ -35,6 +36,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
+                request.timeoutInterval = 5
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -90,6 +92,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
+                request.timeoutInterval = 10
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -142,6 +145,72 @@ class APIManager: NSObject
         })
     }
     
+    final func accountHarvests(server :Server, account_address :String)  {
+        dispatch_async(_apiDipatchQueue, {
+            () -> Void in
+            
+            let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/harvests?address=" + account_address))!)
+            
+            request.HTTPMethod = "GET"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            request.timeoutInterval = 10
+            
+            let task = self._session.dataTaskWithRequest(request, completionHandler: {
+                data, response, error -> Void in
+                
+                if(data == nil) {
+                    
+                    dispatch_async(dispatch_get_main_queue())
+                        {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                                (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(nil)
+                            }
+                    }
+                    
+                    return
+                }
+                
+                let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
+                if(layers == nil) {
+                    
+                    dispatch_async(dispatch_get_main_queue())
+                        {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                                (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(nil)
+                            }
+                    }
+                }
+                else if (layers! as NSDictionary).objectForKey("error")  == nil {
+                    var blocks :[BlockGetMetaData] = []
+                    
+                    for blockDic in layers?.objectForKey("data") as! [NSDictionary] {
+                        let block :BlockGetMetaData = BlockGetMetaData()
+                        block.getFrom(blockDic)
+                        blocks.append(block)
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue())
+                        {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                                (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(blocks)
+                            }
+                    }
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue())
+                        {
+                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                                (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(nil)
+                            }
+                    }
+                }
+            })
+            
+            task.resume()
+        })
+    }
+    
     final func accountTransfersAll(server :Server, account_address :String) {
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
@@ -151,6 +220,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
+                request.timeoutInterval = 10
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -245,6 +315,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
+                request.timeoutInterval = 10
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -364,8 +435,9 @@ class APIManager: NSObject
                 request.HTTPBody = str
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
-                
-                let task = self._session.dataTaskWithRequest(request, completionHandler: {
+                request.timeoutInterval = 10
+
+            let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
                     if(data == nil) {
@@ -429,6 +501,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
+                request.timeoutInterval = 10
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -445,6 +518,23 @@ class APIManager: NSObject
             })
     }
     
+    func downloadImage(url: NSURL, responce: ((image: UIImage) -> Void)){
+        print("Started downloading \"\(url.URLByDeletingPathExtension!.lastPathComponent!)\".")
+        getDataFromUrl(url) { (data, response, error)  in
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                guard let data = data where error == nil else { return }
+                print("Finished downloading \"\(url.URLByDeletingPathExtension!.lastPathComponent!)\".")
+                guard let image = UIImage(data: data) else { return }
+                responce(image: image)
+            }
+        }
+    }
+    
+    func getDataFromUrl(url:NSURL, completion: ((data: NSData?, response: NSURLResponse?, error: NSError? ) -> Void)) {
+        NSURLSession.sharedSession().dataTaskWithURL(url) { (data, response, error) in
+            completion(data: data, response: response, error: error)
+            }.resume()
+    }
 }
 
 

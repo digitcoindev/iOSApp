@@ -15,8 +15,8 @@
 "ACCOUNT_ADDING_SUCCESS" = "Акаунт: %@\nУспішно доданий."; // %@ will be replaced by the account name
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "У вас є непідписані транзакції.";
 "NOT_ENOUGHT_MONEY" = "Недостатньо коштів на рахунку";
-    "MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
-    "MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
+"MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
+"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
 
 // Text
 
@@ -26,6 +26,12 @@
 "EMPTY_MESSAGE" = "Пусте повідомленя";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Недостатньо коштів";
 "CHANGE_CONTACT" = "Змінити контакт";
+"POI" = "POI";
+"BALANCE" = "Balance";
+"VASTED_BALANCE" = "Vasted Balance";
+"DELEGATED_HARVESTING" = "Delegated Harvesting";
+"LAST_HARVESTED_BLOCK" = "Last %d Harvested Block(-s)"; // %d will be replaced by the blocks count
+"NO_HARVESTED_BLOCK" = "No Harvested Blocks";
 
 "ACCOUNT_NAME" = "Імя акаунту";
 "ACCOUNT_ADDRESS" = "Адреса акаунту";
@@ -39,6 +45,7 @@
 "PRIMARY_ACCOUNT" = "Основний акаунт";
 "ACCOUNT_NAME" = "Назва акаунту";
 "EXPORT_ACCOUNT" = "Експортувати акаунт";
+"FEE" = "Fee";
 
 "MULTISIG_ACCOUNT" = "Мульти-акаунт";
 "NORMAL_ACCOUNT" = "простий акаунт";
@@ -47,6 +54,8 @@
 "NO" = "Немає";
 "CONFIRM" = "Підтвердити";
 "CANCEL" = "Скасувати";
+"UNLOCKED" = "Unlocked";
+"LOCKED" = "Locked";
 
 "GET_PRIVATE_KEY" = "Отримати приватний ключ";
 "VIEW_ACCOUNT_HISTORY" = "Показати історію акаунту";

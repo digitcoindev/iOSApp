@@ -4,15 +4,22 @@ import UIKit
 
 class State: NSObject
 {
-    struct Store {
+    private struct Store {
         static var stackVC : [String] = [String]()
         static var currentVC : String = ""
         static var toVC : String = ""
+        static var nextVC :String = ""
         static var currentWallet : Wallet!
         static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
         static var invoice :InvoiceData? = nil
-
+    }
+    
+    private struct ImportStore {
+        static var isAccount: Bool = false
+        static var passwordCompletitionBlock :((success :Bool)->Void)? = nil
+        static var password : String = ""
+        static var salt :String = "" 
     }
     
     final class var fromVC: String? {
@@ -26,6 +33,10 @@ class State: NSObject
         }
     }
     
+    final class func cleanVCs() {
+        State.Store.stackVC = []
+    }
+    
     final  class var currentVC: String? {
         get {
             return State.Store.currentVC
@@ -36,7 +47,6 @@ class State: NSObject
     }
     final class var lastVC:String {
         get {
-            print("+")
             var inState = true
             let value = State.Store.stackVC.last!
             for ;inState; {
@@ -65,6 +75,11 @@ class State: NSObject
         set { State.Store.toVC = newValue }
     }
     
+    final class var nextVC: String {
+        get { return State.Store.nextVC }
+        set { State.Store.nextVC = newValue }
+    }
+    
     final class var currentWallet: Wallet? {
         get { return State.Store.currentWallet }
         set {
@@ -85,6 +100,18 @@ class State: NSObject
     final class var invoice: InvoiceData? {
         get { return State.Store.invoice }
         set { State.Store.invoice = newValue }
+    }
+    
+    final class var importAccountData:(password: String, salt :String, completition: ((success :Bool)->Void)?)? {
+        get { return (State.ImportStore.isAccount) ? (password: State.ImportStore.password, salt :State.ImportStore.salt, completition: State.ImportStore.passwordCompletitionBlock) : nil}
+        set {
+            if newValue != nil {
+                State.ImportStore.isAccount = true
+                State.ImportStore.password = newValue!.password
+                State.ImportStore.salt = newValue!.salt
+                State.ImportStore.passwordCompletitionBlock = newValue!.completition
+            }
+        }
     }
     
     override init() {

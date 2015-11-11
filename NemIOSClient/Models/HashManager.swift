@@ -46,9 +46,9 @@ class HashManager: NSObject
         }
     }
        
-    final func SHA256Encrypt(inputText: String)->String {
+    final class func SHA256Encrypt(data :[UInt8])->String {
         var outBuffer: Array<UInt8> = Array(count: 64, repeatedValue: 0)
-        var inBuffer: Array<UInt8> = Array(inputText.utf8)
+        var inBuffer: Array<UInt8> = Array(data)
         let len :Int32 = Int32(inBuffer.count)
         SHA256_hash(&outBuffer, &inBuffer, len)
         

@@ -14,7 +14,7 @@ struct AccountModification
 struct InvoiceData
 {
     var address :String!
-    var amount :Int!
+    var amount :Double!
     var message :String!
     var name :String!
     var number :Int!

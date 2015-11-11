@@ -131,6 +131,10 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     
                     key.text = "afa9f13089ce637d2cc32411b69f48c1d69ffaf28ee5b0f2b3441c4fc3a33a64"
                     
+                case "10":
+                    
+                    key.text = "906ddbd7052149d7f45b73166f6b64c2d4f2fdfb886796371c0e32c03382bf33"
+                    
                 default:
                     
                     keyValide = Validate.key(key.text)

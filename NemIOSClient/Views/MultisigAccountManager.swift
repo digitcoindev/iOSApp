@@ -40,9 +40,10 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        var count = currentCosignatories.count + _addArray.count
-        count = (count > 0) ? count : 1
-        count = (count == 1) ? count : count + 1
+        var count = currentCosignatories.count + _addArray.count + 1
+        if _addArray.count > 0 || _removeArray.count > 0 {
+            count++
+        }
         return count
     }
     
@@ -57,11 +58,11 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                 return cell
             }
         } else {
-            if indexPath.row >= _currentCosignatories.count + _addArray.count {
+            if indexPath.row == _currentCosignatories.count + _addArray.count {
                 let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
                 return cell
             } else {
-                let cell :CosigTableViewCell = tableView.dequeueReusableCellWithIdentifier("save cell")! as! CosigTableViewCell
+                let cell :CosigTableViewCell = tableView.dequeueReusableCellWithIdentifier("cosig cell")! as! CosigTableViewCell
                 cell.infoLabel.numberOfLines = 2
                 
                 var index = 0
@@ -214,7 +215,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
             let popUp :AddCosigPopUp =  storyboard.instantiateViewControllerWithIdentifier("AddCustomCosig") as! AddCosigPopUp
-            popUp.view.frame = CGRect(x: 0, y: 60, width: popUp.view.frame.width, height: popUp.view.frame.height - 60)
+            popUp.view.frame = CGRect(x: 0, y: 40, width: popUp.view.frame.width, height: popUp.view.frame.height - 40)
             popUp.view.layer.opacity = 0
             popUp.delegate = self
             
@@ -226,6 +227,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                 }, completion: nil)
         } else {
             _popUps.first?.view.removeFromSuperview()
+            _popUps.first?.removeFromParentViewController()
             _popUps.removeFirst()
         }
     }
@@ -240,6 +242,10 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         _currentCosignatories = newCosigList
         _addArray = []
         _removeArray = []
+        
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.tableView.reloadData()
+        }
     }
     
     private final func _showPopUp(message :String){

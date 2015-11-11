@@ -36,7 +36,16 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
             let output = AVCaptureMetadataOutput()
             let bounds:CGRect = CGRect(x: width / 2, y: height / 2, width: width, height: height)
 
-            session.addInput(input)
+            if input != nil {
+                session.addInput(input)
+            } else {
+                let errorString = "Fail to access device camera"
+                
+                if self.delegate != nil {
+                    self.delegate!.failedWithError!(errorString)
+                }
+                return
+            }
             
             output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
             session.addOutput(output)

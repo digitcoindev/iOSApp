@@ -75,9 +75,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 userDescription = NSMutableAttributedString(string: "\(wallet.login)")
             }
             
-            let format = ".0"
             let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-            let balance = " \((walletData.balance / 1000000).format(format)) XEM"
+            let balance = " \(walletData.balance / 1000000) XEM"
             
             userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
             
@@ -150,14 +149,19 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                             }
                         }
                         
+                        if transaction.signer == walletData.publicKey{
+                            find = true
+                        }
+                        
                         if inTransaction.signer != walletData.publicKey && !find {
                             let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("UNCONFIRMED_TRANSACTIONS_DETECTED", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
                             
                             let ok :UIAlertAction = UIAlertAction(title: NSLocalizedString("SHOW_TRANSACTIONS", comment: "Title"), style: UIAlertActionStyle.Default) {
                                     alertAction -> Void in
-                                    
-                                    NSNotificationCenter.defaultCenter().postNotificationName("MenuPage", object:SegueToUnconfirmedTransactionVC )
-                                    
+                                
+                                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                                    (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
+                                }                                    
                             }
                             
                             let cancel :UIAlertAction = UIAlertAction(title: NSLocalizedString("REMIND_LATER", comment: "Title"), style: UIAlertActionStyle.Default) {
@@ -344,7 +348,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         if transaction != nil {
             
-            cell.message.text = MessageCrypto.getMessageStringFrom(transaction!.message)
+            cell.message.text = transaction!.message.getMessageString()
         }
         else {
             cell.message.text = ""
@@ -377,8 +381,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         let attribute = [NSForegroundColorAttributeName : color]
         
-        let format = ".0"
-        let amount = vector + "\((transaction!.amount / 1000000).format(format)) XEM"
+        let amount = vector + "\(transaction!.amount / 1000000) XEM"
         
         cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
                 
@@ -391,13 +394,13 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             State.invoice = nil
             
             if walletData.cosignatories.count > 0 {
-                State.toVC = SegueToMessageMultisignVC
+                State.nextVC = SegueToMessageMultisignVC
             }
             else if walletData.cosignatoryOf.count > 0 {
-                State.toVC = SegueToMessageCosignatoryVC
+                State.nextVC = SegueToMessageCosignatoryVC
 
             } else {
-                State.toVC = SegueToMessageVC
+                State.nextVC = SegueToMessageVC
             }
             
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {

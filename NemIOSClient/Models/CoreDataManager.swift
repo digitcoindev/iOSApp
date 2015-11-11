@@ -86,8 +86,10 @@ class CoreDataManager: NSObject
         }
     }
     private final func _createDefaultServers() {
-        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "192.168.88.27", port: "7890")
-        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "127.0.0.1", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "artygeek.net", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "211.107.113.251", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "37.187.70.29", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "107.179.25.32", port: "7890")
         
         commit()
     }

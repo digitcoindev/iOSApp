@@ -9,6 +9,8 @@ class UnconfirmedTransactionCell: UITableViewCell
     @IBOutlet weak var confirm: UIButton!
     @IBOutlet weak var showChanges: UIButton!
     
+    var delegate :UnconfirmedTransactionVC? = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -28,11 +30,10 @@ class UnconfirmedTransactionCell: UITableViewCell
     }
 
     @IBAction func confirmTouchUpInside(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("confirmCellWithTag", object:self.tag )
+        self.delegate?.confirmTransactionAtIndex(self.tag)
     }
     @IBAction func showTouchUpInside(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("showCellWithTag", object:self.tag )
-
+        self.delegate?.showTransactionAtIndex(self.tag)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

@@ -1,0 +1,90 @@
+// Common
+
+"INFO" = "Информация";
+"SERVER_UNAVAILABLE" = "Сервер не доступен. Попробуйте позже или проверьте ваш сервер.";
+"LOST_CONNECTION" = "Связь потеряна";
+
+// Validation
+
+"VALIDATION" = "Проверка данных";
+"PASSOWORD_DIFERENCE_ERROR" = "Пароли не совпадают";
+"PASSOWORD_LENGTH_ERROR" = "Ваш пароль должен содержать минимум 6 знаков.";
+"FIELDS_EMPTY_ERROR" = "Заполните все поля";
+"PRIVATE_KEY_ERROR_1." = "Не верный личный ключ.\nПожалуйста проверьте его.";
+"ACCOUNT_ADDING_SUCCESS" = "Аккаунт: %@\nУспешно добавлен."; // %@ будет заменен именем учетной записи
+"SERVER_PROTOCOL_NOT_AVAILABLE" = "Доступен только \"http\" тип протокола.";
+"UNCONFIRMED_TRANSACTIONS_DETECTED" = "У вас есть не подтверждённые транзакции которые должны быть подписаны!";
+"NOT_ENOUGHT_MONEY" = "Не достаточно денег";
+"MULTISIG_REMOVE_COUNT_ERROR" = "Вы можете удалить только одного косигнатора за транзакцию.";
+"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Слишком много косигнаторов.";
+
+// Text
+
+"MULTISIG_CHANGES_CONFIRMATION" = "Вы согласны с изменениями? Это будет стоить %@ XEM"; // %@ будет замещено налогом за транзакцию
+"SHOW_TRANSACTIONS" = "Показать транзакции";
+"REMIND_LATER" = "Напомнить позже";
+"EMPTY_MESSAGE" = "Пустое сообщение";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "Не достаточно средств";
+"CHANGE_CONTACT" = "Изменить Контакт";
+"POI" = "POI";
+"BALANCE" = "Баланс";
+"VASTED_BALANCE" = "Наделяемый баланс";
+"DELEGATED_HARVESTING" = "Делегированное собирательство";
+"LAST_HARVESTED_BLOCK" = "Последний %d Собранный Блок(-и)"; // %@ будет заменен количеством блоков
+"NO_HARVESTED_BLOCK" = "No Harvested Blocks";
+
+"ACCOUNT_NAME" = "Имя Аккаунта";
+"ACCOUNT_ADDRESS" = "Адрес Аккаунта";
+"ACCOUNT_TYPE" = "Тип Аккаунта";
+"IMPORTANCE_SCORE" = "Уровень Важности";
+"PUBLIC_KEY" = "Публичный Ключ";
+"DELEGATED_PRIVATE_KEY" = "Делегированный Личный Ключ";
+"PRIVATE_KEY" = "Личный Ключ";
+"ACCOUNT_HISTORY" = "История Аккаунта";
+"MULTISIG" = "Мультисиг";
+"PRIMARY_ACCOUNT" = "Главный Аккаунт";
+"ACCOUNT_NAME" = "Имя Аккаунта";
+"EXPORT_ACCOUNT" = "Экспорт Аккаунта";
+"FEE" = "Налог";
+
+"MULTISIG_ACCOUNT" = "Мультисиг Аккаунт";
+"NORMAL_ACCOUNT" = "Простой Аккаунт";
+"COSIGNER_ACCOUNT" = "Аккаунт Косигнатор";
+
+"NO" = "Нет";
+"CONFIRM" = "Подтвердить";
+"CANCEL" = "Отмена";
+"UNLOCKED" = "Разблокировано ";
+"LOCKED" = "Заблокировано";
+
+"GET_PRIVATE_KEY" = "Получить Личный Ключ";
+"VIEW_ACCOUNT_HISTORY" = "Просмотр Истории Аккаунта";
+"ADD_OR_REMOVE_COSIGNERS" = "Добавить или Убрать Косигнатора(ов)";
+"SET_PRIMARY_ACCOUNT" = "Установить Главный Аккаунт";
+"CHANGE_ACCOUNT_NAMET" = "Изменить Имя Аккаунта";
+"CREATE_QR" = "Создать QR";
+
+// Transaction
+
+"TRANSACTION_ANOUNCE_SUCCESS" = "Успешно отправлено";
+"TRANSACTION_ANOUNCE_FAILED" = "ОТКЛОНЕНО\nПопробуйте позже. Или проверьте подключение.";
+"NOT_A_HEX_STRING" = "Шестнадцатеричное сообщение может состоять только из Шестнадцатеричных знаков.";
+
+// Social
+
+"SOCIAL_NEM_HEADER" = "НЕМ IOS Клиент";
+
+// Acounts
+
+"NO_FACEBOOK_ACCOUNT" = "Пожалуйста добавьте свой фейсбук аккаунт в настройках.";
+"NO_TWITTER_ACCOUNT" = "Пожалуйста добавьте свой твиттер аккаунт в настройках.";
+"NO_MAIL_ACCOUNT" = "Пожалуйста добавьте майл аккаунт в вашем майл-клиенте.";
+
+// Contacts
+
+"CONTACTS_IS_UNAVAILABLE" = "Контакты не доступны.\nЧто бы допустить контакты следуйте в данную дирекцию\nSettings -> Privacy -> Contacts.";
+
+// Invoice
+
+"INVOICE_HEADER" = "Сканируйте этот QR код что бы завершить платеж";
+© 2015 Microsoft Условия Заявление о конфиденциальности и использовании файлов cookie Impressum Разработчикам Русский

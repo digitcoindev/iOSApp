@@ -30,6 +30,15 @@ extension String
         return data
     }
     
+    func path() -> String
+    {
+        let _documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        
+        let path = (_documentsPath as NSString).stringByAppendingPathComponent(self)
+        
+        return path
+    }
+    
     func stringFromHexadecimalStringUsingEncoding(encoding: NSStringEncoding) -> String? {
         if let data = dataFromHexadecimalString() {
             return NSString(data: data, encoding: encoding) as? String

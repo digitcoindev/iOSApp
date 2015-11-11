@@ -18,7 +18,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     var transactionFee :Double = 10;
     var walletData :AccountGetMetaData!
-    var xems :Int = 0
+    var xems :Double = 0
     var invoice :InvoiceData? = nil
     var contact :Correspondent? = State.currentContact
     
@@ -150,8 +150,8 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
         transaction.amount = Double(xems)
-        transaction.message.payload = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!
-        transaction.message.type = Double(MessageType.Normal.rawValue)
+        transaction.message.payload = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+        transaction.message.type = MessageType.Normal.rawValue
         transaction.fee = transactionFee
         transaction.recipient = toAddressTextField.text!
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
@@ -163,25 +163,24 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     final func countTransactionFee() {
         
-        self.xems = Int(amountTextField.text!) ?? 0
+        self.xems = Double(amountTextField.text!) ?? 0
         self.amountTextField.text = "\(xems)"
         
-        var newFee :Double = 0
+        var newFee :Int = 0
         if xems >= 8 {
-            newFee = max(2, 99 * atan(Double(xems) / 150000))
+            newFee = Int(max(2, 99 * atan(xems) / 150000))
         }
         else {
-            newFee = 10 - Double(xems)
+            newFee = 10 - Int(xems)
         }
         
         if messageTextField.text!.utf16.count != 0 {
-            newFee += Double(2 * max(1, Int( messageTextField.text!.utf16.count / 16)))
+            newFee += Int(2 * max(1, Int( messageTextField.text!.utf16.count / 16)))
         }
         
         let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Fee: (Min ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
-        let format = ".0"
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "\(newFee.format(format))", attributes: [
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "\(Int(newFee))", attributes: [
             NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
             NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
             ]))
@@ -189,17 +188,17 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
         feeLabel.attributedText = atributedText
         
-        newFee = max(newFee, Double(feeTextField.text!) ?? 0)
+        newFee = Int(max(newFee, Int(feeTextField.text!) ?? 0))
         
-        transactionFee = newFee
+        transactionFee = Double(newFee)
         
-        self.feeTextField.text = "\(Int64(transactionFee))"
+        self.feeTextField.text = "\(transactionFee)"
     }
     
     @IBAction func endTyping(sender: NEMTextField) {
         
         if Int(amountTextField.text!) != nil {
-            self.xems = Int(amountTextField.text!)!
+            self.xems = Double(amountTextField.text!)!
         }
         else {
             self.xems = 0
@@ -259,10 +258,9 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         if account != nil {
             chooseButon.setTitle(walletData.address, forState: UIControlState.Normal)
             
-            let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Current Balance: ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+            let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Balance: ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
             
-            let format = ".0"
-            atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format(format))", attributes: [
+            atributedText.appendAttributedString(NSMutableAttributedString(string: "\(walletData.balance / 1000000)", attributes: [
                 NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
                 NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
                 ]))
@@ -292,10 +290,9 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         walletData = account
         chooseButon.setTitle(walletData.address, forState: UIControlState.Normal)
         
-        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Current Balance:", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Balance:", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
-        let format = ".0"
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format(format))", attributes: [
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "\(walletData.balance / 1000000)", attributes: [
             NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
             NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
             ]))

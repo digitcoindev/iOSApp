@@ -16,12 +16,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
         State.currentVC = SegueToImportFromQR
 
         screenScaner.delegate = self
-        
-        let observer :NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        
+            
         if State.countVC <= 1{
             backButton.hidden = true
         }
@@ -63,24 +58,17 @@ class ImportFromQR: AbstractViewController, QRDelegate
                 let login = jsonStructure!.objectForKey("login") as! String
                 let password = jsonStructure!.objectForKey("password") as! String
                 let salt = jsonStructure!.objectForKey("salt") as! String
-                
-                WalletGenerator().importWallet(login, password: password, privateKey: privateKey_Encrypted ,salt: salt)
-                let alert :UIAlertController = UIAlertController(   title: NSLocalizedString("INFO", comment: "Title"),
-                                                                    message: String(format: NSLocalizedString("ACCOUNT_ADDING_SUCCESS", comment: "Description"), login),
-                                                                    preferredStyle: UIAlertControllerStyle.Alert)
-                
-                let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default)
-                    {
-                        alertAction -> Void in
-                        
-                        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-                        }
+                State.nextVC = SegueToLoginVC
+                State.importAccountData = (password: password, salt : salt, completition: {
+                    (success) -> Void in
+                    if success {
+                        WalletGenerator().importWallet(login, password: password, privateKey: privateKey_Encrypted ,salt: salt)
                     }
+                })
                 
-                alert.addAction(ok)
-                
-                self.presentViewController(alert, animated: true, completion: nil)
+                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+                }
             }
         }
         else {
