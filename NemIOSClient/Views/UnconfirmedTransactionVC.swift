@@ -16,8 +16,8 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         _apiManager.delegate = self
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let publicKey = KeyGenerator.generatePublicKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         let account_address = AddressGenerator.generateAddress(publicKey)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -58,12 +58,13 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         switch (transaction.innerTransaction.type) {
         case transferTransaction:
+            let innerTransaction = (transaction.innerTransaction) as! TransferTransaction
             let cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
-            cell.fromAccount.text = AddressGenerator.generateAddress(((transaction.innerTransaction) as! TransferTransaction).signer)
-            cell.toAccount.text = ((transaction.innerTransaction) as! TransferTransaction).recipient
-            cell.message.text = ((transaction.innerTransaction) as! TransferTransaction).message.getMessageString()
+            cell.fromAccount.text = AddressGenerator.generateAddress(innerTransaction.signer)
+            cell.toAccount.text = innerTransaction.recipient
+            cell.message.text = innerTransaction.message.getMessageString() ?? "Encrypted message"
             cell.delegate = self
-            cell.xem.text = "\(((transaction.innerTransaction) as! TransferTransaction).amount / 1000000) XEM"
+            cell.xem.text = "\(innerTransaction.amount / 1000000) XEM"
             
             cell.tag = indexPath.row
             
@@ -184,7 +185,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
             unconfirmedTransactions += data
-            let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
             
             for var i = 0 ; i < unconfirmedTransactions.count ; i++ {
                 if unconfirmedTransactions[i].type != multisigTransaction {

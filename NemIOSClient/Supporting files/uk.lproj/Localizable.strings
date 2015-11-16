@@ -69,6 +69,7 @@
 "TRANSACTION_ANOUNCE_SUCCESS" = "Успіх";
 "TRANSACTION_ANOUNCE_FAILED" = "ВІДХИЛЕНО\nСпробуйте пізніше. Або перевірте зєднання зі сервером.";
 "NOT_A_HEX_STRING" = "Не хекс стрінга.";
+"NO_PUBLIC_KEY_FOR_ENC" = "Public key for this account is not known.\nEncrypted messages is not allowed.";
 
 // Social
 

@@ -48,23 +48,26 @@ class ImportFromQR: AbstractViewController, QRDelegate
         if jsonStructure == nil {
             screenScaner.play()
         }
-        else if jsonStructure!.objectForKey("type") as! Int == 3 {
-            jsonStructure = jsonStructure!.objectForKey("data") as? NSDictionary
+        else if jsonStructure!.objectForKey(QRKeys.DataType.rawValue) as! Int == QRType.AccountData.rawValue {
+            jsonStructure = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as? NSDictionary
             
             if jsonStructure != nil {
-                let privateKey_AES = jsonStructure!.objectForKey("private") as! String
-                let privateKey = HashManager.AES256Decrypt(privateKey_AES, key: "my qr key")
-                let privateKey_Encrypted = HashManager.AES256Encrypt(privateKey)
-                let login = jsonStructure!.objectForKey("login") as! String
-                let password = jsonStructure!.objectForKey("password") as! String
-                let salt = jsonStructure!.objectForKey("salt") as! String
+                let privateKey_AES = jsonStructure!.objectForKey(QRKeys.PrivateKey.rawValue) as! String
+                let login = jsonStructure!.objectForKey(QRKeys.Name.rawValue) as! String
+                let salt = jsonStructure!.objectForKey(QRKeys.Salt.rawValue) as! String
+                let saltBytes = salt.asByteArray()
+                let saltData = NSData(bytes: saltBytes, length: saltBytes.count)
+                
                 State.nextVC = SegueToLoginVC
-                State.importAccountData = (password: password, salt : salt, completition: {
-                    (success) -> Void in
-                    if success {
-                        WalletGenerator().importWallet(login, password: password, privateKey: privateKey_Encrypted ,salt: salt)
-                    }
-                })
+                State.importAccountData = {
+                    (password) -> Bool in
+                    
+                    guard let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password, salt:saltData, roundCount:2000) else {return false}
+
+                    
+                    WalletGenerator().importWallet(login, password: passwordHash!.toHexString(), privateKey: privateKey_AES ,salt: salt)
+                    return true
+                }
                 
                 if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)

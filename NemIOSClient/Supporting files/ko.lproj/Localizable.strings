@@ -69,6 +69,7 @@
 "TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
 "TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
 "NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
+"NO_PUBLIC_KEY_FOR_ENC" = "Public key for this account is not known.\nEncrypted messages is not allowed.";
 
 // Social
 

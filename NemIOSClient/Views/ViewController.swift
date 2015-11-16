@@ -35,15 +35,14 @@ class ViewController: UIViewController
 //        let privateKeyRecipient = "168fd919078c8a2fb04183c6214ca80e9aed8ebd2fe1dd283f12cab869678bfd"
 //        let publicKeyRecipient = "abac2ee3d4aaa7a3bfb65261a00cc04c761521527dd3f2cf741e2815cbba83ac"
 //        
-//        var encryptMessage1 :[UInt8] = Array(count: 32, repeatedValue: 0)
-//        encryptMessage1 = MessageCrypto.encrypt(message1, senderPrivateKey: privateKeySender, recipientPublicKey: publicKeyRecipient)
+//        var encryptMessage1 :[UInt8] = "867d533356e94cf3f28a5e4681327e1a3fb5b957a5b4572d2a710a9e9fa963a13f1692f1d710f3eb30ef49746df38299fd8196b745b1e11468573fa9925346a9".asByteArray()
 //        var encryptMessage2 :[UInt8] = Array(count: 32, repeatedValue: 0)
 //        encryptMessage2 = MessageCrypto.encrypt(message2, senderPrivateKey: privateKeySender, recipientPublicKey: publicKeyRecipient)
 //        var encryptMessage3 :[UInt8] = Array(count: 32, repeatedValue: 0)
 //        encryptMessage3 = MessageCrypto.encrypt(message3, senderPrivateKey: privateKeySender, recipientPublicKey: publicKeyRecipient)
 //
 //        
-//        let decryptMessage1 = MessageCrypto.decrypt(encryptMessage1, recipientPrivateKey: privateKeyRecipient, senderPublicKey: publicKeySender)
+//        let decryptMessage1 = MessageCrypto.decrypt(encryptMessage1, recipientPrivateKey: "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d", senderPublicKey: "59d89076964742ef2a2089d26a5aa1d2c7a7bb052a46c1de159891e91ad3d76e")
 //        let decryptMessage2 = MessageCrypto.decrypt(encryptMessage2, recipientPrivateKey: privateKeyRecipient, senderPublicKey: publicKeySender)
 //        let decryptMessage3 = MessageCrypto.decrypt(encryptMessage3, recipientPrivateKey: privateKeyRecipient, senderPublicKey: publicKeySender)
 

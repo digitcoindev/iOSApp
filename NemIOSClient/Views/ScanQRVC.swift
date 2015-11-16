@@ -80,10 +80,10 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
     final func performInvoice(invoiceDictionary :NSDictionary) {
         var invoice :InvoiceData = InvoiceData()
         
-        invoice.address = invoiceDictionary.objectForKey("address") as! String
-        invoice.name = invoiceDictionary.objectForKey("name") as! String
-        invoice.amount = invoiceDictionary.objectForKey("amount") as! Double
-        invoice.message = invoiceDictionary.objectForKey("message") as! String
+        invoice.address = invoiceDictionary.objectForKey(QRKeys.Address.rawValue) as! String
+        invoice.name = invoiceDictionary.objectForKey(QRKeys.Name.rawValue) as! String
+        invoice.amount = invoiceDictionary.objectForKey(QRKeys.Amount.rawValue) as! Double
+        invoice.message = invoiceDictionary.objectForKey(QRKeys.Message.rawValue) as! String
         
         State.invoice = invoice
         
@@ -105,9 +105,9 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.delegate = self
         
-        contactCustomVC.firstName.text = friendDictionary.objectForKey("name") as? String
+        contactCustomVC.firstName.text = friendDictionary.objectForKey(QRKeys.Name.rawValue) as? String
         contactCustomVC.lastName.text = friendDictionary.objectForKey("surname") as? String
-        contactCustomVC.address.text = friendDictionary.objectForKey("address") as? String
+        contactCustomVC.address.text = friendDictionary.objectForKey(QRKeys.Address.rawValue) as? String
         _tempController = contactCustomVC
         
         self.view.addSubview(contactCustomVC.view)

@@ -37,7 +37,7 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        let address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        let address :String = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
                 
         _apiManager.accountGet(State.currentServer!, account_address: address)
         
@@ -253,8 +253,8 @@ class ProfileVC: AbstractViewController, UITableViewDataSource, UITableViewDeleg
                 account!.address.nemAddressNormalised(),
                 type,
                 importance,
-                KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey)),
-                HashManager.SHA256Encrypt(HashManager.AES256Decrypt(State.currentWallet!.privateKey).asByteArray())
+                KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!),
+                HashManager.SHA256Encrypt(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!.asByteArray())
             ]
             _content += [
                 NSLocalizedString("GET_PRIVATE_KEY", comment: "Description") + "(Disabled)",

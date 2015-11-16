@@ -15,6 +15,8 @@ enum QRKeys: String {
     case Message = "message"
     case DataType = "type"
     case Data = "data"
+    case PrivateKey = "priv_key"
+    case Salt = "salt"
 }
 
 enum QRType: Int {

@@ -50,7 +50,7 @@ class CreateQRInput: AbstractViewController
             var invoice :InvoiceData = InvoiceData()
             invoice.name = name.text
             invoice.message = message.text
-            invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
             invoice.amount = Double(amount.text!) 
             invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
             

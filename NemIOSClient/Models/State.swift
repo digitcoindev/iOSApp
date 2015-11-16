@@ -17,9 +17,7 @@ class State: NSObject
     
     private struct ImportStore {
         static var isAccount: Bool = false
-        static var passwordCompletitionBlock :((success :Bool)->Void)? = nil
-        static var password : String = ""
-        static var salt :String = "" 
+        static var passwordCompletitionBlock :((password: String)->Bool)? = nil
     }
     
     final class var fromVC: String? {
@@ -102,17 +100,13 @@ class State: NSObject
         set { State.Store.invoice = newValue }
     }
     
-    final class var importAccountData:(password: String, salt :String, completition: ((success :Bool)->Void)?)? {
-        get { return (State.ImportStore.isAccount) ? (password: State.ImportStore.password, salt :State.ImportStore.salt, completition: State.ImportStore.passwordCompletitionBlock) : nil}
+    final class var importAccountData:((password: String)->Bool)? {
+        get { return (State.ImportStore.isAccount) ? State.ImportStore.passwordCompletitionBlock : nil}
         set {
-            if newValue != nil {
-                State.ImportStore.isAccount = true
-                State.ImportStore.password = newValue!.password
-                State.ImportStore.salt = newValue!.salt
-                State.ImportStore.passwordCompletitionBlock = newValue!.completition
+                State.ImportStore.isAccount = (newValue == nil) ? false : true
+                State.ImportStore.passwordCompletitionBlock = newValue
             }
         }
-    }
     
     override init() {
         

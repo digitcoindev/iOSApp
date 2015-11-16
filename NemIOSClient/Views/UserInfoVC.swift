@@ -21,8 +21,8 @@ class UserInfoVC: AbstractViewController
         State.fromVC = SegueToUserInfo
         State.currentVC = SegueToUserInfo
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let publicKey = KeyGenerator.generatePublicKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         address = AddressGenerator.generateAddress(publicKey)
         
         userAddress.text = address.nemAddressNormalised()

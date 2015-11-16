@@ -69,6 +69,7 @@
 "TRANSACTION_ANOUNCE_SUCCESS" = "成功";
 "TRANSACTION_ANOUNCE_FAILED" = "失敗しました.\n時間をおいて再度行うか, サーバ接続をチェックしてください.";
 "NOT_A_HEX_STRING" = "16進数のメッセージは16進数文字以外は使えません.";
+"NO_PUBLIC_KEY_FOR_ENC" = "Public key for this account is not known.\nEncrypted messages is not allowed.";
 
 // Social
 

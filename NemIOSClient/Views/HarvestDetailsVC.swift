@@ -29,8 +29,8 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
         State.currentVC = SegueToHistoryVC
         _apiManager.delegate = self
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }

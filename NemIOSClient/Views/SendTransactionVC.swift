@@ -35,8 +35,8 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
         
@@ -52,6 +52,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             messageTextField.text = "\(invoice!.message)"
             
             countTransactionFee()
+            self.feeTextField.text = "\(transactionFee)"
         }
     }
     
@@ -62,14 +63,14 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             amountTextField.becomeFirstResponder()
         case amountTextField :
             messageTextField.becomeFirstResponder()
-            countTransactionFee()
         case messageTextField :
             feeTextField.becomeFirstResponder()
-            countTransactionFee()
-            
         default :
             sender.becomeFirstResponder()
         }
+        
+        countTransactionFee()
+        self.feeTextField.text = "\(transactionFee)"
     }
     
     @IBAction func textFieldEditingEnd(sender: UITextField) {
@@ -82,6 +83,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         default :
             break
         }
+        self.feeTextField.text = "\(transactionFee)"
     }
     
     
@@ -93,6 +95,11 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     @IBAction func send(sender: AnyObject) {
         countTransactionFee()
+        
+        if Double(self.feeTextField.text!) < transactionFee {
+            self.feeTextField.text = "\(transactionFee)"
+            return
+        }
         if walletData != nil {
             var state = true
             
@@ -126,8 +133,8 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         } else {
             _showPopUp(NSLocalizedString("SERVER_UNAVAILABLE", comment: "Dsecription"))
             
-            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
             
             _apiManager.accountGet(State.currentServer!, account_address: account_address)
         }
@@ -191,9 +198,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         newFee = Int(max(newFee, Int(feeTextField.text!) ?? 0))
         
         transactionFee = Double(newFee)
-        
-        self.feeTextField.text = "\(transactionFee)"
-    }
+        }
     
     @IBAction func endTyping(sender: NEMTextField) {
         
@@ -205,6 +210,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         
         countTransactionFee()
+        self.feeTextField.text = "\(transactionFee)"
         sender.becomeFirstResponder()
     }
     
@@ -249,7 +255,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         if _mainWallet == nil {
             if walletData.publicKey == nil {
-                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
             }
             
             _mainWallet = walletData

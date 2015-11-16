@@ -4,48 +4,29 @@ import UIKit
 
 class HashManager: NSObject
 {
-    final class func AES256Encrypt(inputText :String ,key :String? = nil) -> String {
-        let dataBytes = inputText.dataUsingEncoding(NSUTF8StringEncoding)!
+    final class func AES256Encrypt(inputText :String ,key :String) -> String {
+        let messageBytes = inputText.asByteArray()
+        var messageData = NSData(bytes: messageBytes, length: messageBytes.count)
+
+        let ivData = NSData().generateRandomIV(16)
+        let customizedIVBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData.bytes), count: ivData.length))
+        messageData = messageData.aesEncrypt(key.asByteArray(), iv: customizedIVBytes)!
         
-        let randomIV =  NSData().generateRandomIV(11).base64EncodingWithLineLength(0)
-        let customizedIV =  randomIV.substringToIndex(randomIV.startIndex.advancedBy(16))
-        
-        var inKey :String = "wD7Y9WTxRdKTWU9iJs14sA==lXBSGon1vCyRdss="
-        
-        if key != nil {
-            inKey = key!
-        }
-        
-        let encryptedData = dataBytes.AES256EncryptWithKey(inKey, iv: customizedIV)
-        var encryptedText = encryptedData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-            encryptedText = encryptedText + customizedIV
-        
-        return encryptedText
+        return customizedIVBytes.toHexString() + messageData.toHexString()
     }
     
-    final class func AES256Decrypt(inputText :String ,key :String? = nil) -> String {
-        let customizedIV =  inputText.substringFromIndex(inputText.endIndex.advancedBy(-16))
-        let encryptedText = inputText.substringToIndex(inputText.endIndex.advancedBy(-16))
-        var inKey :String = "wD7Y9WTxRdKTWU9iJs14sA==lXBSGon1vCyRdss="
+    final class func AES256Decrypt(inputText :String ,key :String) -> String? {
+        let inputBytes = inputText.asByteArray()
+        let customizedIV =  Array(inputBytes[0..<16])
+        let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
         
-        if key != nil {
-            inKey = key!
-        }
+        var data :NSData = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
         
-        let data :NSData = NSData(base64EncodedString: encryptedText , options: NSDataBase64DecodingOptions(rawValue: 0))!
+        data = data.aesDecrypt(key.asByteArray(), iv: customizedIV)!
         
-        if(data.length > 0) {
-            let decryptedData = data.AES256DecryptWithKey(inKey, iv: customizedIV)
-            let decryptedText : String = NSString(data: decryptedData, encoding: NSUTF8StringEncoding) as! String
-            
-            return decryptedText
-        }
-        else {
-            print("ERROR : not encryptedText")
-            return String()
-        }
+        return data.toHexString()
     }
-       
+    
     final class func SHA256Encrypt(data :[UInt8])->String {
         var outBuffer: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         var inBuffer: Array<UInt8> = Array(data)
@@ -69,7 +50,7 @@ class HashManager: NSObject
     
     final class func generateAesKeyForString(string: String, salt: NSData, roundCount: Int?) throws -> NSData? {
         let error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
-        let nsDerivedKey = NSMutableData(length: 128)
+        let nsDerivedKey = NSMutableData(length: 32)
         var actualRoundCount: UInt32
         
         let algorithm: CCPBKDFAlgorithm        = CCPBKDFAlgorithm(kCCPBKDF2)

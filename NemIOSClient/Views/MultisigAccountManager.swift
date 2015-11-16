@@ -32,8 +32,8 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
@@ -130,7 +130,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                     alertAction -> Void in
                     
                     let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
-                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
                     let publickey = self._activeAccount!.publicKey!
                     
                     transaction.timeStamp = TimeSynchronizator.nemTime

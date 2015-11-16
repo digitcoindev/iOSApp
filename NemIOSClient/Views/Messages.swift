@@ -24,6 +24,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         State.fromVC = SegueToMessages
         State.currentVC = SegueToMessages
+        State.currentContact = nil
         
         tableView.layer.cornerRadius = 2
         _apiManager.delegate = self
@@ -286,8 +287,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     
     final func refreshTransactionList() {
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let publicKey = KeyGenerator.generatePublicKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         let account_address = AddressGenerator.generateAddress(publicKey)
         
         if State.currentServer != nil {
@@ -347,8 +348,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         cell.name.text = "  " + cellData.name
         
         if transaction != nil {
-            
-            cell.message.text = transaction!.message.getMessageString()
+            cell.message.text = transaction!.message.getMessageString() ?? "Encrypted message"
         }
         else {
             cell.message.text = ""
@@ -367,8 +367,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         var color :UIColor!
         var vector :String = ""
         if transaction?.recipient == account_address {

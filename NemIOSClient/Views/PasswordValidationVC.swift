@@ -10,8 +10,6 @@ class PasswordValidationVC: AbstractViewController
     
     var showKeyboard :Bool = true
     var currentField :UITextField!
-    var passwordValue = State.currentWallet?.password
-    var saltValue = State.currentWallet?.salt
     let dataMeneger: CoreDataManager  = CoreDataManager()
     
     // MARK: - Load Methods
@@ -28,12 +26,8 @@ class PasswordValidationVC: AbstractViewController
         
         if State.importAccountData == nil {
             authenticateUser()
-        } else {
-            passwordValue = State.importAccountData?.password ?? passwordValue
-            saltValue = State.importAccountData?.salt ?? saltValue
-        }
+        } 
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -42,25 +36,44 @@ class PasswordValidationVC: AbstractViewController
     // MARK: - IBAction
     
     @IBAction func passwordValidation(sender: AnyObject) {
-        let salt :NSData = NSData.fromHexString(saltValue!)
         
-        let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:salt, roundCount:2000)!
+        if State.importAccountData != nil {
+            _validateFromImport()
+        } else {
+            _validateFromDatabase()
+        }
+    }
+    
+    @IBAction func hideKeyBoard(sender: AnyObject) {
+        (sender as! UITextField).becomeFirstResponder()
+    }
+    // MARK: - Private Methods
+    
+    private func _validateFromImport() {
         
-        if passwordHash?.toHexString() == passwordValue! {
-            
-            if State.importAccountData != nil {
-                State.importAccountData!.completition?(success: true)
-                State.importAccountData = nil
-            }
-            
+        let success = State.importAccountData?(password: password.text!) ?? false
+        if success {
+            State.importAccountData = nil
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             }
         }
     }
     
-    @IBAction func hideKeyBoard(sender: AnyObject) {
-        (sender as! UITextField).becomeFirstResponder()
+    private func _validateFromDatabase() {
+        
+        guard let salt = State.currentWallet?.salt else {return}
+        guard let saltData :NSData = NSData.fromHexString(salt) else {return}
+        guard let passwordValue = State.currentWallet?.password else {return}
+        
+        let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+        
+        if passwordData?.toHexString() == passwordValue {
+            
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
+            }
+        }
     }
     
     // MARK: - Touch Id

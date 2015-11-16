@@ -26,12 +26,12 @@ class MessageCrypto: NSObject {
         return result
     }
 
-    final class func decrypt(messageBytes :Array<UInt8> ,recipientPrivateKey :String, senderPublicKey :String) -> String {
+    final class func decrypt(messageBytes :Array<UInt8> ,recipientPrivateKey :String, senderPublicKey :String) -> String? {
         
         var saltBytes :Array<UInt8> = Array(messageBytes[0..<32])
         let ivBytes :Array<UInt8> = Array(messageBytes[32..<48])
         var encBytes :Array<UInt8> = Array(messageBytes[48..<messageBytes.count])
-     
+
         var recipientPrivateKeyBytes: Array<UInt8> = recipientPrivateKey.asByteArrayEndian(32)
         var senderPublicKeyBytes: Array<UInt8> = senderPublicKey.asByteArray()
         
@@ -42,7 +42,6 @@ class MessageCrypto: NSObject {
         var messageData :NSData = NSData(bytes: &encBytes, length: encBytes.count)
         
         messageData = messageData.aesDecrypt(sharedSecretBytes, iv: ivBytes)!
-        
-        return (NSString(data: messageData, encoding: NSUTF8StringEncoding) as? String) ?? "Could not decrypt"
+        return NSString(data: messageData, encoding: NSUTF8StringEncoding) as? String
     }
 }

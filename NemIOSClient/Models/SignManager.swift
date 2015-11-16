@@ -28,11 +28,11 @@ class SignManager: NSObject
     }
     
     final class func signatureGeneration(data : Array<UInt8> )->Array<UInt8> {
-        let myPrivateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let myPublicKey = KeyGenerator.generatePublicKey(myPrivateKey)
+        let myPrivateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let myPublicKey = KeyGenerator.generatePublicKey(myPrivateKey!)
 
         var processData : Array<UInt8> = Array(data)
-        var privateKey :Array<UInt8> = Array(myPrivateKey.utf8)
+        var privateKey :Array<UInt8> = Array(myPrivateKey!.utf8)
         var publicKey :Array<UInt8> = Array(myPublicKey.utf8)
         var signature : Array<UInt8> = Array(count: 64, repeatedValue: 0)
         
@@ -65,7 +65,7 @@ class SignManager: NSObject
             break
         }
         
-        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
         
         if publicKey != transaction.signer {
             let multisignCommonPart :Array<UInt8> = SignManager.commonPart(transaction  ,isMultisignPart :true )
@@ -91,7 +91,7 @@ class SignManager: NSObject
         if isMultisignPart {
             transactionType = String(Int64(multisigTransaction), radix: 16).asByteArrayEndian(4)
             fee = String(Int64(6 * 1000000), radix: 16).asByteArrayEndian(8)
-            let myPublicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+            let myPublicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
 
             publicKey = myPublicKey.asByteArray()
 

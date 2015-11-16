@@ -63,8 +63,12 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         _initButtonsConfigs()
         contactInfo.text = contact.name
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+        
+        if !Validate.stringNotEmpty(self.contact.public_key){
+            self._apiManager.accountGet(State.currentServer!, account_address: self.contact.address)
+        }
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
         
@@ -179,7 +183,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         let messageTextHex = (_isHex) ? "fe" + messageField.text! : messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
         
         if !Validate.hexString(messageTextHex!) {
-            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("NOT_A_HEX_STRING", comment: "Descripton") , preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "INFO"), message: NSLocalizedString("NOT_A_HEX_STRING", comment: "Error: NOT_A_HEX_STRING") , preferredStyle: UIAlertControllerStyle.Alert)
             
             let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
                 alertAction -> Void in
@@ -196,8 +200,21 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         if _isEnc && !_isHex
         {
+            guard let contactPublicKey = contact.public_key else {
+                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "INFO"), message: NSLocalizedString("NO_PUBLIC_KEY_FOR_ENC", comment: "Error: NO_PUBLIC_KEY_FOR_ENC") , preferredStyle: UIAlertControllerStyle.Alert)
+                
+                let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+                    alertAction -> Void in
+                }
+                
+                alert.addAction(ok)
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+                return
+
+            }
             var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
-            encryptedMessage = MessageCrypto.encrypt(messageBytes, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey), recipientPublicKey: contact.public_key)
+            encryptedMessage = MessageCrypto.encrypt(messageBytes, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!, recipientPublicKey: contactPublicKey)
             messageBytes = encryptedMessage
         }
         
@@ -232,7 +249,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     final func defineData() {
-        let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey))
+        let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
         var data :[DefinedCell] = []
         
         for transaction in _transactions {
@@ -259,8 +276,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
             (transaction as! TransferTransaction)
-            
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            innertTransaction.message.signer = contact.public_key
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "Could not decrypt" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount > 0) {
                 var text :String = "\(innertTransaction.amount / 1000000) XEM"
@@ -295,8 +312,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
                 (transaction as! TransferTransaction)
-            
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            innertTransaction.message.signer = contact.public_key
+
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "Could not decrypt" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount != 0) {
                 var text :String = "\(innertTransaction.amount / 1000000) XEM"
@@ -416,12 +434,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
                     (transaction as! TransferTransaction)
             }
+            innertTransaction.message.signer = contact.public_key
+            let messageText = innertTransaction.message.getMessageString() ?? "Could not decrypt"
             
-            var messageText = innertTransaction.message.getMessageString()
-            
-            messageText = (messageText == nil) ? "" : messageText
-            
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText! , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount > 0) {
                 var text :String = "\(innertTransaction.amount / 1000000) XEM"
@@ -495,12 +511,17 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             if let responceAccount = account {
                 
                 if responceAccount.publicKey == nil {
-                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-                    let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+                    let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
                     
                     if account_address == responceAccount.address {
-                        responceAccount.publicKey = KeyGenerator.generatePublicKey(privateKey)
+                        responceAccount.publicKey = KeyGenerator.generatePublicKey(privateKey!)
                     }
+                }
+                
+                if !Validate.stringNotEmpty(self.contact.public_key) && self.contact.address == responceAccount.address {
+                    self.contact.public_key = responceAccount.publicKey
+                    return
                 }
                 
                 if  self._activeAccount == nil {
@@ -518,7 +539,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     
                     self._refreshHistory()
                 } else {
-                    if self._accounts.count <= self._mainAccount!.cosignatoryOf.count {
+                    if self._accounts.count < self._mainAccount!.cosignatoryOf.count {
                         self._accounts.append(responceAccount)
                     }
                 }

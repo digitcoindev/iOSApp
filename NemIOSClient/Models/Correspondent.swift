@@ -9,7 +9,7 @@
 import UIKit
 
 class Correspondent: NSObject {
-    var public_key: String = ""
+    var public_key: String? = nil
     var address: String = ""
     var name: String = ""
     var transaction :TransferTransaction!
@@ -21,7 +21,7 @@ class Correspondent: NSObject {
         var account_address = ""
         
         if State.currentWallet != nil {
-            privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
+            privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!
             account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         }
         

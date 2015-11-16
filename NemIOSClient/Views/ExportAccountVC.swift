@@ -15,15 +15,14 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         State.currentVC = SegueToExportAccount
         
         let login = State.currentWallet!.login
-        let password = State.currentWallet!.password
+        
         let salt = State.currentWallet!.salt
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey)
-        let privateKey_AES = HashManager.AES256Encrypt(privateKey, key: "my qr key")
-        let objects = [login, password, salt, privateKey_AES]
-        let keys = ["login", "password", "salt", "private"]
+        let privateKey_AES = State.currentWallet!.privateKey
+        let objects = [login, salt, privateKey_AES]
+        let keys = [QRKeys.Name.rawValue, QRKeys.Salt.rawValue, QRKeys.PrivateKey.rawValue]
         
         let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys)
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [3, jsonAccountDictionary], forKeys: ["type", "data"])
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.AccountData.rawValue, jsonAccountDictionary], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue])
         let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
         let base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
         
