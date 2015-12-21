@@ -51,8 +51,6 @@ class ChangeNamePopUp: AbstractViewController {
     
     @IBAction func changeName(sender: AnyObject) {
         if Validate.stringNotEmpty(newName.text) {
-            State.currentWallet!.login = newName.text!
-            CoreDataManager().commit()
             (self.delegate as! ChangeNamePopUptDelegate).nameChanged(newName.text!)
             self.view.removeFromSuperview()
             self.removeFromParentViewController()

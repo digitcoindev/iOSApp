@@ -12,7 +12,7 @@ enum QRKeys: String {
     case Address = "addr"
     case Name = "name"
     case Amount = "amount"
-    case Message = "message"
+    case Message = "msg"
     case DataType = "type"
     case Data = "data"
     case PrivateKey = "priv_key"

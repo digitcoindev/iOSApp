@@ -129,6 +129,14 @@
          contextName = "static SignManager.commonPart(TransactionPostMetaData, isMultisignPart : Bool) -&gt; [UInt8]:SignManager.swift">
       </ContextState>
       <ContextState
+         contextName = "ImportFromQR.(detectedQRWithString(ImportFromQR) -&gt; (String) -&gt; ()).(closure #1):ImportFromQR.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "passwordHash.toHexString()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "QRViewController.backButtonTouchUpInside(AnyObject) -&gt; ():QRViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -165,10 +173,10 @@
          contextName = "static State.lastVC.getter:State.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.Store.stackVC.last!">
+               value = "State.Store.stackVC">
             </PersistentString>
             <PersistentString
-               value = "State.Store.stackVC">
+               value = "State.Store.stackVC.last!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -185,6 +193,9 @@
       </ContextState>
       <ContextState
          contextName = "AddressBook.contactAdded(Bool) -&gt; ():AddressBook.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ImportFromQR.detectedQRWithString(String) -&gt; ():ImportFromQR.swift">
       </ContextState>
       <ContextState
          contextName = "+[NSData(AESAdditions) doCipher:iv:key:error:]:Crypto.m">
@@ -305,13 +316,13 @@
          contextName = "static MessageCrypto.decrypt([UInt8], recipientPrivateKey : String, senderPublicKey : String) -&gt; String?:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
-               value = "messageData.hexadecimalString()">
+               value = "encBytes.toHexString()">
             </PersistentString>
             <PersistentString
                value = "NSString(data: messageData, encoding: NSASCIIStringEncoding) as? String">
             </PersistentString>
             <PersistentString
-               value = "encBytes.toHexString()">
+               value = "messageData.hexadecimalString()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -341,10 +352,10 @@
          contextName = "MessageVC.sendButtonTouchUpInside(AnyObject) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "contact.public_key">
+               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
             </PersistentString>
             <PersistentString
-               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
+               value = "contact.public_key">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

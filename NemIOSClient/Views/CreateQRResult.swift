@@ -35,7 +35,7 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
             nameLabel.attributedText = titleText
             
             titleText = NSMutableAttributedString(string: "AMOUNT: " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
-            contentText = NSMutableAttributedString(string: "\(invoice!.amount) XEM" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
+            contentText = NSMutableAttributedString(string: "\(invoice!.amount / 1000000) XEM" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
             
             titleText.appendAttributedString(contentText)
             amountLabel.attributedText = titleText

@@ -26,8 +26,9 @@ class ConversationTableViewCell: DetailedTableViewCell {
     internal let _infoLabelMiddle: UILabel? = UILabel()
     internal let _infoLabelBottom: UILabel? = UILabel()
     
-    internal let _nemColorOrange = UIColor(red: 214 / 256 , green: 152 / 256, blue: 37 / 256, alpha: 1)
-    internal let _nemColorGreen = UIColor(red: 65 / 256 , green: 206 / 256, blue: 123 / 256, alpha: 1)
+    internal let _nemColorIncoming = UIColor.lightGrayColor() // LightGray
+    internal let _nemColorOutgoing = UIColor(red: 65 / 256 , green: 206 / 256, blue: 123 / 256, alpha: 1) // Green
+    internal let _nemColorUnconfirmed = UIColor.grayColor()
     
     // MARK: properties
     
@@ -42,13 +43,13 @@ class ConversationTableViewCell: DetailedTableViewCell {
             switch _cellType {
             case .Incoming :
                 _dateLabel?.textAlignment = NSTextAlignment.Left
-                _messageLabel?.backgroundColor = _nemColorOrange
+                _messageLabel?.backgroundColor = _nemColorIncoming
             case .Outgoing :
                 _dateLabel?.textAlignment = NSTextAlignment.Right
-                _messageLabel?.backgroundColor = _nemColorGreen
+                _messageLabel?.backgroundColor = _nemColorOutgoing
             case .Processing :
                 _dateLabel?.textAlignment = NSTextAlignment.Center
-                _messageLabel?.backgroundColor = UIColor.grayColor()
+                _messageLabel?.backgroundColor = _nemColorUnconfirmed
             default :
                 break
             }

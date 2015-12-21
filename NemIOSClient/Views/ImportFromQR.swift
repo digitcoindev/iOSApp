@@ -65,8 +65,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
                     (password) -> Bool in
                     
                     guard let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password, salt:saltData, roundCount:2000) else {return false}
-
-                    
+                    print(passwordHash!.toHexString())
                     WalletGenerator().importWallet(login, password: passwordHash!.toHexString(), privateKey: privateKey_AES ,salt: salt)
                     return true
                 }

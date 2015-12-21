@@ -42,19 +42,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     // MARK: - IBAction
 
     @IBAction func addAccountTouchUpInside(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let serverCustomVC :AddCustomServerVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomServer") as! AddCustomServerVC
-        serverCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - topView.frame.height)
-        serverCustomVC.view.layer.opacity = 0
-        serverCustomVC.delegate = self
-        
-        _tempSubViews.append(serverCustomVC.view)
-        self.view.addSubview(serverCustomVC.view)
-        
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            serverCustomVC.view.layer.opacity = 1
-            }, completion: nil)
+        showServerPopUp()
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
@@ -114,30 +102,63 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if  State.currentServer != nil {
-            
-            var oldIndex = 0
-            
-            for var i = 0 ; i < servers.count ; i++ {
-                if servers[i] == State.currentServer! {
-                    oldIndex = i
+        if !_isEditing {
+            if  State.currentServer != nil {
+                
+                var oldIndex = 0
+                
+                for var i = 0 ; i < servers.count ; i++ {
+                    if servers[i] == State.currentServer! {
+                        oldIndex = i
+                    }
+                }
+                
+                let oldIndexPath = NSIndexPath(forRow: oldIndex, inSection: 0)
+                
+                if oldIndexPath != indexPath {
+                    let serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as! ServerViewCell
+                    
+                    serverCell.isActiveServer = false
                 }
             }
             
-            let oldIndexPath = NSIndexPath(forRow: oldIndex, inSection: 0)
+            let selectedServer :Server = servers[indexPath.row]
             
-            if oldIndexPath != indexPath {
-                let serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as! ServerViewCell
-                
-                serverCell.isActiveServer = false
-            }
+            State.currentServer = selectedServer
+            
+            _apiManager.heartbeat(selectedServer)
+        } else {
+            let selectedServer :Server = servers[indexPath.row]
+
+            showServerPopUp(selectedServer)
+        }
+    }
+    
+    private func showServerPopUp(server :Server? = nil)
+    {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let serverCustomVC :AddCustomServerVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomServer") as! AddCustomServerVC
+        serverCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - topView.frame.height)
+        serverCustomVC.view.layer.opacity = 0
+        serverCustomVC.delegate = self
+        
+        if server != nil {
+            serverCustomVC.newServer = server
+            serverCustomVC.protocolType.text = server!.protocolType
+            serverCustomVC.serverAddress.text = server!.address
+            serverCustomVC.serverPort.text = server!.port
+            serverCustomVC.saveBtn.setTitle("Change server", forState: UIControlState.Normal)
+        } else {
+            serverCustomVC.saveBtn.setTitle("Add server", forState: UIControlState.Normal)
         }
         
-        let selectedServer :Server = servers[indexPath.row]
+        _tempSubViews.append(serverCustomVC.view)
+        self.view.addSubview(serverCustomVC.view)
         
-        State.currentServer = selectedServer
-        
-        _apiManager.heartbeat(selectedServer)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            serverCustomVC.view.layer.opacity = 1
+            }, completion: nil)
     }
     
     //MARK: - ServerCell Delegate

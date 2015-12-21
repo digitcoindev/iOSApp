@@ -14,13 +14,12 @@ class KeyGenerator: NSObject
     
     final class func generatePublicKey(privateKey: String)->String {       
         var publicKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
-        var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(32)
+        var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(privateKey.asByteArray().count)
         
         createPublicKey(&publicKeyBytes, &privateKeyBytes)
         
         let publicKey :String = NSData(bytes: &publicKeyBytes, length: 32).toHexString()
 
         return publicKey
-
     }
 }

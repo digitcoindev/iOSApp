@@ -1,6 +1,6 @@
 import UIKit
 
-class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate
+class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, ChangeNamePopUptDelegate
 {
     
     @IBOutlet weak var tableView: UITableView!
@@ -16,6 +16,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     var wallets :[Wallet] = [Wallet]()
     var selectedIndex :Int  = -1
     
+    private var _popUp :AbstractViewController? = nil
     private var _isEditing = false
     
     //MARK: - Load Methods
@@ -87,9 +88,49 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
                 }
             }
+        } else {
+            selectedIndex = indexPath.row
+            _createPopUp("ChangeNamePopUpProfile", name: wallets[indexPath.row].login)
         }
     }
     
+    //MARK: - Private Methods
+    
+    private final func _createPopUp(withId: String , name: String? = nil) {
+        if _popUp != nil {
+            _popUp!.view.removeFromSuperview()
+            _popUp!.removeFromParentViewController()
+            _popUp = nil
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier(withId) as! AbstractViewController
+        popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
+        popUpController.view.layer.opacity = 0
+        popUpController.delegate = self
+        
+        if withId == "ChangeNamePopUpProfile"{
+            (popUpController as! ChangeNamePopUp).newName.text = name
+        }
+        
+        _popUp = popUpController
+        self.view.addSubview(popUpController.view)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            popUpController.view.layer.opacity = 1
+            }, completion: nil)
+        
+    }
+    
+    //MARK: - ChangeNamePopUpDelegate Methods
+    
+    func nameChanged(name :String) {
+        wallets[selectedIndex].login = name
+        dataManager.commit()
+        tableView.reloadData()
+    }
+
     //MARK: - EditableTableViewCellDelegate Delegate
     
     func deleteCell(cell: EditableTableViewCell){

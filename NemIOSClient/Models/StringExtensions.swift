@@ -113,8 +113,8 @@ extension String
     
     func nemAddressNormalised() -> String {
         var newString = ""
-        for var i = 0 ; i < self.characters.count ; i+=4 {
-            let substring = (self as NSString).substringWithRange(NSRange(location: i, length: 4))
+        for var i = 0 ; i < self.characters.count ; i += 6 {
+            let substring = (self as NSString).substringWithRange(NSRange(location: i, length: ((self.characters.count - i) >= 6) ? 6 : self.characters.count - i))
             newString += substring + "-"
         }
         let length :Int = newString.characters.count - 1

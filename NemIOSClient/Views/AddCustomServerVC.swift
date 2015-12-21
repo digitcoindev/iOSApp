@@ -19,7 +19,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
     
     //MARK: - Private Variables
     
-    private var _newServer :Server? = nil
+    var newServer :Server? = nil
     private let _apiManager :APIManager = APIManager()
     private let _dataManager :CoreDataManager = CoreDataManager()
     
@@ -76,18 +76,23 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
         }
         else {
             let servers :[Server] =  _dataManager.getServers()
-            _newServer = nil
             
             for server in servers {
                 if server.protocolType == protocolType.text && server.address == serverAddress.text && server.port == serverPort.text {
-                    _newServer = server
+                    newServer = server
                     
                     break
                 }
             }
             
-            if _newServer == nil {
-                _newServer =  _dataManager.addServer(protocolType.text!, address: serverAddress.text! ,port: serverPort.text!)
+            if newServer == nil {
+                newServer =  _dataManager.addServer(protocolType.text!, address: serverAddress.text! ,port: serverPort.text!)
+            } else {
+                newServer?.address = serverAddress.text!
+                newServer?.port = serverPort.text!
+                newServer?.protocolType = protocolType.text!
+                
+                _dataManager.commit()
             }
                         
             if self.delegate != nil && self.delegate!.respondsToSelector("serverAdded:") {

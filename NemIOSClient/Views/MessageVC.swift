@@ -21,7 +21,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     @IBOutlet weak var amoundContainerView: UIView!
     @IBOutlet weak var contactInfo: UILabel!
     
-    @IBOutlet weak var hexButton: UIButton!
     @IBOutlet weak var encButton: UIButton!
     
     private var _unconfirmedTransactions  :[TransactionPostMetaData] = []
@@ -36,7 +35,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     private var _mainAccount :AccountGetMetaData? = nil
     private var _activeAccount :AccountGetMetaData? = nil
     
-    private var _isHex = false
     private var _isEnc = false
     
     private var _canShowKeyboard = true
@@ -103,21 +101,15 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
 
     }
     
-    @IBAction func hexTouchUpInside(sender: UIButton) {
-        _isHex = !_isHex
-        sender.backgroundColor = (_isHex) ? greenColor : grayColor
+    @IBAction func copyCorrespondentAddress(sender: AnyObject) {
         
-        _isEnc = false
-        encButton.backgroundColor = grayColor
-
+        let pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
+        pasteBoard.string = _contact.address
     }
     
     @IBAction func encTouchUpInside(sender: UIButton) {
         _isEnc = !_isEnc
         sender.backgroundColor = (_isEnc) ? greenColor : grayColor
-        
-        _isHex = false
-        hexButton.backgroundColor = grayColor
     }
     
     @IBAction func accountsButtonDidTouchInside(sender: AnyObject){
@@ -180,7 +172,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             return
         }
                 
-        let messageTextHex = (_isHex) ? "fe" + messageField.text! : messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+        let messageTextHex = messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
         
         if !Validate.hexString(messageTextHex!) {
             let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "INFO"), message: NSLocalizedString("NOT_A_HEX_STRING", comment: "Error: NOT_A_HEX_STRING") , preferredStyle: UIAlertControllerStyle.Alert)
@@ -198,7 +190,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         var messageBytes :[UInt8] = messageTextHex!.asByteArray()
 
         
-        if _isEnc && !_isHex
+        if _isEnc
         {
             guard let contactPublicKey = contact.public_key else {
                 let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "INFO"), message: NSLocalizedString("NO_PUBLIC_KEY_FOR_ENC", comment: "Error: NO_PUBLIC_KEY_FOR_ENC") , preferredStyle: UIAlertControllerStyle.Alert)
@@ -294,8 +286,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             definedCell.height = _heightForCell(message, width: tableView.frame.width - 120) + 20
 
-            message = NSMutableAttributedString(string:"Id: " , attributes: nil)
-            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.id)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+            message = NSMutableAttributedString(string:"Block: " , attributes: nil)
+            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.height)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
             definedCell.detailsTop = message
             
             message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
