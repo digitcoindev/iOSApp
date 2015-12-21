@@ -42,12 +42,6 @@ class HashManager: NSObject
         return RIPEMD.asciiDigest(inputText) as String
     }
     
-    final class func salt(length length:Int) -> NSData {
-        let data = NSMutableData(length: Int(length))
-                
-        return data!
-    }
-    
     final class func generateAesKeyForString(string: String, salt: NSData, roundCount: Int?) throws -> NSData? {
         let error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         let nsDerivedKey = NSMutableData(length: 32)

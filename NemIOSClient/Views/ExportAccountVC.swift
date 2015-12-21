@@ -24,11 +24,11 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys)
         let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.AccountData.rawValue, jsonAccountDictionary], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue])
         let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
-        let base64String :String = jsonData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+        let jsonString :String = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as! String
         
         let qr :QR = QR()
         
-        qrImage.image =  qr.createQR(base64String)
+        qrImage.image =  qr.createQR(jsonString)
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {

@@ -41,8 +41,10 @@ class ImportFromQR: AbstractViewController, QRDelegate
     //MARK: - QRDelegate Methods
     
     func detectedQRWithString(text: String) {
-        let base64String :String = text
-        let jsonData :NSData = NSData(base64EncodedString: base64String)
+        guard let jsonData = text.dataUsingEncoding(NSUTF8StringEncoding) else {
+            screenScaner.play()
+            return
+        }
         var jsonStructure :NSDictionary? = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as? NSDictionary
 
         if jsonStructure == nil {

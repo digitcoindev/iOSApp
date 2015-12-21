@@ -10,7 +10,7 @@ class WalletGenerator: NSObject
             privateKeyString = KeyGenerator.generatePrivateKey()
         }
         
-        let salt :NSData = HashManager.salt(length: 64)
+        let salt :NSData =  NSData().generateRandomIV(32)
         let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password, salt:salt, roundCount:2000)!
         let privateKeyHash :String = HashManager.AES256Encrypt(privateKeyString!, key: passwordHash!.toHexString())
 

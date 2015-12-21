@@ -9,7 +9,7 @@
 import UIKit
 
 enum QRKeys: String {
-    case Address = "address"
+    case Address = "addr"
     case Name = "name"
     case Amount = "amount"
     case Message = "message"
