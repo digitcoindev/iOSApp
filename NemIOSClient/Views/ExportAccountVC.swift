@@ -5,6 +5,8 @@ import MessageUI
 class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDelegate
 {
     @IBOutlet weak var qrImage: UIImageView!
+    @IBOutlet weak var privateKey: UILabel!
+    @IBOutlet weak var publicKey: UILabel!
     
     private var popup :AbstractViewController? = nil
 
@@ -29,6 +31,11 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         let qr :QR = QR()
         
         qrImage.image =  qr.createQR(jsonString)
+        
+        let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let pub_key = KeyGenerator.generatePublicKey(priv_key!)
+        privateKey.text = priv_key
+        publicKey.text = pub_key
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {

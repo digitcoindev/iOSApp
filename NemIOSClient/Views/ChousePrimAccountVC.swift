@@ -1,0 +1,77 @@
+//
+//  ChousePrimAccountVC.swift
+//  NemIOSClient
+//
+//  Created by Lyubomir Dominik on 23.12.15.
+//  Copyright © 2015 Artygeek. All rights reserved.
+//
+
+import UIKit
+
+class ChousePrimAccountVC: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    //MARK: - @IBOutlet
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var scroll: UIScrollView!
+    
+    private let _accounts :[Wallet] = CoreDataManager().getWallets()
+    
+    //MARK: - Load Methods
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+                
+        contentView.layer.cornerRadius = 5
+        contentView.clipsToBounds = true
+        
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    //MARK: - @IBAction
+    
+    @IBAction func closePopUp(sender: AnyObject) {
+        self.view.removeFromSuperview()
+        self.removeFromParentViewController()
+    }
+    
+    @IBAction func reset(sender: AnyObject) {
+        let loadData = State.loadData
+        loadData?.currentWallet = nil
+        CoreDataManager().commit()
+        (self.delegate as! AbstractViewController).viewDidAppear(false)
+    }
+    
+    // MARK: - TableViewDelegate Methods
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return _accounts.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
+
+        cell.title.text = _accounts[indexPath.row].login
+        if _accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey {
+            cell.isActive = true
+        }
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        let loadData = State.loadData
+        loadData?.currentWallet = _accounts[indexPath.row]
+        CoreDataManager().commit()
+        (self.delegate as! AbstractViewController).viewDidAppear(false)
+        closePopUp(self)
+    }
+}

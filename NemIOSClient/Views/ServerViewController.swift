@@ -52,12 +52,12 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
+        _isEditing = !_isEditing
+
         for cell in self.tableView.visibleCells {
-            (cell as! ServerViewCell).inEditingState = !_isEditing
+            (cell as! ServerViewCell).inEditingState = _isEditing
             (cell as! ServerViewCell).layoutCell(animated: true)
         }
-        
-        _isEditing = !_isEditing
     }
     
     // MARK: - TableViewDelegate Methods
@@ -194,9 +194,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
             loadData.currentServer = State.currentServer!
             _dataManager.commit()
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-            }
+            self.tableView.reloadData()
         } else {
             State.currentServer = nil
             if !_alertShown {

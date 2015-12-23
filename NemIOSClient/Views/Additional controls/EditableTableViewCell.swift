@@ -78,7 +78,7 @@ class EditableTableViewCell: AbstactTableViewCell
         
         var _accum: CGFloat = _editImageView.frame.origin.x + _editImageView.frame.width
         
-        if isEditable {
+        if !isEditable {
             _editView?.frame = CGRect(x: -_accum, y: 0, width: _accum, height: self.frame.height)
             
             _deleteView?.frame = CGRect(x: self.frame.width, y: 0, width: _deleteButton.frame.width + _SMALL_OFFSET_ + _SEPARATOR_OFFSET_, height: self.frame.height)

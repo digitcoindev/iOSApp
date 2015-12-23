@@ -18,7 +18,16 @@ class MainContainerVC: AbstractViewController
             self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self);
         }
         else  {
-            self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
+            
+            if State.currentWallet != nil && State.currentServer != nil{
+                State.toVC = SegueToMessages
+                
+                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
+                }
+            } else {
+                self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
+            }
         }
     }
     
@@ -75,7 +84,7 @@ class MainContainerVC: AbstractViewController
             
             switch(page) {
                 
-            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToProfile, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHistoryVC, SegueToExportAccount, SegueToMainMenu, SegueToHarvestDetails:
+            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToSettings, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHistoryVC, SegueToExportAccount, SegueToMainMenu, SegueToHarvestDetails:
                 self.performSegueWithIdentifier(page, sender: nil)
                 
             case SegueToPasswordValidation, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController:

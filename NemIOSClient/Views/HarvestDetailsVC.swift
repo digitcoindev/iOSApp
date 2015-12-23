@@ -14,6 +14,7 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     @IBOutlet weak var balance: UILabel!
     @IBOutlet weak var vastedBalance: UILabel!
     @IBOutlet weak var harvestingStatus: UILabel!
+    @IBOutlet weak var delegatedKey: UILabel!
     @IBOutlet weak var lastBlocks: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
@@ -125,6 +126,21 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             ]
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             lastBlocks.attributedText = atributedText
+            
+            atributes = [
+                NSFontAttributeName:fontLight
+            ]
+            
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+            
+            message = "Delegated Key: \(HashManager.SHA256Encrypt(privateKey!.asByteArray()))"
+            atributedText = NSMutableAttributedString(string: message, attributes: atributes)
+            
+            atributes = [
+                NSForegroundColorAttributeName : greenClor,
+                NSFontAttributeName:fontLight
+            ]
+            delegatedKey.attributedText = atributedText
         }
     }
     

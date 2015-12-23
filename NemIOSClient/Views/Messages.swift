@@ -5,6 +5,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
+    @IBOutlet weak var backButton: UIButton!
     
     let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData!
@@ -21,6 +22,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if State.fromVC == nil {
+            backButton.hidden = true
+        }
         
         State.fromVC = SegueToMessages
         State.currentVC = SegueToMessages
@@ -297,7 +302,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         }
         else {
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerTable)
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
             }
         }
     }

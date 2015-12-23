@@ -7,13 +7,11 @@ let SegueToLoginVC : String =  "Accounts"
 
 //MARK: Server Controller
 
-let SegueToServerTable : String =  "serverTable"
-let SegueToServerCustom : String =  "serverCustom"
 let SegueToAddAccountVC :String = "Import Accouts"
 let SegueToImportFromQR :String = "Import from QR"
 let SegueToImportFromKey :String = "Import from key"
 let SegueToGoogleMap :String = "Map"
-let SegueToProfile :String = "Profile"
+let SegueToSettings :String = "Profile"
 let SegueTomultisigAccountManager :String = "multisigAccountManager"
 let SegueToHistoryVC :String = "History"
 let SegueToExportAccount :String = "Export Account"

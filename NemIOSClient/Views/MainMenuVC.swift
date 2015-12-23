@@ -14,7 +14,7 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         State.fromVC = SegueToMainMenu
         State.currentVC = SegueToMainMenu
         
-        menu = [SegueToLoginVC, SegueToServerVC, SegueToGoogleMap , SegueToProfile, SegueToHarvestDetails, SegueToExportAccount]
+        menu = [SegueToLoginVC, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -48,6 +48,8 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         {
         case SegueToHarvestDetails:
             titleText = "Harvest Details"
+        case SegueTomultisigAccountManager:
+            titleText = "Manage accounts"
         default:
             break
         }
@@ -56,9 +58,19 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         return cell
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let page: String  = menuItems.objectAtIndex(indexPath.row) as! String
+        var page: String  = menuItems.objectAtIndex(indexPath.row) as! String
         
         State.toVC = page
+        
+        switch page
+        {
+        case SegueToExportAccount:
+            State.nextVC = page
+            page = SegueToPasswordValidation
+        default:
+            break
+        }
+        
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(page)
         }

@@ -7,7 +7,6 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
 
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var filter: FilterButton!
     @IBOutlet weak var searchContainer: UIView!
     @IBOutlet weak var searchTextField: NEMTextField!
     
@@ -48,15 +47,13 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         
         _newContact = AddressBook.newContact
         AddressBook.newContact = nil
-        filter.setFilterToState((_newContact == nil) ? false : true)
-        self.filterChanged(self)
         
         searchContainer.layer.cornerRadius = 5
-        filter.layer.cornerRadius = 5
         tableView.layer.cornerRadius = 5
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset.right = 15
+        filterChanged(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,15 +67,14 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
-        
+        _isEditing = !_isEditing
+
         for cell in self.tableView.visibleCells {
             (cell as! AddressCell).isEditable = _isEditing
         }
-        
-        _isEditing = !_isEditing
     }
     
-    @IBAction func filterChanged(sender: AnyObject) {
+    func filterChanged(sender: AnyObject) {
         displayList.removeAll()
         
         AddressBookManager.refresh({ () -> Void in
@@ -115,20 +111,6 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
                     continue
                 }
                 
-                let emails: [CNLabeledValue] = contact.emailAddresses
-                
-                var isConnectedNEMAddress = false
-                
-                for email in emails {
-                    if email.label == "NEM" {
-                        isConnectedNEMAddress = true
-                    }
-                }
-                
-                if self.filter.isFilterActive != isConnectedNEMAddress {
-                    continue
-                }
-                
                 self.displayList.append(contact as! CNContact)
             }
             
@@ -162,10 +144,10 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         let cell : AddressCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as! AddressCell
         cell.editDelegate = self
         let person :CNContact = displayList[indexPath.row]
-        cell.isEditable = !_isEditing
+        cell.isEditable = _isEditing
         cell.infoLabel.text = ""
         
-        if (_newContact?.isEqual(person)) ?? false {
+        if ((_newContact?.givenName == person.givenName) && (_newContact?.familyName == person.familyName)) ?? false {
             _newContact = nil
             
             cell.selectContact()
@@ -252,6 +234,15 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         let contactCustomVC :AddCustomContactVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AddCustomContactVC
         contactCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - topView.frame.height)
         contactCustomVC.view.layer.opacity = 0
+        contactCustomVC.firstName.text = contact.givenName
+        contactCustomVC.lastName.text = contact.familyName
+        
+        for email in contact.emailAddresses{
+            if email.label == "NEM" {
+                contactCustomVC.address.text = email.value as? String ?? ""
+            }
+        }
+        
         contactCustomVC.saveBtn.setTitle(NSLocalizedString("CHANGE_CONTACT", comment: "Title"), forState: .Normal)
         contactCustomVC.contact = contact
         contactCustomVC.delegate = self
@@ -277,9 +268,6 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             _newContact = AddressBook.newContact
             AddressBook.newContact = nil
             
-            if _newContact != nil {
-                filter.setFilterToState(true)
-            }
             self.filterChanged(self)
         }
     }
@@ -295,10 +283,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             _isEditing = false
             _newContact = AddressBook.newContact
             AddressBook.newContact = nil
-            
-            if _newContact != nil {
-                filter.setFilterToState(true)
-            }
+
             self.filterChanged(self)
         }
     }

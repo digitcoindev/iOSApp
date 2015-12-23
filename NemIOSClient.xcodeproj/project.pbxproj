@@ -47,6 +47,9 @@
 		98BB95E41BCCF463002151F7 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E31BCCF463002151F7 /* Crypto.m */; };
 		98BB95E61BCD2FAA002151F7 /* ChouseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */; };
 		98DFB7191BF3AEE40010E035 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DFB7181BF3AEE40010E035 /* FileService.swift */; };
+		98F01CB71C2AC2E90018081B /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB51C2AC2E90018081B /* LoadData.swift */; };
+		98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */; };
+		98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBA1C2AF3740018081B /* ActiveCell.swift */; };
 		98F3F53D1BD0EBE6004A6E19 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */; };
 		98F3F53F1BD0EC4E004A6E19 /* AbstactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */; };
 		98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */; };
@@ -109,7 +112,6 @@
 		DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF0791A976A6B00299B0A /* CoreLocation.framework */; };
 		DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF07B1A977CD600299B0A /* MessageUI.framework */; };
 		DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */; };
-		DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2EB1A82536700FAA877 /* LoadData.swift */; };
 		DA64A4CC1A5A8704005833A4 /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4CB1A5A8704005833A4 /* QR.swift */; };
 		DA64A4CE1A5A88BE005833A4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */; };
 		DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CF1A5A88C4005833A4 /* Social.framework */; };
@@ -119,7 +121,7 @@
 		DA7336551AD29EF80029C5D6 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */; };
 		DA8780B91A5BFDF400AA24E2 /* ImportFromQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */; };
 		DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1111AD6982100105BB0 /* TransferTransaction.swift */; };
-		DA89F1151AD6A69100105BB0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1141AD6A69100105BB0 /* ProfileVC.swift */; };
+		DA89F1151AD6A69100105BB0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1141AD6A69100105BB0 /* SettingsVC.swift */; };
 		DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */; };
 		DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */; };
 		DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* WalletCell.swift */; };
@@ -261,6 +263,9 @@
 		98BB95E31BCCF463002151F7 /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crypto.m; sourceTree = "<group>"; };
 		98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseButton.swift; path = "Views/Additional controls/ChouseButton.swift"; sourceTree = "<group>"; };
 		98DFB7181BF3AEE40010E035 /* FileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
+		98F01CB51C2AC2E90018081B /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
+		98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChousePrimAccountVC.swift; path = Views/ChousePrimAccountVC.swift; sourceTree = "<group>"; };
+		98F01CBA1C2AF3740018081B /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = "Views/Additional controls/ActiveCell.swift"; sourceTree = "<group>"; };
 		98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTableViewCell.swift; path = "Views/Additional controls/ConversationTableViewCell.swift"; sourceTree = "<group>"; };
 		98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstactTableViewCell.swift; path = "Views/Additional controls/AbstactTableViewCell.swift"; sourceTree = "<group>"; };
 		98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedTableViewCell.swift; path = "Views/Additional controls/DetailedTableViewCell.swift"; sourceTree = "<group>"; };
@@ -336,7 +341,6 @@
 		DA4AF0791A976A6B00299B0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DA4AF07B1A977CD600299B0A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyGenerator.swift; path = Models/KeyGenerator.swift; sourceTree = "<group>"; };
-		DA4BB2EB1A82536700FAA877 /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
 		DA64A4C81A56D483005833A4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		DA64A4CB1A5A8704005833A4 /* QR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QR.swift; path = Models/QR.swift; sourceTree = "<group>"; };
 		DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -346,7 +350,7 @@
 		DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleExtensions.swift; path = Models/DoubleExtensions.swift; sourceTree = "<group>"; };
 		DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportFromQR.swift; path = Views/ImportFromQR.swift; sourceTree = "<group>"; };
 		DA89F1111AD6982100105BB0 /* TransferTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransferTransaction.swift; path = Models/TransferTransaction.swift; sourceTree = "<group>"; };
-		DA89F1141AD6A69100105BB0 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = Views/ProfileVC.swift; sourceTree = "<group>"; };
+		DA89F1141AD6A69100105BB0 /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Views/SettingsVC.swift; sourceTree = "<group>"; };
 		DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AggregateModificationTransaction.swift; path = Models/AggregateModificationTransaction.swift; sourceTree = "<group>"; };
 		DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportanceTransferTransaction.swift; path = Models/ImportanceTransferTransaction.swift; sourceTree = "<group>"; };
 		DA8A892D1A4C52300072FE08 /* WalletCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletCell.swift; path = "Views/Additional controls/WalletCell.swift"; sourceTree = "<group>"; };
@@ -920,6 +924,7 @@
 				98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */,
 				98428A731BDA5960004494D5 /* CosigTableViewCell.swift */,
 				9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */,
+				98F01CBA1C2AF3740018081B /* ActiveCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1043,8 +1048,8 @@
 			children = (
 				DA64A4DD1A5AC021005833A4 /* Wallet.swift */,
 				DAB9F6D61A4AED3A00D6DC8E /* Server.swift */,
-				DA4BB2EB1A82536700FAA877 /* LoadData.swift */,
 				DA3403971B21E4DB00D514C4 /* Invoice.swift */,
+				98F01CB51C2AC2E90018081B /* LoadData.swift */,
 			);
 			name = "Core Data Models";
 			sourceTree = "<group>";
@@ -1092,12 +1097,13 @@
 		DAD21B871AEFC18A00F6B861 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				DA89F1141AD6A69100105BB0 /* ProfileVC.swift */,
+				DA89F1141AD6A69100105BB0 /* SettingsVC.swift */,
 				DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */,
 				DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */,
 				98428A751BDA689C004494D5 /* AddCosigPopUp.swift */,
 				98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */,
 				9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */,
+				98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -1419,7 +1425,7 @@
 				9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */,
 				DAC3A1821B04C04400AABB61 /* HistoryViewController.swift in Sources */,
 				98BB95E41BCCF463002151F7 /* Crypto.m in Sources */,
-				DA89F1151AD6A69100105BB0 /* ProfileVC.swift in Sources */,
+				DA89F1151AD6A69100105BB0 /* SettingsVC.swift in Sources */,
 				983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */,
 				98F3F5431BD12E38004A6E19 /* MessageUILabel.swift in Sources */,
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
@@ -1448,6 +1454,7 @@
 				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
 				98F448951BDE4A00008E2BF4 /* ChangeNamePopUp.swift in Sources */,
 				DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */,
+				98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */,
 				DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */,
 				DAD5AD8E1A52DD880093E3DB /* DashboardVC.swift in Sources */,
 				98F3F53D1BD0EBE6004A6E19 /* ConversationTableViewCell.swift in Sources */,
@@ -1463,7 +1470,6 @@
 				98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */,
 				984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */,
 				98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */,
-				DA4BB2EC1A82536700FAA877 /* LoadData.swift in Sources */,
 				DA7336551AD29EF80029C5D6 /* DoubleExtensions.swift in Sources */,
 				DA2D3EA11AE918B500C7E4F9 /* KeyCell.swift in Sources */,
 				DA173CDE1AA87CBC003AC21F /* RIPEMD.swift in Sources */,
@@ -1494,6 +1500,7 @@
 				987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */,
 				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
+				98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
 				98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */,
 				DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */,
@@ -1501,6 +1508,7 @@
 				98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */,
 				DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */,
 				DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */,
+				98F01CB71C2AC2E90018081B /* LoadData.swift in Sources */,
 				DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */,
 				98F3F53F1BD0EC4E004A6E19 /* AbstactTableViewCell.swift in Sources */,
 				DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */,

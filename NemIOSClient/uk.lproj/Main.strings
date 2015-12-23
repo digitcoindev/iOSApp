@@ -111,7 +111,7 @@
 "GBg-fw-SsV.placeholder" = "Enter Amount";
 
 /* Class = "UILabel"; text = "Account Profile"; ObjectID = "Gbk-bD-iQY"; */
-"Gbk-bD-iQY.text" = "Account Profile";
+"Gbk-bD-iQY.text" = "Configuration";
 
 /* Class = "UILabel"; text = "Accounts"; ObjectID = "Gxv-Ps-kRM"; */
 "Gxv-Ps-kRM.text" = "Accounts";

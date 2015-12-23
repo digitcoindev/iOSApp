@@ -7,14 +7,15 @@ class AddressBookManager: NSObject
     
     struct Store {
         static var contactStore = CNContactStore()
-        static var contacts :[CNContact] = []
+        static var nemContacts :[CNContact] = []
+        static var simpleContacts :[CNContact] = []
         static var access :Bool = false
     }
     //MARK: - Properties
     
     final class var contacts :[CNContact] {
         get {
-            return Store.contacts
+            return Store.nemContacts + Store.simpleContacts
         }
     }
     
@@ -94,7 +95,6 @@ class AddressBookManager: NSObject
                 responce?()
                 return
             }
-            
             responce?()
         })
         
@@ -109,14 +109,16 @@ class AddressBookManager: NSObject
             let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey]
             let containerId = contactStore.defaultContainerIdentifier()
             let predicate: NSPredicate = CNContact.predicateForContactsInContainerWithIdentifier(containerId)
+            var contacts :[CNContact] = []
             
             do {
-                Store.contacts = try contactStore.unifiedContactsMatchingPredicate(predicate, keysToFetch: keysToFetch)
+                contacts = try contactStore.unifiedContactsMatchingPredicate(predicate, keysToFetch: keysToFetch)
             } catch let error as NSError {
                 print(error)
                 return
             }
-            
+            _sort(contacts)
+
             responce?()
         })
         
@@ -153,5 +155,32 @@ class AddressBookManager: NSObject
         }
         
         return nil
+    }
+    
+    final private class func _sort(contacts :[CNContact])
+    {
+        var nemContacts:[CNContact] = []
+        var simpleContacts:[CNContact] = []
+        
+        for contact in contacts {
+            let emails: [CNLabeledValue] = contact.emailAddresses
+            
+            var isConnectedNEMAddress = false
+            
+            for email in emails {
+                if email.label == "NEM" {
+                    isConnectedNEMAddress = true
+                }
+            }
+            
+            if isConnectedNEMAddress {
+                nemContacts.append(contact)
+            } else {
+                simpleContacts.append(contact)
+            }
+        }
+        
+        Store.simpleContacts = simpleContacts
+        Store.nemContacts = nemContacts
     }
 }

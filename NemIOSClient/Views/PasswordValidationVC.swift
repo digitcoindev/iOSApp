@@ -36,7 +36,8 @@ class PasswordValidationVC: AbstractViewController
     // MARK: - IBAction
     
     @IBAction func passwordValidation(sender: AnyObject) {
-        
+        password.becomeFirstResponder()
+
         if State.importAccountData != nil {
             _validateFromImport()
         } else {

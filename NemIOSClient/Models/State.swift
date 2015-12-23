@@ -9,7 +9,8 @@ class State: NSObject
         static var currentVC : String = ""
         static var toVC : String = ""
         static var nextVC :String = ""
-        static var currentWallet : Wallet!
+        static var loadData :LoadData? = CoreDataManager().getLoadData()
+        static var currentWallet : Wallet? = CoreDataManager().getLoadData().currentWallet
         static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
         static var invoice :InvoiceData? = nil
@@ -18,6 +19,12 @@ class State: NSObject
     private struct ImportStore {
         static var isAccount: Bool = false
         static var passwordCompletitionBlock :((password: String)->Bool)? = nil
+    }
+    
+    final class var loadData: LoadData? {
+        get {
+            return State.Store.loadData
+        }
     }
     
     final class var fromVC: String? {
@@ -65,7 +72,6 @@ class State: NSObject
         get {
             return State.Store.stackVC.count
         }
-       
     }
     
     final class var toVC: String {
