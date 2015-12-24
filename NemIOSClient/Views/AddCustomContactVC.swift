@@ -78,6 +78,7 @@ class AddCustomContactVC: AbstractViewController {
     //MARK: - Private Helpers
     
     final private func _changeContact() {
+        address.text = address.text?.stringByReplacingOccurrencesOfString("-", withString: "")
         if (Validate.stringNotEmpty(firstName.text) || Validate.stringNotEmpty(lastName.text)) && Validate.address(address.text) {
             
             let mutableContact :CNMutableContact = ((self.contact) ?? CNContact()).mutableCopy() as! CNMutableContact

@@ -36,7 +36,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
         }
     }
     
@@ -79,6 +79,10 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
                 if _dataManager.getWallets().count != 0 {
                     _createPopUp("ChousePrimAccount")
                 }
+                
+            case 3:
+                _createPopUp("InvoiceSettings")
+                
             default:
                 break
             }

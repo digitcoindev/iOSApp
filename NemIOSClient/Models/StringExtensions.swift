@@ -121,6 +121,37 @@ extension String
         return (newString as NSString).substringWithRange(NSRange(location: 0, length: length))
     }
     
+    func nemName() -> String {
+        let dataManager = CoreDataManager()
+        for wallet in dataManager.getWallets() {
+            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: wallet.password)
+            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+            
+            
+            if account_address == self {
+                return wallet.login
+            }
+        }
+        
+        if AddressBookManager.isAllowed ?? false {
+            for contact in AddressBookManager.contacts {
+                for email in contact.emailAddresses{
+                    if email.label == "NEM" {
+                        let account_address = email.value as? String ?? " "
+                        if account_address == self {
+                            var resultName = contact.givenName ?? ""
+                            resultName = resultName + (contact.familyName == "" ? "" : " \(contact.familyName)")
+                            
+                            return resultName
+                        }
+                    }
+                }
+            }
+        }
+        
+        return self.nemAddressNormalised()
+    }
+    
     func nemKeyNormalized() -> String? {
         if Validate.key(self) {
             if self.asByteArray().count > 32 {

@@ -6,6 +6,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var customMessageButton: MessagesButtonTypeOne!
     
     let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData!
@@ -23,9 +24,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if State.fromVC == nil {
-            backButton.hidden = true
-        }
+//        if State.fromVC == nil {
+//            backButton.hidden = true
+//        }
         
         State.fromVC = SegueToMessages
         State.currentVC = SegueToMessages
@@ -75,6 +76,11 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     final func accountGetResponceWithAccount(account: AccountGetMetaData?) {
         if let responceAccount = account {
             walletData = responceAccount
+            
+            if walletData.cosignatories.count > 0 {
+                customMessageButton.hidden = true
+            }
+            
             var userDescription :NSMutableAttributedString!
             
             if let wallet = State.currentWallet {
@@ -199,7 +205,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
         }
     }
     

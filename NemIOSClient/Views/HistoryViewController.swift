@@ -67,7 +67,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
         }
     }
     

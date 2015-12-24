@@ -137,6 +137,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "AddressBook.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:AddressBook.swift">
+      </ContextState>
+      <ContextState
          contextName = "QRViewController.backButtonTouchUpInside(AnyObject) -&gt; ():QRViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -192,13 +195,25 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ChousePrimAccountVC.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:ChousePrimAccountVC.swift">
+      </ContextState>
+      <ContextState
          contextName = "AddressBook.contactAdded(Bool) -&gt; ():AddressBook.swift">
+      </ContextState>
+      <ContextState
+         contextName = "EditableTableViewCell.layoutSubviews() -&gt; ():EditableTableViewCell.swift">
+      </ContextState>
+      <ContextState
+         contextName = "LoginVC.nameChanged(String) -&gt; ():LoginVC.swift">
       </ContextState>
       <ContextState
          contextName = "ImportFromQR.detectedQRWithString(String) -&gt; ():ImportFromQR.swift">
       </ContextState>
       <ContextState
          contextName = "+[NSData(AESAdditions) doCipher:iv:key:error:]:Crypto.m">
+      </ContextState>
+      <ContextState
+         contextName = "SettingsVC.(_refreshData in _1639DD24202DBBCF765D6D0F01621867)() -&gt; ():SettingsVC.swift">
       </ContextState>
       <ContextState
          contextName = "NSData.aesEncrypt([UInt8], iv : [UInt8]) -&gt; NSData?:NSDataExtensions.swift">
@@ -232,6 +247,14 @@
       </ContextState>
       <ContextState
          contextName = "MessageVC.defineData() -&gt; ():MessageVC.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CreateQRInput.viewDidLoad() -&gt; ():CreateQRInput.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "message.text">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "static HashManager.AES256Decrypt(String, key : String) -&gt; String?:HashManager.swift">
@@ -356,6 +379,17 @@
             </PersistentString>
             <PersistentString
                value = "contact.public_key">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "loadData?.invoicePostfix">
+            </PersistentString>
+            <PersistentString
+               value = "loadData?.invoicePrefix">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

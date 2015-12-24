@@ -28,7 +28,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
         }
     }
     
@@ -60,8 +60,8 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         case transferTransaction:
             let innerTransaction = (transaction.innerTransaction) as! TransferTransaction
             let cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
-            cell.fromAccount.text = AddressGenerator.generateAddress(innerTransaction.signer)
-            cell.toAccount.text = innerTransaction.recipient
+            cell.fromAccount.text = AddressGenerator.generateAddress(innerTransaction.signer).nemName()
+            cell.toAccount.text = innerTransaction.recipient.nemName()
             cell.message.text = innerTransaction.message.getMessageString() ?? "Encrypted message"
             cell.delegate = self
             cell.xem.text = "\(innerTransaction.amount / 1000000) XEM"

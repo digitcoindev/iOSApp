@@ -87,7 +87,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
         }
     }
     
@@ -638,7 +638,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     func didChouseAccount(account: AccountGetMetaData) {
         _activeAccount = account
         
-        let userDescription :NSMutableAttributedString = NSMutableAttributedString(string: "\(_activeAccount!.address)")
+        let userDescription :NSMutableAttributedString = NSMutableAttributedString(string: "\(_activeAccount!.address.nemName())")
         
         let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
         let balance = " \(self._activeAccount!.balance / 1000000) XEM"

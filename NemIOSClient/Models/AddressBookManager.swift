@@ -149,12 +149,11 @@ class AddressBookManager: NSObject
                     }
                 })
             }
+            return nil
             
         default:
             return nil
         }
-        
-        return nil
     }
     
     final private class func _sort(contacts :[CNContact])

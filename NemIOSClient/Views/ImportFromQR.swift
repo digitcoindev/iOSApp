@@ -34,7 +34,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
         }
     }
     

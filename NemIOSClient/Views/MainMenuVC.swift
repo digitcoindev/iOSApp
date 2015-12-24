@@ -30,6 +30,35 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
     // MARK: - @IBAction
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        var page = State.lastVC
+        
+        switch(page) {
+            
+        case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToSettings, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHistoryVC, SegueToExportAccount, SegueToMainMenu, SegueToHarvestDetails:
+            page = SegueToMessages
+            
+        case SegueToPasswordValidation, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC,  SegueToMessages, SegueToMessageMultisignVC :
+            page = SegueToMessages
+        
+        case SegueToAddressBook:
+            page = SegueToAddressBook
+        
+        case SegueToUserInfo, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController :
+            
+            page = SegueToUserInfo
+
+            State.toVC = page as String
+            
+            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                (self.delegate as! MainVCDelegate).pageSelected(page)
+            }
+            
+            break
+            
+        default:
+            break
+        }
+        
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         }

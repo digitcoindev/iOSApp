@@ -46,7 +46,13 @@ class Correspondent: NSObject {
             if !find {
                 let correspondent = Correspondent()
                 correspondent.address = (account_address != signerAddress) ? signerAddress : transaction.recipient
-                correspondent.name = correspondent.address.nemAddressNormalised()
+                
+                if correspondent.address == correspondent.address.nemName() {
+                    correspondent.name = correspondent.address.nemAddressNormalised()
+                } else {
+                    correspondent.name = correspondent.address.nemName()
+                }
+                
                 correspondent.transaction = transaction
                 correspondents.append(correspondent)
             }

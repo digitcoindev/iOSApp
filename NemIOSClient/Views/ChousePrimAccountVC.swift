@@ -47,6 +47,7 @@ class ChousePrimAccountVC: AbstractViewController, UITableViewDataSource, UITabl
         loadData?.currentWallet = nil
         CoreDataManager().commit()
         (self.delegate as! AbstractViewController).viewDidAppear(false)
+        closePopUp(self)
     }
     
     // MARK: - TableViewDelegate Methods

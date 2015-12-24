@@ -32,8 +32,8 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToLoginVC
-        State.currentVC = SegueToLoginVC
+        State.fromVC = SegueToAddressBook
+        State.currentVC = SegueToAddressBook
         
         _apiManager.delegate = self
         
@@ -126,7 +126,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
         }
     }
     
@@ -197,7 +197,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         
         for email in contact.emailAddresses{
             if email.label == "NEM" {
-                contactCustomVC.userAddressLabel.text = email.value as? String ?? " "
+                contactCustomVC.userAddressLabel.text = (email.value as? String)?.nemAddressNormalised() ?? " "
             }
         }
         

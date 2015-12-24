@@ -89,7 +89,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
         }
     }
     
@@ -102,7 +102,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         if walletData != nil {
             var state = true
-            
+            toAddressTextField.text = toAddressTextField.text?.stringByReplacingOccurrencesOfString("-", withString: "")
             state = (state && Validate.stringNotEmpty(toAddressTextField.text))
             state = (state && (Validate.stringNotEmpty(messageTextField.text) || Validate.stringNotEmpty(amountTextField.text)))
             
@@ -262,7 +262,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         
         if account != nil {
-            chooseButon.setTitle(walletData.address, forState: UIControlState.Normal)
+            chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
             
             let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Balance: ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
             
@@ -294,7 +294,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     func didChouseAccount(account: AccountGetMetaData) {
         walletData = account
-        chooseButon.setTitle(walletData.address, forState: UIControlState.Normal)
+        chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
         
         let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Balance:", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
