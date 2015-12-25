@@ -12,6 +12,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     //MARK: - Load Methods
 
@@ -28,6 +29,14 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        titleLabel.text = "IMPORT_FROM_KEY".localized()
+        
+        key.placeholder = "PRIVATE_KEY".localized()
+        name.placeholder = "NAME".localized()
+        password.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        repeatPassword.placeholder = "REPEAT_PASSWORD_PLACEHOLDER".localized()
+        add.setTitle("ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
         
         if State.countVC <= 1 {
             backButton.hidden = true
@@ -151,22 +160,22 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     }
                 }
                 else {
-                    alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PRIVATE_KEY_ERROR_1", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+                    alert  = UIAlertView(title: "VALIDATION".localized(), message: "PRIVATE_KEY_ERROR_1".localized(), delegate: self, cancelButtonTitle: "OK".localized())
                 }
             }
             else if !Validate.password(password.text!) {
-                alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PASSOWORD_LENGTH_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+                alert  = UIAlertView(title: "VALIDATION".localized(), message: "PASSOWORD_LENGTH_ERROR".localized(), delegate: self, cancelButtonTitle: "OK".localized())
                 
                 repeatPassword.text = ""
             }
             else {
-                alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("PASSOWORD_DIFERENCE_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+                alert  = UIAlertView(title:"VALIDATION".localized(), message: "PASSOWORD_DIFERENCE_ERROR".localized(), delegate: self, cancelButtonTitle: "OK".localized())
                 
                 repeatPassword.text = ""
             }
         }
         else {
-            alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+            alert  = UIAlertView(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), delegate: self, cancelButtonTitle: "OK".localized())
             
         }
         

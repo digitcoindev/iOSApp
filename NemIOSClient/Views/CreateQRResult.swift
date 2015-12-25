@@ -10,6 +10,9 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var invoiceDataLabel: UILabel!
+    @IBOutlet weak var copyQRButton: UIButton!
+    @IBOutlet weak var shareQRButton: UIButton!
     
     // MARK: - Private Variables
     
@@ -24,23 +27,27 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
         State.fromVC = SegueToCreateInvoiceResult
         State.currentVC = SegueToCreateInvoiceResult
         
+        invoiceDataLabel.text = "INVOICE_DATA".localized()
+        copyQRButton.setTitle("COPY_QR".localized(), forState: UIControlState.Normal)
+        shareQRButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
+        
         if invoice != nil {
             _generateQR()
             State.invoice = nil
             
-            var titleText :NSMutableAttributedString = NSMutableAttributedString(string: "NAME: " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
+            var titleText :NSMutableAttributedString = NSMutableAttributedString(string: "NAME".localized() + ": " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
             var contentText :NSMutableAttributedString = NSMutableAttributedString(string: invoice!.name , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
             
             titleText.appendAttributedString(contentText)
             nameLabel.attributedText = titleText
             
-            titleText = NSMutableAttributedString(string: "AMOUNT: " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
+            titleText = NSMutableAttributedString(string: "AMOUNT".localized() + ": " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
             contentText = NSMutableAttributedString(string: "\(invoice!.amount / 1000000) XEM" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
             
             titleText.appendAttributedString(contentText)
             amountLabel.attributedText = titleText
             
-            titleText = NSMutableAttributedString(string: "MESSAGE: " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
+            titleText = NSMutableAttributedString(string: "MESSAGE".localized() + ": " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
             contentText = NSMutableAttributedString(string: invoice!.message , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
             
             titleText.appendAttributedString(contentText)
@@ -78,7 +85,7 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
         shareVC.view.layer.opacity = 0
         shareVC.delegate = self
         
-        shareVC.message = NSLocalizedString("INVOICE_HEADER", comment: "Message")
+        shareVC.message = "INVOICE_HEADER".localized()
         shareVC.images = [qrImageView.image!]
         popup = shareVC
         

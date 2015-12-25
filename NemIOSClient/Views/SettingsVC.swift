@@ -13,6 +13,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     private var _content :[[[String]]] = []
     private var _loadData :LoadData? = State.loadData
@@ -75,6 +76,8 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
         switch indexPath.section {
         case SettingsCategory.General.rawValue :
             switch indexPath.row {
+            case 1:
+                _createPopUp("Chouse Language")
             case 2:
                 if _dataManager.getWallets().count != 0 {
                     _createPopUp("ChousePrimAccount")
@@ -105,29 +108,44 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     private final func _refreshData(){
         _loadData = State.loadData
-        
+        titleLabel.text = "SETTINGS".localized("Configurations")
         var serverText = ""
         if let server = _loadData?.currentServer {
             serverText = server.address
         } else {
-            serverText = "None"
+            serverText = "NONE".localized("None")
         }
         
         var accountText = ""
         if let account = _loadData?.currentWallet {
             accountText = account.login
         } else if _dataManager.getWallets().count == 0 {
-            accountText = "No Accounts"
+            accountText = "NO_ACCOUNTS".localized("No Accounts")
         } else {
-            accountText = "None"
+            accountText = "NONE".localized("None")
         }
         
         _content = []
         _content += [
-            [["General"], ["Language", "English"], ["Primary Account", accountText], ["Invoice", "Set configuration"]],
-            [["Security"], ["Password" ,"Change"], ["Touch ID" ,"On"]],
-            [["Server Settings"], ["Server" ,serverText]],
-            [["Notification"], ["Update Interval" ,"30 min"]]
+            [
+                ["GENERAL".localized("General")],
+                ["LANGUAGE".localized("Language"), _loadData?.currentLanguage ?? "BASE".localized("Base")],
+                ["ACCOUNT_PRIMATY".localized("Primary Account"), accountText],
+                ["INVOICE".localized("Invoice"), "SET_CONFIGURATION".localized("Set configuration")]
+            ],
+            [
+                ["SECURITY".localized("Security")],
+                ["PASSWORD".localized("Password") ,"CHANGE".localized("Change")],
+                ["TOUCH_ID".localized("Touch ID") ,"ON".localized("On")]
+            ],
+            [
+                ["SERVER_SETTINGS".localized("Server Settings")],
+                ["SERVER".localized("Server") ,serverText]
+            ],
+            [
+                ["NOTIFICATION".localized("Notification")],
+                ["UPDATE_INTERVAL".localized("Update Interval") ,"30 min"]
+            ]
         ]
         
         tableView.reloadData()

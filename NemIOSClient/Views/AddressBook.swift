@@ -9,6 +9,9 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchContainer: UIView!
     @IBOutlet weak var searchTextField: NEMTextField!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
     
     // MARK: - Static Variables
 
@@ -48,6 +51,9 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         _newContact = AddressBook.newContact
         AddressBook.newContact = nil
         
+        titleLabel.text = "ADDRESS_BOOK".localized()
+        editButton.setTitle("EDIT".localized(), forState: UIControlState.Normal)
+        addButton.setTitle("ADD_CONTACT".localized(), forState: UIControlState.Normal)
         searchContainer.layer.cornerRadius = 5
         tableView.layer.cornerRadius = 5
         
@@ -243,7 +249,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             }
         }
         
-        contactCustomVC.saveBtn.setTitle(NSLocalizedString("CHANGE_CONTACT", comment: "Title"), forState: .Normal)
+        contactCustomVC.saveBtn.setTitle("CHANGE_CONTACT".localized(), forState: .Normal)
         contactCustomVC.contact = contact
         contactCustomVC.delegate = self
         

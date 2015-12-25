@@ -5,6 +5,7 @@ class AddAccount: AbstractViewController
     //MARK: - IBOulets
 
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var custom: UIButton!
     @IBOutlet weak var qr: UIButton!
@@ -21,6 +22,11 @@ class AddAccount: AbstractViewController
         custom.layer.cornerRadius = 5
         qr.layer.cornerRadius = 5
         key.layer.cornerRadius = 5
+        
+        titleLabel.text = "ADD_ACCOUNT".localized()
+        custom.setTitle("CREATE_NEW".localized(), forState: UIControlState.Normal)
+        qr.setTitle("SCAN_QR_CODE".localized(), forState: UIControlState.Normal)
+        key.setTitle("IMPORT_KEY".localized(), forState: UIControlState.Normal)
         
         if State.countVC <= 1{
             backButton.hidden = true

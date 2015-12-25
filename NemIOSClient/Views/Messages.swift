@@ -7,6 +7,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     @IBOutlet weak var userInfo: NEMLabel!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var customMessageButton: MessagesButtonTypeOne!
+    @IBOutlet weak var titleLabel: UILabel!
     
     let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData!
@@ -31,6 +32,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         State.fromVC = SegueToMessages
         State.currentVC = SegueToMessages
         State.currentContact = nil
+        
+        titleLabel.text = "MESSAGES".localized()
+        userInfo.text = "NO_INTERNET_CONNECTION".localized()
         
         tableView.layer.cornerRadius = 2
         _apiManager.delegate = self
@@ -58,6 +62,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
             }
         }
+        
+        _apiManager.timeSynchronize(State.currentServer!)
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
     }
@@ -103,7 +109,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             }
             
         } else {
-            self.userInfo.attributedText = NSMutableAttributedString(string: NSLocalizedString("LOST_CONNECTION", comment: "Title"), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
     }
 
@@ -137,7 +143,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             tableView.reloadData()
 
         } else {
-            self.userInfo.attributedText = NSMutableAttributedString(string: NSLocalizedString("LOST_CONNECTION", comment: "Title"), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
     }
     
@@ -166,9 +172,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                         }
                         
                         if inTransaction.signer != walletData.publicKey && !find {
-                            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("UNCONFIRMED_TRANSACTIONS_DETECTED", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+                            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "UNCONFIRMED_TRANSACTIONS_DETECTED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
                             
-                            let ok :UIAlertAction = UIAlertAction(title: NSLocalizedString("SHOW_TRANSACTIONS", comment: "Title"), style: UIAlertActionStyle.Default) {
+                            let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
                                     alertAction -> Void in
                                 
                                 if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
@@ -176,7 +182,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                                 }                                    
                             }
                             
-                            let cancel :UIAlertAction = UIAlertAction(title: NSLocalizedString("REMIND_LATER", comment: "Title"), style: UIAlertActionStyle.Default) {
+                            let cancel :UIAlertAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.Default) {
                                     alertAction -> Void in
                             }
                             
@@ -359,7 +365,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         cell.name.text = "  " + cellData.name
         
         if transaction != nil {
-            cell.message.text = transaction!.message.getMessageString() ?? "Encrypted message"
+            cell.message.text = transaction!.message.getMessageString() ?? "ENCRYPTED_MESSAGE".localized()
         }
         else {
             cell.message.text = ""

@@ -9,10 +9,20 @@ class UnconfirmedTransactionCell: UITableViewCell
     @IBOutlet weak var confirm: UIButton!
     @IBOutlet weak var showChanges: UIButton!
     
+    
+    @IBOutlet weak var fromLabel: UILabel!
+    @IBOutlet weak var toLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
+    
     var delegate :UnconfirmedTransactionVC? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        fromLabel.text = "FROM".localized() + ":"
+        toLabel.text = "TO".localized() + ":"
+        messageLabel.text = "MESSAGE".localized() + ":"
+        confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
         
         fromAccount.text = ""
         toAccount.text = ""

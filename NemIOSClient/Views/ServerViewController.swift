@@ -6,6 +6,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var addServer: UIButton!
+    @IBOutlet weak var edit: UIButton!
     
     private let _dataManager : CoreDataManager = CoreDataManager()
     private let _apiManager :APIManager = APIManager()
@@ -26,6 +29,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         _apiManager.delegate = self
         
         servers = _dataManager.getServers()
+        titleLabel.text = "SERVER".localized()
+        addServer.setTitle("ADD_SERVER".localized(), forState: UIControlState.Normal)
+        edit.setTitle("EDIT".localized(), forState: UIControlState.Normal)
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -148,9 +154,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
             serverCustomVC.protocolType.text = server!.protocolType
             serverCustomVC.serverAddress.text = server!.address
             serverCustomVC.serverPort.text = server!.port
-            serverCustomVC.saveBtn.setTitle("Change server", forState: UIControlState.Normal)
+            serverCustomVC.saveBtn.setTitle("CHANGE_SERVER".localized(), forState: UIControlState.Normal)
         } else {
-            serverCustomVC.saveBtn.setTitle("Add server", forState: UIControlState.Normal)
+            serverCustomVC.saveBtn.setTitle("ADD_SERVER".localized(), forState: UIControlState.Normal)
         }
         
         _tempSubViews.append(serverCustomVC.view)
@@ -200,9 +206,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
             if !_alertShown {
                 _alertShown = true
                 
-                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("SERVER_UNAVAILABLE", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "SERVER_UNAVAILABLE".localized(), preferredStyle: UIAlertControllerStyle.Alert)
                 
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                     self._alertShown = false
 
                     alert.dismissViewControllerAnimated(true, completion: nil)

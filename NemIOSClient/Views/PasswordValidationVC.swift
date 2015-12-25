@@ -7,6 +7,7 @@ class PasswordValidationVC: AbstractViewController
     @IBOutlet weak var confirm: UIButton!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var passwordTitle: UILabel!
     
     var showKeyboard :Bool = true
     var currentField :UITextField!
@@ -18,6 +19,10 @@ class PasswordValidationVC: AbstractViewController
         super.viewDidLoad()
         
         State.currentVC = SegueToPasswordValidation
+        
+        passwordTitle.text = "ENTET_PASSWORD".localized()
+        password.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true

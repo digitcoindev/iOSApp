@@ -21,7 +21,7 @@ class MainContainerVC: AbstractViewController
             
             if State.currentWallet != nil && State.currentServer != nil{
                 State.toVC = SegueToMessages
-                
+
                 if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
                 }

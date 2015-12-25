@@ -7,10 +7,17 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     @IBOutlet weak var amountTextField: NEMTextField!
     @IBOutlet weak var messageTextField: NEMTextField!
     @IBOutlet weak var feeTextField: NEMTextField!
-    @IBOutlet weak var amountLabel: UILabel!
-    @IBOutlet weak var feeLabel: UILabel!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var chooseButon: ChouseButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var fromLabel: UILabel!
+    @IBOutlet weak var toLabel: UILabel!
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var feeLabel: UILabel!
+
+    @IBOutlet weak var sendButton: UIButton!
     
     private var _apiManager = APIManager()
     private var _mainWallet :AccountGetMetaData? = nil
@@ -29,6 +36,19 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         State.currentVC = SegueToSendTransaction
         
         _apiManager.delegate = self
+        
+        titleLabel.text = "NEW_TRANSACTION".localized()
+        fromLabel.text = "FROM".localized() + ":"
+        toLabel.text = "TO".localized() + ":"
+        amountLabel.text = "AMOUNT".localized() + ":"
+        messageLabel.text = "MESSAGE".localized() + ":"
+        feeLabel.text = "FEE".localized() + ":"
+        sendButton.setTitle("SEND", forState: UIControlState.Normal)
+        
+        toAddressTextField.placeholder = "ENTER_ADDRESS".localized()
+        amountTextField.placeholder = "ENTER_AMOUNT".localized()
+        messageTextField.placeholder = "EMPTY_MESSAGE".localized()
+        feeTextField.placeholder = "ENTER_FEE".localized()
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
@@ -124,14 +144,14 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
                     amountTextField.text = ""
                     feeTextField.text = ""
                 } else {
-                    _showPopUp(NSLocalizedString("NOT_ENOUGHT_MONEY", comment: "Dsecription"))
+                    _showPopUp("NOT_ENOUGHT_MONEY".localized())
                 }
             } else {
-                _showPopUp(NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Dsecription"))
+                _showPopUp("FIELDS_EMPTY_ERROR".localized())
             }
             
         } else {
-            _showPopUp(NSLocalizedString("SERVER_UNAVAILABLE", comment: "Dsecription"))
+            _showPopUp("SERVER_UNAVAILABLE".localized())
             
             let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
             let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
@@ -142,9 +162,9 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     private final func _showPopUp(message :String){
         
-        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
             alertAction -> Void in
         }
         
@@ -264,7 +284,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         if account != nil {
             chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
             
-            let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Balance: ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+            let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
             
             atributedText.appendAttributedString(NSMutableAttributedString(string: "\(walletData.balance / 1000000)", attributes: [
                 NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
@@ -274,7 +294,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
             amountLabel.attributedText = atributedText
         } else {
-            amountLabel.text = "Amount:"
+            amountLabel.text = "AMOUNT".localized() + ":"
         }
     }
     
@@ -282,9 +302,9 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         var message :String = ""
         if (data ?? []).isEmpty {
-            message = NSLocalizedString("TRANSACTION_ANOUNCE_FAILED", comment: "Dsecription")
+            message = "TRANSACTION_ANOUNCE_FAILED".localized()
         } else {
-            message = NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description")
+            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
         }
         
         _showPopUp(message)
@@ -296,7 +316,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         walletData = account
         chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
         
-        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Amount (Balance:", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
         atributedText.appendAttributedString(NSMutableAttributedString(string: "\(walletData.balance / 1000000)", attributes: [
             NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),

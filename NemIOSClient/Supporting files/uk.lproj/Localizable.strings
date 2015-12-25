@@ -1,3 +1,57 @@
+// A
+
+"ACCOUNT_PRIMATY" = "Основний акаунт";
+
+// B
+
+"BASE" = "Стандартна";
+
+// C
+
+"CHANGE" = "Змінити";
+
+// G
+
+"GENERAL" = "Загалье";
+
+// I
+
+"INVOICE" = "Чек";
+
+// L
+
+"LANGUAGE" = "Мова";
+
+// N
+
+"NONE" = "Немає";
+"NO_ACCOUNTS" = "Немає акаунтів";
+"NOTIFICATION" = "Повідомлення";
+
+// O
+
+"ON" = "On";
+
+// P
+
+"PASSWORD" = "Пароль";
+
+// S
+
+"SETTINGS" = "Налаштування";
+"SET_CONFIGURATION" = "Налаштувати";
+"SECURITY" = "Безпека";
+"SERVER_SETTINGS" = "Налаштування сервера";
+"SERVER" = "Сервер";
+
+// T
+
+"TOUCH_ID" = "Відпичаток пальця";
+
+// U
+
+"UPDATE_INTERVAL" = "Інтервал оновлення";
+
 // Common
 
 "INFO" = "Довідка";

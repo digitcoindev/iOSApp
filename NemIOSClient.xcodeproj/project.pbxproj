@@ -51,6 +51,8 @@
 		98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */; };
 		98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBA1C2AF3740018081B /* ActiveCell.swift */; };
 		98F01CBD1C2C18270018081B /* InvoceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBC1C2C18270018081B /* InvoceSettings.swift */; };
+		98F01CC01C2D3F7B0018081B /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */; };
+		98F01CC21C2D4B560018081B /* ChouseLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CC11C2D4B560018081B /* ChouseLanguage.swift */; };
 		98F3F53D1BD0EBE6004A6E19 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */; };
 		98F3F53F1BD0EC4E004A6E19 /* AbstactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */; };
 		98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */; };
@@ -268,6 +270,9 @@
 		98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChousePrimAccountVC.swift; path = Views/ChousePrimAccountVC.swift; sourceTree = "<group>"; };
 		98F01CBA1C2AF3740018081B /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = "Views/Additional controls/ActiveCell.swift"; sourceTree = "<group>"; };
 		98F01CBC1C2C18270018081B /* InvoceSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoceSettings.swift; path = Views/InvoceSettings.swift; sourceTree = "<group>"; };
+		98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalizationManager.swift; path = Models/LocalizationManager.swift; sourceTree = "<group>"; };
+		98F01CC11C2D4B560018081B /* ChouseLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseLanguage.swift; path = Views/ChouseLanguage.swift; sourceTree = "<group>"; };
+		98F01CC41C2D6E5C0018081B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTableViewCell.swift; path = "Views/Additional controls/ConversationTableViewCell.swift"; sourceTree = "<group>"; };
 		98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstactTableViewCell.swift; path = "Views/Additional controls/AbstactTableViewCell.swift"; sourceTree = "<group>"; };
 		98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedTableViewCell.swift; path = "Views/Additional controls/DetailedTableViewCell.swift"; sourceTree = "<group>"; };
@@ -592,6 +597,14 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		98F01CBE1C2D3F060018081B /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
 		98F3F5441BD12E3F004A6E19 /* Label */ = {
 			isa = PBXGroup;
 			children = (
@@ -689,6 +702,7 @@
 		DA194E0A1A4323BF0030C882 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				98F01CBE1C2D3F060018081B /* Localization */,
 				98BB95AA1BC7B151002151F7 /* Social */,
 				DAC8BA9E1ACD53BC00BB95B0 /* State */,
 				9809BE2E1B7B45DF0028D082 /* Hash */,
@@ -1107,6 +1121,7 @@
 				9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */,
 				98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */,
 				98F01CBC1C2C18270018081B /* InvoceSettings.swift */,
+				98F01CC11C2D4B560018081B /* ChouseLanguage.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -1297,6 +1312,7 @@
 				ja,
 				ko,
 				ru,
+				en,
 			);
 			mainGroup = DA3557F71A39D3B800AFA5FD;
 			productRefGroup = DA3558011A39D3B900AFA5FD /* Products */;
@@ -1498,6 +1514,7 @@
 				DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */,
 				DA194E071A4323520030C882 /* APIManager.swift in Sources */,
 				DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */,
+				98F01CC01C2D3F7B0018081B /* LocalizationManager.swift in Sources */,
 				98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
@@ -1544,6 +1561,7 @@
 				DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */,
 				DAC3A1781B00A5E500AABB61 /* MultisigAccountManager.swift in Sources */,
 				DA173CD71AA85B91003AC21F /* keccak.c in Sources */,
+				98F01CC21C2D4B560018081B /* ChouseLanguage.swift in Sources */,
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
 				DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */,
 				DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */,
@@ -1581,6 +1599,7 @@
 				9877C68D1BE27FB700AF9751 /* ja */,
 				98F9B95C1BEBC05100FA7239 /* ko */,
 				98F9B95E1BEBC0E800FA7239 /* ru */,
+				98F01CC41C2D6E5C0018081B /* en */,
 			);
 			name = Localizable.strings;
 			path = "Supporting files";

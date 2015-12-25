@@ -24,6 +24,8 @@ class MessageToContactVC: AbstractViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        actionButton.setTitle("SEND_MESSAGE".localized(), forState: UIControlState.Normal)
+        
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)

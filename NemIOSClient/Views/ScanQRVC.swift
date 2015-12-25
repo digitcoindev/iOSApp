@@ -42,7 +42,7 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
                     addFriend(friendDictionary)
                 }
                 else {
-                    let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("CONTACTS_IS_UNAVAILABLE", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: NSLocalizedString("CONTACTS_IS_UNAVAILABLE", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
                     
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                         alert.dismissViewControllerAnimated(true, completion: nil)
@@ -65,7 +65,7 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
     }
     
     func failedWithError(text: String) {       
-        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             alert.dismissViewControllerAnimated(true, completion: nil)

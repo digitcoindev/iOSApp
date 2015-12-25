@@ -67,11 +67,11 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
     
     @IBAction func addServer(sender: AnyObject) {
         if !Validate.stringNotEmpty(serverAddress.text) || !Validate.stringNotEmpty(serverPort.text) || !Validate.stringNotEmpty(protocolType.text) {
-            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+            let alert :UIAlertView = UIAlertView(title: "INFO".localized(), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
         else if protocolType.text != "http" {
-            let alert :UIAlertView = UIAlertView(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("SERVER_PROTOCOL_NOT_AVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+            let alert :UIAlertView = UIAlertView(title: "INFO".localized(), message: NSLocalizedString("SERVER_PROTOCOL_NOT_AVAILABLE", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
         }
         else {

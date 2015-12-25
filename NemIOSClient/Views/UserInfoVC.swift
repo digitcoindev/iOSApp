@@ -8,6 +8,14 @@ class UserInfoVC: AbstractViewController
     @IBOutlet weak var userAddress: UILabel!
     @IBOutlet weak var userName: UITextField!
     
+    @IBOutlet weak var myAddressLabel: UILabel!
+    @IBOutlet weak var myNameLabel: UILabel!
+    
+    @IBOutlet weak var copyQRButton: UIButton!
+    @IBOutlet weak var shareQRButton: UIButton!
+    @IBOutlet weak var copyAddressButton: UIButton!
+    @IBOutlet weak var shareAddressButton: UIButton!
+    
     // MARK: - Private Variables
 
     private var address :String!
@@ -20,6 +28,14 @@ class UserInfoVC: AbstractViewController
 
         State.fromVC = SegueToUserInfo
         State.currentVC = SegueToUserInfo
+        
+        myAddressLabel.text = "MY_ADDRESS".localized() + ":"
+        myNameLabel.text = "MY_NAME".localized() + ":"
+        userName.placeholder = "YOUR_NAME".localized()
+        copyQRButton.setTitle("COPY_QR".localized(), forState: UIControlState.Normal)
+        shareQRButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
+        copyAddressButton.setTitle("COPY_ADDRESS".localized(), forState: UIControlState.Normal)
+        shareAddressButton.setTitle("SHARE_ADDRESS".localized(), forState: UIControlState.Normal)
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)

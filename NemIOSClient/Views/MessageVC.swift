@@ -14,14 +14,15 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
-    @IBOutlet weak var amoundField: NEMTextField!
-    @IBOutlet weak var messageField: NEMTextField!
-    @IBOutlet weak var sendButton: UIButton!
-    @IBOutlet weak var accountsButton: UIButton!
+    @IBOutlet weak var amoundField: NEMTextField?
+    @IBOutlet weak var messageField: NEMTextField?
+    @IBOutlet weak var sendButton: UIButton?
+    @IBOutlet weak var accountsButton: UIButton?
     @IBOutlet weak var amoundContainerView: UIView!
     @IBOutlet weak var contactInfo: UILabel!
     
     @IBOutlet weak var encButton: UIButton!
+    @IBOutlet weak var copyButton: UIButton!
     
     private var _unconfirmedTransactions  :[TransactionPostMetaData] = []
     private var _transactions :[TransactionPostMetaData] = []
@@ -55,6 +56,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         State.fromVC = SegueToMessageVC
         State.currentVC = SegueToMessageVC
+        
+        copyButton.setTitle("COPY", forState: UIControlState.Normal)
+        userInfo.text = "NO_INTERNET_CONNECTION".localized()
+        amoundField?.placeholder = "AMOUNT".localized()
+        messageField?.placeholder = "MESSAGE".localized()
+        sendButton?.setTitle("SEND".localized(), forState: UIControlState.Normal)
+        accountsButton?.setTitle("ACCOUNTS".localized(), forState: UIControlState.Normal)
         
         _apiManager.delegate = self
         
@@ -151,13 +159,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let transaction :TransferTransaction = TransferTransaction()
         
-        if let amount = Double(amoundField.text!) {
+        if let amount = Double(amoundField!.text!) {
             if Double(_activeAccount?.balance ?? -1) > amount {
                 transaction.amount = amount
             } else {
-                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("ACCOUNT_NOT_ENOUGHT_MONEY", comment: "Description") , preferredStyle: UIAlertControllerStyle.Alert)
+                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "ACCOUNT_NOT_ENOUGHT_MONEY".localized() , preferredStyle: UIAlertControllerStyle.Alert)
                 
-                let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+                let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                 }
                 
@@ -167,17 +175,17 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 return
             }
         } else {
-            amoundField.text = "0"
+            amoundField!.text = "0"
             transaction.amount = 0
             return
         }
                 
-        let messageTextHex = messageField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
+        let messageTextHex = messageField!.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
         
         if !Validate.hexString(messageTextHex!) {
-            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "INFO"), message: NSLocalizedString("NOT_A_HEX_STRING", comment: "Error: NOT_A_HEX_STRING") , preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "NOT_A_HEX_STRING".localized() , preferredStyle: UIAlertControllerStyle.Alert)
             
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
                 alertAction -> Void in
             }
             
@@ -193,9 +201,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         if _isEnc
         {
             guard let contactPublicKey = contact.public_key else {
-                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "INFO"), message: NSLocalizedString("NO_PUBLIC_KEY_FOR_ENC", comment: "Error: NO_PUBLIC_KEY_FOR_ENC") , preferredStyle: UIAlertControllerStyle.Alert)
+                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "NO_PUBLIC_KEY_FOR_ENC".localized(), preferredStyle: UIAlertControllerStyle.Alert)
                 
-                let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+                let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
                     alertAction -> Void in
                 }
                 
@@ -222,7 +230,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             fee = 10 - Int(transaction.amount)
         }
         
-        if messageField.text!.utf16.count != 0 {
+        if messageField!.text!.utf16.count != 0 {
             fee += Int(2 * max(1, Int( transaction.message.payload!.count / 16)))
         }
         
@@ -236,8 +244,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
         
-        messageField.text = ""
-        amoundField.text = ""
+        messageField!.text = ""
+        amoundField!.text = ""
     }
     
     final func defineData() {
@@ -269,7 +277,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
             (transaction as! TransferTransaction)
             innertTransaction.message.signer = contact.public_key
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "Could not decrypt" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount > 0) {
                 var text :String = "\(innertTransaction.amount / 1000000) XEM"
@@ -282,15 +290,15 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 message.appendAttributedString(messageXEMS)
             }
             
-            message = (message.length == 0) ? NSMutableAttributedString(string:NSLocalizedString("EMPTY_MESSAGE", comment: "Description") , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
+            message = (message.length == 0) ? NSMutableAttributedString(string: "EMPTY_MESSAGE".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
             
             definedCell.height = _heightForCell(message, width: tableView.frame.width - 120) + 20
 
-            message = NSMutableAttributedString(string:"Block: " , attributes: nil)
+            message = NSMutableAttributedString(string: "BLOCK".localized() + ": " , attributes: nil)
             message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.height)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
             definedCell.detailsTop = message
             
-            message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
+            message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
             message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
             
             definedCell.detailsMiddle = message
@@ -306,7 +314,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 (transaction as! TransferTransaction)
             innertTransaction.message.signer = contact.public_key
 
-            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "Could not decrypt" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
+            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized() , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount != 0) {
                 var text :String = "\(innertTransaction.amount / 1000000) XEM"
@@ -319,7 +327,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 message.appendAttributedString(messageXEMS)
             }
             
-            message = (message.length == 0) ? NSMutableAttributedString(string:NSLocalizedString("EMPTY_MESSAGE", comment: "Description") , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
+            message = (message.length == 0) ? NSMutableAttributedString(string: "EMPTY_MESSAGE".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
             
             definedCell.height =  max(_heightForCell(message, width: tableView.frame.width - 120), CGFloat(80))
             
@@ -344,24 +352,24 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 let attribute = [NSForegroundColorAttributeName : greenColor]
 
                 message = NSMutableAttributedString(string:"\(singnaturesCount)" , attributes: attribute)
-                message.appendAttributedString(NSMutableAttributedString(string:" of " , attributes: nil))
+                message.appendAttributedString(NSMutableAttributedString(string: " " + "OF".localized() + " ", attributes: nil))
                 message.appendAttributedString(NSMutableAttributedString(string:"\(cosignatories)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 message.appendAttributedString(NSMutableAttributedString(string:" XEM" , attributes: nil))
                 
                 definedCell.detailsTop = message
                 
-                message = NSMutableAttributedString(string:"Min " , attributes: nil)
+                message = NSMutableAttributedString(string:"MIN".localized() + " " , attributes: nil)
                 message.appendAttributedString(NSMutableAttributedString(string:"\(((minCosig == 0) ? cosignatories : minCosig))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-                message.appendAttributedString(NSMutableAttributedString(string:" Signers" , attributes: nil))
+                message.appendAttributedString(NSMutableAttributedString(string:" " + "SIGNERS".localized() , attributes: nil))
                 
                 definedCell.detailsMiddle = message
                 
-                message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
+                message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
                 message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 
                 definedCell.detailsBottom = message
             } else {
-                message = NSMutableAttributedString(string:"Fee: " , attributes: nil)
+                message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
                 message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 
                 definedCell.detailsMiddle = message
@@ -427,7 +435,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     (transaction as! TransferTransaction)
             }
             innertTransaction.message.signer = contact.public_key
-            let messageText = innertTransaction.message.getMessageString() ?? "Could not decrypt"
+            let messageText = innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized()
             
             var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
@@ -442,7 +450,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 message.appendAttributedString(messageXEMS)
             }
             
-            message = (message.length == 0) ? NSMutableAttributedString(string:NSLocalizedString("EMPTY_MESSAGE", comment: "Description") , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
+            message = (message.length == 0) ? NSMutableAttributedString(string: "EMPTY_MESSAGE".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
             cell.setMessage(message)
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "HH:mm dd.MM.yy "
@@ -555,7 +563,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
-                    self.userInfo.attributedText = NSMutableAttributedString(string: NSLocalizedString("LOST_CONNECTION", comment: "Title"), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+                    self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
                 })
             }
         })
@@ -580,7 +588,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
-                    self.userInfo.attributedText = NSMutableAttributedString(string: NSLocalizedString("LOST_CONNECTION", comment: "Title"), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+                    self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
                 })
             }
         })
@@ -603,7 +611,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
-                    self.userInfo.attributedText = NSMutableAttributedString(string: NSLocalizedString("LOST_CONNECTION", comment: "Title"), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+                    self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
                 })
             }
         })
@@ -612,9 +620,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if !(data ?? []).isEmpty {
             self._refreshHistory()
-            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message:  NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_SUCCESS".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
                 alertAction -> Void in
             }
             
@@ -622,9 +630,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             self.presentViewController(alert, animated: true, completion: nil)
             
         } else {
-            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: NSLocalizedString("TRANSACTION_ANOUNCE_FAILED", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_FAILED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
-            let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
                 alertAction -> Void in
             }
             
@@ -665,11 +673,11 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     private func _initButtonsConfigs() {
         if accountsButton != nil {
-            accountsButton.layer.cornerRadius = 5
+            accountsButton!.layer.cornerRadius = 5
         }
         
         if sendButton != nil {
-            sendButton.layer.cornerRadius = 5
+            sendButton!.layer.cornerRadius = 5
         }
         
         if amoundContainerView != nil {
@@ -678,7 +686,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         }
         
         if messageField != nil {
-            messageField.layer.cornerRadius = 5
+            messageField!.layer.cornerRadius = 5
         }
     }
     

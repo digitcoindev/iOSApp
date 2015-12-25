@@ -20,18 +20,22 @@ class QRViewController: AbstractViewController {
         
         actionBar.removeBorders()
         
+        actionBar.setTitle("MY_INFO".localized(), forSegmentAtIndex: 0)
+        actionBar.setTitle("NEW_INVOICE".localized(), forSegmentAtIndex: 1)
+        actionBar.setTitle("SCAN_QR".localized(), forSegmentAtIndex: 2)
+        
         switch State.toVC {
         case SegueToUserInfo:
             actionBar.selectedSegmentIndex = 0
-            titleLable.text = "User Info"
+            titleLable.text = "MY_INFO".localized()
             
         case SegueToCreateInvoice, SegueToCreateInvoiceResult:
             actionBar.selectedSegmentIndex = 1
-            titleLable.text = "New Invoice"
+            titleLable.text = "NEW_INVOICE".localized()
             
         case SegueToScanQR:
             actionBar.selectedSegmentIndex = 2
-            titleLable.text = "Scan QR"
+            titleLable.text = "SCAN_QR".localized()
             
         default:
             break
@@ -42,15 +46,15 @@ class QRViewController: AbstractViewController {
         switch actionBar.selectedSegmentIndex {
         case 0 :
             _pages.changePage(SegueToUserInfo)
-            titleLable.text = "User Info"
+            titleLable.text = "MY_INFO".localized()
             
         case 1 :
             _pages.changePage(SegueToCreateInvoice)
-            titleLable.text = "New Invoice"
+            titleLable.text = "NEW_INVOICE".localized()
             
         case 2 :
             _pages.changePage(SegueToScanQR)
-            titleLable.text = "Scan QR"
+            titleLable.text = "SCAN_QR".localized()
 
         default:
             break

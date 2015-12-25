@@ -155,12 +155,16 @@ extension String
     func nemKeyNormalized() -> String? {
         if Validate.key(self) {
             if self.asByteArray().count > 32 {
-                return (self as NSString).substringWithRange(NSRange(location: 0, length: 64))
+                return (self as NSString).substringWithRange(NSRange(location: 2, length: 64))
             } else {
                 return self
             }
         } else {
             return nil
         }
+    }
+    
+    func localized(defaultValue :String? = nil) -> String {
+        return LocalizationManager.localizedSting(self, defaultValue: defaultValue) ?? self
     }
 }

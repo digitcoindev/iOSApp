@@ -37,6 +37,11 @@ class AddCustomContactVC: AbstractViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        firstName.placeholder = "FIRST_NAME".localized()
+        lastName.placeholder = "LAST_NAME".localized()
+        address.placeholder = "ADDRESS".localized()
+        saveBtn.setTitle("ADD_CONTACT".localized(), forState: UIControlState.Normal)
+        
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)

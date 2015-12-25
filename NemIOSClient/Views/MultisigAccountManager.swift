@@ -123,7 +123,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         else {
             let fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
             
-            let alert1 :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message:
+            let alert1 :UIAlertController = UIAlertController(title: "INFO".localized(), message:
                 String(format: NSLocalizedString("MULTISIG_CHANGES_CONFIRMATION", comment: "Description"), fee), preferredStyle: UIAlertControllerStyle.Alert)
             
             let confirm :UIAlertAction = UIAlertAction(title: NSLocalizedString("CONFIRM", comment: "Title"), style: UIAlertActionStyle.Default) {
@@ -250,7 +250,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     private final func _showPopUp(message :String){
         
-        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
         
         let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
             alertAction -> Void in

@@ -3,6 +3,7 @@ import UIKit
 class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, APIManagerDelegate
 {
     @IBOutlet weak var tableView: UITableView!
+
     
     var walletData :AccountGetMetaData!
     var unconfirmedTransactions  :[TransactionPostMetaData] = [TransactionPostMetaData]()
@@ -62,7 +63,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
             let cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
             cell.fromAccount.text = AddressGenerator.generateAddress(innerTransaction.signer).nemName()
             cell.toAccount.text = innerTransaction.recipient.nemName()
-            cell.message.text = innerTransaction.message.getMessageString() ?? "Encrypted message"
+            cell.message.text = innerTransaction.message.getMessageString() ?? "ENCRYPTED_MESSAGE".localized()
             cell.delegate = self
             cell.xem.text = "\(innerTransaction.amount / 1000000) XEM"
             
@@ -129,7 +130,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     }
     
     final func showTransactionAtIndex(index: Int){
-        var text :String = "Account : "
+        var text :String = "ACCOUNT".localized() + " : "
         
         let transaction :AggregateModificationTransaction = (unconfirmedTransactions[index] as! MultisigTransaction).innerTransaction as! AggregateModificationTransaction
         
@@ -137,18 +138,18 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         for modification in transaction.modifications {
             if modification.modificationType == 1 {
-                text += "Add :\n"
+                text += "ADD" + " :\n"
                 text += modification.publicKey + "\n"
             }
             else {
-                text += "Delete :\n"
+                text += "DELETE".localized() + " :\n"
                 text += modification.publicKey + "\n"
             }
         }
         
-        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
             alertAction -> Void in
         }
         
@@ -158,9 +159,9 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     
     private final func _showPopUp(message :String){
         
-        let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
             alertAction -> Void in
         }
         
@@ -220,9 +221,9 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         var message :String = ""
         if (data ?? []).isEmpty {
-            message = NSLocalizedString("TRANSACTION_ANOUNCE_FAILED", comment: "Dsecription")
+            message = "TRANSACTION_ANOUNCE_FAILED".localized()
         } else {
-            message = NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description")
+            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
             _apiManager.accountGet(State.currentServer!, account_address: walletData.address)
         }
         

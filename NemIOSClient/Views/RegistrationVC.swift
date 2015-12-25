@@ -11,6 +11,9 @@ class RegistrationVC: AbstractViewController
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var backButton: UIButton!
         
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var createButton: UIButton!
+    
     //MARK: - Load Methods
 
     override func viewDidLoad() {
@@ -30,6 +33,12 @@ class RegistrationVC: AbstractViewController
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        createButton.setTitle("CREATE_NEW_ACCCOUNT".localized(), forState: UIControlState.Normal)
+        titleLabel.text = "CREATE_NEW_ACCCOUNT".localized()
+        userName.placeholder = "ACCOUNT_NAME_PLACEHOLDER".localized()
+        createPassword.placeholder = "ENTET_PASSWORD".localized()
+        repeatPassword.placeholder = "REPEAT_PASSWORD".localized()
     }
 
     override func didReceiveMemoryWarning() {
@@ -104,16 +113,16 @@ class RegistrationVC: AbstractViewController
                     }
                 }
                 else {
-                    alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message:  NSLocalizedString("PASSOWORD_DIFERENCE_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+                    alert  = UIAlertView(title: "VALIDATION".localized(), message: "PASSOWORD_DIFERENCE_ERROR".localized(), delegate: self, cancelButtonTitle: "OK".localized())
                 }
             }
             else {
-                alert  = UIAlertView(title:  NSLocalizedString("VALIDATION", comment: "Title"), message:  NSLocalizedString("PASSOWORD_LENGTH_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+                alert  = UIAlertView(title: "VALIDATION".localized(), message: "PASSOWORD_LENGTH_ERROR".localized(), delegate: self, cancelButtonTitle: "OK")
             }
         }
         else {
                         
-            alert  = UIAlertView(title: NSLocalizedString("VALIDATION", comment: "Title"), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
+            alert  = UIAlertView(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), delegate: self, cancelButtonTitle: "OK")
         }
         
         if(alert != nil) {

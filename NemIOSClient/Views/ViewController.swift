@@ -12,7 +12,7 @@ class ViewController: UIViewController
         let errorLogs = plistFileManager().readErrorLog()
         if errorLogs != nil {
             if errorLogs != "" {
-                let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Error copied to pasteboard ", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "Error copied to pasteboard ", preferredStyle: UIAlertControllerStyle.Alert)
                 
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                     alert.dismissViewControllerAnimated(true, completion: nil)
@@ -22,6 +22,10 @@ class ViewController: UIViewController
                 
                 UIPasteboard.generalPasteboard().string = errorLogs
             }
+        }
+        
+        if let language = State.loadData?.currentLanguage {
+            LocalizationManager.setLanguage(language)
         }
         
 //        let message1 = "G".hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()

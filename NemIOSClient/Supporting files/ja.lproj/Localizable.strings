@@ -1,3 +1,58 @@
+// A
+
+"ACCOUNT_PRIMATY" = "Primary Account";
+
+// B
+
+"BASE" = "Base";
+
+// C
+
+"CHANGE" = "Change";
+
+// G
+
+"GENERAL" = "General";
+
+// I
+
+"INVOICE" = "Invoice";
+
+// L
+
+"LANGUAGE" = "Language";
+
+// N
+
+"NONE" = "None";
+"NO_ACCOUNTS" = "No Accounts";
+"NOTIFICATION" = "Notification";
+
+// O
+
+"ON" = "On";
+
+// P
+
+"PASSWORD" = "Password";
+
+// S
+
+"SETTINGS" = "Confugurations";
+"SET_CONFIGURATION" = "Set configuration";
+"SECURITY" = "Security";
+"SERVER_SETTINGS" = "Server Settings";
+"SERVER" = "Server";
+
+// T
+
+"TOUCH_ID" = "Touch ID";
+
+// U
+
+"UPDATE_INTERVAL" = "Update Interval";
+
+
 // Common
 
 "INFO" = "Info";

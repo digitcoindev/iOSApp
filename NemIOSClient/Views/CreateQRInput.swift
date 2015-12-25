@@ -6,11 +6,18 @@ class CreateQRInput: AbstractViewController
     @IBOutlet weak var message: NEMTextField!
     @IBOutlet weak var name: NEMTextField!
     @IBOutlet weak var amount: UITextField!
+    @IBOutlet weak var createButton: UIButton!
 
     private let _dataManager = CoreDataManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        amount.placeholder = "ENTER_AMOUNT".localized()
+        name.placeholder = "ENTER_NAME".localized()
+        message.placeholder = "ENTER_MESSAGE".localized()
+        
+        createButton.setTitle("CREATE".localized(), forState: UIControlState.Normal)
         
         State.fromVC = SegueToCreateInvoice
         State.currentVC = SegueToCreateInvoice
@@ -60,9 +67,9 @@ class CreateQRInput: AbstractViewController
         }
         
         if message.text?.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count > 255 {
-            let alert :UIAlertController = UIAlertController(title: NSLocalizedString("INFO", comment: "Title"), message: "Message is too long.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "MESSAGE_LENGTH".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
-            let ok :UIAlertAction = UIAlertAction(title: "OK" , style: UIAlertActionStyle.Default) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
                 alertAction -> Void in
                 
                 if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {

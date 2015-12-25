@@ -48,7 +48,7 @@ class GoogleMap: AbstractViewController , CLLocationManagerDelegate
             
             
             myMarker.position = locValue
-            myMarker.snippet = "You are here!"
+            myMarker.snippet = "YOUR_POSITION".localized()
             myMarker.appearAnimation = kGMSMarkerAnimationPop
             myMarker.map = map
             

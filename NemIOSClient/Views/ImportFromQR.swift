@@ -7,6 +7,8 @@ class ImportFromQR: AbstractViewController, QRDelegate
     @IBOutlet weak var screenScaner: QR!
     @IBOutlet weak var backButton: UIButton!
     
+    @IBOutlet weak var titleLabel: UILabel!
+    
     //MARK: - Load Methods
 
     override func viewDidLoad() {
@@ -16,7 +18,9 @@ class ImportFromQR: AbstractViewController, QRDelegate
         State.currentVC = SegueToImportFromQR
 
         screenScaner.delegate = self
-            
+        
+        titleLabel.text = "SCAN_QR_CODE".localized()
+        
         if State.countVC <= 1{
             backButton.hidden = true
         }
