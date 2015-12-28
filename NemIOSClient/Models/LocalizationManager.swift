@@ -24,7 +24,7 @@ class LocalizationManager {
             languageId = "ko"
         case "English", "Base":
             languageId = "Base"
-        case "c":
+        case "Default":
             bundle = nil
             return
         default :

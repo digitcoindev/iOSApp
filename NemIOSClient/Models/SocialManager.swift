@@ -30,7 +30,7 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             
-            facebookSheet.setInitialText(message ?? NSLocalizedString("SOCIAL_NEM_HEADER", comment: "Title"))
+            facebookSheet.setInitialText(message ?? "SOCIAL_NEM_HEADER".localized())
             
             for image in images ?? [] {
                 facebookSheet.addImage(image)
@@ -44,9 +44,9 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
         }
         else {
-            let alert = UIAlertController(title: "INFO".localized(), message: NSLocalizedString("NO_FACEBOOK_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "INFO".localized(), message: "NO_FACEBOOK_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
             
             self.delegate?.presentViewController(alert, animated: true, completion: nil)
         }
@@ -60,7 +60,7 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             
-            facebookSheet.setInitialText(message ?? NSLocalizedString("SOCIAL_NEM_HEADER", comment: "Title"))
+            facebookSheet.setInitialText(message ?? "SOCIAL_NEM_HEADER".localized())
             
             for image in images ?? [] {
                 facebookSheet.addImage(image)
@@ -74,9 +74,9 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
         }
         else {
-            let alert = UIAlertController(title: "INFO".localized(), message: NSLocalizedString("NO_TWITTER_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "INFO".localized(), message: "NO_TWITTER_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
             
             self.delegate?.presentViewController(alert, animated: true, completion: nil)
         }
@@ -91,7 +91,7 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
             myMail.mailComposeDelegate = self
             
-            myMail.setSubject(NSLocalizedString("SOCIAL_NEM_HEADER", comment: "Title"))
+            myMail.setSubject("SOCIAL_NEM_HEADER".localized())
             myMail.setMessageBody(message ?? "", isHTML: true)
             
             for image in images ?? [] {
@@ -101,9 +101,9 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             self.delegate?.presentViewController(myMail, animated: true, completion: nil)
         }
         else {            
-            let alert = UIAlertController(title: "INFO".localized(), message: NSLocalizedString("NO_MAIL_ACCOUNT", comment: "Description"), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "INFO".localized(), message: "NO_MAIL_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
             
             self.delegate?.presentViewController(alert, animated: true, completion: nil)
         }

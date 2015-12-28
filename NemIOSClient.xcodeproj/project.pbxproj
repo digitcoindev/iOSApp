@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9805EFC61C31693E008CC607 /* SaveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC51C31693E008CC607 /* SaveCell.swift */; };
+		9805EFC81C3169F9008CC607 /* AddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC71C3169F9008CC607 /* AddCell.swift */; };
 		9809BDEA1B74EBB40028D082 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA35580C1A39D3BA00AFA5FD /* Main.storyboard */; };
 		9809BDEB1B74EBBC0028D082 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */; };
 		9809BE271B75008F0028D082 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9809BE291B75008F0028D082 /* Localizable.strings */; };
@@ -215,6 +217,8 @@
 
 /* Begin PBXFileReference section */
 		18FC49EEC35A6802600EA0E3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9805EFC51C31693E008CC607 /* SaveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaveCell.swift; path = "Views/Additional controls/SaveCell.swift"; sourceTree = "<group>"; };
+		9805EFC71C3169F9008CC607 /* AddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCell.swift; path = "Views/Additional controls/AddCell.swift"; sourceTree = "<group>"; };
 		9809BE281B75008F0028D082 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9809BE2B1B789EBD0028D082 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardButtonBox.swift; path = "Views/Additional controls/DashboardButtonBox.swift"; sourceTree = "<group>"; };
@@ -941,6 +945,8 @@
 				98428A731BDA5960004494D5 /* CosigTableViewCell.swift */,
 				9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */,
 				98F01CBA1C2AF3740018081B /* ActiveCell.swift */,
+				9805EFC51C31693E008CC607 /* SaveCell.swift */,
+				9805EFC71C3169F9008CC607 /* AddCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1540,9 +1546,11 @@
 				DAD1C7FD1A6932E30043D947 /* ImportFromKey.swift in Sources */,
 				98428A761BDA689C004494D5 /* AddCosigPopUp.swift in Sources */,
 				DA08D9BD1AC027C700B93EBE /* StringExtensions.swift in Sources */,
+				9805EFC81C3169F9008CC607 /* AddCell.swift in Sources */,
 				98BB95D91BCCED5B002151F7 /* keypair.c in Sources */,
 				98BB95AC1BC7B185002151F7 /* SocialManager.swift in Sources */,
 				DAD1C7FF1A694E970043D947 /* MessageCell.swift in Sources */,
+				9805EFC61C31693E008CC607 /* SaveCell.swift in Sources */,
 				98BB95E11BCCEDB6002151F7 /* generator.c in Sources */,
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
 				DA173CEC1AADA92D003AC21F /* ScanQRVC.swift in Sources */,

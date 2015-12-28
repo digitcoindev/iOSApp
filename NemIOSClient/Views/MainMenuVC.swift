@@ -4,6 +4,7 @@ import UIKit
 class MainMenuVC:  AbstractViewController, APIManagerDelegate
 {
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var titleLabel: UILabel!
 
     var menuItems : NSMutableArray = NSMutableArray()
     var menu : NSArray = NSArray()
@@ -14,7 +15,9 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         State.fromVC = SegueToMainMenu
         State.currentVC = SegueToMainMenu
         
-        menu = [SegueToLoginVC, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
+        titleLabel.text = "MORE".localized()
+        
+        menu = [SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -31,6 +34,14 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         var page = State.lastVC
+        
+        switch page {
+        case SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount :
+            page = State.lastVC
+            
+        default :
+            break
+        }
         
         switch(page) {
             
@@ -75,10 +86,14 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         var titleText = menuItems.objectAtIndex(indexPath.row) as? String
         switch titleText!
         {
+        case SegueToExportAccount:
+            titleText = "EXPORT_ACCOUNT".localized()
+        case SegueToGoogleMap:
+            titleText = "MAP".localized()
         case SegueToHarvestDetails:
-            titleText = "Harvest Details"
+            titleText = "HARVEST_DETAILS".localized()
         case SegueTomultisigAccountManager:
-            titleText = "Manage accounts"
+            titleText = "MULTISIG".localized()
         default:
             break
         }

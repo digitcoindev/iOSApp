@@ -28,6 +28,9 @@ class AddCosigPopUp: AbstractViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        publicKey.placeholder = "   " + "INPUT_PUBLIC_KEY".localized()
+        saveBtn.setTitle("ADD_COSIGNATORY".localized(), forState: UIControlState.Normal)
+        
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)

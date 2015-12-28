@@ -18,6 +18,8 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     @IBOutlet weak var lastBlocks: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var titleLabel: UILabel!
+
     private var _mainAccount :AccountGetMetaData? = nil
     private let _apiManager :APIManager =  APIManager()
     
@@ -29,6 +31,8 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
         State.fromVC = SegueToHistoryVC
         State.currentVC = SegueToHistoryVC
         _apiManager.delegate = self
+        
+        titleLabel.text = "HARVEST_DETAILS".localized()
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
@@ -49,9 +53,6 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell :BlockTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("block cell") as! BlockTableViewCell
-        cell.block.text = "Block #\(_blocks[indexPath.row].id)"
-        cell.block.text = "Block #\(_blocks[indexPath.row].id)"
-        cell.block.text = "Block #\(_blocks[indexPath.row].id)"
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "MMM dd, YYYY H:mm:ss"
@@ -60,8 +61,8 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
         timeStamp += genesis_block_time
         
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
-        cell.block.text = "Block #\(_blocks[indexPath.row].id)"
-        cell.fee.text = "Fee: \(_blocks[indexPath.row].totalFee / 100000)"
+        cell.block.text = "BLOCK".localized() + " #\(_blocks[indexPath.row].id)"
+        cell.fee.text = "FEE".localized() + ": \(_blocks[indexPath.row].totalFee / 100000)"
         
         return cell
     }
@@ -80,11 +81,11 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             var atributes :[String:AnyObject] = [
                 NSFontAttributeName : fontLight
             ]
-            var message = NSLocalizedString("POI", comment: "Text") + ": " + account!.importance.format(".2") + " ‱"
+            var message = "POI".localized() + ": " + account!.importance.format(".2") + " ‱"
             var atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             importance.attributedText = atributedText
 
-            message = NSLocalizedString("BALANCE", comment: "Text") + ": "
+            message = "BALANCE".localized() + ": "
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             
             atributes = [
@@ -99,15 +100,15 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             atributes = [
                 NSFontAttributeName:fontLight
             ]
-            message = NSLocalizedString("VASTED_BALANCE", comment: "Text") + ": "
+            message = "VASTED_BALANCE".localized() + ": "
             message += (account!.vestedBalance! / 1000000).format(".0") + " XEM"
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             vastedBalance.attributedText = atributedText
             
-            message = NSLocalizedString("DELEGATED_HARVESTING", comment: "Text") + ": "
+            message = "DELEGATED_HARVESTING".localized() + ": "
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             
-            message = NSLocalizedString(account!.status, comment: "Text")
+            message = account!.status.localized()
             atributes = [
                 NSForegroundColorAttributeName : greenClor,
                 NSFontAttributeName:fontLight
@@ -116,10 +117,10 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             harvestingStatus.attributedText = atributedText
             
             if account!.harvestedBlocks > 0 {
-                message = String(format: NSLocalizedString("LAST_HARVESTED_BLOCK", comment: "Text"), account!.harvestedBlocks)
+                message = String(format: "LAST_HARVESTED_BLOCK".localized(), account!.harvestedBlocks)
                 _apiManager.accountHarvests(State.currentServer!, account_address: account!.address)
             } else {
-                message = NSLocalizedString("NO_HARVESTED_BLOCK", comment: "Text")
+                message = "NO_HARVESTED_BLOCK".localized()
             }
             atributes = [
                 NSFontAttributeName:fontLight
@@ -133,7 +134,7 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             
             let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
             
-            message = "Delegated Key: \(HashManager.SHA256Encrypt(privateKey!.asByteArray()))"
+            message = "DELEGATED_KEY".localized() + ": \(HashManager.SHA256Encrypt(privateKey!.asByteArray()))"
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             
             atributes = [

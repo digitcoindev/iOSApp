@@ -15,6 +15,7 @@ class ChousePrimAccountVC: AbstractViewController, UITableViewDataSource, UITabl
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scroll: UIScrollView!
+    @IBOutlet weak var resetButton: UIButton!
     
     private let _accounts :[Wallet] = CoreDataManager().getWallets()
     
@@ -26,6 +27,8 @@ class ChousePrimAccountVC: AbstractViewController, UITableViewDataSource, UITabl
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
         
+        resetButton.setTitle("RESET".localized(), forState: UIControlState.Normal)
+
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         

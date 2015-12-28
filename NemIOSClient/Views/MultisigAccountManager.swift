@@ -6,6 +6,8 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     @IBOutlet weak var chouseButton: ChouseButton!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var titleLabel: UILabel!
+    
     var currentCosignatories :[String] = [String]()
     var removeArray :[AccountGetMetaData]!
     var addArray = [String]()
@@ -28,6 +30,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         State.currentVC = SegueTomultisigAccountManager
         
         _apiManager.delegate = self
+        titleLabel.text = "MULTISIG".localized()
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -115,18 +118,18 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     @IBAction func saveChanges(sender: AnyObject) {
         
         if _removeArray.count > 1 {
-            _showPopUp( NSLocalizedString("MULTISIG_REMOVE_COUNT_ERROR", comment: "Description"))
+            _showPopUp( "MULTISIG_REMOVE_COUNT_ERROR".localized())
         }
         else if (_currentCosignatories.count + _addArray.count) > 16 {
-            _showPopUp( NSLocalizedString("MULTISIG_COSIGNATORIES_COUNT_ERROR", comment: "Description"))
+            _showPopUp( "MULTISIG_COSIGNATORIES_COUNT_ERROR".localized())
         }
         else {
             let fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
             
             let alert1 :UIAlertController = UIAlertController(title: "INFO".localized(), message:
-                String(format: NSLocalizedString("MULTISIG_CHANGES_CONFIRMATION", comment: "Description"), fee), preferredStyle: UIAlertControllerStyle.Alert)
+                String(format: "MULTISIG_CHANGES_CONFIRMATION".localized(), fee), preferredStyle: UIAlertControllerStyle.Alert)
             
-            let confirm :UIAlertAction = UIAlertAction(title: NSLocalizedString("CONFIRM", comment: "Title"), style: UIAlertActionStyle.Default) {
+            let confirm :UIAlertAction = UIAlertAction(title: "CONFIRM".localized(), style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
                     
                     let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
@@ -155,7 +158,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                     self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
             }
             
-            let cancel :UIAlertAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Title"), style: UIAlertActionStyle.Cancel) {
+            let cancel :UIAlertAction = UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.Cancel) {
                 alertAction -> Void in
             }
             
@@ -236,7 +239,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         var newCosigList :[String] = []
         
         for cosig in _activeAccount!.cosignatories {
-            newCosigList.append(cosig.publicKey ?? "not registered in NIS" )
+            newCosigList.append(cosig.publicKey ?? "NO_PUBLICKEY".localized() )
         }
         
         _currentCosignatories = newCosigList
@@ -252,7 +255,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         
         let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
             alertAction -> Void in
         }
         
@@ -304,9 +307,9 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                 
                 var message :String = ""
                 if (data ?? []).isEmpty {
-                    message = NSLocalizedString("TRANSACTION_ANOUNCE_FAILED", comment: "Dsecription")
+                    message = "TRANSACTION_ANOUNCE_FAILED".localized()
                 } else {
-                    message = NSLocalizedString("TRANSACTION_ANOUNCE_SUCCESS", comment: "Description")
+                    message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
                 }
                 
                 _showPopUp(message)

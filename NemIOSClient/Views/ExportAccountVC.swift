@@ -7,6 +7,10 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var privateKey: UILabel!
     @IBOutlet weak var publicKey: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var privateKeyLabel: UILabel!
+    @IBOutlet weak var publicKeyLabel: UILabel!
     
     private var popup :AbstractViewController? = nil
 
@@ -36,6 +40,11 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         let pub_key = KeyGenerator.generatePublicKey(priv_key!)
         privateKey.text = priv_key
         publicKey.text = pub_key
+        
+        shareButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
+        titleLabel.text = "EXPORT_ACCOUNT".localized()
+        publicKeyLabel.text = "PUBLIC_KEY".localized()
+        publicKeyLabel.text = "PRIVATE_KEY".localized()
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {

@@ -16,6 +16,9 @@ class InvoceSettings: AbstractViewController {
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var prefixTextView: UITextView!
     @IBOutlet weak var postfixTextView: UITextView!
+    @IBOutlet weak var prefixLabel: UILabel!
+    @IBOutlet weak var postfixLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
     
     private let _accounts :[Wallet] = CoreDataManager().getWallets()
     
@@ -30,6 +33,10 @@ class InvoceSettings: AbstractViewController {
         
         prefixTextView.text = loadData?.invoicePrefix
         postfixTextView.text = loadData?.invoicePostfix
+        
+        prefixLabel.text = "PREFIX".localized()
+        postfixLabel.text = "POSTFIX".localized()
+        saveButton.setTitle("SAVE".localized(), forState: UIControlState.Normal)
     }
     
     override func didReceiveMemoryWarning() {

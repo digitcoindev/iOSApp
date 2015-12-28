@@ -35,7 +35,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         titleLabel.text = "MESSAGES".localized()
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
-        
+        customMessageButton.setTitle("NEW".localized(), forState: UIControlState.Normal)
         tableView.layer.cornerRadius = 2
         _apiManager.delegate = self
         

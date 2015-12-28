@@ -28,6 +28,9 @@ class ChangeNamePopUp: AbstractViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        newName.placeholder = "   " + "INPUT_NEW_ACCOUNT_NAME".localized()
+        saveBtn.setTitle("CHANGE".localized(), forState: UIControlState.Normal)
+        
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)

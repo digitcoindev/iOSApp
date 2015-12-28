@@ -5,6 +5,8 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addWallet: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
     
     //MARK: - Variables
     
@@ -26,6 +28,10 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         State.cleanVCs()
         State.fromVC = SegueToLoginVC
         State.currentVC = SegueToLoginVC
+        
+        titleLabel.text = "ACCOUNTS".localized()
+        addWallet.setTitle("ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
+        editButton.setTitle("EDIT".localized(), forState: UIControlState.Normal)
         
         apiManager.delegate = self
         

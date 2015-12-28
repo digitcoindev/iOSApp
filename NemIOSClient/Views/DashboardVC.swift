@@ -9,6 +9,7 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     @IBOutlet weak var messagesButton: DashboardButtonBox!
     @IBOutlet weak var addressBookButton: DashboardButtonBox!
     @IBOutlet weak var qrButton: DashboardButtonBox!
+    @IBOutlet weak var moreButton: DashboardButtonBox!
     
     // MARK: - Load Methods
     private var _pages :DashboardContainer = DashboardContainer()
@@ -16,8 +17,13 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        messagesButton.setTitle("MESSAGES".localized(), forState: UIControlState.Normal)
+        addressBookButton.setTitle("ADDRESS_BOOK".localized(), forState: UIControlState.Normal)
+        qrButton.setTitle("QR".localized(), forState: UIControlState.Normal)
+        moreButton.setTitle("MORE".localized(), forState: UIControlState.Normal)
+        
         changeState(State.toVC)
-
     }
     
     override func didReceiveMemoryWarning() {

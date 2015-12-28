@@ -1,40 +1,158 @@
 // A
 
 "ACCOUNT_PRIMATY" = "Primary Account";
+"ADD_ACCOUNT" = "Add account";
+"ADD_SERVER" = "ADD_SERVER";
+"ACCOUNT_NAME" = "Account Name";
+"ACCOUNT_NAME_PLACEHOLDER" = "account name";
+"ADDRESS_BOOK" = "Address Book";
+"ADD_CONTACT" = "Add Contact";
+"ADDRESS" = "Address";
+"AMOUNT" = "Amount";
+"ACCOUNTS" = "Accounts";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "Not enough money";
+"ACCOUNT" = "Account";
+"ADD" = "Add";
+"ADD_COSIGNATORY" = "Add Cosignatory";
+"ADD_ADITIONAL_SIGNER" = "Add aditional signer";
+"ACCOUNT_HISTORY" = "Account History";
 
 // B
 
 "BASE" = "Base";
+"BLOCK" = "Block";
+"BALANCE" = "Balance";
 
 // C
 
 "CHANGE" = "Change";
+"CREATE_NEW" = "Create New";
+"CREATE_NEW_ACCCOUNT" = "Create new account";
+"CHANGE_SERVER" = "Change server";
+"CHANGE_CONTACT" = "Change Contact";
+"COPY" = "Copy";
+"COULD_NOT_DECRYPT" = "Could not decrypt";
+"CONFIRM" = "Confirm";
+"COPY_QR" = "Copy QR";
+"COPY_ADDRESS" = "Copy Address";
+"CREATE" = "Create";
+"CANCEL" = "Cancel";
+"CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";
+
+// D
+
+"DELETE" = "Delete";
+"DELEGATED_HARVESTING" = "Delegated Harvesting";
+"DELEGATED_KEY" = "Delegated Key";
+
+// E
+
+"EDIT" = "Edit";
+"ENTET_PASSWORD" = "Enter password";
+"ENCRYPTED_MESSAGE" = "Encrypted message";
+"EMPTY_MESSAGE" = "Empty message";
+"ENTER_MESSAGE" = "Enter message";
+"ENTER_NAME" = "Enter name";
+"ENTER_ADDRESS" = "Enter address";
+"ENTER_AMOUNT" = "Enter amount";
+"ENTER_FEE" = "ENTER fee";
+"EXPORT_ACCOUNT" = "Export Account";
+
+// F
+
+"FIELDS_EMPTY_ERROR" = "Input all fields";
+"FIRST_NAME" = "First Name";
+"FEE" = "Fee";
+"FROM" = "From";
+"FIELDS_EMPTY_ERROR" = "Input all fields";
 
 // G
 
 "GENERAL" = "General";
 
+// H
+
+"HARVEST_DETAILS" = "Harvest Details";
+
 // I
 
 "INVOICE" = "Invoice";
+"IMPORT_KEY" = "ImporFt Key";
+"IMPORT_FROM_KEY" = "Enter Private Key";
+"INFO" = "Info";
+"INVOICE_HEADER" = "Please scan this QR to finish payment";
+"INVOICE_DATA" = "Invoice Data";
+"INPUT_NEW_ACCOUNT_NAME" = "Input new account name";
+"INPUT_PUBLIC_KEY" = "Input public key";
 
 // L
 
 "LANGUAGE" = "Language";
+"LAST_NAME" = "Last Name";
+"LOST_CONNECTION" = "Lost connection";
+"LOCKED" = "Locked";
+"LAST_HARVESTED_BLOCK" = "Last %d Harvested Block(-s)"; // %d will be replaced by the blocks count
+
+// M
+
+"MAP" = "Map";
+"MESSAGES" = "Messages";
+"MESSAGE" = "Message";
+"MIN" = "Min";
+"MESSAGE_LENGTH" = "Message is too long";
+"MY_ADDRESS" = "My Address";
+"MY_NAME" = "My Name";
+"MY_INFO" = "My Info";
+"MULTISIG" = "Multisig";
+"MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
+"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
+"MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM"; // %@ will be replaced by the transaction fee
 
 // N
 
 "NONE" = "None";
 "NO_ACCOUNTS" = "No Accounts";
 "NOTIFICATION" = "Notification";
+"NAME" = "Name";
+"NO_INTERNET_CONNECTION" = "No internet connection";
+"NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
+"NO_PUBLIC_KEY_FOR_ENC" = "Public key for this account is not known.\nEncrypted messages is not allowed.";
+"NEW_TRANSACTION" = "New Transaction";
+"NOT_ENOUGHT_MONEY" = "Not enought money";
+"NEW_INVOICE" = "New Invoice";
+"NO_HARVESTED_BLOCK" = "No Harvested Blocks";
+"NO_PUBLICKEY" = "No public key";
+"NO" = "No";
+"NO_FACEBOOK_ACCOUNT" = "Please add facebook account in settings.";
+"NO_TWITTER_ACCOUNT" = "Please add twitter account in settings.";
+"NO_MAIL_ACCOUNT" = "Please add mail account in your mail-client.";
 
 // O
 
 "ON" = "On";
+"OK" = "OK";
+"OF" = "of";
 
 // P
 
 "PASSWORD" = "Password";
+"PASSWORD_PLACEHOLDER" = "password";
+"PASSOWORD_DIFERENCE_ERROR" = "Different passwords";
+"PASSOWORD_LENGTH_ERROR" = "Your password must be at least 6 characters.";
+"PRIVATE_KEY" = "Private Key";
+"PUBLIC_KEY" = "Public Key";
+"PRIVATE_KEY_ERROR_1." = "Invalide private key.\nPlease check it.";
+"PREFIX" = "Prefix";
+"POSTFIX" = "Postfix";
+"POI" = "POI";
+"PRIMARY_ACCOUNT" = "Primary Account";
+
+// R
+
+"REPEAT_PASSWORD" = "Repeat Password";
+"REPEAT_PASSWORD_PLACEHOLDER" = "repeat password";
+"REMIND_LATER" = "Remind later";
+"RESET" = "Reset";
 
 // S
 
@@ -43,101 +161,40 @@
 "SECURITY" = "Security";
 "SERVER_SETTINGS" = "Server Settings";
 "SERVER" = "Server";
+"SCAN_QR" = "Scan QR";
+"SCAN_QR_CODE" = "Scan QR code";
+"SERVER_UNAVAILABLE" = "Server is  unavailable. Try again later or check your server.";
+"SHOW_TRANSACTIONS" = "Show transactions";
+"SEND" = "Send";
+"SIGNERS" = "Signers";
+"SHARE_QR" = "Share QR";
+"SHARE_ADDRESS" = "Share Address";
+"SAVE" = "Save";
+"SAVE_CHANGES" = "Save Changes";
+"SOCIAL_NEM_HEADER" = "NEM IOS Client";
 
 // T
 
 "TOUCH_ID" = "Touch ID";
+"TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
+"TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
+"TO" = "To";
 
 // U
 
 "UPDATE_INTERVAL" = "Update Interval";
+"UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed up!";
+"UNLOCKED" = "Unlocked";
 
-// Common
-
-"INFO" = "Info";
-"SERVER_UNAVAILABLE" = "Server is  unavailable. Try again later or check your server.";
-"LOST_CONNECTION" = "Lost connection";
-
-// Validation
+// V
 
 "VALIDATION" = "Validation";
-"PASSOWORD_DIFERENCE_ERROR" = "Different passwords";
-"PASSOWORD_LENGTH_ERROR" = "Your password must be at least 6 characters.";
-"FIELDS_EMPTY_ERROR" = "Input all fields";
-"PRIVATE_KEY_ERROR_1." = "Invalide private key.\nPlease check it.";
-"ACCOUNT_ADDING_SUCCESS" = "Account: %@\nSuccessfully added."; // %@ will be replaced by the account name
-"SERVER_PROTOCOL_NOT_AVAILABLE" = "Available only \"http\" protocol type.";
-"UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed up!";
-"NOT_ENOUGHT_MONEY" = "Not enought money";
-"MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
-"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
-
-// Text
-
-"MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM"; // %@ will be replaced by the transaction fee
-"SHOW_TRANSACTIONS" = "Show transactions";
-"REMIND_LATER" = "Remind later";
-"EMPTY_MESSAGE" = "Empty message";
-"ACCOUNT_NOT_ENOUGHT_MONEY" = "Not enough money";
-"CHANGE_CONTACT" = "Change Contact";
-"POI" = "POI";
-"BALANCE" = "Balance";
 "VASTED_BALANCE" = "Vasted Balance";
-"DELEGATED_HARVESTING" = "Delegated Harvesting";
-"LAST_HARVESTED_BLOCK" = "Last %d Harvested Block(-s)"; // %d will be replaced by the blocks count
-"NO_HARVESTED_BLOCK" = "No Harvested Blocks";
 
-"ACCOUNT_NAME" = "Account Name";
-"ACCOUNT_ADDRESS" = "Account Address";
-"ACCOUNT_TYPE" = "Account Type";
-"IMPORTANCE_SCORE" = "Importance Score";
-"PUBLIC_KEY" = "Public Key";
-"DELEGATED_PRIVATE_KEY" = "Delegated Private Key";
-"PRIVATE_KEY" = "Private Key";
-"ACCOUNT_HISTORY" = "Account History";
-"MULTISIG" = "Multisig";
-"PRIMARY_ACCOUNT" = "Primary Account";
-"ACCOUNT_NAME" = "Account Name";
-"EXPORT_ACCOUNT" = "Export Acount";
-"FEE" = "Fee";
+// Y
 
-"MULTISIG_ACCOUNT" = "Multisig Account";
-"NORMAL_ACCOUNT" = "Simpl Account";
-"COSIGNER_ACCOUNT" = "Cosigner Account";
+"YOUR_POSITION" = "You are here";
+"YOUR_NAME" = "your name";
 
-"NO" = "No";
-"CONFIRM" = "Confirm";
-"CANCEL" = "Cancel";
-"UNLOCKED" = "Unlocked";
-"LOCKED" = "Locked";
 
-"GET_PRIVATE_KEY" = "Get Private Key";
-"VIEW_ACCOUNT_HISTORY" = "View Account History";
-"ADD_OR_REMOVE_COSIGNERS" = "Add or Remove Cosigner(s)";
-"SET_PRIMARY_ACCOUNT" = "Set Primary Account";
-"CHANGE_ACCOUNT_NAMET" = "Change Account Name";
-"CREATE_QR" = "Create QR";
-
-// Transaction
-
-"TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
-"TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
-"NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
-"NO_PUBLIC_KEY_FOR_ENC" = "Public key for this account is not known.\nEncrypted messages is not allowed.";
-// Social
-
-"SOCIAL_NEM_HEADER" = "NEM IOS Client";
-
-//  Acounts
-
-"NO_FACEBOOK_ACCOUNT" = "Please add facebook account in settings.";
-"NO_TWITTER_ACCOUNT" = "Please add twitter account in settings.";
-"NO_MAIL_ACCOUNT" = "Please add mail account in your mail-client.";
-
-// Contacts
-
-"CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";
-
-// Invoice
-
-"INVOICE_HEADER" = "Please scan this QR to finish payment";
+ 

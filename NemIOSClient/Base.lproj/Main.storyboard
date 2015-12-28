@@ -333,7 +333,9 @@
                     <size key="freeformSize" width="320" height="540"/>
                     <connections>
                         <outlet property="addWallet" destination="iaL-8Q-Fvx" id="k8h-rP-qZc"/>
+                        <outlet property="editButton" destination="SBb-k4-dKm" id="zHD-0H-H6n"/>
                         <outlet property="tableView" destination="w4z-DQ-xHC" id="mlb-KH-9mz"/>
+                        <outlet property="titleLabel" destination="Gxv-Ps-kRM" id="0sv-7N-4QE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hie-VX-9TQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -609,7 +611,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="add cosig cell" id="SNQ-hp-Rls">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="add cosig cell" id="SNQ-hp-Rls" customClass="AddCell" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SNQ-hp-Rls" id="H0F-qh-ob7">
@@ -622,7 +624,7 @@
                                                         <constraint firstAttribute="width" constant="27" id="hqe-Pj-saR"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add additioal Signer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mu7-Qd-bfG">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add additional Signer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mu7-Qd-bfG">
                                                     <rect key="frame" x="51" y="8" width="261" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <color key="textColor" red="0.25490196079999999" green="0.80784313730000001" blue="0.4823529412" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -639,8 +641,11 @@
                                                 <constraint firstItem="Mu7-Qd-bfG" firstAttribute="top" secondItem="H0F-qh-ob7" secondAttribute="topMargin" id="nJd-GJ-YaW"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="addLabel" destination="Mu7-Qd-bfG" id="5Bi-vG-65n"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="save cell" id="eDh-bA-NbO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="save cell" id="eDh-bA-NbO" customClass="SaveCell" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="116" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eDh-bA-NbO" id="Hbn-DY-zcH">
@@ -674,6 +679,9 @@
                                                 <constraint firstItem="SOG-39-bd1" firstAttribute="centerY" secondItem="Hbn-DY-zcH" secondAttribute="centerY" id="nF6-df-Cmj"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="saveButton" destination="SOG-39-bd1" id="WIO-rv-OOP"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -718,6 +726,7 @@
                     <connections>
                         <outlet property="chouseButton" destination="rTx-fC-3pq" id="9Pw-yc-3ES"/>
                         <outlet property="tableView" destination="zmH-7q-SDj" id="n71-57-eET"/>
+                        <outlet property="titleLabel" destination="f19-pd-zN8" id="dek-iS-BYY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J1i-Pk-pjO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1391,6 +1400,7 @@
                         <outlet property="importance" destination="cwS-oT-TU8" id="x2O-te-b7I"/>
                         <outlet property="lastBlocks" destination="3Y0-i2-KRj" id="baZ-jg-OOe"/>
                         <outlet property="tableView" destination="U7q-fo-Jkb" id="pj3-ib-fjb"/>
+                        <outlet property="titleLabel" destination="Tqd-DT-eNH" id="eba-I8-laH"/>
                         <outlet property="vastedBalance" destination="Ywc-EU-V2s" id="y9P-VC-k4L"/>
                     </connections>
                 </viewController>
@@ -1562,6 +1572,7 @@
                     <connections>
                         <outlet property="addressBookButton" destination="afT-tn-2qZ" id="D7i-w8-xka"/>
                         <outlet property="messagesButton" destination="ryr-fo-Thi" id="j7z-6h-FEC"/>
+                        <outlet property="moreButton" destination="wWw-aQ-MQa" id="cpR-c5-dOR"/>
                         <outlet property="qrButton" destination="IXC-e1-gtV" id="u4O-Wz-b4o"/>
                     </connections>
                 </viewController>
@@ -4187,8 +4198,12 @@
                     <size key="freeformSize" width="320" height="493"/>
                     <connections>
                         <outlet property="privateKey" destination="Bhw-w8-Pkf" id="cRI-Qm-2Yn"/>
+                        <outlet property="privateKeyLabel" destination="jy0-cf-ACv" id="zmh-nx-Nrl"/>
                         <outlet property="publicKey" destination="gNg-E9-vyL" id="emQ-RG-Gam"/>
+                        <outlet property="publicKeyLabel" destination="LEy-L3-PiQ" id="bpK-dJ-DWa"/>
                         <outlet property="qrImage" destination="LXK-Ld-bi3" id="lmv-Lj-4im"/>
+                        <outlet property="shareButton" destination="27P-Pe-ZUJ" id="SAL-If-30F"/>
+                        <outlet property="titleLabel" destination="AwI-ZM-CzI" id="A7L-wH-ivt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tAV-MK-ucU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4294,6 +4309,7 @@
                     <size key="freeformSize" width="320" height="493"/>
                     <connections>
                         <outlet property="tableView" destination="lZt-jG-1xv" id="K5N-Zx-j5u"/>
+                        <outlet property="titleLabel" destination="jch-Ui-P6W" id="2a5-k2-xs0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ShC-44-WoE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -6006,6 +6022,7 @@
                     <size key="freeformSize" width="400" height="400"/>
                     <connections>
                         <outlet property="contentView" destination="2Mh-Hc-jxd" id="Leu-Cu-Ik9"/>
+                        <outlet property="resetButton" destination="ExG-F0-jrm" id="jpS-G8-XE4"/>
                         <outlet property="scroll" destination="Rhm-1H-Oa8" id="BDb-QU-YAx"/>
                         <outlet property="tableView" destination="jvt-zg-9bK" id="7fp-7z-hDK"/>
                     </connections>
@@ -6162,8 +6179,11 @@
                     <size key="freeformSize" width="400" height="400"/>
                     <connections>
                         <outlet property="contentView" destination="jnz-3i-LgE" id="3dQ-3Q-OPg"/>
+                        <outlet property="postfixLabel" destination="Ckg-FP-P1A" id="Drq-Wb-ymx"/>
                         <outlet property="postfixTextView" destination="Jf6-Fn-GLS" id="f3v-XF-Mpy"/>
+                        <outlet property="prefixLabel" destination="XCa-dd-ph1" id="Zre-k1-gxo"/>
                         <outlet property="prefixTextView" destination="A3V-XH-zvi" id="kSg-j2-mKy"/>
+                        <outlet property="saveButton" destination="Fxj-jX-Ad3" id="gZN-J2-JUV"/>
                         <outlet property="scroll" destination="4LF-i1-ZP7" id="paw-Dh-ntx"/>
                     </connections>
                 </viewController>
@@ -6325,6 +6345,7 @@
                     <size key="freeformSize" width="400" height="400"/>
                     <connections>
                         <outlet property="contentView" destination="uO0-XO-fkf" id="YP7-Jz-bPR"/>
+                        <outlet property="resetButton" destination="mA0-ah-QuO" id="JAl-TE-jTw"/>
                         <outlet property="scroll" destination="iQd-Uv-cm6" id="M2L-GM-b4s"/>
                         <outlet property="tableView" destination="XBe-zJ-VNh" id="7jx-dt-Yiw"/>
                     </connections>
