@@ -99,6 +99,18 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
                 break
             }
             
+        case SettingsCategory.Security.rawValue:
+            switch indexPath.row {
+            case 2:
+                if (_loadData!.touchId ?? true) as Bool {
+                    _loadData!.touchId = false
+                } else {
+                    _loadData!.touchId = true
+                }
+                _refreshData()
+            default:
+                break
+            }
         default:
             break
         }
@@ -108,43 +120,51 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     private final func _refreshData(){
         _loadData = State.loadData
-        titleLabel.text = "SETTINGS".localized("Configurations")
+        titleLabel.text = "SETTINGS".localized()
         var serverText = ""
         if let server = _loadData?.currentServer {
             serverText = server.address
         } else {
-            serverText = "NONE".localized("None")
+            serverText = "NONE".localized()
         }
         
         var accountText = ""
         if let account = _loadData?.currentWallet {
             accountText = account.login
         } else if _dataManager.getWallets().count == 0 {
-            accountText = "NO_ACCOUNTS".localized("No Accounts")
+            accountText = "NO_ACCOUNTS".localized()
         } else {
-            accountText = "NONE".localized("None")
+            accountText = "NONE".localized()
+        }
+        
+        var touchText = ""
+        
+        if (_loadData?.touchId ?? true) as Bool {
+            touchText = "ON".localized()
+        } else {
+            touchText = "OFF".localized()
         }
         
         _content = []
         _content += [
             [
-                ["GENERAL".localized("General")],
-                ["LANGUAGE".localized("Language"), _loadData?.currentLanguage ?? "BASE".localized("Base")],
+                ["GENERAL".localized()],
+                ["LANGUAGE".localized(), _loadData?.currentLanguage ?? "BASE".localized()],
                 ["ACCOUNT_PRIMATY".localized("Primary Account"), accountText],
-                ["INVOICE".localized("Invoice"), "SET_CONFIGURATION".localized("Set configuration")]
+                ["INVOICE".localized(), "SET_CONFIGURATION".localized()]
             ],
             [
-                ["SECURITY".localized("Security")],
-                ["PASSWORD".localized("Password") ,"CHANGE".localized("Change")],
-                ["TOUCH_ID".localized("Touch ID") ,"ON".localized("On")]
+                ["SECURITY".localized()],
+                ["PASSWORD".localized() ,"CHANGE".localized()],
+                ["TOUCH_ID".localized() ,touchText]
             ],
             [
-                ["SERVER_SETTINGS".localized("Server Settings")],
-                ["SERVER".localized("Server") ,serverText]
+                ["SERVER_SETTINGS".localized()],
+                ["SERVER".localized() ,serverText]
             ],
             [
-                ["NOTIFICATION".localized("Notification")],
-                ["UPDATE_INTERVAL".localized("Update Interval") ,"30 min"]
+                ["NOTIFICATION".localized()],
+                ["UPDATE_INTERVAL".localized() ,"30 min"]
             ]
         ]
         

@@ -1,4 +1,4 @@
-import UIKit
+//import UIKit
 
 @objc protocol APIManagerDelegate
 {
@@ -14,7 +14,9 @@ class APIManager: NSObject
 {
     private let _session = NSURLSession.sharedSession()
     private let _apiDipatchQueue :dispatch_queue_t = dispatch_queue_create("Api queu", nil)
+    
     var delegate :AnyObject!
+    var timeOutIntervar = NSTimeInterval(10)
     
     override init() {
         super.init()
@@ -36,7 +38,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
-                request.timeoutInterval = 5
+                request.timeoutInterval = self.timeOutIntervar / 2
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -92,7 +94,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
-                request.timeoutInterval = 10
+                request.timeoutInterval = self.timeOutIntervar
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -154,7 +156,7 @@ class APIManager: NSObject
             request.HTTPMethod = "GET"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
-            request.timeoutInterval = 10
+            request.timeoutInterval = self.timeOutIntervar
             
             let task = self._session.dataTaskWithRequest(request, completionHandler: {
                 data, response, error -> Void in
@@ -220,11 +222,11 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
-                request.timeoutInterval = 10
+                request.timeoutInterval = self.timeOutIntervar
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
-                    
+                    error?.localizedDescription
                     if(data == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
@@ -315,7 +317,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
-                request.timeoutInterval = 10
+                request.timeoutInterval = self.timeOutIntervar
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -435,7 +437,7 @@ class APIManager: NSObject
                 request.HTTPBody = str
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
-                request.timeoutInterval = 10
+                request.timeoutInterval = self.timeOutIntervar
 
             let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
@@ -501,7 +503,7 @@ class APIManager: NSObject
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue("application/json", forHTTPHeaderField: "Accept")
-                request.timeoutInterval = 10
+                request.timeoutInterval = self.timeOutIntervar
                 
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		9805EFC61C31693E008CC607 /* SaveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC51C31693E008CC607 /* SaveCell.swift */; };
 		9805EFC81C3169F9008CC607 /* AddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC71C3169F9008CC607 /* AddCell.swift */; };
+		9805EFCA1C317FC0008CC607 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC91C317FC0008CC607 /* NotificationManager.swift */; };
+		9805EFCC1C319439008CC607 /* NotificationBaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFCB1C319439008CC607 /* NotificationBaner.swift */; };
+		9805EFCE1C31A126008CC607 /* FetchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFCD1C31A126008CC607 /* FetchManager.swift */; };
 		9809BDEA1B74EBB40028D082 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA35580C1A39D3BA00AFA5FD /* Main.storyboard */; };
 		9809BDEB1B74EBBC0028D082 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */; };
 		9809BE271B75008F0028D082 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9809BE291B75008F0028D082 /* Localizable.strings */; };
@@ -219,6 +222,9 @@
 		18FC49EEC35A6802600EA0E3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9805EFC51C31693E008CC607 /* SaveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaveCell.swift; path = "Views/Additional controls/SaveCell.swift"; sourceTree = "<group>"; };
 		9805EFC71C3169F9008CC607 /* AddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCell.swift; path = "Views/Additional controls/AddCell.swift"; sourceTree = "<group>"; };
+		9805EFC91C317FC0008CC607 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		9805EFCB1C319439008CC607 /* NotificationBaner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationBaner.swift; sourceTree = "<group>"; };
+		9805EFCD1C31A126008CC607 /* FetchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchManager.swift; path = Models/FetchManager.swift; sourceTree = "<group>"; };
 		9809BE281B75008F0028D082 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9809BE2B1B789EBD0028D082 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardButtonBox.swift; path = "Views/Additional controls/DashboardButtonBox.swift"; sourceTree = "<group>"; };
@@ -238,10 +244,8 @@
 		9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestDetailsVC.swift; path = Views/HarvestDetailsVC.swift; sourceTree = "<group>"; };
 		9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockTableViewCell.swift; path = "Views/Additional controls/BlockTableViewCell.swift"; sourceTree = "<group>"; };
 		9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockGetMetaData.swift; path = Models/BlockGetMetaData.swift; sourceTree = "<group>"; };
-		9877C68A1BE27EAC00AF9751 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		9877C68C1BE27FB700AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9877C68D1BE27FB700AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9877C68F1BE27FEA00AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		987B878E1BD684CF00782B42 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Views/MapViewController.swift; sourceTree = "<group>"; };
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98BB95AB1BC7B185002151F7 /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Models/SocialManager.swift; sourceTree = "<group>"; };
@@ -284,9 +288,7 @@
 		98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeNamePopUp.swift; path = Views/ChangeNamePopUp.swift; sourceTree = "<group>"; };
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
-		98F9B95B1BEBC05000FA7239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		98F9B95C1BEBC05100FA7239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		98F9B95D1BEBC0E700FA7239 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		98F9B95E1BEBC0E800FA7239 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditableTableViewCell.swift; path = "Views/Additional controls/EditableTableViewCell.swift"; sourceTree = "<group>"; };
 		B7116021E29489DE6208293D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -706,6 +708,10 @@
 		DA194E0A1A4323BF0030C882 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9805EFCD1C31A126008CC607 /* FetchManager.swift */,
+				9805EFCB1C319439008CC607 /* NotificationBaner.swift */,
+				9805EFC91C317FC0008CC607 /* NotificationManager.swift */,
+				DADA33F91A72874900F14D6D /* Generators */,
 				98F01CBE1C2D3F060018081B /* Localization */,
 				98BB95AA1BC7B151002151F7 /* Social */,
 				DAC8BA9E1ACD53BC00BB95B0 /* State */,
@@ -911,7 +917,6 @@
 				DA194E051A431C690030C882 /* Crypto */,
 				DAF138291AB08F2A0069AC3A /* API */,
 				DA194E0A1A4323BF0030C882 /* Managers */,
-				DADA33F91A72874900F14D6D /* Generators */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1296,6 +1301,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
@@ -1462,10 +1470,12 @@
 				DA194E091A4323B40030C882 /* HashManager.swift in Sources */,
 				DA35583D1A3AE0A500AFA5FD /* plistFileManager.swift in Sources */,
 				DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */,
+				9805EFCC1C319439008CC607 /* NotificationBaner.swift in Sources */,
 				98DFB7191BF3AEE40010E035 /* FileService.swift in Sources */,
 				DAD5AD901A52E7850093E3DB /* PasswordValidationVC.swift in Sources */,
 				DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */,
 				98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */,
+				9805EFCE1C31A126008CC607 /* FetchManager.swift in Sources */,
 				98BB95D51BCCED5B002151F7 /* fe.c in Sources */,
 				DA194DF91A41D50E0030C882 /* RegistrationVC.swift in Sources */,
 				DA64A4CC1A5A8704005833A4 /* QR.swift in Sources */,
@@ -1480,6 +1490,7 @@
 				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
 				98F448951BDE4A00008E2BF4 /* ChangeNamePopUp.swift in Sources */,
 				DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */,
+				9805EFCA1C317FC0008CC607 /* NotificationManager.swift in Sources */,
 				98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */,
 				DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */,
 				DAD5AD8E1A52DD880093E3DB /* DashboardVC.swift in Sources */,
@@ -1617,10 +1628,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				DA35580D1A39D3BA00AFA5FD /* Base */,
-				9877C68A1BE27EAC00AF9751 /* uk */,
-				9877C68F1BE27FEA00AF9751 /* ja */,
-				98F9B95B1BEBC05000FA7239 /* ko */,
-				98F9B95D1BEBC0E700FA7239 /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

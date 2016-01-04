@@ -195,7 +195,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         var newFee :Int = 0
         if xems >= 8 {
-            newFee = Int(max(2, 99 * atan(xems) / 150000))
+            newFee = Int(max(2, 99 * atan(xems / 150000)))
         }
         else {
             newFee = 10 - Int(xems)

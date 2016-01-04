@@ -3,7 +3,8 @@ import CoreData
 
 class Wallet: NSManagedObject
 {
-
+    
+    @NSManaged var lastTransactionHash: String?
     @NSManaged var login: String
     @NSManaged var password: String
     @NSManaged var privateKey: String

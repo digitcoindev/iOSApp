@@ -353,8 +353,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
 
                 message = NSMutableAttributedString(string:"\(singnaturesCount)" , attributes: attribute)
                 message.appendAttributedString(NSMutableAttributedString(string: " " + "OF".localized() + " ", attributes: nil))
-                message.appendAttributedString(NSMutableAttributedString(string:"\(cosignatories)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-                message.appendAttributedString(NSMutableAttributedString(string:" XEM" , attributes: nil))
+                message.appendAttributedString(NSMutableAttributedString(string:"\(cosignatories) " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:"SIGNERS".localized() , attributes: nil))
                 
                 definedCell.detailsTop = message
                 
@@ -509,57 +509,52 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         dispatch_async(_operationDipatchQueue, {
             () -> Void in
             if let responceAccount = account {
+                let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+                let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
                 
-                if responceAccount.publicKey == nil {
-                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
-                    let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-                    
-                    if account_address == responceAccount.address {
+                if responceAccount.address == account_address {
+                    if responceAccount.publicKey == nil {
                         responceAccount.publicKey = KeyGenerator.generatePublicKey(privateKey!)
                     }
-                }
-                
-                if !Validate.stringNotEmpty(self.contact.public_key) && self.contact.address == responceAccount.address {
-                    self.contact.public_key = responceAccount.publicKey
-                    return
-                }
-                
-                if  self._activeAccount == nil {
-                    self._activeAccount = responceAccount
-                }
-                
-                if self._mainAccount == nil {
                     
                     self._mainAccount = responceAccount
-                    self._accounts.append(self._mainAccount!)
+                    self._activeAccount = responceAccount
                     
                     for multisigAccount in responceAccount.cosignatoryOf {
                         self._apiManager.accountGet(State.currentServer!, account_address: multisigAccount.address)
                     }
                     
                     self._refreshHistory()
-                } else {
-                    if self._accounts.count < self._mainAccount!.cosignatoryOf.count {
-                        self._accounts.append(responceAccount)
+                    
+                    dispatch_async(dispatch_get_main_queue() , {
+                        () -> Void in
+                        var userDescription :NSMutableAttributedString!
+                        userDescription = NSMutableAttributedString(string: "\(State.currentWallet!.login)")
+                        
+                        let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
+                        let balance = " \(self._activeAccount!.balance / 1000000) XEM"
+                        
+                        userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
+                        
+                        self.userInfo.attributedText = userDescription
+                    })
+                    
+                } else if responceAccount.address == self.contact.address && !Validate.stringNotEmpty(self.contact.public_key){
+                    self.contact.public_key = responceAccount.publicKey
+                }
+                
+                var exist = false
+                
+                for value in self._accounts {
+                    if value.address == responceAccount.address {
+                        exist = true
+                        break
                     }
                 }
                 
-                dispatch_async(dispatch_get_main_queue() , {
-                    () -> Void in
-                    var userDescription :NSMutableAttributedString!
-                    
-                    if let wallet = State.currentWallet {
-                        userDescription = NSMutableAttributedString(string: "\(wallet.login)")
-                    }
-                    
-                    let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-                    let balance = " \(self._activeAccount!.balance / 1000000) XEM"
-                    
-                    userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
-                    
-                    self.userInfo.attributedText = userDescription
-                })
-                
+                if !exist {
+                    self._accounts.append(responceAccount)
+                }
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in

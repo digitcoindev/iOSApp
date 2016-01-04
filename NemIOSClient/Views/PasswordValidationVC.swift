@@ -29,7 +29,7 @@ class PasswordValidationVC: AbstractViewController
         
         currentField = password
         
-        if State.importAccountData == nil {
+        if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool {
             authenticateUser()
         } 
     }

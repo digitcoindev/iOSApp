@@ -34,8 +34,8 @@ class InvoceSettings: AbstractViewController {
         prefixTextView.text = loadData?.invoicePrefix
         postfixTextView.text = loadData?.invoicePostfix
         
-        prefixLabel.text = "PREFIX".localized()
-        postfixLabel.text = "POSTFIX".localized()
+        prefixLabel.text = "   " + "PREFIX".localized()
+        postfixLabel.text = "   " + "POSTFIX".localized()
         saveButton.setTitle("SAVE".localized(), forState: UIControlState.Normal)
     }
     

@@ -73,6 +73,7 @@
 // H
 
 "HARVEST_DETAILS" = "Harvest Details";
+"HOURS_SHORT" = "h";
 
 // I
 
@@ -108,6 +109,7 @@
 "MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
 "MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
 "MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM"; // %@ will be replaced by the transaction fee
+"MINUTES_SHORT" = "min";
 
 // N
 
@@ -128,12 +130,17 @@
 "NO_FACEBOOK_ACCOUNT" = "Please add facebook account in settings.";
 "NO_TWITTER_ACCOUNT" = "Please add twitter account in settings.";
 "NO_MAIL_ACCOUNT" = "Please add mail account in your mail-client.";
+"NO_RESPONCE_FROM_SERVER" = "No responce from server";
+"NO_PRIMARY_SERVER" = "No primary server";
+"NO_NOTIFICATIONS" = "For account %@: No new transaction(-s)"; // %@ will be replaced by the account name
+"NOTIFICATION_MESSAGE" = "For account %@: %d new transaction(-s)"; // %@ will be replaced by the account name , %d will be replaced by the transactions count
 
 // O
 
 "ON" = "On";
 "OK" = "OK";
 "OF" = "of";
+"OFF" = "Off";
 
 // P
 

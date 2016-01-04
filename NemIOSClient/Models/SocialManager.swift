@@ -30,15 +30,7 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             
-            facebookSheet.setInitialText(message ?? "SOCIAL_NEM_HEADER".localized())
-            
-            for image in images ?? [] {
-                facebookSheet.addImage(image)
-            }
-            
-            for url in urls ?? [] {
-                facebookSheet.addURL(url)
-            }
+            facebookSheet.setInitialText(message ?? "SOCIAL_NEM_HEADER".localized()) 
             
             self.delegate?.presentViewController(facebookSheet, animated: true, completion: nil)
             
@@ -69,7 +61,7 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
             for url in urls ?? [] {
                 facebookSheet.addURL(url)
             }
-            
+                        
             self.delegate?.presentViewController(facebookSheet, animated: true, completion: nil)
             
         }

@@ -12,6 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         GMSServices.provideAPIKey("AIzaSyBqvOZX3-rMlw9QJ-dJHa3k2DtPVtgz9Mc")
+        NotificationManager.registerForNotification(application)
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         return true
     }
 
@@ -32,7 +34,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         
         CoreDataManager().commit()
     }
-
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        NotificationManager.didReceiveLocalNotificaton(notification)
+    }
+    
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        FetchManager().update(completionHandler)
+    }
+    
     // MARK: - Core Data stack
 
     lazy var applicationDocumentsDirectory: NSURL = {

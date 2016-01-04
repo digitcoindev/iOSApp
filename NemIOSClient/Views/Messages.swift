@@ -116,11 +116,13 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
             var transactions :[TransferTransaction] = []
+            State.currentWallet?.lastTransactionHash = data.first!.hashString
+
             for inData in data {
                 switch (inData.type) {
                 case transferTransaction :
                     transactions.append(inData as! TransferTransaction)
-                    
+
                 case multisigTransaction:
                     
                     let multisigT  = inData as! MultisigTransaction
