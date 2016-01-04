@@ -42,14 +42,18 @@ class MessageToContactVC: AbstractViewController {
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
+        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
+
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
     @IBAction func sendMessage(sender: AnyObject) {
-        if Validate.address(userAddressLabel.text) {
+        guard let address = userAddressLabel.text?.stringByReplacingOccurrencesOfString("-", withString: "") else { return }
+
+        if Validate.address(address) {
             let correspondent :Correspondent = Correspondent()
-            correspondent.address = userAddressLabel.text!
+            correspondent.address = address
             correspondent.name = userInfoLabel.text!
             State.currentContact = correspondent
                         

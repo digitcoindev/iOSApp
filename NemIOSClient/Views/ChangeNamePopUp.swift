@@ -11,6 +11,7 @@ import UIKit
 protocol ChangeNamePopUptDelegate
 {
     func nameChanged(name :String)
+    func popUpClosed()
 }
 
 class ChangeNamePopUp: AbstractViewController {
@@ -48,6 +49,8 @@ class ChangeNamePopUp: AbstractViewController {
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
+        (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
+
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }

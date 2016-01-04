@@ -73,6 +73,8 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
+        if _tempController != nil { return }
+
         _isEditing = !_isEditing
 
         for cell in self.tableView.visibleCells {
@@ -296,7 +298,11 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     func popUpClosed(successfuly :Bool)
     {
-        
+        if _tempController != nil {
+            _tempController!.view.removeFromSuperview()
+            _tempController!.removeFromParentViewController()
+            _tempController = nil
+        }
     }
     
     // MARK: - EditableTableViewCellDelegate Methods

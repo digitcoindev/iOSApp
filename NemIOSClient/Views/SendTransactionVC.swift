@@ -200,12 +200,13 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         else {
             newFee = 10 - Int(xems)
         }
+        let messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
         
-        if messageTextField.text!.utf16.count != 0 {
-            newFee += Int(2 * max(1, Int( messageTextField.text!.utf16.count / 16)))
+        if messageLength != 0 {
+            newFee += Int(2 * max(1, Int( messageLength! / 16)))
         }
         
-        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "Fee: (Min ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "FEE".localized() +  ": (" + "MIN".localized() + " ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
         atributedText.appendAttributedString(NSMutableAttributedString(string: "\(Int(newFee))", attributes: [
             NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),

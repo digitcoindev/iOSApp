@@ -3,6 +3,7 @@ import UIKit
 protocol AddCustomServerDelegate
 {
     func serverAdded(successfuly :Bool)
+    func popUpClosed()
 }
 
 class AddCustomServerVC: AbstractViewController, APIManagerDelegate
@@ -48,6 +49,11 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
+        
+        if self.delegate != nil && self.delegate!.respondsToSelector("serverAdded:") {
+            (self.delegate as! AddCustomServerDelegate).popUpClosed()
+        }
+        
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }

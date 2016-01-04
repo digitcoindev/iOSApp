@@ -13,9 +13,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     private let _dataManager : CoreDataManager = CoreDataManager()
     private let _apiManager :APIManager = APIManager()
     private var _isEditing = false
-    private var _tempSubViews :[UIView] = []
     private var _alertShown :Bool = false
-    
+    private var _popUp :AbstractViewController? = nil
+
     var servers : [Server] = []
 
     // MARK: - Load Methods
@@ -58,6 +58,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
+        if _popUp != nil { return }
+
         _isEditing = !_isEditing
 
         for cell in self.tableView.visibleCells {
@@ -159,7 +161,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
             serverCustomVC.saveBtn.setTitle("ADD_SERVER".localized(), forState: UIControlState.Normal)
         }
         
-        _tempSubViews.append(serverCustomVC.view)
+        _popUp = serverCustomVC
         self.view.addSubview(serverCustomVC.view)
         
         UIView.animateWithDuration(0.5, animations: { () -> Void in
@@ -186,6 +188,14 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         if successfuly {
             servers = _dataManager.getServers()
             tableView.reloadData()
+        }
+    }
+    
+    func popUpClosed(){
+        if _popUp != nil {
+            _popUp!.view.removeFromSuperview()
+            _popUp!.removeFromParentViewController()
+            _popUp = nil
         }
     }
     

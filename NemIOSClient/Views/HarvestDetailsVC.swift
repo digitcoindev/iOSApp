@@ -117,7 +117,7 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             harvestingStatus.attributedText = atributedText
             
             if account!.harvestedBlocks > 0 {
-                message = String(format: "LAST_HARVESTED_BLOCK".localized(), account!.harvestedBlocks)
+                message = String(format: "LAST_HARVESTED_BLOCK".localized(), (account!.harvestedBlocks > 25) ? 25 : account!.harvestedBlocks)
                 _apiManager.accountHarvests(State.currentServer!, account_address: account!.address)
             } else {
                 message = "NO_HARVESTED_BLOCK".localized()

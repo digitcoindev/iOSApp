@@ -63,6 +63,8 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
+        if _popUp != nil { return }
+        
         _isEditing = !_isEditing
 
         for cell in self.tableView.visibleCells {
@@ -109,11 +111,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     //MARK: - Private Methods
     
     private final func _createPopUp(withId: String , name: String? = nil) {
-        if _popUp != nil {
-            _popUp!.view.removeFromSuperview()
-            _popUp!.removeFromParentViewController()
-            _popUp = nil
-        }
+         popUpClosed()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
@@ -141,6 +139,14 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         wallets[selectedIndex].login = name
         dataManager.commit()
         tableView.reloadData()
+    }
+    
+    func popUpClosed(){
+        if _popUp != nil {
+            _popUp!.view.removeFromSuperview()
+            _popUp!.removeFromParentViewController()
+            _popUp = nil
+        }
     }
 
     //MARK: - EditableTableViewCellDelegate Delegate

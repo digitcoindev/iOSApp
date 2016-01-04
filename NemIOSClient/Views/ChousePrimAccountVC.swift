@@ -65,6 +65,8 @@ class ChousePrimAccountVC: AbstractViewController, UITableViewDataSource, UITabl
         cell.title.text = _accounts[indexPath.row].login
         if _accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey {
             cell.isActive = true
+        } else {
+            cell.isActive = false
         }
         
         return cell

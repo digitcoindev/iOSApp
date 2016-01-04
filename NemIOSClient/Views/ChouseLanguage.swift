@@ -67,6 +67,8 @@ class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableView
         cell.title.text = _languages[indexPath.row]
         if _languages[indexPath.row] == State.loadData?.currentLanguage {
             cell.isActive = true
+        } else {
+            cell.isActive = false
         }
         
         return cell

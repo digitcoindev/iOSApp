@@ -2182,7 +2182,7 @@
                                             <constraint firstAttribute="height" constant="30" id="dDb-qG-dVp"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                         <connections>
                                             <action selector="messageFieldDidEndOnExit:" destination="rte-MK-XjK" eventType="editingDidEndOnExit" id="Mdq-RS-WoZ"/>
                                         </connections>
@@ -2197,7 +2197,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="fiW-Sj-dPR"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                 <connections>
                                                     <action selector="amoundFieldDidEndOnExit:" destination="rte-MK-XjK" eventType="editingDidEndOnExit" id="h6Q-Wz-0KK"/>
                                                 </connections>
@@ -2682,7 +2682,7 @@
                                             <constraint firstAttribute="height" constant="30" id="8zr-rt-17h"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                         <connections>
                                             <action selector="messageFieldDidEndOnExit:" destination="wsu-3u-fMA" eventType="editingDidEndOnExit" id="Aly-ea-GAQ"/>
                                         </connections>
@@ -2729,7 +2729,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="OCh-Z4-gqp"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                 <connections>
                                                     <action selector="amoundFieldDidEndOnExit:" destination="wsu-3u-fMA" eventType="editingDidEndOnExit" id="Y2y-TT-J24"/>
                                                 </connections>

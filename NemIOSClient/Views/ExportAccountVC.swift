@@ -44,7 +44,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         shareButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
         titleLabel.text = "EXPORT_ACCOUNT".localized()
         publicKeyLabel.text = "PUBLIC_KEY".localized()
-        publicKeyLabel.text = "PRIVATE_KEY".localized()
+        privateKeyLabel.text = "PRIVATE_KEY".localized()
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
