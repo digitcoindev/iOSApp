@@ -51,6 +51,22 @@ class ImportFromQR: AbstractViewController, QRDelegate
         }
         var jsonStructure :NSDictionary? = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as? NSDictionary
 
+        if let version = jsonStructure!.objectForKey(QRKeys.Version.rawValue) as? Int {
+            if version != QR_VERSION {
+                failedWithError("WRONG_QR_VERSION".localized()) {
+                    self.screenScaner.play()
+                }
+                
+                return
+            }
+        } else {
+            failedWithError("WRONG_QR_VERSION".localized()) {
+                self.screenScaner.play()
+            }
+            
+            return
+        }
+        
         if jsonStructure == nil {
             screenScaner.play()
         }
@@ -82,5 +98,16 @@ class ImportFromQR: AbstractViewController, QRDelegate
         else {
             screenScaner.play()
         }
+    }
+    
+    func failedWithError(text: String, completion :(Void -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+            completion?()
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }

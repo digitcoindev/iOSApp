@@ -163,6 +163,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
             alertAction -> Void in
+            
         }
         
         alert.addAction(ok)
@@ -224,7 +225,12 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
             message = "TRANSACTION_ANOUNCE_FAILED".localized()
         } else {
             message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
-            _apiManager.accountGet(State.currentServer!, account_address: walletData.address)
+            
+            if unconfirmedTransactions.count == 1 {
+                backButtonTouchUpInside(self)
+            } else {
+                _apiManager.accountGet(State.currentServer!, account_address: walletData.address)
+            }
         }
         
         _showPopUp(message)

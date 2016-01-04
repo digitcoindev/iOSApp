@@ -49,7 +49,7 @@
 
 "EDIT" = "Edit";
 "ENTET_PASSWORD" = "Enter password";
-"ENCRYPTED_MESSAGE" = "Encrypted message";
+"ENCRYPTEDF_MESSAGE" = "Encrypted message";
 "EMPTY_MESSAGE" = "Empty message";
 "ENTER_MESSAGE" = "Enter message";
 "ENTER_NAME" = "Enter name";
@@ -73,6 +73,7 @@
 // H
 
 "HARVEST_DETAILS" = "Harvest Details";
+"HOURS_SHORT" = "h";
 
 // I
 
@@ -95,6 +96,7 @@
 
 // M
 
+"MORE" = "More";
 "MAP" = "Map";
 "MESSAGES" = "Messages";
 "MESSAGE" = "Message";
@@ -107,6 +109,7 @@
 "MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
 "MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
 "MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM"; // %@ will be replaced by the transaction fee
+"MINUTES_SHORT" = "min";
 
 // N
 
@@ -117,6 +120,7 @@
 "NO_INTERNET_CONNECTION" = "No internet connection";
 "NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
 "NO_PUBLIC_KEY_FOR_ENC" = "Public key for this account is not known.\nEncrypted messages is not allowed.";
+"NEW" = "New";
 "NEW_TRANSACTION" = "New Transaction";
 "NOT_ENOUGHT_MONEY" = "Not enought money";
 "NEW_INVOICE" = "New Invoice";
@@ -126,12 +130,17 @@
 "NO_FACEBOOK_ACCOUNT" = "Please add facebook account in settings.";
 "NO_TWITTER_ACCOUNT" = "Please add twitter account in settings.";
 "NO_MAIL_ACCOUNT" = "Please add mail account in your mail-client.";
+"NO_RESPONCE_FROM_SERVER" = "No responce from server";
+"NO_PRIMARY_SERVER" = "No primary server";
+"NO_NOTIFICATIONS" = "For account %@: No new transaction(-s)"; // %@ will be replaced by the account name
+"NOTIFICATION_MESSAGE" = "For account %@: %d new transaction(-s)"; // %@ will be replaced by the account name , %d will be replaced by the transactions count
 
 // O
 
 "ON" = "On";
 "OK" = "OK";
 "OF" = "of";
+"OFF" = "Off";
 
 // P
 
@@ -146,6 +155,10 @@
 "POSTFIX" = "Postfix";
 "POI" = "POI";
 "PRIMARY_ACCOUNT" = "Primary Account";
+
+// Q
+
+"QR" = "QR";
 
 // R
 
@@ -172,6 +185,7 @@
 "SAVE" = "Save";
 "SAVE_CHANGES" = "Save Changes";
 "SOCIAL_NEM_HEADER" = "NEM IOS Client";
+"SEND_MESSAGE" = "Send Message";
 
 // T
 
@@ -196,5 +210,7 @@
 "YOUR_POSITION" = "You are here";
 "YOUR_NAME" = "your name";
 
+// W
 
- 
+"WRONG_QR_VERSION" = "Wrong qr version";
+

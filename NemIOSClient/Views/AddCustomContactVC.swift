@@ -59,6 +59,7 @@ class AddCustomContactVC: AbstractViewController {
     //MARK: - @IBAction
 
     @IBAction func closePopUp(sender: AnyObject) {
+        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }

@@ -210,4 +210,7 @@
 "YOUR_POSITION" = "You are here";
 "YOUR_NAME" = "your name";
 
+// W
+
+"WRONG_QR_VERSION" = "Wrong qr version";
 

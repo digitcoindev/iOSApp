@@ -28,7 +28,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         let keys = [QRKeys.Name.rawValue, QRKeys.Salt.rawValue, QRKeys.PrivateKey.rawValue]
         
         let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys)
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.AccountData.rawValue, jsonAccountDictionary], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue])
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.AccountData.rawValue, jsonAccountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
         let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
         let jsonString :String = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as! String
         

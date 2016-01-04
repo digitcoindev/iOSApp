@@ -8,6 +8,8 @@
 
 import UIKit
 
+let QR_VERSION = 1
+
 enum QRKeys: String {
     case Address = "addr"
     case Name = "name"
@@ -17,6 +19,7 @@ enum QRKeys: String {
     case Data = "data"
     case PrivateKey = "priv_key"
     case Salt = "salt"
+    case Version = "v"
 }
 
 enum QRType: Int {

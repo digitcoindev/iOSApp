@@ -33,27 +33,37 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
             }
             
             
-            switch (jsonStructure!.objectForKey("type") as! Int) {
+            if let version = jsonStructure!.objectForKey(QRKeys.Version.rawValue) as? Int {
+                if version != QR_VERSION {
+                    failedWithError("WRONG_QR_VERSION".localized()) {
+                        self.qrScaner.play()
+                    }
+                    
+                    return
+                }
+            } else {
+                failedWithError("WRONG_QR_VERSION".localized()) {
+                    self.qrScaner.play()
+                }
+
+                return
+            }
+            
+            switch (jsonStructure!.objectForKey(QRKeys.DataType.rawValue) as! Int) {
             case QRType.UserData.rawValue:
                 
-                let friendDictionary :NSDictionary = jsonStructure!.objectForKey("data") as! NSDictionary
+                let friendDictionary :NSDictionary = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as! NSDictionary
                 
                 if (AddressBookManager.isAllowed ?? false) {
                     addFriend(friendDictionary)
                 }
                 else {
-                    let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "CONTACTS_IS_UNAVAILABLE".localized(), preferredStyle: UIAlertControllerStyle.Alert)
-                    
-                    alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        alert.dismissViewControllerAnimated(true, completion: nil)
-                    }))
-                    
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    failedWithError("CONTACTS_IS_UNAVAILABLE".localized())
                 }
                 
             case QRType.Invoice.rawValue:
                 
-                let invoiceDictionary :NSDictionary = jsonStructure!.objectForKey("data") as! NSDictionary
+                let invoiceDictionary :NSDictionary = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as! NSDictionary
                 
                 performInvoice(invoiceDictionary)
                 
@@ -64,11 +74,12 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
         }
     }
     
-    func failedWithError(text: String) {       
+    func failedWithError(text: String, completion :(Void -> Void)? = nil) {
         let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             alert.dismissViewControllerAnimated(true, completion: nil)
+            completion?()
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
@@ -128,6 +139,7 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
             }
         }
     }
+    
     func popUpClosed(successfuly :Bool) {
         qrScaner.play()
     }

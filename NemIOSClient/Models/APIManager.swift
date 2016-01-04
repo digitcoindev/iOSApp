@@ -508,7 +508,11 @@ class APIManager: NSObject
                 let task = self._session.dataTaskWithRequest(request, completionHandler: {
                     data, response, error -> Void in
                     
-                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves)) as? NSDictionary
+                    guard let data = data else {
+                        return
+                    }
+                    
+                    let layers = (try? NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves)) as? NSDictionary
                     if(layers != nil) {
                         let date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as! Double
                         

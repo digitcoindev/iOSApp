@@ -116,7 +116,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
             var transactions :[TransferTransaction] = []
-            State.currentWallet?.lastTransactionHash = data.first!.hashString
+            State.currentWallet?.lastTransactionHash = data.first?.hashString
 
             for inData in data {
                 switch (inData.type) {
