@@ -5,23 +5,19 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
 
     @IBOutlet weak var chouseButton: ChouseButton!
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var titleLabel: UILabel!
-    
-    var currentCosignatories :[String] = [String]()
-    var removeArray :[AccountGetMetaData]!
-    var addArray = [String]()
     
     private var _mainAccount :AccountGetMetaData? = nil
     private var _activeAccount :AccountGetMetaData? = nil
     
     private let _apiManager :APIManager =  APIManager()
-    
     private var _popUps :[AbstractViewController] = []
     
     private var _currentCosignatories :[String] = []
     private var _addArray :[String] = []
     private var _removeArray :[String] = []
+    
+    private var _isMultisig :Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +39,13 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        var count = currentCosignatories.count + _addArray.count + 1
-        if _addArray.count > 0 || _removeArray.count > 0 {
+        var count = _currentCosignatories.count + _addArray.count
+        
+        if !_isMultisig {
+            count++
+        }
+        
+        if (_addArray.count > 0 || _removeArray.count > 0) {
             count++
         }
         return count
@@ -52,53 +53,48 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.row == tableView.numberOfRowsInSection(0) - 1 {
-            if (_addArray.count + _removeArray.count) > 0 {
-                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("save cell")!
-                return cell
-            } else {
-                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
-                return cell
-            }
-        } else {
-            if indexPath.row == _currentCosignatories.count + _addArray.count {
-                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
-                return cell
-            } else {
-                let cell :CosigTableViewCell = tableView.dequeueReusableCellWithIdentifier("cosig cell")! as! CosigTableViewCell
-                cell.infoLabel.numberOfLines = 2
+        if indexPath.row < _currentCosignatories.count + _addArray.count {
+            let cell :CosigTableViewCell = tableView.dequeueReusableCellWithIdentifier("cosig cell")! as! CosigTableViewCell
+            cell.infoLabel.numberOfLines = 2
+            cell.editDelegate = self
+            cell.isEditable = (_removeArray.count == 0 && (_removeArray.count + _addArray.count) < 16)  && !self._isMultisig
+            
+            var index = 0
+            if indexPath.row >= _currentCosignatories.count {
+                index = indexPath.row - _currentCosignatories.count
                 
-                var index = 0
-                
-                if indexPath.row >= _currentCosignatories.count {
-                    index = indexPath.row - _currentCosignatories.count
-                    
-                    if index < _addArray.count {
-                        cell.isEditable = true
-                        cell.infoLabel.text = _addArray[index]
-                    }
-                    
-                } else {
-                    cell.isEditable = !(_removeArray.count > 0)
-                    cell.infoLabel.text = _currentCosignatories[indexPath.row]
+                if index < _addArray.count {
+                    cell.infoLabel.text =  AddressGenerator.generateAddress(_addArray[index]).nemName()
                 }
                 
+            } else {
+                cell.infoLabel.text = AddressGenerator.generateAddress(_currentCosignatories[indexPath.row]).nemName()
+            }
+            
+            return cell
+        } else {
+            let index = indexPath.row - _currentCosignatories.count - _addArray.count
+            
+            switch index {
+            case 0:
+                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
+                return cell
+                
+            case 1:
+                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("save cell")!
+                return cell
+                
+            default :
+                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
                 return cell
             }
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == tableView.numberOfRowsInSection(0) - 1 {
-            if (_addArray.count + _removeArray.count) == 0 {
-                _addCosig()
-            }
-        } else {
-            if indexPath.row == tableView.numberOfRowsInSection(0) - 2 {
-                if (_addArray.count + _removeArray.count) > 0 {
-                   _addCosig()
-                }
-            }
+        
+        if indexPath.row >= _addArray.count + _currentCosignatories.count {
+            _addCosig()
         }
     }
     
@@ -109,10 +105,13 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             index = index - _currentCosignatories.count
             _addArray.removeAtIndex(index)
         } else {
-            currentCosignatories.removeAtIndex(index)
+            _removeArray.append(_currentCosignatories[index])
+            _currentCosignatories.removeAtIndex(index)
         }
         
-        tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.tableView.reloadData()
+        }
     }
     
     @IBAction func saveChanges(sender: AnyObject) {
@@ -127,7 +126,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             let fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
             
             let alert1 :UIAlertController = UIAlertController(title: "INFO".localized(), message:
-                String(format: "MULTISIG_CHANGES_CONFIRMATION".localized(), fee), preferredStyle: UIAlertControllerStyle.Alert)
+                String(format: "MULTISIG_CHANGES_CONFIRMATION".localized(), "\(fee)"), preferredStyle: UIAlertControllerStyle.Alert)
             
             let confirm :UIAlertAction = UIAlertAction(title: "CONFIRM".localized(), style: UIAlertActionStyle.Default) {
                     alertAction -> Void in
@@ -138,7 +137,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                     
                     transaction.timeStamp = TimeSynchronizator.nemTime
                     transaction.deadline = TimeSynchronizator.nemTime + waitTime
-                    transaction.version = 1
+                    transaction.version = 2
                     transaction.signer = publickey
                     transaction.privateKey = privateKey
                     transaction.minCosignatory = 0
@@ -291,6 +290,10 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             chouseButton.setTitle(account?.address.nemName(), forState: UIControlState.Normal)
             
             if _mainAccount == nil {
+                if account?.cosignatories.count > 0 {
+                    _isMultisig = true
+                }
+                
                 _mainAccount = account
             }
             

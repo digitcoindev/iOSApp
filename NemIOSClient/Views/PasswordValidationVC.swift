@@ -9,8 +9,6 @@ class PasswordValidationVC: AbstractViewController
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var passwordTitle: UILabel!
     
-    var showKeyboard :Bool = true
-    var currentField :UITextField!
     let dataMeneger: CoreDataManager  = CoreDataManager()
     
     // MARK: - Load Methods
@@ -26,8 +24,6 @@ class PasswordValidationVC: AbstractViewController
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
-        
-        currentField = password
         
         if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool {
             authenticateUser()

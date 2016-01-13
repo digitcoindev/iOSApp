@@ -169,7 +169,7 @@
 
 // S
 
-"SETTINGS" = "Confugurations";
+"SETTINGS" = "Configurations";
 "SET_CONFIGURATION" = "Set configuration";
 "SECURITY" = "Security";
 "SERVER_SETTINGS" = "Server Settings";
@@ -213,4 +213,3 @@
 // W
 
 "WRONG_QR_VERSION" = "Wrong qr version";
-

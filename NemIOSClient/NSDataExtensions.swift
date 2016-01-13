@@ -22,7 +22,7 @@ extension NSData
     }
     
     func aesDecrypt(key: [UInt8], iv: [UInt8]) -> NSData? {
-        let dec = try! AES(key: key, iv: iv, blockMode:.CBC).decrypt(self.arrayOfBytes(), padding: PKCS7())
+        guard let dec = try? AES(key: key, iv: iv, blockMode:.CBC).decrypt(self.arrayOfBytes(), padding: PKCS7()) else { return nil }
         let decData = NSData(bytes: dec, length: Int(dec.count))
         return decData
     }

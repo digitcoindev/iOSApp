@@ -11,11 +11,16 @@ class MainContainerVC: AbstractViewController
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        
         let wallets :[Wallet] = _dataManager.getWallets()
+        let loadData = _dataManager.getLoadData()
+        
+        if loadData.password == nil || loadData.salt == nil {
+            self.performSegueWithIdentifier(SegueToCreatePassword, sender: self)
+            return
+        }
         
         if(wallets.count == 0) {
-            self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self);
+            self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self)
         }
         else  {
             
@@ -26,7 +31,7 @@ class MainContainerVC: AbstractViewController
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
                 }
             } else {
-                self.performSegueWithIdentifier(SegueToLoginVC, sender: self);
+                self.performSegueWithIdentifier(SegueToLoginVC, sender: self)
             }
         }
     }

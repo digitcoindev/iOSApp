@@ -10,6 +10,7 @@ final public class AES {
     
     enum Error: ErrorType {
         case BlockSizeExceeded
+        case PaddindSizeExceeded
         case InvalidKeyOrInitializationVector
         case InvalidInitializationVector
     }
@@ -185,7 +186,13 @@ final public class AES {
         }
         
         if let padding = padding {
-            return padding.remove(out, blockSize: nil)
+            let array = padding.remove(out, blockSize: nil)
+            
+            if array.count == 0 {
+               throw Error.PaddindSizeExceeded
+            }
+            
+            return array
         }
         
         return out

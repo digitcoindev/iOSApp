@@ -40,6 +40,8 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5
 
+
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,6 +65,10 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
+//        let things = ["Things to share"]
+//        
+//        let activityViewController = UIActivityViewController(activityItems: things, applicationActivities: nil)
+//        self.presentViewController(activityViewController, animated: true, completion: nil)
         if _popUp != nil { return }
         
         _isEditing = !_isEditing

@@ -52,6 +52,7 @@
 		98BB95E41BCCF463002151F7 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E31BCCF463002151F7 /* Crypto.m */; };
 		98BB95E61BCD2FAA002151F7 /* ChouseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */; };
 		98DFB7191BF3AEE40010E035 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DFB7181BF3AEE40010E035 /* FileService.swift */; };
+		98E2432B1C465523001FAC2B /* CreatePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */; };
 		98F01CB71C2AC2E90018081B /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB51C2AC2E90018081B /* LoadData.swift */; };
 		98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */; };
 		98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBA1C2AF3740018081B /* ActiveCell.swift */; };
@@ -274,6 +275,7 @@
 		98BB95E31BCCF463002151F7 /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crypto.m; sourceTree = "<group>"; };
 		98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseButton.swift; path = "Views/Additional controls/ChouseButton.swift"; sourceTree = "<group>"; };
 		98DFB7181BF3AEE40010E035 /* FileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
+		98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatePasswordVC.swift; path = Views/CreatePasswordVC.swift; sourceTree = "<group>"; };
 		98F01CB51C2AC2E90018081B /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
 		98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChousePrimAccountVC.swift; path = Views/ChousePrimAccountVC.swift; sourceTree = "<group>"; };
 		98F01CBA1C2AF3740018081B /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = "Views/Additional controls/ActiveCell.swift"; sourceTree = "<group>"; };
@@ -1028,6 +1030,7 @@
 				DA194DF81A41D50E0030C882 /* RegistrationVC.swift */,
 				DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */,
 				DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */,
+				98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */,
 			);
 			name = AddAccount;
 			sourceTree = "<group>";
@@ -1578,6 +1581,7 @@
 				9823A4CE1B81CDF600B532CC /* DashboardButtonBox.swift in Sources */,
 				98BB95D31BCCED5B002151F7 /* readme.md in Sources */,
 				DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */,
+				98E2432B1C465523001FAC2B /* CreatePasswordVC.swift in Sources */,
 				DAC3A1781B00A5E500AABB61 /* MultisigAccountManager.swift in Sources */,
 				DA173CD71AA85B91003AC21F /* keccak.c in Sources */,
 				98F01CC21C2D4B560018081B /* ChouseLanguage.swift in Sources */,

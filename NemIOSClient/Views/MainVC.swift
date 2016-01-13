@@ -18,8 +18,6 @@ class MainVC: AbstractViewController , MainVCDelegate
         super.viewDidLoad()
         
         self.view.multipleTouchEnabled = false
-        
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
     }
     
     override func didReceiveMemoryWarning(){

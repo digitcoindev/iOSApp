@@ -20,11 +20,11 @@ class HashManager: NSObject
         let customizedIV =  Array(inputBytes[0..<16])
         let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
         
-        var data :NSData = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
+        var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
         
-        data = data.aesDecrypt(key.asByteArray(), iv: customizedIV)!
+        data = data?.aesDecrypt(key.asByteArray(), iv: customizedIV)
         
-        return data.toHexString()
+        return data?.toHexString()
     }
     
     final class func SHA256Encrypt(data :[UInt8])->String {

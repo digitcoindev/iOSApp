@@ -63,7 +63,7 @@ class ChousePrimAccountVC: AbstractViewController, UITableViewDataSource, UITabl
         let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
 
         cell.title.text = _accounts[indexPath.row].login
-        if _accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey {
+        if (_accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey) && (_accounts[indexPath.row].login == State.loadData?.currentWallet?.login) {
             cell.isActive = true
         } else {
             cell.isActive = false

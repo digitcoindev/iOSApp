@@ -101,12 +101,19 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
             
         case SettingsCategory.Security.rawValue:
             switch indexPath.row {
+            case 1:
+                
+                break
+                
             case 2:
                 if (_loadData!.touchId ?? true) as Bool {
                     _loadData!.touchId = false
                 } else {
                     _loadData!.touchId = true
                 }
+                
+                dataManager.commit()
+                
                 _refreshData()
             default:
                 break

@@ -105,14 +105,7 @@ class SignManager: NSObject
 
         result = result + transactionType
         
-        var version :Array<UInt8>!
-        if transaction.type == multisigAggregateModificationTransaction {
-            version = [2 , 0 , 0, network ]
-        }
-        else {
-            version = [1 , 0 , 0, network ]
-        }
-        
+        let version :Array<UInt8> = [isMultisignPart ? 1 : UInt8(transaction.version), 0, 0, network ]
         result = result + version
         
         let timeStamp :Array<UInt8> = String(Int64(transaction.timeStamp), radix: 16).asByteArrayEndian(4)
@@ -222,11 +215,16 @@ class SignManager: NSObject
             result = result + publicKey
 
         }
-        let relativeChange :Array<UInt8> = String(transaction.minCosignatory, radix: 16).asByteArrayEndian(4)
-        let lengthOfMinCosignatory :Array<UInt8> = String(relativeChange.count, radix: 16).asByteArrayEndian(4)
         
-        result = result + lengthOfMinCosignatory
-        result = result + relativeChange
+        if transaction.minCosignatory == 0 {
+            let lengthOfMinCosignatory :Array<UInt8> = String(0, radix: 16).asByteArrayEndian(4)
+            result = result + lengthOfMinCosignatory
+        } else {
+            let lengthOfMinCosignatory :Array<UInt8> = String(4, radix: 16).asByteArrayEndian(4)
+            result = result + lengthOfMinCosignatory
+            let relativeChange :Array<UInt8> = String(transaction.minCosignatory, radix: 16).asByteArrayEndian(4)
+            result = result + relativeChange
+        }
         
         return result
     }

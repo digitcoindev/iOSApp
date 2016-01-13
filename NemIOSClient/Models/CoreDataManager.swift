@@ -17,7 +17,7 @@ class CoreDataManager: NSObject
     override init () {
         super.init()
     }
-    //Wallet
+    //MARK: - Wallet
     
     final func getWallets()->[Wallet] {
         let fetchRequest = NSFetchRequest(entityName: "Wallet")
@@ -44,7 +44,7 @@ class CoreDataManager: NSObject
         commit()
     }
     
-     //Invoice
+    //MARK: - Invoice
     
     final func getInvoice()->[Invoice] {
         let fetchRequest = NSFetchRequest(entityName: "Invoice")
@@ -63,7 +63,7 @@ class CoreDataManager: NSObject
         return result
     }
     
-     //Server
+    //MARK: - Server
 
     final func getServers()->[Server] {
         let fetchRequest = NSFetchRequest(entityName: "Server")
@@ -108,7 +108,7 @@ class CoreDataManager: NSObject
         commit()
     }
     
-    //LoadData
+    //MARK: - LoadData
     
     final func getLoadData()->LoadData {
         let fetchRequest = NSFetchRequest(entityName: "LoadData")
@@ -125,7 +125,7 @@ class CoreDataManager: NSObject
         }
     }
     
-    //General
+    //MARK: - General
     
     final func commit() {
         do {
@@ -133,5 +133,4 @@ class CoreDataManager: NSObject
         } catch _ {
         }
     }
-
 }

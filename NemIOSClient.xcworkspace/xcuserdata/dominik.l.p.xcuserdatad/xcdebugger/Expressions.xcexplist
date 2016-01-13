@@ -44,12 +44,7 @@
          contextName = "APIManager.(accountTransfersAll(APIManager) -&gt; (Server, account_address : String) -&gt; ()).(closure #1).(closure #1).(closure #1):APIManager.swift">
       </ContextState>
       <ContextState
-         contextName = "static Validate.address(String?, length : Int) -&gt; Bool:Validate.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "count(&quot;TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA&quot;)">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "MultisigAccountManager.((_generateTableData in _FB8019F99D1B58415A78642842244E35)(MultisigAccountManager) -&gt; () -&gt; ()).(closure #1):MultisigAccountManager.swift">
       </ContextState>
       <ContextState
          contextName = "SendTransactionVC.countTransactionFee() -&gt; ():SendTransactionVC.swift">
@@ -61,6 +56,17 @@
                value = "atan(xems / 150000) * 99">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Validate.address(String?, length : Int) -&gt; Bool:Validate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "count(&quot;TCQOCOKR5PGFUGIPPU27U3ATVS5KMVYK6C4UT7PA&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MultisigAccountManager.tableView(UITableView, numberOfRowsInSection : Int) -&gt; Int:MultisigAccountManager.swift">
       </ContextState>
       <ContextState
          contextName = "PasswordValidationVC.passwordValidation(AnyObject) -&gt; ():PasswordValidationVC.swift">
@@ -162,6 +168,9 @@
          contextName = "static SignManager.commonPart(TransactionPostMetaData, isMultisignPart : Bool) -&gt; [UInt8]:SignManager.swift">
       </ContextState>
       <ContextState
+         contextName = "MultisigAccountManager.(_generateTableData in _FB8019F99D1B58415A78642842244E35)() -&gt; ():MultisigAccountManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "QRViewController.backButtonTouchUpInside(AnyObject) -&gt; ():QRViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -170,7 +179,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ImportFromQR.(detectedQRWithString(ImportFromQR) -&gt; (String) -&gt; ()).(closure #3):ImportFromQR.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString())">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "AES.encrypt([UInt8], padding : Padding?) throws -&gt; [UInt8]:AES.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TransferTransaction.getFrom(NSDictionary) -&gt; ():TransferTransaction.swift">
+      </ContextState>
+      <ContextState
+         contextName = "FetchManager.update((UIBackgroundFetchResult) -&gt; ()) -&gt; ():FetchManager.swift">
       </ContextState>
       <ContextState
          contextName = "MessageVC.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:MessageVC.swift">
@@ -182,9 +205,6 @@
                value = "contact.public_key">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "FetchManager.update((UIBackgroundFetchResult) -&gt; ()) -&gt; ():FetchManager.swift">
       </ContextState>
       <ContextState
          contextName = "ShareViewController.viewDidLoad() -&gt; ():ShareViewController.swift">
@@ -201,10 +221,10 @@
          contextName = "static State.lastVC.getter:State.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.Store.stackVC.last!">
+               value = "State.Store.stackVC">
             </PersistentString>
             <PersistentString
-               value = "State.Store.stackVC">
+               value = "State.Store.stackVC.last!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -293,6 +313,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "static SignManager.aggregateModificationTransactionPart(AggregateModificationTransaction) -&gt; [UInt8]:SignManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "static HashManager.AES256Decrypt(String, key : String) -&gt; String?:HashManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -310,6 +333,9 @@
                value = "print(salt)">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MultisigAccountManager.accountGetResponceWithAccount(AccountGetMetaData?) -&gt; ():MultisigAccountManager.swift">
       </ContextState>
       <ContextState
          contextName = "SocialManager.facebookPostToWall(String?, images : [UIImage]?, urls : [NSURL]?) -&gt; ():SocialManager.swift">
@@ -375,13 +401,13 @@
          contextName = "static MessageCrypto.decrypt([UInt8], recipientPrivateKey : String, senderPublicKey : String) -&gt; String?:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
-               value = "messageData.hexadecimalString()">
+               value = "encBytes.toHexString()">
             </PersistentString>
             <PersistentString
                value = "NSString(data: messageData, encoding: NSASCIIStringEncoding) as? String">
             </PersistentString>
             <PersistentString
-               value = "encBytes.toHexString()">
+               value = "messageData.hexadecimalString()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -411,10 +437,10 @@
          contextName = "MessageVC.sendButtonTouchUpInside(AnyObject) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "contact.public_key">
+               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
             </PersistentString>
             <PersistentString
-               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
+               value = "contact.public_key">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -422,10 +448,10 @@
          contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
          <PersistentStrings>
             <PersistentString
-               value = "loadData?.invoicePrefix">
+               value = "loadData?.invoicePostfix">
             </PersistentString>
             <PersistentString
-               value = "loadData?.invoicePostfix">
+               value = "loadData?.invoicePrefix">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

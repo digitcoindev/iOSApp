@@ -1,9 +1,10 @@
 let SegueToMainVC : String =  "Main"
 
 //MARK: Main Controller
-let SegueToRegistrationVC : String =  "Registration"
-let SegueToServerVC : String =  "Servers"
-let SegueToLoginVC : String =  "Accounts"
+let SegueToRegistrationVC : String = "Registration"
+let SegueToServerVC : String = "Servers"
+let SegueToLoginVC : String = "Accounts"
+let SegueToCreatePassword : String = "Create password"
 
 //MARK: Server Controller
 

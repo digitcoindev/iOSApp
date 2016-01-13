@@ -1,4 +1,4 @@
-// A
+// MARK: - A
 
 "ACCOUNT_PRIMATY" = "Primary Account";
 "ADD_ACCOUNT" = "Add account";
@@ -17,17 +17,18 @@
 "ADD_ADITIONAL_SIGNER" = "Add aditional signer";
 "ACCOUNT_HISTORY" = "Account History";
 
-// B
+// MARK: - B
 
 "BASE" = "Base";
 "BLOCK" = "Block";
 "BALANCE" = "Balance";
 
-// C
+// MARK: - C
 
 "CHANGE" = "Change";
 "CREATE_NEW" = "Create New";
 "CREATE_NEW_ACCCOUNT" = "Create new account";
+"CREATE_PASSWORD" = "Create Password";
 "CHANGE_SERVER" = "Change server";
 "CHANGE_CONTACT" = "Change Contact";
 "COPY" = "Copy";
@@ -39,13 +40,13 @@
 "CANCEL" = "Cancel";
 "CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";
 
-// D
+// MARK: - D
 
 "DELETE" = "Delete";
 "DELEGATED_HARVESTING" = "Delegated Harvesting";
 "DELEGATED_KEY" = "Delegated Key";
 
-// E
+// MARK: - E
 
 "EDIT" = "Edit";
 "ENTET_PASSWORD" = "Enter password";
@@ -58,7 +59,7 @@
 "ENTER_FEE" = "ENTER fee";
 "EXPORT_ACCOUNT" = "Export Account";
 
-// F
+// MARK: - F
 
 "FIELDS_EMPTY_ERROR" = "Input all fields";
 "FIRST_NAME" = "First Name";
@@ -66,16 +67,16 @@
 "FROM" = "From";
 "FIELDS_EMPTY_ERROR" = "Input all fields";
 
-// G
+// MARK: - G
 
 "GENERAL" = "General";
 
-// H
+// MARK: - H
 
 "HARVEST_DETAILS" = "Harvest Details";
 "HOURS_SHORT" = "h";
 
-// I
+// MARK: - I
 
 "INVOICE" = "Invoice";
 "IMPORT_KEY" = "ImporFt Key";
@@ -86,7 +87,7 @@
 "INPUT_NEW_ACCOUNT_NAME" = "Input new account name";
 "INPUT_PUBLIC_KEY" = "Input public key";
 
-// L
+// MARK: - L
 
 "LANGUAGE" = "Language";
 "LAST_NAME" = "Last Name";
@@ -94,7 +95,7 @@
 "LOCKED" = "Locked";
 "LAST_HARVESTED_BLOCK" = "Last %d Harvested Block(-s)"; // %d will be replaced by the blocks count
 
-// M
+// MARK: - M
 
 "MORE" = "More";
 "MAP" = "Map";
@@ -111,7 +112,7 @@
 "MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM"; // %@ will be replaced by the transaction fee
 "MINUTES_SHORT" = "min";
 
-// N
+// MARK: - N
 
 "NONE" = "None";
 "NO_ACCOUNTS" = "No Accounts";
@@ -135,14 +136,14 @@
 "NO_NOTIFICATIONS" = "For account %@: No new transaction(-s)"; // %@ will be replaced by the account name
 "NOTIFICATION_MESSAGE" = "For account %@: %d new transaction(-s)"; // %@ will be replaced by the account name , %d will be replaced by the transactions count
 
-// O
+// MARK: - O
 
 "ON" = "On";
 "OK" = "OK";
 "OF" = "of";
 "OFF" = "Off";
 
-// P
+// MARK: - P
 
 "PASSWORD" = "Password";
 "PASSWORD_PLACEHOLDER" = "password";
@@ -156,18 +157,18 @@
 "POI" = "POI";
 "PRIMARY_ACCOUNT" = "Primary Account";
 
-// Q
+// MARK: - Q
 
 "QR" = "QR";
 
-// R
+// MARK: - R
 
 "REPEAT_PASSWORD" = "Repeat Password";
 "REPEAT_PASSWORD_PLACEHOLDER" = "repeat password";
 "REMIND_LATER" = "Remind later";
 "RESET" = "Reset";
 
-// S
+// MARK: - S
 
 "SETTINGS" = "Configurations";
 "SET_CONFIGURATION" = "Set configuration";
@@ -186,31 +187,32 @@
 "SAVE_CHANGES" = "Save Changes";
 "SOCIAL_NEM_HEADER" = "NEM IOS Client";
 "SEND_MESSAGE" = "Send Message";
+"SHOW_CHANGES" = "Show Changes";
 
-// T
+// MARK: - T
 
 "TOUCH_ID" = "Touch ID";
 "TRANSACTION_ANOUNCE_SUCCESS" = "SUCCESS";
 "TRANSACTION_ANOUNCE_FAILED" = "DENIED\nTry again later. Or check connection to server.";
 "TO" = "To";
 
-// U
+// MARK: - U
 
 "UPDATE_INTERVAL" = "Update Interval";
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed up!";
 "UNLOCKED" = "Unlocked";
 
-// V
+// MARK: - V
 
 "VALIDATION" = "Validation";
 "VASTED_BALANCE" = "Vasted Balance";
 
-// Y
+// MARK: - Y
 
 "YOUR_POSITION" = "You are here";
 "YOUR_NAME" = "your name";
 
-// W
+// MARK: - W
 
 "WRONG_QR_VERSION" = "Wrong qr version";
 

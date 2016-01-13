@@ -13,6 +13,8 @@ import CoreData
 class LoadData: NSManagedObject {
 
     @NSManaged var lastTransactionHash: String?
+    @NSManaged var password: String?
+    @NSManaged var salt: String?
     @NSManaged var currentLanguage: String?
     @NSManaged var updateInterval: NSNumber?
     @NSManaged var touchId: NSNumber?

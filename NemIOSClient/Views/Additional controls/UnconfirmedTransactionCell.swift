@@ -7,12 +7,12 @@ class UnconfirmedTransactionCell: UITableViewCell
     @IBOutlet weak var message: UILabel!
     @IBOutlet weak var xem: UILabel!
     @IBOutlet weak var confirm: UIButton!
-    @IBOutlet weak var showChanges: UIButton!
+    @IBOutlet weak var showChanges: UIButton?
     
     
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel?
     
     var delegate :UnconfirmedTransactionVC? = nil
     
@@ -21,21 +21,20 @@ class UnconfirmedTransactionCell: UITableViewCell
         
         fromLabel.text = "FROM".localized() + ":"
         toLabel.text = "TO".localized() + ":"
-        messageLabel.text = "MESSAGE".localized() + ":"
         confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
+        showChanges?.setTitle("SHOW_CHANGES".localized(), forState: UIControlState.Normal)
         
         fromAccount.text = ""
         toAccount.text = ""
         if message != nil {
+            messageLabel?.text = "MESSAGE".localized() + ":"
             message.text = ""
             xem.text = "0 XEM"
         }
         
         confirm.layer.cornerRadius = 5
+        showChanges?.layer.cornerRadius = 5
         
-        if showChanges != nil {
-            showChanges.layer.cornerRadius = 5
-        }
         self.layer.cornerRadius = 10
     }
 
