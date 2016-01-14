@@ -17,7 +17,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         _apiManager.delegate = self
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         let account_address = AddressGenerator.generateAddress(publicKey)
         
@@ -187,7 +187,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
             unconfirmedTransactions += data
-            let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
+            let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
             
             for var i = 0 ; i < unconfirmedTransactions.count ; i++ {
                 if unconfirmedTransactions[i].type != multisigTransaction {

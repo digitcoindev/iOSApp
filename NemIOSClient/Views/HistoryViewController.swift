@@ -21,7 +21,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
         State.currentVC = SegueToHistoryVC
         _apiManager.delegate = self
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)

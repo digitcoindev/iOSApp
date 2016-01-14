@@ -124,7 +124,7 @@ extension String
     func nemName() -> String {
         let dataManager = CoreDataManager()
         for wallet in dataManager.getWallets() {
-            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: wallet.password)
+            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
             let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
             
             

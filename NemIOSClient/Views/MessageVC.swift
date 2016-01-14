@@ -69,7 +69,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         _initButtonsConfigs()
         contactInfo.text = contact.name
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         if !Validate.stringNotEmpty(self.contact.public_key){
@@ -214,7 +214,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
 
             }
             var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
-            encryptedMessage = MessageCrypto.encrypt(messageBytes, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!, recipientPublicKey: contactPublicKey)
+            encryptedMessage = MessageCrypto.encrypt(messageBytes, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
             messageBytes = encryptedMessage
         }
         
@@ -249,7 +249,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     final func defineData() {
-        let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
+        let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
         var data :[DefinedCell] = []
         
         for transaction in _transactions {
@@ -509,7 +509,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         dispatch_async(_operationDipatchQueue, {
             () -> Void in
             if let responceAccount = account {
-                let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+                let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
                 let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
                 
                 if responceAccount.address == account_address {

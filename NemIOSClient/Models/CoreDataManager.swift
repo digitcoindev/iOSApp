@@ -32,8 +32,8 @@ class CoreDataManager: NSObject
         }
     }
     
-    final func addWallet(loggin: String, password: String, privateKey: String ,salt :String) {
-        Wallet.createInManagedObjectContext(self.managedObjectContext!,login: loggin, password: password ,privateKey : privateKey ,salt :salt)
+    final func addWallet(loggin: String, privateKey: String) {
+        Wallet.createInManagedObjectContext(self.managedObjectContext!,login: loggin,privateKey : privateKey)
         
         commit()
     }

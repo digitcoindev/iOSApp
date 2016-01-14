@@ -27,14 +27,12 @@
     <entity name="Wallet" representedClassName="NemIOSClient.Wallet" syncable="YES">
         <attribute name="lastTransactionHash" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="privateKey" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="salt" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Invoice" positionX="-45" positionY="153" width="128" height="120"/>
         <element name="LoadData" positionX="-45" positionY="72" width="128" height="195"/>
         <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
-        <element name="Wallet" positionX="-54" positionY="27" width="128" height="120"/>
+        <element name="Wallet" positionX="-54" positionY="27" width="128" height="90"/>
     </elements>
 </model>

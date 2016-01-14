@@ -37,7 +37,7 @@ class UserInfoVC: AbstractViewController
         copyAddressButton.setTitle("COPY_ADDRESS".localized(), forState: UIControlState.Normal)
         shareAddressButton.setTitle("SHARE_ADDRESS".localized(), forState: UIControlState.Normal)
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         address = AddressGenerator.generateAddress(publicKey)
         

@@ -26,7 +26,7 @@ class LoadData: NSManagedObject {
     class func createInManagedObjectContext(moc: NSManagedObjectContext) -> LoadData {
         let newItem = NSEntityDescription.insertNewObjectForEntityForName("LoadData", inManagedObjectContext: moc) as! LoadData
         
-        
+        newItem.updateInterval = 0
         return newItem
     }
 }

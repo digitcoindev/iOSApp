@@ -85,7 +85,7 @@ class CreateQRInput: AbstractViewController
         var invoice :InvoiceData = InvoiceData()
         invoice.name = name.text
         invoice.message = message.text
-        invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
+        invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
         invoice.amount = (Double(amount.text!) ?? 0) * 1000000
         invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
         CoreDataManager().commit()

@@ -22,7 +22,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         
         let login = State.currentWallet!.login
         
-        let salt = State.currentWallet!.salt
+        let salt = State.loadData!.salt!
         let privateKey_AES = State.currentWallet!.privateKey
         let objects = [login, salt, privateKey_AES]
         let keys = [QRKeys.Name.rawValue, QRKeys.Salt.rawValue, QRKeys.PrivateKey.rawValue]
@@ -36,7 +36,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         
         qrImage.image =  qr.createQR(jsonString)
         
-        let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let pub_key = KeyGenerator.generatePublicKey(priv_key!)
         privateKey.text = priv_key
         publicKey.text = pub_key

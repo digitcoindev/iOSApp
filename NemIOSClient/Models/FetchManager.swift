@@ -44,7 +44,7 @@ class FetchManager: NSObject, APIManagerDelegate {
         }
         
         var transactions :[TransferTransaction] = []
-        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(_account!.privateKey, key: _account!.password)!)
+        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(_account!.privateKey, key: State.loadData!.password!)!)
 
         if _account?.lastTransactionHash != nil && data.first?.hashString == _account?.lastTransactionHash! {
             NotificationManager.sheduleLocalNotificationAfter("NEM", body: String(format: "NO_NOTIFICATIONS".localized(), _account!.login), interval: 1, userInfo: nil)
@@ -121,7 +121,7 @@ class FetchManager: NSObject, APIManagerDelegate {
         _account = account
         _accounts.removeFirst()
         
-        let address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(account.privateKey, key: account.password)!)
+        let address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(account.privateKey, key: State.loadData!.password!)!)
         _apiManager.accountTransfersAll(server, account_address: address)
     }
 }

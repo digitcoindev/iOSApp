@@ -75,6 +75,7 @@
 
 "HARVEST_DETAILS" = "Harvest Details";
 "HOURS_SHORT" = "h";
+"HOURS" = "hours";
 
 // MARK: - I
 
@@ -102,6 +103,7 @@
 "MESSAGES" = "Messages";
 "MESSAGE" = "Message";
 "MIN" = "Min";
+"MINUTES" = "minutes";
 "MESSAGE_LENGTH" = "Message is too long";
 "MY_ADDRESS" = "My Address";
 "MY_NAME" = "My Name";
@@ -122,6 +124,7 @@
 "NOT_A_HEX_STRING" = "Hex message can consist only of hexidecimal characters.";
 "NO_PUBLIC_KEY_FOR_ENC" = "Public key for this account is not known.\nEncrypted messages is not allowed.";
 "NEW" = "New";
+"NEVER" = "Never";
 "NEW_TRANSACTION" = "New Transaction";
 "NOT_ENOUGHT_MONEY" = "Not enought money";
 "NEW_INVOICE" = "New Invoice";
@@ -142,6 +145,7 @@
 "OK" = "OK";
 "OF" = "of";
 "OFF" = "Off";
+"OLD_PASSWORD_PLACEHOLDER" = "Enter old password";
 
 // MARK: - P
 
@@ -215,4 +219,4 @@
 // MARK: - W
 
 "WRONG_QR_VERSION" = "Wrong qr version";
-
+"WRONG_OLD_PASSWORD" = "Wrong old password";

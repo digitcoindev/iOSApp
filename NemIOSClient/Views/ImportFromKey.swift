@@ -5,9 +5,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     //MARK: - IBOulets
 
     @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var password: UITextField!
     @IBOutlet weak var add: UIButton!
-    @IBOutlet weak var repeatPassword: UITextField!
     @IBOutlet weak var key: UITextField!
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var contentView: UIView!
@@ -34,8 +32,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         
         key.placeholder = "PRIVATE_KEY".localized()
         name.placeholder = "NAME".localized()
-        password.placeholder = "PASSWORD_PLACEHOLDER".localized()
-        repeatPassword.placeholder = "REPEAT_PASSWORD_PLACEHOLDER".localized()
         add.setTitle("ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
         
         if State.countVC <= 1 {
@@ -68,22 +64,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     @IBAction func validateField(sender: UITextField){
         
         switch sender {
-        case password , repeatPassword:
-            
-            if Validate.password(password.text!){
-                sender.textColor = UIColor.greenColor()
-            } else {
-                sender.textColor = UIColor.redColor()
-            }
-            
-            if sender.text != password.text{
-                sender.textColor = UIColor.redColor()
-            }
-            
-            if sender.text == "" {
-                sender.textColor = UIColor.blackColor()
-            }
-            
         case key:
             
             if Validate.key(key.text) {
@@ -105,36 +85,26 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         case "1":
             
             key.text = "5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d"
-            password.text = "123456"
-            repeatPassword.text = "123456"
             name.text = "main"
             
         case "2":
             
             key.text = "168fd919078c8a2fb04183c6214ca80e9aed8ebd2fe1dd283f12cab869678bfd"
-            password.text = "123456"
-            repeatPassword.text = "123456"
             name.text = "multisig"
             
         case "3":
             
             key.text = "6ffa04f529d52354fe139172d0529d9710065ff0ecaba60bf2233ad06731c1ba"
-            password.text = "123456"
-            repeatPassword.text = "123456"
             name.text = "cosig1"
             
         case "4":
             
             key.text = "0560458ac2789c5998f576f8eced7cc0c6d1aa74006993ead764dc0a7456db8b"
-            password.text = "123456"
-            repeatPassword.text = "123456"
             name.text = "cosig2"
             
         case "5":
             
             key.text = "05a4f584cfcd87165e2db6d1e960f331541114dcf18e557228bb288983e34ca9"
-            password.text = "123456"
-            repeatPassword.text = "123456"
             name.text = "cosig3"
             
         case "6":
@@ -156,42 +126,28 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         case "10":
             
             key.text = "906ddbd7052149d7f45b73166f6b64c2d4f2fdfb886796371c0e32c03382bf33"
-            password.text = "123456"
-            repeatPassword.text = "123456"
             name.text = "harvest"
             
         default:
             break
         }
         
-        if name.text != ""  && key.text! != "" && repeatPassword.text != "" && password.text != "" {
-            if password.text == repeatPassword.text && Validate.password(password.text!) {
-                var keyValide :Bool = true
-                keyValide = Validate.key(key.text)
-
-                if let privateKey = key.text!.nemKeyNormalized() {
-                    WalletGenerator().createWallet(name.text!, password: password.text!, privateKey: privateKey)
-                    
-                    State.fromVC = SegueToImportFromKey
-                    State.toVC = SegueToLoginVC
-                    
-                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                        (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-                    }
-                }
-                else {
-                    alert  = UIAlertView(title: "VALIDATION".localized(), message: "PRIVATE_KEY_ERROR_1".localized(), delegate: self, cancelButtonTitle: "OK".localized())
-                }
-            }
-            else if !Validate.password(password.text!) {
-                alert  = UIAlertView(title: "VALIDATION".localized(), message: "PASSOWORD_LENGTH_ERROR".localized(), delegate: self, cancelButtonTitle: "OK".localized())
+        if name.text != ""  && key.text! != ""  {
+            var keyValide :Bool = true
+            keyValide = Validate.key(key.text)
+            
+            if let privateKey = key.text!.nemKeyNormalized() {
+                WalletGenerator().createWallet(name.text!, privateKey: privateKey)
                 
-                repeatPassword.text = ""
+                State.fromVC = SegueToImportFromKey
+                State.toVC = SegueToLoginVC
+                
+                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+                }
             }
             else {
-                alert  = UIAlertView(title:"VALIDATION".localized(), message: "PASSOWORD_DIFERENCE_ERROR".localized(), delegate: self, cancelButtonTitle: "OK".localized())
-                
-                repeatPassword.text = ""
+                alert  = UIAlertView(title: "VALIDATION".localized(), message: "PRIVATE_KEY_ERROR_1".localized(), delegate: self, cancelButtonTitle: "OK".localized())
             }
         }
         else {
@@ -213,13 +169,10 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
             
         case name:
             
-            password.becomeFirstResponder()
-            chouseTextField(password)
-            
-        case password:
-            
-            repeatPassword.becomeFirstResponder()
-            chouseTextField(repeatPassword)
+            if key.text == "" {
+                key.becomeFirstResponder()
+                chouseTextField(key)
+            }
             
         default :
             break

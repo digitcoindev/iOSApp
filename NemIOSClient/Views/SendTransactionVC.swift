@@ -55,7 +55,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
@@ -153,7 +153,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         } else {
             _showPopUp("SERVER_UNAVAILABLE".localized())
             
-            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
             let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
             
             _apiManager.accountGet(State.currentServer!, account_address: account_address)
@@ -276,7 +276,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         if _mainWallet == nil {
             if walletData.publicKey == nil {
-                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!)
+                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
             }
             
             _mainWallet = walletData

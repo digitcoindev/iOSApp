@@ -40,7 +40,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         
         _apiManager.delegate = self
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         let account_address = AddressGenerator.generateAddress(publicKey)
         

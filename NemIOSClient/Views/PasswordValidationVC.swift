@@ -64,9 +64,9 @@ class PasswordValidationVC: AbstractViewController
     
     private func _validateFromDatabase() {
         
-        guard let salt = State.currentWallet?.salt else {return}
+        guard let salt = State.loadData?.salt else {return}
         guard let saltData :NSData = NSData.fromHexString(salt) else {return}
-        guard let passwordValue = State.currentWallet?.password else {return}
+        guard let passwordValue = State.loadData?.password else {return}
         
         let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
         

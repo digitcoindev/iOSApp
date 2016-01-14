@@ -101,7 +101,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="319" height="382"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KZ4-Jg-l4J" userLabel="Content Container View">
-                                                <rect key="frame" x="35" y="100" width="248" height="182"/>
+                                                <rect key="frame" x="35" y="121" width="248" height="60"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Account Name" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2gH-SB-ECh" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="248" height="60"/>
@@ -113,37 +113,8 @@
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                         <connections>
-                                                            <action selector="changeTextField:" destination="lGh-oa-eVt" eventType="editingDidEndOnExit" id="ihR-BD-Zrm"/>
+                                                            <action selector="changeField:" destination="lGh-oa-eVt" eventType="editingDidEndOnExit" id="LjO-uw-Irb"/>
                                                             <action selector="chouseTextField:" destination="lGh-oa-eVt" eventType="touchDown" id="TWW-dp-R1f"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Repeat Password" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XjI-Ap-E7U" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="122" width="248" height="60"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="60" id="GBj-I9-DgT"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <action selector="changeTextField:" destination="lGh-oa-eVt" eventType="editingDidEndOnExit" id="6O6-hx-UNU"/>
-                                                            <action selector="chouseTextField:" destination="lGh-oa-eVt" eventType="touchDown" id="RQo-Ss-2Ms"/>
-                                                            <action selector="validateField:" destination="lGh-oa-eVt" eventType="editingChanged" id="3SG-D8-PfI"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Password" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CGY-xy-tZC" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="61" width="248" height="60"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="60" id="gzI-Fg-JRZ"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <action selector="changeTextField:" destination="lGh-oa-eVt" eventType="editingDidEndOnExit" id="daz-KM-o1R"/>
-                                                            <action selector="chouseTextField:" destination="lGh-oa-eVt" eventType="touchDown" id="Kuc-lP-F2V"/>
-                                                            <action selector="cofigurateField:" destination="lGh-oa-eVt" eventType="editingDidBegin" id="9IO-xJ-X6a"/>
-                                                            <action selector="validateField:" destination="lGh-oa-eVt" eventType="editingChanged" id="2Nh-EW-mAr"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
@@ -151,22 +122,16 @@
                                                 <constraints>
                                                     <constraint firstItem="2gH-SB-ECh" firstAttribute="leading" secondItem="KZ4-Jg-l4J" secondAttribute="leading" id="5ag-HX-3go"/>
                                                     <constraint firstAttribute="trailing" secondItem="2gH-SB-ECh" secondAttribute="trailing" id="FL6-lN-ZTF"/>
-                                                    <constraint firstAttribute="height" constant="182" id="I78-p4-vsr"/>
-                                                    <constraint firstItem="CGY-xy-tZC" firstAttribute="top" secondItem="2gH-SB-ECh" secondAttribute="bottom" constant="1" id="Nxq-Dp-2ed"/>
+                                                    <constraint firstAttribute="height" constant="60" id="I78-p4-vsr"/>
                                                     <constraint firstItem="2gH-SB-ECh" firstAttribute="top" secondItem="KZ4-Jg-l4J" secondAttribute="top" id="OqW-Zd-e5Z"/>
-                                                    <constraint firstAttribute="trailing" secondItem="CGY-xy-tZC" secondAttribute="trailing" id="Rjm-l6-Jog"/>
-                                                    <constraint firstAttribute="trailing" secondItem="XjI-Ap-E7U" secondAttribute="trailing" id="SfD-aU-AnI"/>
-                                                    <constraint firstItem="XjI-Ap-E7U" firstAttribute="leading" secondItem="KZ4-Jg-l4J" secondAttribute="leading" id="Un9-OI-fKe"/>
                                                     <constraint firstAttribute="width" constant="248" id="dVt-Cy-EBj"/>
-                                                    <constraint firstItem="CGY-xy-tZC" firstAttribute="leading" secondItem="KZ4-Jg-l4J" secondAttribute="leading" id="hHz-dH-Ezs"/>
-                                                    <constraint firstItem="XjI-Ap-E7U" firstAttribute="top" secondItem="CGY-xy-tZC" secondAttribute="bottom" constant="1" id="m8u-i9-STZ"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="centerX" secondItem="KZ4-Jg-l4J" secondAttribute="centerX" id="36Z-xO-6r6"/>
-                                            <constraint firstAttribute="centerY" secondItem="KZ4-Jg-l4J" secondAttribute="centerY" id="kgx-hX-A60"/>
+                                            <constraint firstAttribute="centerY" secondItem="KZ4-Jg-l4J" secondAttribute="centerY" constant="40" id="kgx-hX-A60"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -201,8 +166,6 @@
                         <outlet property="backButton" destination="fPf-4F-2Gw" id="vBU-Z4-Smv"/>
                         <outlet property="contentView" destination="KZ4-Jg-l4J" id="BGI-0x-gEm"/>
                         <outlet property="createButton" destination="Kfl-7c-kdl" id="GFd-UG-vcn"/>
-                        <outlet property="createPassword" destination="CGY-xy-tZC" id="A1k-Bu-haZ"/>
-                        <outlet property="repeatPassword" destination="XjI-Ap-E7U" id="wEt-P0-heL"/>
                         <outlet property="scroll" destination="IBn-QE-n0w" id="V8I-nV-g44"/>
                         <outlet property="titleLabel" destination="xAp-JD-bvV" id="GXj-LK-HVk"/>
                         <outlet property="userName" destination="2gH-SB-ECh" id="1me-mg-gl0"/>
@@ -985,7 +948,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="383"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Qi-u2-fCh" userLabel="Content View">
-                                                <rect key="frame" x="16" y="70" width="288" height="243"/>
+                                                <rect key="frame" x="16" y="91" width="288" height="121"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="private key" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="E3i-du-bP5" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="288" height="60"/>
@@ -999,34 +962,6 @@
                                                             <action selector="changeField:" destination="grR-zF-Mkj" eventType="editingDidEndOnExit" id="t5E-Br-X7W"/>
                                                             <action selector="chouseTextField:" destination="grR-zF-Mkj" eventType="touchDown" id="T1i-s1-CXe"/>
                                                             <action selector="validateField:" destination="grR-zF-Mkj" eventType="editingChanged" id="F2r-ZH-Wdd"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="rYt-nb-GVu" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="122" width="288" height="60"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="60" id="Ta7-6O-QAy"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <action selector="changeField:" destination="grR-zF-Mkj" eventType="editingDidEndOnExit" id="5G0-Jj-RvQ"/>
-                                                            <action selector="chouseTextField:" destination="grR-zF-Mkj" eventType="touchDown" id="7uo-KI-p8N"/>
-                                                            <action selector="validateField:" destination="grR-zF-Mkj" eventType="editingChanged" id="qIv-vg-cg1"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="repeat password" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jkN-9v-w75" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="183" width="288" height="60"/>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="60" id="wtV-w8-YMe"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <action selector="changeField:" destination="grR-zF-Mkj" eventType="editingDidEndOnExit" id="fz5-HA-CCg"/>
-                                                            <action selector="chouseTextField:" destination="grR-zF-Mkj" eventType="touchDown" id="9rv-nw-mSp"/>
-                                                            <action selector="validateField:" destination="grR-zF-Mkj" eventType="editingChanged" id="u6l-E5-znP"/>
                                                         </connections>
                                                     </textField>
                                                     <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="name" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="OR6-4X-8Oc" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
@@ -1045,27 +980,21 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="243" id="2Mo-ST-HWI"/>
+                                                    <constraint firstAttribute="height" constant="121" id="2Mo-ST-HWI"/>
                                                     <constraint firstItem="OR6-4X-8Oc" firstAttribute="leading" secondItem="4Qi-u2-fCh" secondAttribute="leading" id="7qn-iz-hht"/>
-                                                    <constraint firstAttribute="trailing" secondItem="rYt-nb-GVu" secondAttribute="trailing" id="9UK-1a-Nbk"/>
                                                     <constraint firstItem="E3i-du-bP5" firstAttribute="leading" secondItem="4Qi-u2-fCh" secondAttribute="leading" id="R1r-fo-DxX"/>
                                                     <constraint firstAttribute="trailing" secondItem="E3i-du-bP5" secondAttribute="trailing" id="aDX-gO-PFr"/>
                                                     <constraint firstAttribute="width" constant="288" id="asW-kG-3yk"/>
-                                                    <constraint firstItem="rYt-nb-GVu" firstAttribute="top" secondItem="OR6-4X-8Oc" secondAttribute="bottom" constant="1" id="gNd-Ia-o4D"/>
-                                                    <constraint firstItem="rYt-nb-GVu" firstAttribute="leading" secondItem="4Qi-u2-fCh" secondAttribute="leading" id="kZQ-Np-9ul"/>
                                                     <constraint firstItem="E3i-du-bP5" firstAttribute="top" secondItem="4Qi-u2-fCh" secondAttribute="top" id="l04-Gz-rnM"/>
-                                                    <constraint firstItem="jkN-9v-w75" firstAttribute="top" secondItem="rYt-nb-GVu" secondAttribute="bottom" constant="1" id="oer-Va-weo"/>
                                                     <constraint firstAttribute="trailing" secondItem="OR6-4X-8Oc" secondAttribute="trailing" id="r8F-te-z72"/>
                                                     <constraint firstItem="OR6-4X-8Oc" firstAttribute="top" secondItem="E3i-du-bP5" secondAttribute="bottom" constant="1" id="s97-hS-Zbf"/>
-                                                    <constraint firstAttribute="trailing" secondItem="jkN-9v-w75" secondAttribute="trailing" id="viO-R7-Yo3"/>
-                                                    <constraint firstItem="jkN-9v-w75" firstAttribute="leading" secondItem="4Qi-u2-fCh" secondAttribute="leading" id="yB3-X6-AT5"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="centerX" secondItem="4Qi-u2-fCh" secondAttribute="centerX" id="FKy-Rd-4QO"/>
-                                            <constraint firstAttribute="centerY" secondItem="4Qi-u2-fCh" secondAttribute="centerY" id="cJL-jc-800"/>
+                                            <constraint firstAttribute="centerY" secondItem="4Qi-u2-fCh" secondAttribute="centerY" constant="40" id="cJL-jc-800"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -1141,8 +1070,6 @@
                         <outlet property="contentView" destination="4Qi-u2-fCh" id="aZC-Dq-6YN"/>
                         <outlet property="key" destination="E3i-du-bP5" id="Jg7-pK-rHG"/>
                         <outlet property="name" destination="OR6-4X-8Oc" id="XQa-md-6Qa"/>
-                        <outlet property="password" destination="rYt-nb-GVu" id="i5M-38-qDR"/>
-                        <outlet property="repeatPassword" destination="jkN-9v-w75" id="6hG-rt-fD2"/>
                         <outlet property="scroll" destination="o5W-Ta-fJi" id="ci8-MO-Ctd"/>
                         <outlet property="titleLabel" destination="Yph-eI-ADO" id="iEM-Az-Ot3"/>
                     </connections>
@@ -4834,7 +4761,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDW-Kn-MFp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="129" y="1768"/>
+            <point key="canvasLocation" x="129" y="1872"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="BS1-iU-ch7">
@@ -5227,7 +5154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TVm-1J-n20" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="184" y="1164"/>
+            <point key="canvasLocation" x="176" y="1204"/>
         </scene>
         <!--History View Controller-->
         <scene sceneID="6pz-NX-Iyv">
@@ -6441,6 +6368,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
                                                     <action selector="hideKeyBoard:" destination="SYo-Zz-lR0" eventType="editingDidEndOnExit" id="GIb-Ue-nxG"/>
+                                                    <action selector="validateField:" destination="SYo-Zz-lR0" eventType="editingChanged" id="CWt-dF-Phv"/>
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCO-Zg-VU8">
@@ -6469,6 +6397,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
                                                     <action selector="hideKeyBoard:" destination="SYo-Zz-lR0" eventType="editingDidEndOnExit" id="1Xr-Wq-LAe"/>
+                                                    <action selector="validateField:" destination="SYo-Zz-lR0" eventType="editingChanged" id="GIz-6h-Z1r"/>
                                                 </connections>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6q-4b-Zj8">
@@ -6534,6 +6463,318 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9BL-5R-KSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1829" y="-86"/>
+        </scene>
+        <!--Chouse Update Interval-->
+        <scene sceneID="cJm-WM-fso">
+            <objects>
+                <viewController storyboardIdentifier="Chouse interval" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8ia-Wf-naJ" customClass="ChouseUpdateInterval" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hjB-gp-jh7"/>
+                        <viewControllerLayoutGuide type="bottom" id="waF-4V-bS1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sT4-Hr-D09">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mwt-53-5er">
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uue-p9-kiF" userLabel="Content Scroll View">
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LL2-tL-yaC" userLabel="Content View">
+                                                <rect key="frame" x="56" y="74" width="288" height="252"/>
+                                                <subviews>
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gs1-7a-fFc">
+                                                        <rect key="frame" x="0.0" y="0.0" width="288" height="182"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <prototypes>
+                                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="acc cell" id="qhZ-eE-r06" customClass="ActiveCell" customModule="NemIOSClient" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="28" width="288" height="44"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qhZ-eE-r06" id="3za-Yl-zXl">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="288" height="43"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSk-00-PAJ">
+                                                                            <rect key="frame" x="19" y="10" width="215" height="23"/>
+                                                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1b-aV-G1e" userLabel="action Buton">
+                                                                            <rect key="frame" x="242" y="6" width="31" height="32"/>
+                                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="l1b-aV-G1e" secondAttribute="height" multiplier="38:39" id="sk5-lb-gqT"/>
+                                                                            </constraints>
+                                                                            <state key="normal" image="server_indicator_passive">
+                                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            </state>
+                                                                            <state key="highlighted">
+                                                                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            </state>
+                                                                        </button>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="eSk-00-PAJ" firstAttribute="top" secondItem="3za-Yl-zXl" secondAttribute="topMargin" constant="2" id="1X4-aC-Fkr"/>
+                                                                        <constraint firstAttribute="bottomMargin" secondItem="l1b-aV-G1e" secondAttribute="bottom" constant="-3" id="85V-53-TAT"/>
+                                                                        <constraint firstAttribute="bottomMargin" secondItem="eSk-00-PAJ" secondAttribute="bottom" constant="2" id="DDR-Up-weB"/>
+                                                                        <constraint firstItem="l1b-aV-G1e" firstAttribute="top" secondItem="3za-Yl-zXl" secondAttribute="topMargin" constant="-2" id="TLR-Qm-myE"/>
+                                                                        <constraint firstItem="l1b-aV-G1e" firstAttribute="leading" secondItem="eSk-00-PAJ" secondAttribute="trailing" constant="8" id="jSR-nj-8v4"/>
+                                                                        <constraint firstItem="l1b-aV-G1e" firstAttribute="trailing" secondItem="3za-Yl-zXl" secondAttribute="trailingMargin" constant="-7" id="kwO-W6-jTc"/>
+                                                                        <constraint firstItem="eSk-00-PAJ" firstAttribute="leading" secondItem="3za-Yl-zXl" secondAttribute="leadingMargin" constant="11" id="qcU-Wh-0nI"/>
+                                                                    </constraints>
+                                                                </tableViewCellContentView>
+                                                                <connections>
+                                                                    <outlet property="actionButton" destination="l1b-aV-G1e" id="Wpy-os-7R7"/>
+                                                                    <outlet property="title" destination="eSk-00-PAJ" id="piO-gg-b0q"/>
+                                                                </connections>
+                                                            </tableViewCell>
+                                                        </prototypes>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="8ia-Wf-naJ" id="cdp-fV-pc8"/>
+                                                            <outlet property="delegate" destination="8ia-Wf-naJ" id="fz0-p3-aYg"/>
+                                                        </connections>
+                                                    </tableView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4er-Wn-5jJ">
+                                                        <rect key="frame" x="0.0" y="182" width="288" height="70"/>
+                                                        <color key="backgroundColor" red="0.25490196079999999" green="0.80784313730000001" blue="0.4823529412" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="70" id="8qJ-6m-6Bj"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                                        <state key="normal" title="Reset">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="reset:" destination="8ia-Wf-naJ" eventType="touchUpInside" id="0Xh-Wk-gDr"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="252" id="Dp4-3w-Rdm"/>
+                                                    <constraint firstItem="gs1-7a-fFc" firstAttribute="leading" secondItem="LL2-tL-yaC" secondAttribute="leading" id="Jbn-as-8cQ"/>
+                                                    <constraint firstItem="4er-Wn-5jJ" firstAttribute="leading" secondItem="LL2-tL-yaC" secondAttribute="leading" id="LyM-6E-eW4"/>
+                                                    <constraint firstAttribute="trailing" secondItem="gs1-7a-fFc" secondAttribute="trailing" id="UU5-HP-Y2w"/>
+                                                    <constraint firstItem="gs1-7a-fFc" firstAttribute="top" secondItem="LL2-tL-yaC" secondAttribute="top" id="YWF-uc-0dS"/>
+                                                    <constraint firstItem="4er-Wn-5jJ" firstAttribute="top" secondItem="gs1-7a-fFc" secondAttribute="bottom" id="b58-gX-tzz"/>
+                                                    <constraint firstAttribute="trailing" secondItem="4er-Wn-5jJ" secondAttribute="trailing" id="dbk-pu-2A7"/>
+                                                    <constraint firstAttribute="width" constant="288" id="wTP-tP-fck"/>
+                                                    <constraint firstAttribute="bottom" secondItem="4er-Wn-5jJ" secondAttribute="bottom" id="xZf-qB-oqf"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRY-NX-V2X">
+                                                <rect key="frame" x="333" y="52" width="22" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="22" id="LVe-yH-tmh"/>
+                                                    <constraint firstAttribute="height" constant="22" id="fph-qY-5JW"/>
+                                                </constraints>
+                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                                <state key="normal" image="close_pop_up">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="closePopUp:" destination="8ia-Wf-naJ" eventType="touchUpInside" id="7B7-Ga-ftd"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerY" secondItem="LL2-tL-yaC" secondAttribute="centerY" id="4UP-Js-ftJ"/>
+                                            <constraint firstItem="LL2-tL-yaC" firstAttribute="top" secondItem="wRY-NX-V2X" secondAttribute="bottom" id="Gv6-xr-ovh"/>
+                                            <constraint firstAttribute="centerX" secondItem="LL2-tL-yaC" secondAttribute="centerX" id="Hgu-g8-Cst"/>
+                                            <constraint firstItem="wRY-NX-V2X" firstAttribute="trailing" secondItem="LL2-tL-yaC" secondAttribute="trailing" constant="11" id="oBF-I1-g9V"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="uue-p9-kiF" secondAttribute="centerY" id="2FC-48-FbA"/>
+                                    <constraint firstAttribute="trailing" secondItem="uue-p9-kiF" secondAttribute="trailing" id="9Jp-PP-Ue8"/>
+                                    <constraint firstItem="uue-p9-kiF" firstAttribute="leading" secondItem="mwt-53-5er" secondAttribute="leading" id="SRx-14-THk"/>
+                                    <constraint firstAttribute="bottom" secondItem="uue-p9-kiF" secondAttribute="bottom" id="Wbv-wR-36a"/>
+                                    <constraint firstItem="uue-p9-kiF" firstAttribute="top" secondItem="mwt-53-5er" secondAttribute="top" id="Y49-lq-vd5"/>
+                                    <constraint firstAttribute="centerX" secondItem="uue-p9-kiF" secondAttribute="centerX" id="lBF-wX-FTa"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="8ia-Wf-naJ" id="WHX-ia-NUq"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="waF-4V-bS1" firstAttribute="top" secondItem="mwt-53-5er" secondAttribute="bottom" id="1d1-mE-cKF"/>
+                            <constraint firstItem="mwt-53-5er" firstAttribute="top" secondItem="sT4-Hr-D09" secondAttribute="top" id="1tt-Uu-NyF"/>
+                            <constraint firstItem="mwt-53-5er" firstAttribute="leading" secondItem="sT4-Hr-D09" secondAttribute="leading" id="vVi-bb-Yzq"/>
+                            <constraint firstAttribute="centerY" secondItem="mwt-53-5er" secondAttribute="centerY" id="vip-CD-ai7"/>
+                            <constraint firstAttribute="trailing" secondItem="mwt-53-5er" secondAttribute="trailing" id="wmf-j6-vzV"/>
+                            <constraint firstAttribute="centerX" secondItem="mwt-53-5er" secondAttribute="centerX" id="zgb-CD-Aqm"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="400" height="400"/>
+                    <connections>
+                        <outlet property="contentView" destination="LL2-tL-yaC" id="iBZ-O3-sFa"/>
+                        <outlet property="resetButton" destination="4er-Wn-5jJ" id="Tl4-Ts-klg"/>
+                        <outlet property="scroll" destination="mwt-53-5er" id="w4V-OG-IAF"/>
+                        <outlet property="tableView" destination="gs1-7a-fFc" id="kzM-Rs-JJJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rM2-5H-ofs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1198" y="-2072"/>
+        </scene>
+        <!--Change PasswordVC-->
+        <scene sceneID="FYC-wv-cna">
+            <objects>
+                <viewController storyboardIdentifier="ChangePasswordPopUp" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zZ6-Wf-O2C" customClass="ChangePasswordVC" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ER5-NE-fOW"/>
+                        <viewControllerLayoutGuide type="bottom" id="N5Y-7t-Dx8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Rb4-mP-oxb">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pOl-W9-ay0">
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DwT-rY-Mwa" userLabel="Content Scroll View">
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4wM-ej-UoM">
+                                                <rect key="frame" x="333" y="55" width="22" height="22"/>
+                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                                <state key="normal" image="close_pop_up">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="closePopUp:" destination="zZ6-Wf-O2C" eventType="touchUpInside" id="1G0-vK-0GQ"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xuF-dd-xjK" userLabel="Content View">
+                                                <rect key="frame" x="56" y="75" width="288" height="250"/>
+                                                <subviews>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   Input new account name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x4a-ab-FB2" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="288" height="60"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="60" id="BrR-hU-ler"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                                        <connections>
+                                                            <action selector="changeField:" destination="zZ6-Wf-O2C" eventType="editingDidEndOnExit" id="gfi-HU-Mko"/>
+                                                            <action selector="validateField:" destination="zZ6-Wf-O2C" eventType="editingChanged" id="8QF-Tr-Wb5"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   Input new account name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UeU-7U-zbB" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="61" width="288" height="60"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="60" id="AXO-8c-tRc"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                                        <connections>
+                                                            <action selector="changeField:" destination="zZ6-Wf-O2C" eventType="editingDidEndOnExit" id="NBh-C1-nTH"/>
+                                                            <action selector="validateField:" destination="zZ6-Wf-O2C" eventType="editingChanged" id="4GX-z4-Nsh"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   Input new account name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="H1z-h1-zlh" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="122" width="288" height="60"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="60" id="ZOG-fo-Iao"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                                        <connections>
+                                                            <action selector="changeField:" destination="zZ6-Wf-O2C" eventType="editingDidEndOnExit" id="NHn-IA-GS4"/>
+                                                            <action selector="validateField:" destination="zZ6-Wf-O2C" eventType="editingChanged" id="9hy-A1-FeB"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruA-TD-fcx">
+                                                        <rect key="frame" x="0.0" y="180" width="288" height="70"/>
+                                                        <color key="backgroundColor" red="0.25490196079999999" green="0.80784313730000001" blue="0.4823529412" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                                        <state key="normal" title="Change">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="changePassword:" destination="zZ6-Wf-O2C" eventType="touchUpInside" id="mzW-MP-dwx"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="UeU-7U-zbB" firstAttribute="top" secondItem="x4a-ab-FB2" secondAttribute="bottom" constant="1" id="BN3-gr-Rq5"/>
+                                                    <constraint firstItem="ruA-TD-fcx" firstAttribute="leading" secondItem="xuF-dd-xjK" secondAttribute="leading" id="BN9-Mx-zlF"/>
+                                                    <constraint firstAttribute="trailing" secondItem="H1z-h1-zlh" secondAttribute="trailing" id="MiB-H9-RaI"/>
+                                                    <constraint firstAttribute="bottom" secondItem="ruA-TD-fcx" secondAttribute="bottom" id="PDa-wn-qga"/>
+                                                    <constraint firstAttribute="height" constant="250" id="SgC-a9-kCw"/>
+                                                    <constraint firstItem="H1z-h1-zlh" firstAttribute="leading" secondItem="xuF-dd-xjK" secondAttribute="leading" id="bVc-1M-X4j"/>
+                                                    <constraint firstAttribute="trailing" secondItem="UeU-7U-zbB" secondAttribute="trailing" id="gW3-mT-DYb"/>
+                                                    <constraint firstItem="H1z-h1-zlh" firstAttribute="top" secondItem="UeU-7U-zbB" secondAttribute="bottom" constant="1" id="jOy-2R-cdz"/>
+                                                    <constraint firstItem="x4a-ab-FB2" firstAttribute="top" secondItem="xuF-dd-xjK" secondAttribute="top" id="jxH-6S-RQo"/>
+                                                    <constraint firstItem="UeU-7U-zbB" firstAttribute="leading" secondItem="xuF-dd-xjK" secondAttribute="leading" id="lE2-yN-LU0"/>
+                                                    <constraint firstAttribute="trailing" secondItem="x4a-ab-FB2" secondAttribute="trailing" id="m1f-kc-iKD"/>
+                                                    <constraint firstAttribute="trailing" secondItem="ruA-TD-fcx" secondAttribute="trailing" id="o6N-j7-5ls"/>
+                                                    <constraint firstItem="ruA-TD-fcx" firstAttribute="top" secondItem="UeU-7U-zbB" secondAttribute="bottom" constant="59" id="qPH-yF-NHf"/>
+                                                    <constraint firstAttribute="width" constant="288" id="rul-4V-VMN"/>
+                                                    <constraint firstItem="x4a-ab-FB2" firstAttribute="leading" secondItem="xuF-dd-xjK" secondAttribute="leading" id="sKI-kD-NMm"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="xuF-dd-xjK" firstAttribute="centerX" secondItem="DwT-rY-Mwa" secondAttribute="centerX" id="NEw-XV-xw9"/>
+                                            <constraint firstItem="xuF-dd-xjK" firstAttribute="centerY" secondItem="DwT-rY-Mwa" secondAttribute="centerY" id="miS-0h-AtP"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="DwT-rY-Mwa" firstAttribute="top" secondItem="pOl-W9-ay0" secondAttribute="top" id="7Hc-bY-CGU"/>
+                                    <constraint firstItem="DwT-rY-Mwa" firstAttribute="leading" secondItem="pOl-W9-ay0" secondAttribute="leading" id="900-c0-PtT"/>
+                                    <constraint firstItem="DwT-rY-Mwa" firstAttribute="centerY" secondItem="pOl-W9-ay0" secondAttribute="centerY" id="K8f-2g-Oxb"/>
+                                    <constraint firstItem="DwT-rY-Mwa" firstAttribute="centerX" secondItem="pOl-W9-ay0" secondAttribute="centerX" id="LT8-Q9-Iju"/>
+                                    <constraint firstAttribute="bottom" secondItem="DwT-rY-Mwa" secondAttribute="bottom" id="Qip-O4-76Y"/>
+                                    <constraint firstAttribute="trailing" secondItem="DwT-rY-Mwa" secondAttribute="trailing" id="jKo-6K-bSl"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="zZ6-Wf-O2C" id="8Rq-GV-9uz"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="N5Y-7t-Dx8" firstAttribute="top" secondItem="pOl-W9-ay0" secondAttribute="bottom" id="BLZ-Wy-Gaj"/>
+                            <constraint firstItem="pOl-W9-ay0" firstAttribute="leading" secondItem="Rb4-mP-oxb" secondAttribute="leading" id="Hu0-F8-u84"/>
+                            <constraint firstItem="pOl-W9-ay0" firstAttribute="centerY" secondItem="Rb4-mP-oxb" secondAttribute="centerY" id="fPW-Ds-T3i"/>
+                            <constraint firstItem="pOl-W9-ay0" firstAttribute="top" secondItem="Rb4-mP-oxb" secondAttribute="top" id="h5I-Ro-zAb"/>
+                            <constraint firstAttribute="trailing" secondItem="pOl-W9-ay0" secondAttribute="trailing" id="p2g-U7-7gk"/>
+                            <constraint firstItem="pOl-W9-ay0" firstAttribute="centerX" secondItem="Rb4-mP-oxb" secondAttribute="centerX" id="zUY-yt-Gz6"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="400" height="400"/>
+                    <connections>
+                        <outlet property="contentView" destination="xuF-dd-xjK" id="ZCV-5o-h8C"/>
+                        <outlet property="newPassword" destination="UeU-7U-zbB" id="ej7-jz-AKg"/>
+                        <outlet property="oldPassword" destination="x4a-ab-FB2" id="3Z7-jg-mzO"/>
+                        <outlet property="repeatPassword" destination="H1z-h1-zlh" id="BWS-d5-77Q"/>
+                        <outlet property="saveBtn" destination="ruA-TD-fcx" id="ZeX-iz-YZ1"/>
+                        <outlet property="scroll" destination="pOl-W9-ay0" id="3ld-W1-EC0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="czc-oc-osv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2080" y="-736"/>
         </scene>
     </scenes>
     <resources>

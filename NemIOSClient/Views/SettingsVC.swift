@@ -102,7 +102,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
         case SettingsCategory.Security.rawValue:
             switch indexPath.row {
             case 1:
-                
+                _createPopUp("ChangePasswordPopUp")
                 break
                 
             case 2:
@@ -115,6 +115,16 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
                 dataManager.commit()
                 
                 _refreshData()
+            default:
+                break
+            }
+            
+        case SettingsCategory.Notification.rawValue:
+            switch indexPath.row {
+            case 1:
+                _createPopUp("Chouse interval")
+                break
+
             default:
                 break
             }
@@ -152,6 +162,31 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
             touchText = "OFF".localized()
         }
         
+        var updateInterval = ""
+        
+        switch Int(_loadData!.updateInterval!) {
+        case 0 :
+            updateInterval = "NEVER".localized()
+        case 90 :
+            updateInterval = "30 " + "MINUTES".localized()
+        case 180 :
+            updateInterval = "60 " + "MINUTES".localized()
+        case 360 :
+            updateInterval = "1 " + "HOURS".localized()
+        case 720 :
+            updateInterval = "2 " + "HOURS".localized()
+        case 1440 :
+            updateInterval = "4 " + "HOURS".localized()
+        case 2880 :
+            updateInterval = "8 " + "HOURS".localized()
+        case 4320 :
+            updateInterval = "12 " + "HOURS".localized()
+        case 8640 :
+            updateInterval = "24 " + "HOURS".localized()
+        default :
+            break
+        }
+        
         _content = []
         _content += [
             [
@@ -171,7 +206,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
             ],
             [
                 ["NOTIFICATION".localized()],
-                ["UPDATE_INTERVAL".localized() ,"30 min"]
+                ["UPDATE_INTERVAL".localized() ,updateInterval]
             ]
         ]
         

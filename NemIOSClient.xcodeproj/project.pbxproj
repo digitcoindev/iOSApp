@@ -28,6 +28,8 @@
 		98428A741BDA5960004494D5 /* CosigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A731BDA5960004494D5 /* CosigTableViewCell.swift */; };
 		98428A761BDA689C004494D5 /* AddCosigPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A751BDA689C004494D5 /* AddCosigPopUp.swift */; };
 		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
+		985A372C1C469C4D00D7BD7A /* ChouseUpdateInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */; };
+		985A372E1C46A58200D7BD7A /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */; };
 		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; };
 		9877C6801BE138EB00AF9751 /* HarvestDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */; };
 		9877C6821BE267AC00AF9751 /* BlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */; };
@@ -241,6 +243,8 @@
 		98428A731BDA5960004494D5 /* CosigTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CosigTableViewCell.swift; path = "Views/Additional controls/CosigTableViewCell.swift"; sourceTree = "<group>"; };
 		98428A751BDA689C004494D5 /* AddCosigPopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCosigPopUp.swift; path = Views/AddCosigPopUp.swift; sourceTree = "<group>"; };
 		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
+		985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseUpdateInterval.swift; path = Views/ChouseUpdateInterval.swift; sourceTree = "<group>"; };
+		985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordVC.swift; path = Views/ChangePasswordVC.swift; sourceTree = "<group>"; };
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
 		9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestDetailsVC.swift; path = Views/HarvestDetailsVC.swift; sourceTree = "<group>"; };
 		9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockTableViewCell.swift; path = "Views/Additional controls/BlockTableViewCell.swift"; sourceTree = "<group>"; };
@@ -1136,6 +1140,8 @@
 				98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */,
 				98F01CBC1C2C18270018081B /* InvoceSettings.swift */,
 				98F01CC11C2D4B560018081B /* ChouseLanguage.swift */,
+				985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */,
+				985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -1517,6 +1523,7 @@
 				DA3BE20E1A5FFEF400CAC733 /* Messages.swift in Sources */,
 				DAC3A1801B03AE2800AABB61 /* Signature.swift in Sources */,
 				DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */,
+				985A372E1C46A58200D7BD7A /* ChangePasswordVC.swift in Sources */,
 				DA64A4E11A5ACF0C005833A4 /* AddAccount.swift in Sources */,
 				DA173CDF1AA87CBC003AC21F /* RIPEMD+Block.swift in Sources */,
 				98BB95DE1BCCED5B002151F7 /* verify.c in Sources */,
@@ -1542,6 +1549,7 @@
 				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */,
+				985A372C1C469C4D00D7BD7A /* ChouseUpdateInterval.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
 				98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */,
 				DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */,

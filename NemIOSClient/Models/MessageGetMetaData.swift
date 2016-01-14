@@ -32,7 +32,7 @@ class MessageGetMetaData: NSObject
                 
             case 2:
                 guard let signer = self.signer else {return nil}
-                let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+                let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
                 let decryptedMessage :String? = MessageCrypto.decrypt(self.payload!, recipientPrivateKey: privateKey!
                     , senderPublicKey: signer)
                 

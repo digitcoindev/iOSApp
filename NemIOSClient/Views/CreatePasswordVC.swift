@@ -71,6 +71,22 @@ class CreatePasswordVC: AbstractViewController {
         }
     }
     
+    @IBAction func validateField(sender: UITextField){
+        
+        if repeatPassword.text == password.text {
+            repeatPassword.textColor = UIColor.greenColor()
+        } else {
+            repeatPassword.textColor = UIColor.redColor()
+        }
+        
+        if Validate.password(password.text!){
+            password.textColor = UIColor.greenColor()
+        } else {
+            repeatPassword.textColor = UIColor.redColor()
+            password.textColor = UIColor.redColor()
+        }
+    }
+    
     @IBAction func hideKeyBoard(sender: AnyObject) {
         (sender as! UITextField).becomeFirstResponder()
     }
@@ -79,9 +95,9 @@ class CreatePasswordVC: AbstractViewController {
     
     private func _validateFromDatabase() {
         
-        guard let salt = State.currentWallet?.salt else {return}
+        guard let salt = State.loadData?.salt else {return}
         guard let saltData :NSData = NSData.fromHexString(salt) else {return}
-        guard let passwordValue = State.currentWallet?.password else {return}
+        guard let passwordValue = State.loadData?.password else {return}
         
         let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
         

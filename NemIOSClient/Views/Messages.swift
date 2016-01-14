@@ -25,10 +25,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if State.fromVC == nil {
-//            backButton.hidden = true
-//        }
-        
         State.fromVC = SegueToMessages
         State.currentVC = SegueToMessages
         State.currentContact = nil
@@ -306,7 +302,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     
     final func refreshTransactionList() {
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         let account_address = AddressGenerator.generateAddress(publicKey)
         
@@ -386,7 +382,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         var color :UIColor!
         var vector :String = ""

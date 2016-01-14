@@ -21,7 +21,7 @@ class Correspondent: NSObject {
         var account_address = ""
         
         if State.currentWallet != nil {
-            privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.currentWallet!.password)!
+            privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!
             account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         }
         
