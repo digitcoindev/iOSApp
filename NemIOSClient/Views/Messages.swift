@@ -317,7 +317,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         }
     }
     
-    // MARK: - Search Bar Data Sourse
+    // MARK: - Search Bar Data Source
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)

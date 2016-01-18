@@ -28,7 +28,6 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToHistoryVC
         State.currentVC = SegueToHistoryVC
         _apiManager.delegate = self
         

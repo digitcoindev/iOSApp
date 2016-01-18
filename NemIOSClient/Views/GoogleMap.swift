@@ -14,7 +14,6 @@ class GoogleMap: AbstractViewController , CLLocationManagerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        State.fromVC = SegueToGoogleMap
         State.currentVC = SegueToGoogleMap
         
         self.locationManager.requestAlwaysAuthorization()

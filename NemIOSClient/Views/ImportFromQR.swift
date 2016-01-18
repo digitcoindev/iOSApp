@@ -14,16 +14,11 @@ class ImportFromQR: AbstractViewController, QRDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToImportFromQR
         State.currentVC = SegueToImportFromQR
 
         screenScaner.delegate = self
         
         titleLabel.text = "SCAN_QR_CODE".localized()
-        
-        if State.countVC <= 1{
-            backButton.hidden = true
-        }
     }
     
     override func viewDidAppear(animated: Bool) {

@@ -17,7 +17,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToImportFromKey
         State.currentVC = SegueToImportFromKey
 
         contentView.layer.cornerRadius = 10
@@ -33,10 +32,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         key.placeholder = "PRIVATE_KEY".localized()
         name.placeholder = "NAME".localized()
         add.setTitle("ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
-        
-        if State.countVC <= 1 {
-            backButton.hidden = true
-        }
     }
     
     deinit {
@@ -139,7 +134,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
             if let privateKey = key.text!.nemKeyNormalized() {
                 WalletGenerator().createWallet(name.text!, privateKey: privateKey)
                 
-                State.fromVC = SegueToImportFromKey
                 State.toVC = SegueToLoginVC
                 
                 if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {

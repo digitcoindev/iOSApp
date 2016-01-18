@@ -53,7 +53,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         
         titleLabel.text = "ADDRESS_BOOK".localized()
         editButton.setTitle("EDIT".localized(), forState: UIControlState.Normal)
-        addButton.setTitle("ADD_CONTACT".localized(), forState: UIControlState.Normal)
+        addButton.setTitle("  " + "ADD_CONTACT".localized(), forState: UIControlState.Normal)
         searchContainer.layer.cornerRadius = 5
         tableView.layer.cornerRadius = 5
         
@@ -69,7 +69,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     // MARK: - @IBAction
 
     @IBAction func endAction(sender: AnyObject) {
-        searchTextField.endEditing(true)
+        searchTextField.becomeFirstResponder()
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {

@@ -23,14 +23,13 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        State.fromVC = SegueToServerVC
         State.currentVC = SegueToServerVC
 
         _apiManager.delegate = self
         
         servers = _dataManager.getServers()
         titleLabel.text = "SERVER".localized()
-        addServer.setTitle("ADD_SERVER".localized(), forState: UIControlState.Normal)
+        addServer.setTitle("  " + "ADD_SERVER".localized(), forState: UIControlState.Normal)
         edit.setTitle("EDIT".localized(), forState: UIControlState.Normal)
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)

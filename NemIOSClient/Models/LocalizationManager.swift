@@ -24,11 +24,9 @@ class LocalizationManager {
             languageId = "ko"
         case "English", "Base":
             languageId = "Base"
-        case "Default":
+        default :
             bundle = nil
             return
-        default :
-            break
         }
         
         guard let path = NSBundle.mainBundle().pathForResource(languageId, ofType: "lproj") else {

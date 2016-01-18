@@ -16,6 +16,7 @@
 "ADD_COSIGNATORY" = "Add Cosignatory";
 "ADD_ADITIONAL_SIGNER" = "Add aditional signer";
 "ACCOUNT_HISTORY" = "Account History";
+"ABOUT" = "About";
 
 // MARK: - B
 
@@ -76,6 +77,7 @@
 "HARVEST_DETAILS" = "Harvest Details";
 "HOURS_SHORT" = "h";
 "HOURS" = "hours";
+"HIDE_PRIVATE_KEY" = "Hide private key";
 
 // MARK: - I
 
@@ -111,8 +113,9 @@
 "MULTISIG" = "Multisig";
 "MULTISIG_REMOVE_COUNT_ERROR" = "You can remove only one cosignatori per transaction.";
 "MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
-"MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM"; // %@ will be replaced by the transaction fee
+"MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM, changing min cosig value will cost 6 extra XEM"; // %@ will be replaced by the transaction fee
 "MINUTES_SHORT" = "min";
+"MIN_COSIG_PLACEHOLDER" = "Min signers set to : %@"; // %@ will be replaced by min csig value
 
 // MARK: - N
 
@@ -160,6 +163,10 @@
 "POSTFIX" = "Postfix";
 "POI" = "POI";
 "PRIMARY_ACCOUNT" = "Primary Account";
+"PRIVATE_KEY_SECURITY_WARNING_PART_ONE" = "It is essential to understand that the private key is the most important and sensitive part of your account information.\nWhoever has knowledge of a private key has ";
+"PRIVATE_KEY_SECURITY_WARNING_PART_TWO" = "full control over the associated funds and assets.";
+"PRIVATE_KEY_SECURITY_WARNING_PART_THREE" = "\nIt is important for restoring your account so you should never lose it, but also";
+"PRIVATE_KEY_SECURITY_WARNING_PART_FOUR" = " keep it top secret.";
 
 // MARK: - Q
 
@@ -192,6 +199,7 @@
 "SOCIAL_NEM_HEADER" = "NEM IOS Client";
 "SEND_MESSAGE" = "Send Message";
 "SHOW_CHANGES" = "Show Changes";
+"SHOW_PRIVATE_KEY" = "Show private key";
 
 // MARK: - T
 
@@ -210,6 +218,7 @@
 
 "VALIDATION" = "Validation";
 "VASTED_BALANCE" = "Vasted Balance";
+"VIEW_PRIVATE_KEY" = "View private key";
 
 // MARK: - Y
 
@@ -218,5 +227,6 @@
 
 // MARK: - W
 
+"WARNING" = "Warning";
 "WRONG_QR_VERSION" = "Wrong qr version";
 "WRONG_OLD_PASSWORD" = "Wrong old password";

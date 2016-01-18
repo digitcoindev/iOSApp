@@ -43,9 +43,7 @@ class ChangePasswordVC: AbstractViewController {
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
-        (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
-        
+    @IBAction func closePopUp(sender: AnyObject) {        
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }

@@ -26,11 +26,10 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         State.cleanVCs()
-        State.fromVC = SegueToLoginVC
         State.currentVC = SegueToLoginVC
         
         titleLabel.text = "ACCOUNTS".localized()
-        addWallet.setTitle("ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
+        addWallet.setTitle("   " + "ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
         editButton.setTitle("EDIT".localized(), forState: UIControlState.Normal)
         
         apiManager.delegate = self

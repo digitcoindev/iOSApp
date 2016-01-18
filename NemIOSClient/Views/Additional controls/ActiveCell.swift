@@ -41,4 +41,7 @@ class ActiveCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func activateCell(sender: AnyObject) {
+        super.setSelected(true, animated: true)
+    }
 }

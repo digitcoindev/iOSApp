@@ -16,7 +16,6 @@ class AddAccount: AbstractViewController
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        State.fromVC = SegueToAddAccountVC
         State.currentVC = SegueToAddAccountVC
 
         custom.layer.cornerRadius = 5
@@ -27,10 +26,6 @@ class AddAccount: AbstractViewController
         custom.setTitle("CREATE_NEW".localized(), forState: UIControlState.Normal)
         qr.setTitle("SCAN_QR_CODE".localized(), forState: UIControlState.Normal)
         key.setTitle("IMPORT_KEY".localized(), forState: UIControlState.Normal)
-        
-        if State.countVC <= 1{
-            backButton.hidden = true
-        }
     }
     
     override func delegateIsSetted() {

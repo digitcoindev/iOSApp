@@ -19,10 +19,10 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     private var _loadData :LoadData? = State.loadData
     private var _popUp :AbstractViewController? = nil
     private let _dataManager = CoreDataManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToSettings
         State.currentVC = SegueToSettings
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -85,6 +85,10 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
                 
             case 3:
                 _createPopUp("InvoiceSettings")
+                
+            case 4:
+                
+                _createPopUp("About")
                 
             default:
                 break
@@ -193,7 +197,8 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
                 ["GENERAL".localized()],
                 ["LANGUAGE".localized(), _loadData?.currentLanguage ?? "BASE".localized()],
                 ["ACCOUNT_PRIMATY".localized("Primary Account"), accountText],
-                ["INVOICE".localized(), "SET_CONFIGURATION".localized()]
+                ["INVOICE".localized(), "SET_CONFIGURATION".localized()],
+                ["ABOUT".localized(), ""]
             ],
             [
                 ["SECURITY".localized()],

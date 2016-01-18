@@ -18,14 +18,20 @@ class PasswordValidationVC: AbstractViewController
         
         State.currentVC = SegueToPasswordValidation
         
-        passwordTitle.text = "ENTET_PASSWORD".localized()
-        password.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        if State.nextVC == SegueToExportAccount {
+            passwordTitle.text = "ENTET_PASSWORD_EXPORT".localized()
+            password.placeholder = "PASSWORD_PLACEHOLDER_EXPORT".localized()
+        } else {
+            passwordTitle.text = "ENTET_PASSWORD".localized()
+            password.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        }
+
         confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
         
-        if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool {
+        if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool &&  State.nextVC != SegueToExportAccount {
             authenticateUser()
         } 
     }
@@ -38,12 +44,18 @@ class PasswordValidationVC: AbstractViewController
     
     @IBAction func passwordValidation(sender: AnyObject) {
         password.endEditing(true)
+        
+        if State.nextVC == SegueToExportAccount {
+            _prepareForExport()
+            return
+        }
 
         if State.importAccountData != nil {
             _validateFromImport()
-        } else {
-            _validateFromDatabase()
+            return
         }
+        
+        _validateFromDatabase()
     }
     
     @IBAction func hideKeyBoard(sender: AnyObject) {
@@ -59,6 +71,35 @@ class PasswordValidationVC: AbstractViewController
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             }
+        }
+    }
+    
+    private func _prepareForExport() {
+        
+        let login = State.currentWallet!.login
+        
+        let salt = State.loadData!.salt!
+        var privateKey_AES = State.currentWallet!.privateKey
+        
+        if password.text != "" {
+            let privateKey = HashManager.AES256Decrypt(privateKey_AES, key: State.loadData!.password!)
+            let saltData = NSData(bytes: salt.asByteArray())
+            let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+            privateKey_AES = HashManager.AES256Encrypt(privateKey!, key: passwordHash!.hexadecimalString())
+        }
+        
+        let objects = [login, salt, privateKey_AES]
+        let keys = [QRKeys.Name.rawValue, QRKeys.Salt.rawValue, QRKeys.PrivateKey.rawValue]
+        
+        let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys)
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.AccountData.rawValue, jsonAccountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
+        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
+        let jsonString :String = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as! String
+        
+        State.exportAccount = jsonString
+        
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
         }
     }
     

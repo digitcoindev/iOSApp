@@ -14,11 +14,21 @@ class State: NSObject
         static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
         static var invoice :InvoiceData? = nil
+        static var exportAccount :String? = nil
     }
     
     private struct ImportStore {
         static var isAccount: Bool = false
         static var passwordCompletitionBlock :((password: String)->Bool)? = nil
+    }
+    
+    final class var exportAccount: String? {
+        get {
+        return State.Store.exportAccount
+        }
+        set {
+            State.Store.exportAccount = newValue
+        }
     }
     
     final class var loadData: LoadData? {
@@ -54,6 +64,7 @@ class State: NSObject
         get {
             var inState = true
             let value = State.Store.stackVC.last!
+            
             for ;inState; {
                 if State.Store.stackVC.count > 1 && State.Store.stackVC.last! == value {
                     State.Store.stackVC.removeLast()

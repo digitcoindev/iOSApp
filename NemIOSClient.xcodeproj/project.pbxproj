@@ -28,8 +28,11 @@
 		98428A741BDA5960004494D5 /* CosigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A731BDA5960004494D5 /* CosigTableViewCell.swift */; };
 		98428A761BDA689C004494D5 /* AddCosigPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A751BDA689C004494D5 /* AddCosigPopUp.swift */; };
 		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
+		985496361C4916F80059504F /* WarningExportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496351C4916F80059504F /* WarningExportVC.swift */; };
+		985496381C4D0CAF0059504F /* AboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496371C4D0CAF0059504F /* AboutVC.swift */; };
 		985A372C1C469C4D00D7BD7A /* ChouseUpdateInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */; };
 		985A372E1C46A58200D7BD7A /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */; };
+		985A37301C47D88300D7BD7A /* AddCosignatoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */; };
 		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; };
 		9877C6801BE138EB00AF9751 /* HarvestDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */; };
 		9877C6821BE267AC00AF9751 /* BlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */; };
@@ -243,8 +246,11 @@
 		98428A731BDA5960004494D5 /* CosigTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CosigTableViewCell.swift; path = "Views/Additional controls/CosigTableViewCell.swift"; sourceTree = "<group>"; };
 		98428A751BDA689C004494D5 /* AddCosigPopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCosigPopUp.swift; path = Views/AddCosigPopUp.swift; sourceTree = "<group>"; };
 		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
+		985496351C4916F80059504F /* WarningExportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WarningExportVC.swift; path = Views/WarningExportVC.swift; sourceTree = "<group>"; };
+		985496371C4D0CAF0059504F /* AboutVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutVC.swift; path = Views/AboutVC.swift; sourceTree = "<group>"; };
 		985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseUpdateInterval.swift; path = Views/ChouseUpdateInterval.swift; sourceTree = "<group>"; };
 		985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordVC.swift; path = Views/ChangePasswordVC.swift; sourceTree = "<group>"; };
+		985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCosignatoryVC.swift; path = Views/AddCosignatoryVC.swift; sourceTree = "<group>"; };
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
 		9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestDetailsVC.swift; path = Views/HarvestDetailsVC.swift; sourceTree = "<group>"; };
 		9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockTableViewCell.swift; path = "Views/Additional controls/BlockTableViewCell.swift"; sourceTree = "<group>"; };
@@ -1142,6 +1148,8 @@
 				98F01CC11C2D4B560018081B /* ChouseLanguage.swift */,
 				985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */,
 				985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */,
+				985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */,
+				985496371C4D0CAF0059504F /* AboutVC.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -1227,6 +1235,7 @@
 			isa = PBXGroup;
 			children = (
 				DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */,
+				985496351C4916F80059504F /* WarningExportVC.swift */,
 			);
 			name = "Export Account";
 			sourceTree = "<group>";
@@ -1587,7 +1596,9 @@
 				DA031EDA1A922FEC0021E98B /* CreateQRInput.swift in Sources */,
 				DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */,
 				9823A4CE1B81CDF600B532CC /* DashboardButtonBox.swift in Sources */,
+				985496361C4916F80059504F /* WarningExportVC.swift in Sources */,
 				98BB95D31BCCED5B002151F7 /* readme.md in Sources */,
+				985496381C4D0CAF0059504F /* AboutVC.swift in Sources */,
 				DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */,
 				98E2432B1C465523001FAC2B /* CreatePasswordVC.swift in Sources */,
 				DAC3A1781B00A5E500AABB61 /* MultisigAccountManager.swift in Sources */,
@@ -1599,6 +1610,7 @@
 				DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */,
 				9877C6841BE2787400AF9751 /* BlockGetMetaData.swift in Sources */,
 				98BB95DD1BCCED5B002151F7 /* sign.c in Sources */,
+				985A37301C47D88300D7BD7A /* AddCosignatoryVC.swift in Sources */,
 				DA2BE9C51AB330E100E48D8F /* TransactionPostMetaData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -54,7 +54,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToMessageVC
         State.currentVC = SegueToMessageVC
         
         copyButton.setTitle("COPY", forState: UIControlState.Normal)

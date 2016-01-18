@@ -20,12 +20,7 @@ class RegistrationVC: AbstractViewController
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
         
-        State.fromVC = SegueToRegistrationVC
         State.currentVC = SegueToRegistrationVC
-        
-        if State.countVC <= 1 {
-            backButton.hidden = true
-        }
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
@@ -59,7 +54,6 @@ class RegistrationVC: AbstractViewController
         if userName.text != "" {
             WalletGenerator().createWallet(userName.text!)
             
-            State.fromVC = SegueToRegistrationVC
             State.toVC = SegueToLoginVC
             
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {

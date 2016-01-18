@@ -11,18 +11,19 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     private var _activeAccount :AccountGetMetaData? = nil
     
     private let _apiManager :APIManager =  APIManager()
-    private var _popUps :[AbstractViewController] = []
-    
+    private var _popUp :AbstractViewController? = nil
+
     private var _currentCosignatories :[String] = []
     private var _addArray :[String] = []
     private var _removeArray :[String] = []
     
     private var _isMultisig :Bool = false
     
+    var minCosig = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        State.fromVC = SegueTomultisigAccountManager
         State.currentVC = SegueTomultisigAccountManager
         
         _apiManager.delegate = self
@@ -125,47 +126,79 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         else {
             let fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
             
-            let alert1 :UIAlertController = UIAlertController(title: "INFO".localized(), message:
-                String(format: "MULTISIG_CHANGES_CONFIRMATION".localized(), "\(fee)"), preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let confirm :UIAlertAction = UIAlertAction(title: "CONFIRM".localized(), style: UIAlertActionStyle.Default) {
-                    alertAction -> Void in
-                    
-                    let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
-                    let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-                    let publickey = self._activeAccount!.publicKey!
-                    
-                    transaction.timeStamp = TimeSynchronizator.nemTime
-                    transaction.deadline = TimeSynchronizator.nemTime + waitTime
-                    transaction.version = 2
-                    transaction.signer = publickey
-                    transaction.privateKey = privateKey
-                    transaction.minCosignatory = 0
-                    
-                    for publickey in self._removeArray
-                    {
-                        transaction.addModification(2, publicKey: publickey)
-                    }
-                    
-                    for publickey in self._addArray
-                    {
-                        transaction.addModification(1, publicKey: publickey)
-                    }
-                    
-                transaction.fee = Double(fee)
-                    
-                    self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
+            if _popUp != nil {
+                _popUp!.view.removeFromSuperview()
+                _popUp!.removeFromParentViewController()
+                _popUp = nil
             }
             
-            let cancel :UIAlertAction = UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.Cancel) {
-                alertAction -> Void in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let popUpController :AddCosignatoryVC =  storyboard.instantiateViewControllerWithIdentifier("Add cosignatory") as! AddCosignatoryVC
+            popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
+            popUpController.view.layer.opacity = 0
+            popUpController.delegate = self
+            popUpController.titleLabel.text = String(format: "MULTISIG_CHANGES_CONFIRMATION".localized(), "\(fee)")
+
+            var max = _activeAccount!.minCosignatories!
+            
+            switch max {
+            case 0:
+                max = _activeAccount!.cosignatories.count - _removeArray.count
+            case 1:
+                max = 0
+            default :
+                max = max - _removeArray.count
             }
             
-            alert1.addAction(cancel)
-            alert1.addAction(confirm)
+            popUpController.minCosig.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(max)")
             
-            self.presentViewController(alert1, animated: true, completion: nil)
+            minCosig = _activeAccount!.minCosignatories!
+            popUpController.minCosigValue = 1
+            popUpController.maxCosigValue = max
+            
+            _popUp = popUpController
+            self.view.addSubview(popUpController.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                popUpController.view.layer.opacity = 1
+                }, completion: nil)
+
         }
+    }
+    
+    final func submitChanges() {
+        var fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
+        
+        if minCosig != _activeAccount!.minCosignatories! && _activeAccount!.minCosignatories! == 0 &&  _activeAccount!.cosignatories.count != minCosig {
+            fee += 6
+            minCosig = minCosig - _activeAccount!.minCosignatories!
+        }
+
+        let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let publickey = self._activeAccount!.publicKey!
+        
+        transaction.timeStamp = TimeSynchronizator.nemTime
+        transaction.deadline = TimeSynchronizator.nemTime + waitTime
+        transaction.version = 2
+        transaction.signer = publickey
+        transaction.privateKey = privateKey
+        transaction.minCosignatory = minCosig
+        
+        for publickey in self._removeArray
+        {
+            transaction.addModification(2, publicKey: publickey)
+        }
+        
+        for publickey in self._addArray
+        {
+            transaction.addModification(1, publicKey: publickey)
+        }
+        
+        transaction.fee = Double(fee)
+        
+        self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
     }
     
     //MARK: - @IBAction
@@ -177,61 +210,56 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     }
     
     @IBAction func chouseAccount(sender: AnyObject) {
-        if _popUps.count == 0 {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if _popUp != nil {
+            _popUp!.view.removeFromSuperview()
+            _popUp!.removeFromParentViewController()
+            _popUp = nil
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+        
+        accounts.view.frame = tableView.frame
+        
+        accounts.view.layer.opacity = 0
+        accounts.delegate = self
+        
+        var wallets = _mainAccount?.cosignatoryOf ?? []
+        
+        if _mainAccount != nil
+        {
+            wallets.append(self._mainAccount!)
+        }
+        accounts.wallets = wallets
+        
+        if accounts.wallets.count > 0
+        {
+            _popUp = accounts
+            self.view.addSubview(accounts.view)
             
-            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
-            
-            accounts.view.frame = tableView.frame
-            
-            accounts.view.layer.opacity = 0
-            accounts.delegate = self
-            
-            var wallets = _mainAccount?.cosignatoryOf ?? []
-            
-            if _mainAccount != nil
-            {
-                wallets.append(self._mainAccount!)
-            }
-            accounts.wallets = wallets
-            
-            if accounts.wallets.count > 0
-            {
-                _popUps.append(accounts)
-                self.view.addSubview(accounts.view)
-                
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    accounts.view.layer.opacity = 1
-                    }, completion: nil)
-            }
-        } else {
-            _popUps.first?.view.removeFromSuperview()
-            _popUps.removeFirst()
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                accounts.view.layer.opacity = 1
+                }, completion: nil)
         }
     }
     
     //MARK: - Private Methods
     
     private func _addCosig() {
-        if _popUps.count == 0 {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            let popUp :AddCosigPopUp =  storyboard.instantiateViewControllerWithIdentifier("AddCustomCosig") as! AddCosigPopUp
-            popUp.view.frame = CGRect(x: 0, y: 40, width: popUp.view.frame.width, height: popUp.view.frame.height - 40)
-            popUp.view.layer.opacity = 0
-            popUp.delegate = self
-            
-            _popUps.append(popUp)
-            self.view.addSubview(popUp.view)
-            
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                popUp.view.layer.opacity = 1
-                }, completion: nil)
-        } else {
-            _popUps.first?.view.removeFromSuperview()
-            _popUps.first?.removeFromParentViewController()
-            _popUps.removeFirst()
-        }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let popUp :AddCosigPopUp =  storyboard.instantiateViewControllerWithIdentifier("AddCustomCosig") as! AddCosigPopUp
+        popUp.view.frame = CGRect(x: 0, y: 40, width: popUp.view.frame.width, height: popUp.view.frame.height - 40)
+        popUp.view.layer.opacity = 0
+        popUp.delegate = self
+        
+        _popUp = popUp
+        self.view.addSubview(popUp.view)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            popUp.view.layer.opacity = 1
+            }, completion: nil)
     }
     
     private func _generateTableData() {
@@ -273,9 +301,10 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     func didChouseAccount(account: AccountGetMetaData) {
         
-        if _popUps.count > 0 {
-            _popUps.first?.view.removeFromSuperview()
-            _popUps.removeFirst()
+        if _popUp != nil {
+            _popUp!.view.removeFromSuperview()
+            _popUp!.removeFromParentViewController()
+            _popUp = nil
         }
         _activeAccount = nil
         _apiManager.accountGet(State.currentServer!, account_address: account.address)

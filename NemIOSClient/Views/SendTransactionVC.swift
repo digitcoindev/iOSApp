@@ -32,7 +32,6 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToSendTransaction
         State.currentVC = SegueToSendTransaction
         
         _apiManager.delegate = self

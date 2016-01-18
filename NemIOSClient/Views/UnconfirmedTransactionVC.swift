@@ -12,7 +12,6 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToUnconfirmedTransactionVC
         State.currentVC = SegueToUnconfirmedTransactionVC
         
         _apiManager.delegate = self

@@ -9,32 +9,19 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
     @IBOutlet weak var publicKey: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var privateKeyLabel: UILabel!
     @IBOutlet weak var publicKeyLabel: UILabel!
+    @IBOutlet weak var showPrivateKeyButn: UIButton!
     
     private var popup :AbstractViewController? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToExportAccount
         State.currentVC = SegueToExportAccount
-        
-        let login = State.currentWallet!.login
-        
-        let salt = State.loadData!.salt!
-        let privateKey_AES = State.currentWallet!.privateKey
-        let objects = [login, salt, privateKey_AES]
-        let keys = [QRKeys.Name.rawValue, QRKeys.Salt.rawValue, QRKeys.PrivateKey.rawValue]
-        
-        let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys)
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.AccountData.rawValue, jsonAccountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
-        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
-        let jsonString :String = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as! String
         
         let qr :QR = QR()
         
-        qrImage.image =  qr.createQR(jsonString)
+        qrImage.image =  qr.createQR(State.exportAccount!)
         
         let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let pub_key = KeyGenerator.generatePublicKey(priv_key!)
@@ -44,7 +31,34 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         shareButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
         titleLabel.text = "EXPORT_ACCOUNT".localized()
         publicKeyLabel.text = "PUBLIC_KEY".localized()
-        privateKeyLabel.text = "PRIVATE_KEY".localized()
+        showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
+    }
+    
+    @IBAction func showPrivateKey(sender: AnyObject) {
+        if  !privateKey.hidden {
+            showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
+            privateKey.hidden = true
+        } else {
+            if popup != nil {
+                popup!.view.removeFromSuperview()
+                popup!.removeFromParentViewController()
+                popup = nil
+            }
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier("PrivateKey warning") as! AbstractViewController
+            popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
+            popUpController.view.layer.opacity = 0
+            popUpController.delegate = self
+            
+            popup = popUpController
+            self.view.addSubview(popUpController.view)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                popUpController.view.layer.opacity = 1
+                }, completion: nil)
+        }
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {

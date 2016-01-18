@@ -19,7 +19,6 @@ class CreateQRInput: AbstractViewController
         
         createButton.setTitle("CREATE".localized(), forState: UIControlState.Normal)
         
-        State.fromVC = SegueToCreateInvoice
         State.currentVC = SegueToCreateInvoice
         
         containerView.layer.cornerRadius = 10
@@ -28,14 +27,16 @@ class CreateQRInput: AbstractViewController
         let loadData = State.loadData
         
         name.text = State.currentWallet?.login ?? ""
-        message.text =  "#\(_dataManager.getInvoice().count)"
+        message.text =  ""
         
         if let prefix = loadData?.invoicePrefix {
-            message.text = (message.text ?? "") + " " + prefix
+            message.text = prefix
         }
         
+        message.text = message.text! + "/\(_dataManager.getInvoice().count)/"
+        
         if let postfix = loadData?.invoicePostfix {
-            message.text = (message.text ?? "") + " " + postfix
+            message.text = message.text! + postfix
         }
     }
 

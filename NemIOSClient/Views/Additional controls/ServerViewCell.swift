@@ -87,6 +87,8 @@ class ServerViewCell: UITableViewCell
             if self.delegate != nil && self.delegate!.respondsToSelector("deleteCell:") {
                 (self.delegate as! ServerCellDelegate).deleteCell!(self)
             }
+        } else {
+            super.setSelected(true, animated: true)
         }
     }
 }

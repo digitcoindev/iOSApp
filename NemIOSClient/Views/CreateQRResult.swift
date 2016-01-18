@@ -24,7 +24,6 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToCreateInvoiceResult
         State.currentVC = SegueToCreateInvoiceResult
         
         invoiceDataLabel.text = "INVOICE_DATA".localized()
