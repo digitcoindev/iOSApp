@@ -44,7 +44,51 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         feeLabel.text = "FEE".localized() + ":"
         sendButton.setTitle("SEND", forState: UIControlState.Normal)
         
+        var suggestions :[String] = []
+        
+        let dataManager = CoreDataManager()
+        for wallet in dataManager.getWallets() {
+            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
+            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+            
+            var find = false
+            
+            for suggestion in suggestions {
+                if suggestion == account_address {
+                    find = true
+                    break
+                }
+            }
+            if !find {
+                suggestions.append(account_address)
+            }
+        }
+        
+        if AddressBookManager.isAllowed ?? false {
+            for contact in AddressBookManager.contacts {
+                for email in contact.emailAddresses{
+                    if email.label == "NEM" {
+                        let account_address = email.value as? String ?? " "
+                        
+                        var find = false
+                        
+                        for suggestion in suggestions {
+                            if suggestion == account_address {
+                                find = true
+                                break
+                            }
+                        }
+                        if !find {
+                            suggestions.append(account_address)
+                        }
+                    }
+                }
+            }
+        }
+        
         toAddressTextField.placeholder = "ENTER_ADDRESS".localized()
+        
+        toAddressTextField.suggestions = suggestions
         amountTextField.placeholder = "ENTER_AMOUNT".localized()
         messageTextField.placeholder = "EMPTY_MESSAGE".localized()
         feeTextField.placeholder = "ENTER_FEE".localized()
@@ -67,11 +111,11 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             invoice = State.invoice
             State.invoice = nil
             toAddressTextField.text = "\(invoice!.address)"
-            amountTextField.text = "\(invoice!.amount)"
+            amountTextField.text = "\(invoice!.amount.format())"
             messageTextField.text = "\(invoice!.message)"
             
             countTransactionFee()
-            self.feeTextField.text = "\(transactionFee)"
+            self.feeTextField.text = "\(transactionFee.format())"
         }
     }
     
@@ -102,7 +146,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         default :
             break
         }
-        self.feeTextField.text = "\(transactionFee)"
+        self.feeTextField.text = "\(transactionFee.format())"
     }
     
     
@@ -116,7 +160,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         countTransactionFee()
         
         if Double(self.feeTextField.text!) < transactionFee {
-            self.feeTextField.text = "\(transactionFee)"
+            self.feeTextField.text = "\(transactionFee.format())"
             return
         }
         if walletData != nil {
@@ -286,7 +330,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             
             let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
             
-            atributedText.appendAttributedString(NSMutableAttributedString(string: "\(walletData.balance / 1000000)", attributes: [
+            atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
                 NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
                 NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
                 ]))
@@ -318,7 +362,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "\(walletData.balance / 1000000)", attributes: [
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
             NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
             NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
             ]))

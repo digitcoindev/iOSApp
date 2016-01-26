@@ -38,9 +38,6 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5
-
-
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,10 +61,6 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
-//        let things = ["Things to share"]
-//        
-//        let activityViewController = UIActivityViewController(activityItems: things, applicationActivities: nil)
-//        self.presentViewController(activityViewController, animated: true, completion: nil)
         if _popUp != nil { return }
         
         _isEditing = !_isEditing
@@ -157,20 +150,32 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     //MARK: - EditableTableViewCellDelegate Delegate
     
     func deleteCell(cell: EditableTableViewCell){
-        let index :NSIndexPath = tableView.indexPathForCell(cell)!
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), (cell as! WalletCell).infoLabel.text!), preferredStyle: UIAlertControllerStyle.Alert)
         
-        if index.row < wallets.count {
-            if let loadData = State.loadData {
-                if loadData.currentWallet == wallets[index.row] {
-                    loadData.currentWallet = nil
-                    dataManager.commit()
-                }
-            }
-            dataManager.deleteWallet(wallet: wallets[index.row])
-            wallets.removeAtIndex(index.row)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            let index :NSIndexPath = self.tableView.indexPathForCell(cell)!
             
-            tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
-        }
+            if index.row < self.wallets.count {
+                if let loadData = State.loadData {
+                    if loadData.currentWallet == self.wallets[index.row] {
+                        loadData.currentWallet = nil
+                        self.dataManager.commit()
+                    }
+                }
+                self.dataManager.deleteWallet(wallet: self.wallets[index.row])
+                self.wallets.removeAtIndex(index.row)
+                
+                self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
+            }
+            
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     //MARK: - APIManagerDelegate Methods

@@ -18,7 +18,7 @@ class ChouseButton: UIButton {
         
         if let imageView = self.imageView {
             imageView.contentMode =  UIViewContentMode.ScaleAspectFit
-            imageView.frame = CGRect(x: self.frame.width - self.frame.height, y: 0, width: self.frame.height, height: self.frame.height)
+            imageView.frame = CGRect(x: self.frame.width - self.frame.height * 0.75 - 5, y: self.frame.height * 0.125, width: self.frame.height * 0.75, height: self.frame.height * 0.75)
         }
         
         if let titleLabel = self.titleLabel {

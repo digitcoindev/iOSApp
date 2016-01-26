@@ -227,7 +227,7 @@ class SignManager: NSObject
         } else {
             let lengthOfMinCosignatory :Array<UInt8> = String(4, radix: 16).asByteArrayEndian(4)
             result = result + lengthOfMinCosignatory
-            let min = 256 - transaction.minCosignatory
+            let min = 256 + transaction.minCosignatory
             let relativeChange :Array<UInt8> = [UInt8(min), 255, 255, 255]
             result = result + relativeChange
         }

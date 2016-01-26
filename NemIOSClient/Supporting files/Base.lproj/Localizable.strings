@@ -36,15 +36,18 @@
 "COPY" = "Copy";
 "COULD_NOT_DECRYPT" = "Could not decrypt";
 "CONFIRM" = "Confirm";
-"COPY_QR" = "Copy QR";
 "COPY_ADDRESS" = "Copy Address";
 "CREATE" = "Create";
 "CANCEL" = "Cancel";
 "CONTACTS_IS_UNAVAILABLE" = "Contacts is unavailable.\nTo allow contacts follow to this directory\nSettings -> Privacy -> Contacts.";
+"COPIED" = "Copied";
 
 // MARK: - D
 
 "DELETE" = "Delete";
+"DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK" = "Are you shure you want to delete %@ contact?"; // %@ will be replaced by contact name
+"DELETE_CONFIRMATION_MASSAGE_ACCOUNTS" = "Are you shure you want to delete %@ account?"; // %@ will be replaced by account name
+"DELETE_CONFIRMATION_MASSAGE_SERVERS" = "Are you shure you want to delete %@ server?"; // %@ will be replaced by server address
 "DELEGATED_HARVESTING" = "Delegated Harvesting";
 "DELEGATED_KEY" = "Delegated Key";
 
@@ -118,6 +121,7 @@
 "MULTISIG_CHANGES_CONFIRMATION" = "Are you agree with changes? It will cost %@ XEM, changing min cosig value will cost 6 extra XEM"; // %@ will be replaced by the transaction fee
 "MINUTES_SHORT" = "min";
 "MIN_COSIG_PLACEHOLDER" = "Min signers set to : %@"; // %@ will be replaced by min csig value
+"MIN_COSIG_PLACEHOLDER_CHANGED" = "Min signers changed to : %@"; // %@ will be replaced by min csig value
 
 // MARK: - N
 
@@ -203,6 +207,8 @@
 "SEND_MESSAGE" = "Send Message";
 "SHOW_CHANGES" = "Show Changes";
 "SHOW_PRIVATE_KEY" = "Show private key";
+"SWITCH_ACCOUNT" = "Switch Account";
+"SAVE_QR" = "Save QR";
 
 // MARK: - T
 

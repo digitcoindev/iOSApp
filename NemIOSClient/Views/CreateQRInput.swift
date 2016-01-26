@@ -38,6 +38,11 @@ class CreateQRInput: AbstractViewController
         if let postfix = loadData?.invoicePostfix {
             message.text = message.text! + postfix
         }
+        
+        if let messageText = loadData?.invoiceMessage {
+            message.text = message.text! + ": " + messageText
+        }
+
     }
 
     override func didReceiveMemoryWarning() {

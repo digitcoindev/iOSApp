@@ -90,7 +90,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             }
             
             let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-            let balance = " \(walletData.balance / 1000000) XEM"
+            let balance = " \((walletData.balance / 1000000).format()) XEM"
             
             userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
             

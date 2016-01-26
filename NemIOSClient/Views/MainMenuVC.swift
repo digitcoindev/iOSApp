@@ -17,7 +17,7 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         
         titleLabel.text = "MORE".localized()
         
-        menu = [SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
+        menu = [SegueToLoginVC, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -49,6 +49,8 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         var titleText = menuItems.objectAtIndex(indexPath.row) as? String
         switch titleText!
         {
+        case SegueToLoginVC:
+            titleText = "SWITCH_ACCOUNT".localized()
         case SegueToExportAccount:
             titleText = "EXPORT_ACCOUNT".localized()
         case SegueToGoogleMap:

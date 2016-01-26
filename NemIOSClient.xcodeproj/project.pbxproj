@@ -19,6 +19,7 @@
 		9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
 		9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D41B846FE200B532CC /* MessageCrypto.swift */; };
+		98240F7E1C52641100A94C3E /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98240F7D1C52641100A94C3E /* TextFieldTableViewCell.swift */; };
 		9833B70C1BC5506B009836F9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9833B70B1BC5506B009836F9 /* Enums.swift */; };
 		983579AE1BC3EC49009AF518 /* MessageToContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */; };
 		983579B41BC518EA009AF518 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B31BC518EA009AF518 /* QRViewController.swift */; };
@@ -237,6 +238,7 @@
 		9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesButtonTypeOne.swift; path = "Views/Additional controls/MessagesButtonTypeOne.swift"; sourceTree = "<group>"; };
 		9823A4D11B8339B400B532CC /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = Models/Correspondent.swift; sourceTree = "<group>"; };
 		9823A4D41B846FE200B532CC /* MessageCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageCrypto.swift; path = Models/MessageCrypto.swift; sourceTree = "<group>"; };
+		98240F7D1C52641100A94C3E /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextFieldTableViewCell.swift; path = "Views/Additional controls/TextFieldTableViewCell.swift"; sourceTree = "<group>"; };
 		9833B70B1BC5506B009836F9 /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Enums.swift; path = Models/Enums.swift; sourceTree = "<group>"; };
 		983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToContactVC.swift; path = Views/MessageToContactVC.swift; sourceTree = "<group>"; };
 		983579B31BC518EA009AF518 /* QRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRViewController.swift; path = Views/QRViewController.swift; sourceTree = "<group>"; };
@@ -964,6 +966,7 @@
 				98F01CBA1C2AF3740018081B /* ActiveCell.swift */,
 				9805EFC51C31693E008CC607 /* SaveCell.swift */,
 				9805EFC71C3169F9008CC607 /* AddCell.swift */,
+				98240F7D1C52641100A94C3E /* TextFieldTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1570,6 +1573,7 @@
 				DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */,
 				98F3F53F1BD0EC4E004A6E19 /* AbstactTableViewCell.swift in Sources */,
 				DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */,
+				98240F7E1C52641100A94C3E /* TextFieldTableViewCell.swift in Sources */,
 				DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */,
 				DAD21B9C1AFCD51F00F6B861 /* MultisigTransaction.swift in Sources */,
 				DA194E0F1A444F2A0030C882 /* MainContainerVC.swift in Sources */,

@@ -32,7 +32,7 @@ class UserInfoVC: AbstractViewController
         myAddressLabel.text = "MY_ADDRESS".localized() + ":"
         myNameLabel.text = "MY_NAME".localized() + ":"
         userName.placeholder = "YOUR_NAME".localized()
-        copyQRButton.setTitle("COPY_QR".localized(), forState: UIControlState.Normal)
+        copyQRButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
         shareQRButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
         copyAddressButton.setTitle("COPY_ADDRESS".localized(), forState: UIControlState.Normal)
         shareAddressButton.setTitle("SHARE_ADDRESS".localized(), forState: UIControlState.Normal)
@@ -48,6 +48,10 @@ class UserInfoVC: AbstractViewController
     }
     
     // MARK: - @IBAction
+    
+    @IBAction func activeteField(sender: AnyObject) {
+        userName.becomeFirstResponder()
+    }
 
     @IBAction func nameChanged(sender: AnyObject) {
         userName.becomeFirstResponder()
@@ -82,8 +86,7 @@ class UserInfoVC: AbstractViewController
     }
     
     @IBAction func copyQR(sender: AnyObject) {
-        let pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
-        pasteBoard.string = (Validate.stringNotEmpty(userName.text) ? userName.text! : State.currentWallet!.login) + ": " + address
+        UIImageWriteToSavedPhotosAlbum(qrImageView.image!, nil, nil, nil)
     }
     
     @IBAction func shareQR(sender: AnyObject) {

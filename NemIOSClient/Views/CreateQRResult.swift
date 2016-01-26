@@ -27,7 +27,7 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
         State.currentVC = SegueToCreateInvoiceResult
         
         invoiceDataLabel.text = "INVOICE_DATA".localized()
-        copyQRButton.setTitle("COPY_QR".localized(), forState: UIControlState.Normal)
+        copyQRButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
         shareQRButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
         
         if invoice != nil {
@@ -61,19 +61,7 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
     // MARK: - @IBAction
     
     @IBAction func copyQR(sender: AnyObject) {
-        var copyString :String = ""
-        
-        if invoice != nil {
-            copyString += "Name: \(invoice!.name) \n"
-            copyString += "Address: \(invoice!.address) \n"
-            copyString += "Amount: \(invoice!.amount) \n"
-            copyString += "Message: \(invoice!.message) \n"
-        } else {
-            copyString += "Empty QR"
-        }
-        
-        let pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
-        pasteBoard.string = copyString
+        UIImageWriteToSavedPhotosAlbum(qrImageView.image!, nil, nil, nil)
     }
     
     @IBAction func shareQR(sender: AnyObject) {

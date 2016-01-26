@@ -5,8 +5,8 @@ import MessageUI
 class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDelegate
 {
     @IBOutlet weak var qrImage: UIImageView!
-    @IBOutlet weak var privateKey: UILabel!
-    @IBOutlet weak var publicKey: UILabel!
+    @IBOutlet weak var privateKey: UITextView!
+    @IBOutlet weak var publicKey: UITextView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var publicKeyLabel: UILabel!
@@ -34,7 +34,13 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func showPrivateKey(sender: AnyObject) {
+        self.view.endEditing(true)
+        
         if  !privateKey.hidden {
             showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
             privateKey.hidden = true
@@ -68,7 +74,8 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
     }
     
     @IBAction func shareQR(sender: AnyObject) {
-        
+        self.view.endEditing(true)
+
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController

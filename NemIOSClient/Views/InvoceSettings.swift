@@ -14,10 +14,9 @@ class InvoceSettings: AbstractViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scroll: UIScrollView!
-    @IBOutlet weak var prefixTextView: UITextView!
-    @IBOutlet weak var postfixTextView: UITextView!
-    @IBOutlet weak var prefixLabel: UILabel!
-    @IBOutlet weak var postfixLabel: UILabel!
+    @IBOutlet weak var prefix: NEMTextField!
+    @IBOutlet weak var postfix: NEMTextField!
+    @IBOutlet weak var message: NEMTextField!
     @IBOutlet weak var saveButton: UIButton!
     
     private let _accounts :[Wallet] = CoreDataManager().getWallets()
@@ -31,11 +30,14 @@ class InvoceSettings: AbstractViewController {
         contentView.clipsToBounds = true
         let loadData = State.loadData
         
-        prefixTextView.text = loadData?.invoicePrefix
-        postfixTextView.text = loadData?.invoicePostfix
+        prefix.text = loadData?.invoicePrefix
+        postfix.text = loadData?.invoicePostfix
+        message.text = loadData?.invoiceMessage
         
-        prefixLabel.text = "   " + "PREFIX".localized()
-        postfixLabel.text = "   " + "POSTFIX".localized()
+        prefix.placeholder = "   " + "PREFIX".localized()
+        postfix.placeholder = "   " + "POSTFIX".localized()
+        message.placeholder = "   " + "MESSAGE".localized()
+        
         saveButton.setTitle("SAVE".localized(), forState: UIControlState.Normal)
     }
     
@@ -50,10 +52,26 @@ class InvoceSettings: AbstractViewController {
         self.removeFromParentViewController()
     }
     
+    @IBAction func switchField(sender: NEMTextField) {
+        switch sender {
+        case prefix:
+            postfix.becomeFirstResponder()
+        case postfix:
+            message.becomeFirstResponder()
+        case message:
+            message.endEditing(true)
+        default:
+            break
+        }
+    }
+    
+    
     @IBAction func reset(sender: AnyObject) {
         let loadData = State.loadData
-        loadData?.invoicePrefix = prefixTextView.text
-        loadData?.invoicePostfix = postfixTextView.text
+        loadData?.invoicePrefix = prefix.text
+        loadData?.invoicePostfix = postfix.text
+        loadData?.invoiceMessage = message.text
+        
         CoreDataManager().commit()
         (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)

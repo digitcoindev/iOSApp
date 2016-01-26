@@ -56,36 +56,58 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     
     //MARK: - MainVCdDelegate Methods
     
-    final func changeState(page: String){
+    final func changeState(var page: String){
+        if page == SegueToPasswordValidation {
+            page = State.nextVC
+        }
+        
         switch page {
         case    SegueToMessages, SegueToMessageVC, SegueToMessageMultisignVC,
-        SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToSendTransaction,
+        SegueToMessageCosignatoryVC, SegueToSendTransaction,
         SegueToUnconfirmedTransactionVC:
             messagesButton.setImage(UIImage(named: "message_active"), forState: UIControlState.Normal)
             addressBookButton.setImage(UIImage(named: "adress_passive"), forState: UIControlState.Normal)
             qrButton.setImage(UIImage(named: "qr_passive"), forState: UIControlState.Normal)
-            
+            moreButton.setImage(UIImage(named: "more_passive"), forState: UIControlState.Normal)
+
             messagesButton.setTitleColor(_greenColor, forState: UIControlState.Normal)
             addressBookButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
             qrButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
-            
+            moreButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+
         case SegueToAddressBook:
             messagesButton.setImage(UIImage(named: "message_passive"), forState: UIControlState.Normal)
             addressBookButton.setImage(UIImage(named: "adress_active"), forState: UIControlState.Normal)
             qrButton.setImage(UIImage(named: "qr_passive"), forState: UIControlState.Normal)
-            
+            moreButton.setImage(UIImage(named: "more_passive"), forState: UIControlState.Normal)
+
             messagesButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
             addressBookButton.setTitleColor(_greenColor, forState: UIControlState.Normal)
             qrButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
-            
+            moreButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+
         case SegueToQRController, SegueToUserInfo, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR:
             messagesButton.setImage(UIImage(named: "message_passive"), forState: UIControlState.Normal)
             addressBookButton.setImage(UIImage(named: "adress_passive"), forState: UIControlState.Normal)
             qrButton.setImage(UIImage(named: "qr_active"), forState: UIControlState.Normal)
-            
+            moreButton.setImage(UIImage(named: "more_passive"), forState: UIControlState.Normal)
+
             messagesButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
             addressBookButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
             qrButton.setTitleColor(_greenColor, forState: UIControlState.Normal)
+            moreButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+
+        case SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueToExportAccount:
+            
+            messagesButton.setImage(UIImage(named: "message_passive"), forState: UIControlState.Normal)
+            addressBookButton.setImage(UIImage(named: "adress_passive"), forState: UIControlState.Normal)
+            qrButton.setImage(UIImage(named: "qr_passive"), forState: UIControlState.Normal)
+            moreButton.setImage(UIImage(named: "more_passive"), forState: UIControlState.Normal)
+            
+            messagesButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            addressBookButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            qrButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+            moreButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
             
         default:
             break

@@ -9,6 +9,7 @@
     </entity>
     <entity name="LoadData" representedClassName="NemIOSClient.LoadData" syncable="YES">
         <attribute name="currentLanguage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="invoiceMessage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="invoicePostfix" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="invoicePrefix" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastTransactionHash" optional="YES" attributeType="String" syncable="YES"/>
@@ -31,7 +32,7 @@
     </entity>
     <elements>
         <element name="Invoice" positionX="-45" positionY="153" width="128" height="120"/>
-        <element name="LoadData" positionX="-45" positionY="72" width="128" height="195"/>
+        <element name="LoadData" positionX="-45" positionY="72" width="128" height="210"/>
         <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
         <element name="Wallet" positionX="-54" positionY="27" width="128" height="90"/>
     </elements>

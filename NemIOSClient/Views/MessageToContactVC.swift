@@ -13,7 +13,7 @@ class MessageToContactVC: AbstractViewController {
     //MARK: - @IBOutlet
 
     @IBOutlet weak var userInfoLabel: NEMLabel!
-    @IBOutlet weak var userAddressLabel: NEMLabel!
+    @IBOutlet weak var userAddressLabel: UITextView!
     @IBOutlet weak var actionButton: UIButton!
     
     @IBOutlet weak var contentView: UIView!
@@ -33,6 +33,10 @@ class MessageToContactVC: AbstractViewController {
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        self.view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {

@@ -63,6 +63,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
 
         for cell in self.tableView.visibleCells {
             (cell as! ServerViewCell).inEditingState = _isEditing
+            (cell as! ServerViewCell).actionButton.userInteractionEnabled = _isEditing
             (cell as! ServerViewCell).layoutCell(animated: true)
         }
     }
@@ -88,6 +89,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         }
         
         cell.inEditingState = _isEditing
+        cell.actionButton.userInteractionEnabled = _isEditing
+
         cell.layoutCell(animated: false)
         let fileName = "server \(cellData.address).png"
         let fileService = FileService()
@@ -95,16 +98,18 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
             cell.flagImageView.image = UIImage(contentsOfFile: fileName.path())
         } else {
             cell.flagImageView.image = UIImage(named: "unknown_server_icon")
-            _apiManager.downloadImage(NSURL(string: "http://api.hostip.info/flag.php?ip=\(cellData.address)")!) { (image) -> Void in
-                
-                fileService.createFileWithName(fileName, data: UIImagePNGRepresentation(image)!, responce: { (state) -> Void in
-                    if state == FileServiceResponceState.Successed {
-                        self.tableView.reloadData()
-                    }
-                })
+            if let url = NSURL(string: "http://api.hostip.info/flag.php?ip=\(cellData.address)") {
+                _apiManager.downloadImage(url) { (image) -> Void in
+                    
+                    fileService.createFileWithName(fileName, data: UIImagePNGRepresentation(image)!, responce: { (state) -> Void in
+                        if state == FileServiceResponceState.Successed {
+                            self.tableView.reloadData()
+                        }
+                    })
+                }
             }
         }
-
+        
         return cell
     }
     
@@ -170,15 +175,27 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     
     //MARK: - ServerCell Delegate
     
-    func deleteCell(cell :UITableViewCell) {
-        let index :NSIndexPath = tableView.indexPathForCell(cell)!
+    func deleteCell(cell :UITableViewCell) {       
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_SERVERS".localized(), (cell as! ServerViewCell).serverName.text!), preferredStyle: UIAlertControllerStyle.Alert)
         
-        if index.row < servers.count {
-            _dataManager.deleteServer(server: servers[index.row])
-            servers.removeAtIndex(index.row)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            let index :NSIndexPath = self.tableView.indexPathForCell(cell)!
             
-            tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
-        }
+            if index.row < self.servers.count {
+                self._dataManager.deleteServer(server: self.servers[index.row])
+                self.servers.removeAtIndex(index.row)
+                
+                self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
+            }
+            
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     //MARK: - AddCustomServerDelegate Methods

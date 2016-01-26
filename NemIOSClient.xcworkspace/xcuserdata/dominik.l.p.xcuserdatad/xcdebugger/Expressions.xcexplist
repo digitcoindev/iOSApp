@@ -135,15 +135,20 @@
          contextName = "AddressBook.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:AddressBook.swift">
       </ContextState>
       <ContextState
+         contextName = "ImportFromQR.(detectedQRWithString(ImportFromQR) -&gt; (String) -&gt; ()).(closure #3):ImportFromQR.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString())">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "APIManager.(accountGet(APIManager) -&gt; (Server, account_address : String) -&gt; ()).(closure #1).(closure #1).(closure #3):APIManager.swift">
          <PersistentStrings>
             <PersistentString
                value = "layers">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PKCS7.remove([UInt8], blockSize : Int?) -&gt; [UInt8]:PKCS7.swift">
       </ContextState>
       <ContextState
          contextName = "Messages.refreshTransactionList() -&gt; ():Messages.swift">
@@ -162,13 +167,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ShareViewController.delegateIsSetted() -&gt; ():ShareViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "static SignManager.commonPart(TransactionPostMetaData, isMultisignPart : Bool) -&gt; [UInt8]:SignManager.swift">
+         contextName = "PKCS7.remove([UInt8], blockSize : Int?) -&gt; [UInt8]:PKCS7.swift">
       </ContextState>
       <ContextState
          contextName = "MultisigAccountManager.(_generateTableData in _FB8019F99D1B58415A78642842244E35)() -&gt; ():MultisigAccountManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ShareViewController.delegateIsSetted() -&gt; ():ShareViewController.swift">
       </ContextState>
       <ContextState
          contextName = "QRViewController.backButtonTouchUpInside(AnyObject) -&gt; ():QRViewController.swift">
@@ -179,18 +184,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ImportFromQR.(detectedQRWithString(ImportFromQR) -&gt; (String) -&gt; ()).(closure #3):ImportFromQR.swift">
+         contextName = "static SignManager.commonPart(TransactionPostMetaData, isMultisignPart : Bool) -&gt; [UInt8]:SignManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "NEMTextField.updateSuggestions(AnyObject) -&gt; ():NEMTextField.swift">
          <PersistentStrings>
             <PersistentString
-               value = "HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString())">
+               value = "tableView.frame">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "AES.encrypt([UInt8], padding : Padding?) throws -&gt; [UInt8]:AES.swift">
+         contextName = "TransferTransaction.getFrom(NSDictionary) -&gt; ():TransferTransaction.swift">
       </ContextState>
       <ContextState
-         contextName = "TransferTransaction.getFrom(NSDictionary) -&gt; ():TransferTransaction.swift">
+         contextName = "AES.encrypt([UInt8], padding : Padding?) throws -&gt; [UInt8]:AES.swift">
       </ContextState>
       <ContextState
          contextName = "FetchManager.update((UIBackgroundFetchResult) -&gt; ()) -&gt; ():FetchManager.swift">
@@ -221,10 +229,10 @@
          contextName = "static State.lastVC.getter:State.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.Store.stackVC">
+               value = "State.Store.stackVC.last!">
             </PersistentString>
             <PersistentString
-               value = "State.Store.stackVC.last!">
+               value = "State.Store.stackVC">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -286,23 +294,18 @@
          contextName = "MessageVC.(accountGetResponceWithAccount(MessageVC) -&gt; (AccountGetMetaData?) -&gt; ()).(closure #1):MessageVC.swift">
       </ContextState>
       <ContextState
+         contextName = "MessageVC.defineData() -&gt; ():MessageVC.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static SignManager.aggregateModificationTransactionPart(AggregateModificationTransaction) -&gt; [UInt8]:SignManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "AES.decrypt([UInt8], padding : Padding?) throws -&gt; [UInt8]:AES.swift">
          <PersistentStrings>
             <PersistentString
                value = "padding.lastByte">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "APIManager.(prepareAnnounce(APIManager) -&gt; (Server, transaction : TransactionPostMetaData) -&gt; ()).(closure #1).(closure #1):APIManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "(layers! as NSDictionary).objectForKey(&quot;innerTransaction&quot;) ">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "MessageVC.defineData() -&gt; ():MessageVC.swift">
       </ContextState>
       <ContextState
          contextName = "CreateQRInput.viewDidLoad() -&gt; ():CreateQRInput.swift">
@@ -313,7 +316,12 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "static SignManager.aggregateModificationTransactionPart(AggregateModificationTransaction) -&gt; [UInt8]:SignManager.swift">
+         contextName = "APIManager.(prepareAnnounce(APIManager) -&gt; (Server, transaction : TransactionPostMetaData) -&gt; ()).(closure #1).(closure #1):APIManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "(layers! as NSDictionary).objectForKey(&quot;innerTransaction&quot;) ">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "static HashManager.AES256Decrypt(String, key : String) -&gt; String?:HashManager.swift">
@@ -401,13 +409,13 @@
          contextName = "static MessageCrypto.decrypt([UInt8], recipientPrivateKey : String, senderPublicKey : String) -&gt; String?:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
-               value = "encBytes.toHexString()">
+               value = "messageData.hexadecimalString()">
             </PersistentString>
             <PersistentString
                value = "NSString(data: messageData, encoding: NSASCIIStringEncoding) as? String">
             </PersistentString>
             <PersistentString
-               value = "messageData.hexadecimalString()">
+               value = "encBytes.toHexString()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -437,10 +445,10 @@
          contextName = "MessageVC.sendButtonTouchUpInside(AnyObject) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
+               value = "contact.public_key">
             </PersistentString>
             <PersistentString
-               value = "contact.public_key">
+               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -448,10 +456,10 @@
          contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
          <PersistentStrings>
             <PersistentString
-               value = "loadData?.invoicePostfix">
+               value = "loadData?.invoicePrefix">
             </PersistentString>
             <PersistentString
-               value = "loadData?.invoicePrefix">
+               value = "loadData?.invoicePostfix">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

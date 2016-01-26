@@ -308,16 +308,27 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     // MARK: - EditableTableViewCellDelegate Methods
     
     final func deleteCell(cell: EditableTableViewCell) {
-        let index :NSIndexPath = tableView.indexPathForCell(cell)!
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK".localized(), (cell as! AddressCell).infoLabel.text!), preferredStyle: UIAlertControllerStyle.Alert)
         
-        if index.row < displayList.count {
-            AddressBookManager.deleteContact(displayList[index.row], responce: nil)
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.displayList.removeAtIndex(index.row)
-                self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
-
-            })
-        }
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            let index :NSIndexPath = self.tableView.indexPathForCell(cell)!
+            
+            if index.row < self.displayList.count {
+                AddressBookManager.deleteContact(self.displayList[index.row], responce: nil)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.displayList.removeAtIndex(index.row)
+                    self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
+                    
+                })
+            }
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // MARK: - APIManagerDelegate Methods

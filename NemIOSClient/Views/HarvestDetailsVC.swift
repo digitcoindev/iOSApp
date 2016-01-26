@@ -10,11 +10,12 @@ import UIKit
 
 class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManagerDelegate {
     
+    @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var importance: UILabel!
     @IBOutlet weak var balance: UILabel!
     @IBOutlet weak var vastedBalance: UILabel!
     @IBOutlet weak var harvestingStatus: UILabel!
-    @IBOutlet weak var delegatedKey: UILabel!
+    @IBOutlet weak var delegatedKey: UITextView!
     @IBOutlet weak var lastBlocks: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
@@ -37,6 +38,8 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
+        infoView.clipsToBounds = true
+        infoView.hidden = true
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
@@ -74,13 +77,13 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             
             _mainAccount = account
             
-            let fontLight = UIFont(name: "HelveticaNeue-Light", size: 16)!
+            let fontLight = UIFont(name: "HelveticaNeue-Light", size: 14)!
             let greenClor = UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1)
             
             var atributes :[String:AnyObject] = [
                 NSFontAttributeName : fontLight
             ]
-            var message = "POI".localized() + ": " + account!.importance.format(".2") + " ‱"
+            var message = "POI".localized() + ": " + account!.importance.format(maximumFractionDigits: 2) + " ‱"
             var atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             importance.attributedText = atributedText
 
@@ -100,7 +103,7 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
                 NSFontAttributeName:fontLight
             ]
             message = "VASTED_BALANCE".localized() + ": "
-            message += (account!.vestedBalance! / 1000000).format(".0") + " XEM"
+            message += (account!.vestedBalance! / 1000000).format() + " XEM"
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             vastedBalance.attributedText = atributedText
             
@@ -121,6 +124,7 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             } else {
                 message = "NO_HARVESTED_BLOCK".localized()
             }
+            
             atributes = [
                 NSFontAttributeName:fontLight
             ]
@@ -135,12 +139,18 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             
             message = "DELEGATED_KEY".localized() + ": \(HashManager.SHA256Encrypt(privateKey!.asByteArray()))"
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
-            
-            atributes = [
-                NSForegroundColorAttributeName : greenClor,
-                NSFontAttributeName:fontLight
-            ]
             delegatedKey.attributedText = atributedText
+            
+            if account!.status == "LOCKED" {
+                for constraint in infoView.constraints {
+                    if constraint.identifier == "InfoHeight" {
+                        constraint.constant = 155
+                    }
+                }
+                delegatedKey.hidden = true
+            }
+            
+            infoView.hidden = false
         }
     }
     

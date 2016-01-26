@@ -104,8 +104,8 @@ class EditableTableViewCell: AbstactTableViewCell
     func deleteCell()
     {
         if self.editDelegate != nil
-        {
-            editDelegate?.deleteCell(self)
+        {            
+            self.editDelegate?.deleteCell(self)
         }
     }
 }

@@ -20,6 +20,7 @@ class LoadData: NSManagedObject {
     @NSManaged var touchId: NSNumber?
     @NSManaged var invoicePrefix: String?
     @NSManaged var invoicePostfix: String?
+    @NSManaged var invoiceMessage: String?
     @NSManaged var currentServer: Server?
     @NSManaged var currentWallet: Wallet?
     

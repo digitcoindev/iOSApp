@@ -6,6 +6,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     @IBOutlet weak var chouseButton: ChouseButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var minCosigField: NEMTextField!
     
     private var _mainAccount :AccountGetMetaData? = nil
     private var _activeAccount :AccountGetMetaData? = nil
@@ -19,7 +20,10 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     private var _isMultisig :Bool = false
     
-    var minCosig = 0
+    var minCosigValue = 0
+    var maxCosigValue = 0
+    
+    var minCosig :Int? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,11 +48,16 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         
         if !_isMultisig {
             count++
+            
+            if _activeAccount != nil && (_activeAccount!.cosignatories.count > 0 || _addArray.count > 0){
+                count++
+            }
         }
         
-        if (_addArray.count > 0 || _removeArray.count > 0) {
+        if _addArray.count > 0 || _removeArray.count > 0 || minCosig != nil {
             count++
         }
+        
         return count
     }
     
@@ -82,6 +91,21 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                 return cell
                 
             case 1:
+                let cell :TextFieldTableViewCell = tableView.dequeueReusableCellWithIdentifier("min cosig cell") as! TextFieldTableViewCell
+                let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories ?? _addArray.count
+                let max = _activeAccount!.cosignatories.count - _removeArray.count
+                if self.minCosig != nil {
+                    cell.textField.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER_CHANGED".localized()), "\(self.minCosig!)")
+                } else {
+                    cell.textField.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
+                }
+                
+                self.minCosigValue = (max == 0) ? 0 : 1
+                self.maxCosigValue = max
+                
+                return cell
+                
+            case 2:
                 let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("save cell")!
                 return cell
                 
@@ -124,81 +148,40 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             _showPopUp( "MULTISIG_COSIGNATORIES_COUNT_ERROR".localized())
         }
         else {
-            let fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
+            var fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
             
-            if _popUp != nil {
-                _popUp!.view.removeFromSuperview()
-                _popUp!.removeFromParentViewController()
-                _popUp = nil
+            var relativeChange = 0
+            
+            if self.minCosig != nil {
+                relativeChange = minCosig! - _activeAccount!.minCosignatories!
+                fee += 6
             }
             
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+            let publickey = self._activeAccount!.publicKey!
             
-            let popUpController :AddCosignatoryVC =  storyboard.instantiateViewControllerWithIdentifier("Add cosignatory") as! AddCosignatoryVC
-            popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
-            popUpController.view.layer.opacity = 0
-            popUpController.delegate = self
-            popUpController.titleLabel.text = String(format: "MULTISIG_CHANGES_CONFIRMATION".localized(), "\(fee)")
-
-            var max = _activeAccount!.minCosignatories!
+            transaction.timeStamp = TimeSynchronizator.nemTime
+            transaction.deadline = TimeSynchronizator.nemTime + waitTime
+            transaction.version = 2
+            transaction.signer = publickey
+            transaction.privateKey = privateKey
+            transaction.minCosignatory = relativeChange
             
-            switch max {
-            case 0:
-                max = _activeAccount!.cosignatories.count - _removeArray.count
-            case 1:
-                max = 0
-            default :
-                max = max - _removeArray.count
+            for publickey in self._removeArray
+            {
+                transaction.addModification(2, publicKey: publickey)
             }
             
-            popUpController.minCosig.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(max)")
+            for publickey in self._addArray
+            {
+                transaction.addModification(1, publicKey: publickey)
+            }
             
-            minCosig = _activeAccount!.minCosignatories!
-            popUpController.minCosigValue = 1
-            popUpController.maxCosigValue = max
+            transaction.fee = Double(fee)
             
-            _popUp = popUpController
-            self.view.addSubview(popUpController.view)
-            
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                popUpController.view.layer.opacity = 1
-                }, completion: nil)
-
+            self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
         }
-    }
-    
-    final func submitChanges() {
-        var fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
-        
-        if minCosig != _activeAccount!.minCosignatories! && _activeAccount!.minCosignatories! == 0 &&  _activeAccount!.cosignatories.count != minCosig {
-            fee += 6
-            minCosig = minCosig - _activeAccount!.minCosignatories!
-        }
-
-        let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let publickey = self._activeAccount!.publicKey!
-        
-        transaction.timeStamp = TimeSynchronizator.nemTime
-        transaction.deadline = TimeSynchronizator.nemTime + waitTime
-        transaction.version = 2
-        transaction.signer = publickey
-        transaction.privateKey = privateKey
-        transaction.minCosignatory = minCosig
-        
-        for publickey in self._removeArray
-        {
-            transaction.addModification(2, publicKey: publickey)
-        }
-        
-        for publickey in self._addArray
-        {
-            transaction.addModification(1, publicKey: publickey)
-        }
-        
-        transaction.fee = Double(fee)
-        
-        self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
     }
     
     //MARK: - @IBAction
@@ -206,6 +189,34 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
+        }
+    }
+    
+    @IBAction func minCosigChaned(sender: UITextField) {
+        var isNormal = false
+        if let value = Int(sender.text!) {
+            if value >= minCosigValue && value <= maxCosigValue {
+                isNormal = true
+                self.minCosig = value
+                sender.text = ""
+                let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories!
+
+                if currentValue == value {
+                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(value)")
+                } else {
+                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER_CHANGED".localized()), "\(value)")
+                }
+            }
+        }
+        
+        if !isNormal {
+            sender.text = ""
+            self.minCosig = nil
+            let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories!
+
+            sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
+        } else {
+            self.tableView.reloadData()
         }
     }
     
@@ -334,18 +345,19 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     }
     
     func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
-        if data != nil && data!.count > 0 {
-            func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
-                
-                var message :String = ""
-                if (data ?? []).isEmpty {
-                    message = "TRANSACTION_ANOUNCE_FAILED".localized()
-                } else {
-                    message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
-                }
-                
-                _showPopUp(message)
-            }
+        
+        var message :String = ""
+        
+        minCosig = nil
+        _addArray = []
+        _removeArray = []
+        
+        if (data ?? []).isEmpty {
+            message = "TRANSACTION_ANOUNCE_FAILED".localized()
+        } else {
+            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
         }
+        
+        _showPopUp(message)
     }
 }

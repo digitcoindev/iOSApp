@@ -18,6 +18,10 @@ class AbstractViewController: UIViewController
     override func viewDidLoad(){
         super.viewDidLoad()
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+    }
 
     override func didReceiveMemoryWarning(){
         super.didReceiveMemoryWarning()

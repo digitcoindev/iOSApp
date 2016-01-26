@@ -25,10 +25,16 @@ class AddressCell: EditableTableViewCell
                 return
             }
             
-            let duration = (_isAddress == newValue) ? 0.01 : 0.2
             _isAddress = newValue
-            
-            UIView.animateWithDuration(duration) { () -> Void in
+
+            if newValue {
+                
+                let duration = (_isAddress == newValue) ? 0.01 : 0.2
+                
+                UIView.animateWithDuration(duration) { () -> Void in
+                    self.layoutSubviews()
+                }
+            } else {
                 self.layoutSubviews()
             }
         }

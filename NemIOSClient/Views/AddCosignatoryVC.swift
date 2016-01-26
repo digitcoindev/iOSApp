@@ -64,7 +64,6 @@ class AddCosignatoryVC: AbstractViewController {
             return
         }
         
-        (self.delegate as! MultisigAccountManager).submitChanges()
 
         self.view.removeFromSuperview()
         self.removeFromParentViewController()

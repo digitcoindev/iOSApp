@@ -279,7 +279,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount > 0) {
-                var text :String = "\(innertTransaction.amount / 1000000) XEM"
+                var text :String = "\((innertTransaction.amount / 1000000).format()) XEM"
                 if message != ""
                 {
                     text = "\n" + text
@@ -298,7 +298,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             definedCell.detailsTop = message
             
             message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
-            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+            message.appendAttributedString(NSMutableAttributedString(string:"\((innertTransaction.fee / 1000000).format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
             
             definedCell.detailsMiddle = message
             
@@ -316,7 +316,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized() , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount != 0) {
-                var text :String = "\(innertTransaction.amount / 1000000) XEM"
+                var text :String = "\((innertTransaction.amount / 1000000).format()) XEM"
                 if message != ""
                 {
                     text = "\n" + text
@@ -438,8 +438,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
-            if(innertTransaction.amount > 0) {
-                var text :String = "\(innertTransaction.amount / 1000000) XEM"
+            if (innertTransaction.amount > 0) {
+                var text :String = "\((innertTransaction.amount / 1000000).format()) XEM"
                 if messageText != ""
                 {
                     text = "\n" + text
@@ -612,8 +612,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+        self._refreshHistory()
         if !(data ?? []).isEmpty {
-            self._refreshHistory()
             let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_SUCCESS".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
             let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
@@ -656,13 +656,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     //MARK: - Private Helpers
     
     private func _heightForCell(message: NSMutableAttributedString, width: CGFloat)-> CGFloat {
-        let label:MessageUILabel = MessageUILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
+        let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
         label.numberOfLines = 10
         label.lineBreakMode = NSLineBreakMode.ByWordWrapping
         label.attributedText = message
         
         label.sizeToFit()
-        return label.frame.height
+        return label.frame.height + 10
     }
     
     private func _initButtonsConfigs() {
@@ -719,13 +719,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     private final func _refreshHistory() {
         self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
-        
-        if self._activeAccount!.cosignatoryOf.count > 0 {
-            
-            for cosignatory in self._activeAccount!.cosignatoryOf {
-                self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
-            }
-        }
         
         self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)
     }

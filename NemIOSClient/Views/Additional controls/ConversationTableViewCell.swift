@@ -20,15 +20,14 @@ class ConversationTableViewCell: DetailedTableViewCell {
     // MARK: internal variables
     
     internal let _dateLabel: UILabel? = UILabel()
-    internal let _messageLabel: MessageUILabel? = MessageUILabel()
+    internal let _messageLabel: UITextView? = UITextView()
     
     internal let _infoLabelTop: UILabel? = UILabel()
     internal let _infoLabelMiddle: UILabel? = UILabel()
     internal let _infoLabelBottom: UILabel? = UILabel()
     
-    internal let _nemColorIncoming = UIColor.lightGrayColor() // LightGray
+    internal let _nemColorIncoming = UIColor(red: 142 / 256 , green: 142 / 256, blue: 142 / 256, alpha: 1) // Gray
     internal let _nemColorOutgoing = UIColor(red: 65 / 256 , green: 206 / 256, blue: 123 / 256, alpha: 1) // Green
-    internal let _nemColorUnconfirmed = UIColor.grayColor()
     
     // MARK: properties
     
@@ -49,7 +48,7 @@ class ConversationTableViewCell: DetailedTableViewCell {
                 _messageLabel?.backgroundColor = _nemColorOutgoing
             case .Processing :
                 _dateLabel?.textAlignment = NSTextAlignment.Center
-                _messageLabel?.backgroundColor = _nemColorUnconfirmed
+                _messageLabel?.backgroundColor = _nemColorIncoming
             default :
                 break
             }
@@ -70,11 +69,12 @@ class ConversationTableViewCell: DetailedTableViewCell {
         _dateLabel?.numberOfLines = 1
         self._contentView?.addSubview(_dateLabel!)
         
-        _messageLabel?.numberOfLines = 0
+        _messageLabel?.editable = false
+        _messageLabel?.selectable = true
+        _messageLabel?.scrollEnabled = false
         _messageLabel?.layer.cornerRadius = 5
         _messageLabel?.clipsToBounds = true
         _messageLabel?.textColor = UIColor.whiteColor()
-        _messageLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
         self.addSubview(_messageLabel!)
         
         _infoLabelTop?.text = ""
@@ -129,7 +129,7 @@ class ConversationTableViewCell: DetailedTableViewCell {
             _messageLabel?.frame.size.width = _contentView!.frame.size.width * 0.75
             _messageLabel?.sizeToFit()
             
-            _messageLabel?.frame.size = CGSize(width: min(_contentView!.frame.size.width * 0.75, _messageLabel!.frame.size.width), height: _messageLabel!.frame.size.height - 10)
+            _messageLabel?.frame.size = CGSize(width: min(_contentView!.frame.size.width * 0.75, _messageLabel!.frame.size.width), height: _messageLabel!.frame.size.height)
             
             _messageLabel?.frame.origin = CGPoint(x: _contentView!.frame.size.width - _messageLabel!.frame.size.width - 15, y: _dateLabel!.frame.height)
 
