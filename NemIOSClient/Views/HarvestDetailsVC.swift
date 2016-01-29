@@ -110,7 +110,12 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
             message = "DELEGATED_HARVESTING".localized() + ": "
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)
             
-            message = account!.status.localized()
+            switch account!.remoteStatus {
+            case "ACTIVE" :
+                message = "UNLOCKED".localized()
+            default :
+                message = "LOCKED".localized()
+            }
             atributes = [
                 NSForegroundColorAttributeName : greenClor,
                 NSFontAttributeName:fontLight

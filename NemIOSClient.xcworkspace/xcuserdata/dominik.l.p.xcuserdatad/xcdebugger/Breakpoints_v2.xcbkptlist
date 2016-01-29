@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/HarvestDetailsVC.swift"
-            timestampString = "475425266.721066"
+            timestampString = "475581868.035661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "accountGetResponceWithAccount(_:)"
             landmarkType = "5">
          </BreakpointContent>

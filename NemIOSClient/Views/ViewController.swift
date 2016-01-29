@@ -27,11 +27,6 @@ class ViewController: UIViewController
         if let language = State.loadData?.currentLanguage {
             LocalizationManager.setLanguage(language)
         }
-        var a: Double = 0.0000001
-        for _ in 1..<20 {
-            a = a * 10
-            print(a.format())
-        }
     }
     
     override func viewDidAppear(animated: Bool) {

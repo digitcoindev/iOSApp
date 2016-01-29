@@ -514,7 +514,7 @@ class APIManager: NSObject
                     
                     let layers = (try? NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves)) as? NSDictionary
                     if(layers != nil) {
-                        let date  = (layers! as NSDictionary).objectForKey("sendTimeStamp") as! Double
+                        let date  = (layers! as NSDictionary).objectForKey("receiveTimeStamp") as! Double
                         
                         TimeSynchronizator.nemTime = date / 1000
                     }

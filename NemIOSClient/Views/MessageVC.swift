@@ -94,7 +94,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
         }
     }
     
