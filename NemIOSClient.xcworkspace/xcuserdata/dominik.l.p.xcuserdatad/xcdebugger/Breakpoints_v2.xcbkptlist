@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/PasswordValidationVC.swift"
-            timestampString = "474309024.022529"
+            timestampString = "476109480.198324"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "PasswordValidationVC"
             landmarkType = "3">
          </BreakpointContent>

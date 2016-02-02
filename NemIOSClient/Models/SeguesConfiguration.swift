@@ -28,6 +28,7 @@ let SegueToMessageCosignatoryVC : String =  "Message3"
 let SegueToAddressBook :String = "Address Book"
 let SegueToMessages :String = "Messages"
 let SegueToHarvestDetails :String = "Segue To Harvest Details"
+let SegueToPasswordExport :String = "Password export"
 
 //MARK: QR Controller
 

@@ -75,7 +75,7 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         {
         case SegueToExportAccount:
             State.nextVC = page
-            page = SegueToPasswordValidation
+            page = SegueToPasswordExport
         default:
             break
         }

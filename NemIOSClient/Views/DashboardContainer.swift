@@ -52,7 +52,7 @@ class DashboardContainer: AbstractViewController
         switch(page) {
             
         case    SegueToMessages, SegueToAddressBook, SegueToMessageVC, SegueToMessageMultisignVC,
-                SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToSendTransaction,
+                SegueToMessageCosignatoryVC, SegueToPasswordValidation, SegueToPasswordExport, SegueToSendTransaction,
                 SegueToUnconfirmedTransactionVC, SegueToQRController, SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueTomultisigAccountManager:
             
             self.performSegueWithIdentifier(page, sender: nil)

@@ -1562,7 +1562,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4B-x0-ZRW" userLabel="Container View">
                                         <rect key="frame" x="0.0" y="27" width="278" height="101"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" textAlignment="center" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="oUk-mN-FNJ" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="oUk-mN-FNJ" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -1637,6 +1637,135 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6FB-KR-Ydq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="569" y="1164"/>
+        </scene>
+        <!--Password-->
+        <scene sceneID="8yh-VY-CRr">
+            <objects>
+                <viewController title="Password" id="jXf-MC-0u6" customClass="PasswordExportVC" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1fS-yu-klt"/>
+                        <viewControllerLayoutGuide type="bottom" id="DmK-r5-XR0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YyO-8R-ctH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="418"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ko-JD-B0p" userLabel="Content View">
+                                <rect key="frame" x="21" y="71" width="278" height="200"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Password" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gwu-87-gOa">
+                                        <rect key="frame" x="91" y="0.0" width="96" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="aPp-Uw-6eg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UDM-jX-PLg" userLabel="Container View">
+                                        <rect key="frame" x="0.0" y="43" width="278" height="100"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Uaq-fk-Y3S" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="u8o-YT-7oU"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" secureTextEntry="YES"/>
+                                                <connections>
+                                                    <action selector="hideKeyBoard:" destination="jXf-MC-0u6" eventType="editingDidEndOnExit" id="ihV-vx-VgU"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHD-cm-NKS">
+                                                <rect key="frame" x="0.0" y="50" width="278" height="50"/>
+                                                <color key="backgroundColor" red="0.25490196079999999" green="0.80784313730000001" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="yHY-Hd-MTe"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <state key="normal" title="Confirm">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="passwordValidation:" destination="jXf-MC-0u6" eventType="touchUpInside" id="iFR-Qj-mSG"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D6I-4K-Vi8">
+                                                <rect key="frame" x="0.0" y="-1" width="278" height="50"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Use application password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="qlk-ye-J3z">
+                                                        <rect key="frame" x="8" y="8" width="205" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                        <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ohF-bd-ebs">
+                                                        <rect key="frame" x="221" y="9" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="switchChanged:" destination="jXf-MC-0u6" eventType="valueChanged" id="905-i0-hpe"/>
+                                                        </connections>
+                                                    </switch>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="8gJ-yK-8hL"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" identifier="height" id="01Q-qu-3VZ"/>
+                                            <constraint firstAttribute="bottom" secondItem="xHD-cm-NKS" secondAttribute="bottom" id="1t6-uE-0m7"/>
+                                            <constraint firstItem="xHD-cm-NKS" firstAttribute="top" secondItem="D6I-4K-Vi8" secondAttribute="bottom" constant="1" id="4Aa-pg-f1o"/>
+                                            <constraint firstItem="Uaq-fk-Y3S" firstAttribute="leading" secondItem="UDM-jX-PLg" secondAttribute="leading" id="BGm-wC-RPf"/>
+                                            <constraint firstAttribute="trailing" secondItem="Uaq-fk-Y3S" secondAttribute="trailing" id="S27-Pf-4MN"/>
+                                            <constraint firstItem="xHD-cm-NKS" firstAttribute="leading" secondItem="UDM-jX-PLg" secondAttribute="leading" id="U3h-68-gvW"/>
+                                            <constraint firstAttribute="trailing" secondItem="xHD-cm-NKS" secondAttribute="trailing" id="m29-eZ-CZx"/>
+                                            <constraint firstItem="D6I-4K-Vi8" firstAttribute="leading" secondItem="UDM-jX-PLg" secondAttribute="leading" id="qZl-yE-pxJ"/>
+                                            <constraint firstItem="Uaq-fk-Y3S" firstAttribute="top" secondItem="UDM-jX-PLg" secondAttribute="top" id="uEV-eA-gi6"/>
+                                            <constraint firstAttribute="trailing" secondItem="D6I-4K-Vi8" secondAttribute="trailing" id="yHN-Cy-1sz"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="UDM-jX-PLg" firstAttribute="leading" secondItem="4Ko-JD-B0p" secondAttribute="leading" id="2B7-F2-DNu"/>
+                                    <constraint firstItem="UDM-jX-PLg" firstAttribute="top" secondItem="gwu-87-gOa" secondAttribute="bottom" constant="8" id="7L5-Io-QWM"/>
+                                    <constraint firstItem="gwu-87-gOa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4Ko-JD-B0p" secondAttribute="leading" constant="5" id="F0Y-Z8-asG"/>
+                                    <constraint firstItem="gwu-87-gOa" firstAttribute="top" secondItem="4Ko-JD-B0p" secondAttribute="top" id="VXq-Vc-6lc"/>
+                                    <constraint firstAttribute="height" constant="200" id="Y7S-az-rgq"/>
+                                    <constraint firstAttribute="centerX" secondItem="gwu-87-gOa" secondAttribute="centerX" id="dME-MN-LeD"/>
+                                    <constraint firstAttribute="trailing" secondItem="UDM-jX-PLg" secondAttribute="trailing" id="sVB-ww-eOy"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gwu-87-gOa" secondAttribute="trailing" constant="5" id="ubt-ps-zsr"/>
+                                    <constraint firstAttribute="width" constant="278" id="zXh-sZ-CFm"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="4Ko-JD-B0p" secondAttribute="centerX" id="asQ-c5-U6Q"/>
+                            <constraint firstItem="4Ko-JD-B0p" firstAttribute="top" secondItem="1fS-yu-klt" secondAttribute="bottom" constant="71" id="xbc-GP-OgM"/>
+                        </constraints>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="418"/>
+                    <connections>
+                        <outlet property="confirm" destination="xHD-cm-NKS" id="DeL-l7-wYf"/>
+                        <outlet property="containerView" destination="UDM-jX-PLg" id="KXO-UC-Mfw"/>
+                        <outlet property="contentView" destination="4Ko-JD-B0p" id="F2b-3e-dgq"/>
+                        <outlet property="password" destination="Uaq-fk-Y3S" id="XfK-Jy-iC3"/>
+                        <outlet property="passwordLabel" destination="qlk-ye-J3z" id="HZU-4v-O5n"/>
+                        <outlet property="passwordSwitch" destination="ohF-bd-ebs" id="yYb-eU-EQq"/>
+                        <outlet property="passwordTitle" destination="gwu-87-gOa" id="0sJ-1n-UkA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lJe-xg-AQ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="934" y="1768"/>
         </scene>
         <!--Messages-->
         <scene sceneID="jbq-mS-NH3">
@@ -2535,7 +2664,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k8A-gy-1em" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="994" y="1748"/>
+            <point key="canvasLocation" x="1340" y="1746"/>
         </scene>
         <!--messegeVCforSimpleAccount-->
         <scene sceneID="gb0-LX-Kna">
@@ -4644,6 +4773,7 @@
                         <segue destination="d7J-Wq-4YI" kind="custom" identifier="Segue To Harvest Details" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="HMg-W3-F9q"/>
                         <segue destination="9ip-EM-cdn" kind="custom" identifier="History" customClass="ConnectionSegue" customModule="NemIOSClient" id="4LO-58-bpg"/>
                         <segue destination="yea-8b-oWo" kind="custom" identifier="multisigAccountManager" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="yUh-Ag-5az"/>
+                        <segue destination="jXf-MC-0u6" kind="custom" identifier="Password export" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="yL3-ZJ-qvQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tjB-uD-2im" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5567,7 +5697,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a9p-5B-1hH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="543" y="1731.5"/>
+            <point key="canvasLocation" x="545" y="1767.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="wg4-Ht-WnP">

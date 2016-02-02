@@ -15,6 +15,7 @@
 		9809BDEA1B74EBB40028D082 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA35580C1A39D3BA00AFA5FD /* Main.storyboard */; };
 		9809BDEB1B74EBBC0028D082 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */; };
 		9809BE271B75008F0028D082 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9809BE291B75008F0028D082 /* Localizable.strings */; };
+		980F130D1C60CCD0005F7DB5 /* PasswordExportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */; };
 		9823A4CE1B81CDF600B532CC /* DashboardButtonBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */; };
 		9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
@@ -234,6 +235,7 @@
 		9805EFCD1C31A126008CC607 /* FetchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchManager.swift; path = Models/FetchManager.swift; sourceTree = "<group>"; };
 		9809BE281B75008F0028D082 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9809BE2B1B789EBD0028D082 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordExportVC.swift; path = Views/PasswordExportVC.swift; sourceTree = "<group>"; };
 		9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardButtonBox.swift; path = "Views/Additional controls/DashboardButtonBox.swift"; sourceTree = "<group>"; };
 		9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesButtonTypeOne.swift; path = "Views/Additional controls/MessagesButtonTypeOne.swift"; sourceTree = "<group>"; };
 		9823A4D11B8339B400B532CC /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = Models/Correspondent.swift; sourceTree = "<group>"; };
@@ -1239,6 +1241,7 @@
 			children = (
 				DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */,
 				985496351C4916F80059504F /* WarningExportVC.swift */,
+				980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */,
 			);
 			name = "Export Account";
 			sourceTree = "<group>";
@@ -1609,6 +1612,7 @@
 				DA173CD71AA85B91003AC21F /* keccak.c in Sources */,
 				98F01CC21C2D4B560018081B /* ChouseLanguage.swift in Sources */,
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
+				980F130D1C60CCD0005F7DB5 /* PasswordExportVC.swift in Sources */,
 				DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */,
 				DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */,
 				DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */,
