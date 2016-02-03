@@ -2,10 +2,15 @@ import UIKit
 
 class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
 {
-    var suggestions :[String] = []
+    struct Suggestion {
+        var key :String = ""
+        var value :String = ""
+    }
+    
+    var suggestions :[Suggestion] = []
     let tableView :UITableView = UITableView()
     
-    private var _suggestions :[String] = []
+    private var _suggestions :[Suggestion] = []
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         if tableView.frame.contains(point) {
@@ -39,7 +44,7 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
         _suggestions = []
         
         for suggestion in suggestions {
-            if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.text!).evaluateWithObject(suggestion) && self.text! != suggestion
+            if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.text!).evaluateWithObject(suggestion.key) && self.text! != suggestion.key
             {
                 _suggestions.append(suggestion)
             }
@@ -80,12 +85,18 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("standart")!
-        cell.textLabel?.text = _suggestions[indexPath.row]
+        
+        var resultSuggestion = _suggestions[indexPath.row].value
+        if _suggestions[indexPath.row].value != _suggestions[indexPath.row].key {
+            resultSuggestion = _suggestions[indexPath.row].key + " " + "(\(_suggestions[indexPath.row].value))"
+        }
+        
+        cell.textLabel?.text = resultSuggestion
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.text = _suggestions[indexPath.row]
+        self.text = _suggestions[indexPath.row].value
         updateSuggestions(self)
     }
 }

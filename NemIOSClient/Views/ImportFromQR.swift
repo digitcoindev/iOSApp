@@ -88,7 +88,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
                 }
                 
                 if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
                 }
             }
         }

@@ -20,20 +20,22 @@ class MainContainerVC: AbstractViewController
         }
         
         if(wallets.count == 0) {
+            State.nextVC = SegueToAddAccountVC
             self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self)
         }
         else  {
             
             if State.currentWallet != nil && State.currentServer != nil{
                 State.toVC = SegueToMessages
+                State.nextVC = SegueToDashboard
 
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
-                }
             } else {
-                self.performSegueWithIdentifier(SegueToLoginVC, sender: self)
+                State.nextVC = SegueToLoginVC
             }
         }
+        
+        self.performSegueWithIdentifier(SegueToPasswordValidation, sender: self)
+
     }
     
     override func delegateIsSetted(){
@@ -89,10 +91,10 @@ class MainContainerVC: AbstractViewController
             
             switch(page) {
                 
-            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToSettings, SegueToMainMenu, SegueToExportAccount:
+            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToSettings, SegueToMainMenu, SegueToExportAccount, SegueToPasswordValidation:
                 self.performSegueWithIdentifier(page, sender: nil)
                 
-            case SegueToPasswordValidation, SegueToPasswordExport, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController, SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueTomultisigAccountManager:
+            case SegueToPasswordExport, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController, SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueTomultisigAccountManager:
                 
                 State.toVC = page as String
                 

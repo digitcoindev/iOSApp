@@ -245,6 +245,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         messageField!.text = ""
         amoundField!.text = ""
+        self.view.endEditing(true)
     }
     
     final func defineData() {

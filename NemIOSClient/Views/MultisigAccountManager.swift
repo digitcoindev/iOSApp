@@ -159,7 +159,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             
             let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
             let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-            let publickey = self._activeAccount!.publicKey!
+            let publickey = self._activeAccount!.publicKey ?? KeyGenerator.generatePublicKey(privateKey!)
             
             transaction.timeStamp = TimeSynchronizator.nemTime
             transaction.deadline = TimeSynchronizator.nemTime + waitTime

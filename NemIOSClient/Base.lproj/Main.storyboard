@@ -4246,6 +4246,7 @@
                         <segue destination="gIr-Tu-UIp" kind="custom" identifier="Menu" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="a9e-iw-o1A"/>
                         <segue destination="SYo-Zz-lR0" kind="custom" identifier="Create password" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="mYs-gb-isI"/>
                         <segue destination="6k9-UL-SAz" kind="custom" identifier="Export Account" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="0wf-y4-894"/>
+                        <segue destination="EY9-DV-SIG" kind="custom" identifier="Password" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="qtN-3b-emP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nvC-ot-1T9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4761,7 +4762,6 @@
                     <toolbarItems/>
                     <connections>
                         <segue destination="bjO-bB-3r9" kind="custom" identifier="Messages" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="Yfc-mY-A43"/>
-                        <segue destination="EY9-DV-SIG" kind="custom" identifier="Password" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="de1-HQ-u88"/>
                         <segue destination="rte-MK-XjK" kind="custom" identifier="Message" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="nRx-Jp-i9t"/>
                         <segue destination="0Hz-01-Tiz" kind="custom" identifier="Address Book" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="tqv-oi-CIV"/>
                         <segue destination="0YH-3H-wH5" kind="custom" identifier="SendTransaction" customClass="ConnectionSegue" customModule="NemIOSClient" customModuleProvider="target" id="rzd-Ax-vrP"/>

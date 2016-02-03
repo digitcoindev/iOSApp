@@ -50,16 +50,12 @@ class ChangeNamePopUp: AbstractViewController {
     
     @IBAction func closePopUp(sender: AnyObject) {
         (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
-
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
     }
     
     @IBAction func changeName(sender: AnyObject) {
         if Validate.stringNotEmpty(newName.text) {
             (self.delegate as! ChangeNamePopUptDelegate).nameChanged(newName.text!)
-            self.view.removeFromSuperview()
-            self.removeFromParentViewController()
+            (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
         }
     }
     

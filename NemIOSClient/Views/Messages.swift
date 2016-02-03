@@ -51,11 +51,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             }
         })
         
-        if (State.currentContact != nil && State.toVC == SegueToPasswordValidation ) {
-            State.toVC = SegueToMessageVC
+        if State.currentContact != nil {
             
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToMessageVC)
             }
         }
         
@@ -396,7 +395,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         let attribute = [NSForegroundColorAttributeName : color]
         
-        let amount = vector + "\(transaction!.amount / 1000000) XEM"
+        let amount = vector + "\((transaction!.amount / 1000000).format()) XEM"
         
         cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
                 
@@ -408,18 +407,19 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         if walletData != nil {
             State.invoice = nil
             
+            var nextVC = ""
             if walletData.cosignatories.count > 0 {
-                State.nextVC = SegueToMessageMultisignVC
+                nextVC = SegueToMessageMultisignVC
             }
             else if walletData.cosignatoryOf.count > 0 {
-                State.nextVC = SegueToMessageCosignatoryVC
+                nextVC = SegueToMessageCosignatoryVC
 
             } else {
-                State.nextVC = SegueToMessageVC
+                nextVC = SegueToMessageVC
             }
             
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+                (self.delegate as! MainVCDelegate).pageSelected(nextVC)
             }
         }
         else {

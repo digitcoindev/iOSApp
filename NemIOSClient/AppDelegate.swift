@@ -24,9 +24,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
+        var root = UIApplication.sharedApplication().windows.first?.rootViewController
+        
+        for ;; {
+            if root!.presentedViewController != nil {
+                root = root!.presentedViewController as! AbstractViewController
+            } else {
+                break
+            }
+        }
+
+        State.nextVC = State.currentVC ?? SegueToLoginVC
+        if root != nil && (root as! AbstractViewController).respondsToSelector("pageSelected:") {
+            ((root as! AbstractViewController) as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+        }
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
+
     }
 
     func applicationWillTerminate(application: UIApplication) {

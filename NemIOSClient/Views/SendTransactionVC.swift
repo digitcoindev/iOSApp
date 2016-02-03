@@ -44,7 +44,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         feeLabel.text = "FEE".localized() + ":"
         sendButton.setTitle("SEND", forState: UIControlState.Normal)
         
-        var suggestions :[String] = []
+        var suggestions :[NEMTextField.Suggestion] = []
         
         let dataManager = CoreDataManager()
         for wallet in dataManager.getWallets() {
@@ -54,18 +54,45 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             var find = false
             
             for suggestion in suggestions {
-                if suggestion == account_address {
+                if suggestion.key == account_address {
                     find = true
                     break
                 }
             }
             if !find {
-                suggestions.append(account_address)
+                var sugest = NEMTextField.Suggestion()
+                sugest.key = account_address
+                sugest.value = account_address
+                suggestions.append(sugest)
+            }
+            
+            find = false
+            
+            for suggestion in suggestions {
+                if suggestion.key == wallet.login {
+                    find = true
+                    break
+                }
+            }
+            if !find {
+                var sugest = NEMTextField.Suggestion()
+                sugest.key = wallet.login
+                sugest.value = account_address
+                suggestions.append(sugest)
             }
         }
         
         if AddressBookManager.isAllowed ?? false {
             for contact in AddressBookManager.contacts {
+                var name = ""
+                if contact.givenName != "" {
+                    name = contact.givenName
+                }
+
+                if contact.familyName != "" {
+                    name += " " + contact.familyName
+                }
+                
                 for email in contact.emailAddresses{
                     if email.label == "NEM" {
                         let account_address = email.value as? String ?? " "
@@ -73,13 +100,31 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
                         var find = false
                         
                         for suggestion in suggestions {
-                            if suggestion == account_address {
+                            if suggestion.key == account_address {
                                 find = true
                                 break
                             }
                         }
                         if !find {
-                            suggestions.append(account_address)
+                            var sugest = NEMTextField.Suggestion()
+                            sugest.key = account_address
+                            sugest.value = account_address
+                            suggestions.append(sugest)
+                        }
+                        
+                        find = false
+
+                        for suggestion in suggestions {
+                            if suggestion.key == name {
+                                find = true
+                                break
+                            }
+                        }
+                        if !find {
+                            var sugest = NEMTextField.Suggestion()
+                            sugest.key = name
+                            sugest.value = account_address
+                            suggestions.append(sugest)
                         }
                     }
                 }
