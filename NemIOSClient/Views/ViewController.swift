@@ -27,6 +27,10 @@ class ViewController: UIViewController
         if let language = State.loadData?.currentLanguage {
             LocalizationManager.setLanguage(language)
         }
+        
+        if let updateInterval = State.loadData?.updateInterval {
+            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(Double(1))
+        }
     }
     
     override func viewDidAppear(animated: Bool) {

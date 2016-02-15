@@ -7,15 +7,19 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
     @IBOutlet weak var qrScaner: QR!
     
     private var _tempController: AbstractViewController? = nil
-
+    private var _isInited = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.currentVC = SegueToScanQR
         qrScaner.delegate = self
     }
     override func viewDidAppear(animated: Bool) {
-        qrScaner.scanQR(qrScaner.frame.width , height: qrScaner.frame.height )
+        if !_isInited {
+            _isInited = true
+            qrScaner.scanQR(qrScaner.frame.width , height: qrScaner.frame.height )
+        }
+        State.currentVC = SegueToScanQR
     }
 
     func detectedQRWithString(text: String) {
@@ -66,6 +70,32 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
                 
                 performInvoice(invoiceDictionary)
                 
+            case QRType.AccountData.rawValue:
+                jsonStructure = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as? NSDictionary
+                
+                if jsonStructure != nil {
+                    let privateKey_AES = jsonStructure!.objectForKey(QRKeys.PrivateKey.rawValue) as! String
+                    let login = jsonStructure!.objectForKey(QRKeys.Name.rawValue) as! String
+                    let salt = jsonStructure!.objectForKey(QRKeys.Salt.rawValue) as! String
+                    let saltBytes = salt.asByteArray()
+                    let saltData = NSData(bytes: saltBytes, length: saltBytes.count)
+                    
+                    State.nextVC = SegueToLoginVC
+                    State.importAccountData = {
+                        (password) -> Bool in
+                        
+                        guard let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password, salt:saltData, roundCount:2000) else {return false}
+                        guard let privateKey :String = HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString()) else {return false}
+                        
+                        WalletGenerator().createWallet(login, privateKey: privateKey)
+                        
+                        return true
+                    }
+                    
+                    if (self.delegate as? AbstractViewController)?.delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector("pageSelected:") {
+                        ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+                    }
+                }
             default :
                 qrScaner.play()
                 break

@@ -22,8 +22,6 @@ class CreatePasswordVC: AbstractViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.currentVC = SegueToCreatePassword
-        
         passwordTitle.text = "CREATE_PASSWORD".localized()
         password.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
         repeatPassword.placeholder = "   " + "REPEAT_PASSWORD_PLACEHOLDER".localized()
@@ -31,6 +29,11 @@ class CreatePasswordVC: AbstractViewController {
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        State.currentVC = SegueToCreatePassword
     }
 
     override func didReceiveMemoryWarning() {

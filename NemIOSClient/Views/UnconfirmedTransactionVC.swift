@@ -12,8 +12,6 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.currentVC = SegueToUnconfirmedTransactionVC
-        
         _apiManager.delegate = self
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
@@ -24,6 +22,10 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToUnconfirmedTransactionVC
     }
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
@@ -133,16 +135,17 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         let transaction :AggregateModificationTransaction = (unconfirmedTransactions[index] as! MultisigTransaction).innerTransaction as! AggregateModificationTransaction
         
-        text += AddressGenerator.generateAddress(transaction.signer) + "\n"
+        text += AddressGenerator.generateAddress(transaction.signer).nemName() + "\n"
         
         for modification in transaction.modifications {
+            let name = AddressGenerator.generateAddress(modification.publicKey).nemName()
             if modification.modificationType == 1 {
                 text += "ADD" + " :\n"
-                text += modification.publicKey + "\n"
+                text += name + "\n"
             }
             else {
                 text += "DELETE".localized() + " :\n"
-                text += modification.publicKey + "\n"
+                text += name + "\n"
             }
         }
         

@@ -36,7 +36,6 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         super.viewDidLoad()
         
         State.fromVC = SegueToAddressBook
-        State.currentVC = SegueToAddressBook
         
         _apiManager.delegate = self
         
@@ -60,6 +59,11 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset.right = 15
         filterChanged(self)
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToAddressBook
+
     }
     
     override func didReceiveMemoryWarning() {

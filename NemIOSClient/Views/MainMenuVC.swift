@@ -13,7 +13,6 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         super.viewDidLoad()
         
         State.fromVC = SegueToMainMenu
-        State.currentVC = SegueToMainMenu
         
         titleLabel.text = "MORE".localized()
         
@@ -28,6 +27,11 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
                 menuItems.addObject(page)
             }
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        State.currentVC = SegueToMainMenu
     }
 
     // MARK: - @IBAction

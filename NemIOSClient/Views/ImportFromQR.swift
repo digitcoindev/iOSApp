@@ -8,21 +8,25 @@ class ImportFromQR: AbstractViewController, QRDelegate
     @IBOutlet weak var backButton: UIButton!
     
     @IBOutlet weak var titleLabel: UILabel!
-    
+    private var _isInited = false
+
     //MARK: - Load Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        State.currentVC = SegueToImportFromQR
-
+    
         screenScaner.delegate = self
         
         titleLabel.text = "SCAN_QR_CODE".localized()
     }
     
     override func viewDidAppear(animated: Bool) {
-        screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
+        if !_isInited {
+            _isInited = true
+            screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
+        }
+        
+        State.currentVC = SegueToImportFromQR
     }
     
     override func didReceiveMemoryWarning() {
@@ -82,13 +86,20 @@ class ImportFromQR: AbstractViewController, QRDelegate
                     guard let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password, salt:saltData, roundCount:2000) else {return false}
                     guard let privateKey :String = HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString()) else {return false}
                     
+                    if let name = Validate.account(privateKey: privateKey) {
+                        let alert = UIAlertView(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[name]), delegate: self, cancelButtonTitle: "OK".localized())
+                        alert.show()
+
+                        return true
+                    }
+                    
                     WalletGenerator().createWallet(login, privateKey: privateKey)
                     
                     return true
                 }
                 
                 if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
                 }
             }
         }

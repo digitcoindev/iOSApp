@@ -2,6 +2,20 @@ import UIKit
 
 class Validate: NSObject
 {
+    
+    final class func account(privateKey privateKey :String) -> String? {
+        let accounts = CoreDataManager().getWallets()
+        
+        for account in accounts {
+            let privKey =  HashManager.AES256Decrypt(account.privateKey, key: State.loadData!.password!)
+            if privKey == privateKey {
+                return account.login
+            }
+        }
+        
+        return nil
+    }
+    
     final class func address(inputText :String? ,length: Int = 40) -> Bool {
         if inputText == nil {
             return false

@@ -23,8 +23,6 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        State.currentVC = SegueToServerVC
-
         _apiManager.delegate = self
         
         servers = _dataManager.getServers()
@@ -41,7 +39,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     }
 
     override func viewDidAppear(animated: Bool) {
-        
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToServerVC
     }
     
     // MARK: - IBAction

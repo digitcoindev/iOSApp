@@ -50,10 +50,13 @@
          contextName = "SendTransactionVC.countTransactionFee() -&gt; ():SendTransactionVC.swift">
          <PersistentStrings>
             <PersistentString
+               value = "amountTextField.text!">
+            </PersistentString>
+            <PersistentString
                value = "xems">
             </PersistentString>
             <PersistentString
-               value = "atan(xems / 150000) * 99">
+               value = "&quot;99&#xa0;999&quot;.stringByReplacingOccurrencesOfString(&quot;&#xa0;&quot;, withString: &quot;&quot;)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -124,10 +127,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "APIManager.(accountTransfersAll(APIManager) -&gt; (Server, account_address : String) -&gt; ()).(closure #1).(closure #1):APIManager.swift">
+         contextName = "NEMTextField.updateSuggestions(AnyObject) -&gt; ():NEMTextField.swift">
          <PersistentStrings>
             <PersistentString
-               value = "error?.localizedDescription">
+               value = "tableView.frame">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -173,6 +176,14 @@
          contextName = "MultisigAccountManager.(_generateTableData in _FB8019F99D1B58415A78642842244E35)() -&gt; ():MultisigAccountManager.swift">
       </ContextState>
       <ContextState
+         contextName = "APIManager.(accountTransfersAll(APIManager) -&gt; (Server, account_address : String) -&gt; ()).(closure #1).(closure #1):APIManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "error?.localizedDescription">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ShareViewController.delegateIsSetted() -&gt; ():ShareViewController.swift">
       </ContextState>
       <ContextState
@@ -185,14 +196,6 @@
       </ContextState>
       <ContextState
          contextName = "static SignManager.commonPart(TransactionPostMetaData, isMultisignPart : Bool) -&gt; [UInt8]:SignManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "NEMTextField.updateSuggestions(AnyObject) -&gt; ():NEMTextField.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "tableView.frame">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "TransferTransaction.getFrom(NSDictionary) -&gt; ():TransferTransaction.swift">
@@ -229,10 +232,10 @@
          contextName = "static State.lastVC.getter:State.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.Store.stackVC.last!">
+               value = "State.Store.stackVC">
             </PersistentString>
             <PersistentString
-               value = "State.Store.stackVC">
+               value = "State.Store.stackVC.last!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -255,6 +258,14 @@
          <PersistentStrings>
             <PersistentString
                value = "dictionary.objectForKey(&quot;timeStamp&quot;) as! Int">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "mach_msg_trap:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -295,6 +306,11 @@
       </ContextState>
       <ContextState
          contextName = "MessageVC.defineData() -&gt; ():MessageVC.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "static SignManager.aggregateModificationTransactionPart(AggregateModificationTransaction) -&gt; [UInt8]:SignManager.swift">
@@ -368,6 +384,30 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "FetchManager.accountTransfersAllResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():FetchManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_account!.login">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MessageVC.viewDidLoad() -&gt; ():MessageVC.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "&quot;3031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637&quot;.asByteArray().count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ScanQRVC.detectedQRWithString(String) -&gt; ():ScanQRVC.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.delegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SendTransactionVC.accountGetResponceWithAccount(AccountGetMetaData?) -&gt; ():SendTransactionVC.swift">
       </ContextState>
       <ContextState
@@ -409,13 +449,13 @@
          contextName = "static MessageCrypto.decrypt([UInt8], recipientPrivateKey : String, senderPublicKey : String) -&gt; String?:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
-               value = "messageData.hexadecimalString()">
+               value = "encBytes.toHexString()">
             </PersistentString>
             <PersistentString
                value = "NSString(data: messageData, encoding: NSASCIIStringEncoding) as? String">
             </PersistentString>
             <PersistentString
-               value = "encBytes.toHexString()">
+               value = "messageData.hexadecimalString()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -445,10 +485,10 @@
          contextName = "MessageVC.sendButtonTouchUpInside(AnyObject) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "contact.public_key">
+               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
             </PersistentString>
             <PersistentString
-               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
+               value = "contact.public_key">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -456,10 +496,10 @@
          contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
          <PersistentStrings>
             <PersistentString
-               value = "loadData?.invoicePrefix">
+               value = "loadData?.invoicePostfix">
             </PersistentString>
             <PersistentString
-               value = "loadData?.invoicePostfix">
+               value = "loadData?.invoicePrefix">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -484,6 +524,9 @@
                value = "payload.toHexString()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MessageVC.keyboardWillShow(NSNotification) -&gt; ():MessageVC.swift">
       </ContextState>
       <ContextState
          contextName = "ViewController.viewDidLoad() -&gt; ():ViewController.swift">

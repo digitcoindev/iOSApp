@@ -20,8 +20,6 @@ class RegistrationVC: AbstractViewController
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
         
-        State.currentVC = SegueToRegistrationVC
-        
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -30,6 +28,11 @@ class RegistrationVC: AbstractViewController
         createButton.setTitle("CREATE_NEW_ACCCOUNT".localized(), forState: UIControlState.Normal)
         titleLabel.text = "CREATE_NEW_ACCCOUNT".localized()
         userName.placeholder = "ACCOUNT_NAME_PLACEHOLDER".localized()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToRegistrationVC
     }
 
     override func didReceiveMemoryWarning() {

@@ -9,6 +9,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
     @IBOutlet weak var publicKey: UITextView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var copyButton: UIButton!
     @IBOutlet weak var publicKeyLabel: UILabel!
     @IBOutlet weak var showPrivateKeyButn: UIButton!
     
@@ -16,8 +17,6 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        State.currentVC = SegueToExportAccount
         
         let qr :QR = QR()
         
@@ -29,6 +28,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         publicKey.text = pub_key
         
         shareButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
+        copyButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
         titleLabel.text = "EXPORT_ACCOUNT".localized()
         publicKeyLabel.text = "PUBLIC_KEY".localized()
         showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
@@ -36,6 +36,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
     
     override func viewDidDisappear(animated: Bool) {
         self.view.endEditing(true)
+        State.currentVC = SegueToExportAccount
     }
     
     @IBAction func showPrivateKey(sender: AnyObject) {
@@ -69,8 +70,12 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+            (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
         }
+    }
+    
+    @IBAction func copyQR(sender: AnyObject) {
+        UIImageWriteToSavedPhotosAlbum(qrImage.image!, nil, nil, nil)
     }
     
     @IBAction func shareQR(sender: AnyObject) {

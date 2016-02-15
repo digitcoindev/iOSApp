@@ -17,7 +17,6 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.currentVC = SegueToHistoryVC
         _apiManager.delegate = self
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
@@ -28,6 +27,8 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
     
     override func viewDidAppear(animated: Bool) {
         self.tableView.reloadData()
+        State.currentVC = SegueToHistoryVC
+
     }
     
     @IBAction func chouseAccount(sender: AnyObject) {

@@ -58,6 +58,9 @@ class State: NSObject
         }
         set {
             State.Store.currentVC = newValue!
+            if State.Store.stackVC.last != newValue!  {
+                State.Store.stackVC.append(newValue!)
+            }
         }
     }
     final class var lastVC:String {

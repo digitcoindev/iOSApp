@@ -22,9 +22,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        State.currentVC = SegueToSettings
-        
+                
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
@@ -33,6 +31,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     override func viewDidAppear(animated: Bool) {
         _refreshData()
+        State.currentVC = SegueToSettings
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {

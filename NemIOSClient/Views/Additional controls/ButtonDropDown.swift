@@ -86,7 +86,7 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     final func touchUpInside() {
         tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, self.frame.size.width, dropMenuHeight);
 
-        if content.count == 0 {
+        if content.count < 1 {
             tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, 0)
         }
         else if dinamicDropDown {

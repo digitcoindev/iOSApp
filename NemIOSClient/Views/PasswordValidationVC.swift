@@ -8,6 +8,7 @@ class PasswordValidationVC: AbstractViewController
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var passwordTitle: UILabel!
+    @IBOutlet weak var topView: UIView!
     
     let dataMeneger: CoreDataManager  = CoreDataManager()
     
@@ -31,11 +32,26 @@ class PasswordValidationVC: AbstractViewController
         } 
     }
     
+    override func viewDidAppear(animated: Bool) {
+        if self.delegate != nil && State.countVC > 1 {
+            topView.hidden = false
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     // MARK: - IBAction
+    
+    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+        State.importAccountData = nil
+        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
+        } else {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
     
     @IBAction func passwordValidation(sender: AnyObject) {
         password.endEditing(true)
@@ -60,6 +76,8 @@ class PasswordValidationVC: AbstractViewController
             State.importAccountData = nil
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
+            } else {
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
     }
@@ -76,6 +94,8 @@ class PasswordValidationVC: AbstractViewController
             
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
+            } else {
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
     }
@@ -98,6 +118,8 @@ class PasswordValidationVC: AbstractViewController
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                         (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
+                    } else {
+                        self.dismissViewControllerAnimated(true, completion: nil)
                     }
                 })
             } else {

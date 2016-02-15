@@ -5,19 +5,28 @@ import UIKit
     func pageSelected(page :String)
 }
 
-class MainVC: AbstractViewController , MainVCDelegate
+class MainVC: AbstractViewController , MainVCDelegate, APIManagerDelegate
 {
     
     //MARK: - Private Variables
 
     private var _pages :MainContainerVC = MainContainerVC()
+    private let _apiManager :APIManager = APIManager()
+    private let _dataManager : CoreDataManager = CoreDataManager()
 
     //MARK: - Load Methods
-
+    
     override func viewDidLoad(){
         super.viewDidLoad()
         
+        _apiManager.delegate = self
         self.view.multipleTouchEnabled = false
+        State.currentServer = nil
+        
+        let servers = self._dataManager.getServers()
+        for server in servers {
+            _apiManager.heartbeat(server)
+        }
     }
     
     override func didReceiveMemoryWarning(){
@@ -42,5 +51,17 @@ class MainVC: AbstractViewController , MainVCDelegate
     final func pageSelected(page :String){
         _pages.changePage(page)
     }
-
+    
+    //MARK: - APIManagerDelegate Methods
+    
+    final func heartbeatResponceFromServer(server :Server ,successed :Bool) {
+        if successed && State.currentServer == nil {
+            State.currentServer = server
+            
+            let loadData :LoadData = _dataManager.getLoadData()
+            
+            loadData.currentServer = State.currentServer!
+            _dataManager.commit()
+        }
+    }
 }

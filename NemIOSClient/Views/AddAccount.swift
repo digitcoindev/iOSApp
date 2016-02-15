@@ -28,6 +28,12 @@ class AddAccount: AbstractViewController
         key.setTitle("IMPORT_KEY".localized(), forState: UIControlState.Normal)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToAddAccountVC
+
+    }
+    
     override func delegateIsSetted() {
  
     }

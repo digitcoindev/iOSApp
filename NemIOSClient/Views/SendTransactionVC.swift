@@ -29,10 +29,13 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     var invoice :InvoiceData? = nil
     var contact :Correspondent? = State.currentContact
     
+    private var _isEnc = false
+    private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
+    private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
+    private var _preparedTransaction :TransferTransaction? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        State.currentVC = SegueToSendTransaction
         
         _apiManager.delegate = self
         
@@ -164,6 +167,18 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToSendTransaction
+    }
+    
+    @IBAction func encTouchUpInside(sender: UIButton) {
+        _preparedTransaction = nil
+        _isEnc = !_isEnc
+        sender.backgroundColor = (_isEnc) ? greenColor : grayColor
+        countTransactionFee()
+    }
+    
     @IBAction func textFieldReturnKeyToched(sender: UITextField) {
         
         switch sender {
@@ -178,9 +193,10 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         
         countTransactionFee()
-        self.feeTextField.text = "\(transactionFee)"
+        self.feeTextField.text = "\(transactionFee.format())"
     }
     
+
     @IBAction func textFieldEditingEnd(sender: UITextField) {
         switch sender {
         case amountTextField :
@@ -202,12 +218,24 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     }
     
     @IBAction func send(sender: AnyObject) {
-        countTransactionFee()
+        let amount = Double(amountTextField.text!) ?? 0
+        if amount < 0.000001 && amount != 0 {
+            countTransactionFee()
+            return
+        } else {
+            countTransactionFee()
+        }
         
         if Double(self.feeTextField.text!) < transactionFee {
             self.feeTextField.text = "\(transactionFee.format())"
             return
         }
+        
+        if messageTextField.text?.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count > 128 {
+            _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
+            return
+        }
+        
         if walletData != nil {
             var state = true
             toAddressTextField.text = toAddressTextField.text?.stringByReplacingOccurrencesOfString("-", withString: "")
@@ -261,25 +289,44 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     }
     
     private final func _sendTransferTransaction() {
+        
+        let messageBytes :[UInt8] = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+        
         let transaction :TransferTransaction = TransferTransaction()
         
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
         transaction.amount = Double(xems)
-        transaction.message.payload = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
-        transaction.message.type = MessageType.Normal.rawValue
+        transaction.message.payload = messageBytes
+        transaction.message.type = (_isEnc) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
         transaction.fee = transactionFee
         transaction.recipient = toAddressTextField.text!
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
         transaction.version = 1
         transaction.signer = walletData.publicKey
         
-        _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
+        if _isEnc
+        {
+            _preparedTransaction = transaction
+            
+            _apiManager.accountGet(State.currentServer!, account_address: transaction.recipient)
+        } else {
+            if messageBytes.count > 160 {
+                _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
+                return
+            }
+            _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
+        }
     }
     
     final func countTransactionFee() {
+        let amount = Double(amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")) ?? 0
+
+        if amount < 0.000001 && amount != 0 {
+            amountTextField.text = "0"
+        }
         
         self.xems = Double(amountTextField.text!) ?? 0
-        self.amountTextField.text = "\(xems)"
+        self.amountTextField.text = "\(xems.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
         
         var newFee :Int = 0
         if xems >= 8 {
@@ -288,7 +335,11 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         else {
             newFee = 10 - Int(xems)
         }
-        let messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
+        var messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
+        
+        if _isEnc && messageLength != 0{
+            messageLength! += 64
+        }
         
         if messageLength != 0 {
             newFee += Int(2 * max(1, Int( messageLength! / 16)))
@@ -319,7 +370,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         
         countTransactionFee()
-        self.feeTextField.text = "\(transactionFee)"
+        self.feeTextField.text = "\(transactionFee.format())"
         sender.becomeFirstResponder()
     }
     
@@ -360,6 +411,25 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     //MARK: - APIManagerDelegate Methods
     
     func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        
+        if _preparedTransaction != nil && _preparedTransaction!.recipient == account?.address {
+            guard let contactPublicKey = account?.publicKey else {
+                _showPopUp("NO_PUBLIC_KEY_FOR_ENC".localized())
+                
+                return
+            }
+            var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
+            encryptedMessage = MessageCrypto.encrypt(_preparedTransaction!.message.payload!, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
+            _preparedTransaction!.message.payload = encryptedMessage
+            
+            if encryptedMessage.count > 160 {
+                _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
+                return
+            }
+            _apiManager.prepareAnnounce(State.currentServer!, transaction: _preparedTransaction!)
+            _preparedTransaction = nil
+        }
+        
         walletData = account
         
         if _mainWallet == nil {

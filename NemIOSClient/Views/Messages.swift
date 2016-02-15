@@ -17,16 +17,17 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     private var _correspondents :[Correspondent] = []
     
     private var _displayList :NSArray = NSArray()
-    private var _searchBar : UISearchBar!
     private var _searchText :String = ""
     
+    // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
+//    private var _searchBar : UISearchBar!
+
     // MARK: - Load Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         State.fromVC = SegueToMessages
-        State.currentVC = SegueToMessages
         State.currentContact = nil
         
         titleLabel.text = "MESSAGES".localized()
@@ -34,13 +35,14 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         customMessageButton.setTitle("NEW".localized(), forState: UIControlState.Normal)
         tableView.layer.cornerRadius = 2
         _apiManager.delegate = self
-        
-        _searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
-        _searchBar.delegate = self
-        tableView.tableHeaderView = _searchBar
-        _searchBar.showsCancelButton = false
         tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
+        
+        // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
+//        _searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
+//        _searchBar.delegate = self
+//        tableView.tableHeaderView = _searchBar
+//        _searchBar.showsCancelButton = false
+//        tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
 
         _displayList = _correspondents
         
@@ -64,7 +66,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     }
     
     override func viewDidAppear(animated: Bool) {
-        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToMessages
     }
     
     override func didReceiveMemoryWarning() {
@@ -316,36 +319,37 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         }
     }
     
+    // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
     // MARK: - Search Bar Data Source
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
-        
-        _displayList = _correspondents
-        
-        tableView.reloadData()
-        _searchBar.resignFirstResponder()
-    }
-    
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        _searchBar.showsCancelButton = true
-    }
-    
-    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
-        resignFirstResponder()
-    }
-    
-    func searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
-        if _searchText == "" {
-            _displayList = _correspondents
-        }
-        else {
-            let predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
-            _displayList = (_correspondents as NSArray).filteredArrayUsingPredicate(predicate)
-        }
-        
-        tableView.reloadData()
-    }
+//    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+//        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
+//        
+//        _displayList = _correspondents
+//        
+//        tableView.reloadData()
+//        _searchBar.resignFirstResponder()
+//    }
+//    
+//    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+//        _searchBar.showsCancelButton = true
+//    }
+//    
+//    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
+//        resignFirstResponder()
+//    }
+//    
+//    func searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
+//        if _searchText == "" {
+//            _displayList = _correspondents
+//        }
+//        else {
+//            let predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
+//            _displayList = (_correspondents as NSArray).filteredArrayUsingPredicate(predicate)
+//        }
+//        
+//        tableView.reloadData()
+//    }
     
     // MARK: - Table View Data Sourse
         
@@ -385,7 +389,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         var color :UIColor!
         var vector :String = ""
-        if transaction?.recipient == account_address {
+        if transaction?.amount == 0 {
+            color = UIColor(red: 142 / 256 , green: 142 / 256, blue: 142 / 256, alpha: 1)
+        } else if transaction?.recipient == account_address {
             color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
             vector = "+"
         } else {

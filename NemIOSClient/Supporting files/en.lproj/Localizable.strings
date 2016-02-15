@@ -56,7 +56,7 @@
 "EDIT" = "Edit";
 "ENTET_PASSWORD" = "Enter Password";
 "ENTET_PASSWORD_EXPORT" = "Enter new password or press confirm to use the default  application password";
-"ENCRYPTEDF_MESSAGE" = "Encrypted Message";
+"ENCRYPTED_MESSAGE" = "Encrypted Message";
 "EMPTY_MESSAGE" = "Empty Message";
 "ENTER_MESSAGE" = "Enter Message Here";
 "ENTER_NAME" = "Enter Name";
@@ -227,6 +227,8 @@
 
 "VALIDATION" = "Validation";
 "VASTED_BALANCE" = "Vested Balance";
+"VIDATION_ACCOUNT_EXIST" = "Account with such private key exist as: %@"; // %@ will be replaced by account name
+"VALIDAATION_MESSAGE_LEANGTH" = "Message is to long";
 "VIEW_PRIVATE_KEY" = "View Private Key";
 "VERSION" = "Version";
 

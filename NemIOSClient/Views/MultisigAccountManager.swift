@@ -27,8 +27,6 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        State.currentVC = SegueTomultisigAccountManager
         
         _apiManager.delegate = self
         titleLabel.text = "MULTISIG".localized()
@@ -40,6 +38,11 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueTomultisigAccountManager
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -154,6 +157,11 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             
             if self.minCosig != nil {
                 relativeChange = minCosig! - _activeAccount!.minCosignatories!
+            } else if _removeArray.count > 0 && (_activeAccount!.minCosignatories ?? 0) != 0 {
+                relativeChange = min( _activeAccount!.minCosignatories!, _activeAccount!.cosignatories.count - _removeArray.count) - _activeAccount!.minCosignatories!
+            }
+            
+            if relativeChange != 0{
                 fee += 6
             }
             
@@ -225,6 +233,10 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             _popUp!.view.removeFromSuperview()
             _popUp!.removeFromParentViewController()
             _popUp = nil
+        }
+        
+        if (_mainAccount?.cosignatoryOf ?? []).isEmpty {
+            return
         }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

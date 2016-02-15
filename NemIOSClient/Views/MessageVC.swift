@@ -38,7 +38,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     private var _isEnc = false
     
-    private var _canShowKeyboard = true
+    private var _bottomInsert :CGFloat = 0
     
     let contact :Correspondent = State.currentContact!
     
@@ -53,8 +53,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        State.currentVC = SegueToMessageVC
         
         copyButton.setTitle("COPY", forState: UIControlState.Normal)
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
@@ -88,6 +86,11 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToMessageVC
     }
     
     // MARK: - IBAction
@@ -155,6 +158,11 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         if _activeAccount == nil || State.currentServer == nil {
             return
         }
+        let amount = Double(amoundField!.text!) ?? 0
+        if amount < 0.000001 && amount != 0 {
+            amoundField!.text = "0"
+            return
+        }
         
         let transaction :TransferTransaction = TransferTransaction()
         
@@ -162,15 +170,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             if Double(_activeAccount?.balance ?? -1) > amount {
                 transaction.amount = amount
             } else {
-                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "ACCOUNT_NOT_ENOUGHT_MONEY".localized() , preferredStyle: UIAlertControllerStyle.Alert)
-                
-                let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-                }
-                
-                alert.addAction(ok)
-                self.presentViewController(alert, animated: true, completion: nil)
-                
+                _failedWithError("ACCOUNT_NOT_ENOUGHT_MONEY".localized())
                 return
             }
         } else {
@@ -182,39 +182,27 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         let messageTextHex = messageField!.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
         
         if !Validate.hexString(messageTextHex!) {
-            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "NOT_A_HEX_STRING".localized() , preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
-                alertAction -> Void in
-            }
-            
-            alert.addAction(ok)
-            self.presentViewController(alert, animated: true, completion: nil)
-            
+            _failedWithError("NOT_A_HEX_STRING".localized())
             return
         }
         
         var messageBytes :[UInt8] = messageTextHex!.asByteArray()
-
         
         if _isEnc
         {
             guard let contactPublicKey = contact.public_key else {
-                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "NO_PUBLIC_KEY_FOR_ENC".localized(), preferredStyle: UIAlertControllerStyle.Alert)
-                
-                let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
-                    alertAction -> Void in
-                }
-                
-                alert.addAction(ok)
-                self.presentViewController(alert, animated: true, completion: nil)
-                
-                return
+                _failedWithError("NO_PUBLIC_KEY_FOR_ENC".localized())
 
+                return
             }
             var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
             encryptedMessage = MessageCrypto.encrypt(messageBytes, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
             messageBytes = encryptedMessage
+        }
+        
+        if messageBytes.count > 160 {
+            _failedWithError("VALIDAATION_MESSAGE_LEANGTH".localized())
+            return
         }
         
         transaction.message.payload = messageBytes
@@ -512,6 +500,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
                 let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
                 
+                if responceAccount.address == self.contact.address && !Validate.stringNotEmpty(self.contact.public_key){
+                    self.contact.public_key = responceAccount.publicKey
+                }
+                
                 if responceAccount.address == account_address {
                     if responceAccount.publicKey == nil {
                         responceAccount.publicKey = KeyGenerator.generatePublicKey(privateKey!)
@@ -539,8 +531,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                         self.userInfo.attributedText = userDescription
                     })
                     
-                } else if responceAccount.address == self.contact.address && !Validate.stringNotEmpty(self.contact.public_key){
-                    self.contact.public_key = responceAccount.publicKey
                 }
                 
                 var exist = false
@@ -701,11 +691,17 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 }
             }
             
-            if AddressGenerator.generateAddress(_transactions[index].signer) == self._mainAccount!.address && recipient == self.contact.address {
+            let address = AddressGenerator.generateAddress(_transactions[index].signer)
+            
+            if address == self._mainAccount!.address && recipient == self.contact.address {
                 needToSave = true
             }
             
-            if AddressGenerator.generateAddress(_transactions[index].signer) == self.contact.address && recipient == self._mainAccount!.address {
+            if address == self.contact.address && recipient == self._mainAccount!.address {
+                needToSave = true
+            }
+            
+            if self._mainAccount!.cosignatories.count > 0 && recipient == self.contact.address {
                 needToSave = true
             }
             
@@ -762,41 +758,43 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         }
     }
     
+    private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+            completion?()
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     //MARK: - Keyboard Methods
     
     func keyboardWillShow(notification: NSNotification) {
-        if _canShowKeyboard {
-            let info:NSDictionary = notification.userInfo!
-            let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            let height:CGFloat = keyboardSize.height - 65
-            
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.view.frame.size.height = self.view.frame.height - height
-                }, completion: { (success) -> Void in
-                    self.scrollToEnd()
-
-            })
-            _canShowKeyboard = false
-        }
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        let height:CGFloat = keyboardSize.height - 62
+        let delta = height - self._bottomInsert
+        self._bottomInsert = height
+        
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.view.frame.size.height = self.view.frame.height - delta
+            }, completion: { (success) -> Void in
+                self.scrollToEnd()
+                
+        })
     }
     
     func keyboardWillHide(notification: NSNotification) {
+        let delta = self._bottomInsert
+        self._bottomInsert = 0
         
-        if !_canShowKeyboard {
-            let info:NSDictionary = notification.userInfo!
-            let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            let height:CGFloat = keyboardSize.height - 65
-            
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.view.frame.size.height = self.view.frame.height + height
-                }, completion: { (success) -> Void in
-                    self.scrollToEnd()
-                    
-            })
-            
-            _canShowKeyboard = true
-        }
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.view.frame.size.height = self.view.frame.height + delta
+            }, completion: { (success) -> Void in
+                self.scrollToEnd()
+        })
     }
 }

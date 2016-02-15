@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
+        if State.currentVC == SegueToPasswordValidation {return}
+        
         var root = UIApplication.sharedApplication().windows.first?.rootViewController
         
         for ;; {
@@ -35,8 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         }
 
         State.nextVC = State.currentVC ?? SegueToLoginVC
-        if root != nil && (root as! AbstractViewController).respondsToSelector("pageSelected:") {
-            ((root as! AbstractViewController) as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+        
+        if root != nil  {
+            root?.performSegueWithIdentifier(SegueToPasswordValidation, sender: self)
         }
     }
 

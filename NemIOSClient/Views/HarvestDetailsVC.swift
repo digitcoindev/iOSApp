@@ -29,7 +29,6 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.currentVC = SegueToHistoryVC
         _apiManager.delegate = self
         
         titleLabel.text = "HARVEST_DETAILS".localized()
@@ -40,6 +39,12 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
         infoView.clipsToBounds = true
         infoView.hidden = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        State.currentVC = SegueToHistoryVC
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {

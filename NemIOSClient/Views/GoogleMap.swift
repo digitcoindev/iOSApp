@@ -13,8 +13,6 @@ class GoogleMap: AbstractViewController , CLLocationManagerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        State.currentVC = SegueToGoogleMap
         
         self.locationManager.requestAlwaysAuthorization()
         
@@ -36,6 +34,11 @@ class GoogleMap: AbstractViewController , CLLocationManagerDelegate
         map.settings.compassButton = true
         
         self.view = map
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToGoogleMap
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

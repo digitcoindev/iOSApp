@@ -39,9 +39,13 @@ class MessageCrypto: NSObject {
 
         ed25519_key_exchange_nem(&sharedSecretBytes, &senderPublicKeyBytes, &recipientPrivateKeyBytes, &saltBytes)
         
-        var messageData :NSData = NSData(bytes: &encBytes, length: encBytes.count)
+        var messageData :NSData? = NSData(bytes: &encBytes, length: encBytes.count)
         
-        messageData = messageData.aesDecrypt(sharedSecretBytes, iv: ivBytes)!
-        return NSString(data: messageData, encoding: NSUTF8StringEncoding) as? String
+        messageData = messageData?.aesDecrypt(sharedSecretBytes, iv: ivBytes)
+        
+        if messageData == nil {
+            return nil
+        }
+        return NSString(data: messageData!, encoding: NSUTF8StringEncoding) as? String
     }
 }

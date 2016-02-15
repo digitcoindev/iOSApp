@@ -25,9 +25,6 @@ class UserInfoVC: AbstractViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        State.fromVC = SegueToUserInfo
-        State.currentVC = SegueToUserInfo
         
         myAddressLabel.text = "MY_ADDRESS".localized() + ":"
         myNameLabel.text = "MY_NAME".localized() + ":"
@@ -45,6 +42,11 @@ class UserInfoVC: AbstractViewController
         userName.placeholder = State.currentWallet!.login
         
         _generateQR()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToUserInfo
     }
     
     // MARK: - @IBAction

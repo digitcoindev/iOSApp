@@ -19,8 +19,6 @@ class CreateQRInput: AbstractViewController
         
         createButton.setTitle("CREATE".localized(), forState: UIControlState.Normal)
         
-        State.currentVC = SegueToCreateInvoice
-        
         containerView.layer.cornerRadius = 10
         containerView.clipsToBounds = true
         
@@ -30,19 +28,23 @@ class CreateQRInput: AbstractViewController
         message.text =  ""
         
         if let prefix = loadData?.invoicePrefix {
-            message.text = prefix
+            message.text = prefix + "/"
         }
         
-        message.text = message.text! + "/\(_dataManager.getInvoice().count)/"
+        message.text = message.text! + "\(_dataManager.getInvoice().count)"
         
         if let postfix = loadData?.invoicePostfix {
-            message.text = message.text! + postfix
+            message.text = message.text! + "/" + postfix
         }
         
         if let messageText = loadData?.invoiceMessage {
             message.text = message.text! + ": " + messageText
         }
-
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToCreateInvoice
     }
 
     override func didReceiveMemoryWarning() {

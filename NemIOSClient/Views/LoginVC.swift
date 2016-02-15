@@ -26,7 +26,6 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         State.cleanVCs()
-        State.currentVC = SegueToLoginVC
         
         titleLabel.text = "ACCOUNTS".localized()
         addWallet.setTitle("   " + "ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
@@ -38,6 +37,11 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToLoginVC
     }
     
     override func didReceiveMemoryWarning() {

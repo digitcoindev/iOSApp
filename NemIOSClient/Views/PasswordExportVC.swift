@@ -73,9 +73,12 @@ class PasswordExportVC: AbstractViewController
     private func _prepareForExport() {
         
         if !passwordSwitch.on && !Validate.stringNotEmpty(password.text){
-            var alert :UIAlertView!
-            alert  = UIAlertView(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), delegate: self, cancelButtonTitle: "OK".localized())
-            alert.show()
+            _failedWithError("FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        
+        if !passwordSwitch.on && !Validate.password(password.text!) {
+            _failedWithError("PASSOWORD_LENGTH_ERROR".localized())
             return
         }
         
@@ -104,5 +107,16 @@ class PasswordExportVC: AbstractViewController
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
         }
+    }
+    
+    private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+            completion?()
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }

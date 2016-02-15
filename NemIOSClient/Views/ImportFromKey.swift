@@ -17,8 +17,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.currentVC = SegueToImportFromKey
-
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
         
@@ -36,6 +34,11 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        State.currentVC = SegueToImportFromKey
     }
     
     override func didReceiveMemoryWarning() {
@@ -128,16 +131,19 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         }
         
         if name.text != ""  && key.text! != ""  {
-            var keyValide :Bool = true
-            keyValide = Validate.key(key.text)
+            
             
             if let privateKey = key.text!.nemKeyNormalized() {
-                WalletGenerator().createWallet(name.text!, privateKey: privateKey)
-                
-                State.toVC = SegueToLoginVC
-                
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+                if let name = Validate.account(privateKey: privateKey) {
+                    alert  = UIAlertView(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[name]), delegate: self, cancelButtonTitle: "OK".localized())
+                } else {
+                    WalletGenerator().createWallet(name.text!, privateKey: privateKey)
+                    
+                    State.toVC = SegueToLoginVC
+                    
+                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                        (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
+                    }
                 }
             }
             else {
