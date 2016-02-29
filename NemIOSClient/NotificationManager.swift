@@ -28,8 +28,6 @@ class NotificationManager
         let deviceTokenString: String? = ( deviceToken.description as NSString )
             .stringByTrimmingCharactersInSet( characterSet )
             .stringByReplacingOccurrencesOfString(" ", withString: "" ) as String
-        
-
     }
     
     class func didReceiveRemoutNotification(userInfo: [NSObject : AnyObject], identifier: String? = nil , responseInfo: [NSObject : AnyObject]? = nil) {
@@ -38,7 +36,6 @@ class NotificationManager
         guard let badge = aps.valueForKey("badge") as? Int else {return}
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber - badge
-        
     }
     
     private class func showNotificationBaner(title: String){

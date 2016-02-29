@@ -7,6 +7,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var minCosigField: NEMTextField!
+    @IBOutlet weak var accountLabel: UILabel!
     
     private var _mainAccount :AccountGetMetaData? = nil
     private var _activeAccount :AccountGetMetaData? = nil
@@ -338,6 +339,16 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     func accountGetResponceWithAccount(account: AccountGetMetaData?) {
         
         if account != nil {
+            
+            if account!.cosignatoryOf.count > 0 {
+                chouseButton.hidden = false
+                accountLabel.hidden = true
+                chouseButton.setTitle(account!.address.nemName(), forState: UIControlState.Normal)
+            } else {
+                chouseButton.hidden = true
+                accountLabel.hidden = false
+                accountLabel.text = account!.address.nemName()
+            }
             
             chouseButton.setTitle(account?.address.nemName(), forState: UIControlState.Normal)
             

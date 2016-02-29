@@ -28,8 +28,11 @@ class ViewController: UIViewController
             LocalizationManager.setLanguage(language)
         }
         
-        if let updateInterval = State.loadData?.updateInterval {
-            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(Double(1))
+
+        if let updateInterval = State.loadData?.updateInterval where Int(updateInterval) > 0 {
+            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(Double(updateInterval))
+        } else {
+            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
         }
     }
     

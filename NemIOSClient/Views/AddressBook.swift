@@ -80,6 +80,9 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         if _tempController != nil { return }
 
         _isEditing = !_isEditing
+        
+        let title = _isEditing ? "DONE".localized() : "EDIT".localized()
+        editButton.setTitle(title, forState: .Normal)
 
         for cell in self.tableView.visibleCells {
             (cell as! AddressCell).isEditable = _isEditing

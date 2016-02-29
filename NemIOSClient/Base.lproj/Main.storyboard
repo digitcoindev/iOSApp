@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -256,7 +256,7 @@
                                     <constraint firstAttribute="height" constant="40" id="z4N-h4-DMj"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="w4z-DQ-xHC">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="w4z-DQ-xHC">
                                 <rect key="frame" x="16" y="100" width="288" height="440"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -680,7 +680,7 @@
                                     <outlet property="delegate" destination="yea-8b-oWo" id="0pG-hc-9dv"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTx-fC-3pq" customClass="ChouseButton" customModule="NemIOSClient" customModuleProvider="target">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTx-fC-3pq" customClass="ChouseButton" customModule="NemIOSClient" customModuleProvider="target">
                                 <rect key="frame" x="16" y="45" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="1CX-ei-ERt"/>
@@ -697,6 +697,15 @@
                                     <action selector="chouseAccount:" destination="yea-8b-oWo" eventType="touchUpInside" id="5ZI-E0-1aJ"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rhv-Qt-uPC">
+                                <rect key="frame" x="0.0" y="45" width="320" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2Ox-Is-0LA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="21"/>
+                                <color key="textColor" red="0.25490196079999999" green="0.80784313730000001" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -705,16 +714,20 @@
                             <constraint firstItem="NjZ-Cd-Udg" firstAttribute="leading" secondItem="UCS-D9-uO2" secondAttribute="leading" id="1fP-VB-arI"/>
                             <constraint firstItem="zmH-7q-SDj" firstAttribute="leading" secondItem="UCS-D9-uO2" secondAttribute="leading" id="7Sb-dv-lTP"/>
                             <constraint firstAttribute="trailing" secondItem="NjZ-Cd-Udg" secondAttribute="trailing" id="DwL-66-U0g"/>
+                            <constraint firstItem="Rhv-Qt-uPC" firstAttribute="leading" secondItem="UCS-D9-uO2" secondAttribute="leading" id="Fa0-ip-yGQ"/>
+                            <constraint firstAttribute="trailing" secondItem="Rhv-Qt-uPC" secondAttribute="trailing" id="Kb4-4J-NWS"/>
                             <constraint firstItem="NjZ-Cd-Udg" firstAttribute="top" secondItem="SnY-CI-XhB" secondAttribute="bottom" id="MnC-wQ-tap"/>
                             <constraint firstItem="zmH-7q-SDj" firstAttribute="top" secondItem="rTx-fC-3pq" secondAttribute="bottom" constant="5" id="P0P-ld-sHP"/>
                             <constraint firstItem="rTx-fC-3pq" firstAttribute="top" secondItem="NjZ-Cd-Udg" secondAttribute="bottom" constant="5" id="QuX-k5-Gbv"/>
                             <constraint firstItem="rTx-fC-3pq" firstAttribute="leading" secondItem="UCS-D9-uO2" secondAttribute="leadingMargin" id="WUB-CN-Jha"/>
                             <constraint firstAttribute="trailing" secondItem="zmH-7q-SDj" secondAttribute="trailing" id="naP-U1-4pe"/>
+                            <constraint firstItem="Rhv-Qt-uPC" firstAttribute="top" secondItem="NjZ-Cd-Udg" secondAttribute="bottom" constant="5" id="xu9-fB-0E5"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="560"/>
                     <connections>
+                        <outlet property="accountLabel" destination="Rhv-Qt-uPC" id="esT-rz-e3n"/>
                         <outlet property="chouseButton" destination="rTx-fC-3pq" id="9Pw-yc-3ES"/>
                         <outlet property="tableView" destination="zmH-7q-SDj" id="n71-57-eET"/>
                         <outlet property="titleLabel" destination="f19-pd-zN8" id="dek-iS-BYY"/>
@@ -3069,13 +3082,13 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srH-Ej-Cg6" customClass="ChouseButton" customModule="NemIOSClient" customModuleProvider="target">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srH-Ej-Cg6" customClass="ChouseButton" customModule="NemIOSClient" customModuleProvider="target">
                                                 <rect key="frame" x="77" y="8" width="235" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="adP-U4-sr0"/>
                                                 </constraints>
                                                 <state key="normal" title="Choose account" image="drop_down_arrow_2x">
-                                                    <color key="titleColor" red="0.20000000000000001" green="0.74901960779999999" blue="0.33725490200000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.25490197539999998" green="0.8078432083" blue="0.4823529124" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -3214,10 +3227,20 @@
                                                     <action selector="encTouchUpInside:" destination="0YH-3H-wH5" eventType="touchUpInside" id="otP-nU-jUp"/>
                                                 </connections>
                                             </button>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDS-0k-Aif">
+                                                <rect key="frame" x="77" y="8" width="235" height="32"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="32" id="Uw0-5y-0h5"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                                                <color key="textColor" red="0.25490196079999999" green="0.80784313730000001" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="srH-Ej-Cg6" secondAttribute="trailing" constant="8" id="0G3-oN-xUS"/>
+                                            <constraint firstAttribute="trailing" secondItem="RDS-0k-Aif" secondAttribute="trailing" constant="8" id="0y0-mQ-1DA"/>
                                             <constraint firstItem="HyY-Vq-TSW" firstAttribute="top" secondItem="4bS-nq-sch" secondAttribute="bottom" constant="12" id="1XY-Ua-7E6"/>
                                             <constraint firstItem="GBg-fw-SsV" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="43" id="2pC-Zb-IRF"/>
                                             <constraint firstAttribute="trailing" secondItem="aQD-mB-dpu" secondAttribute="trailing" constant="8" id="6cx-SR-fKa"/>
@@ -3247,6 +3270,7 @@
                                             <constraint firstAttribute="trailing" secondItem="bVr-2d-iiI" secondAttribute="trailing" constant="8" id="Wc4-cb-VTz"/>
                                             <constraint firstItem="4d9-7T-tPL" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="19" id="ZzH-7Y-ocy"/>
                                             <constraint firstItem="srH-Ej-Cg6" firstAttribute="leading" secondItem="QeA-3i-9PJ" secondAttribute="trailing" constant="8" id="a4o-MN-oET"/>
+                                            <constraint firstItem="RDS-0k-Aif" firstAttribute="leading" secondItem="QeA-3i-9PJ" secondAttribute="trailing" constant="8" id="aTE-qB-tZP"/>
                                             <constraint firstItem="ki2-PR-2Hm" firstAttribute="top" secondItem="4bS-nq-sch" secondAttribute="bottom" constant="12" id="crK-uw-yV5"/>
                                             <constraint firstItem="srH-Ej-Cg6" firstAttribute="top" secondItem="UzV-KH-vh5" secondAttribute="top" constant="8" id="g4p-Hm-s8M"/>
                                             <constraint firstAttribute="trailing" secondItem="4bS-nq-sch" secondAttribute="trailing" constant="8" id="nj9-E8-AKU"/>
@@ -3254,6 +3278,7 @@
                                             <constraint firstItem="ymY-id-WP8" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="19" id="pnO-a3-rfQ"/>
                                             <constraint firstAttribute="trailing" secondItem="zym-Ae-EeT" secondAttribute="trailing" constant="8" id="qXO-uV-Xeb"/>
                                             <constraint firstItem="x0d-Kp-YsM" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="43" id="qrR-uY-Uqx"/>
+                                            <constraint firstItem="RDS-0k-Aif" firstAttribute="top" secondItem="UzV-KH-vh5" secondAttribute="top" constant="8" id="rM5-Dg-v0W"/>
                                             <constraint firstItem="GBg-fw-SsV" firstAttribute="top" secondItem="zym-Ae-EeT" secondAttribute="bottom" constant="12" id="rd1-tt-GRy"/>
                                             <constraint firstAttribute="trailing" secondItem="KC2-78-FKp" secondAttribute="trailing" constant="8" id="tTK-28-Ey2"/>
                                             <constraint firstItem="Aga-nW-6e3" firstAttribute="top" secondItem="ymY-id-WP8" secondAttribute="bottom" constant="12" id="tvb-bX-Rku"/>
@@ -3289,6 +3314,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="500"/>
                     <connections>
+                        <outlet property="accountLabel" destination="RDS-0k-Aif" id="oLf-1F-t0b"/>
                         <outlet property="amountLabel" destination="zym-Ae-EeT" id="mtc-xh-b27"/>
                         <outlet property="amountTextField" destination="GBg-fw-SsV" id="prW-o3-oA0"/>
                         <outlet property="chooseButon" destination="srH-Ej-Cg6" id="sj2-hw-huh"/>

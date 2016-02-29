@@ -10,6 +10,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var chooseButon: ChouseButton!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var accountLabel: UILabel!
     
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
@@ -441,7 +442,15 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         
         if account != nil {
-            chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
+            if walletData.cosignatoryOf.count > 0 {
+                chooseButon.hidden = false
+                accountLabel.hidden = true
+                chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
+            } else {
+                chooseButon.hidden = true
+                accountLabel.hidden = false
+                accountLabel.text = walletData.address.nemName()
+            }
             
             let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
             

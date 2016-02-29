@@ -12,7 +12,8 @@ class CreateQRInput: AbstractViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        State.fromVC = SegueToCreateInvoice
+
         amount.placeholder = "ENTER_AMOUNT".localized()
         name.placeholder = "ENTER_NAME".localized()
         message.placeholder = "ENTER_MESSAGE".localized()
@@ -25,21 +26,25 @@ class CreateQRInput: AbstractViewController
         let loadData = State.loadData
         
         name.text = State.currentWallet?.login ?? ""
-        message.text =  ""
+        var text = ""
         
-        if let prefix = loadData?.invoicePrefix {
-            message.text = prefix + "/"
+        if Validate.stringNotEmpty(loadData?.invoicePrefix) {
+            text = loadData!.invoicePrefix! + "/"
         }
         
-        message.text = message.text! + "\(_dataManager.getInvoice().count)"
+        text = text + "\(_dataManager.getInvoice().count)"
         
-        if let postfix = loadData?.invoicePostfix {
-            message.text = message.text! + "/" + postfix
+        if Validate.stringNotEmpty(loadData?.invoicePostfix) {
+            text = text + "/" + loadData!.invoicePostfix!
         }
         
-        if let messageText = loadData?.invoiceMessage {
-            message.text = message.text! + ": " + messageText
+        text = text + ": "
+        
+        if Validate.stringNotEmpty(loadData?.invoiceMessage) {
+            text = text + loadData!.invoiceMessage!
         }
+        
+        message.text = text
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -65,10 +70,15 @@ class CreateQRInput: AbstractViewController
     
     @IBAction func confirm(sender: AnyObject) {
         
-        if Int(amount.text!) == nil {
-            amount.text = ""
+        var amountValue = Double(amount.text!.stringByReplacingOccurrencesOfString(" ", withString: "")) ?? 0
+
+        if amountValue < 0.000001 && amount != 0 {
+            amount.text = "0"
             return
         }
+        
+        amountValue = Double(amount.text!) ?? 0
+        self.amount.text = "\(amountValue.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
         
         if name.text == "" {
             return

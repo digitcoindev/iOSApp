@@ -59,6 +59,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         if _popUp != nil { return }
 
         _isEditing = !_isEditing
+        
+        let title = _isEditing ? "DONE".localized() : "EDIT".localized()
+        edit.setTitle(title, forState: .Normal)
 
         for cell in self.tableView.visibleCells {
             (cell as! ServerViewCell).inEditingState = _isEditing

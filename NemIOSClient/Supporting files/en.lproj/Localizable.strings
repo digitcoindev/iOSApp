@@ -44,6 +44,7 @@
 
 // MARK: - D
 
+"DONE" = "DONE";
 "DELETE" = "Delete";
 "DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK" = "Are you sure you want to delete %@ from your contacts?"; // %@ will be replaced by contact name
 "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS" = "Are you sure you want to delete %@ from your accounts?"; // %@ will be replaced by account name

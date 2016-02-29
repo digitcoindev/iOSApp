@@ -213,11 +213,11 @@ class APIManager: NSObject
         })
     }
     
-    final func accountTransfersAll(server :Server, account_address :String) {
+    final func accountTransfersAll(server :Server, account_address :String, aditional :String = "") {
         dispatch_async(_apiDipatchQueue, {
                 () -> Void in
 
-                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/transfers/all?address=" + account_address))!)
+                let request = NSMutableURLRequest(URL: NSURL(string: (server.protocolType + "://" + server.address + ":" + server.port + "/account/transfers/all?address=" + account_address + aditional))!)
             
                 request.HTTPMethod = "GET"
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")

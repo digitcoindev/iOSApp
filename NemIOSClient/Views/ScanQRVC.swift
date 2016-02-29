@@ -11,7 +11,8 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        State.fromVC = SegueToScanQR
+
         qrScaner.delegate = self
     }
     override func viewDidAppear(animated: Bool) {

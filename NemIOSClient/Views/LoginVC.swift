@@ -1,6 +1,6 @@
 import UIKit
 
-class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, ChangeNamePopUptDelegate
+class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSource, APIManagerDelegate, EditableTableViewCellDelegate, ChangeNamePopUptDelegate
 {
     
     @IBOutlet weak var tableView: UITableView!
@@ -33,7 +33,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         
         apiManager.delegate = self
         
-        wallets  = dataManager.getWallets().reverse()
+        wallets  = dataManager.getWallets()
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.layer.cornerRadius = 5
@@ -68,7 +68,12 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         if _popUp != nil { return }
         
         _isEditing = !_isEditing
-
+        
+        let title = _isEditing ? "DONE".localized() : "EDIT".localized()
+        editButton.setTitle(title, forState: .Normal)
+        
+        self.tableView.setEditing(_isEditing, animated: false)
+        
         for cell in self.tableView.visibleCells {
             (cell as! WalletCell).isEditable = _isEditing
         }
@@ -81,6 +86,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as! WalletCell
         cell.isEditable = _isEditing
         cell.editDelegate = self
@@ -109,6 +115,39 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
             _createPopUp("ChangeNamePopUpProfile", name: wallets[indexPath.row].login)
         }
     }
+    
+    //MARK: - TableView Data Source
+
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return _isEditing
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.None
+    }
+    
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return _isEditing
+    }
+    
+    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        if sourceIndexPath.row == destinationIndexPath.row {
+            return
+        }
+        
+        let tempPosition = wallets[sourceIndexPath.row].position
+        
+        wallets[sourceIndexPath.row].position = wallets[destinationIndexPath.row].position
+        wallets[destinationIndexPath.row].position = tempPosition
+        
+        dataManager.commit()
+        
+        swap(&wallets[sourceIndexPath.row], &wallets[destinationIndexPath.row])
+        
+        tableView.exchangeSubviewAtIndex(sourceIndexPath.row, withSubviewAtIndex: destinationIndexPath.row)
+    }
+
     
     //MARK: - Private Methods
     
@@ -181,6 +220,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, APIManagerDelegate, 
         
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
     
     //MARK: - APIManagerDelegate Methods
     

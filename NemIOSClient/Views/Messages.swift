@@ -19,6 +19,14 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     private var _displayList :NSArray = NSArray()
     private var _searchText :String = ""
     
+    private var _requestsLimit: Int = 2
+    private var _transactionsLimit: Int = 50
+    
+    private var _requestCounter = 0
+    
+    private var _account_address: String? = nil
+    private var _transactions:[TransferTransaction] = []
+    
     // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
 //    private var _searchBar : UISearchBar!
 
@@ -45,6 +53,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
 //        tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
 
         _displayList = _correspondents
+        
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
+        _account_address = AddressGenerator.generateAddress(publicKey)
         
         dispatch_async(dispatch_get_main_queue(), {
             self.refreshTransactionList()
@@ -105,7 +117,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     _apiManager.unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
                 }
             }
-            
         } else {
             self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
@@ -113,13 +124,16 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
 
     final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
-            var transactions :[TransferTransaction] = []
-            State.currentWallet?.lastTransactionHash = data.first?.hashString
+            _requestCounter++
+            
+            if _requestCounter == 1 {
+                State.currentWallet?.lastTransactionHash = data.first?.hashString
+            }
 
             for inData in data {
                 switch (inData.type) {
                 case transferTransaction :
-                    transactions.append(inData as! TransferTransaction)
+                    _transactions.append(inData as! TransferTransaction)
 
                 case multisigTransaction:
                     
@@ -127,7 +141,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     
                     switch(multisigT.innerTransaction.type) {
                     case transferTransaction :
-                        transactions.append(multisigT.innerTransaction as! TransferTransaction)
+                        _transactions.append(multisigT.innerTransaction as! TransferTransaction)
                         
                     default:
                         break
@@ -137,10 +151,16 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 }
             }
             
-            _correspondents = Correspondent.generateCorespondetsFromTransactions(transactions)
-            _displayList = _correspondents
-            
-            tableView.reloadData()
+            if data.count >= 25 && _requestCounter < _requestsLimit && _transactions.count <= _transactionsLimit{
+                
+                _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!, aditional: "&id=\(Int(data.last!.id))")
+ 
+            } else {
+                _correspondents = Correspondent.generateCorespondetsFromTransactions(_transactions)
+                _displayList = _correspondents
+                
+                tableView.reloadData()
+            }
 
         } else {
             self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
@@ -303,14 +323,12 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     }
     
     final func refreshTransactionList() {
-        
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-        let account_address = AddressGenerator.generateAddress(publicKey)
-        
-        if State.currentServer != nil {
-            _apiManager.accountGet(State.currentServer!, account_address: account_address)
-            _apiManager.accountTransfersAll(State.currentServer!, account_address: account_address)
+        if State.currentServer != nil && _account_address != nil {
+            _transactions = []
+            _requestCounter = 0
+            
+            _apiManager.accountGet(State.currentServer!, account_address: _account_address!)
+            _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!)
         }
         else {
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
@@ -385,13 +403,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         var color :UIColor!
         var vector :String = ""
-        if transaction?.amount == 0 {
-            color = UIColor(red: 142 / 256 , green: 142 / 256, blue: 142 / 256, alpha: 1)
-        } else if transaction?.recipient == account_address {
+        if transaction?.recipient == _account_address! {
             color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
             vector = "+"
         } else {

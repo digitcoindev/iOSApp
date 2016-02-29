@@ -17,29 +17,40 @@ class CoreDataManager: NSObject
     override init () {
         super.init()
     }
+    
     //MARK: - Wallet
     
     final func getWallets()->[Wallet] {
         let fetchRequest = NSFetchRequest(entityName: "Wallet")
+        let sortDescriptor = NSSortDescriptor(key: "position", ascending: true)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
         
         if let fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [Wallet] {
             return fetchResults
         }
-        else {
-            let fetchResults = (try? managedObjectContext!.executeFetchRequest(fetchRequest)) as? [Wallet]
-            
-            return fetchResults!
-        }
+        
+        return [Wallet]()
     }
     
     final func addWallet(loggin: String, privateKey: String) {
-        Wallet.createInManagedObjectContext(self.managedObjectContext!,login: loggin,privateKey : privateKey)
+        
+        Wallet.createInManagedObjectContext(self.managedObjectContext!, login: loggin, privateKey : privateKey, position: self.getWallets().count)
         
         commit()
     }
     
     final func deleteWallet(wallet wallet :Wallet) {
+        
+        let position = wallet.position
+        
         self.managedObjectContext!.deleteObject(wallet)
+        
+        for inWallet in self.getWallets() {
+            if Int(inWallet.position) > Int(position) {
+                inWallet.position = Int(inWallet.position) - Int(position)
+            }
+        }
         
         commit()
     }

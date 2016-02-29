@@ -49,6 +49,12 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
     private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
     
+    private var _requestsLimit: Int = 2
+    private var _transactionsLimit: Int = 50
+    
+    private var _requestCounter = 0
+    private var _account_address: String? = nil
+    
     // MARK: - Load Methods
     
     override func viewDidLoad() {
@@ -67,13 +73,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         contactInfo.text = contact.name
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+        _account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         if !Validate.stringNotEmpty(self.contact.public_key){
             self._apiManager.accountGet(State.currentServer!, account_address: self.contact.address)
         }
         
-        _apiManager.accountGet(State.currentServer!, account_address: account_address)
+        _apiManager.accountGet(State.currentServer!, account_address: _account_address!)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         scrollToEnd()
@@ -283,7 +289,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             definedCell.height = _heightForCell(message, width: tableView.frame.width - 120) + 20
 
             message = NSMutableAttributedString(string: "BLOCK".localized() + ": " , attributes: nil)
-            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.height)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.height.format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
             definedCell.detailsTop = message
             
             message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
@@ -353,12 +359,12 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 definedCell.detailsMiddle = message
                 
                 message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
-                message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:"\((innertTransaction.fee / 1000000).format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 
                 definedCell.detailsBottom = message
             } else {
                 message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
-                message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.fee / 1000000)" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
+                message.appendAttributedString(NSMutableAttributedString(string:"\((innertTransaction.fee / 1000000).format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
                 
                 definedCell.detailsMiddle = message
             }
@@ -397,10 +403,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         if( !(indexPath.row == 0) ) {
             var index :Int = 0
             let cell : ConversationTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("messageCell") as! ConversationTableViewCell
+            
             cell.detailDelegate = self
+            cell.detailsIsShown = false
+            
             var transaction :TransactionPostMetaData!
             var innertTransaction :TransferTransaction!
-
+            
             if indexPath.row <= _transactions.count {
                 index = indexPath.row - 1
                 cell.cellType = _definedCells[indexPath.row - 1].type
@@ -498,13 +507,12 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             () -> Void in
             if let responceAccount = account {
                 let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-                let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
                 
                 if responceAccount.address == self.contact.address && !Validate.stringNotEmpty(self.contact.public_key){
                     self.contact.public_key = responceAccount.publicKey
                 }
                 
-                if responceAccount.address == account_address {
+                if responceAccount.address == self._account_address! {
                     if responceAccount.publicKey == nil {
                         responceAccount.publicKey = KeyGenerator.generatePublicKey(privateKey!)
                     }
@@ -558,18 +566,22 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         dispatch_async(_operationDipatchQueue, {
             () -> Void in
             if let data = data {
+                self._requestCounter = 0
                 
-                self._transactions = self._findMessages(data)
+                self._transactions = self._findMessages(data.reverse()) + self._transactions
                 
-                self._sortMessages()
-                self.defineData()
-                
-                dispatch_async(dispatch_get_main_queue() , {
-                    () -> Void in
-                    self.tableView.reloadData()
-                    self.scrollToEnd()
-                })
-                
+                if data.count >= 25 && self._requestCounter < self._requestsLimit && self._transactions.count <= self._transactionsLimit{
+                    self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._account_address!, aditional: "&id=\(Int(data.last!.id))")
+                } else {
+                    //self._sortMessages()
+                    self.defineData()
+                    
+                    dispatch_async(dispatch_get_main_queue() , {
+                        () -> Void in
+                        self.tableView.reloadData()
+                        self.scrollToEnd()
+                    })
+                }
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
@@ -715,6 +727,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     private final func _refreshHistory() {
+        _requestCounter = 0
+        _transactions = []
+        
         self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
         
         self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)

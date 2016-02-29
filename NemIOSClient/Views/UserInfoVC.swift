@@ -25,7 +25,8 @@ class UserInfoVC: AbstractViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        State.fromVC = SegueToUserInfo
+
         myAddressLabel.text = "MY_ADDRESS".localized() + ":"
         myNameLabel.text = "MY_NAME".localized() + ":"
         userName.placeholder = "YOUR_NAME".localized()

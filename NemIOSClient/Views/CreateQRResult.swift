@@ -23,7 +23,8 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        State.fromVC = SegueToCreateInvoice
+
         invoiceDataLabel.text = "INVOICE_DATA".localized()
         copyQRButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
         shareQRButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
@@ -39,7 +40,7 @@ class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegat
             nameLabel.attributedText = titleText
             
             titleText = NSMutableAttributedString(string: "AMOUNT".localized() + ": " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
-            contentText = NSMutableAttributedString(string: "\(invoice!.amount / 1000000) XEM" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
+            contentText = NSMutableAttributedString(string: "\((invoice!.amount / 1000000).format()) XEM" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
             
             titleText.appendAttributedString(contentText)
             amountLabel.attributedText = titleText
