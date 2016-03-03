@@ -27,7 +27,6 @@ class ViewController: UIViewController
         if let language = State.loadData?.currentLanguage {
             LocalizationManager.setLanguage(language)
         }
-        
 
         if let updateInterval = State.loadData?.updateInterval where Int(updateInterval) > 0 {
             UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(Double(updateInterval))

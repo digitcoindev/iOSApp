@@ -16,7 +16,9 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         
         titleLabel.text = "MORE".localized()
         
-        menu = [SegueToLoginVC, SegueToGoogleMap, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
+        // TODO: Hidden in Version 2 Build 26 https://github.com/NewEconomyMovement/NEMiOSApp/issues/147
+        
+        menu = [SegueToLoginVC /*, SegueToGoogleMap*/, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)

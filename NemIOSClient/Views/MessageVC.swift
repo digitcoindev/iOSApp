@@ -99,6 +99,11 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         State.currentVC = SegueToMessageVC
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.view.endEditing(true)
+    }
+    
     // MARK: - IBAction
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
@@ -787,6 +792,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     //MARK: - Keyboard Methods
     
     func keyboardWillShow(notification: NSNotification) {
+        
         let info:NSDictionary = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
@@ -797,6 +803,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.view.frame.size.height = self.view.frame.height - delta
             }, completion: { (success) -> Void in
+                if !success {
+                    self.view.frame.size.height = self.view.frame.height - delta
+                }
                 self.scrollToEnd()
                 
         })
@@ -804,11 +813,15 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     func keyboardWillHide(notification: NSNotification) {
         let delta = self._bottomInsert
+       
         self._bottomInsert = 0
         
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.view.frame.size.height = self.view.frame.height + delta
             }, completion: { (success) -> Void in
+                if !success {
+                    self.view.frame.size.height = self.view.frame.height + delta
+                }
                 self.scrollToEnd()
         })
     }

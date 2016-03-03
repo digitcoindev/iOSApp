@@ -48,6 +48,40 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         feeLabel.text = "FEE".localized() + ":"
         sendButton.setTitle("SEND", forState: UIControlState.Normal)
         
+        setSuggestions()
+
+        toAddressTextField.placeholder = "ENTER_ADDRESS".localized()
+        amountTextField.placeholder = "ENTER_AMOUNT".localized()
+        messageTextField.placeholder = "EMPTY_MESSAGE".localized()
+        feeTextField.placeholder = "ENTER_FEE".localized()
+        
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        
+        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+        
+        _apiManager.accountGet(State.currentServer!, account_address: account_address)
+        
+        if contact != nil {
+            toAddressTextField.text = "\(contact!.address)"
+        }
+        
+        if State.invoice != nil {
+            invoice = State.invoice
+            State.invoice = nil
+            toAddressTextField.text = "\(invoice!.address)"
+            amountTextField.text = "\(invoice!.amount.format())"
+            messageTextField.text = "\(invoice!.message)"
+            
+            countTransactionFee()
+            self.feeTextField.text = "\(transactionFee.format())"
+        }
+    }
+    
+    final func setSuggestions() {
         var suggestions :[NEMTextField.Suggestion] = []
         
         let dataManager = CoreDataManager()
@@ -86,86 +120,58 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             }
         }
         
-        if AddressBookManager.isAllowed ?? false {
-            for contact in AddressBookManager.contacts {
-                var name = ""
-                if contact.givenName != "" {
-                    name = contact.givenName
-                }
-
-                if contact.familyName != "" {
-                    name += " " + contact.familyName
-                }
-                
-                for email in contact.emailAddresses{
-                    if email.label == "NEM" {
-                        let account_address = email.value as? String ?? " "
-                        
-                        var find = false
-                        
-                        for suggestion in suggestions {
-                            if suggestion.key == account_address {
-                                find = true
-                                break
-                            }
-                        }
-                        if !find {
-                            var sugest = NEMTextField.Suggestion()
-                            sugest.key = account_address
-                            sugest.value = account_address
-                            suggestions.append(sugest)
-                        }
-                        
-                        find = false
-
-                        for suggestion in suggestions {
-                            if suggestion.key == name {
-                                find = true
-                                break
-                            }
-                        }
-                        if !find {
-                            var sugest = NEMTextField.Suggestion()
-                            sugest.key = name
-                            sugest.value = account_address
-                            suggestions.append(sugest)
-                        }
-                    }
-                }
-            }
-        }
+        // TODO: Disable whole address book don't handle public keys
         
-        toAddressTextField.placeholder = "ENTER_ADDRESS".localized()
+//        if AddressBookManager.isAllowed ?? false {
+//            for contact in AddressBookManager.contacts {
+//                var name = ""
+//                if contact.givenName != "" {
+//                    name = contact.givenName
+//                }
+//                
+//                if contact.familyName != "" {
+//                    name += " " + contact.familyName
+//                }
+//                
+//                for email in contact.emailAddresses{
+//                    if email.label == "NEM" {
+//                        let account_address = email.value as? String ?? " "
+//                        
+//                        var find = false
+//                        
+//                        for suggestion in suggestions {
+//                            if suggestion.key == account_address {
+//                                find = true
+//                                break
+//                            }
+//                        }
+//                        if !find {
+//                            var sugest = NEMTextField.Suggestion()
+//                            sugest.key = account_address
+//                            sugest.value = account_address
+//                            suggestions.append(sugest)
+//                        }
+//                        
+//                        find = false
+//                        
+//                        for suggestion in suggestions {
+//                            if suggestion.key == name {
+//                                find = true
+//                                break
+//                            }
+//                        }
+//                        if !find {
+//                            var sugest = NEMTextField.Suggestion()
+//                            sugest.key = name
+//                            sugest.value = account_address
+//                            suggestions.append(sugest)
+//                        }
+//                    }
+//                }
+//            }
+//        }
         
         toAddressTextField.suggestions = suggestions
-        amountTextField.placeholder = "ENTER_AMOUNT".localized()
-        messageTextField.placeholder = "EMPTY_MESSAGE".localized()
-        feeTextField.placeholder = "ENTER_FEE".localized()
-        
-        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-        
-        _apiManager.accountGet(State.currentServer!, account_address: account_address)
-        
-        if contact != nil {
-            toAddressTextField.text = "\(contact!.address)"
-        }
-        
-        if State.invoice != nil {
-            invoice = State.invoice
-            State.invoice = nil
-            toAddressTextField.text = "\(invoice!.address)"
-            amountTextField.text = "\(invoice!.amount.format())"
-            messageTextField.text = "\(invoice!.message)"
-            
-            countTransactionFee()
-            self.feeTextField.text = "\(transactionFee.format())"
-        }
     }
     
     override func viewDidAppear(animated: Bool) {

@@ -86,6 +86,14 @@
          contextName = "LoginVC.tableView(UITableView, didSelectRowAtIndexPath : NSIndexPath) -&gt; ():LoginVC.swift">
       </ContextState>
       <ContextState
+         contextName = "MessageVC.keyboardWillHide(NSNotification) -&gt; ():MessageVC.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.view.frame.height">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "static MessageCrypto.encrypt(String, senderPrivateKey : String, recipientPublicKey : String) -&gt; [UInt8]:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
@@ -232,10 +240,10 @@
          contextName = "static State.lastVC.getter:State.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.Store.stackVC.last!">
+               value = "State.Store.stackVC">
             </PersistentString>
             <PersistentString
-               value = "State.Store.stackVC">
+               value = "State.Store.stackVC.last!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -457,13 +465,13 @@
          contextName = "static MessageCrypto.decrypt([UInt8], recipientPrivateKey : String, senderPublicKey : String) -&gt; String?:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
-               value = "messageData.hexadecimalString()">
+               value = "encBytes.toHexString()">
             </PersistentString>
             <PersistentString
                value = "NSString(data: messageData, encoding: NSASCIIStringEncoding) as? String">
             </PersistentString>
             <PersistentString
-               value = "encBytes.toHexString()">
+               value = "messageData.hexadecimalString()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -501,10 +509,10 @@
          contextName = "MessageVC.sendButtonTouchUpInside(AnyObject) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "contact.public_key">
+               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
             </PersistentString>
             <PersistentString
-               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
+               value = "contact.public_key">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -512,10 +520,10 @@
          contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
          <PersistentStrings>
             <PersistentString
-               value = "loadData?.invoicePrefix">
+               value = "loadData?.invoicePostfix">
             </PersistentString>
             <PersistentString
-               value = "loadData?.invoicePostfix">
+               value = "loadData?.invoicePrefix">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

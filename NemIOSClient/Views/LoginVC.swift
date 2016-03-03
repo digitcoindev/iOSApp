@@ -136,19 +136,18 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
             return
         }
         
-        let tempPosition = wallets[sourceIndexPath.row].position
+        let tempWallet = wallets[sourceIndexPath.row]
         
-        wallets[sourceIndexPath.row].position = wallets[destinationIndexPath.row].position
-        wallets[destinationIndexPath.row].position = tempPosition
+        wallets.removeAtIndex(sourceIndexPath.row)
+        wallets.insert(tempWallet, atIndex: destinationIndexPath.row)
+        
+        for wallet in wallets {
+            wallet.position = wallets.indexOf(wallet)! as NSNumber
+        }
         
         dataManager.commit()
-        
-        swap(&wallets[sourceIndexPath.row], &wallets[destinationIndexPath.row])
-        
-        tableView.exchangeSubviewAtIndex(sourceIndexPath.row, withSubviewAtIndex: destinationIndexPath.row)
     }
-
-    
+ 
     //MARK: - Private Methods
     
     private final func _createPopUp(withId: String , name: String? = nil) {
