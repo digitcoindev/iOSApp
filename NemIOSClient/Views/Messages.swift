@@ -75,6 +75,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         _apiManager.timeSynchronize(State.currentServer!)
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
+        
+        NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshTransactionList", userInfo: nil, repeats: true)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -323,6 +325,8 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     }
     
     final func refreshTransactionList() {
+        print("update")
+        
         if State.currentServer != nil && _account_address != nil {
             _transactions = []
             _requestCounter = 0

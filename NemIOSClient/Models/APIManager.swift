@@ -8,6 +8,7 @@
     optional func accountTransfersAllResponceWithTransactions(data :[TransactionPostMetaData]?)
     optional func unconfirmedTransactionsResponceWithTransactions(data :[TransactionPostMetaData]?)
     optional func prepareAnnounceResponceWithTransactions(data :[TransactionPostMetaData]?)
+    optional func failWithError(message :String)
 }
 
 class APIManager: NSObject
@@ -477,6 +478,7 @@ class APIManager: NSObject
                             dispatch_async(dispatch_get_main_queue()) {
                                 if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
                                     (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!([])
+                                    (self.delegate as! APIManagerDelegate).failWithError?(message)
                                 }
                             }
                         }

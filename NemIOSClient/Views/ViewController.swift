@@ -23,7 +23,7 @@ class ViewController: UIViewController
                 UIPasteboard.generalPasteboard().string = errorLogs
             }
         }
-        
+
         if let language = State.loadData?.currentLanguage {
             LocalizationManager.setLanguage(language)
         }

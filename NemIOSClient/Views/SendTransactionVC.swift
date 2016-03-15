@@ -214,6 +214,8 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         default :
             break
         }
+        
+        countTransactionFee()
         self.feeTextField.text = "\(transactionFee.format())"
     }
     
@@ -326,13 +328,18 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     }
     
     final func countTransactionFee() {
-        let amount = Double(amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")) ?? 0
+        var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
+        
+        text = amountTextField.text!.stringByReplacingOccurrencesOfString(",", withString: "")
+        
+        var amount = Double(text) ?? 0
 
         if amount < 0.000001 && amount != 0 {
             amountTextField.text = "0"
+            amount = 0
         }
         
-        self.xems = Double(amountTextField.text!) ?? 0
+        self.xems = amount
         self.amountTextField.text = "\(xems.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
         
         var newFee :Int = 0
@@ -362,7 +369,9 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
         feeLabel.attributedText = atributedText
         
-        newFee = Int(max(newFee, Int(feeTextField.text!) ?? 0))
+        let currentFee  = Int(feeTextField.text!) ?? 0
+        
+        newFee = Int(max(newFee, currentFee))
         
         transactionFee = Double(newFee)
         }

@@ -177,14 +177,14 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             transaction.privateKey = privateKey
             transaction.minCosignatory = relativeChange
             
-            for publickey in self._removeArray
-            {
-                transaction.addModification(2, publicKey: publickey)
-            }
-            
-            for publickey in self._addArray
+            for publickey in self._addArray.sort()
             {
                 transaction.addModification(1, publicKey: publickey)
+            }
+            
+            for publickey in self._removeArray.sort()
+            {
+                transaction.addModification(2, publicKey: publickey)
             }
             
             transaction.fee = Double(fee)
@@ -337,22 +337,19 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     //MARK: - APIManagerDelegate Methods
     
     func accountGetResponceWithAccount(account: AccountGetMetaData?) {
-        
+        chouseButton.setTitle(account!.address.nemName(), forState: UIControlState.Normal)
+        accountLabel.text = account!.address.nemName()
+
         if account != nil {
-            
-            if account!.cosignatoryOf.count > 0 {
-                chouseButton.hidden = false
-                accountLabel.hidden = true
-                chouseButton.setTitle(account!.address.nemName(), forState: UIControlState.Normal)
-            } else {
-                chouseButton.hidden = true
-                accountLabel.hidden = false
-                accountLabel.text = account!.address.nemName()
-            }
-            
-            chouseButton.setTitle(account?.address.nemName(), forState: UIControlState.Normal)
-            
             if _mainAccount == nil {
+                if account!.cosignatoryOf.count > 0 {
+                    chouseButton.hidden = false
+                    accountLabel.hidden = true
+                } else {
+                    chouseButton.hidden = true
+                    accountLabel.hidden = false
+                }
+                
                 if account?.cosignatories.count > 0 {
                     _isMultisig = true
                 }
@@ -375,12 +372,15 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         _addArray = []
         _removeArray = []
         
-        if (data ?? []).isEmpty {
-            message = "TRANSACTION_ANOUNCE_FAILED".localized()
-        } else {
-            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
-        }
+        self.tableView.reloadData()
         
-        _showPopUp(message)
+        if !(data ?? []).isEmpty {
+            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
+            _showPopUp(message)
+        }
+    }
+    
+    func failWithError(message: String) {
+        _showPopUp(message.localized())
     }
 }

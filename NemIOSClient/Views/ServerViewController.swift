@@ -88,6 +88,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
         if servers[indexPath.row] == State.currentServer {
             cell.isActiveServer = true
+        }  else {
+            cell.isActiveServer = false
         }
         
         cell.inEditingState = _isEditing
@@ -96,21 +98,21 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         cell.layoutCell(animated: false)
         let fileName = "server \(cellData.address).png"
         let fileService = FileService()
-        if fileService.fileExist(fileName) {
-            cell.flagImageView.image = UIImage(contentsOfFile: fileName.path())
-        } else {
-            cell.flagImageView.image = UIImage(named: "unknown_server_icon")
-            if let url = NSURL(string: "http://api.hostip.info/flag.php?ip=\(cellData.address)") {
-                _apiManager.downloadImage(url) { (image) -> Void in
-                    
-                    fileService.createFileWithName(fileName, data: UIImagePNGRepresentation(image)!, responce: { (state) -> Void in
-                        if state == FileServiceResponceState.Successed {
-                            self.tableView.reloadData()
-                        }
-                    })
-                }
-            }
-        }
+//        if fileService.fileExist(fileName) {
+//            cell.flagImageView.image = UIImage(contentsOfFile: fileName.path())
+//        } else {
+//            cell.flagImageView.image = UIImage(named: "unknown_server_icon")
+//            if let url = NSURL(string: "http://api.hostip.info/flag.php?ip=\(cellData.address)") {
+//                _apiManager.downloadImage(url) { (image) -> Void in
+//                    
+//                    fileService.createFileWithName(fileName, data: UIImagePNGRepresentation(image)!, responce: { (state) -> Void in
+//                        if state == FileServiceResponceState.Successed {
+//                            self.tableView.reloadData()
+//                        }
+//                    })
+//                }
+//            }
+//        }
         
         return cell
     }
@@ -130,9 +132,9 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
                 let oldIndexPath = NSIndexPath(forRow: oldIndex, inSection: 0)
                 
                 if oldIndexPath != indexPath {
-                    let serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as! ServerViewCell
+                    let serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as? ServerViewCell
                     
-                    serverCell.isActiveServer = false
+                    serverCell?.isActiveServer = false
                 }
             }
             

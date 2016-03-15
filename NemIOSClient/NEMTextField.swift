@@ -1,5 +1,9 @@
 import UIKit
 
+protocol NEMTextFieldDelegate {
+    func newNemTexfieldSize(size: CGSize)
+}
+
 class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
 {
     struct Suggestion {
@@ -8,7 +12,9 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
     }
     
     var suggestions :[Suggestion] = []
+    var nemDelegate :NEMTextFieldDelegate? = nil
     let tableView :UITableView = UITableView()
+    var tableViewMaxRows :Int = 5
     
     private var _suggestions :[Suggestion] = []
     
@@ -51,11 +57,21 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
         }
         
         if suggestions.count > 0 {
-            tableView.frame.size.height = CGFloat(40 * ((_suggestions.count > 5) ? 5 : _suggestions.count))
+            tableView.frame.size.height = CGFloat(40 * ((_suggestions.count > tableViewMaxRows) ? tableViewMaxRows : _suggestions.count))
+    
+            let newSize = CGSize(
+                width: max(self.frame.width, self.tableView.frame.width),
+                height: tableView.frame.origin.y + tableView.frame.height
+            )
+            
+            self.nemDelegate?.newNemTexfieldSize(newSize)
+            
             tableView.frame.size.width = self.frame.width
             tableView.hidden = false
             tableView.reloadData()
         } else {
+            self.nemDelegate?.newNemTexfieldSize(CGSize(width: self.frame.width, height: self.frame.height))
+
             tableView.hidden = true
         }
     }

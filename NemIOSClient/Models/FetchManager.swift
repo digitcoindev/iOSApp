@@ -15,6 +15,7 @@ class FetchManager: NSObject, APIManagerDelegate {
     private let _apiManager = APIManager()
     private var _account :Wallet? = nil
     private static var _updatesStarted = false
+    private var _server :Server? = nil
     
     func update(completionHandler: (UIBackgroundFetchResult) -> Void){
         _apiManager.delegate = self
@@ -28,11 +29,22 @@ class FetchManager: NSObject, APIManagerDelegate {
         let dataManager = CoreDataManager()
         _accounts = dataManager.getWallets()
         
-        if !FetchManager._updatesStarted {
-            self.fetchUpdate()
-        }
+        let servers = dataManager.getServers()
         
-        FetchManager._updatesStarted = true
+        for inServer in servers {
+            _apiManager.heartbeat(inServer)
+        }
+    }
+    
+    func heartbeatResponceFromServer(server: Server, successed: Bool) {
+        if _server == nil && successed{
+            _server = server
+            if !FetchManager._updatesStarted {
+                self.fetchUpdate()
+            }
+            
+            FetchManager._updatesStarted = true
+        }
     }
 
     final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
@@ -47,9 +59,9 @@ class FetchManager: NSObject, APIManagerDelegate {
         let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(_account!.privateKey, key: State.loadData!.password!)!)
 
         if _account?.lastTransactionHash != nil && data.first?.hashString == _account?.lastTransactionHash! {
-            let message = String(format: "NO_NOTIFICATIONS".localized(), _account!.login)
-            NotificationManager.sheduleLocalNotificationAfter("NEM", body: message, interval: 1, userInfo: nil)
-            print(message)
+//            let message = String(format: "NO_NOTIFICATIONS".localized(), _account!.login)
+//            NotificationManager.sheduleLocalNotificationAfter("NEM", body: message, interval: 1, userInfo: nil)
+//            print(message)
             fetchUpdate()
             return
         }
@@ -79,9 +91,9 @@ class FetchManager: NSObject, APIManagerDelegate {
             }
             
             if _account?.lastTransactionHash != nil && inData.hashString == _account?.lastTransactionHash! {
-                if transactions.count == 0 {
-                    NotificationManager.sheduleLocalNotificationAfter("NEM", body: String(format: "NO_NOTIFICATIONS".localized(), _account!.login), interval: 1, userInfo: nil)
-                }
+//                if transactions.count == 0 {
+//                    NotificationManager.sheduleLocalNotificationAfter("NEM", body: String(format: "NO_NOTIFICATIONS".localized(), _account!.login), interval: 1, userInfo: nil)
+//                }
                 break
             }
             
@@ -108,7 +120,7 @@ class FetchManager: NSObject, APIManagerDelegate {
     private func fetchUpdate() {
         guard let account = _accounts.first else {
             if !FetchManager._updatesStarted {
-                NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_ACCOUNTS".localized(), interval: 1, userInfo: nil)
+//                NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_ACCOUNTS".localized(), interval: 1, userInfo: nil)
                 _completionHandler?(.Failed)
             } else {
                 _completionHandler?(.NewData)
@@ -117,7 +129,7 @@ class FetchManager: NSObject, APIManagerDelegate {
             return
         }
         
-        guard let server = State.currentServer else {
+        guard let server = _server else {
             NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_PRIMARY_SERVER".localized(), interval: 1, userInfo: nil)
             _completionHandler?(.Failed)
             FetchManager._updatesStarted = false

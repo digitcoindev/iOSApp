@@ -72,13 +72,10 @@
          contextName = "MultisigAccountManager.tableView(UITableView, numberOfRowsInSection : Int) -&gt; Int:MultisigAccountManager.swift">
       </ContextState>
       <ContextState
-         contextName = "PasswordValidationVC.passwordValidation(AnyObject) -&gt; ():PasswordValidationVC.swift">
+         contextName = "MessageVC.keyboardWillHide(NSNotification) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.toVC">
-            </PersistentString>
-            <PersistentString
-               value = "State.nextVC">
+               value = "self.view.frame.height">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -86,10 +83,13 @@
          contextName = "LoginVC.tableView(UITableView, didSelectRowAtIndexPath : NSIndexPath) -&gt; ():LoginVC.swift">
       </ContextState>
       <ContextState
-         contextName = "MessageVC.keyboardWillHide(NSNotification) -&gt; ():MessageVC.swift">
+         contextName = "PasswordValidationVC.passwordValidation(AnyObject) -&gt; ():PasswordValidationVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.view.frame.height">
+               value = "State.toVC">
+            </PersistentString>
+            <PersistentString
+               value = "State.nextVC">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -203,7 +203,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "static SignManager.commonPart(TransactionPostMetaData, isMultisignPart : Bool) -&gt; [UInt8]:SignManager.swift">
+         contextName = "ServerViewController.tableView(UITableView, didSelectRowAtIndexPath : NSIndexPath) -&gt; ():ServerViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+            <PersistentString
+               value = "tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "TransferTransaction.getFrom(NSDictionary) -&gt; ():TransferTransaction.swift">
@@ -249,6 +257,9 @@
       </ContextState>
       <ContextState
          contextName = "UnconfirmedTransactionVC.accountGetResponceWithAccount(AccountGetMetaData?) -&gt; ():UnconfirmedTransactionVC.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static SignManager.commonPart(TransactionPostMetaData, isMultisignPart : Bool) -&gt; [UInt8]:SignManager.swift">
       </ContextState>
       <ContextState
          contextName = "FetchManager.(fetchUpdate in _3EB8C89C7662CBB9F2E0C13E534722D7)() -&gt; ():FetchManager.swift">

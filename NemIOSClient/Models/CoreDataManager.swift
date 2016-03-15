@@ -101,6 +101,14 @@ class CoreDataManager: NSObject
         Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "211.107.113.251", port: "7890")
         Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "37.187.70.29", port: "7890")
         Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "107.179.25.32", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "37.59.43.140", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "52.62.133.0", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "54.207.48.129", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "52.69.252.224", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "104.128.226.60", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "54.254.215.55", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "193.84.22.102", port: "7890")
+        Server.createInManagedObjectContext(self.managedObjectContext!, name: "http", address: "52.79.74.84", port: "7890")
         
         commit()
     }

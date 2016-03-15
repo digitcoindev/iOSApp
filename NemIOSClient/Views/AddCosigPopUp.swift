@@ -13,7 +13,7 @@ protocol AddCosigPopUptDelegate
     func addCosig(publicKey :String)
 }
 
-class AddCosigPopUp: AbstractViewController {
+class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
     
     //MARK: - @IBOutlet
     
@@ -149,6 +149,8 @@ class AddCosigPopUp: AbstractViewController {
         }
         
         publicKey.suggestions = suggestions
+        publicKey.tableViewMaxRows = 5
+        publicKey.nemDelegate = self
     }
     
     //MARK: - @IBAction
@@ -165,6 +167,21 @@ class AddCosigPopUp: AbstractViewController {
             self.removeFromParentViewController()
         }
     }
+    
+    //MARK: - NEMTextFieldDelegate Methods
+    
+    func newNemTexfieldSize(size: CGSize) {
+        for constraint in contentView.constraints {
+            if constraint.identifier == "containerHeight" {
+                constraint.constant = size.height + saveBtn.frame.height
+            }
+        }
+        
+        UIView.animateWithDuration(0.2) { () -> Void in
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     //MARK: - Keyboard Delegate
     
     final func keyboardWillShow(notification: NSNotification) {
@@ -175,8 +192,8 @@ class AddCosigPopUp: AbstractViewController {
         
         keyboardHeight -= self.view.frame.height - self.scroll.frame.height
         
-        scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
-        scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
+        scroll.contentInset = UIEdgeInsetsZero
+        scroll.scrollIndicatorInsets = UIEdgeInsetsZero
     }
     
     func keyboardWillHide(notification: NSNotification) {

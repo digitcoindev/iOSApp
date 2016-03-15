@@ -5944,7 +5944,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5h-OI-Vdq">
-                                                <rect key="frame" x="333" y="115" width="22" height="22"/>
+                                                <rect key="frame" x="333" y="30" width="22" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="22" id="P93-Oo-aVT"/>
                                                     <constraint firstAttribute="height" constant="22" id="bGQ-Yz-bFp"/>
@@ -5958,7 +5958,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FV6-FX-Htq" userLabel="Content View">
-                                                <rect key="frame" x="56" y="135" width="288" height="130"/>
+                                                <rect key="frame" x="56" y="50" width="288" height="130"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpf-RT-QDf">
                                                         <rect key="frame" x="0.0" y="59" width="288" height="70"/>
@@ -5989,7 +5989,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="288" id="1Ev-Hv-e51"/>
                                                     <constraint firstAttribute="trailing" secondItem="tpf-RT-QDf" secondAttribute="trailing" id="7Px-l3-6DI"/>
-                                                    <constraint firstAttribute="height" constant="130" id="Amp-bg-S3y"/>
+                                                    <constraint firstAttribute="height" constant="130" identifier="containerHeight" id="Amp-bg-S3y"/>
                                                     <constraint firstAttribute="bottom" secondItem="tpf-RT-QDf" secondAttribute="bottom" constant="1" id="GHy-DO-pUp"/>
                                                     <constraint firstItem="VuX-VV-reJ" firstAttribute="leading" secondItem="FV6-FX-Htq" secondAttribute="leading" id="Ter-uK-BYH"/>
                                                     <constraint firstAttribute="trailing" secondItem="VuX-VV-reJ" secondAttribute="trailing" id="cFX-Y8-Nxl"/>
@@ -6002,7 +6002,7 @@
                                         <constraints>
                                             <constraint firstAttribute="centerX" secondItem="FV6-FX-Htq" secondAttribute="centerX" id="4w8-Kj-buP"/>
                                             <constraint firstItem="S5h-OI-Vdq" firstAttribute="trailing" secondItem="FV6-FX-Htq" secondAttribute="trailing" constant="11" id="AXH-LF-ikz"/>
-                                            <constraint firstAttribute="centerY" secondItem="FV6-FX-Htq" secondAttribute="centerY" id="Ojv-DL-b1i"/>
+                                            <constraint firstItem="FV6-FX-Htq" firstAttribute="top" secondItem="50r-2Q-oZ0" secondAttribute="top" constant="50" id="BU4-hB-9JH"/>
                                             <constraint firstItem="FV6-FX-Htq" firstAttribute="top" secondItem="S5h-OI-Vdq" secondAttribute="bottom" constant="-2" id="vhk-NP-jcw"/>
                                         </constraints>
                                     </view>

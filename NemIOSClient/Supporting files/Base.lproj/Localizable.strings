@@ -15,7 +15,6 @@
 "ADD" = "Add";
 "ADD_COSIGNATORY" = "Add Cosignatory";
 "ADD_ADITIONAL_SIGNER" = "Add Additional Signer";
-"ACCOUNT_HISTORY" = "Account History";
 "ABOUT" = "About";
 
 // MARK: - B
@@ -73,6 +72,7 @@
 "FEE" = "Fee";
 "FROM" = "From";
 "FIELDS_EMPTY_ERROR" = "Fill In All Fields";
+"FAILURE_MULTISIG_ACCOUNT_CANNOT_BE_COSIGNER" = "Multisig account can't be cosigner";
 
 // MARK: - G
 

@@ -53,7 +53,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     private var _transactionsLimit: Int = 50
     
     private var _requestCounter = 0
-    private var _account_address: String? = nil
+    private var _completed = 0
+    private var _unconfirmed = 0
+    private var _account_address :String? = nil
     
     // MARK: - Load Methods
     
@@ -88,6 +90,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshHistory", userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -97,11 +101,19 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         State.currentVC = SegueToMessageVC
+        
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        
+        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         self.view.endEditing(true)
+        
+        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        observer.removeObserver(self)
     }
     
     // MARK: - IBAction
@@ -373,10 +385,70 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 
                 definedCell.detailsMiddle = message
             }
-            
+
             data.append(definedCell)
         }
+        
+        var removeCount = 0
+        var addCount = _transactions.count - _completed
+        
+        if self.tableView.numberOfRowsInSection(0) == 0 && addCount > 0 {
+            addCount++
+        }
+        
+        removeCount = (_unconfirmed > 0) ? _unconfirmed + 1 : 0
+        addCount += (_unconfirmedTransactions.count > 0) ? _unconfirmedTransactions.count + 1 : 0
+
+        _completed = _transactions.count
+        _unconfirmed = _unconfirmedTransactions.count
         _definedCells = data
+        
+        dispatch_async(dispatch_get_main_queue() , {
+            () -> Void in
+                        
+            var actionArray :[NSIndexPath] = []
+            var rowsCount = self.tableView.numberOfRowsInSection(0)
+            
+            for var i = self.tableView.numberOfRowsInSection(0) - removeCount ; 0 < removeCount && addCount > 0 ;i++ {
+                print("update \(i)")
+                actionArray.append(NSIndexPath(forRow: i, inSection: 0))
+                removeCount--
+                addCount--
+            }
+            
+            self.tableView.beginUpdates()
+            
+            if actionArray.count > 0 {
+                self.tableView.reloadRowsAtIndexPaths(actionArray, withRowAnimation: UITableViewRowAnimation.None)
+            }
+            
+            actionArray = []
+            
+            for var i = 0 ; i < removeCount && (rowsCount - 1 - i > 0) ;i++ {
+                print("delete \(rowsCount - 1 - i)")
+                actionArray.append(NSIndexPath(forRow: rowsCount - 1 - i, inSection: 0))
+            }
+            if actionArray.count > 0 {
+                self.tableView.deleteRowsAtIndexPaths(actionArray, withRowAnimation: UITableViewRowAnimation.Left)
+            }
+            
+            actionArray = []
+            rowsCount = self.tableView.numberOfRowsInSection(0)
+            
+            for var i = 0 ; i < addCount ;i++ {
+                print("add \(rowsCount + i)")
+                actionArray.append(NSIndexPath(forRow: rowsCount + i, inSection: 0))
+            }
+            if actionArray.count > 0 {
+                self.tableView.insertRowsAtIndexPaths(actionArray, withRowAnimation: UITableViewRowAnimation.Fade)
+            }
+            
+            self.tableView.endUpdates()
+
+            //self.tableView.reloadData()
+            //self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+            self.scrollToEnd()
+        })
     }
     
     func scrollToEnd() {
@@ -405,7 +477,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if( !(indexPath.row == 0) ) {
+        if( indexPath.row != 0 ) {
             var index :Int = 0
             let cell : ConversationTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("messageCell") as! ConversationTableViewCell
             
@@ -529,7 +601,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                         self._apiManager.accountGet(State.currentServer!, account_address: multisigAccount.address)
                     }
                     
-                    self._refreshHistory()
+                    self.refreshHistory()
                     
                     dispatch_async(dispatch_get_main_queue() , {
                         () -> Void in
@@ -571,21 +643,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         dispatch_async(_operationDipatchQueue, {
             () -> Void in
             if let data = data {
-                self._requestCounter = 0
-                
                 self._transactions = self._findMessages(data.reverse()) + self._transactions
-                
                 if data.count >= 25 && self._requestCounter < self._requestsLimit && self._transactions.count <= self._transactionsLimit{
+                    self._requestCounter++
                     self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._account_address!, aditional: "&id=\(Int(data.last!.id))")
                 } else {
                     //self._sortMessages()
                     self.defineData()
-                    
-                    dispatch_async(dispatch_get_main_queue() , {
-                        () -> Void in
-                        self.tableView.reloadData()
-                        self.scrollToEnd()
-                    })
                 }
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
@@ -603,13 +667,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             if let data = data {
     
                 self._unconfirmedTransactions = self._findMessages(data).reverse()
-                self.defineData()
-                
-                dispatch_async(dispatch_get_main_queue() , {
-                    () -> Void in
-                    self.tableView.reloadData()
-                    self.scrollToEnd()
-                })
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
@@ -620,7 +677,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
-        self._refreshHistory()
+        self.refreshHistory()
         if !(data ?? []).isEmpty {
             let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_SUCCESS".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
@@ -659,6 +716,16 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             () -> Void in
             self.userInfo.attributedText = userDescription
         })
+    }
+    
+    //MARK: - Public Helpers
+    
+    final func refreshHistory() {
+        _requestCounter = 0
+        _transactions = []
+        
+        self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
+        self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)
     }
     
     //MARK: - Private Helpers
@@ -731,15 +798,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         return _transactions
     }
     
-    private final func _refreshHistory() {
-        _requestCounter = 0
-        _transactions = []
-        
-        self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
-        
-        self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)
-    }
-    
     private final func _getMinCosigFor(transaction: MultisigTransaction) -> Int? {
         let innertTransaction =  (transaction.innerTransaction as! TransferTransaction)
         let transactionsignerAddress = AddressGenerator.generateAddress(innertTransaction.signer)
@@ -803,17 +861,14 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.view.frame.size.height = self.view.frame.height - delta
             }, completion: { (success) -> Void in
-                if !success {
-                    self.view.frame.size.height = self.view.frame.height - delta
-                }
                 self.scrollToEnd()
-                
         })
     }
     
     func keyboardWillHide(notification: NSNotification) {
+
         let delta = self._bottomInsert
-       
+
         self._bottomInsert = 0
         
         UIView.animateWithDuration(0.25, animations: { () -> Void in
