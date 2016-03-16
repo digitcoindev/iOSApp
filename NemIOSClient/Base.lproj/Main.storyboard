@@ -369,10 +369,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="content" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FbV-Uo-tPc">
-                                                    <rect key="frame" x="14" y="16" width="120" height="19"/>
+                                                    <rect key="frame" x="14" y="16" width="142" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="GDC-Gi-2G4"/>
-                                                        <constraint firstAttribute="width" constant="120" id="y4M-MX-g0U"/>
+                                                        <constraint firstAttribute="width" constant="142" id="y4M-MX-g0U"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -386,7 +386,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="content" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2YU-5K-dMV">
-                                                    <rect key="frame" x="142" y="16" width="161" height="19"/>
+                                                    <rect key="frame" x="164" y="16" width="139" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="KJ5-Zs-Ocv"/>
                                                     </constraints>

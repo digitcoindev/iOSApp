@@ -233,7 +233,6 @@
 		9805EFC91C317FC0008CC607 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		9805EFCB1C319439008CC607 /* NotificationBaner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationBaner.swift; sourceTree = "<group>"; };
 		9805EFCD1C31A126008CC607 /* FetchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchManager.swift; path = Models/FetchManager.swift; sourceTree = "<group>"; };
-		9809BE281B75008F0028D082 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9809BE2B1B789EBD0028D082 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordExportVC.swift; path = Views/PasswordExportVC.swift; sourceTree = "<group>"; };
 		9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardButtonBox.swift; path = "Views/Additional controls/DashboardButtonBox.swift"; sourceTree = "<group>"; };
@@ -255,6 +254,7 @@
 		985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseUpdateInterval.swift; path = Views/ChouseUpdateInterval.swift; sourceTree = "<group>"; };
 		985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordVC.swift; path = Views/ChangePasswordVC.swift; sourceTree = "<group>"; };
 		985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCosignatoryVC.swift; path = Views/AddCosignatoryVC.swift; sourceTree = "<group>"; };
+		9861F8C11C9848600093886C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
 		9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestDetailsVC.swift; path = Views/HarvestDetailsVC.swift; sourceTree = "<group>"; };
 		9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockTableViewCell.swift; path = "Views/Additional controls/BlockTableViewCell.swift"; sourceTree = "<group>"; };
@@ -304,8 +304,6 @@
 		98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeNamePopUp.swift; path = Views/ChangeNamePopUp.swift; sourceTree = "<group>"; };
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
-		98F9B95C1BEBC05100FA7239 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		98F9B95E1BEBC0E800FA7239 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditableTableViewCell.swift; path = "Views/Additional controls/EditableTableViewCell.swift"; sourceTree = "<group>"; };
 		B7116021E29489DE6208293D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
@@ -1346,11 +1344,9 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
-				uk,
 				ja,
-				ko,
-				ru,
 				en,
+				de,
 			);
 			mainGroup = DA3557F71A39D3B800AFA5FD;
 			productRefGroup = DA3558011A39D3B900AFA5FD /* Products */;
@@ -1645,12 +1641,10 @@
 		9809BE291B75008F0028D082 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9809BE281B75008F0028D082 /* uk */,
 				9809BE2B1B789EBD0028D082 /* Base */,
 				9877C68D1BE27FB700AF9751 /* ja */,
-				98F9B95C1BEBC05100FA7239 /* ko */,
-				98F9B95E1BEBC0E800FA7239 /* ru */,
 				98F01CC41C2D6E5C0018081B /* en */,
+				9861F8C11C9848600093886C /* de */,
 			);
 			name = Localizable.strings;
 			path = "Supporting files";

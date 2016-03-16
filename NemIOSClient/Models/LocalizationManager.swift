@@ -13,16 +13,21 @@ class LocalizationManager {
     
     class func setLanguage(language :String) {
         var languageId = language
+        
         switch language {
-        case "Japanese" :
+        case "日本語" :
             languageId = "ja"
-        case "Ukrainian" :
-            languageId = "uk"
-        case "Russian" :
-            languageId = "ru"
-        case "Korean" :
-            languageId = "ko"
-        case "English", "Base":
+//        case "Ukrainian" :
+//            languageId = "uk"
+//        case "Russian" :
+//            languageId = "ru"
+//        case "Korean" :
+//            languageId = "ko"
+        case "English":
+            languageId = "en"
+        case "Deutsch" :
+            languageId = "de"
+        case "Debug" :
             languageId = "Base"
         default :
             bundle = nil

@@ -17,7 +17,7 @@ class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var resetButton: UIButton!
     
-    private let _languages :[String] = ["English"/*, "Japanese", "Korean", "Ukrainian", "Russian"*/, "Other"]
+    private let _languages :[String] = ["English", "日本語", "Deutsch"/*, "Korean", "Ukrainian", "Russian"*/, "Debug"]
     
     //MARK: - Load Methods
     

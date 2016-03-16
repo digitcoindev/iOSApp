@@ -15,6 +15,7 @@
 "ADD" = "Add";
 "ADD_COSIGNATORY" = "Add Cosignatory";
 "ADD_ADITIONAL_SIGNER" = "Add Additional Signer";
+"ACCOUNT_HISTORY" = "Account History";
 "ABOUT" = "About";
 
 // MARK: - B
@@ -43,7 +44,7 @@
 
 // MARK: - D
 
-"DONE" = "DONE";
+"DONE" = "Done";
 "DELETE" = "Delete";
 "DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK" = "Are you sure you want to delete %@ from your contacts?"; // %@ will be replaced by contact name
 "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS" = "Are you sure you want to delete %@ from your accounts?"; // %@ will be replaced by account name
@@ -62,12 +63,12 @@
 "ENTER_NAME" = "Enter Name";
 "ENTER_ADDRESS" = "Enter Address";
 "ENTER_AMOUNT" = "Enter Amount";
-"ENTER_FEE" = "ENTER Fee";
+"ENTER_FEE" = "Enter Fee";
 "EXPORT_ACCOUNT" = "Export Account";
 
 // MARK: - F
 
-"FIELDS_EMPTY_ERROR" = "Fill InAll Fields";
+"FIELDS_EMPTY_ERROR" = "Fill In All Fields";
 "FIRST_NAME" = "First Name";
 "FEE" = "Fee";
 "FROM" = "From";
@@ -87,13 +88,14 @@
 // MARK: - I
 
 "INVOICE" = "Invoice";
+"INVOICE_MESSAGE_CONFIG" = "Invoice Message";
 "IMPORT_KEY" = "Import Key";
 "IMPORT_FROM_KEY" = "Enter Private Key";
 "INFO" = "Info";
 "INVOICE_HEADER" = "Please scan this QR to finish payment";
 "INVOICE_DATA" = "Invoice Data";
-"INPUT_NEW_ACCOUNT_NAME" = "Input New Account Name";
-"INPUT_PUBLIC_KEY" = "Input Public Key";
+"INPUT_NEW_ACCOUNT_NAME" = "Enter Account Name";
+"INPUT_PUBLIC_KEY" = "Enter Address";
 
 // MARK: - L
 
@@ -150,18 +152,19 @@
 
 // MARK: - O
 
-"ON" = "On";
+"ON" = "On"; // context is Touch ID setting (On/Off)
 "OK" = "OK";
-"OF" = "Of";
-"OFF" = "Off";
+"OF" = "of"; // example usage is: 5 "of" 10 signatures
+"OFF" = "Off"; // context is Touch ID setting (On/Off)
 "OLD_PASSWORD_PLACEHOLDER" = "Enter Old Password";
 
 // MARK: - P
 
 "PASSWORD" = "Password";
+"PASSWORD_CHANGE_CONFIG" = "Change Password";
 "PASSWORD_PLACEHOLDER" = "Password";
 "PASSWORD_PLACEHOLDER_EXPORT" = "Current Application Password";
-"PASSOWORD_DIFERENCE_ERROR" = "Passwords do not match ";
+"PASSOWORD_DIFERENCE_ERROR" = "Passwords do not match";
 "PASSOWORD_LENGTH_ERROR" = "Your password must be at least 6 characters long.";
 "PRIVATE_KEY" = "Private Key";
 "PUBLIC_KEY" = "Public Key";
@@ -170,10 +173,10 @@
 "POSTFIX" = "Postfix";
 "POI" = "POI";
 "PRIMARY_ACCOUNT" = "Primary Account";
-"PRIVATE_KEY_SECURITY_WARNING_PART_ONE" = "It is essential to understand that the private key is the most important and sensitive part of your account information.\n\nWhoever has knowledge of a private key has ";
+"PRIVATE_KEY_SECURITY_WARNING_PART_ONE" = "It is essential to understand that the private key is the most important and sensitive part of your account information.\n\nWhoever has knowledge of a private key has";
 "PRIVATE_KEY_SECURITY_WARNING_PART_TWO" = "full control over the associated funds and assets.";
 "PRIVATE_KEY_SECURITY_WARNING_PART_THREE" = "\n\nIt is important for restoring your account so you should never lose it, but also";
-"PRIVATE_KEY_SECURITY_WARNING_PART_FOUR" = " keep it top secret.";
+"PRIVATE_KEY_SECURITY_WARNING_PART_FOUR" = "keep it top secret.";
 
 // MARK: - Q
 
@@ -189,7 +192,7 @@
 // MARK: - S
 
 "SETTINGS" = "Configurations";
-"SET_CONFIGURATION" = "Set Configuration";
+"SET_CONFIGURATION" = "";
 "SECURITY" = "Security";
 "SERVER_SETTINGS" = "Server Settings";
 "SERVER" = "Server";
@@ -203,7 +206,7 @@
 "SHARE_ADDRESS" = "Share Address";
 "SAVE" = "Save";
 "SAVE_CHANGES" = "Save Changes";
-"SOCIAL_NEM_HEADER" = "NEM IOS Client";
+"SOCIAL_NEM_HEADER" = "NEM iOS Client";
 "SEND_MESSAGE" = "Send Message";
 "SHOW_CHANGES" = "Show Changes";
 "SHOW_PRIVATE_KEY" = "Show Private Key";
@@ -228,7 +231,7 @@
 "VALIDATION" = "Validation";
 "VASTED_BALANCE" = "Vested Balance";
 "VIDATION_ACCOUNT_EXIST" = "Account with such private key exist as: %@"; // %@ will be replaced by account name
-"VALIDAATION_MESSAGE_LEANGTH" = "Message is to long";
+"VALIDAATION_MESSAGE_LEANGTH" = "Message is too long";
 "VIEW_PRIVATE_KEY" = "View Private Key";
 "VERSION" = "Version";
 

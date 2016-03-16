@@ -196,12 +196,12 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
                 ["GENERAL".localized()],
                 ["LANGUAGE".localized(), _loadData?.currentLanguage ?? "BASE".localized()],
                 ["ACCOUNT_PRIMATY".localized("Primary Account"), accountText],
-                ["INVOICE".localized(), "SET_CONFIGURATION".localized()],
+                ["INVOICE_SETTINGS".localized(), "SET_CONFIGURATION".localized()],
                 ["ABOUT".localized(), ""]
             ],
             [
                 ["SECURITY".localized()],
-                ["PASSWORD".localized() ,"CHANGE".localized()],
+                ["PASSWORD_SETTINGS".localized() ,"CHANGE".localized()],
                 ["TOUCH_ID".localized() ,touchText]
             ],
             [

@@ -1,0 +1,247 @@
+// MARK: - A
+
+"ACCOUNT_PRIMATY" = "Primäres Konto";
+"ADD_ACCOUNT" = "Konto hinzufügen";
+"ADD_SERVER" = "Server hinzufügen";
+"ACCOUNT_NAME" = "Kontoname";
+"ACCOUNT_NAME_PLACEHOLDER" = "Kontoname";
+"ADDRESS_BOOK" = "Adressbuch";
+"ADD_CONTACT" = "Kontakt hinzufügen";
+"ADDRESS" = "Adresse";
+"AMOUNT" = "Betrag";
+"ACCOUNTS" = "Konten";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "Unzureichender Kontostand";
+"ACCOUNT" = "Konto";
+"ADD" = "Hinzufügen";
+"ADD_COSIGNATORY" = "Mitsignierer hinzufügen";
+"ADD_ADITIONAL_SIGNER" = "Weiteren Mitsignierer hinzufügen";
+"ACCOUNT_HISTORY" = "Kontoverlauf";
+"ABOUT" = "Über diese App";
+
+// MARK: - B
+
+"BASE" = "Standard";
+"BLOCK" = "Block";
+"BALANCE" = "Kontostand";
+"BUILD" = "Build";
+
+// MARK: - C
+
+"CHANGE" = "Ändern";
+"CREATE_NEW" = "Erstellen";
+"CREATE_NEW_ACCCOUNT" = "Neues Konto erstellen";
+"CREATE_PASSWORD" = "Passwort festlegen";
+"CHANGE_SERVER" = "Server ändern";
+"CHANGE_CONTACT" = "Kontakt ändern";
+"COPY" = "Kopieren";
+"COULD_NOT_DECRYPT" = "Entschlüsselung fehlgeschlagen";
+"CONFIRM" = "Bestätigen";
+"COPY_ADDRESS" = "Adresse kopieren";
+"CREATE" = "Erstellen";
+"CANCEL" = "Abbrechen";
+"CONTACTS_IS_UNAVAILABLE" = "Kein Zugriff auf Kontakte.\nUm den Zugriff zu erlauben, gehen Sie in die Einstellungen -> Datenschutz -> Kontakte.";
+"COPIED" = "Kopieren";
+
+// MARK: - D
+
+"DONE" = "Fertig";
+"DELETE" = "Löschen";
+"DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK" = "Sind Sie sicher, dass Sie %@ aus Ihren Kontaken löschen möchten?"; // %@ will be replaced by contact name
+"DELETE_CONFIRMATION_MASSAGE_ACCOUNTS" = "Sind Sie sicher, dass Sie den Account %@ löschen möchten?"; // %@ will be replaced by account name
+"DELETE_CONFIRMATION_MASSAGE_SERVERS" = "Sind Sie sicher, dass Sie den Server %@ löschen möchten?"; // %@ will be replaced by server address
+"DELEGATED_HARVESTING" = "Delegierte Ernte";
+"DELEGATED_KEY" = "Delegierter Schlüssel";
+
+// MARK: - E
+
+"EDIT" = "Bearbeiten";
+"ENTET_PASSWORD" = "Passwort eingeben";
+"ENTET_PASSWORD_EXPORT" = "Geben Sie ein neues Passwort ein oder tippen Sie auf \"Bestätigen\", um das App-Passwort zu benutzen.";
+"ENCRYPTED_MESSAGE" = "Verschlüsselte Nachricht";
+"EMPTY_MESSAGE" = "Leere Nachricht";
+"ENTER_MESSAGE" = "Nachricht eingeben";
+"ENTER_NAME" = "Namen eingeben";
+"ENTER_ADDRESS" = "Adresse eingeben";
+"ENTER_AMOUNT" = "Betrag eingeben";
+"ENTER_FEE" = "Gebühr eingeben";
+"EXPORT_ACCOUNT" = "Konto exportieren";
+
+// MARK: - F
+
+"FIELDS_EMPTY_ERROR" = "Alle Felder ausfüllen";
+"FIRST_NAME" = "Vorname";
+"FEE" = "Gebühr";
+"FROM" = "Von";
+"FIELDS_EMPTY_ERROR" = "Alle Felder ausfüllen";
+
+// MARK: - G
+
+"GENERAL" = "Allgemein";
+
+// MARK: - H
+
+"HARVEST_DETAILS" = "Erntedetails";
+"HOURS_SHORT" = "h";
+"HOURS" = "Stunden";
+"HIDE_PRIVATE_KEY" = "Privaten Schlüssel verstecken";
+
+// MARK: - I
+
+"INVOICE" = "Rechnung";
+"INVOICE_MESSAGE_CONFIG" = "Rechnungsnachricht";
+"IMPORT_KEY" = "Schlüssel importieren";
+"IMPORT_FROM_KEY" = "Privaten Schlüssel eingeben";
+"INFO" = "Info";
+"INVOICE_HEADER" = "Für Zahlung bitte QR Code scannen";
+"INVOICE_DATA" = "Rechnungsdaten";
+"INPUT_NEW_ACCOUNT_NAME" = "Kontoname eingeben";
+"INPUT_PUBLIC_KEY" = "Adresse eingeben";
+
+// MARK: - L
+
+"LANGUAGE" = "Sprache";
+"LAST_NAME" = "Nachname";
+"LOST_CONNECTION" = "Verbindung verloren";
+"LOCKED" = "Gesperrt";
+"LAST_HARVESTED_BLOCK" = "%d zuletzt geerntete Blöcke"; // %d will be replaced by the blocks count
+
+// MARK: - M
+
+"MORE" = "Mehr";
+"MAP" = "Karte";
+"MESSAGES" = "Übersicht";
+"MESSAGE" = "Nachricht";
+"MIN" = "Min";
+"MINUTES" = "Minuten";
+"MESSAGE_LENGTH" = "Nachricht ist zu lang";
+"MY_ADDRESS" = "Meine Adresse";
+"MY_NAME" = "Mein Name";
+"MY_INFO" = "Meine Daten";
+"MULTISIG" = "Multisig";
+"MULTISIG_REMOVE_COUNT_ERROR" = "Sie können nur einen Mitsignierer pro Transaktion entfernen.";
+"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Zu viele Mitsignierer.";
+"MULTISIG_CHANGES_CONFIRMATION" = "Dies wird %@ XEM kosten und die Änderung der Mindestanzahl an Mitsignierern kostet weitere 6 XEM. Fortfahren?"; // %@ will be replaced by the transaction fee
+"MINUTES_SHORT" = "min";
+"MIN_COSIG_PLACEHOLDER" = "Mindestanzahl Mitsignierer: %@"; // %@ will be replaced by min csig value
+"MIN_COSIG_PLACEHOLDER_CHANGED" = "Mindestanzahl Mitsignierer geändert: %@"; // %@ will be replaced by min cosig value
+
+// MARK: - N
+
+"NONE" = "Keins";
+"NO_ACCOUNTS" = "Keine Konten";
+"NOTIFICATION" = "Benachrichtigungen";
+"NAME" = "Name";
+"NO_INTERNET_CONNECTION" = "Keine Internetverbindung";
+"NOT_A_HEX_STRING" = "Nachrichten in Hex-Form dürfen nur hexadezimale Zeichen enthalten.";
+"NO_PUBLIC_KEY_FOR_ENC" = "Nachricht konnte nicht verschlüsselt werden\nDer öffentliche Schlüssel des Empfängers ist unbekannt.";
+"NEW" = "Neu";
+"NEVER" = "Niemals";
+"NEW_TRANSACTION" = "Neue Transaktion";
+"NOT_ENOUGHT_MONEY" = "Unzureichender Kontostand";
+"NEW_INVOICE" = "Neue Rechnung";
+"NO_HARVESTED_BLOCK" = "Keine geernteten Blöcke";
+"NO_PUBLICKEY" = "Kein öffentlicher Schlüssel";
+"NO" = "Nein";
+"NO_FACEBOOK_ACCOUNT" = "Bitte facebook-Account in den Einstellungen hinzufügen.";
+"NO_TWITTER_ACCOUNT" = "Bitte twitter-Account in den Einstellungen hinzufügen.";
+"NO_MAIL_ACCOUNT" = "Bitte E-Mail-Account im Mailprogramm hinzufügen.";
+"NO_RESPONCE_FROM_SERVER" = "Server antwortet nicht";
+"NO_PRIMARY_SERVER" = "Kein primärer Server";
+"NO_NOTIFICATIONS" = "Keine neuen Transaktionen für %@"; // %@ will be replaced by the account name
+"NOTIFICATION_MESSAGE" = "%d neue Transaktion(en) für Konto %@"; // %@ will be replaced by the account name , %d will be replaced by the transactions count
+
+// MARK: - O
+
+"ON" = "Ein"; // context is Touch ID setting (On/Off)
+"OK" = "OK";
+"OF" = "von"; // example usage is: 5 "of" 10 signatures
+"OFF" = "Aus"; // context is Touch ID setting (On/Off)
+"OLD_PASSWORD_PLACEHOLDER" = "Altes Passwort eingeben";
+
+// MARK: - P
+
+"PASSWORD" = "Passwort";
+"PASSWORD_CHANGE_CONFIG" = "Passwort ändern";
+"PASSWORD_PLACEHOLDER" = "Passwort";
+"PASSWORD_PLACEHOLDER_EXPORT" = "Aktuelles App-Passwort";
+"PASSOWORD_DIFERENCE_ERROR" = "Passwörter stimmen nicht überein";
+"PASSOWORD_LENGTH_ERROR" = "Ihr Passwort muss mindestens 6 Zeichen lang sein.";
+"PRIVATE_KEY" = "Privater Schlüssel";
+"PUBLIC_KEY" = "Öffentlicher Schlüssel";
+"PRIVATE_KEY_ERROR_1." = "Ungültiger privater Schlüssel.\nBitte prüfen.";
+"PREFIX" = "Präfix";
+"POSTFIX" = "Postfix";
+"POI" = "POI";
+"PRIMARY_ACCOUNT" = "Primäres Konto";
+"PRIVATE_KEY_SECURITY_WARNING_PART_ONE" = "Wichtig: Der private Schlüsel ist der wichtigste und sensibelste Teil Ihres Kontos.\n\nWer in Besitz dieses Schlüssels ist, hat";
+"PRIVATE_KEY_SECURITY_WARNING_PART_TWO" = "vollen Zugriff auf das Konto.";
+"PRIVATE_KEY_SECURITY_WARNING_PART_THREE" = "\n\nMit Hilfe des privaten Schlüssels können Sie also das zugehörige Konto wiederherstellen, jedoch sollte er streng geheim behandelt werden und nur an sicheren Orten gespeichert/hinterlegt werden.";
+"PRIVATE_KEY_SECURITY_WARNING_PART_FOUR" = "";
+
+// MARK: - Q
+
+"QR" = "QR";
+
+// MARK: - R
+
+"REPEAT_PASSWORD" = "Passwort wiederholen";
+"REPEAT_PASSWORD_PLACEHOLDER" = "Passwort wiederholen";
+"REMIND_LATER" = "Später erinnern";
+"RESET" = "Zurücksetzen";
+
+// MARK: - S
+
+"SETTINGS" = "Einstellungen";
+"SET_CONFIGURATION" = "";
+"SECURITY" = "Sicherheit";
+"SERVER_SETTINGS" = "Servereinstellungen";
+"SERVER" = "Server";
+"SCAN_QR" = "QR scannen";
+"SCAN_QR_CODE" = "QR Code scannen";
+"SERVER_UNAVAILABLE" = "Der Server ist nicht verfügbar. Bitte versuchen Sie es später noch mal oder überprüfen Sie den Server.";
+"SHOW_TRANSACTIONS" = "Transaktionen anzeigen";
+"SEND" = "Senden";
+"SIGNERS" = "Mitsignierer";
+"SHARE_QR" = "QR Code teilen";
+"SHARE_ADDRESS" = "Adresse teilen";
+"SAVE" = "Speichern";
+"SAVE_CHANGES" = "Änderungen speichern";
+"SOCIAL_NEM_HEADER" = "NEM iOS Client";
+"SEND_MESSAGE" = "Nachricht senden";
+"SHOW_CHANGES" = "Änderungen anzeigen";
+"SHOW_PRIVATE_KEY" = "Privaten Schlüssel anzeigen";
+"SWITCH_ACCOUNT" = "Konto wechseln";
+"SAVE_QR" = "QR Code speichern";
+
+// MARK: - T
+
+"TOUCH_ID" = "Touch ID";
+"TRANSACTION_ANOUNCE_SUCCESS" = "Transaktion gesendet!";
+"TRANSACTION_ANOUNCE_FAILED" = "Transaktion abgelehnt.\nVersuchen Sie es später noch mal oder überprüfen Sie die Verbindung zum Server.";
+"TO" = "An";
+
+// MARK: - U
+
+"UPDATE_INTERVAL" = "Benachrichtigungsinterval";
+"UNCONFIRMED_TRANSACTIONS_DETECTED" = "Es gibt eine oder mehrere ausstehende Multisig-Transaktion(en), die Sie mitsignieren können!";
+"UNLOCKED" = "Freigeschaltet";
+
+// MARK: - V
+
+"VALIDATION" = "Validierung";
+"VASTED_BALANCE" = "Für Ernte verwendbarer Anteil";
+"VIDATION_ACCOUNT_EXIST" = "Ein Konto mit diesem privaten Schlüssel existiert bereits: %@"; // %@ will be replaced by account name
+"VALIDAATION_MESSAGE_LEANGTH" = "Nachricht ist zu lang";
+"VIEW_PRIVATE_KEY" = "Privaten Schlüssel anzeigen";
+"VERSION" = "Version";
+
+// MARK: - Y
+
+"YOUR_POSITION" = "Sie sind hier";
+"YOUR_NAME" = "Ihr Name";
+
+// MARK: - W
+
+"WARNING" = "Warnung";
+"WRONG_QR_VERSION" = "Nicht möglich: QR Code wurde mit einer anderen Version erstellt";
+"WRONG_OLD_PASSWORD" = "Falsches Passwort!";
