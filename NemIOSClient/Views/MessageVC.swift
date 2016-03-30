@@ -239,9 +239,14 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         else {
             fee = 10 - Int(transaction.amount)
         }
+        var messageLength = messageField!.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
         
-        if messageField!.text!.utf16.count != 0 {
-            fee += Int(2 * max(1, Int( transaction.message.payload!.count / 16)))
+        if _isEnc && messageLength != 0 {
+            messageLength! += 64
+        }
+
+        if messageLength != 0 {
+            fee += Int(2 * max(1, Int( messageLength! / 16)))
         }
         
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
@@ -436,7 +441,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             rowsCount = self.tableView.numberOfRowsInSection(0)
             
             for var i = 0 ; i < addCount ;i++ {
-                print("add \(rowsCount + i)")
                 actionArray.append(NSIndexPath(forRow: rowsCount + i, inSection: 0))
             }
             if actionArray.count > 0 {

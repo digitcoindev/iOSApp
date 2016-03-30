@@ -343,6 +343,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         self.amountTextField.text = "\(xems.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
         
         var newFee :Int = 0
+        
         if xems >= 8 {
             newFee = Int(max(2, 99 * atan(xems / 150000)))
         }

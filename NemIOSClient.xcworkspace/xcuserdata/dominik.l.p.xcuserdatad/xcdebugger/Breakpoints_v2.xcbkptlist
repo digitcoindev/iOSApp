@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "850"
-            endingLineNumber = "850"
+            startingLineNumber = "854"
+            endingLineNumber = "854"
             landmarkName = "MessageVC"
             landmarkType = "3">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479658577.31309"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479658577.31309"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479658577.31309"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "580"
-            endingLineNumber = "580"
+            startingLineNumber = "584"
+            endingLineNumber = "584"
             landmarkName = "MessageVC"
             landmarkType = "3">
             <Locations>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "582"
-            endingLineNumber = "582"
+            startingLineNumber = "586"
+            endingLineNumber = "586"
             landmarkName = "accountGetResponceWithAccount(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -474,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
+            startingLineNumber = "650"
+            endingLineNumber = "650"
             landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -666,11 +666,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "854"
-            endingLineNumber = "854"
+            startingLineNumber = "858"
+            endingLineNumber = "858"
             landmarkName = "keyboardWillShow(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -682,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "853"
-            endingLineNumber = "853"
+            startingLineNumber = "857"
+            endingLineNumber = "857"
             landmarkName = "keyboardWillShow(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -698,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "875"
-            endingLineNumber = "875"
+            startingLineNumber = "879"
+            endingLineNumber = "879"
             landmarkName = "keyboardWillHide(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -714,11 +714,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "880"
-            endingLineNumber = "880"
+            startingLineNumber = "884"
+            endingLineNumber = "884"
             landmarkName = "keyboardWillHide(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -730,11 +730,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "877"
-            endingLineNumber = "877"
+            startingLineNumber = "881"
+            endingLineNumber = "881"
             landmarkName = "keyboardWillHide(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -746,11 +746,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "878"
-            endingLineNumber = "878"
+            startingLineNumber = "882"
+            endingLineNumber = "882"
             landmarkName = "keyboardWillHide(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -806,15 +806,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/SendTransactionVC.swift"
-            timestampString = "479144067.0049"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
             landmarkName = "countTransactionFee()"
             landmarkType = "5">
          </BreakpointContent>
@@ -826,11 +826,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/SendTransactionVC.swift"
-            timestampString = "479144067.0049"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
+            startingLineNumber = "372"
+            endingLineNumber = "372"
             landmarkName = "countTransactionFee()"
             landmarkType = "5">
          </BreakpointContent>
@@ -838,7 +838,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/SendTransactionVC.swift"
@@ -854,15 +854,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/SendTransactionVC.swift"
-            timestampString = "479144067.0049"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
             landmarkName = "endTyping(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1034,11 +1034,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "869"
-            endingLineNumber = "869"
+            startingLineNumber = "873"
+            endingLineNumber = "873"
             landmarkName = "keyboardWillHide(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1066,11 +1066,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479658577.31309"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1082,11 +1082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1098,11 +1098,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "657"
-            endingLineNumber = "657"
+            startingLineNumber = "661"
+            endingLineNumber = "661"
             landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1114,11 +1114,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "673"
-            endingLineNumber = "673"
+            startingLineNumber = "677"
+            endingLineNumber = "677"
             landmarkName = "unconfirmedTransactionsResponceWithTransactions(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1130,11 +1130,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "636"
-            endingLineNumber = "636"
+            startingLineNumber = "640"
+            endingLineNumber = "640"
             landmarkName = "accountGetResponceWithAccount(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1146,11 +1146,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1162,11 +1162,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
+            startingLineNumber = "473"
+            endingLineNumber = "473"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1178,11 +1178,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "426"
-            endingLineNumber = "426"
+            startingLineNumber = "431"
+            endingLineNumber = "431"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1190,15 +1190,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481033988.606905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
+            startingLineNumber = "474"
+            endingLineNumber = "474"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1210,11 +1210,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479729188.835558"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
             landmarkName = "defineData()"
             landmarkType = "5">
             <Locations>
@@ -1258,11 +1258,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "479723242.424656"
+            timestampString = "481032705.305513"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
+            startingLineNumber = "400"
+            endingLineNumber = "400"
             landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1296,6 +1296,38 @@
             startingLineNumber = "384"
             endingLineNumber = "384"
             landmarkName = "failWithError(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NemIOSClient/Views/SendTransactionVC.swift"
+            timestampString = "481032705.305513"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
+            landmarkName = "chouseAccount(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NemIOSClient/AppDelegate.swift"
+            timestampString = "481034029.69261"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "applicationWillEnterForeground(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
