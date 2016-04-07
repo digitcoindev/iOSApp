@@ -26,13 +26,13 @@ class PasswordValidationVC: AbstractViewController
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        if self.delegate != nil && State.countVC > 1 {
+        
+        if self.delegate != nil && State.countVC > 0 {
             topView.hidden = false
         }
-        
+    }
+    
+    override func viewDidAppear(animated: Bool) {        
         if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool &&  State.nextVC != SegueToExportAccount {
             authenticateUser()
         }

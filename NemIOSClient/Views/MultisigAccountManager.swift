@@ -177,12 +177,11 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             transaction.privateKey = privateKey
             transaction.minCosignatory = relativeChange
             
-            for publickey in self._addArray.sort()
-            {
+            for publickey in _sortModifications(self._addArray) {
                 transaction.addModification(1, publicKey: publickey)
             }
             
-            for publickey in self._removeArray.sort()
+            for publickey in _sortModifications(self._removeArray)
             {
                 transaction.addModification(2, publicKey: publickey)
             }
@@ -192,6 +191,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
         }
     }
+    
     
     //MARK: - @IBAction
     
@@ -300,6 +300,24 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.tableView.reloadData()
         }
+    }
+    
+    private func _sortModifications(var modifications :[String]) -> [String] {
+        for var sorted = false ; !sorted; {
+            sorted = true
+            for var i = 1; i < modifications.count; i++ {
+                let previousAddress = AddressGenerator.generateAddress(modifications[i-1])
+                let currentAddress = AddressGenerator.generateAddress(modifications[i])
+                
+                if previousAddress.compare(currentAddress) == NSComparisonResult.OrderedDescending {
+                    let mod = modifications[i]
+                    modifications[i] = modifications[i-1]
+                    modifications[i-1] = mod
+                    sorted = false
+                }
+            }
+        }
+        return modifications
     }
     
     private final func _showPopUp(message :String){

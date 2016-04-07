@@ -1,3 +1,21 @@
+// MARK: - Languages
+
+"LANGUAGE_ENGLISH" = "English";
+"LANGUAGE_INDONESIAN" = "Indonesian";
+"LANGUAGE_JAPANESE" = "日本語";
+"LANGUAGE_LITHUANIAN" = "Lietuvių";
+"LANGUAGE_CHINESE_SIMPLIFIED" = "Chinese (Simplified)";
+"LANGUAGE_DUTCH" = "Nederlands";
+"LANGUAGE_PORTUGUESE" = "Português";
+"LANGUAGE_CROATIAN" = "Magyar";
+"LANGUAGE_FRENCH" = "Français";
+"LANGUAGE_POLISH" = "Polski";
+"LANGUAGE_FINNISH" = "Suomi";
+"LANGUAGE_SPANISH" = "Español";
+"LANGUAGE_GERMAN" = "Deutsch";
+"LANGUAGE_KOREAN" = "Korean";
+"LANGUAGE_ITALIAN" = "Italian";
+
 // MARK: - A
 
 "ACCOUNT_PRIMATY" = "Primäres Konto";
@@ -36,7 +54,7 @@
 "COPY" = "Kopieren";
 "COULD_NOT_DECRYPT" = "Entschlüsselung fehlgeschlagen";
 "CONFIRM" = "Bestätigen";
-"COPY_ADDRESS" = "Adresse kopieren";
+"COPY_ADDRESS" = "Kopieren";
 "CREATE" = "Erstellen";
 "CANCEL" = "Abbrechen";
 "CONTACTS_IS_UNAVAILABLE" = "Kein Zugriff auf Kontakte.\nUm den Zugriff zu erlauben, gehen Sie in die Einstellungen -> Datenschutz -> Kontakte.";
@@ -73,6 +91,7 @@
 "FEE" = "Gebühr";
 "FROM" = "Von";
 "FIELDS_EMPTY_ERROR" = "Alle Felder ausfüllen";
+"FAILURE_MULTISIG_ACCOUNT_CANNOT_BE_COSIGNER" = "Multisig Konto kann nicht selbst Mitsignierer sein.";
 
 // MARK: - G
 
@@ -202,8 +221,8 @@
 "SHOW_TRANSACTIONS" = "Transaktionen anzeigen";
 "SEND" = "Senden";
 "SIGNERS" = "Mitsignierer";
-"SHARE_QR" = "QR Code teilen";
-"SHARE_ADDRESS" = "Adresse teilen";
+"SHARE_QR" = "Teilen";
+"SHARE_ADDRESS" = "Teilen";
 "SAVE" = "Speichern";
 "SAVE_CHANGES" = "Änderungen speichern";
 "SOCIAL_NEM_HEADER" = "NEM iOS Client";
@@ -211,7 +230,7 @@
 "SHOW_CHANGES" = "Änderungen anzeigen";
 "SHOW_PRIVATE_KEY" = "Privaten Schlüssel anzeigen";
 "SWITCH_ACCOUNT" = "Konto wechseln";
-"SAVE_QR" = "QR Code speichern";
+"SAVE_QR" = "Speichern";
 
 // MARK: - T
 

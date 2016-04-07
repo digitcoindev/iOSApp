@@ -19,6 +19,7 @@ class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
     
     @IBOutlet weak var publicKey: NEMTextField!
     
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scroll: UIScrollView!
@@ -36,6 +37,9 @@ class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
         
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        errorLabel.layer.cornerRadius = 5
+        errorLabel.clipsToBounds = true
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -161,11 +165,42 @@ class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
     }
     
     @IBAction func addCosig(sender: AnyObject) {
-        if Validate.stringNotEmpty(publicKey.text) && Validate.hexString(publicKey.text!){
+        if !Validate.stringNotEmpty(publicKey.text) {
+            errorLabel.text = "FIELDS_EMPTY_ERROR".localized()
+            errorLabel.hidden = false
+            publicKey.endEditing(true)
+            return
+        }
+        
+        if Validate.hexString(publicKey.text!){
             (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
             self.view.removeFromSuperview()
             self.removeFromParentViewController()
+        } else {
+            if  Validate.address(publicKey.text!) {
+                for suggestion in  publicKey.suggestions {
+                    if suggestion.key == publicKey.text {
+                        (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
+                        
+                        self.view.removeFromSuperview()
+                        self.removeFromParentViewController()
+                        return
+                    }
+                }
+                
+                errorLabel.text = "UNKNOWN_ACCOUNT_ADDRESS".localized()
+            } else {
+                errorLabel.text = "UNKNOWN_TEXT".localized()
+            }
+            
+            errorLabel.hidden = false
+            publicKey.endEditing(true)
         }
+    }
+    
+    @IBAction func textFieldEditingDidBegin(sender: AnyObject) {
+        errorLabel.text = ""
+        errorLabel.hidden = true
     }
     
     //MARK: - NEMTextFieldDelegate Methods

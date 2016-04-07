@@ -21,6 +21,10 @@ class Validate: NSObject
             return false
         }
         
+        if inputText!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) != 40 {
+            return false
+        }
+        
         let expresion = "^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$"
         
         let range = inputText!.rangeOfString(expresion, options:.RegularExpressionSearch)

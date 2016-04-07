@@ -23,6 +23,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     private var _transactionsLimit: Int = 50
     
     private var _requestCounter = 0
+    private var _timer: NSTimer? = nil
     
     private var _account_address: String? = nil
     private var _transactions:[TransferTransaction] = []
@@ -76,12 +77,18 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
         
-        NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshTransactionList", userInfo: nil, repeats: true)
+        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshTransactionList", userInfo: nil, repeats: true)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         State.currentVC = SegueToMessages
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        _timer?.invalidate()
     }
     
     override func didReceiveMemoryWarning() {
@@ -402,19 +409,22 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         timeStamp += genesis_block_time
         
         if dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp)) == dateFormatter.stringFromDate(NSDate()) {
-            dateFormatter.dateFormat = "HH:mm:ss"
+            dateFormatter.dateFormat = "HH:mm"
         }
         
         cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
         var color :UIColor!
         var vector :String = ""
-        if transaction?.recipient == _account_address! {
-            color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
-            vector = "+"
-        } else {
+        if transaction?.recipient != _account_address! {
             color = UIColor.redColor()
             vector = "-"
+        } else if AddressGenerator.generateAddress(transaction!.signer) ==  _account_address {
+            color = UIColor(red: 142 / 255, green: 142 / 255, blue: 142 / 255, alpha: 1)
+            vector = "±"
+        } else {
+            color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
+            vector = "+"
         }
         
         let attribute = [NSForegroundColorAttributeName : color]

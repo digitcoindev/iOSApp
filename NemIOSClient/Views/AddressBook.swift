@@ -53,6 +53,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         titleLabel.text = "ADDRESS_BOOK".localized()
         editButton.setTitle("EDIT".localized(), forState: UIControlState.Normal)
         addButton.setTitle("  " + "ADD_CONTACT".localized(), forState: UIControlState.Normal)
+        searchTextField.placeholder = "SEARCH_CONTACTS".localized()
         searchContainer.layer.cornerRadius = 5
         tableView.layer.cornerRadius = 5
         

@@ -78,6 +78,8 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
     
     func hideSuggenstions(sender: AnyObject) {
         tableView.hidden = true
+        
+        self.nemDelegate?.newNemTexfieldSize(CGSize(width: self.frame.width, height: self.frame.height))
     }
     
     override func textRectForBounds(bounds: CGRect) -> CGRect {

@@ -3107,6 +3107,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                                 <connections>
+                                                    <action selector="textFieldEditingBegin:" destination="0YH-3H-wH5" eventType="editingDidBegin" id="EWh-UE-Ct0"/>
                                                     <action selector="textFieldEditingEnd:" destination="0YH-3H-wH5" eventType="editingDidEnd" id="1vi-o5-N82"/>
                                                     <action selector="textFieldReturnKeyToched:" destination="0YH-3H-wH5" eventType="editingDidEndOnExit" id="fyj-Yx-wUm"/>
                                                 </connections>
@@ -3333,7 +3334,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sad-3I-XIr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2098" y="1142"/>
+            <point key="canvasLocation" x="2132" y="1167"/>
         </scene>
         <!--MainVC-->
         <scene sceneID="Nyx-Db-UQ8">
@@ -5983,6 +5984,9 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                                        <connections>
+                                                            <action selector="textFieldEditingDidBegin:" destination="Yev-y5-YbK" eventType="editingDidBegin" id="dfq-15-7d8"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -5997,12 +6001,25 @@
                                                     <constraint firstItem="tpf-RT-QDf" firstAttribute="leading" secondItem="FV6-FX-Htq" secondAttribute="leading" id="qJn-2N-VVu"/>
                                                 </constraints>
                                             </view>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vA-7H-nJt">
+                                                <rect key="frame" x="56" y="188" width="288" height="30"/>
+                                                <color key="backgroundColor" red="0.99215686270000003" green="0.47843137250000001" blue="0.47843137250000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="Mdp-7W-3Jy"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="centerX" secondItem="FV6-FX-Htq" secondAttribute="centerX" id="4w8-Kj-buP"/>
                                             <constraint firstItem="S5h-OI-Vdq" firstAttribute="trailing" secondItem="FV6-FX-Htq" secondAttribute="trailing" constant="11" id="AXH-LF-ikz"/>
                                             <constraint firstItem="FV6-FX-Htq" firstAttribute="top" secondItem="50r-2Q-oZ0" secondAttribute="top" constant="50" id="BU4-hB-9JH"/>
+                                            <constraint firstItem="7vA-7H-nJt" firstAttribute="centerX" secondItem="50r-2Q-oZ0" secondAttribute="centerX" id="FIp-6Z-0Ou"/>
+                                            <constraint firstItem="7vA-7H-nJt" firstAttribute="width" secondItem="FV6-FX-Htq" secondAttribute="width" priority="750" id="QT4-1g-utz"/>
+                                            <constraint firstItem="7vA-7H-nJt" firstAttribute="top" secondItem="FV6-FX-Htq" secondAttribute="bottom" constant="8" id="vNQ-Qc-oS5"/>
                                             <constraint firstItem="FV6-FX-Htq" firstAttribute="top" secondItem="S5h-OI-Vdq" secondAttribute="bottom" constant="-2" id="vhk-NP-jcw"/>
                                         </constraints>
                                     </view>
@@ -6035,6 +6052,7 @@
                     <size key="freeformSize" width="400" height="400"/>
                     <connections>
                         <outlet property="contentView" destination="FV6-FX-Htq" id="udG-3v-Xri"/>
+                        <outlet property="errorLabel" destination="7vA-7H-nJt" id="C2e-oQ-Wkz"/>
                         <outlet property="publicKey" destination="VuX-VV-reJ" id="4yJ-BQ-OSZ"/>
                         <outlet property="saveBtn" destination="tpf-RT-QDf" id="VFj-Pv-vcl"/>
                         <outlet property="scroll" destination="zgf-KK-OjR" id="wYK-cf-47L"/>

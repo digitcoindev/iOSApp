@@ -292,11 +292,16 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
             (transaction as! TransferTransaction)
+            
+            if (innertTransaction.signer == publicKey) {
+                definedCell.type = .Outgoing
+            }
+            
             innertTransaction.message.signer = contact.public_key
             var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if(innertTransaction.amount > 0) {
-                var text :String = "\((innertTransaction.amount / 1000000).format()) XEM"
+                var text :String = " \((innertTransaction.amount / 1000000).format()) XEM"
                 if message != ""
                 {
                     text = "\n" + text
@@ -518,7 +523,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             var message :NSMutableAttributedString = NSMutableAttributedString(string: messageText , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
             
             if (innertTransaction.amount > 0) {
-                var text :String = "\((innertTransaction.amount / 1000000).format()) XEM"
+                var text :String = ((cell.cellType == .Incoming) ? "+" : "-") + "\((innertTransaction.amount / 1000000).format()) XEM"
+                
                 if messageText != ""
                 {
                     text = "\n" + text

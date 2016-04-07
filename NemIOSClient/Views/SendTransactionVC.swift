@@ -46,7 +46,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         amountLabel.text = "AMOUNT".localized() + ":"
         messageLabel.text = "MESSAGE".localized() + ":"
         feeLabel.text = "FEE".localized() + ":"
-        sendButton.setTitle("SEND", forState: UIControlState.Normal)
+        sendButton.setTitle("SEND".localized(), forState: UIControlState.Normal)
         
         setSuggestions()
 
@@ -203,6 +203,23 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         self.feeTextField.text = "\(transactionFee.format())"
     }
     
+    @IBAction func textFieldEditingBegin(sender: NEMTextField) {
+        switch sender {
+        case amountTextField :
+            var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
+            
+            text = amountTextField.text!.stringByReplacingOccurrencesOfString(",", withString: "")
+            
+            let amount = Double(text) ?? 0
+            
+            if amount < 0.000001  {
+                amountTextField.text = ""
+            }
+            
+        default :
+            break
+        }
+    }
 
     @IBAction func textFieldEditingEnd(sender: UITextField) {
         switch sender {

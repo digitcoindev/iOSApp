@@ -79,7 +79,9 @@ class ImportFromQR: AbstractViewController, QRDelegate
                 let saltBytes = salt.asByteArray()
                 let saltData = NSData(bytes: saltBytes, length: saltBytes.count)
                 
+                State.fromVC = SegueToImportFromQR
                 State.nextVC = SegueToLoginVC
+                
                 State.importAccountData = {
                     (password) -> Bool in
                     

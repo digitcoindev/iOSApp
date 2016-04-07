@@ -1,3 +1,21 @@
+// MARK: - Languages
+
+"LANGUAGE_ENGLISH" = "English";
+"LANGUAGE_INDONESIAN" = "Indonesian";
+"LANGUAGE_JAPANESE" = "日本語";
+"LANGUAGE_LITHUANIAN" = "Lietuvių";
+"LANGUAGE_CHINESE_SIMPLIFIED" = "Chinese (Simplified)";
+"LANGUAGE_DUTCH" = "Nederlands";
+"LANGUAGE_PORTUGUESE" = "Português";
+"LANGUAGE_CROATIAN" = "Magyar";
+"LANGUAGE_FRENCH" = "Français";
+"LANGUAGE_POLISH" = "Polski";
+"LANGUAGE_FINNISH" = "Suomi";
+"LANGUAGE_SPANISH" = "Español";
+"LANGUAGE_GERMAN" = "Deutsch";
+"LANGUAGE_KOREAN" = "Korean";
+"LANGUAGE_ITALIAN" = "Italian";
+
 // MARK: - A
 
 "ACCOUNT_PRIMATY" = "Primary Account";
@@ -73,6 +91,7 @@
 "FEE" = "Fee";
 "FROM" = "From";
 "FIELDS_EMPTY_ERROR" = "Fill In All Fields";
+"FAILURE_MULTISIG_ACCOUNT_CANNOT_BE_COSIGNER" = "Multisig account can't be cosigner itself.";
 
 // MARK: - G
 
@@ -122,8 +141,8 @@
 "MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Too many cosignatories.";
 "MULTISIG_CHANGES_CONFIRMATION" = "Please Confirm.  It will cost %@ XEM, and changing the amount of minimal cosignatories will cost an extra 6 XEM"; // %@ will be replaced by the transaction fee
 "MINUTES_SHORT" = "min";
-"MIN_COSIG_PLACEHOLDER" = "Minimum signers set to : %@"; // %@ will be replaced by min csig value
-"MIN_COSIG_PLACEHOLDER_CHANGED" = "Minimum signers changed to : %@"; // %@ will be replaced by min cosig value
+"MIN_COSIG_PLACEHOLDER" = "Minimum signers set to: %@"; // %@ will be replaced by min csig value
+"MIN_COSIG_PLACEHOLDER_CHANGED" = "Minimum signers changed to: %@"; // %@ will be replaced by min cosig value
 
 // MARK: - N
 
@@ -212,6 +231,7 @@
 "SHOW_PRIVATE_KEY" = "Show Private Key";
 "SWITCH_ACCOUNT" = "Switch Account";
 "SAVE_QR" = "Save QR";
+"SEARCH_CONTACTS" = "Search Contacts";
 
 // MARK: - T
 

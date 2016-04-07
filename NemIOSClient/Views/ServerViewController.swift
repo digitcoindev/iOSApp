@@ -96,8 +96,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         cell.actionButton.userInteractionEnabled = _isEditing
 
         cell.layoutCell(animated: false)
-        let fileName = "server \(cellData.address).png"
-        let fileService = FileService()
+//        let fileName = "server \(cellData.address).png"
+//        let fileService = FileService()
 //        if fileService.fileExist(fileName) {
 //            cell.flagImageView.image = UIImage(contentsOfFile: fileName.path())
 //        } else {
