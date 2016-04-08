@@ -26,7 +26,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         let pub_key = KeyGenerator.generatePublicKey(priv_key!)
         privateKey.text = priv_key
         publicKey.text = pub_key
-        
+                
         shareButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
         copyButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
         titleLabel.text = "EXPORT_ACCOUNT".localized()

@@ -27,7 +27,7 @@ class AboutVC: AbstractViewController {
         let versionNumber = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
         let buildNumber = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
         
-        infoLabel.text = "VERSION".localized() + " " + versionNumber + " " + "BUILD".localized() + " " + buildNumber
+        infoLabel.text = "VERSION".localized() + " " + versionNumber + " " + "BUILD".localized() + " " + buildNumber + "BETA"
         actionButton.setTitle("OK".localized(), forState: UIControlState.Normal)
         
         contentView.layer.cornerRadius = 5

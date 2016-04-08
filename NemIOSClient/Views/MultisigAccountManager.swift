@@ -302,17 +302,18 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         }
     }
     
-    private func _sortModifications(var modifications :[String]) -> [String] {
+    private func _sortModifications(modifications :[String]) -> [String] {
+        var resutModifications = modifications
         for var sorted = false ; !sorted; {
             sorted = true
-            for var i = 1; i < modifications.count; i++ {
-                let previousAddress = AddressGenerator.generateAddress(modifications[i-1])
-                let currentAddress = AddressGenerator.generateAddress(modifications[i])
+            for var i = 1; i < resutModifications.count; i++ {
+                let previousAddress = AddressGenerator.generateAddress(resutModifications[i-1])
+                let currentAddress = AddressGenerator.generateAddress(resutModifications[i])
                 
                 if previousAddress.compare(currentAddress) == NSComparisonResult.OrderedDescending {
-                    let mod = modifications[i]
-                    modifications[i] = modifications[i-1]
-                    modifications[i-1] = mod
+                    let mod = resutModifications[i]
+                    resutModifications[i] = resutModifications[i-1]
+                    resutModifications[i-1] = mod
                     sorted = false
                 }
             }

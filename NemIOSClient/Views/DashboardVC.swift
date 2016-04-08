@@ -49,7 +49,7 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     //MARK: - Navigation Methods
     
     final func switchToPage(page :String) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(page)
         }
     }

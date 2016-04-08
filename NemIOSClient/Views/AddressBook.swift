@@ -27,7 +27,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     // MARK: - Properties
 
-    var contacts :NSArray? = AddressBookManager.contacts
+    var contacts :[CNContact]? = AddressBookManager.contacts
     var displayList :[CNContact] = []
     
     // MARK: - Load Metods
@@ -105,19 +105,17 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
                 let needToAddSearchFilter = self.searchTextField.text != nil && self.searchTextField.text != ""
                 
                 if needToAddSearchFilter {
-                    if let name = contact.givenName {
-                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(name)
-                        {
-                            isValidValue = true
-                        }
-                    }
+                    //TODO: Fixed to Swift 2.2 in Version 2 Build 31 BETA, could be error
                     
-                    if let surname = contact.familyName {
-                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(surname)
+                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(contact.givenName)
                         {
                             isValidValue = true
                         }
-                    }
+                    
+                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(contact.familyName)
+                        {
+                            isValidValue = true
+                        }
                 }
                 else {
                     isValidValue = true
@@ -127,7 +125,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
                     continue
                 }
                 
-                self.displayList.append(contact as! CNContact)
+                self.displayList.append(contact)
             }
             
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
