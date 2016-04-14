@@ -36,11 +36,14 @@ class PasswordValidationVC: AbstractViewController
     
     override func viewDidAppear(animated: Bool) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        super.viewDidAppear(animated)
+        
+        _showTouchId = true
         applicationDidBecomeActive(nil)
     }
     
     func applicationDidBecomeActive(notification: NSNotification?) {
-        if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool &&  State.nextVC != SegueToExportAccount && _showTouchId{
+        if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool && _showTouchId{
             _showTouchId = false
             authenticateUser()
         }
@@ -48,6 +51,7 @@ class PasswordValidationVC: AbstractViewController
     
     override func  viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -59,6 +63,7 @@ class PasswordValidationVC: AbstractViewController
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         State.importAccountData = nil
+        
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         } else {
@@ -104,7 +109,8 @@ class PasswordValidationVC: AbstractViewController
         let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
         
         if passwordData?.toHexString() == passwordValue {
-            
+            self._showTouchId = false
+
             if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             } else {
@@ -126,9 +132,9 @@ class PasswordValidationVC: AbstractViewController
         context.localizedFallbackTitle = ""
         
         [context .evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: NSError?) -> Void in
-            
+            self._showTouchId = false
+
             if success {
-                self._showTouchId = true
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
                         (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
@@ -137,25 +143,22 @@ class PasswordValidationVC: AbstractViewController
                     }
                 })
             } else {
-                self._showTouchId = true
 
                 print(evalPolicyError!.localizedDescription)
                 
                 switch evalPolicyError!.code {
                     
                 case LAError.SystemCancel.rawValue:
+                    self._showTouchId = true
                     print("Authentication was cancelled by the system")
                     
                 case LAError.UserCancel.rawValue:
-                    self._showTouchId = false
                     print("Authentication was cancelled by the user")
                     
                 case LAError.UserFallback.rawValue:
-                    self._showTouchId = false
+                    self._showTouchId = true
                     print("User selected to enter custom password")
-                    
                 default:
-                    self._showTouchId = false
                     print("Authentication failed")
                 }
             }

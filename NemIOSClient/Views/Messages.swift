@@ -137,6 +137,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             
             if _requestCounter == 1 {
                 State.currentWallet?.lastTransactionHash = data.first?.hashString
+                CoreDataManager().commit()
             }
 
             for inData in data {
@@ -331,9 +332,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         }
     }
     
-    final func refreshTransactionList() {
-        print("update")
-        
+    final func refreshTransactionList() {        
         if State.currentServer != nil && _account_address != nil {
             _transactions = []
             _requestCounter = 0

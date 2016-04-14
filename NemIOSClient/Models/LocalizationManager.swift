@@ -22,7 +22,7 @@ class LocalizationManager {
         case "LANGUAGE_ENGLISH".localized():
             languageId = "en"
         case "LANGUAGE_LITHUANIAN".localized():
-            languageId = "It"
+            languageId = "lt"
         case "LANGUAGE_CHINESE_SIMPLIFIED".localized():
             languageId = "zh-Hans"
         case "LANGUAGE_DUTCH".localized():

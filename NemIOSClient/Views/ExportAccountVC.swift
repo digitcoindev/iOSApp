@@ -32,9 +32,13 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
         titleLabel.text = "EXPORT_ACCOUNT".localized()
         publicKeyLabel.text = "PUBLIC_KEY".localized()
         showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
-        State.currentVC = SegueToExportAccount
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        State.currentVC = SegueToExportAccount
+    }
+ 
     override func viewDidDisappear(animated: Bool) {
         self.view.endEditing(true)
     }

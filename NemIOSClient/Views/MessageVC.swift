@@ -56,7 +56,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     private var _completed = 0
     private var _unconfirmed = 0
     private var _account_address :String? = nil
-    
+    private var _timer: NSTimer? = nil
+
     // MARK: - Load Methods
     
     override func viewDidLoad() {
@@ -91,7 +92,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshHistory", userInfo: nil, repeats: true)
+        _timer =  NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshHistory", userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -114,8 +115,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         observer.removeObserver(self)
+        
+        _timer?.invalidate()
     }
-    
+
     // MARK: - IBAction
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
@@ -265,36 +268,18 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     final func defineData() {
-        let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
+        //let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
         var data :[DefinedCell] = []
         
         for transaction in _transactions {
             var definedCell : DefinedCell = DefinedCell()
-            definedCell.type = .Incoming
-            
-            if (transaction.signer == publicKey) {
-                definedCell.type = .Outgoing
-            }
-            
-            for cosignatory in _activeAccount!.cosignatories {
-                if cosignatory.publicKey == transaction.signer {
-                    definedCell.type = .Outgoing
-                    break
-                }
-            }
-            
-            for cosignatory in _activeAccount!.cosignatoryOf {
-                if cosignatory.publicKey == transaction.signer {
-                    definedCell.type = .Outgoing
-                    break
-                }
-            }
+            definedCell.type = .Outgoing
             
             let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
             (transaction as! TransferTransaction)
             
-            if (innertTransaction.signer == publicKey) {
-                definedCell.type = .Outgoing
+            if (innertTransaction.recipient == _account_address) {
+                definedCell.type = .Incoming
             }
             
             innertTransaction.message.signer = contact.public_key
@@ -341,7 +326,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 var text :String = "\((innertTransaction.amount / 1000000).format()) XEM"
                 if message != ""
                 {
-                    text = "\n" + text
+                    text = "\n" + text 
                 }
                 
                 let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeXEM)! ])
@@ -359,7 +344,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             if transaction.type == multisigTransaction {
                 let signerAdress = AddressGenerator.generateAddress(innertTransaction.signer)
-                let singnaturesCount = (transaction as! MultisigTransaction).signatures.count
+                let singnaturesCount = (transaction as! MultisigTransaction).signatures.count + 1
                 var cosignatories = 0
                 var minCosig = 0
 
@@ -773,30 +758,21 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         var _transactions :[TransactionPostMetaData] = data
         
         for var index = 0; index < _transactions.count; index++ {
+            var innertTransaction :TransferTransaction? = nil
+            switch _transactions[index].type {
+            case multisigTransaction:
+                innertTransaction = (_transactions[index] as! MultisigTransaction).innerTransaction as? TransferTransaction
+            case transferTransaction:
+                    innertTransaction = _transactions[index] as? TransferTransaction
+            default:
+                break
+            }
+            
             var needToSave = false
-            var recipient = ""
-            
-            if _transactions[index].type == transferTransaction {
-                recipient = (_transactions[index] as! TransferTransaction).recipient
-            } else if _transactions[index].type == multisigTransaction {
-                let innerTransaction = (_transactions[index] as! MultisigTransaction).innerTransaction
-                if innerTransaction.type == transferTransaction {
-                    recipient = (innerTransaction as! TransferTransaction).recipient
+            if let innertTransaction = innertTransaction {
+                if AddressGenerator.generateAddress(innertTransaction.signer) == self.contact.address || innertTransaction.recipient == self.contact.address {
+                    needToSave = true
                 }
-            }
-            
-            let address = AddressGenerator.generateAddress(_transactions[index].signer)
-            
-            if address == self._mainAccount!.address && recipient == self.contact.address {
-                needToSave = true
-            }
-            
-            if address == self.contact.address && recipient == self._mainAccount!.address {
-                needToSave = true
-            }
-            
-            if self._mainAccount!.cosignatories.count > 0 && recipient == self.contact.address {
-                needToSave = true
             }
             
             if !needToSave {
