@@ -28,8 +28,8 @@ class AddCosignatoryVC: AbstractViewController {
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddCosignatoryVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddCosignatoryVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true

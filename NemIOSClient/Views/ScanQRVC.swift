@@ -93,7 +93,7 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
                         return true
                     }
                     
-                    if (self.delegate as? AbstractViewController)?.delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector("pageSelected:") {
+                    if (self.delegate as? AbstractViewController)?.delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                         ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
                     }
                 }

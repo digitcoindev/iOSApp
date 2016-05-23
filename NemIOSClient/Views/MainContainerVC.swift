@@ -98,7 +98,7 @@ class MainContainerVC: AbstractViewController
                 
                 State.toVC = page as String
                 
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
                 }
                 

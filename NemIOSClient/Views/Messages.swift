@@ -41,7 +41,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         titleLabel.text = "MESSAGES".localized()
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
-        customMessageButton.setTitle("NEW".localized(), forState: UIControlState.Normal)
+        //customMessageButton.setTitle("NEW".localized(), forState: UIControlState.Normal)
         tableView.layer.cornerRadius = 2
         _apiManager.delegate = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -68,7 +68,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         if State.currentContact != nil {
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToMessageVC)
             }
         }
@@ -77,7 +77,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
         
-        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshTransactionList", userInfo: nil, repeats: true)
+        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(Messages.refreshTransactionList), userInfo: nil, repeats: true)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -133,7 +133,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
 
     final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
-            _requestCounter++
+            _requestCounter += 1
             
             if _requestCounter == 1 {
                 State.currentWallet?.lastTransactionHash = data.first?.hashString
@@ -206,7 +206,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                             let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
                                     alertAction -> Void in
                                 
-                                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                                     (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
                                 }                                    
                             }
@@ -239,13 +239,13 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     // MARK: - IBAction
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
         }
     }
     
     @IBAction func customMessage(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
         }
     }
@@ -263,10 +263,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             data.append(value)
         }
         
-        for var index = 0 ; index < data.count ; index++ {
+        for var index = 0 ; index < data.count ; index += 1 {
             var sorted = true
             
-            for var indexIN = 0 ; indexIN < data.count - 1 ; indexIN++ {
+            for var indexIN = 0 ; indexIN < data.count - 1 ; indexIN += 1 {
                 var firstValue :Int!
                 if data[indexIN].lastMessage != nil {
                     firstValue = Int(data[indexIN].lastMessage!.id)
@@ -342,7 +342,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!)
         }
         else {
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
             }
         }
@@ -452,7 +452,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 nextVC = SegueToMessageVC
             }
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(nextVC)
             }
         }

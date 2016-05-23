@@ -36,7 +36,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
     //MARK: - IBAction
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
         }
     }
@@ -100,7 +100,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
                     return true
                 }
                 
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
                 }
             }

@@ -104,7 +104,7 @@ class PasswordExportVC: AbstractViewController
         
         State.exportAccount = jsonString
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
         }
     }

@@ -39,7 +39,7 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
     // MARK: - @IBAction
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         }
     }
@@ -86,7 +86,7 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
             break
         }
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(page)
         }
     }

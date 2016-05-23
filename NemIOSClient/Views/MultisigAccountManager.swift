@@ -51,15 +51,15 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         var count = _currentCosignatories.count + _addArray.count
         
         if !_isMultisig {
-            count++
+            count += 1
             
             if _activeAccount != nil && (_activeAccount!.cosignatories.count > 0 || _addArray.count > 0){
-                count++
+                count += 1
             }
         }
         
         if _addArray.count > 0 || _removeArray.count > 0 || minCosig != nil {
-            count++
+            count += 1
         }
         
         return count
@@ -196,7 +196,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     //MARK: - @IBAction
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
         }
     }
@@ -306,7 +306,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         var resutModifications = modifications
         for var sorted = false ; !sorted; {
             sorted = true
-            for var i = 1; i < resutModifications.count; i++ {
+            for var i = 1; i < resutModifications.count; i += 1 {
                 let previousAddress = AddressGenerator.generateAddress(resutModifications[i-1])
                 let currentAddress = AddressGenerator.generateAddress(resutModifications[i])
                 

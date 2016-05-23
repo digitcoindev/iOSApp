@@ -48,7 +48,7 @@ class APIManager: NSObject
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatResponceFromServer:successed:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.heartbeatResponceFromServer(_:successed:))) {
                                     (self.delegate as! APIManagerDelegate).heartbeatResponceFromServer!(server ,successed :false)
                                 }
                         }
@@ -62,7 +62,7 @@ class APIManager: NSObject
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatResponceFromServer:successed:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.heartbeatResponceFromServer(_:successed:))) {
                                     (self.delegate as! APIManagerDelegate).heartbeatResponceFromServer!(server ,successed :false)
                                 }
                         }
@@ -75,7 +75,7 @@ class APIManager: NSObject
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("heartbeatResponceFromServer:successed:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.heartbeatResponceFromServer(_:successed:))) {
                                     (self.delegate as! APIManagerDelegate).heartbeatResponceFromServer!(server ,successed :true)
                                 }
                         }
@@ -104,7 +104,7 @@ class APIManager: NSObject
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("accountGetResponceWithAccount:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountGetResponceWithAccount(_:))) {
                                     (self.delegate as! APIManagerDelegate).accountGetResponceWithAccount!(nil)
                                 }
                         }
@@ -117,7 +117,7 @@ class APIManager: NSObject
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("accountGetResponceWithAccount:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountGetResponceWithAccount(_:))) {
                                     (self.delegate as! APIManagerDelegate).accountGetResponceWithAccount!(nil)
                                 }
                         }
@@ -129,7 +129,7 @@ class APIManager: NSObject
                         
                         dispatch_async(dispatch_get_main_queue())
                             {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("accountGetResponceWithAccount:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountGetResponceWithAccount(_:))) {
                                     (self.delegate as! APIManagerDelegate).accountGetResponceWithAccount!(requestData)
                                 }
                         }
@@ -137,7 +137,7 @@ class APIManager: NSObject
                     else {
                         dispatch_async(dispatch_get_main_queue())
                             {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("accountGetResponceWithAccount:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountGetResponceWithAccount(_:))) {
                                     (self.delegate as! APIManagerDelegate).accountGetResponceWithAccount!(nil)
                                 }
                         }
@@ -166,7 +166,7 @@ class APIManager: NSObject
                     
                     dispatch_async(dispatch_get_main_queue())
                         {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountHarvestResponceWithBlocks(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(nil)
                             }
                     }
@@ -179,7 +179,7 @@ class APIManager: NSObject
                     
                     dispatch_async(dispatch_get_main_queue())
                         {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountHarvestResponceWithBlocks(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(nil)
                             }
                     }
@@ -195,7 +195,7 @@ class APIManager: NSObject
                     
                     dispatch_async(dispatch_get_main_queue())
                         {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountHarvestResponceWithBlocks(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(blocks)
                             }
                     }
@@ -203,7 +203,7 @@ class APIManager: NSObject
                 else {
                     dispatch_async(dispatch_get_main_queue())
                         {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountHarvestResponceWithBlocks:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountHarvestResponceWithBlocks(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountHarvestResponceWithBlocks!(nil)
                             }
                     }
@@ -231,7 +231,7 @@ class APIManager: NSObject
                     if(data == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountTransfersAllResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountTransfersAllResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountTransfersAllResponceWithTransactions!(nil)
                             }
                         }
@@ -243,7 +243,7 @@ class APIManager: NSObject
                     if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountTransfersAllResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountTransfersAllResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountTransfersAllResponceWithTransactions!(nil)
                             }
                         }
@@ -289,7 +289,7 @@ class APIManager: NSObject
                         }
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountTransfersAllResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountTransfersAllResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountTransfersAllResponceWithTransactions!(requestDataAll)
                             }
                         }
@@ -297,7 +297,7 @@ class APIManager: NSObject
                     else {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("accountTransfersAllResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.accountTransfersAllResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).accountTransfersAllResponceWithTransactions!(nil)
                             }
                         }
@@ -326,7 +326,7 @@ class APIManager: NSObject
                     if(data == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("unconfirmedTransactionsResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.unconfirmedTransactionsResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).unconfirmedTransactionsResponceWithTransactions!(nil)
                             }
                         }
@@ -338,7 +338,7 @@ class APIManager: NSObject
                     if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("unconfirmedTransactionsResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.unconfirmedTransactionsResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).unconfirmedTransactionsResponceWithTransactions!(nil)
                             }
                         }
@@ -398,14 +398,14 @@ class APIManager: NSObject
                         }
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("unconfirmedTransactionsResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.unconfirmedTransactionsResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).unconfirmedTransactionsResponceWithTransactions!(requestDataAll)
                             }
                         }
                     }
                     else {
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("unconfirmedTransactionsResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.unconfirmedTransactionsResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).unconfirmedTransactionsResponceWithTransactions!(nil)
                             }
                         }
@@ -446,7 +446,7 @@ class APIManager: NSObject
                     if(data == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.prepareAnnounceResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!(nil)
                             }
                         }
@@ -458,7 +458,7 @@ class APIManager: NSObject
                     if(layers == nil) {
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.prepareAnnounceResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!(nil)
                             }
                         }
@@ -469,14 +469,14 @@ class APIManager: NSObject
                         
                         if message == "SUCCESS" {
                             dispatch_async(dispatch_get_main_queue()) {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.prepareAnnounceResponceWithTransactions(_:))) {
                                     (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!([transaction])
                                 }
                             }
                         }
                         else {
                             dispatch_async(dispatch_get_main_queue()) {
-                                if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.prepareAnnounceResponceWithTransactions(_:))) {
                                     (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!([])
                                     (self.delegate as! APIManagerDelegate).failWithError?(message)
                                 }
@@ -485,7 +485,7 @@ class APIManager: NSObject
                     }
                     else {
                         dispatch_async(dispatch_get_main_queue()) {
-                            if self.delegate != nil && self.delegate!.respondsToSelector("prepareAnnounceResponceWithTransactions:") {
+                            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(APIManagerDelegate.prepareAnnounceResponceWithTransactions(_:))) {
                                 (self.delegate as! APIManagerDelegate).prepareAnnounceResponceWithTransactions!(nil)
                             }
                         }

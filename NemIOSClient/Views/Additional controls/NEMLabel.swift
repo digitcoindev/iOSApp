@@ -9,7 +9,7 @@ class NEMLabel: UILabel
         
         self.userInteractionEnabled = true
         
-        let recogniser :UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "longPressDetected")
+        let recogniser :UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NEMLabel.longPressDetected))
         recogniser.minimumPressDuration = 0.5
         self.addGestureRecognizer(recogniser)
         
@@ -45,7 +45,7 @@ class NEMLabel: UILabel
         pasteBoard.string = self.text
         copylable.hidden = false
         
-        NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: Selector("hideCopyLable"), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(NEMLabel.hideCopyLable), userInfo: nil, repeats: false)
     }
     
     func hideCopyLable() {

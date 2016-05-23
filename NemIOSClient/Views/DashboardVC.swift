@@ -56,7 +56,8 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     
     //MARK: - MainVCdDelegate Methods
     
-    final func changeState(var page: String){
+    final func changeState( page: String){
+        var page = page
         if page == SegueToPasswordValidation {
             page = State.nextVC
         }
@@ -121,14 +122,14 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
         
     @IBAction func qrButtonTouchUpInside(sender: AnyObject) {
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToUserInfo)
         }
     }
     
     @IBAction func moreButtonTouchUpInside(sender: AnyObject) {
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
         }
     }

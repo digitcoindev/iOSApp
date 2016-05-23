@@ -52,14 +52,14 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
     
     @IBAction func addNewWallet(sender: AnyObject) {
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
         }
     }
     
     @IBAction func settings(sender: AnyObject) {
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToSettings)
         }
     }
@@ -106,7 +106,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
             else {
                 State.toVC = SegueToServerVC
                 
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
                 }
             }
@@ -229,7 +229,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
             
             State.toVC = SegueToMessages
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
             }
         } else {
@@ -237,7 +237,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
             State.currentServer = nil
             State.toVC = SegueToServerVC
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
             }
         }

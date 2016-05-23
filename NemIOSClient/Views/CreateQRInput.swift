@@ -90,7 +90,7 @@ class CreateQRInput: AbstractViewController
             let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
                 alertAction -> Void in
                 
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
                 }
             }
@@ -109,7 +109,7 @@ class CreateQRInput: AbstractViewController
         CoreDataManager().commit()
         State.invoice = invoice
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("changePage:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(Selector("changePage:")) {
             (self.delegate as! QRViewController).changePage(SegueToCreateInvoiceResult)
         }
     }

@@ -58,13 +58,13 @@ extension String
         
         if arrayLength % 2 != 0 {
             hexString  = "0" + hexString
-            arrayLength++
+            arrayLength += 1
         }
         
         arrayLength = arrayLength / 2
         
         var buffer : Array<UInt8> = Array(count: arrayLength , repeatedValue: 0)
-        for var index :Int = 0 ; index < arrayLength  ; index++ {
+        for var index :Int = 0 ; index < arrayLength  ; index += 1 {
             let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
             buffer[index] = UInt8(substring, radix: 16)!
         }
@@ -77,13 +77,13 @@ extension String
         
         if arrayLength % 2 != 0 {
             hexString  = "0" + hexString
-            arrayLength++
+            arrayLength += 1
         }
         
         arrayLength = arrayLength / 2
         
         var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
-        for var index :Int = 0 ; index < arrayLength  ; index++ {
+        for var index :Int = 0 ; index < arrayLength  ; index += 1 {
             let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
             buffer[index] = UInt8(substring, radix: 16)!
         }
@@ -97,13 +97,13 @@ extension String
         
         if arrayLength % 2 != 0 {
             hexString  = "0" + hexString
-            arrayLength++
+            arrayLength += 1
         }
         
         arrayLength = arrayLength / 2
         
         var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
-        for var index :Int = 0 ; index < arrayLength  ; index++ {
+        for var index :Int = 0 ; index < arrayLength  ; index += 1 {
             let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
             buffer[arrayLength - index - 1] = UInt8(substring, radix: 16)!
         }

@@ -57,8 +57,8 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        observer.addObserver(self, selector: #selector(SendTransactionVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: #selector(SendTransactionVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
@@ -238,7 +238,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
         }
     }

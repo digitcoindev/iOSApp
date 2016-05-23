@@ -8,7 +8,7 @@ public struct RIPEMD {
         
         var block = RIPEMD.Block()
         
-        for var i=0; i < paddedData.length / 64; i++ {
+        for var i=0; i < paddedData.length / 64; i += 1 {
             let part = getWordsInSection(paddedData, i)
             block.compress(part)
         }
