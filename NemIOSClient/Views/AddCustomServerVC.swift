@@ -1,6 +1,6 @@
 import UIKit
 
-protocol AddCustomServerDelegate
+@objc protocol AddCustomServerDelegate
 {
     func serverAdded(successfuly :Bool)
     func popUpClosed()
@@ -33,8 +33,8 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
 
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddCustomServerVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddCustomServerVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         _apiManager.delegate = self
         
@@ -49,8 +49,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
-        
-        if self.delegate != nil && self.delegate!.respondsToSelector("serverAdded:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {
             (self.delegate as! AddCustomServerDelegate).popUpClosed()
         }
         
@@ -101,7 +100,7 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
                 _dataManager.commit()
             }
                         
-            if self.delegate != nil && self.delegate!.respondsToSelector("serverAdded:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {
                 (self.delegate as! AddCustomServerDelegate).serverAdded(true)
             }
             

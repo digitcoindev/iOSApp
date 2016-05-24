@@ -35,7 +35,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
         }
     }
@@ -95,7 +95,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
         case SettingsCategory.Server.rawValue:
             switch indexPath.row {
             case 1:
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                     (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
                 }
             default:

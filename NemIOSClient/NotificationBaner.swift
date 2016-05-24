@@ -38,7 +38,7 @@ class NotificationBaner: UIViewController {
     }
     
     func showBaner() {
-        timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("closeBaner"), userInfo: nil, repeats: false)
+        timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(NotificationBaner.closeBaner), userInfo: nil, repeats: false)
         
         self.view.frame.origin.y = -banerHeightFull
         self.view.frame.size.height = banerHeightFull

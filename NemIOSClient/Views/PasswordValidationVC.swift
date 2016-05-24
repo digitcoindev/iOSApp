@@ -64,8 +64,8 @@ class PasswordValidationVC: AbstractViewController
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         State.importAccountData = nil
-        
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
         } else {
             self.dismissViewControllerAnimated(true, completion: nil)
@@ -93,7 +93,7 @@ class PasswordValidationVC: AbstractViewController
         let success = State.importAccountData?(password: password.text!) ?? false
         if success {
             State.importAccountData = nil
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             } else {
                 self.dismissViewControllerAnimated(true, completion: nil)
@@ -110,9 +110,7 @@ class PasswordValidationVC: AbstractViewController
         let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
         
         if passwordData?.toHexString() == passwordValue {
-            self._showTouchId = false
-
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             } else {
                 self.dismissViewControllerAnimated(true, completion: nil)
@@ -137,7 +135,7 @@ class PasswordValidationVC: AbstractViewController
 
             if success {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                         (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
                     } else {
                         self.dismissViewControllerAnimated(true, completion: nil)

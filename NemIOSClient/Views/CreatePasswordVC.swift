@@ -69,7 +69,7 @@ class CreatePasswordVC: AbstractViewController {
         loadData.password = passwordHash?.hexadecimalString()
         dataMeneger.commit()
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
         }
     }
@@ -106,7 +106,7 @@ class CreatePasswordVC: AbstractViewController {
         
         if passwordData?.toHexString() == passwordValue {
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             }
         }

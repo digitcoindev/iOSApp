@@ -48,7 +48,7 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
         }
     }

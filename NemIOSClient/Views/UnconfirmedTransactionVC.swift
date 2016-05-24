@@ -30,7 +30,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     }
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
         }
     }
@@ -188,7 +188,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
             unconfirmedTransactions = data
             let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
             
-            for var i = 0 ; i < unconfirmedTransactions.count ; i++ {
+            for var i = 0 ; i < unconfirmedTransactions.count ; i += 1 {
                 if unconfirmedTransactions[i].type != multisigTransaction {
                     unconfirmedTransactions.removeAtIndex(i)
                 }
@@ -197,7 +197,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
                     
                     if transaction.signer == walletData.publicKey{
                         unconfirmedTransactions.removeAtIndex(i)
-                        i--
+                        i -= 1
                         continue
                     }
                     
@@ -205,7 +205,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
                         if publicKey == sign.signer
                         {
                             unconfirmedTransactions.removeAtIndex(i)
-                            i--
+                            i -= 1
                             break
                         }
                     }

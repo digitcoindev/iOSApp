@@ -56,11 +56,11 @@ class DetailedTableViewCell: AbstactTableViewCell {
         self.addSubview(_detailedView!)
         
         
-        let swipeRecognizerRight = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipeGesturesRight:"))
+        let swipeRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(DetailedTableViewCell.handleSwipeGesturesRight(_:)))
         swipeRecognizerRight.direction = .Right
         self.addGestureRecognizer(swipeRecognizerRight)
         
-        let swipeRecognizerLeft = UISwipeGestureRecognizer(target: self, action: Selector("handleSwipeGesturesLeft:"))
+        let swipeRecognizerLeft = UISwipeGestureRecognizer(target: self, action: #selector(DetailedTableViewCell.handleSwipeGesturesLeft(_:)))
         swipeRecognizerLeft.direction = .Left
         self.addGestureRecognizer(swipeRecognizerLeft)
         

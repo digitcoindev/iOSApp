@@ -112,7 +112,7 @@
             startingLineNumber = "153"
             endingLineNumber = "153"
             landmarkName = "authenticateUser()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -128,7 +128,7 @@
             startingLineNumber = "157"
             endingLineNumber = "157"
             landmarkName = "authenticateUser()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -144,7 +144,7 @@
             startingLineNumber = "161"
             endingLineNumber = "161"
             landmarkName = "authenticateUser()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -160,7 +160,7 @@
             startingLineNumber = "163"
             endingLineNumber = "163"
             landmarkName = "authenticateUser()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -239,8 +239,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "646"
             endingLineNumber = "646"
-            landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
-            landmarkType = "5">
+            landmarkName = "accountGetResponceWithAccount(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -255,8 +255,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "645"
             endingLineNumber = "645"
-            landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
-            landmarkType = "5">
+            landmarkName = "accountGetResponceWithAccount(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -301,54 +301,6 @@
             timestampString = "482420170.146921"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
-            landmarkName = "defineData()"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NemIOSClient.MessageVC.defineData () -&gt; ()"
-                  moduleName = "NemIOSClient"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bodyabilas/Documents/work_dominik/New%20Economy%20Movement/NEM/iosnemclient/NemIOSClient/Views/MessageVC.swift"
-                  timestampString = "482341535.767681"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "401"
-                  endingLineNumber = "401"
-                  offsetFromSymbolStart = "19016">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NemIOSClient.MessageVC.(defineData () -&gt; ()).(closure #1)"
-                  moduleName = "NemIOSClient"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/bodyabilas/Documents/work_dominik/New%20Economy%20Movement/NEM/iosnemclient/NemIOSClient/Views/MessageVC.swift"
-                  timestampString = "482341535.767882"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "387"
-                  endingLineNumber = "387"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "482420170.146921"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "414"
             endingLineNumber = "414"
             landmarkName = "defineData()"
@@ -367,7 +319,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "584"
             endingLineNumber = "584"
-            landmarkName = "accountGetResponceWithAccount(_:)"
+            landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -383,7 +335,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "585"
             endingLineNumber = "585"
-            landmarkName = "accountGetResponceWithAccount(_:)"
+            landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -400,22 +352,6 @@
             startingLineNumber = "249"
             endingLineNumber = "249"
             landmarkName = "unconfirmedTransactionsResponceWithTransactions(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "NemIOSClient/Views/MessageVC.swift"
-            timestampString = "482420170.146921"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "398"
-            endingLineNumber = "398"
-            landmarkName = "defineData()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -489,30 +425,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NemIOSClient/Views/Messages.swift"
-            timestampString = "482417607.177331"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
-            landmarkName = "unconfirmedTransactionsResponceWithTransactions(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "NemIOSClient/Views/MessageVC.swift"
             timestampString = "482420170.146921"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "647"
             endingLineNumber = "647"
-            landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
-            landmarkType = "5">
+            landmarkName = "accountGetResponceWithAccount(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -527,8 +447,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "667"
             endingLineNumber = "667"
-            landmarkName = "unconfirmedTransactionsResponceWithTransactions(_:)"
-            landmarkType = "5">
+            landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -543,8 +463,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "669"
             endingLineNumber = "669"
-            landmarkName = "unconfirmedTransactionsResponceWithTransactions(_:)"
-            landmarkType = "5">
+            landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -559,8 +479,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "668"
             endingLineNumber = "668"
-            landmarkName = "unconfirmedTransactionsResponceWithTransactions(_:)"
-            landmarkType = "5">
+            landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -607,8 +527,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "649"
             endingLineNumber = "649"
-            landmarkName = "accountTransfersAllResponceWithTransactions(_:)"
-            landmarkType = "5">
+            landmarkName = "accountGetResponceWithAccount(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -623,8 +543,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "729"
             endingLineNumber = "729"
-            landmarkName = "refreshHistory()"
-            landmarkType = "5">
+            landmarkName = "didChouseAccount(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -639,8 +559,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "581"
             endingLineNumber = "581"
-            landmarkName = "accountGetResponceWithAccount(_:)"
-            landmarkType = "5">
+            landmarkName = "hideDetailsForCell(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -656,7 +576,7 @@
             startingLineNumber = "810"
             endingLineNumber = "810"
             landmarkName = "_findMessages(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

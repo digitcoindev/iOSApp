@@ -50,7 +50,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     }
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToSettings)
         }
     }
@@ -123,7 +123,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
                 
                 var oldIndex = 0
                 
-                for var i = 0 ; i < servers.count ; i++ {
+                for var i = 0 ; i < servers.count ; i += 1 {
                     if servers[i] == State.currentServer! {
                         oldIndex = i
                     }

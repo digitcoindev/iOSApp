@@ -28,8 +28,8 @@ class MessageToContactVC: AbstractViewController {
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(MessageToContactVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(MessageToContactVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -61,7 +61,7 @@ class MessageToContactVC: AbstractViewController {
             correspondent.name = userInfoLabel.text!
             State.currentContact = correspondent
                                     
-            if (self.delegate as! AbstractViewController).delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector("pageSelected:") {
+            if (self.delegate as! AbstractViewController).delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
             }
         }

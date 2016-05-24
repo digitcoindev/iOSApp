@@ -13,7 +13,7 @@ class FilterButton: UIButton {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.addTarget(self, action: "touchUpInside", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: #selector(FilterButton.touchUpInside), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     final func touchUpInside() {

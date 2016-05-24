@@ -49,7 +49,7 @@ class AccountsChousePopUp: AbstractViewController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("didChouseAccount:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AccountsChousePopUpDelegate.didChouseAccount(_:))) {
             (self.delegate as! AccountsChousePopUpDelegate).didChouseAccount!(_wallets[indexPath.row])
         }
         

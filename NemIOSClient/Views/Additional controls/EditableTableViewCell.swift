@@ -60,7 +60,7 @@ class EditableTableViewCell: AbstactTableViewCell
         _deleteButton.setBackgroundImage(UIImage(named: "delete_icon"), forState: UIControlState.Normal)
         _deleteButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
-        _deleteButton.addTarget(self, action: "deleteCell", forControlEvents: UIControlEvents.TouchUpInside)
+        _deleteButton.addTarget(self, action: #selector(EditableTableViewCell.deleteCell), forControlEvents: UIControlEvents.TouchUpInside)
         
         self._deleteView?.addSubview(_deleteButton)
         

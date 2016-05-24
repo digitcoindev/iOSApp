@@ -89,10 +89,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        
-        _timer =  NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: "refreshHistory", userInfo: nil, repeats: true)
+        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+
+        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(MessageVC.refreshHistory), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -105,8 +105,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -122,7 +122,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     // MARK: - IBAction
     
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
         }
     }
@@ -389,7 +389,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         var addCount = _transactions.count - _completed
         
         if self.tableView.numberOfRowsInSection(0) == 0 && (addCount > 0 || _unconfirmedTransactions.count > 0){
-            addCount++
+            addCount += 1
         }
         
         removeCount = (_unconfirmed > 0) ? _unconfirmed + 1 : 0
@@ -405,11 +405,11 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             var actionArray :[NSIndexPath] = []
             var rowsCount = self.tableView.numberOfRowsInSection(0)
             
-            for var i = self.tableView.numberOfRowsInSection(0) - removeCount ; 0 < removeCount && addCount > 0 ;i++ {
+            for var i = self.tableView.numberOfRowsInSection(0) - removeCount ; 0 < removeCount && addCount > 0 ;i += 1 {
                 print("update \(i)")
                 actionArray.append(NSIndexPath(forRow: i, inSection: 0))
-                removeCount--
-                addCount--
+                removeCount -= 1
+                addCount -= 1
             }
             
             self.tableView.beginUpdates()
@@ -420,7 +420,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             
             actionArray = []
             
-            for var i = 0 ; i < removeCount && (rowsCount - 1 - i > 0) ;i++ {
+            for var i = 0 ; i < removeCount && (rowsCount - 1 - i > 0) ;i += 1 {
                 print("delete \(rowsCount - 1 - i)")
                 actionArray.append(NSIndexPath(forRow: rowsCount - 1 - i, inSection: 0))
             }
@@ -431,7 +431,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             actionArray = []
             rowsCount = self.tableView.numberOfRowsInSection(0)
             
-            for var i = 0 ; i < addCount ;i++ {
+            for var i = 0 ; i < addCount ;i += 1 {
                 actionArray.append(NSIndexPath(forRow: rowsCount + i, inSection: 0))
             }
             if actionArray.count > 0 {
@@ -645,7 +645,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             if let data = data {
                 self._transactions = self._findMessages(data.reverse()) + self._transactions
                 if data.count >= 25 && self._requestCounter < self._requestsLimit && self._transactions.count <= self._transactionsLimit{
-                    self._requestCounter++
+                    self._requestCounter += 1
                     self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._account_address!, aditional: "&id=\(Int(data.last!.id))")
                 } else {
                     //self._sortMessages()
@@ -805,6 +805,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             if !needToSave {
                 transactions.removeAtIndex(index)
                 index--
+
             }
         }
         
@@ -826,10 +827,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     func _sortMessages() {
         var accum :TransactionPostMetaData!
-        for(var index = 0; index < _transactions.count; index++) {
+        for(var index = 0; index < _transactions.count; index += 1) {
             var sorted = true
             
-            for(var index = 0; index < _transactions.count - 1; index++) {
+            for(var index = 0; index < _transactions.count - 1; index += 1) {
                 
                 let valueA :Double = Double(_transactions[index].id)
                 

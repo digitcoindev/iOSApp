@@ -40,8 +40,8 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
         self.addSubview(tableView)
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "standart")
         
-        self.addTarget(self, action: "updateSuggestions:", forControlEvents: UIControlEvents.EditingChanged)
-        self.addTarget(self, action: "hideSuggenstions:", forControlEvents: UIControlEvents.EditingDidEnd)
+        self.addTarget(self, action: #selector(NEMTextField.updateSuggestions(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        self.addTarget(self, action: #selector(NEMTextField.hideSuggenstions(_:)), forControlEvents: UIControlEvents.EditingDidEnd)
 
     }
     

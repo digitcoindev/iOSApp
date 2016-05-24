@@ -22,8 +22,8 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(ImportFromKey.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(ImportFromKey.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         titleLabel.text = "IMPORT_FROM_KEY".localized()
         
@@ -48,7 +48,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     //MARK: - IBAction
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
         }
     }
@@ -95,7 +95,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
             
             State.toVC = SegueToLoginVC
             
-            if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
             }
             return
@@ -110,7 +110,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                     
                     State.toVC = SegueToLoginVC
                     
-                    if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                         (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
                     }
                 }

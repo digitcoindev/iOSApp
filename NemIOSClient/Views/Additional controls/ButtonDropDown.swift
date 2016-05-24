@@ -26,7 +26,7 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
         tableView.hidden = true
         
         self.addSubview(tableView)
-        self.addTarget(self, action: "touchUpInside", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: #selector(ButtonDropDown.touchUpInside), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
