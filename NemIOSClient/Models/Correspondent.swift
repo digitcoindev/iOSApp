@@ -17,13 +17,12 @@ class Correspondent: NSObject {
     class func generateCorespondetsFromTransactions(transactions :[TransferTransaction]) -> [Correspondent]{
         var correspondents :[Correspondent] = []
         
-        var privateKey = ""
-        var account_address = ""
-        
-        if State.currentWallet != nil {
-            privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!
-            account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
+        if State.currentWallet == nil {
+           return []
         }
+        
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         for transaction in transactions {
             var find = false

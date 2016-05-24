@@ -23,6 +23,7 @@ class PasswordValidationVC: AbstractViewController
         
         passwordTitle.text = "ENTET_PASSWORD".localized()
         password.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
+        password.text = "qwerty"
 
         confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
         

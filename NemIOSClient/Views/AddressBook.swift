@@ -271,24 +271,43 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     // MARK: -  AddCustomContactDelegate
     
-    func contactAdded(successfuly: Bool) {
+    func contactAdded(successfuly: Bool, sendTransaction :Bool) {
         if successfuly {
+            _tempController = nil
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 for cell in self.tableView.visibleCells {
                     (cell as! AddressCell).isEditable = false
                 }
             })
+            
             _isEditing = false
             _newContact = AddressBook.newContact
             AddressBook.newContact = nil
             
             self.filterChanged(self)
+            
+            if sendTransaction {
+                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    
+                    let correspondent :Correspondent = Correspondent()
+                    
+                    for email in _newContact!.emailAddresses{
+                        if email.label == "NEM" {
+                            correspondent.address = (email.value as? String) ?? " "
+                            correspondent.name = correspondent.address.nemName()
+                        }
+                    }
+                    State.currentContact = correspondent
+                    
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
+                }
+            }
         }
     }
     
-    func contactChanged(successfuly: Bool) {
+    func contactChanged(successfuly: Bool, sendTransaction :Bool) {
         if successfuly {
-            
+            _tempController = nil
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 for cell in self.tableView.visibleCells {
                     (cell as! AddressCell).isEditable = false
@@ -299,6 +318,23 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             AddressBook.newContact = nil
 
             self.filterChanged(self)
+            
+            if sendTransaction {
+                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                    
+                    let correspondent :Correspondent = Correspondent()
+                    
+                    for email in _newContact!.emailAddresses{
+                        if email.label == "NEM" {
+                            correspondent.address = (email.value as? String) ?? " "
+                            correspondent.name = correspondent.address.nemName()
+                        }
+                    }
+                    State.currentContact = correspondent
+                    
+                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
+                }
+            }
         }
     }
     

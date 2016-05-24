@@ -52,6 +52,7 @@ class PasswordExportVC: AbstractViewController
         for constraint in containerView.constraints {
             if constraint.identifier == "height" {
                 constraint.constant = height
+                break
             }
         }
         UIView.animateWithDuration(0.2) { () -> Void in

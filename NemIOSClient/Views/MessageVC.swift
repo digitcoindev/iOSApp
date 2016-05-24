@@ -170,6 +170,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         if accounts.wallets.count > 0
         {
+            self.sendButton?.enabled = false
             self.view.addSubview(accounts.view)
             
             UIView.animateWithDuration(0.5, animations: { () -> Void in
@@ -387,7 +388,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         var removeCount = 0
         var addCount = _transactions.count - _completed
         
-        if self.tableView.numberOfRowsInSection(0) == 0 && addCount > 0 {
+        if self.tableView.numberOfRowsInSection(0) == 0 && (addCount > 0 || _unconfirmedTransactions.count > 0){
             addCount++
         }
         
@@ -588,15 +589,19 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     if responceAccount.publicKey == nil {
                         responceAccount.publicKey = KeyGenerator.generatePublicKey(privateKey!)
                     }
-                    
-                    self._mainAccount = responceAccount
+
                     self._activeAccount = responceAccount
+                    
+                    if self._mainAccount == nil {
+                        self._mainAccount = responceAccount
+                        self.refreshHistory()
+                    } else {
+                        self._mainAccount = responceAccount
+                    }
                     
                     for multisigAccount in responceAccount.cosignatoryOf {
                         self._apiManager.accountGet(State.currentServer!, account_address: multisigAccount.address)
                     }
-                    
-                    self.refreshHistory()
                     
                     dispatch_async(dispatch_get_main_queue() , {
                         () -> Void in
@@ -644,7 +649,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._account_address!, aditional: "&id=\(Int(data.last!.id))")
                 } else {
                     //self._sortMessages()
-                    self.defineData()
+                    self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
                 }
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
@@ -660,8 +665,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
             () -> Void in
             
             if let data = data {
-    
                 self._unconfirmedTransactions = self._findMessages(data).reverse()
+                self.defineData()
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
                     () -> Void in
@@ -700,6 +705,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     func didChouseAccount(account: AccountGetMetaData) {
         _activeAccount = account
         
+        self.sendButton?.enabled = true
+        self.encButton?.enabled = _activeAccount?.address == _account_address
+        
         let userDescription :NSMutableAttributedString = NSMutableAttributedString(string: "\(_activeAccount!.address.nemName())")
         
         let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
@@ -719,7 +727,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         _requestCounter = 0
         _transactions = []
         
-        self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
         self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)
     }
     
@@ -755,33 +762,53 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     private func _findMessages(data: [TransactionPostMetaData]) -> [TransactionPostMetaData] {
-        var _transactions :[TransactionPostMetaData] = data
+        var transactions :[TransactionPostMetaData] = data
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         
-        for var index = 0; index < _transactions.count; index++ {
-            var innertTransaction :TransferTransaction? = nil
-            switch _transactions[index].type {
-            case multisigTransaction:
-                innertTransaction = (_transactions[index] as! MultisigTransaction).innerTransaction as? TransferTransaction
+        for var index = 0; index < transactions.count; index++ {
+            var transaction :TransferTransaction?
+            
+            switch transactions[index].type {
+            case multisigTransaction :
+                let innerTransaction = ((transactions[index] as! MultisigTransaction).innerTransaction as TransactionPostMetaData)
+                switch innerTransaction.type {
+                case transferTransaction:
+                    transaction = innerTransaction as? TransferTransaction
+                default:
+                    break
+                }
             case transferTransaction:
-                    innertTransaction = _transactions[index] as? TransferTransaction
-            default:
+                transaction = transactions[index] as? TransferTransaction
+                
+            default :
                 break
             }
             
+            if transaction == nil {
+                
+                transactions.removeAtIndex(index)
+                index--
+                continue
+            }
+            
             var needToSave = false
-            if let innertTransaction = innertTransaction {
-                if AddressGenerator.generateAddress(innertTransaction.signer) == self.contact.address || innertTransaction.recipient == self.contact.address {
-                    needToSave = true
-                }
+            
+            if transaction!.recipient == _account_address && AddressGenerator.generateAddress(transaction!.signer) == self.contact.address {
+                needToSave = true
+            } else if transaction!.recipient == self.contact.address && transaction!.signer == publicKey  {
+                needToSave = true
+            } else if AddressGenerator.generateAddress(transaction!.signer) == _account_address && transaction!.recipient == _account_address && _account_address == self.contact.address {
+                needToSave = true
             }
             
             if !needToSave {
-                _transactions.removeAtIndex(index)
+                transactions.removeAtIndex(index)
                 index--
             }
         }
         
-        return _transactions
+        return transactions
     }
     
     private final func _getMinCosigFor(transaction: MultisigTransaction) -> Int? {

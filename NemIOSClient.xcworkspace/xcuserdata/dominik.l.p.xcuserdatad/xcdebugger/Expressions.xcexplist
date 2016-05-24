@@ -83,10 +83,10 @@
          contextName = "static State.lastVC.getter:State.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.Store.stackVC">
+               value = "State.Store.stackVC.last!">
             </PersistentString>
             <PersistentString
-               value = "State.Store.stackVC.last!">
+               value = "State.Store.stackVC">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -129,13 +129,13 @@
          contextName = "static MessageCrypto.decrypt([UInt8], recipientPrivateKey : String, senderPublicKey : String) -&gt; String?:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
-               value = "encBytes.toHexString()">
+               value = "messageData.hexadecimalString()">
             </PersistentString>
             <PersistentString
                value = "NSString(data: messageData, encoding: NSASCIIStringEncoding) as? String">
             </PersistentString>
             <PersistentString
-               value = "messageData.hexadecimalString()">
+               value = "encBytes.toHexString()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -203,6 +203,14 @@
          contextName = "SendTransactionVC.accountGetResponceWithAccount(AccountGetMetaData?) -&gt; ():SendTransactionVC.swift">
       </ContextState>
       <ContextState
+         contextName = "PasswordExportVC.(_prepareForExport in _2D167E71D40F44EE300508BB0F233839)() -&gt; ():PasswordExportVC.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "State.nextVC">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.viewDidLoad() -&gt; ():ViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -213,14 +221,6 @@
             </PersistentString>
             <PersistentString
                value = "sharedSecretTwo.toHexString()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PasswordExportVC.(_prepareForExport in _2D167E71D40F44EE300508BB0F233839)() -&gt; ():PasswordExportVC.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "State.nextVC">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -275,13 +275,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "MessageVC.(accountTransfersAllResponceWithTransactions([TransactionPostMetaData]?) -&gt; ()).(closure #1):MessageVC.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data[4] as? TransferTransaction">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MessageVC.sendButtonTouchUpInside(AnyObject) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
+               value = "contact.public_key">
             </PersistentString>
             <PersistentString
-               value = "contact.public_key">
+               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -324,10 +332,10 @@
          contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
          <PersistentStrings>
             <PersistentString
-               value = "loadData?.invoicePostfix">
+               value = "loadData?.invoicePrefix">
             </PersistentString>
             <PersistentString
-               value = "loadData?.invoicePrefix">
+               value = "loadData?.invoicePostfix">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -347,6 +355,9 @@
       </ContextState>
       <ContextState
          contextName = "PasswordValidationVC.applicationDidBecomeActive(NSNotification?) -&gt; ():PasswordValidationVC.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MessageVC.(unconfirmedTransactionsResponceWithTransactions([TransactionPostMetaData]?) -&gt; ()).(closure #1):MessageVC.swift">
       </ContextState>
       <ContextState
          contextName = "MessageVC.keyboardWillShow(NSNotification) -&gt; ():MessageVC.swift">
@@ -518,6 +529,12 @@
                value = "State.currentVC">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MessageVC.(_findMessages in _812BBC8F52E5D72A8482DE53465B874E)([TransactionPostMetaData]) -&gt; [TransactionPostMetaData]:MessageVC.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Messages.unconfirmedTransactionsResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():Messages.swift">
       </ContextState>
       <ContextState
          contextName = "ShareViewController.viewDidLoad() -&gt; ():ShareViewController.swift">

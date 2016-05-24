@@ -12,7 +12,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData!
     
-    private var _unconfirmedTransactions  :[TransactionPostMetaData] = [TransactionPostMetaData]()
     private var _apiManager :APIManager = APIManager()
     private var _correspondents :[Correspondent] = []
     
@@ -21,6 +20,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     
     private var _requestsLimit: Int = 2
     private var _transactionsLimit: Int = 50
+    private var _showUnconfirmed = true
     
     private var _requestCounter = 0
     private var _timer: NSTimer? = nil
@@ -29,10 +29,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     private var _transactions:[TransferTransaction] = []
     
     // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
-//    private var _searchBar : UISearchBar!
-
+    //    private var _searchBar : UISearchBar!
+    
     // MARK: - Load Methods
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,12 +47,12 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
         // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
-//        _searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
-//        _searchBar.delegate = self
-//        tableView.tableHeaderView = _searchBar
-//        _searchBar.showsCancelButton = false
-//        tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
-
+        //        _searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
+        //        _searchBar.delegate = self
+        //        tableView.tableHeaderView = _searchBar
+        //        _searchBar.showsCancelButton = false
+        //        tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
+        
         _displayList = _correspondents
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
@@ -118,19 +118,11 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
             
             self.userInfo.attributedText = userDescription
-            
-            if walletData.cosignatoryOf.count > 0 {
-                _unconfirmedTransactions.removeAll(keepCapacity: false)
-                
-                for cosignatory in walletData.cosignatoryOf {
-                    _apiManager.unconfirmedTransactions(State.currentServer!, account_address: cosignatory.address)
-                }
-            }
         } else {
             self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
     }
-
+    
     final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
             _requestCounter++
@@ -139,19 +131,24 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 State.currentWallet?.lastTransactionHash = data.first?.hashString
                 CoreDataManager().commit()
             }
-
+            
+            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+            let publicKey = KeyGenerator.generatePublicKey(privateKey!)
+            
             for inData in data {
+                var innerTransaction :TransferTransaction? = nil
+                
                 switch (inData.type) {
                 case transferTransaction :
-                    _transactions.append(inData as! TransferTransaction)
-
+                    innerTransaction = inData as? TransferTransaction
+                    
                 case multisigTransaction:
                     
                     let multisigT  = inData as! MultisigTransaction
                     
                     switch(multisigT.innerTransaction.type) {
                     case transferTransaction :
-                        _transactions.append(multisigT.innerTransaction as! TransferTransaction)
+                        innerTransaction = multisigT.innerTransaction as? TransferTransaction
                         
                     default:
                         break
@@ -159,19 +156,24 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 default:
                     break
                 }
+                
+                if innerTransaction == nil {
+                    continue
+                }
+                
+                if innerTransaction!.signer != publicKey && innerTransaction!.recipient != self._account_address {
+                    continue
+                }
+                
+                _transactions.append(innerTransaction!)
             }
             
             if data.count >= 25 && _requestCounter < _requestsLimit && _transactions.count <= _transactionsLimit{
-                
                 _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!, aditional: "&id=\(Int(data.last!.id))")
- 
             } else {
-                _correspondents = Correspondent.generateCorespondetsFromTransactions(_transactions)
-                _displayList = _correspondents
-                
-                tableView.reloadData()
+                _apiManager.unconfirmedTransactions(State.currentServer!, account_address: walletData.address)
             }
-
+            
         } else {
             self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
@@ -179,66 +181,163 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     
     final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
-            let showAlert = (_unconfirmedTransactions.count == 0) ? true : false
-            _unconfirmedTransactions += data
             
-            var findUnconfirmed = false
-            if showAlert {
-                for inTransaction in _unconfirmedTransactions {
-                    switch(inTransaction.type) {
-                    case multisigTransaction:
-                        let transaction :MultisigTransaction = inTransaction as! MultisigTransaction
-                        var find = false
+            var needToSign = false
+
+            if data.count > 0 {
+                let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+                let publicKey = KeyGenerator.generatePublicKey(privateKey!)
+                
+                var addTransactions :[TransferTransaction] = []
+                
+                for inTransaction in data {
+                    var transaction :TransferTransaction?
+
+                    switch inTransaction.type {
+                    case multisigTransaction :
+                        let innerTransaction = ((inTransaction as! MultisigTransaction).innerTransaction as TransactionPostMetaData)
                         
-                        for sign in transaction.signatures {
-                            if walletData.publicKey == sign.signer {
-                                find = true
-                                break
+                        switch innerTransaction.type {
+                        case transferTransaction:
+                            transaction = innerTransaction as? TransferTransaction
+                        default:
+                            break
+                        }
+                        
+                        if needToSign {
+                            break
+                        }
+                        
+                        var findSignature = false
+                        if transaction?.recipient == walletData.address {
+                            findSignature = true
+                        } else if (inTransaction as! MultisigTransaction).signer == walletData.publicKey || transaction?.signer == walletData.publicKey {
+                            findSignature = true
+                        } else {
+                            for sign in (inTransaction as! MultisigTransaction).signatures {
+                                if walletData.publicKey == sign.signer {
+                                    findSignature = true
+                                }
                             }
                         }
                         
-                        if transaction.signer == walletData.publicKey{
-                            find = true
+                        if !findSignature {
+                            needToSign = true
                         }
                         
-                        if inTransaction.signer != walletData.publicKey && !find {
-                            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "UNCONFIRMED_TRANSACTIONS_DETECTED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
-                            
-                            let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
-                                    alertAction -> Void in
-                                
-                                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                                    (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
-                                }                                    
-                            }
-                            
-                            let cancel :UIAlertAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.Default) {
-                                    alertAction -> Void in
-                            }
-                            
-                            alert.addAction(cancel)
-                            alert.addAction(ok)
-                            
-                            if !findUnconfirmed {
-                                findUnconfirmed = true
-                                self.presentViewController(alert, animated: true, completion: nil)
-                            }
-                        }
+                    case transferTransaction:
+                        transaction = inTransaction as? TransferTransaction
                         
-                    default:
+                    default :
                         break
                     }
                     
-                    if findUnconfirmed {
-                        break
+                    if transaction == nil {
+                        continue
                     }
+                    
+                    if transaction!.signer != publicKey && transaction!.recipient != self._account_address {
+                        continue
+                    }
+                    
+                    addTransactions.append(transaction!)
                 }
+                
+                _transactions = addTransactions + _transactions
             }
+            
+            _correspondents = Correspondent.generateCorespondetsFromTransactions(_transactions)
+            _displayList = _correspondents
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.tableView.reloadData()
+                
+                if needToSign && self._showUnconfirmed {
+                    let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "UNCONFIRMED_TRANSACTIONS_DETECTED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
+                        alertAction -> Void in
+                        
+                        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+                            (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
+                        }
+                    }
+                    
+                    let cancel :UIAlertAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.Default) {
+                        alertAction -> Void in
+                        self._showUnconfirmed = false
+                    }
+                    
+                    alert.addAction(cancel)
+                    alert.addAction(ok)
+       
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            })
         }
+        
+        //        if let data = data {
+        //            let showAlert = (_unconfirmedTransactions.count == 0) ? true : false
+        //            _unconfirmedTransactions = data
+        //
+        //            var findUnconfirmed = false
+        //            if showAlert {
+        //                for inTransaction in _unconfirmedTransactions {
+        //                    switch(inTransaction.type) {
+        //                    case multisigTransaction:
+        //                        let transaction :MultisigTransaction = inTransaction as! MultisigTransaction
+        //                        var find = false
+        //
+        //                        for sign in transaction.signatures {
+        //                            if walletData.publicKey == sign.signer {
+        //                                find = true
+        //                                break
+        //                            }
+        //                        }
+        //
+        //                        if transaction.signer == walletData.publicKey{
+        //                            find = true
+        //                        }
+        //
+        //                        if inTransaction.signer != walletData.publicKey && !find {
+        //                            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "UNCONFIRMED_TRANSACTIONS_DETECTED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+        //
+        //                            let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
+        //                                    alertAction -> Void in
+        //
+        //                                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+        //                                    (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
+        //                                }
+        //                            }
+        //
+        //                            let cancel :UIAlertAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.Default) {
+        //                                    alertAction -> Void in
+        //                                self._showUnconfirmed = false
+        //                            }
+        //
+        //                            alert.addAction(cancel)
+        //                            alert.addAction(ok)
+        //
+        //                            if !findUnconfirmed && _showUnconfirmed {
+        //                                findUnconfirmed = true
+        //                                self.presentViewController(alert, animated: true, completion: nil)
+        //                            }
+        //                        }
+        //
+        //                    default:
+        //                        break
+        //                    }
+        //
+        //                    if findUnconfirmed || !_showUnconfirmed{
+        //                        break
+        //                    }
+        //                }
+        //            }
+        //        }
     }
     
     // MARK: - IBAction
-
+    
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
@@ -246,6 +345,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     }
     
     @IBAction func customMessage(sender: AnyObject) {
+        State.currentContact = nil
         if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
             (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
         }
@@ -332,7 +432,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         }
     }
     
-    final func refreshTransactionList() {        
+    final func refreshTransactionList() {
         if State.currentServer != nil && _account_address != nil {
             _transactions = []
             _requestCounter = 0
@@ -350,37 +450,37 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
     // MARK: - Search Bar Data Source
     
-//    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-//        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
-//        
-//        _displayList = _correspondents
-//        
-//        tableView.reloadData()
-//        _searchBar.resignFirstResponder()
-//    }
-//    
-//    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-//        _searchBar.showsCancelButton = true
-//    }
-//    
-//    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
-//        resignFirstResponder()
-//    }
-//    
-//    func searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
-//        if _searchText == "" {
-//            _displayList = _correspondents
-//        }
-//        else {
-//            let predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
-//            _displayList = (_correspondents as NSArray).filteredArrayUsingPredicate(predicate)
-//        }
-//        
-//        tableView.reloadData()
-//    }
+    //    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    //        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
+    //
+    //        _displayList = _correspondents
+    //
+    //        tableView.reloadData()
+    //        _searchBar.resignFirstResponder()
+    //    }
+    //
+    //    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    //        _searchBar.showsCancelButton = true
+    //    }
+    //
+    //    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
+    //        resignFirstResponder()
+    //    }
+    //
+    //    func searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
+    //        if _searchText == "" {
+    //            _displayList = _correspondents
+    //        }
+    //        else {
+    //            let predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
+    //            _displayList = (_correspondents as NSArray).filteredArrayUsingPredicate(predicate)
+    //        }
+    //
+    //        tableView.reloadData()
+    //    }
     
     // MARK: - Table View Data Sourse
-        
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return _displayList.count
@@ -411,7 +511,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             dateFormatter.dateFormat = "HH:mm"
         }
         
-        cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
+        cell.date.text = ((transaction?.id == nil) ? ("UNCONFIRMED_DASHBOARD".localized() + " ") : "") + dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         
         var color :UIColor!
         var vector :String = ""
@@ -431,7 +531,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         let amount = vector + "\((transaction!.amount / 1000000).format()) XEM"
         
         cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
-                
+        
         return cell
     }
     
@@ -446,7 +546,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             }
             else if walletData.cosignatoryOf.count > 0 {
                 nextVC = SegueToMessageCosignatoryVC
-
+                
             } else {
                 nextVC = SegueToMessageVC
             }

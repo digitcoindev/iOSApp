@@ -2117,18 +2117,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4a-Pp-98o">
                                 <rect key="frame" x="0.0" y="94" width="320" height="66"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Contacts" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h55-Bv-L6S" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
-                                        <rect key="frame" x="21" y="14" width="245" height="38"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="38" id="h1Z-Ta-7nB"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
-                                        <connections>
-                                            <action selector="endAction:" destination="0Hz-01-Tiz" eventType="editingDidEndOnExit" id="fCe-de-TLK"/>
-                                            <action selector="filterChanged:" destination="0Hz-01-Tiz" eventType="editingChanged" id="fKe-j3-gSb"/>
-                                        </connections>
-                                    </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5r-9P-zaJ">
                                         <rect key="frame" x="274" y="14" width="38" height="38"/>
                                         <constraints>
@@ -2143,6 +2131,18 @@
                                             <action selector="endAction:" destination="0Hz-01-Tiz" eventType="touchUpInside" id="qu1-je-Ngn"/>
                                         </connections>
                                     </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Contacts" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h55-Bv-L6S" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
+                                        <rect key="frame" x="21" y="14" width="245" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="h1Z-Ta-7nB"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                        <connections>
+                                            <action selector="endAction:" destination="0Hz-01-Tiz" eventType="editingDidEndOnExit" id="fCe-de-TLK"/>
+                                            <action selector="filterChanged:" destination="0Hz-01-Tiz" eventType="editingChanged" id="fKe-j3-gSb"/>
+                                        </connections>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -3320,6 +3320,7 @@
                         <outlet property="amountTextField" destination="GBg-fw-SsV" id="prW-o3-oA0"/>
                         <outlet property="chooseButon" destination="srH-Ej-Cg6" id="sj2-hw-huh"/>
                         <outlet property="contentView" destination="UzV-KH-vh5" id="kQf-XG-NHD"/>
+                        <outlet property="encButton" destination="ki2-PR-2Hm" id="ekB-aV-3pQ"/>
                         <outlet property="feeLabel" destination="ymY-id-WP8" id="KJa-dz-cYJ"/>
                         <outlet property="feeTextField" destination="Aga-nW-6e3" id="1KZ-Qc-yRD"/>
                         <outlet property="fromLabel" destination="QeA-3i-9PJ" id="3ew-6h-sZi"/>
@@ -3769,17 +3770,17 @@
                         <viewControllerLayoutGuide type="bottom" id="kdY-lb-AyK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="cW2-Rh-O3t">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="450"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N6J-TK-4Po">
-                                <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="450"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qQK-Mn-Dmo" userLabel="Content Scroll View">
-                                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="450"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dyX-Fz-VZT" userLabel="Content View">
-                                                <rect key="frame" x="56" y="74" width="288" height="252"/>
+                                                <rect key="frame" x="56" y="74" width="288" height="303"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ifc-61-34t" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="61" width="288" height="60"/>
@@ -3818,7 +3819,7 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnf-Lb-tt6">
-                                                        <rect key="frame" x="0.0" y="182" width="288" height="70"/>
+                                                        <rect key="frame" x="0.0" y="233" width="288" height="70"/>
                                                         <color key="backgroundColor" red="0.25490196079999999" green="0.80784313730000001" blue="0.4823529412" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="70" id="KhN-O1-d4Y"/>
@@ -3832,14 +3833,35 @@
                                                             <action selector="addContact:" destination="zu1-Oe-WSB" eventType="touchUpInside" id="ifr-Js-8OF"/>
                                                         </connections>
                                                     </button>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aTL-h8-yqt">
+                                                        <rect key="frame" x="0.0" y="183" width="288" height="50"/>
+                                                        <subviews>
+                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BqI-k2-wqK">
+                                                                <rect key="frame" x="221" y="9" width="51" height="31"/>
+                                                            </switch>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Use application password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="R6g-QC-MIs">
+                                                                <rect key="frame" x="8" y="8" width="205" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                                <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="Hzo-WU-j8v"/>
+                                                        </constraints>
+                                                    </view>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="288" id="4sk-UF-e5S"/>
-                                                    <constraint firstAttribute="height" constant="252" id="7L3-46-Tsj"/>
+                                                    <constraint firstAttribute="height" constant="303" id="7L3-46-Tsj"/>
                                                     <constraint firstItem="osW-fO-dHt" firstAttribute="leading" secondItem="dyX-Fz-VZT" secondAttribute="leading" id="BxA-53-WRY"/>
+                                                    <constraint firstItem="aTL-h8-yqt" firstAttribute="leading" secondItem="dyX-Fz-VZT" secondAttribute="leading" id="DM2-zE-i7k"/>
                                                     <constraint firstAttribute="trailing" secondItem="osW-fO-dHt" secondAttribute="trailing" id="Rdr-Yc-ACj"/>
                                                     <constraint firstItem="VeS-wc-508" firstAttribute="leading" secondItem="dyX-Fz-VZT" secondAttribute="leading" id="Rlb-wv-Gls"/>
+                                                    <constraint firstItem="aTL-h8-yqt" firstAttribute="top" secondItem="osW-fO-dHt" secondAttribute="bottom" constant="1" id="Tho-tW-TZd"/>
+                                                    <constraint firstAttribute="trailing" secondItem="aTL-h8-yqt" secondAttribute="trailing" id="V0A-P3-Ldy"/>
                                                     <constraint firstItem="osW-fO-dHt" firstAttribute="top" secondItem="Ifc-61-34t" secondAttribute="bottom" constant="1" id="Ym1-ow-1Z8"/>
                                                     <constraint firstItem="cnf-Lb-tt6" firstAttribute="leading" secondItem="dyX-Fz-VZT" secondAttribute="leading" id="ciy-DL-zBT"/>
                                                     <constraint firstItem="Ifc-61-34t" firstAttribute="leading" secondItem="dyX-Fz-VZT" secondAttribute="leading" id="cyJ-J7-TUH"/>
@@ -3900,7 +3922,7 @@
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="400" height="400"/>
+                    <size key="freeformSize" width="400" height="450"/>
                     <connections>
                         <outlet property="address" destination="osW-fO-dHt" id="GaH-bR-FIw"/>
                         <outlet property="contentView" destination="dyX-Fz-VZT" id="Rv7-Ut-dps"/>
@@ -3908,6 +3930,8 @@
                         <outlet property="lastName" destination="Ifc-61-34t" id="wlG-zU-140"/>
                         <outlet property="saveBtn" destination="cnf-Lb-tt6" id="KPN-No-2wA"/>
                         <outlet property="scroll" destination="N6J-TK-4Po" id="WP7-Ag-diO"/>
+                        <outlet property="startConversationSwitch" destination="BqI-k2-wqK" id="2kH-8d-Aq0"/>
+                        <outlet property="switchLabel" destination="R6g-QC-MIs" id="zGk-GD-Q7c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DbB-Ig-jry" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5215,11 +5239,11 @@
                         <viewControllerLayoutGuide type="bottom" id="UjD-C1-Ygp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="3tn-K8-4uM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="800"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="267" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="r2r-PP-akI">
-                                <rect key="frame" x="0.0" y="40" width="320" height="760"/>
+                                <rect key="frame" x="0.0" y="40" width="320" height="560"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.01087068257" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
@@ -5515,14 +5539,14 @@
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="800"/>
+                    <size key="freeformSize" width="320" height="600"/>
                     <connections>
                         <outlet property="tableView" destination="r2r-PP-akI" id="Xkh-6Q-O1r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TVm-1J-n20" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="188" y="1210"/>
+            <point key="canvasLocation" x="191" y="1234"/>
         </scene>
         <!--History View Controller-->
         <scene sceneID="6pz-NX-Iyv">

@@ -14,18 +14,19 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
         
         _apiManager.delegate = self
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-        let account_address = AddressGenerator.generateAddress(publicKey)
-        
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         State.currentVC = SegueToUnconfirmedTransactionVC
+        
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
+        let account_address = AddressGenerator.generateAddress(publicKey)
+        
+        _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
 
     @IBAction func backButtonTouchUpInside(sender: AnyObject) {
@@ -177,18 +178,14 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     final func accountGetResponceWithAccount(account: AccountGetMetaData?) {
         if let responceAccount = account {
             walletData = responceAccount
-            
-            if walletData.cosignatoryOf.count > 0 {
-                unconfirmedTransactions.removeAll(keepCapacity: false)
-                
-                _apiManager.unconfirmedTransactions(State.currentServer!, account_address: walletData.address)
-            }
+            unconfirmedTransactions.removeAll(keepCapacity: false)
+            _apiManager.unconfirmedTransactions(State.currentServer!, account_address: walletData.address)
         }
     }
     
     final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
         if let data = data {
-            unconfirmedTransactions += data
+            unconfirmedTransactions = data
             let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
             
             for var i = 0 ; i < unconfirmedTransactions.count ; i++ {

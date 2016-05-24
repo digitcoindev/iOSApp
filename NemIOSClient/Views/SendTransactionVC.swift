@@ -11,6 +11,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     @IBOutlet weak var chooseButon: ChouseButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var accountLabel: UILabel!
+    @IBOutlet weak var encButton: UIButton!
     
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
@@ -449,9 +450,9 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         if _preparedTransaction != nil && _preparedTransaction!.recipient == account?.address {
             guard let contactPublicKey = account?.publicKey else {
                 _showPopUp("NO_PUBLIC_KEY_FOR_ENC".localized())
-                
                 return
             }
+            
             var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
             encryptedMessage = MessageCrypto.encrypt(_preparedTransaction!.message.payload!, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
             _preparedTransaction!.message.payload = encryptedMessage
@@ -515,6 +516,12 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     func didChouseAccount(account: AccountGetMetaData) {
         walletData = account
+        
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+        
+        encButton.enabled = walletData.address == account_address
+
         chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
         
         let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])

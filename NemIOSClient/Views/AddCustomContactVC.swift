@@ -12,17 +12,19 @@ import Contacts
 protocol AddCustomContactDelegate
 {
     func popUpClosed(successfuly :Bool)
-    func contactAdded(successfuly :Bool)
-    func contactChanged(successfuly :Bool)
+    func contactAdded(successfuly :Bool, sendTransaction :Bool)
+    func contactChanged(successfuly :Bool, sendTransaction :Bool)
 }
 
-class AddCustomContactVC: AbstractViewController {
+class AddCustomContactVC: AbstractViewController, APIManagerDelegate {
 
     //MARK: - @IBOutlet
     
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     @IBOutlet weak var address: UITextField!
+    @IBOutlet weak var startConversationSwitch: UISwitch!
+    @IBOutlet weak var switchLabel: UILabel!
     
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var contentView: UIView!
@@ -32,15 +34,22 @@ class AddCustomContactVC: AbstractViewController {
     
     var contact :CNContact? = nil
     
+    //MARK: - Private variables
+    
+    private var _apiManager = APIManager()
+    
     //MARK: - Load Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        _apiManager.delegate = self
+        
         firstName.placeholder = "FIRST_NAME".localized()
         lastName.placeholder = "LAST_NAME".localized()
         address.placeholder = "ADDRESS".localized()
         saveBtn.setTitle("ADD_CONTACT".localized(), forState: UIControlState.Normal)
+        switchLabel.text = "SEND_TRANSACTION_AFTER_ADDING".localized()
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
@@ -49,6 +58,15 @@ class AddCustomContactVC: AbstractViewController {
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
+        
+        guard let server = State.currentServer else {
+            return
+        }
+        
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+        
+        _apiManager.accountGet(server, account_address: account_address)
 
     }
 
@@ -120,7 +138,7 @@ class AddCustomContactVC: AbstractViewController {
                             () -> Void in
                             self.view.removeFromSuperview()
                             self.removeFromParentViewController()
-                            (self.delegate as! AddCustomContactDelegate).contactAdded(true)
+                            (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
                         })
                     }
                 })
@@ -134,13 +152,19 @@ class AddCustomContactVC: AbstractViewController {
                             () -> Void in
                             self.view.removeFromSuperview()
                             self.removeFromParentViewController()
-                            (self.delegate as! AddCustomContactDelegate).contactChanged(true)
+                            (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
                                 
                         })
                     }
                 })
             }
         }
+    }
+    
+    //MARK: - APIManagerDelegate Methods
+    
+    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        startConversationSwitch.enabled =  (account?.cosignatories.count ?? 0) == 0
     }
     
     //MARK: - Keyboard Delegate

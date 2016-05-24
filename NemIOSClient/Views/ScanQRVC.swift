@@ -161,11 +161,22 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
   
     // MARK: -  AddCustomContactDelegate
 
-    func contactAdded(successfuly: Bool) {
+    func contactAdded(successfuly: Bool, sendTransaction :Bool) {
         if successfuly {
             let navDelegate = (self.delegate as? QRViewController)?.delegate as? MainVCDelegate
             if navDelegate != nil  {
-                navDelegate!.pageSelected(SegueToAddressBook)
+                if sendTransaction {
+                    let correspondent :Correspondent = Correspondent()
+                    
+                    for email in AddressBook.newContact!.emailAddresses{
+                        if email.label == "NEM" {
+                            correspondent.address = (email.value as? String) ?? " "
+                            correspondent.name = correspondent.address.nemName()
+                        }
+                    }
+                    State.currentContact = correspondent
+                }
+                navDelegate!.pageSelected(sendTransaction ? SegueToSendTransaction : SegueToAddressBook)
             }
         }
     }
@@ -174,7 +185,7 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
         qrScaner.play()
     }
     
-    func contactChanged(successfuly: Bool) {
+    func contactChanged(successfuly: Bool, sendTransaction :Bool) {
 
     }
 }

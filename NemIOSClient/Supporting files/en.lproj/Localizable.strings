@@ -232,6 +232,7 @@
 "SWITCH_ACCOUNT" = "Switch Account";
 "SAVE_QR" = "Save QR";
 "SEARCH_CONTACTS" = "Search Contacts";
+"SEND_TRANSACTION_AFTER_ADDING" = "Send transaction after adding";
 
 // MARK: - T
 
@@ -245,6 +246,7 @@
 "UPDATE_INTERVAL" = "Update Interval";
 "UNCONFIRMED_TRANSACTIONS_DETECTED" = "You have unconfirmed transactions that need to be signed!";
 "UNLOCKED" = "Unlocked";
+"UNCONFIRMED_DASHBOARD" = "(unconfirmed)";
 
 // MARK: - V
 
