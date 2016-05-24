@@ -234,6 +234,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             _popUp!.view.removeFromSuperview()
             _popUp!.removeFromParentViewController()
             _popUp = nil
+            return
         }
         
         if (_mainAccount?.cosignatoryOf ?? []).isEmpty {

@@ -37,7 +37,7 @@
                value = "xems">
             </PersistentString>
             <PersistentString
-               value = "&quot;99&#xa0;999&quot;.stringByReplacingOccurrencesOfString(&quot;&#xa0;&quot;, withString: &quot;&quot;)">
+               value = "&quot;333 334&quot;.stringByReplacingOccurrencesOfString(&quot; &quot;, withString: &quot;&quot;)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -83,10 +83,10 @@
          contextName = "static State.lastVC.getter:State.swift">
          <PersistentStrings>
             <PersistentString
-               value = "State.Store.stackVC.last!">
+               value = "State.Store.stackVC">
             </PersistentString>
             <PersistentString
-               value = "State.Store.stackVC">
+               value = "State.Store.stackVC.last!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -97,6 +97,9 @@
                value = "print(salt)">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Messages.accountTransfersAllResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():Messages.swift">
       </ContextState>
       <ContextState
          contextName = "mach_msg_trap:(null)">
@@ -129,13 +132,13 @@
          contextName = "static MessageCrypto.decrypt([UInt8], recipientPrivateKey : String, senderPublicKey : String) -&gt; String?:MessageCrypto.swift">
          <PersistentStrings>
             <PersistentString
-               value = "messageData.hexadecimalString()">
+               value = "encBytes.toHexString()">
             </PersistentString>
             <PersistentString
                value = "NSString(data: messageData, encoding: NSASCIIStringEncoding) as? String">
             </PersistentString>
             <PersistentString
-               value = "encBytes.toHexString()">
+               value = "messageData.hexadecimalString()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -286,10 +289,10 @@
          contextName = "MessageVC.sendButtonTouchUpInside(AnyObject) -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "contact.public_key">
+               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
             </PersistentString>
             <PersistentString
-               value = "HashManager.AES256Decrypt(State.currentWallet!.privateKey)">
+               value = "contact.public_key">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -305,12 +308,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ScanQRVC.detectedQRWithString(String) -&gt; ():ScanQRVC.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.delegate">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "MessageVC.(unconfirmedTransactionsResponceWithTransactions([TransactionPostMetaData]?) -&gt; ()).(closure #1):MessageVC.swift">
       </ContextState>
       <ContextState
          contextName = "AES.init(key : [UInt8], iv : [UInt8], blockMode : CipherBlockMode) throws -&gt; AES:AES.swift">
@@ -321,21 +319,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MessageVC.viewDidLoad() -&gt; ():MessageVC.swift">
+         contextName = "ScanQRVC.detectedQRWithString(String) -&gt; ():ScanQRVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "&quot;3031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637&quot;.asByteArray().count">
+               value = "self.delegate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
+         contextName = "MessageVC.viewDidLoad() -&gt; ():MessageVC.swift">
          <PersistentStrings>
             <PersistentString
-               value = "loadData?.invoicePrefix">
-            </PersistentString>
-            <PersistentString
-               value = "loadData?.invoicePostfix">
+               value = "&quot;3031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637&quot;.asByteArray().count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -354,10 +349,18 @@
          contextName = "APIManager.(accountTransfersAll(APIManager) -&gt; (Server, account_address : String) -&gt; ()).(closure #1).(closure #1).(closure #1):APIManager.swift">
       </ContextState>
       <ContextState
-         contextName = "PasswordValidationVC.applicationDidBecomeActive(NSNotification?) -&gt; ():PasswordValidationVC.swift">
+         contextName = "InvoceSettings.viewDidLoad() -&gt; ():InvoceSettings.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "loadData?.invoicePostfix">
+            </PersistentString>
+            <PersistentString
+               value = "loadData?.invoicePrefix">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MessageVC.(unconfirmedTransactionsResponceWithTransactions([TransactionPostMetaData]?) -&gt; ()).(closure #1):MessageVC.swift">
+         contextName = "PasswordValidationVC.applicationDidBecomeActive(NSNotification?) -&gt; ():PasswordValidationVC.swift">
       </ContextState>
       <ContextState
          contextName = "MessageVC.keyboardWillShow(NSNotification) -&gt; ():MessageVC.swift">
@@ -487,12 +490,7 @@
          contextName = "ProfileVC.accountGetResponceWithAccount(AccountGetMetaData?) -&gt; ():ProfileVC.swift">
       </ContextState>
       <ContextState
-         contextName = "FetchManager.accountTransfersAllResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():FetchManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "_account!.login">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "Messages.unconfirmedTransactionsResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():Messages.swift">
       </ContextState>
       <ContextState
          contextName = "UnconfirmedTransactionVC.unconfirmedTransactionsResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():UnconfirmedTransactionVC.swift">
@@ -523,6 +521,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "FetchManager.accountTransfersAllResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():FetchManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_account!.login">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MainContainerVC.changePage(String) -&gt; ():MainContainerVC.swift">
          <PersistentStrings>
             <PersistentString
@@ -532,9 +538,6 @@
       </ContextState>
       <ContextState
          contextName = "MessageVC.(_findMessages in _812BBC8F52E5D72A8482DE53465B874E)([TransactionPostMetaData]) -&gt; [TransactionPostMetaData]:MessageVC.swift">
-      </ContextState>
-      <ContextState
-         contextName = "Messages.unconfirmedTransactionsResponceWithTransactions([TransactionPostMetaData]?) -&gt; ():Messages.swift">
       </ContextState>
       <ContextState
          contextName = "ShareViewController.viewDidLoad() -&gt; ():ShareViewController.swift">

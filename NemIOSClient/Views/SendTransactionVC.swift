@@ -223,15 +223,6 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     }
 
     @IBAction func textFieldEditingEnd(sender: UITextField) {
-        switch sender {
-        case amountTextField :
-            countTransactionFee()
-        case messageTextField :
-            countTransactionFee()
-            
-        default :
-            break
-        }
         
         countTransactionFee()
         self.feeTextField.text = "\(transactionFee.format())"
@@ -346,7 +337,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     }
     
     final func countTransactionFee() {
-        var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
+        var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
         
         text = amountTextField.text!.stringByReplacingOccurrencesOfString(",", withString: "")
         
@@ -356,9 +347,9 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             amountTextField.text = "0"
             amount = 0
         }
-        
+
         self.xems = amount
-        self.amountTextField.text = "\(xems.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
+        self.amountTextField.text = "\(xems.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
         
         var newFee :Int = 0
         
@@ -368,6 +359,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         else {
             newFee = 10 - Int(xems)
         }
+        "333 334"
         var messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
         
         if _isEnc && messageLength != 0{

@@ -18,21 +18,21 @@ class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var resetButton: UIButton!
     
     private let _languages :[String] =
-        [   "LANGUAGE_ENGLISH".localized(),
-            "LANGUAGE_INDONESIAN".localized(),
-            "LANGUAGE_JAPANESE".localized(),
-            "LANGUAGE_LITHUANIAN".localized(),
-            "LANGUAGE_CHINESE_SIMPLIFIED".localized(),
-            "LANGUAGE_DUTCH".localized(),
-            "LANGUAGE_PORTUGUESE".localized(),
-            "LANGUAGE_CROATIAN".localized(),
-            "LANGUAGE_FRENCH".localized(),
-            "LANGUAGE_POLISH".localized(),
-            "LANGUAGE_FINNISH".localized(),
+        [   "LANGUAGE_GERMAN".localized(),
+            "LANGUAGE_ENGLISH".localized(),
             "LANGUAGE_SPANISH".localized(),
-            "LANGUAGE_GERMAN".localized(),
-            "LANGUAGE_KOREAN".localized(),
+            "LANGUAGE_FINNISH".localized(),
+            "LANGUAGE_FRENCH".localized(),
+            "LANGUAGE_CROATIAN".localized(),
+            "LANGUAGE_INDONESIAN".localized(),
             "LANGUAGE_ITALIAN".localized(),
+            "LANGUAGE_JAPANESE".localized(),
+            "LANGUAGE_KOREAN".localized(),
+            "LANGUAGE_LITHUANIAN".localized(),
+            "LANGUAGE_DUTCH".localized(),
+            "LANGUAGE_POLISH".localized(),
+            "LANGUAGE_PORTUGUESE".localized(),
+            "LANGUAGE_CHINESE_SIMPLIFIED".localized(),
             "Debug"]
     
     //MARK: - Load Methods

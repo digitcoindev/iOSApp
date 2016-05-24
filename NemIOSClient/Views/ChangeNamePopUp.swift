@@ -52,6 +52,10 @@ class ChangeNamePopUp: AbstractViewController {
         (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
     }
     
+    @IBAction func didEndEditingOnWxit(sender: UITextField) {
+        sender.endEditing(true)
+    }
+    
     @IBAction func changeName(sender: AnyObject) {
         if Validate.stringNotEmpty(newName.text) {
             (self.delegate as! ChangeNamePopUptDelegate).nameChanged(newName.text!)

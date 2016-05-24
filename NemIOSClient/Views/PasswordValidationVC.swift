@@ -23,7 +23,6 @@ class PasswordValidationVC: AbstractViewController
         
         passwordTitle.text = "ENTET_PASSWORD".localized()
         password.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
-        password.text = "qwerty"
 
         confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
         
@@ -71,6 +70,9 @@ class PasswordValidationVC: AbstractViewController
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
+    @IBAction func editingDidBegin(sender: AnyObject) {
+        password.textColor = UIColor.blackColor()
+    }
     
     @IBAction func passwordValidation(sender: AnyObject) {
         password.endEditing(true)
@@ -115,6 +117,8 @@ class PasswordValidationVC: AbstractViewController
             } else {
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
+        } else {
+            password.textColor = UIColor.redColor()
         }
     }
     

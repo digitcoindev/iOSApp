@@ -73,7 +73,9 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             }
         }
         
-        _apiManager.timeSynchronize(State.currentServer!)
+        if let server = State.currentServer {
+            _apiManager.timeSynchronize(server)
+        }
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
         
@@ -171,7 +173,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             if data.count >= 25 && _requestCounter < _requestsLimit && _transactions.count <= _transactionsLimit{
                 _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!, aditional: "&id=\(Int(data.last!.id))")
             } else {
-                _apiManager.unconfirmedTransactions(State.currentServer!, account_address: walletData.address)
+                guard let server = State.currentServer else { return }
+                guard let address = walletData.address else { return }
+                
+                _apiManager.unconfirmedTransactions(server, account_address: address)
             }
             
         } else {

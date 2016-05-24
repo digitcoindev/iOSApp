@@ -36,6 +36,10 @@ class PasswordExportVC: AbstractViewController
         containerView.clipsToBounds = true
     }
     
+    override func viewDidAppear(animated: Bool) {
+        State.currentVC = SegueToPasswordExport
+    }
+    
     // MARK: - IBAction
     
     @IBAction func switchChanged(sender: UISwitch) {
