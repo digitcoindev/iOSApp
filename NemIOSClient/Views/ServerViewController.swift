@@ -223,7 +223,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     
     final func heartbeatResponceFromServer(server :Server ,successed :Bool) {
         if successed {
-            _apiManager.timeSynchronize(State.currentServer!)
+            State.currentServer = server
+            _apiManager.timeSynchronize(server)
             
             let loadData :LoadData = _dataManager.getLoadData()
             

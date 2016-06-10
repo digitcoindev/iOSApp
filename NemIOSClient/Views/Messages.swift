@@ -10,7 +10,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
     @IBOutlet weak var titleLabel: UILabel!
     
     let dataManager : CoreDataManager = CoreDataManager()
-    var walletData :AccountGetMetaData!
+    var walletData :AccountGetMetaData?
     
     private var _apiManager :APIManager = APIManager()
     private var _correspondents :[Correspondent] = []
@@ -104,7 +104,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         if let responceAccount = account {
             walletData = responceAccount
             
-            if walletData.cosignatories.count > 0 {
+            if walletData!.cosignatories.count > 0 {
                 customMessageButton.hidden = true
             }
             
@@ -115,7 +115,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             }
             
             let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-            let balance = " \((walletData.balance / 1000000).format()) XEM"
+            let balance = " \((walletData!.balance / 1000000).format()) XEM"
             
             userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
             
@@ -174,7 +174,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!, aditional: "&id=\(Int(data.last!.id))")
             } else {
                 guard let server = State.currentServer else { return }
-                guard let address = walletData.address else { return }
+                guard let address = walletData?.address else { return }
                 
                 _apiManager.unconfirmedTransactions(server, account_address: address)
             }
@@ -214,13 +214,13 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                         }
                         
                         var findSignature = false
-                        if transaction?.recipient == walletData.address {
+                        if transaction?.recipient == walletData?.address {
                             findSignature = true
-                        } else if (inTransaction as! MultisigTransaction).signer == walletData.publicKey || transaction?.signer == walletData.publicKey {
+                        } else if (inTransaction as! MultisigTransaction).signer == walletData!.publicKey || transaction?.signer == walletData!.publicKey {
                             findSignature = true
                         } else {
                             for sign in (inTransaction as! MultisigTransaction).signatures {
-                                if walletData.publicKey == sign.signer {
+                                if walletData!.publicKey == sign.signer {
                                     findSignature = true
                                 }
                             }
@@ -545,10 +545,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             State.invoice = nil
             
             var nextVC = ""
-            if walletData.cosignatories.count > 0 {
+            if walletData!.cosignatories.count > 0 {
                 nextVC = SegueToMessageMultisignVC
             }
-            else if walletData.cosignatoryOf.count > 0 {
+            else if walletData!.cosignatoryOf.count > 0 {
                 nextVC = SegueToMessageCosignatoryVC
                 
             } else {

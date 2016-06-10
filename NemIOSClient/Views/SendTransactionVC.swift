@@ -185,6 +185,14 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         _isEnc = !_isEnc
         sender.backgroundColor = (_isEnc) ? greenColor : grayColor
         countTransactionFee()
+        self.feeTextField.text = "\(transactionFee.format())"
+    }
+    
+    @IBAction func textFieldEditingChanged(sender: UITextField) {
+        countTransactionFee()
+        if self.feeTextField.text! != transactionFee.format() {
+            self.feeTextField.text = transactionFee.format()
+        }
     }
     
     @IBAction func textFieldReturnKeyToched(sender: UITextField) {
@@ -200,32 +208,23 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             sender.becomeFirstResponder()
         }
         
-        countTransactionFee()
-        self.feeTextField.text = "\(transactionFee.format())"
+        countTransactionFee(sender != feeTextField)
+        self.feeTextField.text = transactionFee.format()
+        
+        var text = self.xems.format().stringByReplacingOccurrencesOfString(" ", withString: "")
+        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
+        
+        self.amountTextField.text = text
     }
     
-    @IBAction func textFieldEditingBegin(sender: NEMTextField) {
-        switch sender {
-        case amountTextField :
-            var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
-            
-            text = amountTextField.text!.stringByReplacingOccurrencesOfString(",", withString: "")
-            
-            let amount = Double(text) ?? 0
-            
-            if amount < 0.000001  {
-                amountTextField.text = ""
-            }
-            
-        default :
-            break
-        }
-    }
-
     @IBAction func textFieldEditingEnd(sender: UITextField) {
+        countTransactionFee(sender != feeTextField)
+        self.feeTextField.text = transactionFee.format()
         
-        countTransactionFee()
-        self.feeTextField.text = "\(transactionFee.format())"
+        var text = self.xems.format().stringByReplacingOccurrencesOfString(" ", withString: "")
+        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
+        
+        self.amountTextField.text = text
     }
     
     
@@ -241,7 +240,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             countTransactionFee()
             return
         } else {
-            countTransactionFee()
+            countTransactionFee(false)
         }
         
         if Double(self.feeTextField.text!) < transactionFee {
@@ -259,14 +258,6 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             toAddressTextField.text = toAddressTextField.text?.stringByReplacingOccurrencesOfString("-", withString: "")
             state = (state && Validate.stringNotEmpty(toAddressTextField.text))
             state = (state && (Validate.stringNotEmpty(messageTextField.text) || Validate.stringNotEmpty(amountTextField.text)))
-            
-            var findContent = Validate.stringNotEmpty(amountTextField.text)
-            findContent = findContent && (amountTextField.text != "0")
-            
-            if !findContent {
-                findContent = Validate.stringNotEmpty(messageTextField.text)
-            }
-            
             state = (state && Validate.stringNotEmpty(feeTextField.text))
             
             if state {
@@ -336,10 +327,10 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
     }
     
-    final func countTransactionFee() {
+    final func countTransactionFee(needUpdate: Bool = true) {
         var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
         
-        text = amountTextField.text!.stringByReplacingOccurrencesOfString(",", withString: "")
+        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
         
         var amount = Double(text) ?? 0
 
@@ -349,7 +340,6 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
 
         self.xems = amount
-        self.amountTextField.text = "\(xems.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
         
         var newFee :Int = 0
         
@@ -359,7 +349,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         else {
             newFee = 10 - Int(xems)
         }
-        "333 334"
+       
         var messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
         
         if _isEnc && messageLength != 0{
@@ -380,9 +370,11 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
         feeLabel.attributedText = atributedText
         
-        let currentFee  = Int(feeTextField.text!) ?? 0
-        
-        newFee = Int(max(newFee, currentFee))
+        if !needUpdate {
+            let currentFee  = Int(feeTextField.text!) ?? 0
+            
+            newFee = Int(max(newFee, currentFee))
+        }
         
         transactionFee = Double(newFee)
         }
@@ -509,9 +501,20 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     func didChouseAccount(account: AccountGetMetaData) {
         walletData = account
         
+        
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
+        self.encButton?.enabled = walletData.address == account_address
+        
+        if walletData.address != account_address {
+            _isEnc = false
+            _preparedTransaction = nil
+            encButton.backgroundColor = (_isEnc) ? greenColor : grayColor
+            countTransactionFee()
+            self.feeTextField.text = "\(transactionFee.format())"
+        }
+
         encButton.enabled = walletData.address == account_address
 
         chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)

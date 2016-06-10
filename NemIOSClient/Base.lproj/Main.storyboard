@@ -3095,7 +3095,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                                 <connections>
-                                                    <action selector="textFieldEditingBegin:" destination="0YH-3H-wH5" eventType="editingDidBegin" id="EWh-UE-Ct0"/>
+                                                    <action selector="textFieldEditingChanged:" destination="0YH-3H-wH5" eventType="editingChanged" id="l4n-Wo-d5e"/>
                                                     <action selector="textFieldEditingEnd:" destination="0YH-3H-wH5" eventType="editingDidEnd" id="1vi-o5-N82"/>
                                                     <action selector="textFieldReturnKeyToched:" destination="0YH-3H-wH5" eventType="editingDidEndOnExit" id="fyj-Yx-wUm"/>
                                                 </connections>
@@ -3131,6 +3131,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
+                                                    <action selector="textFieldEditingChanged:" destination="0YH-3H-wH5" eventType="editingChanged" id="LYA-Ee-Ui5"/>
                                                     <action selector="textFieldEditingEnd:" destination="0YH-3H-wH5" eventType="editingDidEnd" id="Ijw-pC-s9a"/>
                                                     <action selector="textFieldReturnKeyToched:" destination="0YH-3H-wH5" eventType="editingDidEndOnExit" id="pkw-oa-gOe"/>
                                                 </connections>
@@ -3873,6 +3874,8 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="dyX-Fz-VZT" firstAttribute="top" relation="greaterThanOrEqual" secondItem="qQK-Mn-Dmo" secondAttribute="top" constant="5" id="6p4-N3-Xh9"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dyX-Fz-VZT" secondAttribute="bottom" constant="5" id="HpH-6A-LhJ"/>
                                             <constraint firstItem="Imh-nx-bbg" firstAttribute="trailing" secondItem="dyX-Fz-VZT" secondAttribute="trailing" constant="11" id="Yjy-hU-dv3"/>
                                             <constraint firstAttribute="centerY" secondItem="dyX-Fz-VZT" secondAttribute="centerY" id="fgX-bg-gWS"/>
                                             <constraint firstAttribute="centerX" secondItem="dyX-Fz-VZT" secondAttribute="centerX" id="xDj-xp-RNE"/>

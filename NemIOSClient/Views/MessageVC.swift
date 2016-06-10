@@ -706,7 +706,13 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         _activeAccount = account
         
         self.sendButton?.enabled = true
+        
         self.encButton?.enabled = _activeAccount?.address == _account_address
+        
+        if _activeAccount?.address != _account_address {
+            _isEnc = false
+            self.encButton.backgroundColor = grayColor
+        }
         
         let userDescription :NSMutableAttributedString = NSMutableAttributedString(string: "\(_activeAccount!.address.nemName())")
         

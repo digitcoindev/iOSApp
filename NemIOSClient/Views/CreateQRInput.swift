@@ -70,15 +70,12 @@ class CreateQRInput: AbstractViewController
     
     @IBAction func confirm(sender: AnyObject) {
         
-        var amountValue = Double(amount.text!.stringByReplacingOccurrencesOfString(" ", withString: "")) ?? 0
+        let amountValue = Double(amount.text!.stringByReplacingOccurrencesOfString(" ", withString: "")) ?? 0
 
         if amountValue < 0.000001 && amount != 0 {
             amount.text = "0"
             return
         }
-        
-        amountValue = Double(amount.text!) ?? 0
-        self.amount.text = "\(amountValue.format())".stringByReplacingOccurrencesOfString(" ", withString: "")
         
         if name.text == "" {
             return
@@ -104,7 +101,7 @@ class CreateQRInput: AbstractViewController
         invoice.name = name.text
         invoice.message = message.text
         invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
-        invoice.amount = (Double(amount.text!) ?? 0) * 1000000
+        invoice.amount = amountValue * 1000000
         invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
         CoreDataManager().commit()
         State.invoice = invoice
