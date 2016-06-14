@@ -194,35 +194,33 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 let publicKey = KeyGenerator.generatePublicKey(privateKey!)
                 
                 var addTransactions :[TransferTransaction] = []
-                
-                for inTransaction in data {
-                    var transaction :TransferTransaction?
+                var transaction :TransferTransaction? = nil
 
+                for inTransaction in data {
+                    
                     switch inTransaction.type {
-                    case multisigTransaction :
-                        let innerTransaction = ((inTransaction as! MultisigTransaction).innerTransaction as TransactionPostMetaData)
-                        
+                    case multisigTransaction:
+                        var findSignature = false
+
+                        let innerTransaction:TransactionPostMetaData = (inTransaction as! MultisigTransaction).innerTransaction
+
                         switch innerTransaction.type {
                         case transferTransaction:
+                            if (innerTransaction as! TransferTransaction).recipient == walletData?.address {
+                                findSignature = true
+                            }
                             transaction = innerTransaction as? TransferTransaction
                         default:
                             break
                         }
                         
-                        if needToSign {
-                            break
+                        if (inTransaction as! MultisigTransaction).signer == walletData!.publicKey || innerTransaction.signer == walletData!.publicKey {
+                            findSignature = true
                         }
                         
-                        var findSignature = false
-                        if transaction?.recipient == walletData?.address {
-                            findSignature = true
-                        } else if (inTransaction as! MultisigTransaction).signer == walletData!.publicKey || transaction?.signer == walletData!.publicKey {
-                            findSignature = true
-                        } else {
-                            for sign in (inTransaction as! MultisigTransaction).signatures {
-                                if walletData!.publicKey == sign.signer {
-                                    findSignature = true
-                                }
+                        for sign in (inTransaction as! MultisigTransaction).signatures {
+                            if walletData!.publicKey == sign.signer {
+                                findSignature = true
                             }
                         }
                         
@@ -246,6 +244,57 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     }
                     
                     addTransactions.append(transaction!)
+
+//                    var transaction :TransferTransaction?
+//
+//                    switch inTransaction.type {
+//                    case multisigTransaction :
+//                        let innerTransaction = ((inTransaction as! MultisigTransaction).innerTransaction as TransactionPostMetaData)
+//                        
+//                        switch innerTransaction.type {
+//                        case transferTransaction:
+//                            transaction = innerTransaction as? TransferTransaction
+//                        default:
+//                            break
+//                        }
+//                        
+//                        if needToSign {
+//                            break
+//                        }
+//                        
+//                        var findSignature = false
+//                        if transaction?.recipient == walletData?.address {
+//                            findSignature = true
+//                        } else if (inTransaction as! MultisigTransaction).signer == walletData!.publicKey || transaction?.signer == walletData!.publicKey {
+//                            findSignature = true
+//                        } else {
+//                            for sign in (inTransaction as! MultisigTransaction).signatures {
+//                                if walletData!.publicKey == sign.signer {
+//                                    findSignature = true
+//                                }
+//                            }
+//                        }
+//                        
+//                        if !findSignature {
+//                            needToSign = true
+//                        }
+//                        
+//                    case transferTransaction:
+//                        transaction = inTransaction as? TransferTransaction
+//                        
+//                    default :
+//                        break
+//                    }
+//                    
+//                    if transaction == nil {
+//                        continue
+//                    }
+//                    
+//                    if transaction!.signer != publicKey && transaction!.recipient != self._account_address {
+//                        continue
+//                    }
+//                    
+//                    addTransactions.append(transaction!)
                 }
                 
                 _transactions = addTransactions + _transactions

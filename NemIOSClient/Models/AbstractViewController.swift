@@ -22,6 +22,11 @@ class AbstractViewController: UIViewController
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.view.endEditing(true)
+    }
 
     override func didReceiveMemoryWarning(){
         super.didReceiveMemoryWarning()

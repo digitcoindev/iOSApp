@@ -6,7 +6,7 @@ class TransactionPostMetaData: NSObject
     var height :Double!
     var hashString :String!
     var signature :String!
-    var data :String!
+    var data :String?
     
     var type :Int = 0
     var version :Double!

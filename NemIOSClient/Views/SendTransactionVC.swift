@@ -73,13 +73,18 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         if State.invoice != nil {
             invoice = State.invoice
             State.invoice = nil
-            toAddressTextField.text = "\(invoice!.address)"
-            amountTextField.text = "\(invoice!.amount.format())"
-            messageTextField.text = "\(invoice!.message)"
+            toAddressTextField.text = invoice!.address
+            amountTextField.text = invoice!.amount.format().stringByReplacingOccurrencesOfString(" ", withString: "")
+            messageTextField.text = invoice!.message
             
             countTransactionFee()
-            self.feeTextField.text = "\(transactionFee.format())"
+            self.feeTextField.text = transactionFee.format().stringByReplacingOccurrencesOfString(" ", withString: "")
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.view.endEditing(true)
     }
     
     final func setSuggestions() {
@@ -190,7 +195,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     
     @IBAction func textFieldEditingChanged(sender: UITextField) {
         countTransactionFee()
-        if self.feeTextField.text! != transactionFee.format() {
+        if self.feeTextField.text! != transactionFee.format() && self.feeTextField.text! != ""{
             self.feeTextField.text = transactionFee.format()
         }
     }
@@ -214,6 +219,10 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         var text = self.xems.format().stringByReplacingOccurrencesOfString(" ", withString: "")
         text = text.stringByReplacingOccurrencesOfString(",", withString: "")
         
+        if text == "0" {
+            text = ""
+        }
+        
         self.amountTextField.text = text
     }
     
@@ -223,6 +232,10 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         var text = self.xems.format().stringByReplacingOccurrencesOfString(" ", withString: "")
         text = text.stringByReplacingOccurrencesOfString(",", withString: "")
+        
+        if text == "0" {
+            text = ""
+        }
         
         self.amountTextField.text = text
     }

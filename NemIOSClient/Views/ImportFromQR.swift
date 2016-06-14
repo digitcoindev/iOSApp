@@ -95,7 +95,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
                         return true
                     }
                     
-                    WalletGenerator().createWallet(login, privateKey: privateKey)
+                    WalletGenerator().createWallet(login, privateKey: privateKey.nemKeyNormalized())
                     
                     return true
                 }

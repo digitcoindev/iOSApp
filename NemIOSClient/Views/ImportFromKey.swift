@@ -106,6 +106,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
                 if let name = Validate.account(privateKey: privateKey) {
                     alert  = UIAlertView(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[name]), delegate: self, cancelButtonTitle: "OK".localized())
                 } else {
+
                     WalletGenerator().createWallet(name.text!, privateKey: privateKey)
                     
                     State.toVC = SegueToLoginVC

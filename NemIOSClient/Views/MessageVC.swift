@@ -57,6 +57,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     private var _unconfirmed = 0
     private var _account_address :String? = nil
     private var _timer: NSTimer? = nil
+    private var _popup :AbstractViewController? = nil
 
     // MARK: - Load Methods
     
@@ -149,35 +150,41 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
     
     @IBAction func accountsButtonDidTouchInside(sender: AnyObject){
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
-        
-        accounts.view.frame = CGRect(x: tableView.frame.origin.x + 10,
-            y:  tableView.frame.origin.y + 10,
-            width: tableView.frame.width - 20,
-            height: tableView.frame.height - 11)
-        
-        accounts.view.layer.opacity = 0
-        accounts.delegate = self
-        
-        var wallets = _mainAccount?.cosignatoryOf ?? []
-        if _mainAccount != nil
-        {
-            wallets.append(self._mainAccount!)
-        }
-        accounts.wallets = wallets
-        
-        if accounts.wallets.count > 0
-        {
-            self.sendButton?.enabled = false
-            self.view.addSubview(accounts.view)
+        if _popup == nil {
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                accounts.view.layer.opacity = 1
-                }, completion: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+            _popup = accounts
+            accounts.view.frame = CGRect(x: tableView.frame.origin.x,
+                                         y:  tableView.frame.origin.y,
+                                         width: tableView.frame.width,
+                                         height: tableView.frame.height)
+            
+            accounts.view.layer.opacity = 0
+            accounts.delegate = self
+            
+            var wallets = _mainAccount?.cosignatoryOf ?? []
+            if _mainAccount != nil
+            {
+                wallets.append(self._mainAccount!)
+            }
+            accounts.wallets = wallets
+            
+            if accounts.wallets.count > 0
+            {
+                self.sendButton?.enabled = false
+                self.view.addSubview(accounts.view)
+                
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    accounts.view.layer.opacity = 1
+                    }, completion: nil)
+            }
+        } else {
+            _popup!.view.removeFromSuperview()
+            _popup!.removeFromParentViewController()
+            _popup = nil
         }
-        
     }
     
     @IBAction func sendButtonTouchUpInside(sender: AnyObject) {
@@ -263,8 +270,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
         
-        messageField!.text = ""
-        amoundField!.text = ""
         self.view.endEditing(true)
     }
     
@@ -679,6 +684,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
         self.refreshHistory()
         if !(data ?? []).isEmpty {
+            messageField!.text = ""
+            amoundField!.text = ""
             let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_SUCCESS".localized(), preferredStyle: UIAlertControllerStyle.Alert)
             
             let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
@@ -704,6 +711,9 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     
     func didChouseAccount(account: AccountGetMetaData) {
         _activeAccount = account
+        _popup?.view.removeFromSuperview()
+        _popup?.removeFromParentViewController()
+        _popup = nil
         
         self.sendButton?.enabled = true
         

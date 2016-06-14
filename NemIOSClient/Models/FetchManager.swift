@@ -90,13 +90,6 @@ class FetchManager: NSObject, APIManagerDelegate {
                 continue
             }
             
-            if _account?.lastTransactionHash != nil && inData.hashString == _account?.lastTransactionHash! {
-//                if transactions.count == 0 {
-//                    NotificationManager.sheduleLocalNotificationAfter("NEM", body: String(format: "NO_NOTIFICATIONS".localized(), _account!.login), interval: 1, userInfo: nil)
-//                }
-                break
-            }
-            
             if transaction != nil {
                 transactions.append(transaction!)
             }
@@ -120,7 +113,7 @@ class FetchManager: NSObject, APIManagerDelegate {
     private func fetchUpdate() {
         guard let account = _accounts.first else {
             if !FetchManager._updatesStarted {
-//                NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_ACCOUNTS".localized(), interval: 1, userInfo: nil)
+
                 _completionHandler?(.Failed)
             } else {
                 _completionHandler?(.NewData)

@@ -374,7 +374,7 @@ class APIManager: NSObject
                                 
                                 if  meta.objectForKey("data") != nil
                                 {
-                                    requestData.data = meta.objectForKey("data") as! String
+                                    requestData.data = meta.objectForKey("data") as? String
                                 }
                                 
                                 requestData.getFrom(transaction)
@@ -386,7 +386,7 @@ class APIManager: NSObject
                                 
                                 if  meta.objectForKey("data") != nil
                                 {
-                                    requestData.data = meta.objectForKey("data") as! String
+                                    requestData.data = meta.objectForKey("data") as? String
                                 }
                                 
                                 requestData.getFrom(transaction)

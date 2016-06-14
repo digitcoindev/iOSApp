@@ -191,9 +191,16 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
             for var i = 0 ; i < unconfirmedTransactions.count ; i += 1 {
                 if unconfirmedTransactions[i].type != multisigTransaction {
                     unconfirmedTransactions.removeAtIndex(i)
+                    i -= 1
                 }
                 else {
                     let transaction :MultisigTransaction = unconfirmedTransactions[i] as! MultisigTransaction
+
+                    if transaction.innerTransaction.type != transferTransaction && transaction.innerTransaction.type != multisigAggregateModificationTransaction {
+                        unconfirmedTransactions.removeAtIndex(i)
+                        i -= 1
+                        continue
+                    }
                     
                     if transaction.signer == walletData.publicKey{
                         unconfirmedTransactions.removeAtIndex(i)

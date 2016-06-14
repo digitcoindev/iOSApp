@@ -100,6 +100,8 @@ class PasswordValidationVC: AbstractViewController
             } else {
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
+        }  else {
+            password.textColor = UIColor.redColor()
         }
     }
         
