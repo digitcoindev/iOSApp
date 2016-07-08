@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DetailedTableViewCellDelegate
+protocol DetailedTableViewCellDelegate: class
 {
     func showDetailsForCell(cell: DetailedTableViewCell)
     func hideDetailsForCell(cell: DetailedTableViewCell)
@@ -22,7 +22,7 @@ class DetailedTableViewCell: AbstactTableViewCell {
     
     // MARK: properties
     
-    var detailDelegate :DetailedTableViewCellDelegate?
+    weak var detailDelegate :DetailedTableViewCellDelegate?
     
     var detailsIsShown :Bool {
         get {

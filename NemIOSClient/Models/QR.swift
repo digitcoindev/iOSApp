@@ -1,7 +1,7 @@
 import UIKit
 import AVFoundation
 
-@objc protocol QRDelegate
+@objc protocol QRDelegate: class
 {
     func detectedQRWithString(text :String)
     optional func failedWithError(text :String)
@@ -11,7 +11,7 @@ class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
 {
     //MARK: - Local Variables
 
-    var delegate :QRDelegate? = nil
+    weak var delegate :QRDelegate? = nil
     let previewLayer = AVCaptureVideoPreviewLayer()
     var currentresult :String!
     let session :AVCaptureSession = AVCaptureSession()

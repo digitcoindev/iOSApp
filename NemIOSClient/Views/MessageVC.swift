@@ -28,7 +28,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     private var _transactions :[TransactionPostMetaData] = []
     private var _definedCells :[DefinedCell] = []
 
-    private var _apiManager :APIManager = APIManager()
+    private var _apiManager :APIManager? = APIManager()
     private var _operationDipatchQueue :dispatch_queue_t = dispatch_queue_create("Message VC operation queu", nil)
     
     private let _contact :Correspondent = State.currentContact!
@@ -71,7 +71,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         sendButton?.setTitle("SEND".localized(), forState: UIControlState.Normal)
         accountsButton?.setTitle("ACCOUNTS".localized(), forState: UIControlState.Normal)
         
-        _apiManager.delegate = self
+        _apiManager?.delegate = self
         
         _initButtonsConfigs()
         contactInfo.text = contact.name
@@ -80,10 +80,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         _account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         if !Validate.stringNotEmpty(self.contact.public_key){
-            self._apiManager.accountGet(State.currentServer!, account_address: self.contact.address)
+            self._apiManager?.accountGet(State.currentServer!, account_address: self.contact.address)
         }
         
-        _apiManager.accountGet(State.currentServer!, account_address: _account_address!)
+        _apiManager?.accountGet(State.currentServer!, account_address: _account_address!)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         scrollToEnd()
@@ -268,7 +268,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         transaction.version = 1
         transaction.signer = _activeAccount?.publicKey
         
-        _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
+        _apiManager?.prepareAnnounce(State.currentServer!, transaction: transaction)
         
         self.view.endEditing(true)
     }
@@ -504,6 +504,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 }
                 cell.cellType = _definedCells[indexPath.row - 2].type
                 cell.setDetails(_definedCells[indexPath.row - 2].detailsTop, middle: _definedCells[indexPath.row - 2].detailsMiddle, bottom: _definedCells[indexPath.row - 2].detailsBottom)
+                if _unconfirmedTransactions.count <= index {
+                    self.tableView.reloadData()
+                    return cell
+                }
                 transaction  = _unconfirmedTransactions[index]
                 innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
                     (transaction as! TransferTransaction)
@@ -605,7 +609,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                     }
                     
                     for multisigAccount in responceAccount.cosignatoryOf {
-                        self._apiManager.accountGet(State.currentServer!, account_address: multisigAccount.address)
+                        self._apiManager?.accountGet(State.currentServer!, account_address: multisigAccount.address)
                     }
                     
                     dispatch_async(dispatch_get_main_queue() , {
@@ -651,10 +655,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
                 self._transactions = self._findMessages(data.reverse()) + self._transactions
                 if data.count >= 25 && self._requestCounter < self._requestsLimit && self._transactions.count <= self._transactionsLimit{
                     self._requestCounter += 1
-                    self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._account_address!, aditional: "&id=\(Int(data.last!.id))")
+                    self._apiManager?.accountTransfersAll(State.currentServer!, account_address: self._account_address!, aditional: "&id=\(Int(data.last!.id))")
                 } else {
                     //self._sortMessages()
-                    self._apiManager.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
+                    self._apiManager?.unconfirmedTransactions(State.currentServer!, account_address: self._mainAccount!.address)
                 }
             } else {
                 dispatch_async(dispatch_get_main_queue() , {
@@ -743,7 +747,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         _requestCounter = 0
         _transactions = []
         
-        self._apiManager.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)
+        self._apiManager?.accountTransfersAll(State.currentServer!, account_address: self._mainAccount!.address)
     }
     
     //MARK: - Private Helpers

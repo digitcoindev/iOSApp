@@ -211,6 +211,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                             }
                             transaction = innerTransaction as? TransferTransaction
                         default:
+                            findSignature = true
                             break
                         }
                         
@@ -245,56 +246,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     
                     addTransactions.append(transaction!)
 
-//                    var transaction :TransferTransaction?
-//
-//                    switch inTransaction.type {
-//                    case multisigTransaction :
-//                        let innerTransaction = ((inTransaction as! MultisigTransaction).innerTransaction as TransactionPostMetaData)
-//                        
-//                        switch innerTransaction.type {
-//                        case transferTransaction:
-//                            transaction = innerTransaction as? TransferTransaction
-//                        default:
-//                            break
-//                        }
-//                        
-//                        if needToSign {
-//                            break
-//                        }
-//                        
-//                        var findSignature = false
-//                        if transaction?.recipient == walletData?.address {
-//                            findSignature = true
-//                        } else if (inTransaction as! MultisigTransaction).signer == walletData!.publicKey || transaction?.signer == walletData!.publicKey {
-//                            findSignature = true
-//                        } else {
-//                            for sign in (inTransaction as! MultisigTransaction).signatures {
-//                                if walletData!.publicKey == sign.signer {
-//                                    findSignature = true
-//                                }
-//                            }
-//                        }
-//                        
-//                        if !findSignature {
-//                            needToSign = true
-//                        }
-//                        
-//                    case transferTransaction:
-//                        transaction = inTransaction as? TransferTransaction
-//                        
-//                    default :
-//                        break
-//                    }
-//                    
-//                    if transaction == nil {
-//                        continue
-//                    }
-//                    
-//                    if transaction!.signer != publicKey && transaction!.recipient != self._account_address {
-//                        continue
-//                    }
-//                    
-//                    addTransactions.append(transaction!)
                 }
                 
                 _transactions = addTransactions + _transactions
@@ -329,65 +280,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                 }
             })
         }
-        
-        //        if let data = data {
-        //            let showAlert = (_unconfirmedTransactions.count == 0) ? true : false
-        //            _unconfirmedTransactions = data
-        //
-        //            var findUnconfirmed = false
-        //            if showAlert {
-        //                for inTransaction in _unconfirmedTransactions {
-        //                    switch(inTransaction.type) {
-        //                    case multisigTransaction:
-        //                        let transaction :MultisigTransaction = inTransaction as! MultisigTransaction
-        //                        var find = false
-        //
-        //                        for sign in transaction.signatures {
-        //                            if walletData.publicKey == sign.signer {
-        //                                find = true
-        //                                break
-        //                            }
-        //                        }
-        //
-        //                        if transaction.signer == walletData.publicKey{
-        //                            find = true
-        //                        }
-        //
-        //                        if inTransaction.signer != walletData.publicKey && !find {
-        //                            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "UNCONFIRMED_TRANSACTIONS_DETECTED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
-        //
-        //                            let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
-        //                                    alertAction -> Void in
-        //
-        //                                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-        //                                    (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
-        //                                }
-        //                            }
-        //
-        //                            let cancel :UIAlertAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.Default) {
-        //                                    alertAction -> Void in
-        //                                self._showUnconfirmed = false
-        //                            }
-        //
-        //                            alert.addAction(cancel)
-        //                            alert.addAction(ok)
-        //
-        //                            if !findUnconfirmed && _showUnconfirmed {
-        //                                findUnconfirmed = true
-        //                                self.presentViewController(alert, animated: true, completion: nil)
-        //                            }
-        //                        }
-        //
-        //                    default:
-        //                        break
-        //                    }
-        //
-        //                    if findUnconfirmed || !_showUnconfirmed{
-        //                        break
-        //                    }
-        //                }
-        //            }
-        //        }
     }
     
     // MARK: - IBAction

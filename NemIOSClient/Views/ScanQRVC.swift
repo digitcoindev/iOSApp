@@ -87,15 +87,16 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
                         
                         guard let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password, salt:saltData, roundCount:2000) else {return false}
                         guard let privateKey :String = HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString()) else {return false}
+                        guard let normalizedKey = privateKey.nemKeyNormalized() else { return false }
                         
-                        if let name = Validate.account(privateKey: privateKey) {
+                        if let name = Validate.account(privateKey: normalizedKey) {
                             let alert = UIAlertView(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[name]), delegate: self, cancelButtonTitle: "OK".localized())
                             alert.show()
                             
                             return true
                         }
                         
-                        WalletGenerator().createWallet(login, privateKey: privateKey.nemKeyNormalized())
+                        WalletGenerator().createWallet(login, privateKey: normalizedKey)
                         
                         return true
                     }

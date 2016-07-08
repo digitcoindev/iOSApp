@@ -203,6 +203,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     @IBAction func minCosigChaned(sender: UITextField) {
         var isNormal = false
+        print()
         if let value = Int(sender.text!) {
             if value >= minCosigValue && value <= maxCosigValue {
                 isNormal = true
@@ -221,9 +222,11 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         if !isNormal {
             sender.text = ""
             self.minCosig = nil
-            let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories!
-
-            sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
+            if let minCosignatories = _activeAccount!.minCosignatories {
+                let currentValue = (minCosignatories == 0 || minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : minCosignatories
+                
+                sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
+            }
         } else {
             self.tableView.reloadData()
         }
@@ -307,7 +310,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         var resutModifications = modifications
         for var sorted = false ; !sorted; {
             sorted = true
-            for var i = 1; i < resutModifications.count; i += 1 {
+            for var i = 1; i < resutModifications.count ; i += 1 {
                 let previousAddress = AddressGenerator.generateAddress(resutModifications[i-1])
                 let currentAddress = AddressGenerator.generateAddress(resutModifications[i])
                 
@@ -319,7 +322,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
                 }
             }
         }
-        return modifications
+        return resutModifications
     }
     
     private final func _showPopUp(message :String){

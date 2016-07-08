@@ -40,11 +40,11 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     // MARK: - IBAction
 
     @IBAction func messagesButtonTouchUpInside(sender: AnyObject) {
-        self.switchToPage(SegueToMessages)
+        pageSelected(SegueToMessages)
     }
     
     @IBAction func addressBookButtonTouchUpInside(sender: AnyObject) {
-        self.switchToPage(SegueToAddressBook)
+        pageSelected(SegueToAddressBook)
     }
     //MARK: - Navigation Methods
     
@@ -121,10 +121,7 @@ class DashboardVC: AbstractViewController, MainVCDelegate, DashboardVCDelegate
     }
         
     @IBAction func qrButtonTouchUpInside(sender: AnyObject) {
-        
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToUserInfo)
-        }
+        pageSelected(SegueToUserInfo)
     }
     
     @IBAction func moreButtonTouchUpInside(sender: AnyObject) {

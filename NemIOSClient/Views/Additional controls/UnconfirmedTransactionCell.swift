@@ -14,7 +14,7 @@ class UnconfirmedTransactionCell: UITableViewCell
     @IBOutlet weak var toLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel?
     
-    var delegate :UnconfirmedTransactionVC? = nil
+    weak var delegate :UnconfirmedTransactionVC? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()

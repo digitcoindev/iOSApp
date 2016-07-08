@@ -16,7 +16,7 @@ class APIManager: NSObject
     private let _session = NSURLSession.sharedSession()
     private let _apiDipatchQueue :dispatch_queue_t = dispatch_queue_create("Api queu", nil)
     
-    var delegate :AnyObject!
+    weak var delegate :AnyObject?
     var timeOutIntervar = NSTimeInterval(10)
     
     override init() {

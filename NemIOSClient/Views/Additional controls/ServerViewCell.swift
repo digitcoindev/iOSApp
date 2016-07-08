@@ -35,7 +35,7 @@ class ServerViewCell: UITableViewCell
         }
     }
     
-    var delegate :AnyObject? = nil
+    weak var delegate :AnyObject? = nil
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

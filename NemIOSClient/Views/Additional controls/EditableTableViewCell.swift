@@ -1,6 +1,6 @@
 import UIKit
 
-protocol EditableTableViewCellDelegate
+protocol EditableTableViewCellDelegate: class
 {
     func deleteCell(cell: EditableTableViewCell)
 }
@@ -14,7 +14,7 @@ class EditableTableViewCell: AbstactTableViewCell
 
     // MARK: properties
     
-    var editDelegate :EditableTableViewCellDelegate?
+    weak var editDelegate :EditableTableViewCellDelegate?
     
     var isEditable :Bool {
             get {

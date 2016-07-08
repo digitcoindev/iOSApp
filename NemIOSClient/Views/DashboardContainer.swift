@@ -25,7 +25,7 @@ class DashboardContainer: AbstractViewController
         else {
             self.addChildViewController(segue.destinationViewController )
             (segue.destinationViewController ).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-            self.view .addSubview((segue.destinationViewController ).view)
+            self.view.addSubview((segue.destinationViewController ).view)
             segue.destinationViewController.didMoveToParentViewController(self)
         }
         

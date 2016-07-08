@@ -2,7 +2,7 @@ import UIKit
 
 class AbstractViewController: UIViewController
 {
-    private var _delegate :AnyObject?
+    weak private var _delegate :AnyObject?
     
     var delegate :AnyObject?{
         set{

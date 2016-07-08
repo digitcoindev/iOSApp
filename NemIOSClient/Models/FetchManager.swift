@@ -16,9 +16,11 @@ class FetchManager: NSObject, APIManagerDelegate {
     private var _account :Wallet? = nil
     private static var _updatesStarted = false
     private var _server :Server? = nil
+    private var strongSelf: FetchManager? = nil
     
-    func update(completionHandler: (UIBackgroundFetchResult) -> Void){
-        _apiManager.delegate = self
+    func update(completionHandler: (UIBackgroundFetchResult) -> Void) {
+        strongSelf = self
+        _apiManager.delegate = strongSelf
         _apiManager.timeOutIntervar = 60
         _completionHandler = completionHandler
         
@@ -58,6 +60,8 @@ class FetchManager: NSObject, APIManagerDelegate {
         var transactions :[TransferTransaction] = []
         let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(_account!.privateKey, key: State.loadData!.password!)!)
 
+        print("Last transaction hash: " + (_account?.lastTransactionHash ?? "nil"))
+        print("Current transaction hash: " + (data.first?.hashString ?? "nil"))
         if _account?.lastTransactionHash != nil && data.first?.hashString == _account?.lastTransactionHash! {
 //            let message = String(format: "NO_NOTIFICATIONS".localized(), _account!.login)
 //            NotificationManager.sheduleLocalNotificationAfter("NEM", body: message, interval: 1, userInfo: nil)
@@ -67,6 +71,10 @@ class FetchManager: NSObject, APIManagerDelegate {
         }
         
         for inData in data {
+            if inData.hashString == _account?.lastTransactionHash {
+                break
+            }
+            
             var transaction :TransferTransaction? = nil
             switch (inData.type) {
             case transferTransaction :
@@ -119,6 +127,7 @@ class FetchManager: NSObject, APIManagerDelegate {
                 _completionHandler?(.NewData)
             }
             FetchManager._updatesStarted = false
+            strongSelf = nil
             return
         }
         
