@@ -1,0 +1,4 @@
+github "Alamofire/Alamofire" "3.4.1"
+github "krzyzanowskim/CryptoSwift" "0.5.1"
+github "SwiftyJSON/SwiftyJSON" "2.3.3"
+github "Alamofire/AlamofireNetworkActivityIndicator" "1.0.1"

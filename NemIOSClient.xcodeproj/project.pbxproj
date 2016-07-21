@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */; };
+		4F13393C1D3F82CE00AA126D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13393B1D3F82CE00AA126D /* TabBarController.swift */; };
+		4F98280F1D3CEFBE00A3C8B2 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */; };
+		4F9828101D3CEFBE00A3C8B2 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9828111D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */; };
+		4F9828121D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9828131D3CEFBE00A3C8B2 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */; };
+		4F9828141D3CEFBE00A3C8B2 /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9828151D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */; };
+		4F9828161D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9805EFC61C31693E008CC607 /* SaveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC51C31693E008CC607 /* SaveCell.swift */; };
 		9805EFC81C3169F9008CC607 /* AddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC71C3169F9008CC607 /* AddCell.swift */; };
 		9805EFCA1C317FC0008CC607 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC91C317FC0008CC607 /* NotificationManager.swift */; };
@@ -39,11 +49,8 @@
 		9877C6801BE138EB00AF9751 /* HarvestDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */; };
 		9877C6821BE267AC00AF9751 /* BlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */; };
 		9877C6841BE2787400AF9751 /* BlockGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */; };
-		987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987B878E1BD684CF00782B42 /* MapViewController.swift */; };
-		98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */; };
 		98BB95AC1BC7B185002151F7 /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AB1BC7B185002151F7 /* SocialManager.swift */; };
 		98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */; };
-		98BB95B21BC7EE58002151F7 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98BB95B11BC7EE58002151F7 /* Contacts.framework */; };
 		98BB95D31BCCED5B002151F7 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95B91BCCED5B002151F7 /* readme.md */; };
 		98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95BB1BCCED5B002151F7 /* add_scalar.c */; };
 		98BB95D51BCCED5B002151F7 /* fe.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95BD1BCCED5B002151F7 /* fe.c */; };
@@ -74,7 +81,6 @@
 		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
 		98FE074E1BBE7C29009017CD /* EditableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */; };
-		D8B91FD79BFFA2DD50D69DC6 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FC49EEC35A6802600EA0E3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
 		DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MainMenuVC.swift */; };
 		DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED51A9226E10021E98B /* NEMTextField.swift */; };
@@ -119,16 +125,10 @@
 		DA3BE20C1A5FFDA500CAC733 /* AddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */; };
 		DA3BE20E1A5FFEF400CAC733 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20D1A5FFEF400CAC733 /* Messages.swift */; };
 		DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */; };
-		DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AF0761A975CCF00299B0A /* GoogleMap.swift */; };
-		DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF0791A976A6B00299B0A /* CoreLocation.framework */; };
-		DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4AF07B1A977CD600299B0A /* MessageUI.framework */; };
 		DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */; };
 		DA64A4CC1A5A8704005833A4 /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4CB1A5A8704005833A4 /* QR.swift */; };
-		DA64A4CE1A5A88BE005833A4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */; };
-		DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA64A4CF1A5A88C4005833A4 /* Social.framework */; };
 		DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4DD1A5AC021005833A4 /* Wallet.swift */; };
 		DA64A4E11A5ACF0C005833A4 /* AddAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */; };
-		DA675E5E1ADEAA130069F611 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */; };
 		DA7336551AD29EF80029C5D6 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */; };
 		DA8780B91A5BFDF400AA24E2 /* ImportFromQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */; };
 		DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1111AD6982100105BB0 /* TransferTransaction.swift */; };
@@ -136,20 +136,11 @@
 		DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */; };
 		DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */; };
 		DA8A892E1A4C52300072FE08 /* WalletCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* WalletCell.swift */; };
-		DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA971FDB1A67C2A00039ADB4 /* Foundation.framework */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
 		DAC28C891A923C2800EE3B22 /* CreateQRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */; };
-		DAC28C941A96008700EE3B22 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */; };
-		DAC28C961A96011900EE3B22 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C951A96011900EE3B22 /* CoreData.framework */; };
-		DAC28C981A96012700EE3B22 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C971A96012600EE3B22 /* CoreText.framework */; };
-		DAC28C9A1A96013300EE3B22 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C991A96013300EE3B22 /* GLKit.framework */; };
-		DAC28C9C1A96013D00EE3B22 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9B1A96013D00EE3B22 /* ImageIO.framework */; };
 		DAC28C9E1A96015000EE3B22 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9D1A96015000EE3B22 /* libc++.dylib */; };
 		DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9F1A96016500EE3B22 /* libicucore.dylib */; };
 		DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA11A96017300EE3B22 /* libz.dylib */; };
-		DAC28CA41A96017C00EE3B22 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */; };
-		DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */; };
-		DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */; };
 		DAC3A1781B00A5E500AABB61 /* MultisigAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */; };
 		DAC3A17A1B01EBB700AABB61 /* UnconfirmedTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1791B01EBB700AABB61 /* UnconfirmedTransactionCell.swift */; };
 		DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */; };
@@ -184,6 +175,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4F1159DE1D38FC5800E13EE0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA3557F81A39D3B900AFA5FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA3557FF1A39D3B900AFA5FD;
+			remoteInfo = NemIOSClient;
+		};
 		DA3558191A39D3BC00AFA5FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA3557F81A39D3B900AFA5FD /* Project object */;
@@ -193,8 +191,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4F9828171D3CEFBF00A3C8B2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4F9828161D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Embed Frameworks */,
+				4F9828141D3CEFBE00A3C8B2 /* CryptoSwift.framework in Embed Frameworks */,
+				4F9828101D3CEFBE00A3C8B2 /* Alamofire.framework in Embed Frameworks */,
+				4F9828121D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		18FC49EEC35A6802600EA0E3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F1159D91D38FC5700E13EE0 /* NemIOSClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NemIOSClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientUITests.swift; sourceTree = "<group>"; };
+		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F13393B1D3F82CE00AA126D /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityIndicator.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityIndicator.framework; sourceTree = "<group>"; };
+		4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
+		4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		98019A4E1CAC1E4400C61638 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		98019A4F1CAC270E00C61638 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98019A501CAC28CB00C61638 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -240,7 +262,6 @@
 		9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockGetMetaData.swift; path = Models/BlockGetMetaData.swift; sourceTree = "<group>"; };
 		9877C68C1BE27FB700AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9877C68D1BE27FB700AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		987B878E1BD684CF00782B42 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Views/MapViewController.swift; sourceTree = "<group>"; };
 		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98BB95AB1BC7B185002151F7 /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Models/SocialManager.swift; sourceTree = "<group>"; };
 		98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Views/ShareViewController.swift; sourceTree = "<group>"; };
@@ -284,7 +305,6 @@
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
 		98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditableTableViewCell.swift; path = "Views/Additional controls/EditableTableViewCell.swift"; sourceTree = "<group>"; };
-		B7116021E29489DE6208293D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
 		DA0059381A4882ED00638C57 /* MainMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuVC.swift; path = Views/MainMenuVC.swift; sourceTree = "<group>"; };
 		DA031ED51A9226E10021E98B /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEMTextField.swift; sourceTree = "<group>"; };
@@ -338,7 +358,6 @@
 		DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBook.swift; path = Views/AddressBook.swift; sourceTree = "<group>"; };
 		DA3BE20D1A5FFEF400CAC733 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Messages.swift; path = Views/Messages.swift; sourceTree = "<group>"; };
 		DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuButton.swift; path = "Views/Additional controls/MenuButton.swift"; sourceTree = "<group>"; };
-		DA4AF0761A975CCF00299B0A /* GoogleMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GoogleMap.swift; path = Views/GoogleMap.swift; sourceTree = "<group>"; };
 		DA4AF0791A976A6B00299B0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DA4AF07B1A977CD600299B0A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyGenerator.swift; path = Models/KeyGenerator.swift; sourceTree = "<group>"; };
@@ -359,7 +378,6 @@
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
 		DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateQRResult.swift; path = Views/CreateQRResult.swift; sourceTree = "<group>"; };
 		DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		DAC28C951A96011900EE3B22 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DAC28C971A96012600EE3B22 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		DAC28C991A96013300EE3B22 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -402,33 +420,27 @@
 		DADDA24E1B21D1B500F3F5F5 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Structs.swift; path = Models/Structs.swift; sourceTree = "<group>"; };
 		DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountGetMetaData.swift; path = Models/AccountGetMetaData.swift; sourceTree = "<group>"; };
 		DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageGetMetaData.swift; path = Models/MessageGetMetaData.swift; sourceTree = "<group>"; };
-		E431108AB9AA7663DC38FDE0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4F1159D61D38FC5700E13EE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA3557FD1A39D3B900AFA5FD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98BB95B21BC7EE58002151F7 /* Contacts.framework in Frameworks */,
-				98AA83991B85CC3C00E72CA0 /* LocalAuthentication.framework in Frameworks */,
-				DA4AF07C1A977CD600299B0A /* MessageUI.framework in Frameworks */,
-				DA4AF07A1A976A6B00299B0A /* CoreLocation.framework in Frameworks */,
-				DAC28CA81A962F3A00EE3B22 /* SystemConfiguration.framework in Frameworks */,
-				DAC28CA61A96018B00EE3B22 /* QuartzCore.framework in Frameworks */,
-				DA675E5E1ADEAA130069F611 /* MapKit.framework in Frameworks */,
-				DAC28CA41A96017C00EE3B22 /* OpenGLES.framework in Frameworks */,
+				4F9828111D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
+				4F9828131D3CEFBE00A3C8B2 /* CryptoSwift.framework in Frameworks */,
+				4F9828151D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Frameworks */,
 				DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */,
 				DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */,
 				DAC28C9E1A96015000EE3B22 /* libc++.dylib in Frameworks */,
-				DAC28C9C1A96013D00EE3B22 /* ImageIO.framework in Frameworks */,
-				DAC28C9A1A96013300EE3B22 /* GLKit.framework in Frameworks */,
-				DAC28C981A96012700EE3B22 /* CoreText.framework in Frameworks */,
-				DAC28C961A96011900EE3B22 /* CoreData.framework in Frameworks */,
-				DA971FDC1A67C2A00039ADB4 /* Foundation.framework in Frameworks */,
-				DA64A4D01A5A88C4005833A4 /* Social.framework in Frameworks */,
-				DA64A4CE1A5A88BE005833A4 /* AVFoundation.framework in Frameworks */,
-				D8B91FD79BFFA2DD50D69DC6 /* Pods.framework in Frameworks */,
+				4F98280F1D3CEFBE00A3C8B2 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,13 +454,204 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0F6B0EDCAAFB999E4C85F895 /* Pods */ = {
+		4F1159D41D38FC1300E13EE0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				B7116021E29489DE6208293D /* Pods.debug.xcconfig */,
-				E431108AB9AA7663DC38FDE0 /* Pods.release.xcconfig */,
+				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
+				DA3DD8A61A6E9DC400B45BF5 /* Cells */,
+				DA3DD8A71A6E9DCF00B45BF5 /* Segues */,
+				98F3F5441BD12E3F004A6E19 /* Labels */,
+				DA031ED71A9226E60021E98B /* Textfields */,
+				DAC3A1831B0B623D00AABB61 /* Drop Downs */,
+				4F1159E91D38FF8C00E13EE0 /* Extensions */,
 			);
-			name = Pods;
+			name = Common;
+			sourceTree = "<group>";
+		};
+		4F1159DA1D38FC5800E13EE0 /* NemIOSClientUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */,
+				4F1159DD1D38FC5800E13EE0 /* Info.plist */,
+			);
+			path = NemIOSClientUITests;
+			sourceTree = "<group>";
+		};
+		4F1159E31D38FDDB00E13EE0 /* Property Lists */ = {
+			isa = PBXGroup;
+			children = (
+				DA3558041A39D3BA00AFA5FD /* Info.plist */,
+				DA194E151A445B1D0030C882 /* UIConfig.plist */,
+			);
+			name = "Property Lists";
+			sourceTree = "<group>";
+		};
+		4F1159E41D38FE4A00E13EE0 /* Localizations */ = {
+			isa = PBXGroup;
+			children = (
+				9809BE291B75008F0028D082 /* Localizable.strings */,
+			);
+			name = Localizations;
+			sourceTree = "<group>";
+		};
+		4F1159E51D38FE9E00E13EE0 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				DA35580F1A39D3BA00AFA5FD /* Images.xcassets */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		4F1159E61D38FEA900E13EE0 /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				DA3558071A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld */,
+			);
+			name = Databases;
+			sourceTree = "<group>";
+		};
+		4F1159E91D38FF8C00E13EE0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				98DFB7181BF3AEE40010E035 /* FileService.swift */,
+				DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */,
+				DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */,
+				DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */,
+				DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */,
+				DA08D9BA1AC0277800B93EBE /* NSDataExtensions.swift */,
+				DA08D9BC1AC027C700B93EBE /* StringExtensions.swift */,
+				98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */,
+				983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		4F13394E1D40EEF700AA126D /* TRASH */ = {
+			isa = PBXGroup;
+			children = (
+				DA35582A1A39D75400AFA5FD /* ViewController.swift */,
+			);
+			name = TRASH;
+			sourceTree = "<group>";
+		};
+		4F9827FE1D3CCFE900A3C8B2 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Authentication;
+			sourceTree = "<group>";
+		};
+		4F9827FF1D3CD0AE00A3C8B2 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */,
+				9805EFCD1C31A126008CC607 /* FetchManager.swift */,
+				DA194E061A4323520030C882 /* APIManager.swift */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		4F9828001D3CD0BA00A3C8B2 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				DA194E031A41E9A00030C882 /* LoginVC.swift */,
+				DADA272F1B0C8D4100EA09F8 /* Validate.swift */,
+				DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */,
+				DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */,
+				DADA33F71A72874500F14D6D /* WalletGenerator.swift */,
+				DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */,
+				985496351C4916F80059504F /* WarningExportVC.swift */,
+				980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */,
+				DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */,
+				DA194DF81A41D50E0030C882 /* RegistrationVC.swift */,
+				DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */,
+				DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */,
+				98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */,
+				DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */,
+				98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */,
+				DA2199211A68222900E2F8DD /* UserInfoVC.swift */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
+		4F9828011D3CD0C100A3C8B2 /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
+				9823A4D41B846FE200B532CC /* MessageCrypto.swift */,
+				DA3BE20D1A5FFEF400CAC733 /* Messages.swift */,
+				DAD5AD911A52F2F30093E3DB /* MessageVC.swift */,
+				DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */,
+				DAD21B991AFB735600F6B861 /* SendTransactionVC.swift */,
+				DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */,
+				984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */,
+			);
+			name = Transaction;
+			sourceTree = "<group>";
+		};
+		4F9828021D3CD0C900A3C8B2 /* Invoice */ = {
+			isa = PBXGroup;
+			children = (
+				DA031ED91A922FEC0021E98B /* CreateQRInput.swift */,
+				DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */,
+				DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */,
+			);
+			name = Invoice;
+			sourceTree = "<group>";
+		};
+		4F9828031D3CD0D000A3C8B2 /* Multisignature */ = {
+			isa = PBXGroup;
+			children = (
+				DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */,
+				98428A751BDA689C004494D5 /* AddCosigPopUp.swift */,
+				985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */,
+			);
+			name = Multisignature;
+			sourceTree = "<group>";
+		};
+		4F9828041D3CD0D700A3C8B2 /* Address Book */ = {
+			isa = PBXGroup;
+			children = (
+				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
+				DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */,
+				986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */,
+				983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */,
+			);
+			name = "Address Book";
+			sourceTree = "<group>";
+		};
+		4F9828051D3CD0E000A3C8B2 /* Harvesting */ = {
+			isa = PBXGroup;
+			children = (
+				9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */,
+			);
+			name = Harvesting;
+			sourceTree = "<group>";
+		};
+		4F9828061D3CD0E700A3C8B2 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */,
+				DA89F1141AD6A69100105BB0 /* SettingsVC.swift */,
+				DA3558361A39F9D700AFA5FD /* ServerViewController.swift */,
+				DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */,
+				98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */,
+				98F01CBC1C2C18270018081B /* InvoceSettings.swift */,
+				98F01CC11C2D4B560018081B /* ChouseLanguage.swift */,
+				985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */,
+				985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */,
+				985496371C4D0CAF0059504F /* AboutVC.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		4F9828181D3CF48600A3C8B2 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				9805EFC91C317FC0008CC607 /* NotificationManager.swift */,
+				9805EFCB1C319439008CC607 /* NotificationBaner.swift */,
+			);
+			name = Notification;
 			sourceTree = "<group>";
 		};
 		9809BDE81B74E8300028D082 /* Base64 */ = {
@@ -460,39 +663,6 @@
 			name = Base64;
 			sourceTree = "<group>";
 		};
-		9809BE2E1B7B45DF0028D082 /* Hash */ = {
-			isa = PBXGroup;
-			children = (
-				DA194E081A4323B40030C882 /* HashManager.swift */,
-				9823A4D41B846FE200B532CC /* MessageCrypto.swift */,
-			);
-			name = Hash;
-			sourceTree = "<group>";
-		};
-		9809BE2F1B7B45EA0028D082 /* Transaction */ = {
-			isa = PBXGroup;
-			children = (
-				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
-			);
-			name = Transaction;
-			sourceTree = "<group>";
-		};
-		9809BE301B7B46080028D082 /* AddressBook */ = {
-			isa = PBXGroup;
-			children = (
-				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
-			);
-			name = AddressBook;
-			sourceTree = "<group>";
-		};
-		9809BE321B7B462B0028D082 /* Validation */ = {
-			isa = PBXGroup;
-			children = (
-				DADA272F1B0C8D4100EA09F8 /* Validate.swift */,
-			);
-			name = Validation;
-			sourceTree = "<group>";
-		};
 		9823A4D31B8358E000B532CC /* General */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,29 +671,10 @@
 			name = General;
 			sourceTree = "<group>";
 		};
-		983579B21BC505A2009AF518 /* QR Controller */ = {
-			isa = PBXGroup;
-			children = (
-				983579B31BC518EA009AF518 /* QRViewController.swift */,
-				983579B51BC51CF3009AF518 /* QRContainerVC.swift */,
-				DADDA2411B21C6D400F3F5F5 /* ScanQR */,
-				DA173CEA1AADA8ED003AC21F /* UserInfo */,
-				DA031EDB1A922FF00021E98B /* CreateQR */,
-			);
-			name = "QR Controller";
-			sourceTree = "<group>";
-		};
-		98BB95AA1BC7B151002151F7 /* Social */ = {
-			isa = PBXGroup;
-			children = (
-				98BB95AB1BC7B185002151F7 /* SocialManager.swift */,
-			);
-			name = Social;
-			sourceTree = "<group>";
-		};
 		98BB95AE1BC7C3F3002151F7 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				98BB95AB1BC7B185002151F7 /* SocialManager.swift */,
 				98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */,
 			);
 			name = Share;
@@ -563,73 +714,21 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		98F01CBE1C2D3F060018081B /* Localization */ = {
-			isa = PBXGroup;
-			children = (
-				98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */,
-			);
-			name = Localization;
-			sourceTree = "<group>";
-		};
-		98F3F5441BD12E3F004A6E19 /* Label */ = {
+		98F3F5441BD12E3F004A6E19 /* Labels */ = {
 			isa = PBXGroup;
 			children = (
 				98F3F5421BD12E38004A6E19 /* MessageUILabel.swift */,
+				DAD086A61B38036C00197CA3 /* NEMLabel.swift */,
 			);
-			name = Label;
+			name = Labels;
 			sourceTree = "<group>";
 		};
-		DA031ED71A9226E60021E98B /* TextFields */ = {
+		DA031ED71A9226E60021E98B /* Textfields */ = {
 			isa = PBXGroup;
 			children = (
 				DA031ED51A9226E10021E98B /* NEMTextField.swift */,
 			);
-			name = TextFields;
-			sourceTree = "<group>";
-		};
-		DA031ED81A922AE20021E98B /* Messager */ = {
-			isa = PBXGroup;
-			children = (
-				DA3BE20D1A5FFEF400CAC733 /* Messages.swift */,
-				DAD5AD911A52F2F30093E3DB /* MessageVC.swift */,
-				DAD5AD8F1A52E7850093E3DB /* PasswordValidationVC.swift */,
-				DAD21B991AFB735600F6B861 /* SendTransactionVC.swift */,
-				DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */,
-				984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */,
-			);
-			name = Messager;
-			sourceTree = "<group>";
-		};
-		DA031EDB1A922FF00021E98B /* CreateQR */ = {
-			isa = PBXGroup;
-			children = (
-				DA031ED91A922FEC0021E98B /* CreateQRInput.swift */,
-				DAC28C881A923C2800EE3B22 /* CreateQRResult.swift */,
-			);
-			name = CreateQR;
-			sourceTree = "<group>";
-		};
-		DA08D9B71AC0268B00B93EBE /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */,
-				DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */,
-				DA08D9BA1AC0277800B93EBE /* NSDataExtensions.swift */,
-				DA08D9BC1AC027C700B93EBE /* StringExtensions.swift */,
-				98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */,
-				983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */,
-			);
-			name = Utils;
-			sourceTree = "<group>";
-		};
-		DA08D9BE1AC0372C00B93EBE /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				98DFB7181BF3AEE40010E035 /* FileService.swift */,
-				DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */,
-				DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */,
-			);
-			name = Data;
+			name = Textfields;
 			sourceTree = "<group>";
 		};
 		DA173CE11AA87CCE003AC21F /* RIPEMD-160 */ = {
@@ -643,17 +742,10 @@
 			name = "RIPEMD-160";
 			sourceTree = "<group>";
 		};
-		DA173CEA1AADA8ED003AC21F /* UserInfo */ = {
-			isa = PBXGroup;
-			children = (
-				DA2199211A68222900E2F8DD /* UserInfoVC.swift */,
-			);
-			name = UserInfo;
-			sourceTree = "<group>";
-		};
 		DA194E051A431C690030C882 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				DA194E081A4323B40030C882 /* HashManager.swift */,
 				98BB95B31BCCED5B002151F7 /* ed25519 */,
 				9809BDE81B74E8300028D082 /* Base64 */,
 				DA194DFC1A41DE5E0030C882 /* NemIOSClient-Bridging-Header.h */,
@@ -663,47 +755,6 @@
 				DA173CE11AA87CCE003AC21F /* RIPEMD-160 */,
 			);
 			name = Crypto;
-			sourceTree = "<group>";
-		};
-		DA194E0A1A4323BF0030C882 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				9805EFCD1C31A126008CC607 /* FetchManager.swift */,
-				9805EFCB1C319439008CC607 /* NotificationBaner.swift */,
-				9805EFC91C317FC0008CC607 /* NotificationManager.swift */,
-				DADA33F91A72874900F14D6D /* Generators */,
-				98F01CBE1C2D3F060018081B /* Localization */,
-				98BB95AA1BC7B151002151F7 /* Social */,
-				DAC8BA9E1ACD53BC00BB95B0 /* State */,
-				9809BE2E1B7B45DF0028D082 /* Hash */,
-				9809BE2F1B7B45EA0028D082 /* Transaction */,
-				9809BE301B7B46080028D082 /* AddressBook */,
-				9809BE321B7B462B0028D082 /* Validation */,
-				DA08D9BE1AC0372C00B93EBE /* Data */,
-			);
-			name = Managers;
-			sourceTree = "<group>";
-		};
-		DA194E101A444F330030C882 /* Main  */ = {
-			isa = PBXGroup;
-			children = (
-				DA194E0C1A444CD80030C882 /* MainVC.swift */,
-				DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */,
-				DAD5AD8A1A52DC620093E3DB /* Pages */,
-			);
-			name = "Main ";
-			sourceTree = "<group>";
-		};
-		DA21991E1A68036200E2F8DD /* Dashboard */ = {
-			isa = PBXGroup;
-			children = (
-				DAD21B871AEFC18A00F6B861 /* Profile */,
-				983579B21BC505A2009AF518 /* QR Controller */,
-				DAD21B981AFB730400F6B861 /* Main */,
-				DA031ED81A922AE20021E98B /* Messager */,
-				DADDA2421B21C70300F3F5F5 /* AddressBook */,
-			);
-			name = Dashboard;
 			sourceTree = "<group>";
 		};
 		DA29789A1AB9BC78002F65BD /* SHA3 (Keccak) */ = {
@@ -732,26 +783,14 @@
 			name = AES256;
 			sourceTree = "<group>";
 		};
-		DA2BE9C31AB300C300E48D8F /* API models */ = {
-			isa = PBXGroup;
-			children = (
-				DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */,
-				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
-				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
-				DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */,
-				9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */,
-			);
-			name = "API models";
-			sourceTree = "<group>";
-		};
 		DA3557F71A39D3B800AFA5FD = {
 			isa = PBXGroup;
 			children = (
 				DA3558021A39D3B900AFA5FD /* NemIOSClient */,
-				DA64A4D21A5A892D005833A4 /* Frameworks */,
 				DA35581B1A39D3BC00AFA5FD /* NemIOSClientTests */,
+				4F1159DA1D38FC5800E13EE0 /* NemIOSClientUITests */,
+				DA64A4D21A5A892D005833A4 /* Frameworks */,
 				DA3558011A39D3B900AFA5FD /* Products */,
-				0F6B0EDCAAFB999E4C85F895 /* Pods */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 0;
@@ -761,6 +800,7 @@
 			children = (
 				DA3558001A39D3B900AFA5FD /* NemIOSClient.app */,
 				DA3558181A39D3BC00AFA5FD /* NemIOSClientTests.xctest */,
+				4F1159D91D38FC5700E13EE0 /* NemIOSClientUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -768,12 +808,10 @@
 		DA3558021A39D3B900AFA5FD /* NemIOSClient */ = {
 			isa = PBXGroup;
 			children = (
-				DA35582C1A39D76200AFA5FD /* Views */,
 				DA35583B1A3ADFD200AFA5FD /* Models */,
-				DA3558281A39D44800AFA5FD /* LaunchSourses */,
-				DA4369CF1A6411B800868BAD /* Images */,
-				DA3558291A39D46800AFA5FD /* Database */,
-				DA3558031A39D3BA00AFA5FD /* Supporting Files */,
+				DA35582C1A39D76200AFA5FD /* Application */,
+				4F1159D41D38FC1300E13EE0 /* Common */,
+				DA4369CF1A6411B800868BAD /* Assets */,
 			);
 			path = NemIOSClient;
 			sourceTree = "<group>";
@@ -781,11 +819,8 @@
 		DA3558031A39D3BA00AFA5FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9809BE291B75008F0028D082 /* Localizable.strings */,
+				DA194E051A431C690030C882 /* Crypto */,
 				DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */,
-				DAC28C931A96008700EE3B22 /* GoogleMaps.bundle */,
-				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
-				DA3558041A39D3BA00AFA5FD /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -807,87 +842,56 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DA3558281A39D44800AFA5FD /* LaunchSourses */ = {
+		DA35582C1A39D76200AFA5FD /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */,
+				4F13394E1D40EEF700AA126D /* TRASH */,
+				DA35582D1A39D7FA00AFA5FD /* Main */,
+				4F9827FF1D3CD0AE00A3C8B2 /* Networking */,
+				4F9828181D3CF48600A3C8B2 /* Notification */,
+				4F9827FE1D3CCFE900A3C8B2 /* Authentication */,
+				4F9828001D3CD0BA00A3C8B2 /* Account */,
+				4F9828011D3CD0C100A3C8B2 /* Transaction */,
+				4F9828021D3CD0C900A3C8B2 /* Invoice */,
+				4F9828031D3CD0D000A3C8B2 /* Multisignature */,
+				4F9828041D3CD0D700A3C8B2 /* Address Book */,
+				4F9828051D3CD0E000A3C8B2 /* Harvesting */,
+				4F9828061D3CD0E700A3C8B2 /* Settings */,
+				DAD5AD8A1A52DC620093E3DB /* TODO */,
 			);
-			name = LaunchSourses;
+			name = Application;
 			sourceTree = "<group>";
 		};
-		DA3558291A39D46800AFA5FD /* Database */ = {
+		DA35582D1A39D7FA00AFA5FD /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				DA3558071A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld */,
-				DAD5AD8C1A52DC960093E3DB /* Plist files */,
-				DACF9C381A49C50B00550FB9 /* Core Data Models */,
-			);
-			name = Database;
-			sourceTree = "<group>";
-		};
-		DA35582C1A39D76200AFA5FD /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				DA35582E1A39D80C00AFA5FD /* Controllers */,
-				DA3558381A39FD1500AFA5FD /* Additional controls */,
-				DA35582D1A39D7FA00AFA5FD /* Storyboards */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
-		DA35582D1A39D7FA00AFA5FD /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
+				DA0059361A4882B300638C57 /* State.swift */,
+				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
+				DA194E0C1A444CD80030C882 /* MainVC.swift */,
+				DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */,
+				DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */,
+				DA21991F1A68038700E2F8DD /* DashboardContainer.swift */,
+				DA0059381A4882ED00638C57 /* MainMenuVC.swift */,
+				983579B31BC518EA009AF518 /* QRViewController.swift */,
+				983579B51BC51CF3009AF518 /* QRContainerVC.swift */,
 				DA35580C1A39D3BA00AFA5FD /* Main.storyboard */,
+				DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */,
+				4F13393B1D3F82CE00AA126D /* TabBarController.swift */,
 			);
-			name = Storyboards;
-			sourceTree = "<group>";
-		};
-		DA35582E1A39D80C00AFA5FD /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				DA35582A1A39D75400AFA5FD /* ViewController.swift */,
-				DA194E101A444F330030C882 /* Main  */,
-			);
-			name = Controllers;
-			sourceTree = "<group>";
-		};
-		DA3558381A39FD1500AFA5FD /* Additional controls */ = {
-			isa = PBXGroup;
-			children = (
-				98F3F5441BD12E3F004A6E19 /* Label */,
-				DA3DD8A71A6E9DCF00B45BF5 /* Segues */,
-				DA3DD8A61A6E9DC400B45BF5 /* Cells */,
-				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
-				DA031ED71A9226E60021E98B /* TextFields */,
-				DAC3A1831B0B623D00AABB61 /* DropDown */,
-				DAD086A61B38036C00197CA3 /* NEMLabel.swift */,
-			);
-			name = "Additional controls";
+			name = Main;
 			sourceTree = "<group>";
 		};
 		DA35583B1A3ADFD200AFA5FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DACF9C381A49C50B00550FB9 /* Core Data Models */,
 				DADDA2461B21D09700F3F5F5 /* Configuration */,
 				DA89F1101AD697A900105BB0 /* Transactions */,
 				9823A4D31B8358E000B532CC /* General */,
-				DA08D9B71AC0268B00B93EBE /* Utils */,
 				DA64A4CA1A5A86DB005833A4 /* QR */,
-				DA194E051A431C690030C882 /* Crypto */,
 				DAF138291AB08F2A0069AC3A /* API */,
-				DA194E0A1A4323BF0030C882 /* Managers */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		DA35583E1A3AF0A000AFA5FD /* Choose server */ = {
-			isa = PBXGroup;
-			children = (
-				DA3558361A39F9D700AFA5FD /* ServerViewController.swift */,
-				DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */,
-			);
-			name = "Choose server";
 			sourceTree = "<group>";
 		};
 		DA3DD8A61A6E9DC400B45BF5 /* Cells */ = {
@@ -938,12 +942,16 @@
 			name = Buttons;
 			sourceTree = "<group>";
 		};
-		DA4369CF1A6411B800868BAD /* Images */ = {
+		DA4369CF1A6411B800868BAD /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				DA35580F1A39D3BA00AFA5FD /* Images.xcassets */,
+				4F1159E51D38FE9E00E13EE0 /* Images */,
+				4F1159E61D38FEA900E13EE0 /* Databases */,
+				4F1159E31D38FDDB00E13EE0 /* Property Lists */,
+				4F1159E41D38FE4A00E13EE0 /* Localizations */,
+				DA3558031A39D3BA00AFA5FD /* Supporting Files */,
 			);
-			name = Images;
+			name = Assets;
 			sourceTree = "<group>";
 		};
 		DA64A4CA1A5A86DB005833A4 /* QR */ = {
@@ -957,6 +965,10 @@
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */,
+				4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */,
+				4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */,
+				4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */,
 				98BB95B11BC7EE58002151F7 /* Contacts.framework */,
 				98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */,
 				DA4AF07B1A977CD600299B0A /* MessageUI.framework */,
@@ -976,21 +988,8 @@
 				DA64A4CF1A5A88C4005833A4 /* Social.framework */,
 				DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */,
 				DA64A4C81A56D483005833A4 /* AddressBook.framework */,
-				18FC49EEC35A6802600EA0E3 /* Pods.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DA64A4DF1A5ACEDC005833A4 /* AddAccount */ = {
-			isa = PBXGroup;
-			children = (
-				DA64A4E01A5ACF0C005833A4 /* AddAccount.swift */,
-				DA194DF81A41D50E0030C882 /* RegistrationVC.swift */,
-				DA8780B81A5BFDF400AA24E2 /* ImportFromQR.swift */,
-				DAD1C7FC1A6932E30043D947 /* ImportFromKey.swift */,
-				98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */,
-			);
-			name = AddAccount;
 			sourceTree = "<group>";
 		};
 		DA89F1101AD697A900105BB0 /* Transactions */ = {
@@ -1006,29 +1005,12 @@
 			name = Transactions;
 			sourceTree = "<group>";
 		};
-		DA89F1131AD6A62100105BB0 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				DA194E031A41E9A00030C882 /* LoginVC.swift */,
-			);
-			name = Login;
-			sourceTree = "<group>";
-		};
-		DAC3A1831B0B623D00AABB61 /* DropDown */ = {
+		DAC3A1831B0B623D00AABB61 /* Drop Downs */ = {
 			isa = PBXGroup;
 			children = (
 				DAD21B941AFA1AF900F6B861 /* ButtonDropDown.swift */,
 			);
-			name = DropDown;
-			sourceTree = "<group>";
-		};
-		DAC8BA9E1ACD53BC00BB95B0 /* State */ = {
-			isa = PBXGroup;
-			children = (
-				DA0059361A4882B300638C57 /* State.swift */,
-				DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */,
-			);
-			name = State;
+			name = "Drop Downs";
 			sourceTree = "<group>";
 		};
 		DACF9C381A49C50B00550FB9 /* Core Data Models */ = {
@@ -1042,111 +1024,12 @@
 			name = "Core Data Models";
 			sourceTree = "<group>";
 		};
-		DAD21B871AEFC18A00F6B861 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				DA89F1141AD6A69100105BB0 /* SettingsVC.swift */,
-				DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */,
-				DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */,
-				98428A751BDA689C004494D5 /* AddCosigPopUp.swift */,
-				98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */,
-				9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */,
-				98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */,
-				98F01CBC1C2C18270018081B /* InvoceSettings.swift */,
-				98F01CC11C2D4B560018081B /* ChouseLanguage.swift */,
-				985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */,
-				985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */,
-				985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */,
-				985496371C4D0CAF0059504F /* AboutVC.swift */,
-			);
-			name = Profile;
-			sourceTree = "<group>";
-		};
-		DAD21B961AFB72E000F6B861 /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-				DA0059381A4882ED00638C57 /* MainMenuVC.swift */,
-			);
-			name = Menu;
-			sourceTree = "<group>";
-		};
-		DAD21B971AFB72EA00F6B861 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				DA4AF0761A975CCF00299B0A /* GoogleMap.swift */,
-				987B878E1BD684CF00782B42 /* MapViewController.swift */,
-			);
-			name = Map;
-			sourceTree = "<group>";
-		};
-		DAD21B981AFB730400F6B861 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */,
-				DA21991F1A68038700E2F8DD /* DashboardContainer.swift */,
-			);
-			name = Main;
-			sourceTree = "<group>";
-		};
-		DAD5AD8A1A52DC620093E3DB /* Pages */ = {
+		DAD5AD8A1A52DC620093E3DB /* TODO */ = {
 			isa = PBXGroup;
 			children = (
 				98BB95AE1BC7C3F3002151F7 /* Share */,
-				DADDA2431B21C71C00F3F5F5 /* Export Account */,
-				DAD21B961AFB72E000F6B861 /* Menu */,
-				DA89F1131AD6A62100105BB0 /* Login */,
-				DA21991E1A68036200E2F8DD /* Dashboard */,
-				DA35583E1A3AF0A000AFA5FD /* Choose server */,
-				DA64A4DF1A5ACEDC005833A4 /* AddAccount */,
-				DAD21B971AFB72EA00F6B861 /* Map */,
 			);
-			name = Pages;
-			sourceTree = "<group>";
-		};
-		DAD5AD8C1A52DC960093E3DB /* Plist files */ = {
-			isa = PBXGroup;
-			children = (
-				DA194E151A445B1D0030C882 /* UIConfig.plist */,
-			);
-			name = "Plist files";
-			sourceTree = "<group>";
-		};
-		DADA33F91A72874900F14D6D /* Generators */ = {
-			isa = PBXGroup;
-			children = (
-				DADA33F71A72874500F14D6D /* WalletGenerator.swift */,
-				DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */,
-				DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */,
-			);
-			name = Generators;
-			sourceTree = "<group>";
-		};
-		DADDA2411B21C6D400F3F5F5 /* ScanQR */ = {
-			isa = PBXGroup;
-			children = (
-				DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */,
-			);
-			name = ScanQR;
-			sourceTree = "<group>";
-		};
-		DADDA2421B21C70300F3F5F5 /* AddressBook */ = {
-			isa = PBXGroup;
-			children = (
-				DA3BE20B1A5FFDA500CAC733 /* AddressBook.swift */,
-				986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */,
-				983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */,
-			);
-			name = AddressBook;
-			sourceTree = "<group>";
-		};
-		DADDA2431B21C71C00F3F5F5 /* Export Account */ = {
-			isa = PBXGroup;
-			children = (
-				DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */,
-				985496351C4916F80059504F /* WarningExportVC.swift */,
-				980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */,
-			);
-			name = "Export Account";
+			name = TODO;
 			sourceTree = "<group>";
 		};
 		DADDA2461B21D09700F3F5F5 /* Configuration */ = {
@@ -1163,8 +1046,11 @@
 		DAF138291AB08F2A0069AC3A /* API */ = {
 			isa = PBXGroup;
 			children = (
-				DA194E061A4323520030C882 /* APIManager.swift */,
-				DA2BE9C31AB300C300E48D8F /* API models */,
+				DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */,
+				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
+				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
+				DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */,
+				9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -1172,16 +1058,32 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4F1159D81D38FC5700E13EE0 /* NemIOSClientUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F1159E01D38FC5800E13EE0 /* Build configuration list for PBXNativeTarget "NemIOSClientUITests" */;
+			buildPhases = (
+				4F1159D51D38FC5700E13EE0 /* Sources */,
+				4F1159D61D38FC5700E13EE0 /* Frameworks */,
+				4F1159D71D38FC5700E13EE0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F1159DF1D38FC5800E13EE0 /* PBXTargetDependency */,
+			);
+			name = NemIOSClientUITests;
+			productName = NemIOSClientUITests;
+			productReference = 4F1159D91D38FC5700E13EE0 /* NemIOSClientUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		DA3557FF1A39D3B900AFA5FD /* NemIOSClient */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA3558221A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NemIOSClient" */;
 			buildPhases = (
-				FCE3F5EF1E726FE05D9A4E34 /* Check Pods Manifest.lock */,
 				DA3557FC1A39D3B900AFA5FD /* Sources */,
 				DA3557FD1A39D3B900AFA5FD /* Frameworks */,
 				DA3557FE1A39D3B900AFA5FD /* Resources */,
-				1AF3143E7927A69ABBAB6C23 /* Embed Pods Frameworks */,
-				8CD05CA170AF24C83D4F3FFA /* Copy Pods Resources */,
+				4F9828171D3CEFBF00A3C8B2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1217,13 +1119,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Artygeek;
 				TargetAttributes = {
+					4F1159D81D38FC5700E13EE0 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 6Y3EYUED96;
+						TestTargetID = DA3557FF1A39D3B900AFA5FD;
+					};
 					DA3557FF1A39D3B900AFA5FD = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = TWWK2EDBEZ;
+						DevelopmentTeam = 6Y3EYUED96;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -1272,11 +1179,19 @@
 			targets = (
 				DA3557FF1A39D3B900AFA5FD /* NemIOSClient */,
 				DA3558171A39D3BC00AFA5FD /* NemIOSClientTests */,
+				4F1159D81D38FC5700E13EE0 /* NemIOSClientUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F1159D71D38FC5700E13EE0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA3557FE1A39D3B900AFA5FD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1284,7 +1199,6 @@
 				9809BDEB1B74EBBC0028D082 /* LaunchScreen.xib in Resources */,
 				9809BDEA1B74EBB40028D082 /* Main.storyboard in Resources */,
 				DA3558101A39D3BA00AFA5FD /* Images.xcassets in Resources */,
-				DAC28C941A96008700EE3B22 /* GoogleMaps.bundle in Resources */,
 				9809BE271B75008F0028D082 /* Localizable.strings in Resources */,
 				DA194E161A445B1D0030C882 /* UIConfig.plist in Resources */,
 				DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */,
@@ -1300,55 +1214,15 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		1AF3143E7927A69ABBAB6C23 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8CD05CA170AF24C83D4F3FFA /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FCE3F5EF1E726FE05D9A4E34 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
+		4F1159D51D38FC5700E13EE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA3557FC1A39D3B900AFA5FD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1368,6 +1242,7 @@
 				98F3F5431BD12E38004A6E19 /* MessageUILabel.swift in Sources */,
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
 				DAD086A71B38036C00197CA3 /* NEMLabel.swift in Sources */,
+				4F13393C1D3F82CE00AA126D /* TabBarController.swift in Sources */,
 				DA3DD8AA1A6EAF4D00B45BF5 /* MenuButton.swift in Sources */,
 				98BB95D61BCCED5B002151F7 /* ge.c in Sources */,
 				DA08D9BB1AC0277800B93EBE /* NSDataExtensions.swift in Sources */,
@@ -1435,12 +1310,10 @@
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
 				DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */,
 				DA194E071A4323520030C882 /* APIManager.swift in Sources */,
-				DA4AF0771A975CCF00299B0A /* GoogleMap.swift in Sources */,
 				98F01CC01C2D3F7B0018081B /* LocalizationManager.swift in Sources */,
 				98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */,
 				DA194E121A4456330030C882 /* MainViewCell.swift in Sources */,
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
-				987B878F1BD684CF00782B42 /* MapViewController.swift in Sources */,
 				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
 				98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */,
@@ -1514,6 +1387,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4F1159DF1D38FC5800E13EE0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA3557FF1A39D3B900AFA5FD /* NemIOSClient */;
+			targetProxy = 4F1159DE1D38FC5800E13EE0 /* PBXContainerItemProxy */;
+		};
 		DA35581A1A39D3BC00AFA5FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA3557FF1A39D3B900AFA5FD /* NemIOSClient */;
@@ -1566,6 +1444,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F1159E11D38FC5800E13EE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = NemIOSClientUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClientUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = NemIOSClient;
+			};
+			name = Debug;
+		};
+		4F1159E21D38FC5800E13EE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = NemIOSClientUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClientUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = NemIOSClient;
+			};
+			name = Release;
+		};
 		DA3558201A39D3BC00AFA5FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1658,7 +1568,6 @@
 		};
 		DA3558231A39D3BC00AFA5FD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7116021E29489DE6208293D /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1669,11 +1578,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/NemIOSClient-Bridging-Header.h";
@@ -1684,7 +1594,6 @@
 		};
 		DA3558241A39D3BC00AFA5FD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E431108AB9AA7663DC38FDE0 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1695,11 +1604,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = NemIOSClient/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/NemIOSClient-Bridging-Header.h";
@@ -1753,6 +1663,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F1159E01D38FC5800E13EE0 /* Build configuration list for PBXNativeTarget "NemIOSClientUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F1159E11D38FC5800E13EE0 /* Debug */,
+				4F1159E21D38FC5800E13EE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA3557FB1A39D3B900AFA5FD /* Build configuration list for PBXProject "NemIOSClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

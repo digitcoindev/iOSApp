@@ -5,8 +5,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addWallet: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     //MARK: - Variables
     
@@ -27,9 +26,9 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
         super.viewDidLoad()
         State.cleanVCs()
         
-        titleLabel.text = "ACCOUNTS".localized()
+        navigationItem.title = "ACCOUNTS".localized()
         addWallet.setTitle("   " + "ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
-        editButton.setTitle("EDIT".localized(), forState: UIControlState.Normal)
+        editButton.title = "EDIT".localized()
         
         apiManager.delegate = self
         
@@ -70,7 +69,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
         _isEditing = !_isEditing
         
         let title = _isEditing ? "DONE".localized() : "EDIT".localized()
-        editButton.setTitle(title, forState: .Normal)
+        editButton.title = title
         
         self.tableView.setEditing(_isEditing, animated: false)
         

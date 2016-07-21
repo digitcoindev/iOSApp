@@ -8,7 +8,6 @@
 
 #import "Crypto.h"
 #import "NSData+Base64.h"
-#import <GoogleMaps/GoogleMaps.h>
 
 void createPrivateKey(unsigned char *out_private_key);
 void createPublicKey(unsigned char *public_key, unsigned char *private_key);

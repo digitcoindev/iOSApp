@@ -16,13 +16,13 @@ extension NSData
     }
     
     func aesEncrypt(key: [UInt8], iv: [UInt8]) -> NSData? {
-        let enc = try! AES(key: key, iv: iv, blockMode:.CBC).encrypt(self.arrayOfBytes(), padding: PKCS7())
+        let enc = try! AES(key: key, iv: iv, blockMode:.CBC, padding: PKCS7()).encrypt(self.arrayOfBytes())
         let encData = NSData(bytes: enc, length: Int(enc.count))
         return encData
     }
     
     func aesDecrypt(key: [UInt8], iv: [UInt8]) -> NSData? {
-        guard let dec = try? AES(key: key, iv: iv, blockMode:.CBC).decrypt(self.arrayOfBytes(), padding: PKCS7()) else { return nil }
+        guard let dec = try? AES(key: key, iv: iv, blockMode:.CBC, padding: PKCS7()).decrypt(self.arrayOfBytes()) else { return nil }
         let decData = NSData(bytes: dec, length: Int(dec.count))
         return decData
     }

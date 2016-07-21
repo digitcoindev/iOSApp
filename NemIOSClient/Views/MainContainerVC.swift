@@ -14,27 +14,27 @@ class MainContainerVC: AbstractViewController
         let wallets :[Wallet] = _dataManager.getWallets()
         let loadData = _dataManager.getLoadData()
         
-        if loadData.password == nil || loadData.salt == nil {
-            self.performSegueWithIdentifier(SegueToCreatePassword, sender: self)
-            return
-        }
-        
-        if(wallets.count == 0) {
-            State.nextVC = SegueToAddAccountVC
-            self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self)
-        }
-        else  {
-            
-            if State.currentWallet != nil && State.currentServer != nil{
-                State.toVC = SegueToMessages
-                State.nextVC = SegueToDashboard
-
-            } else {
-                State.nextVC = SegueToLoginVC
-            }
-        }
-        
-        self.performSegueWithIdentifier(SegueToPasswordValidation, sender: self)
+//        if loadData.password == nil || loadData.salt == nil {
+//            self.performSegueWithIdentifier(SegueToCreatePassword, sender: self)
+//            return
+//        }
+//        
+//        if(wallets.count == 0) {
+//            State.nextVC = SegueToAddAccountVC
+//            self.performSegueWithIdentifier(SegueToAddAccountVC, sender: self)
+//        }
+//        else  {
+//            
+//            if State.currentWallet != nil && State.currentServer != nil{
+//                State.toVC = SegueToMessages
+//                State.nextVC = SegueToDashboard
+//
+//            } else {
+//                State.nextVC = SegueToLoginVC
+//            }
+//        }
+//        
+//        self.performSegueWithIdentifier(SegueToPasswordValidation, sender: self)
 
     }
     
@@ -49,20 +49,20 @@ class MainContainerVC: AbstractViewController
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
-        if self.delegate != nil {
-            (segue.destinationViewController as! AbstractViewController).delegate = self.delegate
-        }
-        
-        if (self.childViewControllers.count > 0) {
-            self.swapFromViewController(self.childViewControllers.first!, toViewController: segue.destinationViewController)
-        }
-        else {
-            self.addChildViewController(segue.destinationViewController )
-            (segue.destinationViewController ).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-            
-            self.view .addSubview((segue.destinationViewController ).view)
-            segue.destinationViewController.didMoveToParentViewController(self)
-        }
+//        if self.delegate != nil {
+//            (segue.destinationViewController as! AbstractViewController).delegate = self.delegate
+//        }
+//        
+//        if (self.childViewControllers.count > 0) {
+//            self.swapFromViewController(self.childViewControllers.first!, toViewController: segue.destinationViewController)
+//        }
+//        else {
+//            self.addChildViewController(segue.destinationViewController )
+//            (segue.destinationViewController ).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+//            
+//            self.view .addSubview((segue.destinationViewController ).view)
+//            segue.destinationViewController.didMoveToParentViewController(self)
+//        }
         
     }
     
