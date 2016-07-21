@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F1605" minimumToolsVersion="Automatic">
+    <entity name="Invoice" representedClassName="NemIOSClient.Invoice" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="LoadData" representedClassName="NemIOSClient.LoadData" syncable="YES">
+        <attribute name="currentLanguage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="invoiceMessage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="invoicePostfix" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="invoicePrefix" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastTransactionHash" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="salt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="touchId" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="updateInterval" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="currentServer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Server" syncable="YES"/>
+        <relationship name="currentWallet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wallet" syncable="YES"/>
+    </entity>
+    <entity name="Server" representedClassName="NemIOSClient.Server" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="port" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="protocolType" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Wallet" representedClassName="NemIOSClient.Wallet" syncable="YES">
+        <attribute name="lastTransactionHash" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="privateKey" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Invoice" positionX="-45" positionY="153" width="128" height="120"/>
+        <element name="LoadData" positionX="-45" positionY="72" width="128" height="210"/>
+        <element name="Server" positionX="-54" positionY="9" width="128" height="90"/>
+        <element name="Wallet" positionX="-54" positionY="27" width="128" height="105"/>
+    </elements>
+</model>

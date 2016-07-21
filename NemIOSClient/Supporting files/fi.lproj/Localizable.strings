@@ -1,0 +1,266 @@
+// MARK: - Languages
+
+"LANGUAGE_ENGLISH" = "English";
+"LANGUAGE_INDONESIAN" = "Indonesian";
+"LANGUAGE_JAPANESE" = "日本語";
+"LANGUAGE_LITHUANIAN" = "Lietuvių";
+"LANGUAGE_CHINESE_SIMPLIFIED" = "Chinese (Simplified)";
+"LANGUAGE_DUTCH" = "Nederlands";
+"LANGUAGE_PORTUGUESE" = "Português";
+"LANGUAGE_CROATIAN" = "Magyar";
+"LANGUAGE_FRENCH" = "Français";
+"LANGUAGE_POLISH" = "Polski";
+"LANGUAGE_FINNISH" = "Suomi";
+"LANGUAGE_SPANISH" = "Español";
+"LANGUAGE_GERMAN" = "Deutsch";
+"LANGUAGE_KOREAN" = "Korean";
+"LANGUAGE_ITALIAN" = "Italian";
+
+// MARK: - A
+
+"ACCOUNT_PRIMATY" = "Ensisijainen tili";
+"ADD_ACCOUNT" = "Lisää tili";
+"ADD_SERVER" = "Lisää palvelin";
+"ACCOUNT_NAME" = "Tilin nimi";
+"ACCOUNT_NAME_PLACEHOLDER" = "Tilin nimi";
+"ADDRESS_BOOK" = "Osoitekirja";
+"ADD_CONTACT" = "Lisää kontakti";
+"ADDRESS" = "Osoite ";
+"AMOUNT" = "Summa";
+"ACCOUNTS" = "Tilit";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "Tilin kate ylitetty";
+"ACCOUNT" = "Tili";
+"ADD" = "Lisää";
+"ADD_COSIGNATORY" = "Lisää allekirjoittajakumpppani";
+"ADD_ADITIONAL_SIGNER" = "Lisää lisäallekirjoittajakumppani";
+"ACCOUNT_HISTORY" = "Tilin historia";
+"ABOUT" = "Tietoja";
+
+// MARK: - B
+
+"BASE" = "Oletus";
+"BLOCK" = "Block";
+"BALANCE" = "Saldo";
+"BUILD" = "Valmistunut";
+
+// MARK: - C
+
+"CHANGE" = "Vaihda";
+"CREATE_NEW" = "Luo uusi";
+"CREATE_NEW_ACCCOUNT" = "Luo uusi tili";
+"CREATE_PASSWORD" = "Luo salasana";
+"CHANGE_SERVER" = "Vaihda palvelin";
+"CHANGE_CONTACT" = "Muuta yhteystieto";
+"COPY" = "Kopioi";
+"COULD_NOT_DECRYPT" = "Salausta ei voitu purkaa";
+"CONFIRM" = "Vahvista";
+"COPY_ADDRESS" = "Kopioi osoite";
+"CREATE" = "Luo";
+"CANCEL" = "Peruuta";
+"CONTACTS_IS_UNAVAILABLE" = "Yhteystiedot ei käytössä.\nOta yhteystiedot käyttöön \nAsetukset -> Yksityisyys -> Yhteystiedot.";
+"COPIED" = "Kopioitu";
+
+// MARK: - D
+
+"DONE" = "Valmis";
+"DELETE" = "Poista";
+"DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK" = "Oletko varma, että haluat poistaa %@ yhteystiedoistasi?"; // %@ will be replaced by contact name
+"DELETE_CONFIRMATION_MASSAGE_ACCOUNTS" = "Oletko varma, että haluat poistaa %@ tileistäsi?"; // %@ will be replaced by account name
+"DELETE_CONFIRMATION_MASSAGE_SERVERS" = "Oletko varma, että haluat poistaa %@ palvelimistasi?"; // %@ will be replaced by server address
+"DELEGATED_HARVESTING" = "Valtuutettu louhinta";
+"DELEGATED_KEY" = "Valtuutetun louhinnan key";
+
+// MARK: - E
+
+"EDIT" = "Muokkaa";
+"ENTET_PASSWORD" = "Syötä salasana";
+"ENTET_PASSWORD_EXPORT" = "Syötä uusi salasana, tai paina \"vahvista\" käyttääksesi oletussalasanaa";
+"ENCRYPTED_MESSAGE" = "Salaa viesti";
+"EMPTY_MESSAGE" = "Tyhjä viesti";
+"ENTER_MESSAGE" = "Syötä viesti tähän";
+"ENTER_NAME" = "Syötä nimi";
+"ENTER_ADDRESS" = "Syötä osoite";
+"ENTER_AMOUNT" = "Syötä summa";
+"ENTER_FEE" = "Syötä palkkio";
+"EXPORT_ACCOUNT" = "Vie tili";
+
+// MARK: - F
+
+"FIELDS_EMPTY_ERROR" = "Täytä kaikki kentät";
+"FIRST_NAME" = "Etunimi";
+"FEE" = "Palkkio";
+"FROM" = "Lähettäjä";
+"FIELDS_EMPTY_ERROR" = "Täytä kaikki kentät";
+"FAILURE_MULTISIG_ACCOUNT_CANNOT_BE_COSIGNER" = "Multisig tili ei voi itse toimia allekirjoittajana";
+
+// MARK: - G
+
+"GENERAL" = "Yleiset";
+
+// MARK: - H
+
+"HARVEST_DETAILS" = "Louhinnan tiedot";
+"HOURS_SHORT" = "T";
+"HOURS" = "Tunnit";
+"HIDE_PRIVATE_KEY" = "Piilota Private Key";
+
+// MARK: - I
+
+"INVOICE" = "Lasku";
+"INVOICE_MESSAGE_CONFIG" = "Laskun viesti";
+"IMPORT_KEY" = "Tuo Key";
+"IMPORT_FROM_KEY" = "Syötä Private Key";
+"INFO" = "Info";
+"INVOICE_HEADER" = "Lue QR-koodi maksun vahvistamiseksi";
+"INVOICE_DATA" = "Laskun tiedot";
+"INPUT_NEW_ACCOUNT_NAME" = "Syötä tilin nimi";
+"INPUT_PUBLIC_KEY" = "Syötä osoite";
+
+// MARK: - L
+
+"LANGUAGE" = "Kieli";
+"LAST_NAME" = "Sukunimi";
+"LOST_CONNECTION" = "Yhteys katkennut";
+"LOCKED" = "Lukittu";
+"LAST_HARVESTED_BLOCK" = "Viimeinen %d louhittu lohko()"; // %d will be replaced by the blocks count
+
+// MARK: - M
+
+"MORE" = "Lisää";
+"MAP" = "Kartta";
+"MESSAGES" = "Etusivu";
+"MESSAGE" = "Viesti";
+"MIN" = "Min.";
+"MINUTES" = "Minuutit";
+"MESSAGE_LENGTH" = "Viesti on liian pitkä";
+"MY_ADDRESS" = "Oma osoitteeni";
+"MY_NAME" = "Oma nimi";
+"MY_INFO" = "Oma info";
+"MULTISIG" = "Multisig";
+"MULTISIG_REMOVE_COUNT_ERROR" = "Voit poistaa vain yhden allekirjoittajakumppanin siirtoa kohti.";
+"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Liian monta allekirjoittajakumppania";
+"MULTISIG_CHANGES_CONFIRMATION" = "Vahvista. Maksu on %@ XEM, ja allekirjoittajakumppaneiden minimimäärän muuttaminen maksaa lisää 6 XEM"; // %@ will be replaced by the transaction fee
+"MINUTES_SHORT" = "min";
+"MIN_COSIG_PLACEHOLDER" = "Allekirjoittajakumppaneiden minimimäärä asetetaan : %@"; // %@ will be replaced by min csig value
+"MIN_COSIG_PLACEHOLDER_CHANGED" = "Allekirjoittajakumppaneiden minimimäärä asetettu : %@"; // %@ will be replaced by min cosig value
+
+// MARK: - N
+
+"NONE" = "Tyhjä";
+"NO_ACCOUNTS" = "Ei tilejä";
+"NOTIFICATION" = "Ilmoitukset";
+"NAME" = "Nimi";
+"NO_INTERNET_CONNECTION" = "Ei internet-yhteyttä";
+"NOT_A_HEX_STRING" = "Hex viesti voi sisältää ainoastaan heksadesimaalisia merkkejä.";
+"NO_PUBLIC_KEY_FOR_ENC" = "Tämän tilin Public key ei ole tunnettu.\nSalattu viesti ei ole mahdollinen.";
+"NEW" = "Uusi";
+"NEVER" = "Ei koskaan";
+"NEW_TRANSACTION" = "Uusi siirto";
+"NOT_ENOUGHT_MONEY" = "Saldo ei riitä";
+"NEW_INVOICE" = "Uusi lasku";
+"NO_HARVESTED_BLOCK" = "Ei louhittuja lohkoja";
+"NO_PUBLICKEY" = "Public Key puuttuu";
+"NO" = "Ei";
+"NO_FACEBOOK_ACCOUNT" = "Lisää Facebook-tili asetuksista.";
+"NO_TWITTER_ACCOUNT" = "Lisää Twitter-tili asetuksista.";
+"NO_MAIL_ACCOUNT" = "Lisää sähköpostitili";
+"NO_RESPONCE_FROM_SERVER" = "Ei vastausta palvelimelta";
+"NO_PRIMARY_SERVER" = "Ei ensisijaista palvelinta";
+"NO_NOTIFICATIONS" = "Ei uutta siirtoa()  %@"; // %@ will be replaced by the account name
+"NOTIFICATION_MESSAGE" = "%d Uusi siirto() tilille %@"; // %@ will be replaced by the account name , %d will be replaced by the transactions count
+
+// MARK: - O
+
+"ON" = "Päällä"; // context is Touch ID setting (On/Off)
+"OK" = "OK";
+"OF" = "pois"; // example usage is: 5 "of" 10 signatures
+"OFF" = "Pois"; // context is Touch ID setting (On/Off)
+"OLD_PASSWORD_PLACEHOLDER" = "Syötä vanha salasana";
+
+// MARK: - P
+
+"PASSWORD" = "Salasana";
+"PASSWORD_CHANGE_CONFIG" = "Vaihda salasana";
+"PASSWORD_PLACEHOLDER" = "Salasana";
+"PASSWORD_PLACEHOLDER_EXPORT" = "Tämän osion salasana";
+"PASSOWORD_DIFERENCE_ERROR" = "Salasanat eivät vastaa toisiaan";
+"PASSOWORD_LENGTH_ERROR" = "Salasanasi täytyy olla vähintään 6 merkkiä pitkä.";
+"PRIVATE_KEY" = "Private Key";
+"PUBLIC_KEY" = "Public Key";
+"PRIVATE_KEY_ERROR_1." = "Väärä private key.\nTarkista";
+"PREFIX" = "Prefix";
+"POSTFIX" = "Postfix";
+"POI" = "POI";
+"PRIMARY_ACCOUNT" = "Ensisijainen tili";
+"PRIVATE_KEY_SECURITY_WARNING_PART_ONE" = "On olennaista ymmärtää, että private key on tilisi tärkein osa.\n\nSe kenellä on private key on ";
+"PRIVATE_KEY_SECURITY_WARNING_PART_TWO" = "varojen ja assettien täysi oikeus";
+"PRIVATE_KEY_SECURITY_WARNING_PART_THREE" = "\n\nIt Tilin varmuuskopiointi on tärkeää ja";
+"PRIVATE_KEY_SECURITY_WARNING_PART_FOUR" = "pidä se salassa";
+
+// MARK: - Q
+
+"QR" = "QR";
+
+// MARK: - R
+
+"REPEAT_PASSWORD" = "Toista salasana";
+"REPEAT_PASSWORD_PLACEHOLDER" = "Toista salasana";
+"REMIND_LATER" = "Muistuta myöhemmin";
+"RESET" = "Reset";
+
+// MARK: - S
+
+"SETTINGS" = "Asetukset";
+"SET_CONFIGURATION" = "";
+"SECURITY" = "Turvallisuus";
+"SERVER_SETTINGS" = "Palvelimen asetukset";
+"SERVER" = "Palvelin";
+"SCAN_QR" = "Lue QR";
+"SCAN_QR_CODE" = "Lue QR-koodi";
+"SERVER_UNAVAILABLE" = "Ei yhteyttä palvelimeen. Yritä myöhemmin uudelleen , tai tarkista yhteys palvelimeen";
+"SHOW_TRANSACTIONS" = "Näytä siirrot";
+"SEND" = "Lähetä";
+"SIGNERS" = "Allekirjoittajat";
+"SHARE_QR" = "Jaa QR";
+"SHARE_ADDRESS" = "Jaa osoite";
+"SAVE" = "Tallenna";
+"SAVE_CHANGES" = "Tallenna muutokset";
+"SOCIAL_NEM_HEADER" = "NEM iOS Client";
+"SEND_MESSAGE" = "Lähetä viesti";
+"SHOW_CHANGES" = "Näytä muutokset";
+"SHOW_PRIVATE_KEY" = "Näytä Private Key";
+"SWITCH_ACCOUNT" = "Vaihda tili";
+"SAVE_QR" = "Tallenna QR";
+
+// MARK: - T
+
+"TOUCH_ID" = "Touch ID";
+"TRANSACTION_ANOUNCE_SUCCESS" = "Lähetetty!";
+"TRANSACTION_ANOUNCE_FAILED" = "Lähetys estetty.\nYritä myöhemmin uudelleen, tai tarkista yhteys palvelimeen";
+"TO" = "Kenelle";
+
+// MARK: - U
+
+"UPDATE_INTERVAL" = "Päivitä intervalli";
+"UNCONFIRMED_TRANSACTIONS_DETECTED" = "Sinulla on vahvistamattomia siirtoja, jotka pitää vahvistaa";
+"UNLOCKED" = "Avattu";
+
+// MARK: - V
+
+"VALIDATION" = "Validointi";
+"VASTED_BALANCE" = "Louhittu saldo";
+"VIDATION_ACCOUNT_EXIST" = "Tällä Private keyllä oleva tili esiintyy nimellä: %@"; // %@ will be replaced by account name
+"VALIDAATION_MESSAGE_LEANGTH" = "Viesti on liian pitkä";
+"VIEW_PRIVATE_KEY" = "Näytä Private Key";
+"VERSION" = "Versio";
+
+// MARK: - Y
+
+"YOUR_POSITION" = "Olet täällä";
+"YOUR_NAME" = "Nimesi";
+
+// MARK: - W
+
+"WARNING" = "Varoitus";
+"WRONG_QR_VERSION" = "Väärä QR-versio";
+"WRONG_OLD_PASSWORD" = "Väärä salasana";

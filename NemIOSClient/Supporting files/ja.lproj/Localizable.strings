@@ -1,0 +1,266 @@
+// MARK: - Languages
+
+"LANGUAGE_ENGLISH" = "English";
+"LANGUAGE_INDONESIAN" = "Indonesian";
+"LANGUAGE_JAPANESE" = "日本語";
+"LANGUAGE_LITHUANIAN" = "Lietuvių";
+"LANGUAGE_CHINESE_SIMPLIFIED" = "Chinese (Simplified)";
+"LANGUAGE_DUTCH" = "Nederlands";
+"LANGUAGE_PORTUGUESE" = "Português";
+"LANGUAGE_CROATIAN" = "Magyar";
+"LANGUAGE_FRENCH" = "Français";
+"LANGUAGE_POLISH" = "Polski";
+"LANGUAGE_FINNISH" = "Suomi";
+"LANGUAGE_SPANISH" = "Español";
+"LANGUAGE_GERMAN" = "Deutsch";
+"LANGUAGE_KOREAN" = "Korean";
+"LANGUAGE_ITALIAN" = "Italian";
+
+// MARK: - A
+
+"ACCOUNT_PRIMATY" = "メインアカウント";
+"ADD_ACCOUNT" = "アカウントを追加する";
+"ADD_SERVER" = "サーバーの追加";
+"ACCOUNT_NAME" = "アカウントの名前";
+"ACCOUNT_NAME_PLACEHOLDER" = "アカウントの名前";
+"ADDRESS_BOOK" = "アドレス帳";
+"ADD_CONTACT" = "コンタクトを追加";
+"ADDRESS" = "アドレス";
+"AMOUNT" = "数量";
+"ACCOUNTS" = "アカウント";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "不足金";
+"ACCOUNT" = "アカウント";
+"ADD" = "追加";
+"ADD_COSIGNATORY" = "署名者";
+"ADD_ADITIONAL_SIGNER" = "署名者を加える";
+"ACCOUNT_HISTORY" = "アカウント履歴";
+"ABOUT" = "バージョン情報";
+
+// MARK: - B
+
+"BASE" = "初期設定";
+"BLOCK" = "ブロック";
+"BALANCE" = "残高";
+"BUILD" = "Build";
+
+// MARK: - C
+
+"CHANGE" = "変更";
+"CREATE_NEW" = "新しく作る";
+"CREATE_NEW_ACCCOUNT" = "新しくアカウントを作る";
+"CREATE_PASSWORD" = "パスワードを作る";
+"CHANGE_SERVER" = "サーバー変更";
+"CHANGE_CONTACT" = "コンタクト変更";
+"COPY" = "コピー";
+"COULD_NOT_DECRYPT" = "解読出来ませんでした。";
+"CONFIRM" = "確認";
+"COPY_ADDRESS" = "アドレスをコピー";
+"CREATE" = "作成";
+"CANCEL" = "取り消し";
+"CONTACTS_IS_UNAVAILABLE" = "コンタクトは利用できません。 設定->プライバシー->コンタクトにてコンタクトを承認してください。";
+"COPIED" = "コピーされました。";
+
+// MARK: - D
+
+"DONE" = "完了";
+"DELETE" = "削除";
+"DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK" = "本当に %@ からのコンタクトを削除しますか？"; // %@ will be replaced by contact name
+"DELETE_CONFIRMATION_MASSAGE_ACCOUNTS" = "本当にあなたのアカウントを削除しますか？"; // %@ will be replaced by account name
+"DELETE_CONFIRMATION_MASSAGE_SERVERS" = "本当に%@ からのサーバーを削除しますか？"; // %@ will be replaced by server address
+"DELEGATED_HARVESTING" = "委任されたハーベスティング";
+"DELEGATED_KEY" = "委任されたキー";
+
+// MARK: - E
+
+"EDIT" = "編集";
+"ENTET_PASSWORD" = "パスワードを入力してください。";
+"ENTET_PASSWORD_EXPORT" = "新しいパスワードを入力するか、別のアプリケーションのパスワードを使用するために確認を押してください。";
+"ENCRYPTED_MESSAGE" = "暗号化されたメッセージ";
+"EMPTY_MESSAGE" = "空メッセージ";
+"ENTER_MESSAGE" = "ここにメッセージを入力してください。";
+"ENTER_NAME" = "名前を入力してください。";
+"ENTER_ADDRESS" = "アドレスを入力してください。";
+"ENTER_AMOUNT" = "数量を入力してください。";
+"ENTER_FEE" = "手数料を入力してください。";
+"EXPORT_ACCOUNT" = "アカウントをエクスポート";
+
+// MARK: - F
+
+"FIELDS_EMPTY_ERROR" = "全ての欄に入力してください。";
+"FIRST_NAME" = "名前";
+"FEE" = "手数料";
+"FROM" = "から";
+"FIELDS_EMPTY_ERROR" = "全ての欄に入力してください。";
+"FAILURE_MULTISIG_ACCOUNT_CANNOT_BE_COSIGNER" = "署名者は自分でマルチシグネチャアカウントを開けません。";
+
+// MARK: - G
+
+"GENERAL" = "一般";
+
+// MARK: - H
+
+"HARVEST_DETAILS" = "収穫（ハーベスティング）の詳細";
+"HOURS_SHORT" = "時間短縮";
+"HOURS" = "時間";
+"HIDE_PRIVATE_KEY" = "プライベートキーを隠す";
+
+// MARK: - I
+
+"INVOICE" = "請求書";
+"INVOICE_MESSAGE_CONFIG" = "請求書のメッセージ";
+"IMPORT_KEY" = "キーをインポート";
+"IMPORT_FROM_KEY" = "プライベートキー（秘密鍵）を入力";
+"INFO" = "インフォメーション";
+"INVOICE_HEADER" = "QRを読み込んで支払いを完了させてください。";
+"INVOICE_DATA" = "請求書のデータ";
+"INPUT_NEW_ACCOUNT_NAME" = "アカウントの名前を入れてください。";
+"INPUT_PUBLIC_KEY" = "アドレスを入力してください。";
+
+// MARK: - L
+
+"LANGUAGE" = "言語";
+"LAST_NAME" = "苗字";
+"LOST_CONNECTION" = "接続が切断されています。";
+"LOCKED" = "ロックがかかっています。";
+"LAST_HARVESTED_BLOCK" = "最後に収穫した %d ブロック"; // %d will be replaced by the blocks count
+
+// MARK: - M
+
+"MORE" = "メニュー";
+"MAP" = "マップ";
+"MESSAGES" = "ダッシュボード";
+"MESSAGE" = "メッセージ";
+"MIN" = "最小";
+"MINUTES" = "分";
+"MESSAGE_LENGTH" = "メッセージが長すぎます。";
+"MY_ADDRESS" = "アドレス";
+"MY_NAME" = "アカウント名";
+"MY_INFO" = "インフォメーション";
+"MULTISIG" = "マルチシグネチャ";
+"MULTISIG_REMOVE_COUNT_ERROR" = "あなたは一つの取引につき、一人の連署人だけを取り除くことが出来ます。";
+"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "署名者が多すぎます。";
+"MULTISIG_CHANGES_CONFIRMATION" = "ご確認ください。これには%@ XEMの費用がかかります。また、最小の署名者人数を変更するには、6XENの費用が必要です。"; // %@ will be replaced by the transaction fee
+"MINUTES_SHORT" = "分";
+"MIN_COSIG_PLACEHOLDER" = "最小の署名者をセット: %@　にセットする"; // %@ will be replaced by min csig value
+"MIN_COSIG_PLACEHOLDER_CHANGED" = "最小の署名者を: %@　に変更する"; // %@ will be replaced by min cosig value
+
+// MARK: - N
+
+"NONE" = "なし";
+"NO_ACCOUNTS" = "アカウントがありません。";
+"NOTIFICATION" = "通知";
+"NAME" = "名前";
+"NO_INTERNET_CONNECTION" = "インターネットに接続されていません。";
+"NOT_A_HEX_STRING" = "0〜9の数字とa〜fの英字だけを使用してください。";
+"NO_PUBLIC_KEY_FOR_ENC" = "この口座のためのパブリックキー（公開鍵）は不明です。 メッセージの暗号化は利用出来ません。";
+"NEW" = "新しい取引を始める";
+"NEVER" = "更新しない";
+"NEW_TRANSACTION" = "取引を開始";
+"NOT_ENOUGHT_MONEY" = "残高不足";
+"NEW_INVOICE" = "新しい請求書";
+"NO_HARVESTED_BLOCK" = "収穫されたブロックがありません。";
+"NO_PUBLICKEY" = "パブリックキー（公開鍵）がありません。";
+"NO" = "なし";
+"NO_FACEBOOK_ACCOUNT" = "設定でFacebookアカウントを追加してください。";
+"NO_TWITTER_ACCOUNT" = "設定でFacebookアカウントを追加してください。";
+"NO_MAIL_ACCOUNT" = "あなたのメール・クライアントでメール・アカウントを追加してください。";
+"NO_RESPONCE_FROM_SERVER" = "サーバーからの返答がありません。";
+"NO_PRIMARY_SERVER" = "主要サーバーでありません。";
+"NO_NOTIFICATIONS" = "%@　との新しい取引はありません。"; // %@ will be replaced by the account name
+"NOTIFICATION_MESSAGE" = " %@アカウントとの %d 新しい取引"; // %@ will be replaced by the account name , %d will be replaced by the transactions count
+
+// MARK: - O
+
+"ON" = "オン"; // context is Touch ID setting (On/Off)
+"OK" = "OK";
+"OF" = "の"; // example usage is: 5 "of" 10 signatures
+"OFF" = "オフ"; // context is Touch ID setting (On/Off)
+"OLD_PASSWORD_PLACEHOLDER" = "旧パスワード";
+
+// MARK: - P
+
+"PASSWORD" = "パスワード";
+"PASSWORD_CHANGE_CONFIG" = "パスワード変更";
+"PASSWORD_PLACEHOLDER" = "パスワード";
+"PASSWORD_PLACEHOLDER_EXPORT" = "現在のアプリケーション・パスワード";
+"PASSOWORD_DIFERENCE_ERROR" = "パスワードが違います。";
+"PASSOWORD_LENGTH_ERROR" = "パスワードは6文字以上で登録する必要があります。";
+"PRIVATE_KEY" = "プライベートキー（秘密鍵）";
+"PUBLIC_KEY" = "パブリックキー（公開鍵）";
+"PRIVATE_KEY_ERROR_1." = "無効なパブリックキーです。 確認してください。";
+"PREFIX" = "接頭辞（プレフィックス）";
+"POSTFIX" = "接尾辞（サフィックス）";
+"POI" = "POI";
+"PRIMARY_ACCOUNT" = "メインアカウント";
+"PRIVATE_KEY_SECURITY_WARNING_PART_ONE" = "プライベートキー（秘密鍵）はあなたのアカウント情報において最も重要であり、機密事項として非常に注意して取り扱わなければなりません。\n\n関連する資金と資産を制御し、あなたのアカウントを元に戻すために必要なプライベートキー（秘密鍵）に関する知識を誰でも持つ必要があります。 ";
+"PRIVATE_KEY_SECURITY_WARNING_PART_TWO" = "関連する資金と資産を制御する";
+"PRIVATE_KEY_SECURITY_WARNING_PART_THREE" = "\n\nIt あなたのアカウントを元に戻すために必要なプライベートキー（秘密鍵）は決して無くさないように、また、それが";
+"PRIVATE_KEY_SECURITY_WARNING_PART_FOUR" = "絶対に外部に漏れないように注意して扱ってください。";
+
+// MARK: - Q
+
+"QR" = "QR";
+
+// MARK: - R
+
+"REPEAT_PASSWORD" = "パスワード再入力";
+"REPEAT_PASSWORD_PLACEHOLDER" = "パスワード再入力";
+"REMIND_LATER" = "あとで通知する";
+"RESET" = "旧パスワード";
+
+// MARK: - S
+
+"SETTINGS" = "構成";
+"SET_CONFIGURATION" = "";
+"SECURITY" = "セキュリティ";
+"SERVER_SETTINGS" = "サーバー設定";
+"SERVER" = "サーバー";
+"SCAN_QR" = "QRをスキャン";
+"SCAN_QR_CODE" = "QRコードをスキャン";
+"SERVER_UNAVAILABLE" = "サーバーは利用できません。後でもう一度試すか、あなたのサーバーを確認してください。";
+"SHOW_TRANSACTIONS" = "取引を表示する";
+"SEND" = "送信する";
+"SIGNERS" = "署名者";
+"SHARE_QR" = "QRをシェアする";
+"SHARE_ADDRESS" = "アドレスをシェアする";
+"SAVE" = "保存";
+"SAVE_CHANGES" = "変更内容を保存する";
+"SOCIAL_NEM_HEADER" = "NEM iOSクライアント";
+"SEND_MESSAGE" = "メッセージ送信";
+"SHOW_CHANGES" = "変更内容の表示";
+"SHOW_PRIVATE_KEY" = "プライベートキー（秘密鍵）を表示";
+"SWITCH_ACCOUNT" = "アカウント切り替え";
+"SAVE_QR" = "QR保存";
+
+// MARK: - T
+
+"TOUCH_ID" = "タッチID";
+"TRANSACTION_ANOUNCE_SUCCESS" = "取引は送信されました！";
+"TRANSACTION_ANOUNCE_FAILED" = "取引は拒否されました。 \n 後でもう一度試すか、サーバー接続を確認してください。";
+"TO" = "へ";
+
+// MARK: - U
+
+"UPDATE_INTERVAL" = "更新間隔";
+"UNCONFIRMED_TRANSACTIONS_DETECTED" = "あなたのアカウントには署名が必要な未確認の取引があります！";
+"UNLOCKED" = "ロックを解除する";
+
+// MARK: - V
+
+"VALIDATION" = "確認";
+"VASTED_BALANCE" = "総合残高";
+"VIDATION_ACCOUNT_EXIST" = "そのプライベートキー（秘密鍵）によるアカウントは : %@　に存在します。"; // %@ will be replaced by account name
+"VALIDAATION_MESSAGE_LEANGTH" = "メッセージが長すぎます。";
+"VIEW_PRIVATE_KEY" = "プライベートキー（秘密鍵）に関する見解";
+"VERSION" = "Version";
+
+// MARK: - Y
+
+"YOUR_POSITION" = "あなたはここです。";
+"YOUR_NAME" = "あなたの名前";
+
+// MARK: - W
+
+"WARNING" = "警告";
+"WRONG_QR_VERSION" = "QRバージョンが違います。";
+"WRONG_OLD_PASSWORD" = "パスワードが違います。";
