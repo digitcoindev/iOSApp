@@ -1,7 +1,7 @@
 import UIKit
 import LocalAuthentication
 
-class PasswordValidationVC: AbstractViewController
+class AccountPasswordValidationViewController: AbstractViewController
 {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UIButton!
@@ -95,11 +95,9 @@ class PasswordValidationVC: AbstractViewController
         let success = State.importAccountData?(password: password.text!) ?? false
         if success {
             State.importAccountData = nil
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
-            } else {
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
+            
+                performSegueWithIdentifier("unwindToAccountMainViewController", sender: nil)
+
         }  else {
             password.textColor = UIColor.redColor()
         }

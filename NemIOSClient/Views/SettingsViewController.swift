@@ -1,6 +1,6 @@
 import UIKit
 
-class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
+class SettingsViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
 {
     private enum SettingsCategory :Int {
         case General = 0
@@ -12,8 +12,6 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     let dataManager :CoreDataManager = CoreDataManager()
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
     
     private var _content :[[[String]]] = []
     private var _loadData :LoadData? = State.loadData
@@ -31,13 +29,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     override func viewDidAppear(animated: Bool) {
         _refreshData()
-        State.currentVC = SegueToSettings
-    }
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-        }
+//        State.currentVC = SegueToSettings
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -140,7 +132,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
     
     private final func _refreshData(){
         _loadData = State.loadData
-        titleLabel.text = "SETTINGS".localized()
+        title = "SETTINGS".localized()
         var serverText = ""
         if let server = _loadData?.currentServer {
             serverText = server.address
@@ -227,7 +219,7 @@ class SettingsVC: AbstractViewController, UITableViewDataSource, UITableViewDele
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier(withId) as! AbstractViewController
-        popUpController.view.frame = CGRect(x: 0, y: topView.frame.height, width: popUpController.view.frame.width, height: popUpController.view.frame.height - topView.frame.height)
+        popUpController.view.frame = CGRect(x: 0, y: view.frame.height, width: popUpController.view.frame.width, height: popUpController.view.frame.height - view.frame.height)
         popUpController.view.layer.opacity = 0
         popUpController.delegate = self
         

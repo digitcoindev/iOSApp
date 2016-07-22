@@ -1,13 +1,11 @@
 import UIKit
 
-class ImportFromQR: AbstractViewController, QRDelegate
+class AccountAddExistingQRViewController: AbstractViewController, QRDelegate
 {
     //MARK: - IBOulets
 
     @IBOutlet weak var screenScaner: QR!
-    @IBOutlet weak var backButton: UIButton!
     
-    @IBOutlet weak var titleLabel: UILabel!
     private var _isInited = false
 
     //MARK: - Load Methods
@@ -17,7 +15,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
     
         screenScaner.delegate = self
         
-        titleLabel.text = "SCAN_QR_CODE".localized()
+        title = "SCAN_QR_CODE".localized()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -26,20 +24,13 @@ class ImportFromQR: AbstractViewController, QRDelegate
             screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
         }
         
-        State.currentVC = SegueToImportFromQR
+//        State.currentVC = SegueToImportFromQR
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    //MARK: - IBAction
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
-        }
-    }
+
     
     //MARK: - QRDelegate Methods
     
@@ -79,8 +70,8 @@ class ImportFromQR: AbstractViewController, QRDelegate
                 let saltBytes = salt.asByteArray()
                 let saltData = NSData(bytes: saltBytes, length: saltBytes.count)
                 
-                State.fromVC = SegueToImportFromQR
-                State.nextVC = SegueToLoginVC
+//                State.fromVC = SegueToImportFromQR
+//                State.nextVC = SegueToLoginVC
                 
                 State.importAccountData = {
                     (password) -> Bool in
@@ -101,9 +92,7 @@ class ImportFromQR: AbstractViewController, QRDelegate
                     return true
                 }
                 
-                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
-                }
+                performSegueWithIdentifier("showAccountPasswordValidationViewController", sender: nil)
             }
         }
         else {

@@ -1,6 +1,6 @@
 import UIKit
 
-class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSource, APIManagerDelegate, EditableTableViewCellDelegate, ChangeNamePopUptDelegate
+class AccountMainViewController: AbstractViewController, UITableViewDelegate, UITableViewDataSource, APIManagerDelegate, EditableTableViewCellDelegate, ChangeNamePopUptDelegate
 {
     
     @IBOutlet weak var tableView: UITableView!
@@ -40,7 +40,9 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToLoginVC
+        
+        
+//        State.currentVC = SegueToLoginVC
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,20 +50,6 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     //MARK: - IBAction
-    
-    @IBAction func addNewWallet(sender: AnyObject) {
-        
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
-        }
-    }
-    
-    @IBAction func settings(sender: AnyObject) {
-        
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToSettings)
-        }
-    }
     
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
         if _popUp != nil { return }
@@ -74,7 +62,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
         self.tableView.setEditing(_isEditing, animated: false)
         
         for cell in self.tableView.visibleCells {
-            (cell as! WalletCell).isEditable = _isEditing
+            (cell as! AccountTableViewCell).isEditable = _isEditing
         }
     }
     
@@ -86,12 +74,12 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell : WalletCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as! WalletCell
+        let cell : AccountTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("walletCell") as! AccountTableViewCell
         cell.isEditable = _isEditing
         cell.editDelegate = self
         let cellData  :Wallet = wallets[indexPath.row]
         
-        cell.infoLabel.attributedText = NSMutableAttributedString(string: cellData.login as String , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!])
+        cell.titleLabel.attributedText = NSMutableAttributedString(string: cellData.login as String , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!])
         
         return cell
     }
@@ -122,9 +110,9 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
         return _isEditing
     }
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.None
-    }
+//    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+//        return UITableViewCellEditingStyle.None
+//    }
     
     func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return _isEditing
@@ -145,6 +133,15 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
         }
         
         dataManager.commit()
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! EditableTableViewCell
+            
+            deleteCell(cell)
+        }
     }
  
     //MARK: - Private Methods
@@ -191,7 +188,7 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
     //MARK: - EditableTableViewCellDelegate Delegate
     
     func deleteCell(cell: EditableTableViewCell){
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), (cell as! WalletCell).infoLabel.text!), preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), (cell as! AccountTableViewCell).titleLabel.text!), preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             let index :NSIndexPath = self.tableView.indexPathForCell(cell)!
@@ -240,5 +237,11 @@ class LoginVC: AbstractViewController, UITableViewDelegate, UITableViewDataSourc
                 (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
             }
         }
+    }
+    
+    @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
+        
+        wallets  = dataManager.getWallets()
+        tableView.reloadData()
     }
 }

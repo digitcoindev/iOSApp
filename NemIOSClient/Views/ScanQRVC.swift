@@ -137,7 +137,7 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
         State.invoice = invoice
         
         if State.invoice != nil {
-            let navDelegate = (self.delegate as? QRViewController)?.delegate as? MainVCDelegate
+            let navDelegate = (self.delegate as? InvoiceViewController)?.delegate as? MainVCDelegate
             if navDelegate != nil  {
                 navDelegate!.pageSelected(SegueToSendTransaction)
             }
@@ -171,12 +171,12 @@ class ScanQRVC: AbstractViewController, QRDelegate, AddCustomContactDelegate
 
     func contactAdded(successfuly: Bool, sendTransaction :Bool) {
         if successfuly {
-            let navDelegate = (self.delegate as? QRViewController)?.delegate as? MainVCDelegate
+            let navDelegate = (self.delegate as? InvoiceViewController)?.delegate as? MainVCDelegate
             if navDelegate != nil  {
                 if sendTransaction {
                     let correspondent :Correspondent = Correspondent()
                     
-                    for email in AddressBook.newContact!.emailAddresses{
+                    for email in AddressBookViewController.newContact!.emailAddresses{
                         if email.label == "NEM" {
                             correspondent.address = (email.value as? String) ?? " "
                             correspondent.name = correspondent.address.nemName()

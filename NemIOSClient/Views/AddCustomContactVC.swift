@@ -132,7 +132,7 @@ class AddCustomContactVC: AbstractViewController, APIManagerDelegate {
                 AddressBookManager.addContact(mutableContact, responce: { (contact) -> Void in
                     if self.delegate != nil {
                         
-                        AddressBook.newContact = contact
+                        AddressBookViewController.newContact = contact
                         
                         dispatch_async(dispatch_get_main_queue(), {
                             () -> Void in
@@ -146,7 +146,7 @@ class AddCustomContactVC: AbstractViewController, APIManagerDelegate {
                 AddressBookManager.updateContact(mutableContact, responce: { (contact) -> Void in
                     if self.delegate != nil {
                         
-                        AddressBook.newContact = contact
+                        AddressBookViewController.newContact = contact
                         
                         dispatch_async(dispatch_get_main_queue(), {
                             () -> Void in

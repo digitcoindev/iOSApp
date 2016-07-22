@@ -1,11 +1,8 @@
 import UIKit
 
-class AddAccount: AbstractViewController
+class AccountAddViewController: AbstractViewController
 {
     //MARK: - IBOulets
-
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var custom: UIButton!
     @IBOutlet weak var qr: UIButton!
@@ -16,13 +13,13 @@ class AddAccount: AbstractViewController
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        State.currentVC = SegueToAddAccountVC
+//        State.currentVC = SegueToAddAccountVC
 
         custom.layer.cornerRadius = 5
         qr.layer.cornerRadius = 5
         key.layer.cornerRadius = 5
         
-        titleLabel.text = "ADD_ACCOUNT".localized()
+        title = "ADD_ACCOUNT".localized()
         custom.setTitle("CREATE_NEW".localized(), forState: UIControlState.Normal)
         qr.setTitle("SCAN_QR_CODE".localized(), forState: UIControlState.Normal)
         key.setTitle("IMPORT_KEY".localized(), forState: UIControlState.Normal)
@@ -30,7 +27,7 @@ class AddAccount: AbstractViewController
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToAddAccountVC
+//        State.currentVC = SegueToAddAccountVC
 
     }
     
@@ -43,12 +40,6 @@ class AddAccount: AbstractViewController
     }
     
     //MARK: - IBActions
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-        }
-    }
     
     @IBAction func Custom(sender: AnyObject) {
         if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {

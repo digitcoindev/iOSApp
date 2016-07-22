@@ -1,13 +1,11 @@
 import UIKit
 import Contacts
 
-class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegate, APIManagerDelegate
+class TransactionOverviewViewController: AbstractViewController , UITableViewDelegate ,UISearchBarDelegate, APIManagerDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var customMessageButton: MessagesButtonTypeOne!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var newTransactionButton: UIBarButtonItem!
     
     let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData?
@@ -39,7 +37,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         State.fromVC = SegueToMessages
         State.currentContact = nil
         
-        titleLabel.text = "MESSAGES".localized()
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
         //customMessageButton.setTitle("NEW".localized(), forState: UIControlState.Normal)
         tableView.layer.cornerRadius = 2
@@ -79,7 +76,25 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         self.tableView.allowsMultipleSelectionDuringEditing = false
         
-        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(Messages.refreshTransactionList), userInfo: nil, repeats: true)
+        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionList), userInfo: nil, repeats: true)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        tabBarController?.title = "MESSAGES".localized()
+        
+        let rightBarButton = UIButton()
+        let barButtonImage = UIImage(named: "note")
+        rightBarButton.setImage(barButtonImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
+        rightBarButton.tintColor = UIColor.whiteColor()
+        rightBarButton.frame = CGRectMake(0, 0, 30, 30)
+        
+        rightBarButton.addTarget(self, action: #selector(segueToTransactionSendViewController), forControlEvents: .TouchUpInside)
+        
+        let rightNavigationBarButton = UIBarButtonItem()
+        rightNavigationBarButton.customView = rightBarButton
+        
+        tabBarController?.navigationItem.rightBarButtonItem = rightNavigationBarButton
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -105,7 +120,7 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
             walletData = responceAccount
             
             if walletData!.cosignatories.count > 0 {
-                customMessageButton.hidden = true
+                newTransactionButton.enabled = false
             }
             
             var userDescription :NSMutableAttributedString!
@@ -279,20 +294,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
             })
-        }
-    }
-    
-    // MARK: - IBAction
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-        }
-    }
-    
-    @IBAction func customMessage(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
         }
     }
     
@@ -503,5 +504,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         else {
             self.tableView.cellForRowAtIndexPath(indexPath)?.selected = false
         }
+    }
+    
+    func segueToTransactionSendViewController() {
+        
+        performSegueWithIdentifier("showTransactionSendViewController", sender: nil)
     }
 }

@@ -2,7 +2,7 @@ import UIKit
 import Social
 import MessageUI
 
-class CreateQRResult: AbstractViewController, MFMailComposeViewControllerDelegate
+class InvoiceScanViewController: AbstractViewController, MFMailComposeViewControllerDelegate
 {
     // MARK: - @IBOutlet
     

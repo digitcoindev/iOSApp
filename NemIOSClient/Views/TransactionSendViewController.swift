@@ -1,6 +1,6 @@
 import UIKit
 
-class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
+class TransactionSendViewController: AbstractViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
 {
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var toAddressTextField: NEMTextField!
@@ -9,7 +9,6 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
     @IBOutlet weak var feeTextField: NEMTextField!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var chooseButon: ChouseButton!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var accountLabel: UILabel!
     @IBOutlet weak var encButton: UIButton!
     
@@ -41,7 +40,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         _apiManager.delegate = self
         
-        titleLabel.text = "NEW_TRANSACTION".localized()
+        title = "NEW_TRANSACTION".localized()
         fromLabel.text = "FROM".localized() + ":"
         toLabel.text = "TO".localized() + ":"
         amountLabel.text = "AMOUNT".localized() + ":"
@@ -58,8 +57,8 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: #selector(SendTransactionVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: #selector(SendTransactionVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        observer.addObserver(self, selector: #selector(TransactionSendViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: #selector(TransactionSendViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
@@ -238,13 +237,6 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         }
         
         self.amountTextField.text = text
-    }
-    
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
-        }
     }
     
     @IBAction func send(sender: AnyObject) {

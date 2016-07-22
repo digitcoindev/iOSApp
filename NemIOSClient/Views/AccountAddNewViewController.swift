@@ -1,5 +1,5 @@
 import UIKit
-class RegistrationVC: AbstractViewController
+class AccountAddNewViewController: AbstractViewController
 {
     //MARK: - Private Variables
 
@@ -7,9 +7,7 @@ class RegistrationVC: AbstractViewController
     
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var backButton: UIButton!
-        
-    @IBOutlet weak var titleLabel: UILabel!
+    
     @IBOutlet weak var createButton: UIButton!
     
     //MARK: - Load Methods
@@ -22,17 +20,17 @@ class RegistrationVC: AbstractViewController
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(RegistrationVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(RegistrationVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AccountAddNewViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(AccountAddNewViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         createButton.setTitle("CREATE_NEW_ACCCOUNT".localized(), forState: UIControlState.Normal)
-        titleLabel.text = "CREATE_NEW_ACCCOUNT".localized()
+        title = "CREATE_NEW_ACCCOUNT".localized()
         userName.placeholder = "ACCOUNT_NAME_PLACEHOLDER".localized()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToRegistrationVC
+//        State.currentVC = SegueToRegistrationVC
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,12 +38,6 @@ class RegistrationVC: AbstractViewController
     }
     
     //MARK: - IBAction
-
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
-        }
-    }
     
     @IBAction func chouseTextField(sender: UITextField) {
         scroll.scrollRectToVisible(self.view.convertRect(sender.frame, fromView: sender), animated: true)
@@ -59,9 +51,7 @@ class RegistrationVC: AbstractViewController
             
             State.toVC = SegueToLoginVC
             
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-            }
+            performSegueWithIdentifier("unwindToAccountMainViewController", sender: nil)
         }
         else {
             
@@ -76,7 +66,7 @@ class RegistrationVC: AbstractViewController
     @IBAction func changeField(sender: UITextField) {
         sender.endEditing(true)
     }
-    
+        
     //MARK: - Keyboard Delegate
     
     final func keyboardWillShow(notification: NSNotification) {

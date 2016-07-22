@@ -1,6 +1,6 @@
 import UIKit
 
-class CreateQRInput: AbstractViewController
+class InvoiceCreateViewController: AbstractViewController
 {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var message: NEMTextField!
@@ -106,8 +106,8 @@ class CreateQRInput: AbstractViewController
         CoreDataManager().commit()
         State.invoice = invoice
         
-        if self.delegate != nil && self.delegate!.respondsToSelector(Selector("changePage:")) {
-            (self.delegate as! QRViewController).changePage(SegueToCreateInvoiceResult)
-        }
+//        if self.delegate != nil && self.delegate!.respondsToSelector(Selector("changePage:")) {
+//            (self.delegate as! InvoiceViewController).changePage(SegueToCreateInvoiceResult)
+//        }
     }
 }

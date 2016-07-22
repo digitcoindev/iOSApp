@@ -1,16 +1,13 @@
 import UIKit
 import Contacts
 
-class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCustomContactDelegate
+class AddressBookViewController: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCustomContactDelegate
 {
     // MARK: - @IBOutlet
 
-    @IBOutlet weak var topView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchContainer: UIView!
     @IBOutlet weak var searchTextField: NEMTextField!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     
     // MARK: - Static Variables
@@ -35,7 +32,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToAddressBook
+//        State.fromVC = SegueToAddressBook
         
         _apiManager.delegate = self
         
@@ -47,11 +44,9 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             _apiManager.accountGet(State.currentServer!, account_address: account_address)
         }
         
-        _newContact = AddressBook.newContact
-        AddressBook.newContact = nil
+        _newContact = AddressBookViewController.newContact
+        AddressBookViewController.newContact = nil
         
-        titleLabel.text = "ADDRESS_BOOK".localized()
-        editButton.setTitle("EDIT".localized(), forState: UIControlState.Normal)
         addButton.setTitle("  " + "ADD_CONTACT".localized(), forState: UIControlState.Normal)
         searchTextField.placeholder = "SEARCH_CONTACTS".localized()
         searchContainer.layer.cornerRadius = 5
@@ -61,9 +56,16 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         self.tableView.separatorInset.right = 15
         filterChanged(self)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        tabBarController?.title = "ADDRESS_BOOK".localized()
+        tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToAddressBook
+//        State.currentVC = SegueToAddressBook
 
     }
     
@@ -83,7 +85,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         _isEditing = !_isEditing
         
         let title = _isEditing ? "DONE".localized() : "EDIT".localized()
-        editButton.setTitle(title, forState: .Normal)
+        tabBarController?.navigationItem.rightBarButtonItem!.title = title
 
         for cell in self.tableView.visibleCells {
             (cell as! AddressCell).isEditable = _isEditing
@@ -136,12 +138,6 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
     
     @IBAction func addNewContact(sender: AnyObject) {
         _addContact()
-    }
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
-        }
     }
     
     // MARK: - Table View Data Sourse
@@ -202,7 +198,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let contactCustomVC :MessageToContactVC =  storyboard.instantiateViewControllerWithIdentifier("SendMessageToContact") as! MessageToContactVC
-        contactCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - topView.frame.height)
+        contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.delegate = self
         _tempController = contactCustomVC
@@ -229,7 +225,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let contactCustomVC :AddCustomContactVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AddCustomContactVC
-        contactCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - topView.frame.height)
+        contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.delegate = self
         
@@ -246,7 +242,7 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let contactCustomVC :AddCustomContactVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AddCustomContactVC
-        contactCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - topView.frame.height)
+        contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.firstName.text = contact.givenName
         contactCustomVC.lastName.text = contact.familyName
@@ -281,8 +277,8 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
             })
             
             _isEditing = false
-            _newContact = AddressBook.newContact
-            AddressBook.newContact = nil
+            _newContact = AddressBookViewController.newContact
+            AddressBookViewController.newContact = nil
             
             self.filterChanged(self)
             
@@ -314,8 +310,8 @@ class AddressBook: AbstractViewController, UITableViewDelegate, UIAlertViewDeleg
                 }
             })
             _isEditing = false
-            _newContact = AddressBook.newContact
-            AddressBook.newContact = nil
+            _newContact = AddressBookViewController.newContact
+            AddressBookViewController.newContact = nil
 
             self.filterChanged(self)
             

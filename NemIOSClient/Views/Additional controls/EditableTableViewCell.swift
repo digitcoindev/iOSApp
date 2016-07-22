@@ -56,13 +56,13 @@ class EditableTableViewCell: AbstactTableViewCell
         _editImageView.contentMode = .ScaleAspectFit
         
         self._editView?.addSubview(_editImageView)
-        
-        _deleteButton.setBackgroundImage(UIImage(named: "delete_icon"), forState: UIControlState.Normal)
-        _deleteButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        
-        _deleteButton.addTarget(self, action: #selector(EditableTableViewCell.deleteCell), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        self._deleteView?.addSubview(_deleteButton)
+//        
+//        _deleteButton.setBackgroundImage(UIImage(named: "delete_icon"), forState: UIControlState.Normal)
+//        _deleteButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//        
+//        _deleteButton.addTarget(self, action: #selector(EditableTableViewCell.deleteCell), forControlEvents: UIControlEvents.TouchUpInside)
+//        
+//        self._deleteView?.addSubview(_deleteButton)
         
     }
     
@@ -101,11 +101,11 @@ class EditableTableViewCell: AbstactTableViewCell
         super.setSelected(selected, animated: animated)
     }
     
-    func deleteCell()
-    {
-        if self.editDelegate != nil
-        {            
-            self.editDelegate?.deleteCell(self)
-        }
-    }
+//    func deleteCell()
+//    {
+//        if self.editDelegate != nil
+//        {            
+//            self.editDelegate?.deleteCell(self)
+//        }
+//    }
 }

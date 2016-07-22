@@ -1,6 +1,6 @@
 import UIKit
 
-class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
+class AccountAddExistingKeyViewController: AbstractViewController ,UIScrollViewDelegate
 {
     //MARK: - IBOulets
 
@@ -9,8 +9,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     @IBOutlet weak var key: UITextField!
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
     
     //MARK: - Load Methods
 
@@ -22,10 +20,10 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(ImportFromKey.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(ImportFromKey.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AccountAddExistingKeyViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(AccountAddExistingKeyViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
-        titleLabel.text = "IMPORT_FROM_KEY".localized()
+        title = "IMPORT_FROM_KEY".localized()
         
         key.placeholder = "PRIVATE_KEY".localized()
         name.placeholder = "NAME".localized()
@@ -38,7 +36,7 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        State.currentVC = SegueToImportFromKey
+//        State.currentVC = SegueToImportFromKey
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,12 +44,6 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
     }
     
     //MARK: - IBAction
-
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
-        }
-    }
     
     @IBAction func chouseTextField(sender: UITextField) {
         validateField(sender)
@@ -95,9 +87,8 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
             
             State.toVC = SegueToLoginVC
             
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-            }
+            performSegueWithIdentifier("unwindToAccountMainViewController", sender: nil)
+            
             return
         }
         
@@ -109,11 +100,8 @@ class ImportFromKey: AbstractViewController ,UIScrollViewDelegate
 
                     WalletGenerator().createWallet(name.text!, privateKey: privateKey)
                     
-                    State.toVC = SegueToLoginVC
                     
-                    if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                        (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
-                    }
+                    performSegueWithIdentifier("unwindToAccountMainViewController", sender: nil)
                 }
             }
             else {

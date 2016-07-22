@@ -1,6 +1,6 @@
 import UIKit
 
-class UserInfoVC: AbstractViewController
+class InvoiceAccountInfoViewController: AbstractViewController
 {
     // MARK: - @IBOutlet
 
