@@ -1,14 +1,11 @@
 import UIKit
 
-class ServerViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate, ServerCellDelegate, APIManagerDelegate, AddCustomServerDelegate
+class SettingsServerViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate, ServerCellDelegate, APIManagerDelegate, AddCustomServerDelegate
 {
     // MARK: - Variables
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addServer: UIButton!
-    @IBOutlet weak var edit: UIButton!
     
     private let _dataManager : CoreDataManager = CoreDataManager()
     private let _apiManager :APIManager = APIManager()
@@ -26,9 +23,10 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         _apiManager.delegate = self
         
         servers = _dataManager.getServers()
-        titleLabel.text = "SERVER".localized()
+        title = "SERVER".localized()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
+        
         addServer.setTitle("  " + "ADD_SERVER".localized(), forState: UIControlState.Normal)
-        edit.setTitle("EDIT".localized(), forState: UIControlState.Normal)
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -40,7 +38,7 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToServerVC
+//        State.currentVC = SegueToServerVC
     }
     
     // MARK: - IBAction
@@ -49,19 +47,13 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
         showServerPopUp()
     }
     
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToSettings)
-        }
-    }
-    
     @IBAction func editButtonTouchUpInside(sender: AnyObject) {
         if _popUp != nil { return }
 
         _isEditing = !_isEditing
         
         let title = _isEditing ? "DONE".localized() : "EDIT".localized()
-        edit.setTitle(title, forState: .Normal)
+        tabBarController?.navigationItem.rightBarButtonItem!.title = title
 
         for cell in self.tableView.visibleCells {
             (cell as! ServerViewCell).inEditingState = _isEditing
@@ -154,8 +146,8 @@ class ServerViewController: AbstractViewController, UITableViewDataSource, UITab
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let serverCustomVC :AddCustomServerVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomServer") as! AddCustomServerVC
-        serverCustomVC.view.frame = CGRect(x: 0, y: topView.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - topView.frame.height)
+        let serverCustomVC :SettingsAddServerViewController =  storyboard.instantiateViewControllerWithIdentifier("SettingsAddServerViewController") as! SettingsAddServerViewController
+        serverCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - view.frame.height)
         serverCustomVC.view.layer.opacity = 0
         serverCustomVC.delegate = self
         

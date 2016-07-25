@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManagerDelegate {
+class HarvestingViewController: AbstractViewController , UITableViewDelegate, APIManagerDelegate {
     
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var importance: UILabel!
@@ -19,8 +19,6 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     @IBOutlet weak var lastBlocks: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var titleLabel: UILabel!
-
     private var _mainAccount :AccountGetMetaData? = nil
     private let _apiManager :APIManager =  APIManager()
     
@@ -31,7 +29,7 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
         
         _apiManager.delegate = self
         
-        titleLabel.text = "HARVEST_DETAILS".localized()
+        title = "HARVEST_DETAILS".localized()
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
@@ -44,14 +42,9 @@ class HarvestDetailsVC: AbstractViewController , UITableViewDelegate, APIManager
     override func viewWillAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        State.currentVC = SegueToHistoryVC
+//        State.currentVC = SegueToHistoryVC
     }
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
-        }
-    }
+
     //MARK: - UITableViewDelegate Methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -13,7 +13,7 @@ protocol AddCosigPopUptDelegate
     func addCosig(publicKey :String)
 }
 
-class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
+class MultisignatureAddSignerViewController: AbstractViewController, NEMTextFieldDelegate {
     
     //MARK: - @IBOutlet
     
@@ -35,8 +35,8 @@ class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(AddCosigPopUp.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(AddCosigPopUp.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(MultisignatureAddSignerViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(MultisignatureAddSignerViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         errorLabel.layer.cornerRadius = 5
         errorLabel.clipsToBounds = true

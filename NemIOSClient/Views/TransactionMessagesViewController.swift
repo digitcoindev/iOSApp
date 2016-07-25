@@ -1,6 +1,6 @@
 import UIKit
 
-class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate, DetailedTableViewCellDelegate
+class TransactionMessagesViewController: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate, DetailedTableViewCellDelegate
 {
     private struct DefinedCell
     {
@@ -19,10 +19,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     @IBOutlet weak var sendButton: UIButton?
     @IBOutlet weak var accountsButton: UIButton?
     @IBOutlet weak var amoundContainerView: UIView!
-    @IBOutlet weak var contactInfo: UILabel!
     
     @IBOutlet weak var encButton: UIButton!
-    @IBOutlet weak var copyButton: UIButton!
     
     private var _unconfirmedTransactions  :[TransactionPostMetaData] = []
     private var _transactions :[TransactionPostMetaData] = []
@@ -64,7 +62,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        copyButton.setTitle("COPY", forState: UIControlState.Normal)
+        tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "COPY", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(copyCorrespondentAddress(_:)))
+        
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
         amoundField?.placeholder = "AMOUNT".localized()
         messageField?.placeholder = "MESSAGE".localized()
@@ -74,7 +73,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         _apiManager?.delegate = self
         
         _initButtonsConfigs()
-        contactInfo.text = contact.name
+        title = contact.name
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         _account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
@@ -90,10 +89,10 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        observer.addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
 
-        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(MessageVC.refreshHistory), userInfo: nil, repeats: true)
+        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionMessagesViewController.refreshHistory), userInfo: nil, repeats: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -106,8 +105,8 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: #selector(MessageVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        observer.addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        observer.addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -121,12 +120,6 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
     }
 
     // MARK: - IBAction
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
-        }
-    }
     
     @IBAction func amoundFieldDidEndOnExit(sender: UITextField) {
         if Double(sender.text!) == nil {

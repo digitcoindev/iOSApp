@@ -49,7 +49,7 @@ class InvoiceCreateViewController: AbstractViewController
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToCreateInvoice
+//        State.currentVC = SegueToCreateInvoice
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,9 +87,9 @@ class InvoiceCreateViewController: AbstractViewController
             let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
                 alertAction -> Void in
                 
-                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
-                }
+//                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
+//                }
             }
             alert.addAction(ok)
             
@@ -109,5 +109,7 @@ class InvoiceCreateViewController: AbstractViewController
 //        if self.delegate != nil && self.delegate!.respondsToSelector(Selector("changePage:")) {
 //            (self.delegate as! InvoiceViewController).changePage(SegueToCreateInvoiceResult)
 //        }
+        
+        performSegueWithIdentifier("showInvoiceCreatedViewController", sender: nil)
     }
 }

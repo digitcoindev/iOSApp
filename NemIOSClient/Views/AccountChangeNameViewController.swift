@@ -14,7 +14,7 @@ protocol ChangeNamePopUptDelegate
     func popUpClosed()
 }
 
-class ChangeNamePopUp: AbstractViewController {
+class AccountChangeNameViewController: AbstractViewController {
     
     //MARK: - @IBOutlet
     
@@ -34,8 +34,8 @@ class ChangeNamePopUp: AbstractViewController {
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(ChangeNamePopUp.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(ChangeNamePopUp.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AccountChangeNameViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(AccountChangeNameViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true

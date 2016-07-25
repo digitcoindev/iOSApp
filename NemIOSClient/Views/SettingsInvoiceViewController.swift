@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InvoceSettings: AbstractViewController {
+class SettingsInvoiceViewController: AbstractViewController {
     
     //MARK: - @IBOutlet
     

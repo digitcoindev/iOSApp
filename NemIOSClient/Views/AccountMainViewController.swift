@@ -99,7 +99,7 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
             }
         } else {
             selectedIndex = indexPath.row
-            _createPopUp("ChangeNamePopUpProfile", name: wallets[indexPath.row].login)
+            _createPopUp("AccountChangeNameViewController", name: wallets[indexPath.row].login)
         }
     }
     
@@ -156,8 +156,8 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
         popUpController.view.layer.opacity = 0
         popUpController.delegate = self
         
-        if withId == "ChangeNamePopUpProfile"{
-            (popUpController as! ChangeNamePopUp).newName.text = name
+        if withId == "AccountChangeNameViewController"{
+            (popUpController as! AccountChangeNameViewController).newName.text = name
         }
         
         _popUp = popUpController
@@ -225,17 +225,17 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
             
             State.toVC = SegueToMessages
             
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
-            }
+//            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
+//            }
         } else {
             
             State.currentServer = nil
             State.toVC = SegueToServerVC
             
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
-            }
+//            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
+//            }
         }
     }
     

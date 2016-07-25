@@ -224,7 +224,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let contactCustomVC :AddCustomContactVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AddCustomContactVC
+        let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.delegate = self
@@ -241,7 +241,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let contactCustomVC :AddCustomContactVC =  storyboard.instantiateViewControllerWithIdentifier("AddCustomContact") as! AddCustomContactVC
+        let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.firstName.text = contact.givenName

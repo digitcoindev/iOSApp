@@ -1,117 +1,201 @@
 import UIKit
-import Social
-import MessageUI
+import AddressBook
+import AddressBookUI
 
-class InvoiceScanViewController: AbstractViewController, MFMailComposeViewControllerDelegate
+class InvoiceScanViewController: AbstractViewController, QRDelegate, AddCustomContactDelegate
 {
-    // MARK: - @IBOutlet
+    @IBOutlet weak var qrScaner: QR!
     
-    @IBOutlet weak var qrImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var amountLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var invoiceDataLabel: UILabel!
-    @IBOutlet weak var copyQRButton: UIButton!
-    @IBOutlet weak var shareQRButton: UIButton!
-    
-    // MARK: - Private Variables
-    
-    private var invoice = State.invoice
-    private var popup :AbstractViewController? = nil
-
-    // MARK: - Load Metods
+    private var _tempController: AbstractViewController? = nil
+    private var _isInited = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        State.fromVC = SegueToCreateInvoice
+//        State.fromVC = SegueToScanQR
 
-        invoiceDataLabel.text = "INVOICE_DATA".localized()
-        copyQRButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
-        shareQRButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
-        
-        if invoice != nil {
-            _generateQR()
-            State.invoice = nil
+        qrScaner.delegate = self
+    }
+    override func viewDidAppear(animated: Bool) {
+        if !_isInited {
+            _isInited = true
+            qrScaner.scanQR(qrScaner.frame.width , height: qrScaner.frame.height )
+        }
+//        State.currentVC = SegueToScanQR
+    }
+
+    func detectedQRWithString(text: String) {
+        let base64String :String = text
+        if base64String != "Empty scan" {
+            let jsonData :NSData = text.dataUsingEncoding(NSUTF8StringEncoding)!
+            var jsonStructure :NSDictionary? = nil
+
+            jsonStructure = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as? NSDictionary
+
+            if jsonStructure == nil {
+                qrScaner.play()
+                return 
+            }
             
-            var titleText :NSMutableAttributedString = NSMutableAttributedString(string: "NAME".localized() + ": " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
-            var contentText :NSMutableAttributedString = NSMutableAttributedString(string: invoice!.name , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
             
-            titleText.appendAttributedString(contentText)
-            nameLabel.attributedText = titleText
+            if let version = jsonStructure!.objectForKey(QRKeys.Version.rawValue) as? Int {
+                if version != QR_VERSION {
+                    failedWithError("WRONG_QR_VERSION".localized()) {
+                        self.qrScaner.play()
+                    }
+                    
+                    return
+                }
+            } else {
+                failedWithError("WRONG_QR_VERSION".localized()) {
+                    self.qrScaner.play()
+                }
+
+                return
+            }
             
-            titleText = NSMutableAttributedString(string: "AMOUNT".localized() + ": " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
-            contentText = NSMutableAttributedString(string: "\((invoice!.amount / 1000000).format()) XEM" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
-            
-            titleText.appendAttributedString(contentText)
-            amountLabel.attributedText = titleText
-            
-            titleText = NSMutableAttributedString(string: "MESSAGE".localized() + ": " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 10)!])
-            contentText = NSMutableAttributedString(string: invoice!.message , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 20)!])
-            
-            titleText.appendAttributedString(contentText)
-            messageLabel.attributedText = titleText
+            switch (jsonStructure!.objectForKey(QRKeys.DataType.rawValue) as! Int) {
+            case QRType.UserData.rawValue:
+                
+                let friendDictionary :NSDictionary = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as! NSDictionary
+                
+                if (AddressBookManager.isAllowed ?? false) {
+                    addFriend(friendDictionary)
+                }
+                else {
+                    failedWithError("CONTACTS_IS_UNAVAILABLE".localized())
+                }
+                
+            case QRType.Invoice.rawValue:
+                
+                let invoiceDictionary :NSDictionary = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as! NSDictionary
+                
+                performInvoice(invoiceDictionary)
+                
+            case QRType.AccountData.rawValue:
+                jsonStructure = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as? NSDictionary
+                
+                if jsonStructure != nil {
+                    let privateKey_AES = jsonStructure!.objectForKey(QRKeys.PrivateKey.rawValue) as! String
+                    let login = jsonStructure!.objectForKey(QRKeys.Name.rawValue) as! String
+                    let salt = jsonStructure!.objectForKey(QRKeys.Salt.rawValue) as! String
+                    let saltBytes = salt.asByteArray()
+                    let saltData = NSData(bytes: saltBytes, length: saltBytes.count)
+                    
+//                    State.nextVC = SegueToLoginVC
+                    State.importAccountData = {
+                        (password) -> Bool in
+                        
+                        guard let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password, salt:saltData, roundCount:2000) else {return false}
+                        guard let privateKey :String = HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString()) else {return false}
+                        guard let normalizedKey = privateKey.nemKeyNormalized() else { return false }
+                        
+                        if let name = Validate.account(privateKey: normalizedKey) {
+                            let alert = UIAlertView(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[name]), delegate: self, cancelButtonTitle: "OK".localized())
+                            alert.show()
+                            
+                            return true
+                        }
+                        
+                        WalletGenerator().createWallet(login, privateKey: normalizedKey)
+                        
+                        return true
+                    }
+                    
+//                    if (self.delegate as? AbstractViewController)?.delegate != nil && (self.delegate as! AbstractViewController).delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                        ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(SegueToPasswordValidation)
+//                    }
+                }
+            default :
+                qrScaner.play()
+                break
+            }
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        State.currentVC = SegueToCreateInvoiceResult
+    func failedWithError(text: String, completion :(Void -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+            completion?()
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    final func detectedQR(notification: NSNotification) {
+            }
+    
+    final func performInvoice(invoiceDictionary :NSDictionary) {
+        var invoice :InvoiceData = InvoiceData()
+        
+        invoice.address = invoiceDictionary.objectForKey(QRKeys.Address.rawValue) as! String
+        invoice.name = invoiceDictionary.objectForKey(QRKeys.Name.rawValue) as! String
+        invoice.amount = invoiceDictionary.objectForKey(QRKeys.Amount.rawValue) as! Double / 1000000
+        invoice.message = invoiceDictionary.objectForKey(QRKeys.Message.rawValue) as! String
+        
+        State.invoice = invoice
+        
+        if State.invoice != nil {
+//            let navDelegate = (self.delegate as? InvoiceViewController)?.delegate as? MainVCDelegate
+//            if navDelegate != nil  {
+//                navDelegate!.pageSelected(SegueToSendTransaction)
+//            }
+            
+            performSegueWithIdentifier("showTransactionSendViewController", sender: nil)
+        }
 
     }
     
-    // MARK: - @IBAction
-    
-    @IBAction func copyQR(sender: AnyObject) {
-        UIImageWriteToSavedPhotosAlbum(qrImageView.image!, nil, nil, nil)
-    }
-    
-    @IBAction func shareQR(sender: AnyObject) {
+    final func addFriend(friendDictionary :NSDictionary) {
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
-        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
-        shareVC.view.layer.opacity = 0
-        shareVC.delegate = self
+        let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
+        contactCustomVC.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        contactCustomVC.view.layer.opacity = 0
+        contactCustomVC.delegate = self
         
-        shareVC.message = "INVOICE_HEADER".localized()
-        shareVC.images = [qrImageView.image!]
-        popup = shareVC
+        contactCustomVC.firstName.text = friendDictionary.objectForKey(QRKeys.Name.rawValue) as? String
+        contactCustomVC.lastName.text = friendDictionary.objectForKey("surname") as? String
+        contactCustomVC.address.text = friendDictionary.objectForKey(QRKeys.Address.rawValue) as? String
+        _tempController = contactCustomVC
         
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.view.addSubview(shareVC.view)
-            
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                shareVC.view.layer.opacity = 1
-                }, completion: nil)
-        })
-    }
-    
-    // MARK: -  Private Helpers
-    
-    private final func _generateQR()
-    {
-        let userDictionary: [String : AnyObject] = [
-            QRKeys.Address.rawValue : invoice!.address,
-            QRKeys.Name.rawValue : invoice!.name,
-            QRKeys.Amount.rawValue : invoice!.amount,
-            QRKeys.Message.rawValue : invoice!.message
-        ]
+        self.view.addSubview(contactCustomVC.view)
         
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.Invoice.rawValue, userDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
-        
-        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
-        
-        let qr :QR = QR()
-        
-        qrImageView.image =  qr.createQR(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            contactCustomVC.view.layer.opacity = 1
+            }, completion: nil)
 
     }
-    
-    // MARK: -  MFMailComposeViewControllerDelegate Methos
-    
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+  
+    // MARK: -  AddCustomContactDelegate
+
+    func contactAdded(successfuly: Bool, sendTransaction :Bool) {
+        if successfuly {
+            let navDelegate = (self.delegate as? InvoiceViewController)?.delegate as? MainVCDelegate
+            if navDelegate != nil  {
+                if sendTransaction {
+                    let correspondent :Correspondent = Correspondent()
+                    
+                    for email in AddressBookViewController.newContact!.emailAddresses{
+                        if email.label == "NEM" {
+                            correspondent.address = (email.value as? String) ?? " "
+                            correspondent.name = correspondent.address.nemName()
+                        }
+                    }
+                    State.currentContact = correspondent
+                }
+                navDelegate!.pageSelected(sendTransaction ? SegueToSendTransaction : SegueToAddressBook)
+            }
+        }
     }
     
+    func popUpClosed(successfuly :Bool) {
+        qrScaner.play()
+    }
     
+    func contactChanged(successfuly: Bool, sendTransaction :Bool) {
+
+    }
 }

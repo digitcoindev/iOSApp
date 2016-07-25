@@ -34,7 +34,7 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToMessages
+//        State.fromVC = SegueToMessages
         State.currentContact = nil
         
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
@@ -65,9 +65,7 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
         
         if State.currentContact != nil {
             
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToMessageVC)
-            }
+            performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
         }
         
         if let server = State.currentServer {
@@ -99,7 +97,7 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToMessages
+//        State.currentVC = SegueToMessages
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -278,9 +276,7 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
                     let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
                         alertAction -> Void in
                         
-                        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                            (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
-                        }
+                        self.performSegueWithIdentifier("showTransactionUnconfirmedViewController", sender: nil)
                     }
                     
                     let cancel :UIAlertAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.Default) {
@@ -387,9 +383,8 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
             _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!)
         }
         else {
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
-            }
+            
+            performSegueWithIdentifier("showSettingsServerViewController", sender: nil)
         }
     }
     
@@ -486,19 +481,15 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
         if walletData != nil {
             State.invoice = nil
             
-            var nextVC = ""
+//            var nextVC = ""
             if walletData!.cosignatories.count > 0 {
-                nextVC = SegueToMessageMultisignVC
+                performSegueWithIdentifier("showTransactionMultisignatureMessagesViewController", sender: nil)
             }
             else if walletData!.cosignatoryOf.count > 0 {
-                nextVC = SegueToMessageCosignatoryVC
+                performSegueWithIdentifier("showTransactionCosignatoryMessagesViewController", sender: nil)
                 
             } else {
-                nextVC = SegueToMessageVC
-            }
-            
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(nextVC)
+                performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
             }
         }
         else {

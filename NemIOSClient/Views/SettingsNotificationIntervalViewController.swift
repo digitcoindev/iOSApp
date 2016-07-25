@@ -1,14 +1,14 @@
 //
-//  ChouseLanguage.swift
+//  ChouseUpdateInterval.swift
 //  NemIOSClient
 //
-//  Created by Lyubomir Dominik on 25.12.15.
-//  Copyright © 2015 Artygeek. All rights reserved.
+//  Created by Lyubomir Dominik on 13.01.16.
+//  Copyright © 2016 Artygeek. All rights reserved.
 //
 
 import UIKit
 
-class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsNotificationIntervalViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
     
     //MARK: - @IBOutlet
     
@@ -17,23 +17,7 @@ class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var resetButton: UIButton!
     
-    private let _languages :[String] =
-        [   "LANGUAGE_GERMAN".localized(),
-            "LANGUAGE_ENGLISH".localized(),
-            "LANGUAGE_SPANISH".localized(),
-            "LANGUAGE_FINNISH".localized(),
-            "LANGUAGE_FRENCH".localized(),
-            "LANGUAGE_CROATIAN".localized(),
-            "LANGUAGE_INDONESIAN".localized(),
-            "LANGUAGE_ITALIAN".localized(),
-            "LANGUAGE_JAPANESE".localized(),
-            "LANGUAGE_KOREAN".localized(),
-            "LANGUAGE_LITHUANIAN".localized(),
-            "LANGUAGE_DUTCH".localized(),
-            "LANGUAGE_POLISH".localized(),
-            "LANGUAGE_PORTUGUESE".localized(),
-            "LANGUAGE_CHINESE_SIMPLIFIED".localized(),
-            "Debug"]
+    private let _intervals :[Int] = [0, 90, 180, 360, 720, 1440, 2880, 4320, 8640]
     
     //MARK: - Load Methods
     
@@ -62,10 +46,10 @@ class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableView
     }
     
     @IBAction func reset(sender: AnyObject) {
-        LocalizationManager.setLanguage("Default")
+        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
 
         let loadData = State.loadData
-        loadData?.currentLanguage = nil
+        loadData?.updateInterval = 0
         CoreDataManager().commit()
         (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
@@ -74,14 +58,35 @@ class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableView
     // MARK: - TableViewDelegate Methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _languages.count
+        return _intervals.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
+        switch _intervals[indexPath.row] {
+        case 0 :
+            cell.title.text = "NEVER".localized()
+        case 90 :
+            cell.title.text = "30 " + "MINUTES".localized()
+        case 180 :
+            cell.title.text = "60 " + "MINUTES".localized()
+        case 360 :
+            cell.title.text = "1 " + "HOURS".localized()
+        case 720 :
+            cell.title.text = "2 " + "HOURS".localized()
+        case 1440 :
+            cell.title.text = "4 " + "HOURS".localized()
+        case 2880 :
+            cell.title.text = "8 " + "HOURS".localized()
+        case 4320 :
+            cell.title.text = "12 " + "HOURS".localized()
+        case 8640 :
+            cell.title.text = "24 " + "HOURS".localized()
+        default :
+            break
+        }
         
-        cell.title.text = _languages[indexPath.row]
-        if _languages[indexPath.row] == State.loadData?.currentLanguage {
+        if _intervals[indexPath.row] == State.loadData?.updateInterval as! Int {
             cell.isActive = true
         } else {
             cell.isActive = false
@@ -90,11 +95,15 @@ class ChouseLanguage: AbstractViewController, UITableViewDataSource, UITableView
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {        
-        
-        LocalizationManager.setLanguage(_languages[indexPath.row])
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 0 {
+            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+        } else {
+            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(NSTimeInterval(_intervals[indexPath.row]))
+        }
+
         let loadData = State.loadData
-        loadData?.currentLanguage = _languages[indexPath.row]
+        loadData?.updateInterval = _intervals[indexPath.row]
         CoreDataManager().commit()
         (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)

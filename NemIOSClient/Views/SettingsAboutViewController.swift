@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AboutVC: AbstractViewController {
+class SettingsAboutViewController: AbstractViewController {
     
     //MARK: - @IBOutlet
     

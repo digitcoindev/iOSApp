@@ -26,7 +26,7 @@
 		9809BDEA1B74EBB40028D082 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA35580C1A39D3BA00AFA5FD /* Main.storyboard */; };
 		9809BDEB1B74EBBC0028D082 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */; };
 		9809BE271B75008F0028D082 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9809BE291B75008F0028D082 /* Localizable.strings */; };
-		980F130D1C60CCD0005F7DB5 /* PasswordExportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */; };
+		980F130D1C60CCD0005F7DB5 /* AccountExportPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980F130C1C60CCD0005F7DB5 /* AccountExportPasswordViewController.swift */; };
 		9823A4CE1B81CDF600B532CC /* DashboardButtonBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */; };
 		9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
@@ -39,15 +39,15 @@
 		983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */; };
 		98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */; };
 		98428A741BDA5960004494D5 /* CosigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A731BDA5960004494D5 /* CosigTableViewCell.swift */; };
-		98428A761BDA689C004494D5 /* AddCosigPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A751BDA689C004494D5 /* AddCosigPopUp.swift */; };
+		98428A761BDA689C004494D5 /* MultisignatureAddSignerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A751BDA689C004494D5 /* MultisignatureAddSignerViewController.swift */; };
 		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
-		985496361C4916F80059504F /* WarningExportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496351C4916F80059504F /* WarningExportVC.swift */; };
-		985496381C4D0CAF0059504F /* AboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496371C4D0CAF0059504F /* AboutVC.swift */; };
-		985A372C1C469C4D00D7BD7A /* ChouseUpdateInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */; };
-		985A372E1C46A58200D7BD7A /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */; };
+		985496361C4916F80059504F /* AccountExportWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496351C4916F80059504F /* AccountExportWarningViewController.swift */; };
+		985496381C4D0CAF0059504F /* SettingsAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496371C4D0CAF0059504F /* SettingsAboutViewController.swift */; };
+		985A372C1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372B1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift */; };
+		985A372E1C46A58200D7BD7A /* SettingsChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372D1C46A58200D7BD7A /* SettingsChangePasswordViewController.swift */; };
 		985A37301C47D88300D7BD7A /* AddCosignatoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */; };
-		986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */; };
-		9877C6801BE138EB00AF9751 /* HarvestDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */; };
+		986540021BC2C54A00E2B131 /* AddressBookAddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986540011BC2C54A00E2B131 /* AddressBookAddContactViewController.swift */; };
+		9877C6801BE138EB00AF9751 /* HarvestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C67F1BE138EB00AF9751 /* HarvestingViewController.swift */; };
 		9877C6821BE267AC00AF9751 /* BlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */; };
 		9877C6841BE2787400AF9751 /* BlockGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */; };
 		98BB95AC1BC7B185002151F7 /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95AB1BC7B185002151F7 /* SocialManager.swift */; };
@@ -69,21 +69,21 @@
 		98DFB7191BF3AEE40010E035 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DFB7181BF3AEE40010E035 /* FileService.swift */; };
 		98E2432B1C465523001FAC2B /* CreatePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */; };
 		98F01CB71C2AC2E90018081B /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB51C2AC2E90018081B /* LoadData.swift */; };
-		98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */; };
+		98F01CB91C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB81C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift */; };
 		98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBA1C2AF3740018081B /* ActiveCell.swift */; };
-		98F01CBD1C2C18270018081B /* InvoceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBC1C2C18270018081B /* InvoceSettings.swift */; };
+		98F01CBD1C2C18270018081B /* SettingsInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBC1C2C18270018081B /* SettingsInvoiceViewController.swift */; };
 		98F01CC01C2D3F7B0018081B /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */; };
-		98F01CC21C2D4B560018081B /* ChouseLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CC11C2D4B560018081B /* ChouseLanguage.swift */; };
+		98F01CC21C2D4B560018081B /* SettingsLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CC11C2D4B560018081B /* SettingsLanguageViewController.swift */; };
 		98F3F53D1BD0EBE6004A6E19 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */; };
 		98F3F53F1BD0EC4E004A6E19 /* AbstactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */; };
 		98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */; };
 		98F3F5431BD12E38004A6E19 /* MessageUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3F5421BD12E38004A6E19 /* MessageUILabel.swift */; };
-		98F448951BDE4A00008E2BF4 /* ChangeNamePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */; };
+		98F448951BDE4A00008E2BF4 /* AccountChangeNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F448941BDE4A00008E2BF4 /* AccountChangeNameViewController.swift */; };
 		98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */; };
 		98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */; };
 		98FE074E1BBE7C29009017CD /* EditableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */; };
 		DA0059371A4882B300638C57 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059361A4882B300638C57 /* State.swift */; };
-		DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MainMenuVC.swift */; };
+		DA0059391A4882ED00638C57 /* MoreMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0059381A4882ED00638C57 /* MoreMenuViewController.swift */; };
 		DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED51A9226E10021E98B /* NEMTextField.swift */; };
 		DA031EDA1A922FEC0021E98B /* InvoiceCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA031ED91A922FEC0021E98B /* InvoiceCreateViewController.swift */; };
 		DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */; };
@@ -97,7 +97,7 @@
 		DA173CE01AA87CBC003AC21F /* UInt32+CircularShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CDC1AA87CBC003AC21F /* UInt32+CircularShift.swift */; };
 		DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */; };
 		DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CE41AA9E8EF003AC21F /* Base32.swift */; };
-		DA173CEC1AADA92D003AC21F /* ScanQRVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */; };
+		DA173CEC1AADA92D003AC21F /* InvoiceScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA173CEB1AADA92D003AC21F /* InvoiceScanViewController.swift */; };
 		DA194DF91A41D50E0030C882 /* AccountAddNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194DF81A41D50E0030C882 /* AccountAddNewViewController.swift */; };
 		DA194E041A41E9A00030C882 /* AccountMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E031A41E9A00030C882 /* AccountMainViewController.swift */; };
 		DA194E071A4323520030C882 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E061A4323520030C882 /* APIManager.swift */; };
@@ -117,11 +117,11 @@
 		DA3558101A39D3BA00AFA5FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA35580F1A39D3BA00AFA5FD /* Images.xcassets */; };
 		DA35581F1A39D3BC00AFA5FD /* NemIOSClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35581E1A39D3BC00AFA5FD /* NemIOSClientTests.swift */; };
 		DA35582B1A39D75400AFA5FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35582A1A39D75400AFA5FD /* ViewController.swift */; };
-		DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558361A39F9D700AFA5FD /* ServerViewController.swift */; };
+		DA3558371A39F9D700AFA5FD /* SettingsServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558361A39F9D700AFA5FD /* SettingsServerViewController.swift */; };
 		DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558391A39FDC300AFA5FD /* ServerViewCell.swift */; };
 		DA35583D1A3AE0A500AFA5FD /* plistFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */; };
 		DA3558441A3B014400AFA5FD /* ConnectionSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558431A3B014400AFA5FD /* ConnectionSegue.swift */; };
-		DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */; };
+		DA3558461A40771300AFA5FD /* SettingsAddServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558451A40771300AFA5FD /* SettingsAddServerViewController.swift */; };
 		DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */; };
 		DA3BE20C1A5FFDA500CAC733 /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20B1A5FFDA500CAC733 /* AddressBookViewController.swift */; };
 		DA3BE20E1A5FFEF400CAC733 /* TransactionOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20D1A5FFEF400CAC733 /* TransactionOverviewViewController.swift */; };
@@ -138,11 +138,11 @@
 		DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */; };
 		DA8A892E1A4C52300072FE08 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* AccountTableViewCell.swift */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
-		DAC28C891A923C2800EE3B22 /* InvoiceScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* InvoiceScanViewController.swift */; };
+		DAC28C891A923C2800EE3B22 /* InvoiceCreatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* InvoiceCreatedViewController.swift */; };
 		DAC28C9E1A96015000EE3B22 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9D1A96015000EE3B22 /* libc++.dylib */; };
 		DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9F1A96016500EE3B22 /* libicucore.dylib */; };
 		DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA11A96017300EE3B22 /* libz.dylib */; };
-		DAC3A1781B00A5E500AABB61 /* MultisigAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */; };
+		DAC3A1781B00A5E500AABB61 /* MultisignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1771B00A5E500AABB61 /* MultisignatureViewController.swift */; };
 		DAC3A17A1B01EBB700AABB61 /* UnconfirmedTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1791B01EBB700AABB61 /* UnconfirmedTransactionCell.swift */; };
 		DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */; };
 		DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */; };
@@ -163,11 +163,11 @@
 		DAD21B9C1AFCD51F00F6B861 /* MultisigTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */; };
 		DAD5AD8E1A52DD880093E3DB /* DashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */; };
 		DAD5AD901A52E7850093E3DB /* AccountPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8F1A52E7850093E3DB /* AccountPasswordValidationViewController.swift */; };
-		DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* MessageVC.swift */; };
+		DAD5AD921A52F2F30093E3DB /* TransactionMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* TransactionMessagesViewController.swift */; };
 		DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA272F1B0C8D4100EA09F8 /* Validate.swift */; };
 		DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA33F71A72874500F14D6D /* WalletGenerator.swift */; };
 		DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA35991A76609800F14D6D /* NSData+Base64.m */; };
-		DADDA2451B21C74900F3F5F5 /* ExportAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */; };
+		DADDA2451B21C74900F3F5F5 /* AccountExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA2441B21C74900F3F5F5 /* AccountExportViewController.swift */; };
 		DADDA24B1B21D0EC00F3F5F5 /* SeguesConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */; };
 		DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24C1B21D17800F3F5F5 /* Constants.swift */; };
 		DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24E1B21D1B500F3F5F5 /* Structs.swift */; };
@@ -237,7 +237,7 @@
 		9805EFCB1C319439008CC607 /* NotificationBaner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationBaner.swift; sourceTree = "<group>"; };
 		9805EFCD1C31A126008CC607 /* FetchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchManager.swift; path = Models/FetchManager.swift; sourceTree = "<group>"; };
 		9809BE2B1B789EBD0028D082 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordExportVC.swift; path = Views/PasswordExportVC.swift; sourceTree = "<group>"; };
+		980F130C1C60CCD0005F7DB5 /* AccountExportPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportPasswordViewController.swift; path = Views/AccountExportPasswordViewController.swift; sourceTree = "<group>"; };
 		9823A4CD1B81CDF600B532CC /* DashboardButtonBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardButtonBox.swift; path = "Views/Additional controls/DashboardButtonBox.swift"; sourceTree = "<group>"; };
 		9823A4CF1B81E48600B532CC /* MessagesButtonTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesButtonTypeOne.swift; path = "Views/Additional controls/MessagesButtonTypeOne.swift"; sourceTree = "<group>"; };
 		9823A4D11B8339B400B532CC /* Correspondent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Correspondent.swift; path = Models/Correspondent.swift; sourceTree = "<group>"; };
@@ -250,16 +250,16 @@
 		983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISegmentedControlExtensions.swift; path = Models/UISegmentedControlExtensions.swift; sourceTree = "<group>"; };
 		98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileTableViewCell.swift; path = "Views/Additional controls/ProfileTableViewCell.swift"; sourceTree = "<group>"; };
 		98428A731BDA5960004494D5 /* CosigTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CosigTableViewCell.swift; path = "Views/Additional controls/CosigTableViewCell.swift"; sourceTree = "<group>"; };
-		98428A751BDA689C004494D5 /* AddCosigPopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCosigPopUp.swift; path = Views/AddCosigPopUp.swift; sourceTree = "<group>"; };
+		98428A751BDA689C004494D5 /* MultisignatureAddSignerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisignatureAddSignerViewController.swift; path = Views/MultisignatureAddSignerViewController.swift; sourceTree = "<group>"; };
 		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
-		985496351C4916F80059504F /* WarningExportVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WarningExportVC.swift; path = Views/WarningExportVC.swift; sourceTree = "<group>"; };
-		985496371C4D0CAF0059504F /* AboutVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutVC.swift; path = Views/AboutVC.swift; sourceTree = "<group>"; };
-		985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseUpdateInterval.swift; path = Views/ChouseUpdateInterval.swift; sourceTree = "<group>"; };
-		985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordVC.swift; path = Views/ChangePasswordVC.swift; sourceTree = "<group>"; };
+		985496351C4916F80059504F /* AccountExportWarningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportWarningViewController.swift; path = Views/AccountExportWarningViewController.swift; sourceTree = "<group>"; };
+		985496371C4D0CAF0059504F /* SettingsAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAboutViewController.swift; path = Views/SettingsAboutViewController.swift; sourceTree = "<group>"; };
+		985A372B1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsNotificationIntervalViewController.swift; path = Views/SettingsNotificationIntervalViewController.swift; sourceTree = "<group>"; };
+		985A372D1C46A58200D7BD7A /* SettingsChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsChangePasswordViewController.swift; path = Views/SettingsChangePasswordViewController.swift; sourceTree = "<group>"; };
 		985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCosignatoryVC.swift; path = Views/AddCosignatoryVC.swift; sourceTree = "<group>"; };
 		9861F8C11C9848600093886C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomContactVC.swift; path = Views/AddCustomContactVC.swift; sourceTree = "<group>"; };
-		9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestDetailsVC.swift; path = Views/HarvestDetailsVC.swift; sourceTree = "<group>"; };
+		986540011BC2C54A00E2B131 /* AddressBookAddContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookAddContactViewController.swift; path = Views/AddressBookAddContactViewController.swift; sourceTree = "<group>"; };
+		9877C67F1BE138EB00AF9751 /* HarvestingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestingViewController.swift; path = Views/HarvestingViewController.swift; sourceTree = "<group>"; };
 		9877C6811BE267AC00AF9751 /* BlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockTableViewCell.swift; path = "Views/Additional controls/BlockTableViewCell.swift"; sourceTree = "<group>"; };
 		9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockGetMetaData.swift; path = Models/BlockGetMetaData.swift; sourceTree = "<group>"; };
 		9877C68C1BE27FB700AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -293,22 +293,22 @@
 		98DFB7181BF3AEE40010E035 /* FileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatePasswordVC.swift; path = Views/CreatePasswordVC.swift; sourceTree = "<group>"; };
 		98F01CB51C2AC2E90018081B /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
-		98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChousePrimAccountVC.swift; path = Views/ChousePrimAccountVC.swift; sourceTree = "<group>"; };
+		98F01CB81C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsDefaultAccountViewController.swift; path = Views/SettingsDefaultAccountViewController.swift; sourceTree = "<group>"; };
 		98F01CBA1C2AF3740018081B /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = "Views/Additional controls/ActiveCell.swift"; sourceTree = "<group>"; };
-		98F01CBC1C2C18270018081B /* InvoceSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoceSettings.swift; path = Views/InvoceSettings.swift; sourceTree = "<group>"; };
+		98F01CBC1C2C18270018081B /* SettingsInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsInvoiceViewController.swift; path = Views/SettingsInvoiceViewController.swift; sourceTree = "<group>"; };
 		98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalizationManager.swift; path = Models/LocalizationManager.swift; sourceTree = "<group>"; };
-		98F01CC11C2D4B560018081B /* ChouseLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseLanguage.swift; path = Views/ChouseLanguage.swift; sourceTree = "<group>"; };
+		98F01CC11C2D4B560018081B /* SettingsLanguageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsLanguageViewController.swift; path = Views/SettingsLanguageViewController.swift; sourceTree = "<group>"; };
 		98F01CC41C2D6E5C0018081B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98F3F53C1BD0EBE6004A6E19 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTableViewCell.swift; path = "Views/Additional controls/ConversationTableViewCell.swift"; sourceTree = "<group>"; };
 		98F3F53E1BD0EC4E004A6E19 /* AbstactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstactTableViewCell.swift; path = "Views/Additional controls/AbstactTableViewCell.swift"; sourceTree = "<group>"; };
 		98F3F5401BD0ECF7004A6E19 /* DetailedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedTableViewCell.swift; path = "Views/Additional controls/DetailedTableViewCell.swift"; sourceTree = "<group>"; };
 		98F3F5421BD12E38004A6E19 /* MessageUILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageUILabel.swift; path = "Views/Additional controls/MessageUILabel.swift"; sourceTree = "<group>"; };
-		98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeNamePopUp.swift; path = Views/ChangeNamePopUp.swift; sourceTree = "<group>"; };
+		98F448941BDE4A00008E2BF4 /* AccountChangeNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountChangeNameViewController.swift; path = Views/AccountChangeNameViewController.swift; sourceTree = "<group>"; };
 		98F49EBE1B6BB2920014C5D4 /* AbstractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractViewController.swift; path = Models/AbstractViewController.swift; sourceTree = "<group>"; };
 		98F49EC01B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonBoxTypeOne.swift; path = Buttons/ButtonBoxTypeOne.swift; sourceTree = "<group>"; };
 		98FE074D1BBE7C29009017CD /* EditableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditableTableViewCell.swift; path = "Views/Additional controls/EditableTableViewCell.swift"; sourceTree = "<group>"; };
 		DA0059361A4882B300638C57 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Models/State.swift; sourceTree = "<group>"; };
-		DA0059381A4882ED00638C57 /* MainMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuVC.swift; path = Views/MainMenuVC.swift; sourceTree = "<group>"; };
+		DA0059381A4882ED00638C57 /* MoreMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMenuViewController.swift; path = Views/MoreMenuViewController.swift; sourceTree = "<group>"; };
 		DA031ED51A9226E10021E98B /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NEMTextField.swift; sourceTree = "<group>"; };
 		DA031ED91A922FEC0021E98B /* InvoiceCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceCreateViewController.swift; path = Views/InvoiceCreateViewController.swift; sourceTree = "<group>"; };
 		DA08D9B81AC026F400B93EBE /* UInt8Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UInt8Extensions.swift; path = Models/UInt8Extensions.swift; sourceTree = "<group>"; };
@@ -323,7 +323,7 @@
 		DA173CDC1AA87CBC003AC21F /* UInt32+CircularShift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt32+CircularShift.swift"; sourceTree = "<group>"; };
 		DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressGenerator.swift; path = Models/AddressGenerator.swift; sourceTree = "<group>"; };
 		DA173CE41AA9E8EF003AC21F /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
-		DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScanQRVC.swift; path = Views/ScanQRVC.swift; sourceTree = "<group>"; };
+		DA173CEB1AADA92D003AC21F /* InvoiceScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceScanViewController.swift; path = Views/InvoiceScanViewController.swift; sourceTree = "<group>"; };
 		DA194DF81A41D50E0030C882 /* AccountAddNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddNewViewController.swift; path = Views/AccountAddNewViewController.swift; sourceTree = "<group>"; };
 		DA194DFC1A41DE5E0030C882 /* NemIOSClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NemIOSClient-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA194E031A41E9A00030C882 /* AccountMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountMainViewController.swift; path = Views/AccountMainViewController.swift; sourceTree = "<group>"; };
@@ -351,11 +351,11 @@
 		DA35581D1A39D3BC00AFA5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA35581E1A39D3BC00AFA5FD /* NemIOSClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientTests.swift; sourceTree = "<group>"; };
 		DA35582A1A39D75400AFA5FD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Views/ViewController.swift; sourceTree = "<group>"; };
-		DA3558361A39F9D700AFA5FD /* ServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerViewController.swift; path = Views/ServerViewController.swift; sourceTree = "<group>"; };
+		DA3558361A39F9D700AFA5FD /* SettingsServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsServerViewController.swift; path = Views/SettingsServerViewController.swift; sourceTree = "<group>"; };
 		DA3558391A39FDC300AFA5FD /* ServerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerViewCell.swift; path = "Views/Additional controls/ServerViewCell.swift"; sourceTree = "<group>"; };
 		DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = plistFileManager.swift; path = Models/plistFileManager.swift; sourceTree = "<group>"; };
 		DA3558431A3B014400AFA5FD /* ConnectionSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionSegue.swift; path = "Views/Additional controls/ConnectionSegue.swift"; sourceTree = "<group>"; };
-		DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddCustomServerVC.swift; path = Views/AddCustomServerVC.swift; sourceTree = "<group>"; };
+		DA3558451A40771300AFA5FD /* SettingsAddServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAddServerViewController.swift; path = Views/SettingsAddServerViewController.swift; sourceTree = "<group>"; };
 		DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Views/Additional controls/AddressCell.swift"; sourceTree = "<group>"; };
 		DA3BE20B1A5FFDA500CAC733 /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookViewController.swift; path = Views/AddressBookViewController.swift; sourceTree = "<group>"; };
 		DA3BE20D1A5FFEF400CAC733 /* TransactionOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionOverviewViewController.swift; path = Views/TransactionOverviewViewController.swift; sourceTree = "<group>"; };
@@ -378,7 +378,7 @@
 		DA8A892D1A4C52300072FE08 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountTableViewCell.swift; path = "Views/Additional controls/AccountTableViewCell.swift"; sourceTree = "<group>"; };
 		DA971FDB1A67C2A00039ADB4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
-		DAC28C881A923C2800EE3B22 /* InvoiceScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceScanViewController.swift; path = Views/InvoiceScanViewController.swift; sourceTree = "<group>"; };
+		DAC28C881A923C2800EE3B22 /* InvoiceCreatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceCreatedViewController.swift; path = Views/InvoiceCreatedViewController.swift; sourceTree = "<group>"; };
 		DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DAC28C951A96011900EE3B22 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DAC28C971A96012600EE3B22 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -390,7 +390,7 @@
 		DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAccountManager.swift; path = Views/MultisigAccountManager.swift; sourceTree = "<group>"; };
+		DAC3A1771B00A5E500AABB61 /* MultisignatureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisignatureViewController.swift; path = Views/MultisignatureViewController.swift; sourceTree = "<group>"; };
 		DAC3A1791B01EBB700AABB61 /* UnconfirmedTransactionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnconfirmedTransactionCell.swift; path = "Views/Additional controls/UnconfirmedTransactionCell.swift"; sourceTree = "<group>"; };
 		DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnconfirmedTransactionVC.swift; path = Views/UnconfirmedTransactionVC.swift; sourceTree = "<group>"; };
 		DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignatureTransaction.swift; path = Models/MultisigSignatureTransaction.swift; sourceTree = "<group>"; };
@@ -411,12 +411,12 @@
 		DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigTransaction.swift; path = Models/MultisigTransaction.swift; sourceTree = "<group>"; };
 		DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardVC.swift; path = Views/DashboardVC.swift; sourceTree = "<group>"; };
 		DAD5AD8F1A52E7850093E3DB /* AccountPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountPasswordValidationViewController.swift; path = Views/AccountPasswordValidationViewController.swift; sourceTree = "<group>"; };
-		DAD5AD911A52F2F30093E3DB /* MessageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageVC.swift; path = Views/MessageVC.swift; sourceTree = "<group>"; };
+		DAD5AD911A52F2F30093E3DB /* TransactionMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionMessagesViewController.swift; path = Views/TransactionMessagesViewController.swift; sourceTree = "<group>"; };
 		DADA272F1B0C8D4100EA09F8 /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Models/Validate.swift; sourceTree = "<group>"; };
 		DADA33F71A72874500F14D6D /* WalletGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletGenerator.swift; path = Models/WalletGenerator.swift; sourceTree = "<group>"; };
 		DADA35991A76609800F14D6D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Models/NSData+Base64.m"; sourceTree = "<group>"; };
 		DADA359A1A76609800F14D6D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Models/NSData+Base64.h"; sourceTree = "<group>"; };
-		DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExportAccountVC.swift; path = Views/ExportAccountVC.swift; sourceTree = "<group>"; };
+		DADDA2441B21C74900F3F5F5 /* AccountExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportViewController.swift; path = Views/AccountExportViewController.swift; sourceTree = "<group>"; };
 		DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeguesConfiguration.swift; path = Models/SeguesConfiguration.swift; sourceTree = "<group>"; };
 		DADDA24C1B21D17800F3F5F5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Models/Constants.swift; sourceTree = "<group>"; };
 		DADDA24E1B21D1B500F3F5F5 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Structs.swift; path = Models/Structs.swift; sourceTree = "<group>"; };
@@ -546,12 +546,8 @@
 				DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */,
 				DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */,
 				DADA33F71A72874500F14D6D /* WalletGenerator.swift */,
-				DADDA2441B21C74900F3F5F5 /* ExportAccountVC.swift */,
-				985496351C4916F80059504F /* WarningExportVC.swift */,
-				980F130C1C60CCD0005F7DB5 /* PasswordExportVC.swift */,
 				98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */,
 				DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */,
-				98F448941BDE4A00008E2BF4 /* ChangeNamePopUp.swift */,
 			);
 			name = TODO;
 			sourceTree = "<group>";
@@ -560,14 +556,6 @@
 			isa = PBXGroup;
 			children = (
 				98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */,
-				DA3558361A39F9D700AFA5FD /* ServerViewController.swift */,
-				DA3558451A40771300AFA5FD /* AddCustomServerVC.swift */,
-				98F01CB81C2ADA0D0018081B /* ChousePrimAccountVC.swift */,
-				98F01CBC1C2C18270018081B /* InvoceSettings.swift */,
-				98F01CC11C2D4B560018081B /* ChouseLanguage.swift */,
-				985A372B1C469C4D00D7BD7A /* ChouseUpdateInterval.swift */,
-				985A372D1C46A58200D7BD7A /* ChangePasswordVC.swift */,
-				985496371C4D0CAF0059504F /* AboutVC.swift */,
 			);
 			name = TODO;
 			sourceTree = "<group>";
@@ -577,8 +565,6 @@
 			children = (
 				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
 				9823A4D41B846FE200B532CC /* MessageCrypto.swift */,
-				DAD5AD911A52F2F30093E3DB /* MessageVC.swift */,
-				DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */,
 				984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */,
 			);
 			name = TODO;
@@ -588,7 +574,6 @@
 			isa = PBXGroup;
 			children = (
 				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
-				986540011BC2C54A00E2B131 /* AddCustomContactVC.swift */,
 				983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */,
 			);
 			name = TODO;
@@ -597,7 +582,14 @@
 		4F1339551D4256E600AA126D /* TODO */ = {
 			isa = PBXGroup;
 			children = (
-				DA173CEB1AADA92D003AC21F /* ScanQRVC.swift */,
+			);
+			name = TODO;
+			sourceTree = "<group>";
+		};
+		4F1339561D460BC000AA126D /* TODO */ = {
+			isa = PBXGroup;
+			children = (
+				985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */,
 			);
 			name = TODO;
 			sourceTree = "<group>";
@@ -624,11 +616,15 @@
 			children = (
 				DA194E031A41E9A00030C882 /* AccountMainViewController.swift */,
 				DA8A892D1A4C52300072FE08 /* AccountTableViewCell.swift */,
+				98F448941BDE4A00008E2BF4 /* AccountChangeNameViewController.swift */,
 				DA64A4E01A5ACF0C005833A4 /* AccountAddViewController.swift */,
 				DA194DF81A41D50E0030C882 /* AccountAddNewViewController.swift */,
 				DA8780B81A5BFDF400AA24E2 /* AccountAddExistingQRViewController.swift */,
 				DAD1C7FC1A6932E30043D947 /* AccountAddExistingKeyViewController.swift */,
 				DAD5AD8F1A52E7850093E3DB /* AccountPasswordValidationViewController.swift */,
+				DADDA2441B21C74900F3F5F5 /* AccountExportViewController.swift */,
+				980F130C1C60CCD0005F7DB5 /* AccountExportPasswordViewController.swift */,
+				985496351C4916F80059504F /* AccountExportWarningViewController.swift */,
 				4F13394F1D41FAE400AA126D /* TODO */,
 			);
 			name = Account;
@@ -639,6 +635,8 @@
 			children = (
 				DA3BE20D1A5FFEF400CAC733 /* TransactionOverviewViewController.swift */,
 				DAD21B991AFB735600F6B861 /* TransactionSendViewController.swift */,
+				DAD5AD911A52F2F30093E3DB /* TransactionMessagesViewController.swift */,
+				DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */,
 				4F1339511D4210B400AA126D /* TODO */,
 			);
 			name = Transaction;
@@ -650,7 +648,8 @@
 				983579B31BC518EA009AF518 /* InvoiceViewController.swift */,
 				DA2199211A68222900E2F8DD /* InvoiceAccountInfoViewController.swift */,
 				DA031ED91A922FEC0021E98B /* InvoiceCreateViewController.swift */,
-				DAC28C881A923C2800EE3B22 /* InvoiceScanViewController.swift */,
+				DAC28C881A923C2800EE3B22 /* InvoiceCreatedViewController.swift */,
+				DA173CEB1AADA92D003AC21F /* InvoiceScanViewController.swift */,
 				4F1339551D4256E600AA126D /* TODO */,
 			);
 			name = Invoice;
@@ -659,9 +658,9 @@
 		4F9828031D3CD0D000A3C8B2 /* Multisignature */ = {
 			isa = PBXGroup;
 			children = (
-				DAC3A1771B00A5E500AABB61 /* MultisigAccountManager.swift */,
-				98428A751BDA689C004494D5 /* AddCosigPopUp.swift */,
-				985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */,
+				DAC3A1771B00A5E500AABB61 /* MultisignatureViewController.swift */,
+				98428A751BDA689C004494D5 /* MultisignatureAddSignerViewController.swift */,
+				4F1339561D460BC000AA126D /* TODO */,
 			);
 			name = Multisignature;
 			sourceTree = "<group>";
@@ -670,6 +669,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3BE20B1A5FFDA500CAC733 /* AddressBookViewController.swift */,
+				986540011BC2C54A00E2B131 /* AddressBookAddContactViewController.swift */,
 				4F1339541D424D0500AA126D /* TODO */,
 			);
 			name = "Address Book";
@@ -678,7 +678,7 @@
 		4F9828051D3CD0E000A3C8B2 /* Harvesting */ = {
 			isa = PBXGroup;
 			children = (
-				9877C67F1BE138EB00AF9751 /* HarvestDetailsVC.swift */,
+				9877C67F1BE138EB00AF9751 /* HarvestingViewController.swift */,
 			);
 			name = Harvesting;
 			sourceTree = "<group>";
@@ -687,6 +687,14 @@
 			isa = PBXGroup;
 			children = (
 				DA89F1141AD6A69100105BB0 /* SettingsViewController.swift */,
+				98F01CC11C2D4B560018081B /* SettingsLanguageViewController.swift */,
+				98F01CB81C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift */,
+				98F01CBC1C2C18270018081B /* SettingsInvoiceViewController.swift */,
+				985496371C4D0CAF0059504F /* SettingsAboutViewController.swift */,
+				985A372D1C46A58200D7BD7A /* SettingsChangePasswordViewController.swift */,
+				DA3558361A39F9D700AFA5FD /* SettingsServerViewController.swift */,
+				DA3558451A40771300AFA5FD /* SettingsAddServerViewController.swift */,
+				985A372B1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift */,
 				4F1339501D4205FB00AA126D /* TODO */,
 			);
 			name = Settings;
@@ -916,11 +924,11 @@
 				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
 				DA194E0C1A444CD80030C882 /* MainVC.swift */,
 				DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */,
-				DA0059381A4882ED00638C57 /* MainMenuVC.swift */,
 				DA35580C1A39D3BA00AFA5FD /* Main.storyboard */,
 				DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */,
 				4F13393B1D3F82CE00AA126D /* TabBarController.swift */,
 				4F1339521D422C3600AA126D /* NavigationController.swift */,
+				DA0059381A4882ED00638C57 /* MoreMenuViewController.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -1270,7 +1278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98F01CBD1C2C18270018081B /* InvoceSettings.swift in Sources */,
+				98F01CBD1C2C18270018081B /* SettingsInvoiceViewController.swift in Sources */,
 				DA08D9C11AC037B600B93EBE /* SignManager.swift in Sources */,
 				DAD21B9A1AFB735600F6B861 /* TransactionSendViewController.swift in Sources */,
 				DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */,
@@ -1311,7 +1319,7 @@
 				DA0059371A4882B300638C57 /* State.swift in Sources */,
 				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
 				4F1339531D422C3600AA126D /* NavigationController.swift in Sources */,
-				98F448951BDE4A00008E2BF4 /* ChangeNamePopUp.swift in Sources */,
+				98F448951BDE4A00008E2BF4 /* AccountChangeNameViewController.swift in Sources */,
 				DA08D9B91AC026F400B93EBE /* UInt8Extensions.swift in Sources */,
 				9805EFCA1C317FC0008CC607 /* NotificationManager.swift in Sources */,
 				98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */,
@@ -1324,7 +1332,7 @@
 				DA2199221A68222900E2F8DD /* InvoiceAccountInfoViewController.swift in Sources */,
 				DA8780B91A5BFDF400AA24E2 /* AccountAddExistingQRViewController.swift in Sources */,
 				98BB95E61BCD2FAA002151F7 /* ChouseButton.swift in Sources */,
-				DADDA2451B21C74900F3F5F5 /* ExportAccountVC.swift in Sources */,
+				DADDA2451B21C74900F3F5F5 /* AccountExportViewController.swift in Sources */,
 				DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */,
 				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */,
@@ -1337,11 +1345,11 @@
 				DA3BE20E1A5FFEF400CAC733 /* TransactionOverviewViewController.swift in Sources */,
 				DAC3A1801B03AE2800AABB61 /* Signature.swift in Sources */,
 				DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */,
-				985A372E1C46A58200D7BD7A /* ChangePasswordVC.swift in Sources */,
+				985A372E1C46A58200D7BD7A /* SettingsChangePasswordViewController.swift in Sources */,
 				DA64A4E11A5ACF0C005833A4 /* AccountAddViewController.swift in Sources */,
 				DA173CDF1AA87CBC003AC21F /* RIPEMD+Block.swift in Sources */,
 				98BB95DE1BCCED5B002151F7 /* verify.c in Sources */,
-				986540021BC2C54A00E2B131 /* AddCustomContactVC.swift in Sources */,
+				986540021BC2C54A00E2B131 /* AddressBookAddContactViewController.swift in Sources */,
 				DA3558061A39D3BA00AFA5FD /* AppDelegate.swift in Sources */,
 				98BB95DB1BCCED5B002151F7 /* seed.c in Sources */,
 				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
@@ -1352,7 +1360,7 @@
 				DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */,
 				98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */,
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
-				DAD5AD921A52F2F30093E3DB /* MessageVC.swift in Sources */,
+				DAD5AD921A52F2F30093E3DB /* TransactionMessagesViewController.swift in Sources */,
 				DA194E071A4323520030C882 /* APIManager.swift in Sources */,
 				98F01CC01C2D3F7B0018081B /* LocalizationManager.swift in Sources */,
 				98F3F5411BD0ECF7004A6E19 /* DetailedTableViewCell.swift in Sources */,
@@ -1360,14 +1368,14 @@
 				DAD21B951AFA1AF900F6B861 /* ButtonDropDown.swift in Sources */,
 				983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */,
 				DA173CE51AA9E8EF003AC21F /* Base32.swift in Sources */,
-				98F01CB91C2ADA0D0018081B /* ChousePrimAccountVC.swift in Sources */,
-				985A372C1C469C4D00D7BD7A /* ChouseUpdateInterval.swift in Sources */,
+				98F01CB91C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift in Sources */,
+				985A372C1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift in Sources */,
 				DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */,
 				98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */,
-				DA3558461A40771300AFA5FD /* AddCustomServerVC.swift in Sources */,
+				DA3558461A40771300AFA5FD /* SettingsAddServerViewController.swift in Sources */,
 				98BB95DA1BCCED5B002151F7 /* sc.c in Sources */,
 				98F49EBF1B6BB2920014C5D4 /* AbstractViewController.swift in Sources */,
-				DAC28C891A923C2800EE3B22 /* InvoiceScanViewController.swift in Sources */,
+				DAC28C891A923C2800EE3B22 /* InvoiceCreatedViewController.swift in Sources */,
 				DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */,
 				98F01CB71C2AC2E90018081B /* LoadData.swift in Sources */,
 				DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */,
@@ -1377,9 +1385,9 @@
 				DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */,
 				DAD21B9C1AFCD51F00F6B861 /* MultisigTransaction.swift in Sources */,
 				DA194E0F1A444F2A0030C882 /* MainContainerVC.swift in Sources */,
-				DA0059391A4882ED00638C57 /* MainMenuVC.swift in Sources */,
+				DA0059391A4882ED00638C57 /* MoreMenuViewController.swift in Sources */,
 				DAD1C7FD1A6932E30043D947 /* AccountAddExistingKeyViewController.swift in Sources */,
-				98428A761BDA689C004494D5 /* AddCosigPopUp.swift in Sources */,
+				98428A761BDA689C004494D5 /* MultisignatureAddSignerViewController.swift in Sources */,
 				DA08D9BD1AC027C700B93EBE /* StringExtensions.swift in Sources */,
 				9805EFC81C3169F9008CC607 /* AddCell.swift in Sources */,
 				98BB95D91BCCED5B002151F7 /* keypair.c in Sources */,
@@ -1388,28 +1396,28 @@
 				9805EFC61C31693E008CC607 /* SaveCell.swift in Sources */,
 				98BB95E11BCCEDB6002151F7 /* generator.c in Sources */,
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
-				DA173CEC1AADA92D003AC21F /* ScanQRVC.swift in Sources */,
+				DA173CEC1AADA92D003AC21F /* InvoiceScanViewController.swift in Sources */,
 				DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */,
 				DA3558091A39D3BA00AFA5FD /* NemIOSClient.xcdatamodeld in Sources */,
-				DA3558371A39F9D700AFA5FD /* ServerViewController.swift in Sources */,
+				DA3558371A39F9D700AFA5FD /* SettingsServerViewController.swift in Sources */,
 				DAD1492E1A6D47260036FFDA /* CustomMessageCell.swift in Sources */,
 				DA031ED61A9226E10021E98B /* NEMTextField.swift in Sources */,
 				DA194E041A41E9A00030C882 /* AccountMainViewController.swift in Sources */,
-				9877C6801BE138EB00AF9751 /* HarvestDetailsVC.swift in Sources */,
+				9877C6801BE138EB00AF9751 /* HarvestingViewController.swift in Sources */,
 				DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */,
 				DA031EDA1A922FEC0021E98B /* InvoiceCreateViewController.swift in Sources */,
 				DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */,
 				9823A4CE1B81CDF600B532CC /* DashboardButtonBox.swift in Sources */,
-				985496361C4916F80059504F /* WarningExportVC.swift in Sources */,
+				985496361C4916F80059504F /* AccountExportWarningViewController.swift in Sources */,
 				98BB95D31BCCED5B002151F7 /* readme.md in Sources */,
-				985496381C4D0CAF0059504F /* AboutVC.swift in Sources */,
+				985496381C4D0CAF0059504F /* SettingsAboutViewController.swift in Sources */,
 				DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */,
 				98E2432B1C465523001FAC2B /* CreatePasswordVC.swift in Sources */,
-				DAC3A1781B00A5E500AABB61 /* MultisigAccountManager.swift in Sources */,
+				DAC3A1781B00A5E500AABB61 /* MultisignatureViewController.swift in Sources */,
 				DA173CD71AA85B91003AC21F /* keccak.c in Sources */,
-				98F01CC21C2D4B560018081B /* ChouseLanguage.swift in Sources */,
+				98F01CC21C2D4B560018081B /* SettingsLanguageViewController.swift in Sources */,
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
-				980F130D1C60CCD0005F7DB5 /* PasswordExportVC.swift in Sources */,
+				980F130D1C60CCD0005F7DB5 /* AccountExportPasswordViewController.swift in Sources */,
 				DA64A4DE1A5AC021005833A4 /* Wallet.swift in Sources */,
 				DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */,
 				DA3BE20C1A5FFDA500CAC733 /* AddressBookViewController.swift in Sources */,

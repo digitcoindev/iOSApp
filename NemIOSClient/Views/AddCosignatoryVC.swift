@@ -57,7 +57,7 @@ class AddCosignatoryVC: AbstractViewController {
                 minCosig.text = ""
                 return
             } else {
-                (self.delegate as! MultisigAccountManager).minCosig = value
+                (self.delegate as! MultisignatureViewController).minCosig = value
             }
         } else {
             minCosig.text = ""

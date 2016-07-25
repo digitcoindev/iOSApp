@@ -1,14 +1,14 @@
 //
-//  ChouseUpdateInterval.swift
+//  ChousePrimAccountVC.swift
 //  NemIOSClient
 //
-//  Created by Lyubomir Dominik on 13.01.16.
-//  Copyright © 2016 Artygeek. All rights reserved.
+//  Created by Lyubomir Dominik on 23.12.15.
+//  Copyright © 2015 Artygeek. All rights reserved.
 //
 
 import UIKit
 
-class ChouseUpdateInterval: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsDefaultAccountViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
     
     //MARK: - @IBOutlet
     
@@ -17,18 +17,18 @@ class ChouseUpdateInterval: AbstractViewController, UITableViewDataSource, UITab
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var resetButton: UIButton!
     
-    private let _intervals :[Int] = [0, 90, 180, 360, 720, 1440, 2880, 4320, 8640]
+    private let _accounts :[Wallet] = CoreDataManager().getWallets()
     
     //MARK: - Load Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
         
         resetButton.setTitle("RESET".localized(), forState: UIControlState.Normal)
-        
+
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         
@@ -46,10 +46,8 @@ class ChouseUpdateInterval: AbstractViewController, UITableViewDataSource, UITab
     }
     
     @IBAction func reset(sender: AnyObject) {
-        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
-
         let loadData = State.loadData
-        loadData?.updateInterval = 0
+        loadData?.currentWallet = nil
         CoreDataManager().commit()
         (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
@@ -58,35 +56,14 @@ class ChouseUpdateInterval: AbstractViewController, UITableViewDataSource, UITab
     // MARK: - TableViewDelegate Methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _intervals.count
+        return _accounts.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
-        switch _intervals[indexPath.row] {
-        case 0 :
-            cell.title.text = "NEVER".localized()
-        case 90 :
-            cell.title.text = "30 " + "MINUTES".localized()
-        case 180 :
-            cell.title.text = "60 " + "MINUTES".localized()
-        case 360 :
-            cell.title.text = "1 " + "HOURS".localized()
-        case 720 :
-            cell.title.text = "2 " + "HOURS".localized()
-        case 1440 :
-            cell.title.text = "4 " + "HOURS".localized()
-        case 2880 :
-            cell.title.text = "8 " + "HOURS".localized()
-        case 4320 :
-            cell.title.text = "12 " + "HOURS".localized()
-        case 8640 :
-            cell.title.text = "24 " + "HOURS".localized()
-        default :
-            break
-        }
-        
-        if _intervals[indexPath.row] == State.loadData?.updateInterval as! Int {
+
+        cell.title.text = _accounts[indexPath.row].login
+        if (_accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey) && (_accounts[indexPath.row].login == State.loadData?.currentWallet?.login) {
             cell.isActive = true
         } else {
             cell.isActive = false
@@ -96,14 +73,9 @@ class ChouseUpdateInterval: AbstractViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 {
-            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
-        } else {
-            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(NSTimeInterval(_intervals[indexPath.row]))
-        }
 
         let loadData = State.loadData
-        loadData?.updateInterval = _intervals[indexPath.row]
+        loadData?.currentWallet = _accounts[indexPath.row]
         CoreDataManager().commit()
         (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)

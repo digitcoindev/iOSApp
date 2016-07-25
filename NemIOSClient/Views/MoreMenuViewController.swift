@@ -1,10 +1,9 @@
 
 import UIKit
 
-class MainMenuVC:  AbstractViewController, APIManagerDelegate
+class MoreMenuViewController:  AbstractViewController, APIManagerDelegate
 {
     @IBOutlet var tableView: UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
 
     var menuItems : NSMutableArray = NSMutableArray()
     var menu : NSArray = NSArray()
@@ -12,13 +11,11 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.fromVC = SegueToMainMenu
-        
-        titleLabel.text = "MORE".localized()
+//        State.fromVC = SegueToMainMenu
         
         // TODO: Hidden in Version 2 Build 26 https://github.com/NewEconomyMovement/NEMiOSApp/issues/147
         
-        menu = [SegueToLoginVC /*, SegueToGoogleMap*/, SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
+        menu = [SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -31,17 +28,15 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        tabBarController?.title = "MORE".localized()
+        tabBarController?.navigationItem.rightBarButtonItem = nil
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        State.currentVC = SegueToMainMenu
-    }
-
-    // MARK: - @IBAction
-
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(State.lastVC)
-        }
+//        State.currentVC = SegueToMainMenu
     }
     
     // MARK: - Table view data source
@@ -55,12 +50,8 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
         var titleText = menuItems.objectAtIndex(indexPath.row) as? String
         switch titleText!
         {
-        case SegueToLoginVC:
-            titleText = "SWITCH_ACCOUNT".localized()
         case SegueToExportAccount:
             titleText = "EXPORT_ACCOUNT".localized()
-        case SegueToGoogleMap:
-            titleText = "MAP".localized()
         case SegueToHarvestDetails:
             titleText = "HARVEST_DETAILS".localized()
         case SegueTomultisigAccountManager:
@@ -74,20 +65,35 @@ class MainMenuVC:  AbstractViewController, APIManagerDelegate
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var page: String  = menuItems.objectAtIndex(indexPath.row) as! String
-        
-        State.toVC = page
+//        
+//        State.toVC = page
+//        
+//        switch page
+//        {
+//        case SegueToExportAccount:
+//            State.nextVC = page
+//            page = SegueToPasswordExport
+//        default:
+//            break
+//        }
+//        
+//        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//            (self.delegate as! MainVCDelegate).pageSelected(page)
+//        }
         
         switch page
         {
         case SegueToExportAccount:
-            State.nextVC = page
-            page = SegueToPasswordExport
+            performSegueWithIdentifier("showAccountExportPasswordViewController", sender: nil)
+            
+        case SegueToHarvestDetails:
+            performSegueWithIdentifier("showHarvestingViewController", sender: nil)
+            
+        case SegueTomultisigAccountManager:
+            performSegueWithIdentifier("showMultisignatureViewController", sender: nil)
+            
         default:
             break
-        }
-        
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(page)
         }
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PasswordExportVC: AbstractViewController
+class AccountExportPasswordViewController: AbstractViewController
 {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UIButton!
@@ -37,7 +37,7 @@ class PasswordExportVC: AbstractViewController
     }
     
     override func viewDidAppear(animated: Bool) {
-        State.currentVC = SegueToPasswordExport
+//        State.currentVC = SegueToPasswordExport
     }
     
     // MARK: - IBAction
@@ -109,9 +109,11 @@ class PasswordExportVC: AbstractViewController
         
         State.exportAccount = jsonString
         
-        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToExportAccount)
-        }
+//        if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+//            (self.delegate as! MainVCDelegate).pageSelected(SegueToExportAccount)
+//        }
+        
+        performSegueWithIdentifier("showAccountExportViewController", sender: nil)
     }
     
     private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {

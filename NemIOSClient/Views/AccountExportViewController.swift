@@ -2,12 +2,11 @@ import UIKit
 import Social
 import MessageUI
 
-class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDelegate
+class AccountExportViewController: AbstractViewController , MFMailComposeViewControllerDelegate
 {
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var privateKey: UITextView!
     @IBOutlet weak var publicKey: UITextView!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var copyButton: UIButton!
     @IBOutlet weak var publicKeyLabel: UILabel!
@@ -29,14 +28,14 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
                 
         shareButton.setTitle("SHARE_QR".localized(), forState: UIControlState.Normal)
         copyButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
-        titleLabel.text = "EXPORT_ACCOUNT".localized()
+        title = "EXPORT_ACCOUNT".localized()
         publicKeyLabel.text = "PUBLIC_KEY".localized()
         showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToExportAccount
+//        State.currentVC = SegueToExportAccount
     }
  
     override func viewDidDisappear(animated: Bool) {
@@ -58,7 +57,7 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier("PrivateKey warning") as! AbstractViewController
+            let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountExportWarningViewController") as! AbstractViewController
             popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
             popUpController.view.layer.opacity = 0
             popUpController.delegate = self
@@ -69,12 +68,6 @@ class ExportAccountVC: AbstractViewController , MFMailComposeViewControllerDeleg
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 popUpController.view.layer.opacity = 1
                 }, completion: nil)
-        }
-    }
-    
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
         }
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChangePasswordVC: AbstractViewController {
+class SettingsChangePasswordViewController: AbstractViewController {
     @IBOutlet weak var oldPassword: NEMTextField!
     @IBOutlet weak var newPassword: NEMTextField!
     @IBOutlet weak var repeatPassword: NEMTextField!
@@ -30,8 +30,8 @@ class ChangePasswordVC: AbstractViewController {
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(ChangePasswordVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(ChangePasswordVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true

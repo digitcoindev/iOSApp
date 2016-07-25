@@ -1,11 +1,10 @@
 import UIKit
 
-class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate, AccountsChousePopUpDelegate
+class MultisignatureViewController: AbstractViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate, AccountsChousePopUpDelegate
 {
 
     @IBOutlet weak var chouseButton: ChouseButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var minCosigField: NEMTextField!
     @IBOutlet weak var accountLabel: UILabel!
     
@@ -30,7 +29,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
         super.viewDidLoad()
         
         _apiManager.delegate = self
-        titleLabel.text = "MULTISIG".localized()
+        title = "MULTISIG".localized()
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
@@ -43,7 +42,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueTomultisigAccountManager
+//        State.currentVC = SegueTomultisigAccountManager
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -195,12 +194,6 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     //MARK: - @IBAction
     
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
-        }
-    }
-    
     @IBAction func minCosigChaned(sender: UITextField) {
         var isNormal = false
         print()
@@ -277,7 +270,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     private func _addCosig() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let popUp :AddCosigPopUp =  storyboard.instantiateViewControllerWithIdentifier("AddCustomCosig") as! AddCosigPopUp
+        let popUp :MultisignatureAddSignerViewController =  storyboard.instantiateViewControllerWithIdentifier("MultisignatureAddSignerViewController") as! MultisignatureAddSignerViewController
         popUp.view.frame = CGRect(x: 0, y: 40, width: popUp.view.frame.width, height: popUp.view.frame.height - 40)
         popUp.view.layer.opacity = 0
         popUp.delegate = self

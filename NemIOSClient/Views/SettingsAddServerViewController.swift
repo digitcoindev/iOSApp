@@ -6,7 +6,7 @@ import UIKit
     func popUpClosed()
 }
 
-class AddCustomServerVC: AbstractViewController, APIManagerDelegate
+class SettingsAddServerViewController: AbstractViewController, APIManagerDelegate
 {
     //MARK: - @IBOutlet
 
@@ -33,8 +33,8 @@ class AddCustomServerVC: AbstractViewController, APIManagerDelegate
 
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(AddCustomServerVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(AddCustomServerVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(SettingsAddServerViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(SettingsAddServerViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         _apiManager.delegate = self
         

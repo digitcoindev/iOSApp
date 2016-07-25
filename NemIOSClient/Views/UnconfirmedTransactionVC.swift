@@ -1,6 +1,6 @@
 import UIKit
 
-class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, APIManagerDelegate
+class TransactionUnconfirmedViewController: AbstractViewController ,UITableViewDelegate, APIManagerDelegate
 {
     @IBOutlet weak var tableView: UITableView!
 
@@ -20,19 +20,13 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToUnconfirmedTransactionVC
+//        State.currentVC = SegueToUnconfirmedTransactionVC
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         let account_address = AddressGenerator.generateAddress(publicKey)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
-    }
-
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMessages)
-        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -233,7 +227,7 @@ class UnconfirmedTransactionVC: AbstractViewController ,UITableViewDelegate, API
             message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
             
             if unconfirmedTransactions.count == 1 {
-                backButtonTouchUpInside(self)
+//                backButtonTouchUpInside(self)
             } else {
                 _apiManager.accountGet(State.currentServer!, account_address: walletData.address)
             }

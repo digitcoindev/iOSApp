@@ -68,18 +68,18 @@ class SettingsViewController: AbstractViewController, UITableViewDataSource, UIT
         case SettingsCategory.General.rawValue :
             switch indexPath.row {
             case 1:
-                _createPopUp("Chouse Language")
+                _createPopUp("SettingsLanguageViewController")
             case 2:
                 if _dataManager.getWallets().count != 0 {
-                    _createPopUp("ChousePrimAccount")
+                    _createPopUp("SettingsDefaultAccountViewController")
                 }
                 
             case 3:
-                _createPopUp("InvoiceSettings")
+                _createPopUp("SettingsInvoiceViewController")
                 
             case 4:
                 
-                _createPopUp("About")
+                _createPopUp("SettingsAboutViewController")
                 
             default:
                 break
@@ -87,9 +87,7 @@ class SettingsViewController: AbstractViewController, UITableViewDataSource, UIT
         case SettingsCategory.Server.rawValue:
             switch indexPath.row {
             case 1:
-                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
-                }
+                performSegueWithIdentifier("showSettingsServerViewController", sender: nil)
             default:
                 break
             }
@@ -97,7 +95,7 @@ class SettingsViewController: AbstractViewController, UITableViewDataSource, UIT
         case SettingsCategory.Security.rawValue:
             switch indexPath.row {
             case 1:
-                _createPopUp("ChangePasswordPopUp")
+                _createPopUp("SettingsChangePasswordViewController")
                 break
                 
             case 2:
@@ -117,7 +115,7 @@ class SettingsViewController: AbstractViewController, UITableViewDataSource, UIT
         case SettingsCategory.Notification.rawValue:
             switch indexPath.row {
             case 1:
-                _createPopUp("Chouse interval")
+                _createPopUp("SettingsNotificationIntervalViewController")
                 break
 
             default:
