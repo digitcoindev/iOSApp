@@ -1,3 +1,4 @@
+
 import UIKit
 import LocalAuthentication
 
@@ -43,10 +44,12 @@ class PasswordValidationVC: AbstractViewController
     }
     
     func applicationDidBecomeActive(notification: NSNotification?) {
-        if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool && _showTouchId{
-            _showTouchId = false
-            authenticateUser()
-        }
+        if State.importAccountData != nil {return}
+        if !_showTouchId {return}
+        if !((State.loadData?.touchId ?? true) as Bool) {return}
+        
+        _showTouchId = false
+        authenticateUser()
     }
     
     override func  viewDidDisappear(animated: Bool) {
@@ -77,7 +80,7 @@ class PasswordValidationVC: AbstractViewController
     @IBAction func passwordValidation(sender: AnyObject) {
         password.endEditing(true)
 
-        if State.importAccountData != nil {
+        if State.importAccountData != nil && !State.appLocked {
             _validateFromImport()
             return
         }
@@ -96,7 +99,7 @@ class PasswordValidationVC: AbstractViewController
         if success {
             State.importAccountData = nil
             if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
+                (self.delegate as! MainVCDelegate).pageSelected(SegueToLoginVC)
             } else {
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
@@ -114,6 +117,7 @@ class PasswordValidationVC: AbstractViewController
         let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
         
         if passwordData?.toHexString() == passwordValue {
+            State.appLocked = false
             if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                 (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
             } else {
@@ -140,6 +144,8 @@ class PasswordValidationVC: AbstractViewController
             self._showTouchId = false
 
             if success {
+                State.appLocked = false
+                
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
                         (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)

@@ -22,6 +22,8 @@ class State: NSObject
         static var passwordCompletitionBlock :((password: String)->Bool)? = nil
     }
     
+    static var appLocked : Bool = false
+    
     final class var exportAccount: String? {
         get {
         return State.Store.exportAccount

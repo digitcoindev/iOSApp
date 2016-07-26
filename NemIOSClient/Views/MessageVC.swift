@@ -222,7 +222,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         
         var messageBytes :[UInt8] = messageTextHex!.asByteArray()
         
-        if _isEnc
+        if _isEnc && messageBytes.count > 0
         {
             guard let contactPublicKey = contact.public_key else {
                 _failedWithError("NO_PUBLIC_KEY_FOR_ENC".localized())
@@ -240,7 +240,7 @@ class MessageVC: AbstractViewController, UITableViewDelegate, UIAlertViewDelegat
         }
         
         transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
+        transaction.message.type = (_isEnc && messageBytes.count > 0) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
         
         var fee = 0
         

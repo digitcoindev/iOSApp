@@ -277,10 +277,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
                 if Int64(walletData.balance) >= Int64(xems) + Int64(transactionFee) {
                     _sendTransferTransaction()
                     
-                    xems = 0;
-                    messageTextField.text = ""
-                    amountTextField.text = ""
-                    feeTextField.text = ""
+
                 } else {
                     _showPopUp("NOT_ENOUGHT_MONEY".localized())
                 }
@@ -319,14 +316,14 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
         transaction.amount = Double(xems)
         transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
+        transaction.message.type = (_isEnc && messageBytes.count > 0) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
         transaction.fee = transactionFee
         transaction.recipient = toAddressTextField.text!
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
         transaction.version = 1
         transaction.signer = walletData.publicKey
         
-        if _isEnc
+        if _isEnc && messageBytes.count > 0
         {
             _preparedTransaction = transaction
             
@@ -460,6 +457,7 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             }
             _apiManager.prepareAnnounce(State.currentServer!, transaction: _preparedTransaction!)
             _preparedTransaction = nil
+            return
         }
         
         walletData = account
@@ -504,6 +502,10 @@ class SendTransactionVC: AbstractViewController, UIScrollViewDelegate, APIManage
             message = "TRANSACTION_ANOUNCE_FAILED".localized()
         } else {
             message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
+            xems = 0;
+            messageTextField.text = ""
+            amountTextField.text = ""
+            feeTextField.text = ""
         }
         
         _showPopUp(message)

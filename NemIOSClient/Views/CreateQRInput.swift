@@ -106,7 +106,7 @@ class CreateQRInput: AbstractViewController
         CoreDataManager().commit()
         State.invoice = invoice
         
-        if self.delegate != nil && self.delegate!.respondsToSelector(Selector("changePage:")) {
+        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(QRViewController.changePage(_:))) {
             (self.delegate as! QRViewController).changePage(SegueToCreateInvoiceResult)
         }
     }

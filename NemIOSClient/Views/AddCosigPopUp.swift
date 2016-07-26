@@ -160,15 +160,17 @@ class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
+        self.view.endEditing(true)
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
     @IBAction func addCosig(sender: AnyObject) {
+        self.view.endEditing(true)
+
         if !Validate.stringNotEmpty(publicKey.text) {
             errorLabel.text = "FIELDS_EMPTY_ERROR".localized()
             errorLabel.hidden = false
-            publicKey.endEditing(true)
             return
         }
         
@@ -180,7 +182,8 @@ class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
             if  Validate.address(publicKey.text!) {
                 for suggestion in  publicKey.suggestions {
                     if suggestion.key == publicKey.text {
-                        (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
+                        
+                        (self.delegate as? AddCosigPopUptDelegate)?.addCosig(suggestion.value)
                         
                         self.view.removeFromSuperview()
                         self.removeFromParentViewController()
@@ -194,7 +197,6 @@ class AddCosigPopUp: AbstractViewController, NEMTextFieldDelegate {
             }
             
             errorLabel.hidden = false
-            publicKey.endEditing(true)
         }
     }
     

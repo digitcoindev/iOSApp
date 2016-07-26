@@ -50,7 +50,7 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
         _suggestions = []
         
         for suggestion in suggestions {
-            if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.text!).evaluateWithObject(suggestion.key) && self.text! != suggestion.key
+            if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.text!).evaluateWithObject(suggestion.key) && self.text! != suggestion.value
             {
                 _suggestions.append(suggestion)
             }

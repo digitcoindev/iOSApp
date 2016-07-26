@@ -48,7 +48,7 @@ class CoreDataManager: NSObject
         
         for inWallet in self.getWallets() {
             if Int(inWallet.position) > Int(position) {
-                inWallet.position = Int(inWallet.position) - Int(position)
+                inWallet.position = Int(inWallet.position) - 1
             }
         }
         

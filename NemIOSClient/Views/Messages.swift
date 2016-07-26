@@ -41,7 +41,6 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         
         titleLabel.text = "MESSAGES".localized()
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
-        //customMessageButton.setTitle("NEW".localized(), forState: UIControlState.Normal)
         tableView.layer.cornerRadius = 2
         _apiManager.delegate = self
         tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -59,12 +58,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         _account_address = AddressGenerator.generateAddress(publicKey)
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.refreshTransactionList()
-            if AddressBookManager.isAllowed ?? false {
-                self.findCorrespondentName()
-            }
-        })
+        self.refreshTransactionList()
+        if AddressBookManager.isAllowed ?? false {
+            self.findCorrespondentName()
+        }
         
         if State.currentContact != nil {
             
@@ -210,6 +207,10 @@ class Messages: AbstractViewController , UITableViewDelegate ,UISearchBarDelegat
                                 findSignature = true
                             }
                             transaction = innerTransaction as? TransferTransaction
+                            
+                        case multisigAggregateModificationTransaction:
+                            findSignature = false
+
                         default:
                             findSignature = true
                             break

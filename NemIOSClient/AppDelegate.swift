@@ -23,12 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
-        if State.currentVC == SegueToPasswordValidation {return}
+//        if State.currentVC == SegueToPasswordValidation {return}
+        if State.appLocked {return}
         
         var root = UIApplication.sharedApplication().windows.first?.rootViewController
         
         for ;; {
             if root!.presentedViewController != nil {
+                State.appLocked = true
                 root = root!.presentedViewController as! AbstractViewController
             } else {
                 break
