@@ -5,7 +5,6 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: NEMLabel!
-    @IBOutlet weak var newTransactionButton: UIBarButtonItem!
     
     let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData?
@@ -118,7 +117,7 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
             walletData = responceAccount
             
             if walletData!.cosignatories.count > 0 {
-                newTransactionButton.enabled = false
+                tabBarController?.navigationItem.rightBarButtonItem!.enabled = false
             }
             
             var userDescription :NSMutableAttributedString!

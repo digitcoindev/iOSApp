@@ -62,7 +62,7 @@ class TransactionMessagesViewController: AbstractViewController, UITableViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "COPY", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(copyCorrespondentAddress(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "COPY", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(copyCorrespondentAddress(_:)))
         
         userInfo.text = "NO_INTERNET_CONNECTION".localized()
         amoundField?.placeholder = "AMOUNT".localized()
@@ -101,7 +101,7 @@ class TransactionMessagesViewController: AbstractViewController, UITableViewDele
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToMessageVC
+//        State.currentVC = SegueToMessageVC
         
         let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         

@@ -531,6 +531,10 @@
 		4F13394E1D40EEF700AA126D /* TRASH */ = {
 			isa = PBXGroup;
 			children = (
+				DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */,
+				DA194E0C1A444CD80030C882 /* MainVC.swift */,
+				DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */,
+				985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */,
 				983579B51BC51CF3009AF518 /* QRContainerVC.swift */,
 				DA21991F1A68038700E2F8DD /* DashboardContainer.swift */,
 				DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */,
@@ -547,7 +551,6 @@
 				DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */,
 				DADA33F71A72874500F14D6D /* WalletGenerator.swift */,
 				98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */,
-				DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */,
 			);
 			name = TODO;
 			sourceTree = "<group>";
@@ -582,14 +585,6 @@
 		4F1339551D4256E600AA126D /* TODO */ = {
 			isa = PBXGroup;
 			children = (
-			);
-			name = TODO;
-			sourceTree = "<group>";
-		};
-		4F1339561D460BC000AA126D /* TODO */ = {
-			isa = PBXGroup;
-			children = (
-				985A372F1C47D88300D7BD7A /* AddCosignatoryVC.swift */,
 			);
 			name = TODO;
 			sourceTree = "<group>";
@@ -660,7 +655,6 @@
 			children = (
 				DAC3A1771B00A5E500AABB61 /* MultisignatureViewController.swift */,
 				98428A751BDA689C004494D5 /* MultisignatureAddSignerViewController.swift */,
-				4F1339561D460BC000AA126D /* TODO */,
 			);
 			name = Multisignature;
 			sourceTree = "<group>";
@@ -703,10 +697,18 @@
 		4F9828181D3CF48600A3C8B2 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				9805EFC91C317FC0008CC607 /* NotificationManager.swift */,
-				9805EFCB1C319439008CC607 /* NotificationBaner.swift */,
+				4F9F67681D47B4F40086F98F /* TODO */,
 			);
 			name = Notification;
+			sourceTree = "<group>";
+		};
+		4F9F67681D47B4F40086F98F /* TODO */ = {
+			isa = PBXGroup;
+			children = (
+				9805EFCB1C319439008CC607 /* NotificationBaner.swift */,
+				9805EFC91C317FC0008CC607 /* NotificationManager.swift */,
+			);
+			name = TODO;
 			sourceTree = "<group>";
 		};
 		9809BDE81B74E8300028D082 /* Base64 */ = {
@@ -922,8 +924,6 @@
 			children = (
 				DA0059361A4882B300638C57 /* State.swift */,
 				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
-				DA194E0C1A444CD80030C882 /* MainVC.swift */,
-				DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */,
 				DA35580C1A39D3BA00AFA5FD /* Main.storyboard */,
 				DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */,
 				4F13393B1D3F82CE00AA126D /* TabBarController.swift */,
