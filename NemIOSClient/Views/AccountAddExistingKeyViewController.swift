@@ -85,7 +85,7 @@ class AccountAddExistingKeyViewController: AbstractViewController ,UIScrollViewD
 //            key.text = "906ddbd7052149d7f45b73166f6b64c2d4f2fdfb886796371c0e32c03382bf33"
 //            name.text = "harvest"
             
-            State.toVC = SegueToLoginVC
+//            State.toVC = SegueToLoginVC
             
             performSegueWithIdentifier("unwindToAccountMainViewController", sender: nil)
             

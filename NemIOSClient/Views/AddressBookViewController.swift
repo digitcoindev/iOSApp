@@ -197,7 +197,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let contactCustomVC :MessageToContactVC =  storyboard.instantiateViewControllerWithIdentifier("SendMessageToContact") as! MessageToContactVC
+        let contactCustomVC :AddressBookMessageViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookMessageViewController") as! AddressBookMessageViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.delegate = self
@@ -295,7 +295,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
                     }
                     State.currentContact = correspondent
                     
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
+//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
                 }
             }
         }
@@ -328,7 +328,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
                     }
                     State.currentContact = correspondent
                     
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
+//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
                 }
             }
         }

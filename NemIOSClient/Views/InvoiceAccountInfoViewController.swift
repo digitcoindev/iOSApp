@@ -25,7 +25,7 @@ class InvoiceAccountInfoViewController: AbstractViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        State.fromVC = SegueToUserInfo
+//        State.fromVC = SegueToUserInfo
 
         myAddressLabel.text = "MY_ADDRESS".localized() + ":"
         myNameLabel.text = "MY_NAME".localized() + ":"
@@ -47,7 +47,7 @@ class InvoiceAccountInfoViewController: AbstractViewController
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToUserInfo
+//        State.currentVC = SegueToUserInfo
     }
     
     // MARK: - @IBAction

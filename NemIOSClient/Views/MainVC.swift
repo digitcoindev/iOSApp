@@ -49,7 +49,7 @@ class MainVC: AbstractViewController , MainVCDelegate, APIManagerDelegate
     //MARK: - MainVCdDelegate Methods
     
     final func pageSelected(page :String){
-        _pages.changePage(page)
+//        _pages.changePage(page)
     }
     
     //MARK: - APIManagerDelegate Methods

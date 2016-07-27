@@ -25,7 +25,7 @@ class AccountExportPasswordViewController: AbstractViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        State.currentVC = SegueToPasswordExport
+//        State.currentVC = SegueToPasswordExport
         
         passwordTitle.text = "ENTET_PASSWORD_EXPORT".localized()
         password.placeholder = "PASSWORD_PLACEHOLDER".localized()

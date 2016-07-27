@@ -1,0 +1,61 @@
+PODS:
+  - Cache (1.0.0)
+  - Fakery (1.1.1):
+    - SwiftyJSON
+  - Hue (1.0.0)
+  - Imaginary (0.1.0):
+    - Cache
+  - Spots (1.0.0):
+    - Imaginary
+    - Sugar
+    - Tailor
+  - Sugar (1.0.3)
+  - SwiftyJSON (2.3.2)
+  - Tailor (0.3.1):
+    - Sugar
+
+DEPENDENCIES:
+  - Cache (from `https://github.com/hyperoslo/Cache`)
+  - Fakery
+  - Hue (from `../../`)
+  - Imaginary (from `https://github.com/hyperoslo/Imaginary`)
+  - Spots (from `https://github.com/hyperoslo/Spots`)
+  - Tailor (from `https://github.com/zenangst/Tailor`)
+
+EXTERNAL SOURCES:
+  Cache:
+    :git: https://github.com/hyperoslo/Cache
+  Hue:
+    :path: "../../"
+  Imaginary:
+    :git: https://github.com/hyperoslo/Imaginary
+  Spots:
+    :git: https://github.com/hyperoslo/Spots
+  Tailor:
+    :git: https://github.com/zenangst/Tailor
+
+CHECKOUT OPTIONS:
+  Cache:
+    :commit: 5af9d7f80b5c39ec578c54874d5acda248d10831
+    :git: https://github.com/hyperoslo/Cache
+  Imaginary:
+    :commit: 243448a070decf6d8fcdc503b14505a2951af680
+    :git: https://github.com/hyperoslo/Imaginary
+  Spots:
+    :commit: e0347a7bb8a86c65a9c22c2f100be75ac4d1d962
+    :git: https://github.com/hyperoslo/Spots
+  Tailor:
+    :commit: 031d44701c0fa4773a727159b03153c816b9a13a
+    :git: https://github.com/zenangst/Tailor
+
+SPEC CHECKSUMS:
+  Cache: 78f58bc008313c7a1182967a2ebcb3de9fddecd4
+  Fakery: a159ad2f48e01c5ae7059c201700b38fa0484707
+  Hue: 44ae8b1091935fcc75055174095ab04653989235
+  Imaginary: feaea646440c68a9b6ed66a46597d548b9a44207
+  Spots: 0e2a783d37cf05ce0752e2ae4cd709de0112cb04
+  Sugar: 0dec8fa53840c88c01579e61bcff8edbe468cb41
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  Tailor: 3ec670165a4a0b728c187313e85b433af457152c
+
+COCOAPODS: 0.39.0

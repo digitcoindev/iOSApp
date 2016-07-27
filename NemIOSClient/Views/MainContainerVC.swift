@@ -86,27 +86,27 @@ class MainContainerVC: AbstractViewController
     
     //MARK: - Navigation Methods
     
-    final func changePage(page :String){
-        if(page != State.currentVC ) {
-            
-            switch(page) {
-                
-            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToSettings, SegueToMainMenu, SegueToExportAccount, SegueToPasswordValidation:
-                self.performSegueWithIdentifier(page, sender: nil)
-                
-            case SegueToPasswordExport, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController, SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueTomultisigAccountManager:
-                
-                State.toVC = page as String
-                
-                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
-                }
-                
-                break
-                
-            default:
-                break
-            }
-        }
-    }
+//    final func changePage(page :String){
+//        if(page != State.currentVC ) {
+//            
+//            switch(page) {
+//                
+//            case SegueToRegistrationVC, SegueToLoginVC, SegueToServerVC, SegueToDashboard, SegueToAddAccountVC,  SegueToImportFromQR, SegueToImportFromKey, SegueToSettings, SegueToMainMenu, SegueToExportAccount, SegueToPasswordValidation:
+//                self.performSegueWithIdentifier(page, sender: nil)
+//                
+//            case SegueToPasswordExport, SegueToUnconfirmedTransactionVC,  SegueToSendTransaction, SegueToMessageVC, SegueToMessageMultisignVC,  SegueToAddressBook, SegueToUserInfo, SegueToImportFromQR,  SegueToMessages, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR, SegueToQRController, SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueTomultisigAccountManager:
+//                
+//                State.toVC = page as String
+//                
+//                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
+//                }
+//                
+//                break
+//                
+//            default:
+//                break
+//            }
+//        }
+//    }
 }

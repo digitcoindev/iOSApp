@@ -15,7 +15,7 @@ class InvoiceViewController: AbstractViewController {
     @IBOutlet weak var createInvoiceContainerView: UIView!
     @IBOutlet weak var scanInvoiceContainerView: UIView!
     
-    private var _pages :QRContainerVC!
+//    private var _pages :QRContainerVC!
 
     override func viewDidLoad() {
         super.viewDidLoad()

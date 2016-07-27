@@ -38,7 +38,7 @@ class ViewController: UIViewController
     override func viewDidAppear(animated: Bool) {
         AddressBookManager.create()
         
-        self.performSegueWithIdentifier(SegueToMainVC, sender: self)
+//        self.performSegueWithIdentifier(SegueToMainVC, sender: self)
         
                 
 //        private key : 5ccf739d9f40f981e100492632cf729ae7940980e677551684f4f309bac5c59d

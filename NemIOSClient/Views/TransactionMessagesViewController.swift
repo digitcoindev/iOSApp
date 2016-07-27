@@ -147,7 +147,7 @@ class TransactionMessagesViewController: AbstractViewController, UITableViewDele
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
             _popup = accounts
             accounts.view.frame = CGRect(x: tableView.frame.origin.x,
                                          y:  tableView.frame.origin.y,

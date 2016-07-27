@@ -7,7 +7,7 @@ class DashboardContainer: AbstractViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        changePage(State.toVC)
+//        changePage(State.toVC)
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,25 +48,25 @@ class DashboardContainer: AbstractViewController
     
     //MARK: - Navigation Methods
     
-    final func changePage(page :String) {
-        switch(page) {
-            
-        case    SegueToMessages, SegueToAddressBook, SegueToMessageVC, SegueToMessageMultisignVC,
-                SegueToMessageCosignatoryVC, SegueToPasswordExport, SegueToSendTransaction,
-                SegueToUnconfirmedTransactionVC, SegueToQRController, SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueTomultisigAccountManager:
-            
-            self.performSegueWithIdentifier(page, sender: nil)
-            
-        case  SegueToUserInfo, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR :
-            
-            State.toVC = page
-            
-            self.performSegueWithIdentifier(SegueToQRController, sender: nil)
-            
-        default:
-            if (self.delegate as? AbstractViewController)!.delegate != nil && self.delegate!.delegate.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(page)
-            }
-        }
-    }
+//    final func changePage(page :String) {
+//        switch(page) {
+//            
+//        case    SegueToMessages, SegueToAddressBook, SegueToMessageVC, SegueToMessageMultisignVC,
+//                SegueToMessageCosignatoryVC, SegueToPasswordExport, SegueToSendTransaction,
+//                SegueToUnconfirmedTransactionVC, SegueToQRController, SegueToHarvestDetails, SegueToHistoryVC, SegueToGoogleMap, SegueTomultisigAccountManager:
+//            
+//            self.performSegueWithIdentifier(page, sender: nil)
+//            
+//        case  SegueToUserInfo, SegueToCreateInvoice, SegueToCreateInvoiceResult, SegueToScanQR :
+//            
+//            State.toVC = page
+//            
+//            self.performSegueWithIdentifier(SegueToQRController, sender: nil)
+//            
+//        default:
+//            if (self.delegate as? AbstractViewController)!.delegate != nil && self.delegate!.delegate.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(page)
+//            }
+//        }
+//    }
 }

@@ -1,0 +1,1083 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2FBBCADB19A9FE610070E4AB /* GCDKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBCADA19A9FE610070E4AB /* GCDKitTests.swift */; };
+		2FC48D4619B2EC5500CF1B76 /* GCDBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4519B2EC5500CF1B76 /* GCDBlock.swift */; };
+		2FC48D4819B2EC6700CF1B76 /* GCDQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4719B2EC6700CF1B76 /* GCDQueue.swift */; };
+		2FC48D4A19B2EC7800CF1B76 /* GCDGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4919B2EC7800CF1B76 /* GCDGroup.swift */; };
+		2FC48D4C19B2EC8400CF1B76 /* GCDSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4B19B2EC8400CF1B76 /* GCDSemaphore.swift */; };
+		2FCDA06219B76700002F71EA /* GCDKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FCDA06119B766A2002F71EA /* GCDKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BA18701C4BB93100A0916E /* GCDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BA18661C4BB93000A0916E /* GCDKit.framework */; };
+		82BA187D1C4BBA5A00A0916E /* GCDKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FCDA06119B766A2002F71EA /* GCDKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BA187E1C4BBA6100A0916E /* GCDBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4519B2EC5500CF1B76 /* GCDBlock.swift */; };
+		82BA187F1C4BBA6100A0916E /* GCDGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4919B2EC7800CF1B76 /* GCDGroup.swift */; };
+		82BA18801C4BBA6100A0916E /* GCDQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4719B2EC6700CF1B76 /* GCDQueue.swift */; };
+		82BA18811C4BBA6100A0916E /* GCDSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4B19B2EC8400CF1B76 /* GCDSemaphore.swift */; };
+		82BA18821C4BBA6100A0916E /* GCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1D30F1A73BE7F003B866E /* GCDTimer.swift */; };
+		82BA18831C4BBA7200A0916E /* GCDKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBCADA19A9FE610070E4AB /* GCDKitTests.swift */; };
+		B56321341BD638D6006C9394 /* GCDKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FCDA06119B766A2002F71EA /* GCDKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B56321351BD638DB006C9394 /* GCDBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4519B2EC5500CF1B76 /* GCDBlock.swift */; };
+		B56321361BD638DD006C9394 /* GCDGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4919B2EC7800CF1B76 /* GCDGroup.swift */; };
+		B56321371BD638E0006C9394 /* GCDQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4719B2EC6700CF1B76 /* GCDQueue.swift */; };
+		B56321381BD638E2006C9394 /* GCDSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4B19B2EC8400CF1B76 /* GCDSemaphore.swift */; };
+		B56321391BD638E5006C9394 /* GCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1D30F1A73BE7F003B866E /* GCDTimer.swift */; };
+		B563214A1BD63E24006C9394 /* GCDKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBCADA19A9FE610070E4AB /* GCDKitTests.swift */; };
+		B56321581BD640BE006C9394 /* GCDKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FCDA06119B766A2002F71EA /* GCDKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B56321591BD640C5006C9394 /* GCDBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4519B2EC5500CF1B76 /* GCDBlock.swift */; };
+		B563215A1BD640C5006C9394 /* GCDGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4919B2EC7800CF1B76 /* GCDGroup.swift */; };
+		B563215B1BD640C5006C9394 /* GCDQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4719B2EC6700CF1B76 /* GCDQueue.swift */; };
+		B563215C1BD640C5006C9394 /* GCDSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4B19B2EC8400CF1B76 /* GCDSemaphore.swift */; };
+		B563215D1BD640C5006C9394 /* GCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1D30F1A73BE7F003B866E /* GCDTimer.swift */; };
+		B5D1D3101A73BE7F003B866E /* GCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1D30F1A73BE7F003B866E /* GCDTimer.swift */; };
+		B5D9E2DF1CA2B2C5007A9D52 /* GCDGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4919B2EC7800CF1B76 /* GCDGroup.swift */; };
+		B5D9E2E01CA2B2C5007A9D52 /* GCDBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4519B2EC5500CF1B76 /* GCDBlock.swift */; };
+		B5D9E2E11CA2B2C5007A9D52 /* GCDQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4719B2EC6700CF1B76 /* GCDQueue.swift */; };
+		B5D9E2E21CA2B2C5007A9D52 /* GCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1D30F1A73BE7F003B866E /* GCDTimer.swift */; };
+		B5D9E2E31CA2B2C5007A9D52 /* GCDSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC48D4B19B2EC8400CF1B76 /* GCDSemaphore.swift */; };
+		B5D9E2E61CA2B2C5007A9D52 /* GCDKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FCDA06119B766A2002F71EA /* GCDKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5E45DDA1C143C2000D1BB46 /* GCDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B563212B1BD6359A006C9394 /* GCDKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2F5BBACF19AA302D0061C57C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FBBCAC219A9FE610070E4AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2FBBCACA19A9FE610070E4AB;
+			remoteInfo = GCDKit;
+		};
+		82BA18711C4BB93100A0916E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FBBCAC219A9FE610070E4AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82BA18651C4BB93000A0916E;
+			remoteInfo = "GCDKit tvOS";
+		};
+		B56321481BD63E1F006C9394 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2FBBCAC219A9FE610070E4AB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B563212A1BD6359A006C9394;
+			remoteInfo = "GCDKit OSX";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2F31116019AF758600DF35D0 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		2F31116219AF75AA00DF35D0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2FBBCACB19A9FE610070E4AB /* GCDKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GCDKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FBBCACF19A9FE610070E4AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2FBBCAD619A9FE610070E4AB /* GCDKitTests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GCDKitTests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FBBCAD919A9FE610070E4AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2FBBCADA19A9FE610070E4AB /* GCDKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDKitTests.swift; sourceTree = "<group>"; };
+		2FC48D4519B2EC5500CF1B76 /* GCDBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlock.swift; sourceTree = "<group>"; };
+		2FC48D4719B2EC6700CF1B76 /* GCDQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDQueue.swift; sourceTree = "<group>"; };
+		2FC48D4919B2EC7800CF1B76 /* GCDGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDGroup.swift; sourceTree = "<group>"; };
+		2FC48D4B19B2EC8400CF1B76 /* GCDSemaphore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDSemaphore.swift; sourceTree = "<group>"; };
+		2FCDA06119B766A2002F71EA /* GCDKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCDKit.h; sourceTree = "<group>"; };
+		82BA18661C4BB93000A0916E /* GCDKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GCDKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82BA186F1C4BB93100A0916E /* GCDKitTests tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GCDKitTests tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B535710C1C8E693900B7F89C /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		B563212B1BD6359A006C9394 /* GCDKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GCDKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B56321401BD63D14006C9394 /* GCDKitTests OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GCDKitTests OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B56321501BD6408F006C9394 /* GCDKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GCDKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5D1D30F1A73BE7F003B866E /* GCDTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDTimer.swift; sourceTree = "<group>"; };
+		B5D9C8F91B16121D00E64F0E /* GCDKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = GCDKit.podspec; sourceTree = SOURCE_ROOT; };
+		B5D9E2EB1CA2B2C5007A9D52 /* GCDKit_iOS7.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GCDKit_iOS7.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2FBBCAC719A9FE610070E4AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBCAD319A9FE610070E4AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82BA18621C4BB93000A0916E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82BA186C1C4BB93100A0916E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BA18701C4BB93100A0916E /* GCDKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B56321271BD6359A006C9394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B563213D1BD63D14006C9394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5E45DDA1C143C2000D1BB46 /* GCDKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B563214C1BD6408F006C9394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D9E2E41CA2B2C5007A9D52 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2FBBCAC119A9FE610070E4AB = {
+			isa = PBXGroup;
+			children = (
+				2F31116019AF758600DF35D0 /* LICENSE */,
+				2F31116219AF75AA00DF35D0 /* README.md */,
+				B535710C1C8E693900B7F89C /* Package.swift */,
+				2FBBCACD19A9FE610070E4AB /* Sources */,
+				2FBBCAD719A9FE610070E4AB /* GCDKitTests */,
+				2FBBCACC19A9FE610070E4AB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2FBBCACC19A9FE610070E4AB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBCACB19A9FE610070E4AB /* GCDKit.framework */,
+				2FBBCAD619A9FE610070E4AB /* GCDKitTests iOS.xctest */,
+				B563212B1BD6359A006C9394 /* GCDKit.framework */,
+				B56321401BD63D14006C9394 /* GCDKitTests OSX.xctest */,
+				B56321501BD6408F006C9394 /* GCDKit.framework */,
+				82BA18661C4BB93000A0916E /* GCDKit.framework */,
+				82BA186F1C4BB93100A0916E /* GCDKitTests tvOS.xctest */,
+				B5D9E2EB1CA2B2C5007A9D52 /* GCDKit_iOS7.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2FBBCACD19A9FE610070E4AB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2FCDA06119B766A2002F71EA /* GCDKit.h */,
+				2FC48D4519B2EC5500CF1B76 /* GCDBlock.swift */,
+				2FC48D4919B2EC7800CF1B76 /* GCDGroup.swift */,
+				2FC48D4719B2EC6700CF1B76 /* GCDQueue.swift */,
+				2FC48D4B19B2EC8400CF1B76 /* GCDSemaphore.swift */,
+				B5D1D30F1A73BE7F003B866E /* GCDTimer.swift */,
+				2FBBCACE19A9FE610070E4AB /* Supporting Files */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		2FBBCACE19A9FE610070E4AB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBCACF19A9FE610070E4AB /* Info.plist */,
+				B5D9C8F91B16121D00E64F0E /* GCDKit.podspec */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2FBBCAD719A9FE610070E4AB /* GCDKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBCADA19A9FE610070E4AB /* GCDKitTests.swift */,
+				2FBBCAD819A9FE610070E4AB /* Supporting Files */,
+			);
+			path = GCDKitTests;
+			sourceTree = "<group>";
+		};
+		2FBBCAD819A9FE610070E4AB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBCAD919A9FE610070E4AB /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2FBBCAC819A9FE610070E4AB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FCDA06219B76700002F71EA /* GCDKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82BA18631C4BB93000A0916E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BA187D1C4BBA5A00A0916E /* GCDKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B56321281BD6359A006C9394 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B56321341BD638D6006C9394 /* GCDKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B563214D1BD6408F006C9394 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B56321581BD640BE006C9394 /* GCDKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D9E2E51CA2B2C5007A9D52 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5D9E2E61CA2B2C5007A9D52 /* GCDKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2FBBCACA19A9FE610070E4AB /* GCDKit iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FBBCADE19A9FE610070E4AB /* Build configuration list for PBXNativeTarget "GCDKit iOS" */;
+			buildPhases = (
+				2FBBCAC619A9FE610070E4AB /* Sources */,
+				2FBBCAC719A9FE610070E4AB /* Frameworks */,
+				2FBBCAC819A9FE610070E4AB /* Headers */,
+				2FBBCAC919A9FE610070E4AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GCDKit iOS";
+			productName = GCDKit;
+			productReference = 2FBBCACB19A9FE610070E4AB /* GCDKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		2FBBCAD519A9FE610070E4AB /* GCDKitTests iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FBBCAE119A9FE610070E4AB /* Build configuration list for PBXNativeTarget "GCDKitTests iOS" */;
+			buildPhases = (
+				2FBBCAD219A9FE610070E4AB /* Sources */,
+				2FBBCAD319A9FE610070E4AB /* Frameworks */,
+				2FBBCAD419A9FE610070E4AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2F5BBAD019AA302D0061C57C /* PBXTargetDependency */,
+			);
+			name = "GCDKitTests iOS";
+			productName = GCDKitTests;
+			productReference = 2FBBCAD619A9FE610070E4AB /* GCDKitTests iOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		82BA18651C4BB93000A0916E /* GCDKit tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82BA187B1C4BB93100A0916E /* Build configuration list for PBXNativeTarget "GCDKit tvOS" */;
+			buildPhases = (
+				82BA18611C4BB93000A0916E /* Sources */,
+				82BA18621C4BB93000A0916E /* Frameworks */,
+				82BA18631C4BB93000A0916E /* Headers */,
+				82BA18641C4BB93000A0916E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GCDKit tvOS";
+			productName = "GCDKit tvOS";
+			productReference = 82BA18661C4BB93000A0916E /* GCDKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		82BA186E1C4BB93100A0916E /* GCDKitTests tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82BA187C1C4BB93100A0916E /* Build configuration list for PBXNativeTarget "GCDKitTests tvOS" */;
+			buildPhases = (
+				82BA186B1C4BB93100A0916E /* Sources */,
+				82BA186C1C4BB93100A0916E /* Frameworks */,
+				82BA186D1C4BB93100A0916E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82BA18721C4BB93100A0916E /* PBXTargetDependency */,
+			);
+			name = "GCDKitTests tvOS";
+			productName = "GCDKit tvOSTests";
+			productReference = 82BA186F1C4BB93100A0916E /* GCDKitTests tvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B563212A1BD6359A006C9394 /* GCDKit OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B56321301BD6359A006C9394 /* Build configuration list for PBXNativeTarget "GCDKit OSX" */;
+			buildPhases = (
+				B56321261BD6359A006C9394 /* Sources */,
+				B56321271BD6359A006C9394 /* Frameworks */,
+				B56321281BD6359A006C9394 /* Headers */,
+				B56321291BD6359A006C9394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GCDKit OSX";
+			productName = "GCDKit OSX";
+			productReference = B563212B1BD6359A006C9394 /* GCDKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B563213F1BD63D14006C9394 /* GCDKitTests OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B56321451BD63D14006C9394 /* Build configuration list for PBXNativeTarget "GCDKitTests OSX" */;
+			buildPhases = (
+				B563213C1BD63D14006C9394 /* Sources */,
+				B563213D1BD63D14006C9394 /* Frameworks */,
+				B563213E1BD63D14006C9394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B56321491BD63E1F006C9394 /* PBXTargetDependency */,
+			);
+			name = "GCDKitTests OSX";
+			productName = "GCDKit OSX Tests";
+			productReference = B56321401BD63D14006C9394 /* GCDKitTests OSX.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B563214F1BD6408F006C9394 /* GCDKit watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B56321551BD6408F006C9394 /* Build configuration list for PBXNativeTarget "GCDKit watchOS" */;
+			buildPhases = (
+				B563214B1BD6408F006C9394 /* Sources */,
+				B563214C1BD6408F006C9394 /* Frameworks */,
+				B563214D1BD6408F006C9394 /* Headers */,
+				B563214E1BD6408F006C9394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GCDKit watchOS";
+			productName = "GCDKitTests watchOS";
+			productReference = B56321501BD6408F006C9394 /* GCDKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B5D9E2DD1CA2B2C5007A9D52 /* GCDKit iOS7 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5D9E2E81CA2B2C5007A9D52 /* Build configuration list for PBXNativeTarget "GCDKit iOS7" */;
+			buildPhases = (
+				B5D9E2DE1CA2B2C5007A9D52 /* Sources */,
+				B5D9E2E41CA2B2C5007A9D52 /* Frameworks */,
+				B5D9E2E51CA2B2C5007A9D52 /* Headers */,
+				B5D9E2E71CA2B2C5007A9D52 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GCDKit iOS7";
+			productName = GCDKit;
+			productReference = B5D9E2EB1CA2B2C5007A9D52 /* GCDKit_iOS7.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2FBBCAC219A9FE610070E4AB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "John Rommel Estropia";
+				TargetAttributes = {
+					2FBBCACA19A9FE610070E4AB = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					2FBBCAD519A9FE610070E4AB = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					82BA18651C4BB93000A0916E = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					82BA186E1C4BB93100A0916E = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					B563212A1BD6359A006C9394 = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+					B563213F1BD63D14006C9394 = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+					B563214F1BD6408F006C9394 = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 2FBBCAC519A9FE610070E4AB /* Build configuration list for PBXProject "GCDKit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2FBBCAC119A9FE610070E4AB;
+			productRefGroup = 2FBBCACC19A9FE610070E4AB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B5D9E2DD1CA2B2C5007A9D52 /* GCDKit iOS7 */,
+				2FBBCACA19A9FE610070E4AB /* GCDKit iOS */,
+				2FBBCAD519A9FE610070E4AB /* GCDKitTests iOS */,
+				82BA18651C4BB93000A0916E /* GCDKit tvOS */,
+				82BA186E1C4BB93100A0916E /* GCDKitTests tvOS */,
+				B563212A1BD6359A006C9394 /* GCDKit OSX */,
+				B563213F1BD63D14006C9394 /* GCDKitTests OSX */,
+				B563214F1BD6408F006C9394 /* GCDKit watchOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2FBBCAC919A9FE610070E4AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBCAD419A9FE610070E4AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82BA18641C4BB93000A0916E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82BA186D1C4BB93100A0916E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B56321291BD6359A006C9394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B563213E1BD63D14006C9394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B563214E1BD6408F006C9394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D9E2E71CA2B2C5007A9D52 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2FBBCAC619A9FE610070E4AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FC48D4A19B2EC7800CF1B76 /* GCDGroup.swift in Sources */,
+				2FC48D4619B2EC5500CF1B76 /* GCDBlock.swift in Sources */,
+				2FC48D4819B2EC6700CF1B76 /* GCDQueue.swift in Sources */,
+				B5D1D3101A73BE7F003B866E /* GCDTimer.swift in Sources */,
+				2FC48D4C19B2EC8400CF1B76 /* GCDSemaphore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBCAD219A9FE610070E4AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FBBCADB19A9FE610070E4AB /* GCDKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82BA18611C4BB93000A0916E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BA187F1C4BBA6100A0916E /* GCDGroup.swift in Sources */,
+				82BA18801C4BBA6100A0916E /* GCDQueue.swift in Sources */,
+				82BA187E1C4BBA6100A0916E /* GCDBlock.swift in Sources */,
+				82BA18821C4BBA6100A0916E /* GCDTimer.swift in Sources */,
+				82BA18811C4BBA6100A0916E /* GCDSemaphore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82BA186B1C4BB93100A0916E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BA18831C4BBA7200A0916E /* GCDKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B56321261BD6359A006C9394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B56321361BD638DD006C9394 /* GCDGroup.swift in Sources */,
+				B56321371BD638E0006C9394 /* GCDQueue.swift in Sources */,
+				B56321351BD638DB006C9394 /* GCDBlock.swift in Sources */,
+				B56321391BD638E5006C9394 /* GCDTimer.swift in Sources */,
+				B56321381BD638E2006C9394 /* GCDSemaphore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B563213C1BD63D14006C9394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B563214A1BD63E24006C9394 /* GCDKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B563214B1BD6408F006C9394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B563215A1BD640C5006C9394 /* GCDGroup.swift in Sources */,
+				B563215B1BD640C5006C9394 /* GCDQueue.swift in Sources */,
+				B56321591BD640C5006C9394 /* GCDBlock.swift in Sources */,
+				B563215D1BD640C5006C9394 /* GCDTimer.swift in Sources */,
+				B563215C1BD640C5006C9394 /* GCDSemaphore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D9E2DE1CA2B2C5007A9D52 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5D9E2DF1CA2B2C5007A9D52 /* GCDGroup.swift in Sources */,
+				B5D9E2E01CA2B2C5007A9D52 /* GCDBlock.swift in Sources */,
+				B5D9E2E11CA2B2C5007A9D52 /* GCDQueue.swift in Sources */,
+				B5D9E2E21CA2B2C5007A9D52 /* GCDTimer.swift in Sources */,
+				B5D9E2E31CA2B2C5007A9D52 /* GCDSemaphore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2F5BBAD019AA302D0061C57C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2FBBCACA19A9FE610070E4AB /* GCDKit iOS */;
+			targetProxy = 2F5BBACF19AA302D0061C57C /* PBXContainerItemProxy */;
+		};
+		82BA18721C4BB93100A0916E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82BA18651C4BB93000A0916E /* GCDKit tvOS */;
+			targetProxy = 82BA18711C4BB93100A0916E /* PBXContainerItemProxy */;
+		};
+		B56321491BD63E1F006C9394 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B563212A1BD6359A006C9394 /* GCDKit OSX */;
+			targetProxy = B56321481BD63E1F006C9394 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2FBBCADC19A9FE610070E4AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Sources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D USE_FRAMEWORKS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnestropia.GCDKit;
+				PRODUCT_NAME = GCDKit;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		2FBBCADD19A9FE610070E4AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Sources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-D USE_FRAMEWORKS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnestropia.GCDKit;
+				PRODUCT_NAME = GCDKit;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		2FBBCADF19A9FE610070E4AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2FBBCAE019A9FE610070E4AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2FBBCAE219A9FE610070E4AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = GCDKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnestropia.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "GCDKitTests iOS";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2FBBCAE319A9FE610070E4AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = GCDKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnestropia.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "GCDKitTests iOS";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		82BA18771C4BB93100A0916E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Debug;
+		};
+		82BA18781C4BB93100A0916E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Release;
+		};
+		82BA18791C4BB93100A0916E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = GCDKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnestropia.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+			};
+			name = Debug;
+		};
+		82BA187A1C4BB93100A0916E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = GCDKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnestropia.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+			};
+			name = Release;
+		};
+		B56321311BD6359A006C9394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		B56321321BD6359A006C9394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		B56321461BD63D14006C9394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = GCDKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnestropia.GCDKitTests-OSX";
+				PRODUCT_NAME = "GCDKitTests OSX";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		B56321471BD63D14006C9394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = GCDKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johnestropia.GCDKitTests-OSX";
+				PRODUCT_NAME = "GCDKitTests OSX";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		B56321561BD6408F006C9394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		B56321571BD6408F006C9394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		B5D9E2E91CA2B2C5007A9D52 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_NAME = GCDKit_iOS7;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B5D9E2EA1CA2B2C5007A9D52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_NAME = GCDKit_iOS7;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2FBBCAC519A9FE610070E4AB /* Build configuration list for PBXProject "GCDKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FBBCADC19A9FE610070E4AB /* Debug */,
+				2FBBCADD19A9FE610070E4AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FBBCADE19A9FE610070E4AB /* Build configuration list for PBXNativeTarget "GCDKit iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FBBCADF19A9FE610070E4AB /* Debug */,
+				2FBBCAE019A9FE610070E4AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FBBCAE119A9FE610070E4AB /* Build configuration list for PBXNativeTarget "GCDKitTests iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FBBCAE219A9FE610070E4AB /* Debug */,
+				2FBBCAE319A9FE610070E4AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82BA187B1C4BB93100A0916E /* Build configuration list for PBXNativeTarget "GCDKit tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82BA18771C4BB93100A0916E /* Debug */,
+				82BA18781C4BB93100A0916E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82BA187C1C4BB93100A0916E /* Build configuration list for PBXNativeTarget "GCDKitTests tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82BA18791C4BB93100A0916E /* Debug */,
+				82BA187A1C4BB93100A0916E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B56321301BD6359A006C9394 /* Build configuration list for PBXNativeTarget "GCDKit OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B56321311BD6359A006C9394 /* Debug */,
+				B56321321BD6359A006C9394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B56321451BD63D14006C9394 /* Build configuration list for PBXNativeTarget "GCDKitTests OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B56321461BD63D14006C9394 /* Debug */,
+				B56321471BD63D14006C9394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B56321551BD6408F006C9394 /* Build configuration list for PBXNativeTarget "GCDKit watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B56321561BD6408F006C9394 /* Debug */,
+				B56321571BD6408F006C9394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B5D9E2E81CA2B2C5007A9D52 /* Build configuration list for PBXNativeTarget "GCDKit iOS7" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5D9E2E91CA2B2C5007A9D52 /* Debug */,
+				B5D9E2EA1CA2B2C5007A9D52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2FBBCAC219A9FE610070E4AB /* Project object */;
+}

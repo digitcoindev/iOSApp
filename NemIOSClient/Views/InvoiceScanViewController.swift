@@ -186,7 +186,7 @@ class InvoiceScanViewController: AbstractViewController, QRDelegate, AddCustomCo
                     }
                     State.currentContact = correspondent
                 }
-                navDelegate!.pageSelected(sendTransaction ? SegueToSendTransaction : SegueToAddressBook)
+//                navDelegate!.pageSelected(sendTransaction ? SegueToSendTransaction : SegueToAddressBook)
             }
         }
     }

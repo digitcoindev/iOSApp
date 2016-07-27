@@ -23,7 +23,7 @@ class InvoiceCreatedViewController: AbstractViewController, MFMailComposeViewCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        State.fromVC = SegueToCreateInvoice
+//        State.fromVC = SegueToCreateInvoice
 
         invoiceDataLabel.text = "INVOICE_DATA".localized()
         copyQRButton.setTitle("SAVE_QR".localized(), forState: UIControlState.Normal)
@@ -55,7 +55,7 @@ class InvoiceCreatedViewController: AbstractViewController, MFMailComposeViewCon
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToCreateInvoiceResult
+//        State.currentVC = SegueToCreateInvoiceResult
 
     }
     

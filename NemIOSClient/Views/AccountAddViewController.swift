@@ -38,25 +38,4 @@ class AccountAddViewController: AbstractViewController
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    //MARK: - IBActions
-    
-    @IBAction func Custom(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToRegistrationVC)
-        }
-    }
-
-    
-    @IBAction func QR(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToImportFromQR)
-        }
-    }
-    
-    @IBAction func Key(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToImportFromKey)
-        }
-    }
 }

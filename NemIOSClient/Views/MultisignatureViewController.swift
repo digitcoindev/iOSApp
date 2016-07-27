@@ -239,7 +239,7 @@ class MultisignatureViewController: AbstractViewController, UITableViewDelegate,
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+        let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
         
         accounts.view.frame = tableView.frame
         

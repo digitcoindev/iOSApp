@@ -27,7 +27,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
     
     override func viewDidAppear(animated: Bool) {
         self.tableView.reloadData()
-        State.currentVC = SegueToHistoryVC
+//        State.currentVC = SegueToHistoryVC
 
     }
     
@@ -35,7 +35,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
         if _contentViews.count == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
             
             accounts.view.frame = tableView.frame
             
@@ -65,11 +65,11 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
         }
     }
     
-    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-            (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
-        }
-    }
+//    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
+//        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//            (self.delegate as! MainVCDelegate).pageSelected(SegueToMainMenu)
+//        }
+//    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return _modifications.count

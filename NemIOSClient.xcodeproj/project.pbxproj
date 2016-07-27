@@ -18,6 +18,23 @@
 		4F9828141D3CEFBE00A3C8B2 /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F9828151D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */; };
 		4F9828161D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F67841D48F4350086F98F /* Fakery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676D1D48EC6C0086F98F /* Fakery.framework */; };
+		4F9F67851D48F4350086F98F /* Fakery.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676D1D48EC6C0086F98F /* Fakery.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F67861D48F43D0086F98F /* CoreStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676C1D48EC6C0086F98F /* CoreStore.framework */; };
+		4F9F67871D48F43D0086F98F /* CoreStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676C1D48EC6C0086F98F /* CoreStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F67881D48F4400086F98F /* GCDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676E1D48EC6C0086F98F /* GCDKit.framework */; };
+		4F9F67891D48F4400086F98F /* GCDKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676E1D48EC6C0086F98F /* GCDKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F678A1D48F4780086F98F /* Hue.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676F1D48EC6C0086F98F /* Hue.framework */; };
+		4F9F678B1D48F4780086F98F /* Hue.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F676F1D48EC6C0086F98F /* Hue.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F679E1D48FCF00086F98F /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F67781D48EF4A0086F98F /* Nimble.framework */; };
+		4F9F679F1D48FCF30086F98F /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F67791D48EF4A0086F98F /* Quick.framework */; };
+		4F9F67A21D48FD180086F98F /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4F9F67781D48EF4A0086F98F /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F67A31D48FD180086F98F /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4F9F67791D48EF4A0086F98F /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F67A41D48FD340086F98F /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F67781D48EF4A0086F98F /* Nimble.framework */; };
+		4F9F67A51D48FD370086F98F /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F67791D48EF4A0086F98F /* Quick.framework */; };
+		4F9F67A71D48FD440086F98F /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4F9F67781D48EF4A0086F98F /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F67A81D48FD460086F98F /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4F9F67791D48EF4A0086F98F /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F9F67A91D48FE460086F98F /* Moya.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9F67691D48EB4A0086F98F /* Moya.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9805EFC61C31693E008CC607 /* SaveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC51C31693E008CC607 /* SaveCell.swift */; };
 		9805EFC81C3169F9008CC607 /* AddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC71C3169F9008CC607 /* AddCell.swift */; };
 		9805EFCA1C317FC0008CC607 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805EFC91C317FC0008CC607 /* NotificationManager.swift */; };
@@ -33,14 +50,14 @@
 		9823A4D51B846FE200B532CC /* MessageCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D41B846FE200B532CC /* MessageCrypto.swift */; };
 		98240F7E1C52641100A94C3E /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98240F7D1C52641100A94C3E /* TextFieldTableViewCell.swift */; };
 		9833B70C1BC5506B009836F9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9833B70B1BC5506B009836F9 /* Enums.swift */; };
-		983579AE1BC3EC49009AF518 /* MessageToContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */; };
+		983579AE1BC3EC49009AF518 /* AddressBookMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579AD1BC3EC49009AF518 /* AddressBookMessageViewController.swift */; };
 		983579B41BC518EA009AF518 /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B31BC518EA009AF518 /* InvoiceViewController.swift */; };
 		983579B61BC51CF3009AF518 /* QRContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B51BC51CF3009AF518 /* QRContainerVC.swift */; };
 		983579B81BC53D89009AF518 /* UISegmentedControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */; };
 		98428A701BD7E73A004494D5 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */; };
 		98428A741BDA5960004494D5 /* CosigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A731BDA5960004494D5 /* CosigTableViewCell.swift */; };
 		98428A761BDA689C004494D5 /* MultisignatureAddSignerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98428A751BDA689C004494D5 /* MultisignatureAddSignerViewController.swift */; };
-		984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */; };
+		984BB0E51B8DC2180061E41B /* AccountChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984BB0E41B8DC2180061E41B /* AccountChooserViewController.swift */; };
 		985496361C4916F80059504F /* AccountExportWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496351C4916F80059504F /* AccountExportWarningViewController.swift */; };
 		985496381C4D0CAF0059504F /* SettingsAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985496371C4D0CAF0059504F /* SettingsAboutViewController.swift */; };
 		985A372C1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985A372B1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift */; };
@@ -67,7 +84,7 @@
 		98BB95E41BCCF463002151F7 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E31BCCF463002151F7 /* Crypto.m */; };
 		98BB95E61BCD2FAA002151F7 /* ChouseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */; };
 		98DFB7191BF3AEE40010E035 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DFB7181BF3AEE40010E035 /* FileService.swift */; };
-		98E2432B1C465523001FAC2B /* CreatePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */; };
+		98E2432B1C465523001FAC2B /* AuthenticationPasswordCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E2432A1C465523001FAC2B /* AuthenticationPasswordCreationViewController.swift */; };
 		98F01CB71C2AC2E90018081B /* LoadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB51C2AC2E90018081B /* LoadData.swift */; };
 		98F01CB91C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CB81C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift */; };
 		98F01CBB1C2AF3740018081B /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F01CBA1C2AF3740018081B /* ActiveCell.swift */; };
@@ -105,7 +122,6 @@
 		DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E0C1A444CD80030C882 /* MainVC.swift */; };
 		DA194E0F1A444F2A0030C882 /* MainContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */; };
 		DA194E121A4456330030C882 /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA194E111A4456330030C882 /* MainViewCell.swift */; };
-		DA194E161A445B1D0030C882 /* UIConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA194E151A445B1D0030C882 /* UIConfig.plist */; };
 		DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */; };
 		DA2199201A68038700E2F8DD /* DashboardContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21991F1A68038700E2F8DD /* DashboardContainer.swift */; };
 		DA2199221A68222900E2F8DD /* InvoiceAccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2199211A68222900E2F8DD /* InvoiceAccountInfoViewController.swift */; };
@@ -120,7 +136,6 @@
 		DA3558371A39F9D700AFA5FD /* SettingsServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558361A39F9D700AFA5FD /* SettingsServerViewController.swift */; };
 		DA35583A1A39FDC300AFA5FD /* ServerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558391A39FDC300AFA5FD /* ServerViewCell.swift */; };
 		DA35583D1A3AE0A500AFA5FD /* plistFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */; };
-		DA3558441A3B014400AFA5FD /* ConnectionSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558431A3B014400AFA5FD /* ConnectionSegue.swift */; };
 		DA3558461A40771300AFA5FD /* SettingsAddServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3558451A40771300AFA5FD /* SettingsAddServerViewController.swift */; };
 		DA3BE20A1A5FFA0200CAC733 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */; };
 		DA3BE20C1A5FFDA500CAC733 /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BE20B1A5FFDA500CAC733 /* AddressBookViewController.swift */; };
@@ -139,19 +154,15 @@
 		DA8A892E1A4C52300072FE08 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A892D1A4C52300072FE08 /* AccountTableViewCell.swift */; };
 		DAB9F6D71A4AED3A00D6DC8E /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9F6D61A4AED3A00D6DC8E /* Server.swift */; };
 		DAC28C891A923C2800EE3B22 /* InvoiceCreatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC28C881A923C2800EE3B22 /* InvoiceCreatedViewController.swift */; };
-		DAC28C9E1A96015000EE3B22 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9D1A96015000EE3B22 /* libc++.dylib */; };
-		DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28C9F1A96016500EE3B22 /* libicucore.dylib */; };
-		DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC28CA11A96017300EE3B22 /* libz.dylib */; };
 		DAC3A1781B00A5E500AABB61 /* MultisignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1771B00A5E500AABB61 /* MultisignatureViewController.swift */; };
 		DAC3A17A1B01EBB700AABB61 /* UnconfirmedTransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1791B01EBB700AABB61 /* UnconfirmedTransactionCell.swift */; };
-		DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */; };
+		DAC3A17C1B01F14500AABB61 /* TransactionUnconfirmedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17B1B01F14500AABB61 /* TransactionUnconfirmedViewController.swift */; };
 		DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */; };
 		DAC3A1801B03AE2800AABB61 /* Signature.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A17F1B03AE2800AABB61 /* Signature.swift */; };
 		DAC3A1821B04C04400AABB61 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */; };
 		DAC8BAA01ACD561F00BB95B0 /* TimeSynchronizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */; };
 		DACBB7F61AD40EC700489F00 /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */; };
 		DACBFEA71A5AED9100C2FCEC /* ImportAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */; };
-		DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */; };
 		DACF4A091B344B2600FB3EE1 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACF4A081B344B2600FB3EE1 /* FilterButton.swift */; };
 		DACF9C3C1A49C5F700550FB9 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */; };
 		DAD086A71B38036C00197CA3 /* NEMLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD086A61B38036C00197CA3 /* NEMLabel.swift */; };
@@ -162,13 +173,12 @@
 		DAD21B9A1AFB735600F6B861 /* TransactionSendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B991AFB735600F6B861 /* TransactionSendViewController.swift */; };
 		DAD21B9C1AFCD51F00F6B861 /* MultisigTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */; };
 		DAD5AD8E1A52DD880093E3DB /* DashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */; };
-		DAD5AD901A52E7850093E3DB /* AccountPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8F1A52E7850093E3DB /* AccountPasswordValidationViewController.swift */; };
+		DAD5AD901A52E7850093E3DB /* AuthenticationPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD8F1A52E7850093E3DB /* AuthenticationPasswordValidationViewController.swift */; };
 		DAD5AD921A52F2F30093E3DB /* TransactionMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5AD911A52F2F30093E3DB /* TransactionMessagesViewController.swift */; };
 		DADA27301B0C8D4100EA09F8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA272F1B0C8D4100EA09F8 /* Validate.swift */; };
 		DADA33F81A72874500F14D6D /* WalletGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADA33F71A72874500F14D6D /* WalletGenerator.swift */; };
 		DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = DADA35991A76609800F14D6D /* NSData+Base64.m */; };
 		DADDA2451B21C74900F3F5F5 /* AccountExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA2441B21C74900F3F5F5 /* AccountExportViewController.swift */; };
-		DADDA24B1B21D0EC00F3F5F5 /* SeguesConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */; };
 		DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24C1B21D17800F3F5F5 /* Constants.swift */; };
 		DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDA24E1B21D1B500F3F5F5 /* Structs.swift */; };
 		DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */; };
@@ -199,12 +209,39 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4F9F67A91D48FE460086F98F /* Moya.framework in Embed Frameworks */,
+				4F9F67891D48F4400086F98F /* GCDKit.framework in Embed Frameworks */,
+				4F9F67851D48F4350086F98F /* Fakery.framework in Embed Frameworks */,
+				4F9F67871D48F43D0086F98F /* CoreStore.framework in Embed Frameworks */,
+				4F9F678B1D48F4780086F98F /* Hue.framework in Embed Frameworks */,
 				4F9828161D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Embed Frameworks */,
 				4F9828141D3CEFBE00A3C8B2 /* CryptoSwift.framework in Embed Frameworks */,
 				4F9828101D3CEFBE00A3C8B2 /* Alamofire.framework in Embed Frameworks */,
 				4F9828121D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F9F67A11D48FD0B0086F98F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4F9F67A21D48FD180086F98F /* Nimble.framework in CopyFiles */,
+				4F9F67A31D48FD180086F98F /* Quick.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F9F67A61D48FD3E0086F98F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4F9F67A71D48FD440086F98F /* Nimble.framework in CopyFiles */,
+				4F9F67A81D48FD460086F98F /* Quick.framework in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -219,6 +256,13 @@
 		4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityIndicator.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityIndicator.framework; sourceTree = "<group>"; };
 		4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		4F9F67691D48EB4A0086F98F /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
+		4F9F676C1D48EC6C0086F98F /* CoreStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreStore.framework; path = Carthage/Build/iOS/CoreStore.framework; sourceTree = "<group>"; };
+		4F9F676D1D48EC6C0086F98F /* Fakery.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fakery.framework; path = Carthage/Build/iOS/Fakery.framework; sourceTree = "<group>"; };
+		4F9F676E1D48EC6C0086F98F /* GCDKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GCDKit.framework; path = Carthage/Build/iOS/GCDKit.framework; sourceTree = "<group>"; };
+		4F9F676F1D48EC6C0086F98F /* Hue.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hue.framework; path = Carthage/Build/iOS/Hue.framework; sourceTree = "<group>"; };
+		4F9F67781D48EF4A0086F98F /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
+		4F9F67791D48EF4A0086F98F /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		98019A4E1CAC1E4400C61638 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		98019A4F1CAC270E00C61638 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98019A501CAC28CB00C61638 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -244,14 +288,14 @@
 		9823A4D41B846FE200B532CC /* MessageCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageCrypto.swift; path = Models/MessageCrypto.swift; sourceTree = "<group>"; };
 		98240F7D1C52641100A94C3E /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextFieldTableViewCell.swift; path = "Views/Additional controls/TextFieldTableViewCell.swift"; sourceTree = "<group>"; };
 		9833B70B1BC5506B009836F9 /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Enums.swift; path = Models/Enums.swift; sourceTree = "<group>"; };
-		983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToContactVC.swift; path = Views/MessageToContactVC.swift; sourceTree = "<group>"; };
+		983579AD1BC3EC49009AF518 /* AddressBookMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookMessageViewController.swift; path = Views/AddressBookMessageViewController.swift; sourceTree = "<group>"; };
 		983579B31BC518EA009AF518 /* InvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceViewController.swift; path = Views/InvoiceViewController.swift; sourceTree = "<group>"; };
 		983579B51BC51CF3009AF518 /* QRContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRContainerVC.swift; path = Views/QRContainerVC.swift; sourceTree = "<group>"; };
 		983579B71BC53D89009AF518 /* UISegmentedControlExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISegmentedControlExtensions.swift; path = Models/UISegmentedControlExtensions.swift; sourceTree = "<group>"; };
 		98428A6F1BD7E73A004494D5 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileTableViewCell.swift; path = "Views/Additional controls/ProfileTableViewCell.swift"; sourceTree = "<group>"; };
 		98428A731BDA5960004494D5 /* CosigTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CosigTableViewCell.swift; path = "Views/Additional controls/CosigTableViewCell.swift"; sourceTree = "<group>"; };
 		98428A751BDA689C004494D5 /* MultisignatureAddSignerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisignatureAddSignerViewController.swift; path = Views/MultisignatureAddSignerViewController.swift; sourceTree = "<group>"; };
-		984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountsChousePopUp.swift; path = Views/AccountsChousePopUp.swift; sourceTree = "<group>"; };
+		984BB0E41B8DC2180061E41B /* AccountChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountChooserViewController.swift; path = Views/AccountChooserViewController.swift; sourceTree = "<group>"; };
 		985496351C4916F80059504F /* AccountExportWarningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportWarningViewController.swift; path = Views/AccountExportWarningViewController.swift; sourceTree = "<group>"; };
 		985496371C4D0CAF0059504F /* SettingsAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAboutViewController.swift; path = Views/SettingsAboutViewController.swift; sourceTree = "<group>"; };
 		985A372B1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsNotificationIntervalViewController.swift; path = Views/SettingsNotificationIntervalViewController.swift; sourceTree = "<group>"; };
@@ -264,10 +308,8 @@
 		9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockGetMetaData.swift; path = Models/BlockGetMetaData.swift; sourceTree = "<group>"; };
 		9877C68C1BE27FB700AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9877C68D1BE27FB700AF9751 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		98BB95AB1BC7B185002151F7 /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Models/SocialManager.swift; sourceTree = "<group>"; };
 		98BB95AF1BC7C41E002151F7 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Views/ShareViewController.swift; sourceTree = "<group>"; };
-		98BB95B11BC7EE58002151F7 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		98BB95B91BCCED5B002151F7 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		98BB95BB1BCCED5B002151F7 /* add_scalar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = add_scalar.c; sourceTree = "<group>"; };
 		98BB95BC1BCCED5B002151F7 /* ed25519.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ed25519.h; sourceTree = "<group>"; };
@@ -291,7 +333,7 @@
 		98BB95E31BCCF463002151F7 /* Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crypto.m; sourceTree = "<group>"; };
 		98BB95E51BCD2FAA002151F7 /* ChouseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChouseButton.swift; path = "Views/Additional controls/ChouseButton.swift"; sourceTree = "<group>"; };
 		98DFB7181BF3AEE40010E035 /* FileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
-		98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatePasswordVC.swift; path = Views/CreatePasswordVC.swift; sourceTree = "<group>"; };
+		98E2432A1C465523001FAC2B /* AuthenticationPasswordCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticationPasswordCreationViewController.swift; path = Views/AuthenticationPasswordCreationViewController.swift; sourceTree = "<group>"; };
 		98F01CB51C2AC2E90018081B /* LoadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadData.swift; path = "Core Data Models/LoadData.swift"; sourceTree = "<group>"; };
 		98F01CB81C2ADA0D0018081B /* SettingsDefaultAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsDefaultAccountViewController.swift; path = Views/SettingsDefaultAccountViewController.swift; sourceTree = "<group>"; };
 		98F01CBA1C2AF3740018081B /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = "Views/Additional controls/ActiveCell.swift"; sourceTree = "<group>"; };
@@ -332,7 +374,6 @@
 		DA194E0C1A444CD80030C882 /* MainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainVC.swift; path = Views/MainVC.swift; sourceTree = "<group>"; };
 		DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainContainerVC.swift; path = Views/MainContainerVC.swift; sourceTree = "<group>"; };
 		DA194E111A4456330030C882 /* MainViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewCell.swift; path = "Views/Additional controls/MainViewCell.swift"; sourceTree = "<group>"; };
-		DA194E151A445B1D0030C882 /* UIConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = UIConfig.plist; path = Database/UIConfig.plist; sourceTree = "<group>"; };
 		DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignedTransactionMetaData.swift; path = Models/SignedTransactionMetaData.swift; sourceTree = "<group>"; };
 		DA21991F1A68038700E2F8DD /* DashboardContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardContainer.swift; path = Views/DashboardContainer.swift; sourceTree = "<group>"; };
 		DA2199211A68222900E2F8DD /* InvoiceAccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceAccountInfoViewController.swift; path = Views/InvoiceAccountInfoViewController.swift; sourceTree = "<group>"; };
@@ -354,19 +395,13 @@
 		DA3558361A39F9D700AFA5FD /* SettingsServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsServerViewController.swift; path = Views/SettingsServerViewController.swift; sourceTree = "<group>"; };
 		DA3558391A39FDC300AFA5FD /* ServerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerViewCell.swift; path = "Views/Additional controls/ServerViewCell.swift"; sourceTree = "<group>"; };
 		DA35583C1A3AE0A500AFA5FD /* plistFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = plistFileManager.swift; path = Models/plistFileManager.swift; sourceTree = "<group>"; };
-		DA3558431A3B014400AFA5FD /* ConnectionSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionSegue.swift; path = "Views/Additional controls/ConnectionSegue.swift"; sourceTree = "<group>"; };
 		DA3558451A40771300AFA5FD /* SettingsAddServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAddServerViewController.swift; path = Views/SettingsAddServerViewController.swift; sourceTree = "<group>"; };
 		DA3BE2091A5FFA0200CAC733 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Views/Additional controls/AddressCell.swift"; sourceTree = "<group>"; };
 		DA3BE20B1A5FFDA500CAC733 /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookViewController.swift; path = Views/AddressBookViewController.swift; sourceTree = "<group>"; };
 		DA3BE20D1A5FFEF400CAC733 /* TransactionOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionOverviewViewController.swift; path = Views/TransactionOverviewViewController.swift; sourceTree = "<group>"; };
 		DA3DD8A91A6EAF4D00B45BF5 /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuButton.swift; path = "Views/Additional controls/MenuButton.swift"; sourceTree = "<group>"; };
-		DA4AF0791A976A6B00299B0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		DA4AF07B1A977CD600299B0A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyGenerator.swift; path = Models/KeyGenerator.swift; sourceTree = "<group>"; };
-		DA64A4C81A56D483005833A4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		DA64A4CB1A5A8704005833A4 /* QR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QR.swift; path = Models/QR.swift; sourceTree = "<group>"; };
-		DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		DA64A4CF1A5A88C4005833A4 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		DA64A4DD1A5AC021005833A4 /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wallet.swift; path = "Core Data Models/Wallet.swift"; sourceTree = "<group>"; };
 		DA64A4E01A5ACF0C005833A4 /* AccountAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddViewController.swift; path = Views/AccountAddViewController.swift; sourceTree = "<group>"; };
 		DA7336541AD29EF80029C5D6 /* DoubleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoubleExtensions.swift; path = Models/DoubleExtensions.swift; sourceTree = "<group>"; };
@@ -376,30 +411,17 @@
 		DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AggregateModificationTransaction.swift; path = Models/AggregateModificationTransaction.swift; sourceTree = "<group>"; };
 		DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportanceTransferTransaction.swift; path = Models/ImportanceTransferTransaction.swift; sourceTree = "<group>"; };
 		DA8A892D1A4C52300072FE08 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountTableViewCell.swift; path = "Views/Additional controls/AccountTableViewCell.swift"; sourceTree = "<group>"; };
-		DA971FDB1A67C2A00039ADB4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAB9F6D61A4AED3A00D6DC8E /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Server.swift; path = "Core Data Models/Server.swift"; sourceTree = "<group>"; };
 		DAC28C881A923C2800EE3B22 /* InvoiceCreatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceCreatedViewController.swift; path = Views/InvoiceCreatedViewController.swift; sourceTree = "<group>"; };
-		DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		DAC28C951A96011900EE3B22 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		DAC28C971A96012600EE3B22 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		DAC28C991A96013300EE3B22 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		DAC28C9B1A96013D00EE3B22 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		DAC28C9D1A96015000EE3B22 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		DAC28C9F1A96016500EE3B22 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
-		DAC28CA11A96017300EE3B22 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DAC3A1771B00A5E500AABB61 /* MultisignatureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisignatureViewController.swift; path = Views/MultisignatureViewController.swift; sourceTree = "<group>"; };
 		DAC3A1791B01EBB700AABB61 /* UnconfirmedTransactionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnconfirmedTransactionCell.swift; path = "Views/Additional controls/UnconfirmedTransactionCell.swift"; sourceTree = "<group>"; };
-		DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnconfirmedTransactionVC.swift; path = Views/UnconfirmedTransactionVC.swift; sourceTree = "<group>"; };
+		DAC3A17B1B01F14500AABB61 /* TransactionUnconfirmedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionUnconfirmedViewController.swift; path = Views/TransactionUnconfirmedViewController.swift; sourceTree = "<group>"; };
 		DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignatureTransaction.swift; path = Models/MultisigSignatureTransaction.swift; sourceTree = "<group>"; };
 		DAC3A17F1B03AE2800AABB61 /* Signature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Signature.swift; path = Models/Signature.swift; sourceTree = "<group>"; };
 		DAC3A1811B04C04400AABB61 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryViewController.swift; path = Views/HistoryViewController.swift; sourceTree = "<group>"; };
 		DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSynchronizator.swift; path = Models/TimeSynchronizator.swift; sourceTree = "<group>"; };
 		DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = Models/AddressBookManager.swift; sourceTree = "<group>"; };
 		DACBFEA61A5AED9100C2FCEC /* ImportAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportAccountCell.swift; path = "Views/Additional controls/ImportAccountCell.swift"; sourceTree = "<group>"; };
-		DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
 		DACF4A081B344B2600FB3EE1 /* FilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterButton.swift; path = "Views/Additional controls/FilterButton.swift"; sourceTree = "<group>"; };
 		DACF9C3B1A49C5F700550FB9 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = Models/CoreDataManager.swift; sourceTree = "<group>"; };
 		DAD086A61B38036C00197CA3 /* NEMLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NEMLabel.swift; path = "Views/Additional controls/NEMLabel.swift"; sourceTree = "<group>"; };
@@ -410,14 +432,13 @@
 		DAD21B991AFB735600F6B861 /* TransactionSendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionSendViewController.swift; path = Views/TransactionSendViewController.swift; sourceTree = "<group>"; };
 		DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigTransaction.swift; path = Models/MultisigTransaction.swift; sourceTree = "<group>"; };
 		DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardVC.swift; path = Views/DashboardVC.swift; sourceTree = "<group>"; };
-		DAD5AD8F1A52E7850093E3DB /* AccountPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountPasswordValidationViewController.swift; path = Views/AccountPasswordValidationViewController.swift; sourceTree = "<group>"; };
+		DAD5AD8F1A52E7850093E3DB /* AuthenticationPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticationPasswordValidationViewController.swift; path = Views/AuthenticationPasswordValidationViewController.swift; sourceTree = "<group>"; };
 		DAD5AD911A52F2F30093E3DB /* TransactionMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionMessagesViewController.swift; path = Views/TransactionMessagesViewController.swift; sourceTree = "<group>"; };
 		DADA272F1B0C8D4100EA09F8 /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Models/Validate.swift; sourceTree = "<group>"; };
 		DADA33F71A72874500F14D6D /* WalletGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WalletGenerator.swift; path = Models/WalletGenerator.swift; sourceTree = "<group>"; };
 		DADA35991A76609800F14D6D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Models/NSData+Base64.m"; sourceTree = "<group>"; };
 		DADA359A1A76609800F14D6D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Models/NSData+Base64.h"; sourceTree = "<group>"; };
 		DADDA2441B21C74900F3F5F5 /* AccountExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportViewController.swift; path = Views/AccountExportViewController.swift; sourceTree = "<group>"; };
-		DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeguesConfiguration.swift; path = Models/SeguesConfiguration.swift; sourceTree = "<group>"; };
 		DADDA24C1B21D17800F3F5F5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Models/Constants.swift; sourceTree = "<group>"; };
 		DADDA24E1B21D1B500F3F5F5 /* Structs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Structs.swift; path = Models/Structs.swift; sourceTree = "<group>"; };
 		DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountGetMetaData.swift; path = Models/AccountGetMetaData.swift; sourceTree = "<group>"; };
@@ -429,6 +450,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9F67A41D48FD340086F98F /* Nimble.framework in Frameworks */,
+				4F9F67A51D48FD370086F98F /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,12 +459,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9F67881D48F4400086F98F /* GCDKit.framework in Frameworks */,
+				4F9F67841D48F4350086F98F /* Fakery.framework in Frameworks */,
+				4F9F67861D48F43D0086F98F /* CoreStore.framework in Frameworks */,
+				4F9F678A1D48F4780086F98F /* Hue.framework in Frameworks */,
 				4F9828111D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
 				4F9828131D3CEFBE00A3C8B2 /* CryptoSwift.framework in Frameworks */,
 				4F9828151D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Frameworks */,
-				DAC28CA21A96017300EE3B22 /* libz.dylib in Frameworks */,
-				DAC28CA01A96016500EE3B22 /* libicucore.dylib in Frameworks */,
-				DAC28C9E1A96015000EE3B22 /* libc++.dylib in Frameworks */,
 				4F98280F1D3CEFBE00A3C8B2 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -450,6 +474,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9F679E1D48FCF00086F98F /* Nimble.framework in Frameworks */,
+				4F9F679F1D48FCF30086F98F /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,7 +487,6 @@
 			children = (
 				DA3DD8A81A6E9DE200B45BF5 /* Buttons */,
 				DA3DD8A61A6E9DC400B45BF5 /* Cells */,
-				DA3DD8A71A6E9DCF00B45BF5 /* Segues */,
 				98F3F5441BD12E3F004A6E19 /* Labels */,
 				DA031ED71A9226E60021E98B /* Textfields */,
 				DAC3A1831B0B623D00AABB61 /* Drop Downs */,
@@ -474,7 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */,
-				4F1159DD1D38FC5800E13EE0 /* Info.plist */,
+				4F9F67AB1D4910A20086F98F /* Supporting Files */,
 			);
 			path = NemIOSClientUITests;
 			sourceTree = "<group>";
@@ -483,7 +508,6 @@
 			isa = PBXGroup;
 			children = (
 				DA3558041A39D3BA00AFA5FD /* Info.plist */,
-				DA194E151A445B1D0030C882 /* UIConfig.plist */,
 			);
 			name = "Property Lists";
 			sourceTree = "<group>";
@@ -528,7 +552,7 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		4F13394E1D40EEF700AA126D /* TRASH */ = {
+		4F13394E1D40EEF700AA126D /* _TRASH */ = {
 			isa = PBXGroup;
 			children = (
 				DA194E0E1A444F2A0030C882 /* MainContainerVC.swift */,
@@ -540,58 +564,42 @@
 				DAD5AD8D1A52DD880093E3DB /* DashboardVC.swift */,
 				DA35582A1A39D75400AFA5FD /* ViewController.swift */,
 			);
-			name = TRASH;
+			name = _TRASH;
 			sourceTree = "<group>";
 		};
-		4F13394F1D41FAE400AA126D /* TODO */ = {
+		4F13394F1D41FAE400AA126D /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
 				DADA272F1B0C8D4100EA09F8 /* Validate.swift */,
 				DA173CE21AA9D02A003AC21F /* AddressGenerator.swift */,
 				DA4BB2E91A822BF400FAA877 /* KeyGenerator.swift */,
 				DADA33F71A72874500F14D6D /* WalletGenerator.swift */,
-				98E2432A1C465523001FAC2B /* CreatePasswordVC.swift */,
 			);
-			name = TODO;
+			name = _TODO;
 			sourceTree = "<group>";
 		};
-		4F1339501D4205FB00AA126D /* TODO */ = {
+		4F1339501D4205FB00AA126D /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
 				98F01CBF1C2D3F7B0018081B /* LocalizationManager.swift */,
 			);
-			name = TODO;
+			name = _TODO;
 			sourceTree = "<group>";
 		};
-		4F1339511D4210B400AA126D /* TODO */ = {
+		4F1339511D4210B400AA126D /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
 				DA08D9C01AC037B600B93EBE /* SignManager.swift */,
 				9823A4D41B846FE200B532CC /* MessageCrypto.swift */,
-				984BB0E41B8DC2180061E41B /* AccountsChousePopUp.swift */,
 			);
-			name = TODO;
-			sourceTree = "<group>";
-		};
-		4F1339541D424D0500AA126D /* TODO */ = {
-			isa = PBXGroup;
-			children = (
-				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
-				983579AD1BC3EC49009AF518 /* MessageToContactVC.swift */,
-			);
-			name = TODO;
-			sourceTree = "<group>";
-		};
-		4F1339551D4256E600AA126D /* TODO */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = TODO;
+			name = _TODO;
 			sourceTree = "<group>";
 		};
 		4F9827FE1D3CCFE900A3C8B2 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				DAD5AD8F1A52E7850093E3DB /* AuthenticationPasswordValidationViewController.swift */,
+				98E2432A1C465523001FAC2B /* AuthenticationPasswordCreationViewController.swift */,
 			);
 			name = Authentication;
 			sourceTree = "<group>";
@@ -599,9 +607,7 @@
 		4F9827FF1D3CD0AE00A3C8B2 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */,
-				9805EFCD1C31A126008CC607 /* FetchManager.swift */,
-				DA194E061A4323520030C882 /* APIManager.swift */,
+				4F9F67AD1D4914F20086F98F /* _TODO */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -616,11 +622,11 @@
 				DA194DF81A41D50E0030C882 /* AccountAddNewViewController.swift */,
 				DA8780B81A5BFDF400AA24E2 /* AccountAddExistingQRViewController.swift */,
 				DAD1C7FC1A6932E30043D947 /* AccountAddExistingKeyViewController.swift */,
-				DAD5AD8F1A52E7850093E3DB /* AccountPasswordValidationViewController.swift */,
 				DADDA2441B21C74900F3F5F5 /* AccountExportViewController.swift */,
 				980F130C1C60CCD0005F7DB5 /* AccountExportPasswordViewController.swift */,
 				985496351C4916F80059504F /* AccountExportWarningViewController.swift */,
-				4F13394F1D41FAE400AA126D /* TODO */,
+				984BB0E41B8DC2180061E41B /* AccountChooserViewController.swift */,
+				4F13394F1D41FAE400AA126D /* _TODO */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -631,8 +637,8 @@
 				DA3BE20D1A5FFEF400CAC733 /* TransactionOverviewViewController.swift */,
 				DAD21B991AFB735600F6B861 /* TransactionSendViewController.swift */,
 				DAD5AD911A52F2F30093E3DB /* TransactionMessagesViewController.swift */,
-				DAC3A17B1B01F14500AABB61 /* UnconfirmedTransactionVC.swift */,
-				4F1339511D4210B400AA126D /* TODO */,
+				DAC3A17B1B01F14500AABB61 /* TransactionUnconfirmedViewController.swift */,
+				4F1339511D4210B400AA126D /* _TODO */,
 			);
 			name = Transaction;
 			sourceTree = "<group>";
@@ -645,7 +651,6 @@
 				DA031ED91A922FEC0021E98B /* InvoiceCreateViewController.swift */,
 				DAC28C881A923C2800EE3B22 /* InvoiceCreatedViewController.swift */,
 				DA173CEB1AADA92D003AC21F /* InvoiceScanViewController.swift */,
-				4F1339551D4256E600AA126D /* TODO */,
 			);
 			name = Invoice;
 			sourceTree = "<group>";
@@ -662,9 +667,10 @@
 		4F9828041D3CD0D700A3C8B2 /* Address Book */ = {
 			isa = PBXGroup;
 			children = (
+				DACBB7F51AD40EC700489F00 /* AddressBookManager.swift */,
 				DA3BE20B1A5FFDA500CAC733 /* AddressBookViewController.swift */,
 				986540011BC2C54A00E2B131 /* AddressBookAddContactViewController.swift */,
-				4F1339541D424D0500AA126D /* TODO */,
+				983579AD1BC3EC49009AF518 /* AddressBookMessageViewController.swift */,
 			);
 			name = "Address Book";
 			sourceTree = "<group>";
@@ -689,7 +695,7 @@
 				DA3558361A39F9D700AFA5FD /* SettingsServerViewController.swift */,
 				DA3558451A40771300AFA5FD /* SettingsAddServerViewController.swift */,
 				985A372B1C469C4D00D7BD7A /* SettingsNotificationIntervalViewController.swift */,
-				4F1339501D4205FB00AA126D /* TODO */,
+				4F1339501D4205FB00AA126D /* _TODO */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -697,18 +703,44 @@
 		4F9828181D3CF48600A3C8B2 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F67681D47B4F40086F98F /* TODO */,
+				4F9F67681D47B4F40086F98F /* _TODO */,
 			);
 			name = Notification;
 			sourceTree = "<group>";
 		};
-		4F9F67681D47B4F40086F98F /* TODO */ = {
+		4F9F67681D47B4F40086F98F /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
 				9805EFCB1C319439008CC607 /* NotificationBaner.swift */,
 				9805EFC91C317FC0008CC607 /* NotificationManager.swift */,
 			);
-			name = TODO;
+			name = _TODO;
+			sourceTree = "<group>";
+		};
+		4F9F67AB1D4910A20086F98F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F1159DD1D38FC5800E13EE0 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4F9F67AC1D4914110086F98F /* _TODO */ = {
+			isa = PBXGroup;
+			children = (
+				DA0059361A4882B300638C57 /* State.swift */,
+			);
+			name = _TODO;
+			sourceTree = "<group>";
+		};
+		4F9F67AD1D4914F20086F98F /* _TODO */ = {
+			isa = PBXGroup;
+			children = (
+				DAC8BA9F1ACD561F00BB95B0 /* TimeSynchronizator.swift */,
+				9805EFCD1C31A126008CC607 /* FetchManager.swift */,
+				DA194E061A4323520030C882 /* APIManager.swift */,
+			);
+			name = _TODO;
 			sourceTree = "<group>";
 		};
 		9809BDE81B74E8300028D082 /* Base64 */ = {
@@ -877,7 +909,6 @@
 			isa = PBXGroup;
 			children = (
 				DA194E051A431C690030C882 /* Crypto */,
-				DACBFEA81A5BEC3000C2FCEC /* NemIOSClient.entitlements */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -902,7 +933,8 @@
 		DA35582C1A39D76200AFA5FD /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				4F13394E1D40EEF700AA126D /* TRASH */,
+				4F13394E1D40EEF700AA126D /* _TRASH */,
+				DAD5AD8A1A52DC620093E3DB /* _TODO */,
 				DA35582D1A39D7FA00AFA5FD /* Main */,
 				4F9827FF1D3CD0AE00A3C8B2 /* Networking */,
 				4F9828181D3CF48600A3C8B2 /* Notification */,
@@ -914,7 +946,6 @@
 				4F9828041D3CD0D700A3C8B2 /* Address Book */,
 				4F9828051D3CD0E000A3C8B2 /* Harvesting */,
 				4F9828061D3CD0E700A3C8B2 /* Settings */,
-				DAD5AD8A1A52DC620093E3DB /* TODO */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -922,13 +953,13 @@
 		DA35582D1A39D7FA00AFA5FD /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				DA0059361A4882B300638C57 /* State.swift */,
 				DA3558051A39D3BA00AFA5FD /* AppDelegate.swift */,
-				DA35580C1A39D3BA00AFA5FD /* Main.storyboard */,
-				DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */,
 				4F13393B1D3F82CE00AA126D /* TabBarController.swift */,
 				4F1339521D422C3600AA126D /* NavigationController.swift */,
 				DA0059381A4882ED00638C57 /* MoreMenuViewController.swift */,
+				DA35580C1A39D3BA00AFA5FD /* Main.storyboard */,
+				DA3558111A39D3BB00AFA5FD /* LaunchScreen.xib */,
+				4F9F67AC1D4914110086F98F /* _TODO */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -972,14 +1003,6 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		DA3DD8A71A6E9DCF00B45BF5 /* Segues */ = {
-			isa = PBXGroup;
-			children = (
-				DA3558431A3B014400AFA5FD /* ConnectionSegue.swift */,
-			);
-			name = Segues;
-			sourceTree = "<group>";
-		};
 		DA3DD8A81A6E9DE200B45BF5 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,29 +1039,17 @@
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F9F67781D48EF4A0086F98F /* Nimble.framework */,
+				4F9F67791D48EF4A0086F98F /* Quick.framework */,
+				4F9F676C1D48EC6C0086F98F /* CoreStore.framework */,
+				4F9F676D1D48EC6C0086F98F /* Fakery.framework */,
+				4F9F676E1D48EC6C0086F98F /* GCDKit.framework */,
+				4F9F676F1D48EC6C0086F98F /* Hue.framework */,
+				4F9F67691D48EB4A0086F98F /* Moya.framework */,
 				4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */,
 				4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */,
 				4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */,
 				4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */,
-				98BB95B11BC7EE58002151F7 /* Contacts.framework */,
-				98AA83981B85CC3C00E72CA0 /* LocalAuthentication.framework */,
-				DA4AF07B1A977CD600299B0A /* MessageUI.framework */,
-				DA4AF0791A976A6B00299B0A /* CoreLocation.framework */,
-				DAC28CA71A962F3900EE3B22 /* SystemConfiguration.framework */,
-				DAC28CA51A96018B00EE3B22 /* QuartzCore.framework */,
-				DAC28CA31A96017C00EE3B22 /* OpenGLES.framework */,
-				DAC28CA11A96017300EE3B22 /* libz.dylib */,
-				DAC28C9F1A96016500EE3B22 /* libicucore.dylib */,
-				DAC28C9D1A96015000EE3B22 /* libc++.dylib */,
-				DAC28C9B1A96013D00EE3B22 /* ImageIO.framework */,
-				DAC28C991A96013300EE3B22 /* GLKit.framework */,
-				DAC28C971A96012600EE3B22 /* CoreText.framework */,
-				DAC28C951A96011900EE3B22 /* CoreData.framework */,
-				DAC28C8F1A94DA7C00EE3B22 /* MapKit.framework */,
-				DA971FDB1A67C2A00039ADB4 /* Foundation.framework */,
-				DA64A4CF1A5A88C4005833A4 /* Social.framework */,
-				DA64A4CD1A5A88BE005833A4 /* AVFoundation.framework */,
-				DA64A4C81A56D483005833A4 /* AddressBook.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1075,18 +1086,17 @@
 			name = "Core Data Models";
 			sourceTree = "<group>";
 		};
-		DAD5AD8A1A52DC620093E3DB /* TODO */ = {
+		DAD5AD8A1A52DC620093E3DB /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
 				98BB95AE1BC7C3F3002151F7 /* Share */,
 			);
-			name = TODO;
+			name = _TODO;
 			sourceTree = "<group>";
 		};
 		DADDA2461B21D09700F3F5F5 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				DADDA24A1B21D0EC00F3F5F5 /* SeguesConfiguration.swift */,
 				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
 				DADDA24E1B21D1B500F3F5F5 /* Structs.swift */,
 				9833B70B1BC5506B009836F9 /* Enums.swift */,
@@ -1116,6 +1126,7 @@
 				4F1159D51D38FC5700E13EE0 /* Sources */,
 				4F1159D61D38FC5700E13EE0 /* Frameworks */,
 				4F1159D71D38FC5700E13EE0 /* Resources */,
+				4F9F67A61D48FD3E0086F98F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1152,6 +1163,7 @@
 				DA3558141A39D3BC00AFA5FD /* Sources */,
 				DA3558151A39D3BC00AFA5FD /* Frameworks */,
 				DA3558161A39D3BC00AFA5FD /* Resources */,
+				4F9F67A11D48FD0B0086F98F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1190,7 +1202,7 @@
 								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1251,8 +1263,6 @@
 				9809BDEA1B74EBB40028D082 /* Main.storyboard in Resources */,
 				DA3558101A39D3BA00AFA5FD /* Images.xcassets in Resources */,
 				9809BE271B75008F0028D082 /* Localizable.strings in Resources */,
-				DA194E161A445B1D0030C882 /* UIConfig.plist in Resources */,
-				DACBFEA91A5BEC3000C2FCEC /* NemIOSClient.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1302,20 +1312,18 @@
 				DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */,
 				9805EFCC1C319439008CC607 /* NotificationBaner.swift in Sources */,
 				98DFB7191BF3AEE40010E035 /* FileService.swift in Sources */,
-				DAD5AD901A52E7850093E3DB /* AccountPasswordValidationViewController.swift in Sources */,
+				DAD5AD901A52E7850093E3DB /* AuthenticationPasswordValidationViewController.swift in Sources */,
 				DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */,
 				98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */,
 				9805EFCE1C31A126008CC607 /* FetchManager.swift in Sources */,
 				98BB95D51BCCED5B002151F7 /* fe.c in Sources */,
 				DA194DF91A41D50E0030C882 /* AccountAddNewViewController.swift in Sources */,
 				DA64A4CC1A5A8704005833A4 /* QR.swift in Sources */,
-				DA3558441A3B014400AFA5FD /* ConnectionSegue.swift in Sources */,
 				DAC3A17A1B01EBB700AABB61 /* UnconfirmedTransactionCell.swift in Sources */,
 				DA8A892E1A4C52300072FE08 /* AccountTableViewCell.swift in Sources */,
 				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
 				98428A741BDA5960004494D5 /* CosigTableViewCell.swift in Sources */,
 				98FE074E1BBE7C29009017CD /* EditableTableViewCell.swift in Sources */,
-				DADDA24B1B21D0EC00F3F5F5 /* SeguesConfiguration.swift in Sources */,
 				DA0059371A4882B300638C57 /* State.swift in Sources */,
 				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
 				4F1339531D422C3600AA126D /* NavigationController.swift in Sources */,
@@ -1328,7 +1336,7 @@
 				98F3F53D1BD0EBE6004A6E19 /* ConversationTableViewCell.swift in Sources */,
 				DA35582B1A39D75400AFA5FD /* ViewController.swift in Sources */,
 				9823A4D01B81E48600B532CC /* MessagesButtonTypeOne.swift in Sources */,
-				983579AE1BC3EC49009AF518 /* MessageToContactVC.swift in Sources */,
+				983579AE1BC3EC49009AF518 /* AddressBookMessageViewController.swift in Sources */,
 				DA2199221A68222900E2F8DD /* InvoiceAccountInfoViewController.swift in Sources */,
 				DA8780B91A5BFDF400AA24E2 /* AccountAddExistingQRViewController.swift in Sources */,
 				98BB95E61BCD2FAA002151F7 /* ChouseButton.swift in Sources */,
@@ -1336,7 +1344,7 @@
 				DA194E0D1A444CD80030C882 /* MainVC.swift in Sources */,
 				DA173CDD1AA87CBC003AC21F /* NSData+HexString.swift in Sources */,
 				98BB95B01BC7C41E002151F7 /* ShareViewController.swift in Sources */,
-				984BB0E51B8DC2180061E41B /* AccountsChousePopUp.swift in Sources */,
+				984BB0E51B8DC2180061E41B /* AccountChooserViewController.swift in Sources */,
 				98F49EC11B6F8D2F0014C5D4 /* ButtonBoxTypeOne.swift in Sources */,
 				DA7336551AD29EF80029C5D6 /* DoubleExtensions.swift in Sources */,
 				DA2D3EA11AE918B500C7E4F9 /* KeyCell.swift in Sources */,
@@ -1354,7 +1362,7 @@
 				98BB95DB1BCCED5B002151F7 /* seed.c in Sources */,
 				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
 				DACF4A091B344B2600FB3EE1 /* FilterButton.swift in Sources */,
-				DAC3A17C1B01F14500AABB61 /* UnconfirmedTransactionVC.swift in Sources */,
+				DAC3A17C1B01F14500AABB61 /* TransactionUnconfirmedViewController.swift in Sources */,
 				DADA359B1A76609800F14D6D /* NSData+Base64.m in Sources */,
 				98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */,
 				DA4BB2EA1A822BF400FAA877 /* KeyGenerator.swift in Sources */,
@@ -1412,7 +1420,7 @@
 				98BB95D31BCCED5B002151F7 /* readme.md in Sources */,
 				985496381C4D0CAF0059504F /* SettingsAboutViewController.swift in Sources */,
 				DA173CE31AA9D02A003AC21F /* AddressGenerator.swift in Sources */,
-				98E2432B1C465523001FAC2B /* CreatePasswordVC.swift in Sources */,
+				98E2432B1C465523001FAC2B /* AuthenticationPasswordCreationViewController.swift in Sources */,
 				DAC3A1781B00A5E500AABB61 /* MultisignatureViewController.swift in Sources */,
 				DA173CD71AA85B91003AC21F /* keccak.c in Sources */,
 				98F01CC21C2D4B560018081B /* SettingsLanguageViewController.swift in Sources */,
@@ -1502,6 +1510,10 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = NemIOSClientUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -1518,6 +1530,10 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = NemIOSClientUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -1679,6 +1695,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1702,6 +1719,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = NemIOSClientTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

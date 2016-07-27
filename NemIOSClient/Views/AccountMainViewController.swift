@@ -91,11 +91,11 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
                 apiManager.heartbeat(State.currentServer!)
             }
             else {
-                State.toVC = SegueToServerVC
+//                State.toVC = SegueToServerVC
                 
-                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                    (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
-                }
+//                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)
+//                }
             }
         } else {
             selectedIndex = indexPath.row
@@ -223,7 +223,7 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
         if successed {
             APIManager().timeSynchronize(server)
             
-            State.toVC = SegueToMessages
+//            State.toVC = SegueToMessages
             
 //            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
 //                (self.delegate as! MainVCDelegate).pageSelected(SegueToDashboard)
@@ -231,7 +231,7 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
         } else {
             
             State.currentServer = nil
-            State.toVC = SegueToServerVC
+//            State.toVC = SegueToServerVC
             
 //            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
 //                (self.delegate as! MainVCDelegate).pageSelected(SegueToServerVC)

@@ -12,7 +12,7 @@ class InvoiceCreateViewController: AbstractViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        State.fromVC = SegueToCreateInvoice
+//        State.fromVC = SegueToCreateInvoice
 
         amount.placeholder = "ENTER_AMOUNT".localized()
         name.placeholder = "ENTER_NAME".localized()

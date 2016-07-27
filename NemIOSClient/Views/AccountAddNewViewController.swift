@@ -49,7 +49,7 @@ class AccountAddNewViewController: AbstractViewController
         if userName.text != "" {
             WalletGenerator().createWallet(userName.text!)
             
-            State.toVC = SegueToLoginVC
+//            State.toVC = SegueToLoginVC
             
             performSegueWithIdentifier("unwindToAccountMainViewController", sender: nil)
         }

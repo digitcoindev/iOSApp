@@ -1092,7 +1092,7 @@
         <!--Password-->
         <scene sceneID="pwb-LT-zO9">
             <objects>
-                <viewController storyboardIdentifier="AccountPasswordValidationViewController" title="Password" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EY9-DV-SIG" customClass="AccountPasswordValidationViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthenticationPasswordValidationViewController" title="Password" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EY9-DV-SIG" customClass="AuthenticationPasswordValidationViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PUW-VR-qKs"/>
                         <viewControllerLayoutGuide type="bottom" id="dEJ-x5-enl"/>
@@ -1636,6 +1636,7 @@
                         <outlet property="searchContainer" destination="D4a-Pp-98o" id="CTR-jR-dzT"/>
                         <outlet property="searchTextField" destination="h55-Bv-L6S" id="TwV-OH-LVg"/>
                         <outlet property="tableView" destination="K9E-Bm-Zm0" id="RKv-uS-0l7"/>
+                        <segue destination="0YH-3H-wH5" kind="show" identifier="showTransactionSendViewController" id="Iy1-h5-Od4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ClN-3S-Ghc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1969,10 +1970,10 @@
             </objects>
             <point key="canvasLocation" x="-1217.5" y="1070.5"/>
         </scene>
-        <!--Accounts Chouse Pop Up-->
+        <!--Account Chooser View Controller-->
         <scene sceneID="CTC-6a-v1z">
             <objects>
-                <viewController storyboardIdentifier="AccountsChousePopUp" useStoryboardIdentifierAsRestorationIdentifier="YES" id="57c-wh-EtK" customClass="AccountsChousePopUp" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountChooserViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="57c-wh-EtK" customClass="AccountChooserViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vof-q2-VzW"/>
                         <viewControllerLayoutGuide type="bottom" id="1tz-B4-6GX"/>
@@ -1993,8 +1994,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HHf-3q-YjD">
-                                                    <rect key="frame" x="8" y="19" width="359" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HHf-3q-YjD">
+                                                    <rect key="frame" x="8" y="11" width="359" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2595,7 +2596,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xrv-pU-ohe">
-                                <rect key="frame" x="0.0" y="54" width="375" height="500"/>
+                                <rect key="frame" x="0.0" y="54" width="375" height="549"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="serverCell" rowHeight="60" id="dV9-NI-M3p" customClass="ServerViewCell" customModule="NemIOSClient" customModuleProvider="target">
@@ -3053,10 +3054,10 @@
             </objects>
             <point key="canvasLocation" x="-2673.5" y="1870.5"/>
         </scene>
-        <!--Message To ContactVC-->
+        <!--Address Book Message View Controller-->
         <scene sceneID="zC7-5f-6tb">
             <objects>
-                <viewController storyboardIdentifier="SendMessageToContact" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mmo-rq-sFW" customClass="MessageToContactVC" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddressBookMessageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mmo-rq-sFW" customClass="AddressBookMessageViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DiD-GC-33f"/>
                         <viewControllerLayoutGuide type="bottom" id="nc6-1F-oV3"/>
@@ -5324,7 +5325,7 @@
         <!--Password-->
         <scene sceneID="ZUr-Yr-E9Y">
             <objects>
-                <viewController title="Password" id="SYo-Zz-lR0" customClass="CreatePasswordVC" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthenticationPasswordCreationViewController" title="Password" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SYo-Zz-lR0" customClass="AuthenticationPasswordCreationViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gf8-3L-9WN"/>
                         <viewControllerLayoutGuide type="bottom" id="8QP-qN-CrJ"/>
@@ -5952,6 +5953,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="RtR-G2-zf7"/>
-        <segue reference="1gq-V7-0tx"/>
+        <segue reference="Iy1-h5-Od4"/>
     </inferredMetricsTieBreakers>
 </document>

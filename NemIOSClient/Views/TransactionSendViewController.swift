@@ -181,7 +181,7 @@ class TransactionSendViewController: AbstractViewController, UIScrollViewDelegat
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        State.currentVC = SegueToSendTransaction
+//        State.currentVC = SegueToSendTransaction
     }
     
     @IBAction func encTouchUpInside(sender: UIButton) {
@@ -402,7 +402,7 @@ class TransactionSendViewController: AbstractViewController, UIScrollViewDelegat
         if _popup == nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            let accounts :AccountsChousePopUp =  storyboard.instantiateViewControllerWithIdentifier("AccountsChousePopUp") as! AccountsChousePopUp
+            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
             _popup = accounts
             accounts.view.frame = CGRect(origin: CGPoint(x: scroll.frame.origin.x, y: scroll.frame.origin.y + 5 ), size: scroll.frame.size)
             
