@@ -1,5 +1,5 @@
 //
-//  SaveCell.swift
+//  AddCell.swift
 //  NemIOSClient
 //
 //  Created by Lyubomir Dominik on 28.12.15.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class SaveCell: UITableViewCell {
-    
-    @IBOutlet weak var saveButton: UIButton!
+class MultisignatureAddSignerTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var addLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        saveButton.setTitle("SAVE_CHANGES".localized(), forState: UIControlState.Normal)
+        addLabel.text = "ADD_ADITIONAL_SIGNER".localized()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

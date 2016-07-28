@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HarvestingViewController: AbstractViewController , UITableViewDelegate, APIManagerDelegate {
+class HarvestingViewController: UIViewController , UITableViewDelegate, APIManagerDelegate {
     
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var importance: UILabel!
@@ -52,7 +52,7 @@ class HarvestingViewController: AbstractViewController , UITableViewDelegate, AP
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell :BlockTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("block cell") as! BlockTableViewCell
+        let cell :HarvestingBlockTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("block cell") as! HarvestingBlockTableViewCell
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "MMM dd, YYYY H:mm:ss"

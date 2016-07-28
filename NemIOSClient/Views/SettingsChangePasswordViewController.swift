@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsChangePasswordViewController: AbstractViewController {
+class SettingsChangePasswordViewController: UIViewController {
     @IBOutlet weak var oldPassword: NEMTextField!
     @IBOutlet weak var newPassword: NEMTextField!
     @IBOutlet weak var repeatPassword: NEMTextField!

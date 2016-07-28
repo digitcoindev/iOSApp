@@ -1,6 +1,6 @@
 import UIKit
 
-class SettingsServerViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate, ServerCellDelegate, APIManagerDelegate, AddCustomServerDelegate
+class SettingsServerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ServerCellDelegate, APIManagerDelegate, AddCustomServerDelegate
 {
     // MARK: - Variables
 
@@ -11,7 +11,7 @@ class SettingsServerViewController: AbstractViewController, UITableViewDataSourc
     private let _apiManager :APIManager = APIManager()
     private var _isEditing = false
     private var _alertShown :Bool = false
-    private var _popUp :AbstractViewController? = nil
+    private var _popUp :UIViewController? = nil
 
     var servers : [Server] = []
 
@@ -149,7 +149,7 @@ class SettingsServerViewController: AbstractViewController, UITableViewDataSourc
         let serverCustomVC :SettingsAddServerViewController =  storyboard.instantiateViewControllerWithIdentifier("SettingsAddServerViewController") as! SettingsAddServerViewController
         serverCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - view.frame.height)
         serverCustomVC.view.layer.opacity = 0
-        serverCustomVC.delegate = self
+//        serverCustomVC.delegate = self
         
         if server != nil {
             serverCustomVC.newServer = server

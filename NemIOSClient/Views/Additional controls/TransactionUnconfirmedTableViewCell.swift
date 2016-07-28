@@ -1,6 +1,6 @@
 import UIKit
 
-class UnconfirmedTransactionCell: UITableViewCell
+class TransactionUnconfirmedTableViewCell: UITableViewCell
 {
     @IBOutlet weak var fromAccount: UILabel!
     @IBOutlet weak var toAccount: UILabel!

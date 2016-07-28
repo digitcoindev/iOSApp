@@ -2,11 +2,11 @@ import UIKit
 import AddressBook
 import AddressBookUI
 
-class InvoiceScanViewController: AbstractViewController, QRDelegate, AddCustomContactDelegate
+class InvoiceScanViewController: UIViewController, QRDelegate, AddCustomContactDelegate
 {
-    @IBOutlet weak var qrScaner: QR!
+    @IBOutlet weak var qrScaner: QRCodeScannerView!
     
-    private var _tempController: AbstractViewController? = nil
+    private var _tempController: UIViewController? = nil
     private var _isInited = false
     
     override func viewDidLoad() {
@@ -154,7 +154,7 @@ class InvoiceScanViewController: AbstractViewController, QRDelegate, AddCustomCo
         let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         contactCustomVC.view.layer.opacity = 0
-        contactCustomVC.delegate = self
+//        contactCustomVC.delegate = self
         
         contactCustomVC.firstName.text = friendDictionary.objectForKey(QRKeys.Name.rawValue) as? String
         contactCustomVC.lastName.text = friendDictionary.objectForKey("surname") as? String
@@ -173,21 +173,21 @@ class InvoiceScanViewController: AbstractViewController, QRDelegate, AddCustomCo
 
     func contactAdded(successfuly: Bool, sendTransaction :Bool) {
         if successfuly {
-            let navDelegate = (self.delegate as? InvoiceViewController)?.delegate as? MainVCDelegate
-            if navDelegate != nil  {
-                if sendTransaction {
-                    let correspondent :Correspondent = Correspondent()
-                    
-                    for email in AddressBookViewController.newContact!.emailAddresses{
-                        if email.label == "NEM" {
-                            correspondent.address = (email.value as? String) ?? " "
-                            correspondent.name = correspondent.address.nemName()
-                        }
-                    }
-                    State.currentContact = correspondent
-                }
+//            let navDelegate = (self.delegate as? InvoiceViewController)?.delegate as? MainVCDelegate
+//            if navDelegate != nil  {
+//                if sendTransaction {
+//                    let correspondent :Correspondent = Correspondent()
+//                    
+//                    for email in AddressBookViewController.newContact!.emailAddresses{
+//                        if email.label == "NEM" {
+//                            correspondent.address = (email.value as? String) ?? " "
+//                            correspondent.name = correspondent.address.nemName()
+//                        }
+//                    }
+//                    State.currentContact = correspondent
+//                }
 //                navDelegate!.pageSelected(sendTransaction ? SegueToSendTransaction : SegueToAddressBook)
-            }
+//            }
         }
     }
     

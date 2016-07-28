@@ -1,6 +1,6 @@
 import UIKit
 
-class AccountMainViewController: AbstractViewController, UITableViewDelegate, UITableViewDataSource, APIManagerDelegate, EditableTableViewCellDelegate, ChangeNamePopUptDelegate
+class AccountMainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, APIManagerDelegate, EditableTableViewCellDelegate, ChangeNamePopUptDelegate
 {
     
     @IBOutlet weak var tableView: UITableView!
@@ -17,7 +17,7 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
     var wallets :[Wallet] = [Wallet]()
     var selectedIndex :Int  = -1
     
-    private var _popUp :AbstractViewController? = nil
+    private var _popUp :UIViewController? = nil
     private var _isEditing = false
     
     //MARK: - Load Methods
@@ -151,10 +151,10 @@ class AccountMainViewController: AbstractViewController, UITableViewDelegate, UI
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier(withId) as! AbstractViewController
+        let popUpController :UIViewController =  storyboard.instantiateViewControllerWithIdentifier(withId)
         popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
         popUpController.view.layer.opacity = 0
-        popUpController.delegate = self
+//        popUpController.delegate = self
         
         if withId == "AccountChangeNameViewController"{
             (popUpController as! AccountChangeNameViewController).newName.text = name

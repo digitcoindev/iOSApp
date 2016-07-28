@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SettingsAboutViewController: AbstractViewController {
+class SettingsAboutViewController: UIViewController {
     
     //MARK: - @IBOutlet
     
-    @IBOutlet weak var infoLabel: NEMLabel!
-    @IBOutlet weak var userAddressLabel: NEMLabel!
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var userAddressLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
     
     @IBOutlet weak var contentView: UIView!

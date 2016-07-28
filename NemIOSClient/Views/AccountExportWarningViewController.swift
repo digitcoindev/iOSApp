@@ -8,8 +8,8 @@
 
 import UIKit
 
-class AccountExportWarningViewController: AbstractViewController {
-    @IBOutlet weak var warningLabel: NEMLabel!
+class AccountExportWarningViewController: UIViewController {
+    @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var warningMessageText: UITextView!
     
     @IBOutlet weak var saveBtn: UIButton!
@@ -76,8 +76,8 @@ class AccountExportWarningViewController: AbstractViewController {
     
     @IBAction func showKey(sender: AnyObject) {
         
-        (self.delegate as! AccountExportViewController).showPrivateKeyButn.setTitle("HIDE_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
-        (self.delegate as! AccountExportViewController).privateKey.hidden = false
+//        (self.delegate as! AccountExportViewController).showPrivateKeyButn.setTitle("HIDE_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
+//        (self.delegate as! AccountExportViewController).privateKey.hidden = false
         
         self.view.removeFromSuperview()
         self.removeFromParentViewController()

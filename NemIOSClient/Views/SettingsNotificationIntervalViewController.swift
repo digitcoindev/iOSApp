@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsNotificationIntervalViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsNotificationIntervalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     //MARK: - @IBOutlet
     
@@ -51,7 +51,7 @@ class SettingsNotificationIntervalViewController: AbstractViewController, UITabl
         let loadData = State.loadData
         loadData?.updateInterval = 0
         CoreDataManager().commit()
-        (self.delegate as! AbstractViewController).viewDidAppear(false)
+//        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
     
@@ -105,7 +105,7 @@ class SettingsNotificationIntervalViewController: AbstractViewController, UITabl
         let loadData = State.loadData
         loadData?.updateInterval = _intervals[indexPath.row]
         CoreDataManager().commit()
-        (self.delegate as! AbstractViewController).viewDidAppear(false)
+//        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
 }

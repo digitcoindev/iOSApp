@@ -1,6 +1,6 @@
 import UIKit
 
-class AccountAddExistingKeyViewController: AbstractViewController ,UIScrollViewDelegate
+class AccountAddExistingKeyViewController: UIViewController ,UIScrollViewDelegate
 {
     //MARK: - IBOulets
 

@@ -1,6 +1,6 @@
 import UIKit
 
-class InvoiceCreateViewController: AbstractViewController
+class InvoiceCreateViewController: UIViewController
 {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var message: NEMTextField!

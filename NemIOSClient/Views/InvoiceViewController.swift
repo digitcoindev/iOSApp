@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InvoiceViewController: AbstractViewController {
+class InvoiceViewController: UIViewController {
 
     @IBOutlet weak var actionBar: UISegmentedControl!
     @IBOutlet weak var infoContainerView: UIView!

@@ -1,6 +1,6 @@
 import UIKit
 
-class TransactionSendViewController: AbstractViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
+class TransactionSendViewController: UIViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
 {
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var toAddressTextField: NEMTextField!
@@ -8,7 +8,7 @@ class TransactionSendViewController: AbstractViewController, UIScrollViewDelegat
     @IBOutlet weak var messageTextField: NEMTextField!
     @IBOutlet weak var feeTextField: NEMTextField!
     @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var chooseButon: ChouseButton!
+    @IBOutlet weak var chooseButon: AccountChooserButton!
     @IBOutlet weak var accountLabel: UILabel!
     @IBOutlet weak var encButton: UIButton!
     
@@ -22,7 +22,7 @@ class TransactionSendViewController: AbstractViewController, UIScrollViewDelegat
     
     private var _apiManager = APIManager()
     private var _mainWallet :AccountGetMetaData? = nil
-    private var _popup :AbstractViewController? = nil
+    private var _popup :UIViewController? = nil
     
     var transactionFee :Double = 10;
     var walletData :AccountGetMetaData!
@@ -407,7 +407,7 @@ class TransactionSendViewController: AbstractViewController, UIScrollViewDelegat
             accounts.view.frame = CGRect(origin: CGPoint(x: scroll.frame.origin.x, y: scroll.frame.origin.y + 5 ), size: scroll.frame.size)
             
             accounts.view.layer.opacity = 0
-            accounts.delegate = self
+//            accounts.delegate = self
             
             var wallets = _mainWallet?.cosignatoryOf ?? []
             

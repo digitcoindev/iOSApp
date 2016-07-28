@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextFieldTableViewCell: UITableViewCell {
+class MultisignatureMinimumSignerAmountTableViewCell: UITableViewCell {
 
     @IBOutlet var textField :UITextField!
     

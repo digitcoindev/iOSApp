@@ -1,5 +1,5 @@
 import UIKit
-class AccountAddNewViewController: AbstractViewController
+class AccountAddNewViewController: UIViewController
 {
     //MARK: - Private Variables
 

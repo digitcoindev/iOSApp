@@ -1,10 +1,10 @@
 import UIKit
 
-class AccountAddExistingQRViewController: AbstractViewController, QRDelegate
+class AccountAddExistingQRViewController: UIViewController, QRDelegate
 {
     //MARK: - IBOulets
 
-    @IBOutlet weak var screenScaner: QR!
+    @IBOutlet weak var screenScaner: QRCodeScannerView!
     
     private var _isInited = false
 

@@ -1,6 +1,6 @@
 import UIKit
 
-class AddressCell: EditableTableViewCell
+class AddressBookContactTableViewCell: EditableTableViewCell
 {
     
     // MARK: properties

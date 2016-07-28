@@ -1,6 +1,6 @@
 import UIKit
 
-class TransactionUnconfirmedViewController: AbstractViewController ,UITableViewDelegate, APIManagerDelegate
+class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegate, APIManagerDelegate
 {
     @IBOutlet weak var tableView: UITableView!
 
@@ -56,7 +56,7 @@ class TransactionUnconfirmedViewController: AbstractViewController ,UITableViewD
         switch (transaction.innerTransaction.type) {
         case transferTransaction:
             let innerTransaction = (transaction.innerTransaction) as! TransferTransaction
-            let cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! UnconfirmedTransactionCell
+            let cell : TransactionUnconfirmedTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! TransactionUnconfirmedTableViewCell
             cell.fromAccount.text = AddressGenerator.generateAddress(innerTransaction.signer).nemName()
             cell.toAccount.text = innerTransaction.recipient.nemName()
             cell.message.text = innerTransaction.message.getMessageString() ?? "ENCRYPTED_MESSAGE".localized()
@@ -70,7 +70,7 @@ class TransactionUnconfirmedViewController: AbstractViewController ,UITableViewD
         case multisigAggregateModificationTransaction:
             
             let innerTrnsaction :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
-            let cell : UnconfirmedTransactionCell = self.tableView.dequeueReusableCellWithIdentifier("multisigAggregateModificationTransaction") as! UnconfirmedTransactionCell
+            let cell : TransactionUnconfirmedTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("multisigAggregateModificationTransaction") as! TransactionUnconfirmedTableViewCell
             cell.delegate = self
             cell.tag = indexPath.row
             cell.fromAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)

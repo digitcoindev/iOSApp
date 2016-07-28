@@ -1,20 +1,21 @@
 //
-//  AddCell.swift
+//  BlockTableViewCell.swift
 //  NemIOSClient
 //
-//  Created by Lyubomir Dominik on 28.12.15.
+//  Created by Lyubomir Dominik on 29.10.15.
 //  Copyright © 2015 Artygeek. All rights reserved.
 //
 
 import UIKit
 
-class AddCell: UITableViewCell {
+class HarvestingBlockTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var addLabel: UILabel!
+    @IBOutlet weak var block: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var fee: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        addLabel.text = "ADD_ADITIONAL_SIGNER".localized()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

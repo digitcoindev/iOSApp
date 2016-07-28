@@ -1,6 +1,6 @@
 import UIKit
 
-class DashboardContainer: AbstractViewController
+class DashboardContainer: UIViewController
 {
     //MARK: - Load Methods
 
@@ -15,9 +15,9 @@ class DashboardContainer: AbstractViewController
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if self.delegate != nil {
-            (segue.destinationViewController as! AbstractViewController).delegate = self.delegate
-        }
+//        if self.delegate != nil {
+//            (segue.destinationViewController as! UIViewController).delegate = self.delegate
+//        }
         
         if (self.childViewControllers.count > 0) {
             self.swapFromViewController(self.childViewControllers.first!, toViewController: segue.destinationViewController)

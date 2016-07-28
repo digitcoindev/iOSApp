@@ -1,6 +1,6 @@
 import UIKit
 
-class SettingsViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
+class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
 {
     private enum SettingsCategory :Int {
         case General = 0
@@ -15,7 +15,7 @@ class SettingsViewController: AbstractViewController, UITableViewDataSource, UIT
     
     private var _content :[[[String]]] = []
     private var _loadData :LoadData? = State.loadData
-    private var _popUp :AbstractViewController? = nil
+    private var _popUp :UIViewController? = nil
     private let _dataManager = CoreDataManager()
     
     override func viewDidLoad() {
@@ -216,10 +216,10 @@ class SettingsViewController: AbstractViewController, UITableViewDataSource, UIT
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier(withId) as! AbstractViewController
+        let popUpController :UIViewController =  storyboard.instantiateViewControllerWithIdentifier(withId) as! UIViewController
         popUpController.view.frame = CGRect(x: 0, y: view.frame.height, width: popUpController.view.frame.width, height: popUpController.view.frame.height - view.frame.height)
         popUpController.view.layer.opacity = 0
-        popUpController.delegate = self
+//        popUpController.delegate = self
         
         _popUp = popUpController
         self.view.addSubview(popUpController.view)

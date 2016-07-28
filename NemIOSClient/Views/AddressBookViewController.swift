@@ -1,7 +1,7 @@
 import UIKit
 import Contacts
 
-class AddressBookViewController: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCustomContactDelegate
+class AddressBookViewController: UIViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCustomContactDelegate
 {
     // MARK: - @IBOutlet
 
@@ -17,7 +17,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
     // MARK: - Private Variables
 
     private let _apiManager :APIManager = APIManager()
-    private var _tempController: AbstractViewController? = nil
+    private var _tempController: UIViewController? = nil
     private var _walletData :AccountGetMetaData!
     private var _isEditing = false
     private var _newContact :CNContact? = nil
@@ -88,7 +88,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
         tabBarController?.navigationItem.rightBarButtonItem!.title = title
 
         for cell in self.tableView.visibleCells {
-            (cell as! AddressCell).isEditable = _isEditing
+            (cell as! AddressBookContactTableViewCell).isEditable = _isEditing
         }
     }
     
@@ -151,7 +151,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : AddressCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as! AddressCell
+        let cell : AddressBookContactTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("address cell") as! AddressBookContactTableViewCell
         cell.editDelegate = self
         let person :CNContact = displayList[indexPath.row]
         cell.isEditable = _isEditing
@@ -182,7 +182,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell :AddressCell = tableView.cellForRowAtIndexPath(indexPath) as! AddressCell
+        let cell :AddressBookContactTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! AddressBookContactTableViewCell
         
         if _isEditing || !cell.isAddress {
             _changeContact(displayList[indexPath.row])
@@ -200,7 +200,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
         let contactCustomVC :AddressBookMessageViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookMessageViewController") as! AddressBookMessageViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
-        contactCustomVC.delegate = self
+//        contactCustomVC.delegate = self
         _tempController = contactCustomVC
         
         contactCustomVC.userInfoLabel.text = contact.givenName + " " + contact.familyName
@@ -227,7 +227,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
         let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
-        contactCustomVC.delegate = self
+//        contactCustomVC.delegate = self
         
         _tempController = contactCustomVC
         self.view.addSubview(contactCustomVC.view)
@@ -255,7 +255,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
         
         contactCustomVC.saveBtn.setTitle("CHANGE_CONTACT".localized(), forState: .Normal)
         contactCustomVC.contact = contact
-        contactCustomVC.delegate = self
+//        contactCustomVC.delegate = self
         
         _tempController = contactCustomVC
         self.view.addSubview(contactCustomVC.view)
@@ -272,7 +272,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
             _tempController = nil
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 for cell in self.tableView.visibleCells {
-                    (cell as! AddressCell).isEditable = false
+                    (cell as! AddressBookContactTableViewCell).isEditable = false
                 }
             })
             
@@ -283,20 +283,20 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
             self.filterChanged(self)
             
             if sendTransaction {
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                    
-                    let correspondent :Correspondent = Correspondent()
-                    
-                    for email in _newContact!.emailAddresses{
-                        if email.label == "NEM" {
-                            correspondent.address = (email.value as? String) ?? " "
-                            correspondent.name = correspondent.address.nemName()
-                        }
-                    }
-                    State.currentContact = correspondent
-                    
-//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
-                }
+//                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+//                    
+//                    let correspondent :Correspondent = Correspondent()
+//                    
+//                    for email in _newContact!.emailAddresses{
+//                        if email.label == "NEM" {
+//                            correspondent.address = (email.value as? String) ?? " "
+//                            correspondent.name = correspondent.address.nemName()
+//                        }
+//                    }
+//                    State.currentContact = correspondent
+//                    
+////                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
+//                }
             }
         }
     }
@@ -306,7 +306,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
             _tempController = nil
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 for cell in self.tableView.visibleCells {
-                    (cell as! AddressCell).isEditable = false
+                    (cell as! AddressBookContactTableViewCell).isEditable = false
                 }
             })
             _isEditing = false
@@ -316,20 +316,20 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
             self.filterChanged(self)
             
             if sendTransaction {
-                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
-                    
-                    let correspondent :Correspondent = Correspondent()
-                    
-                    for email in _newContact!.emailAddresses{
-                        if email.label == "NEM" {
-                            correspondent.address = (email.value as? String) ?? " "
-                            correspondent.name = correspondent.address.nemName()
-                        }
-                    }
-                    State.currentContact = correspondent
-                    
-//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
-                }
+//                if self.delegate != nil && self.delegate!.respondsToSelector("pageSelected:") {
+//                    
+//                    let correspondent :Correspondent = Correspondent()
+//                    
+//                    for email in _newContact!.emailAddresses{
+//                        if email.label == "NEM" {
+//                            correspondent.address = (email.value as? String) ?? " "
+//                            correspondent.name = correspondent.address.nemName()
+//                        }
+//                    }
+//                    State.currentContact = correspondent
+//                    
+////                    (self.delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
+//                }
             }
         }
     }
@@ -346,7 +346,7 @@ class AddressBookViewController: AbstractViewController, UITableViewDelegate, UI
     // MARK: - EditableTableViewCellDelegate Methods
     
     final func deleteCell(cell: EditableTableViewCell) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK".localized(), (cell as! AddressCell).infoLabel.text!), preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK".localized(), (cell as! AddressBookContactTableViewCell).infoLabel.text!), preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             let index :NSIndexPath = self.tableView.indexPathForCell(cell)!

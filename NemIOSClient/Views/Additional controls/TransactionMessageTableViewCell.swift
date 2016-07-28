@@ -15,7 +15,7 @@ enum ConversationCellType: String {
     case Unknown = "Unknown"
 }
 
-class ConversationTableViewCell: DetailedTableViewCell {
+class TransactionMessageTableViewCell: DetailedTableViewCell {
 
     // MARK: internal variables
     

@@ -1,6 +1,6 @@
 import UIKit
 
-class AccountAddViewController: AbstractViewController
+class AccountAddViewController: UIViewController
 {
     //MARK: - IBOulets
     
@@ -31,9 +31,9 @@ class AccountAddViewController: AbstractViewController
 
     }
     
-    override func delegateIsSetted() {
- 
-    }
+//    override func delegateIsSetted() {
+// 
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

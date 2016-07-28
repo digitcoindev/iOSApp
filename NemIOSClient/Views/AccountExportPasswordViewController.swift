@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountExportPasswordViewController: AbstractViewController
+class AccountExportPasswordViewController: UIViewController
 {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UIButton!

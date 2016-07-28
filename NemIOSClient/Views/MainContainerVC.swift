@@ -1,6 +1,6 @@
 import UIKit
 
-class MainContainerVC: AbstractViewController
+class MainContainerVC: UIViewController
 {
     //MARK: - Private Variables
 
@@ -38,11 +38,11 @@ class MainContainerVC: AbstractViewController
 
     }
     
-    override func delegateIsSetted(){
-        for vc in self.childViewControllers {
-            (vc as! AbstractViewController).delegate = self.delegate
-        }
-    }
+//    override func delegateIsSetted(){
+//        for vc in self.childViewControllers {
+//            (vc as! AbstractViewController).delegate = self.delegate
+//        }
+//    }
     
     override func didReceiveMemoryWarning(){
         super.didReceiveMemoryWarning()

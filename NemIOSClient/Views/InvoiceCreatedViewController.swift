@@ -2,7 +2,7 @@ import UIKit
 import Social
 import MessageUI
 
-class InvoiceCreatedViewController: AbstractViewController, MFMailComposeViewControllerDelegate
+class InvoiceCreatedViewController: UIViewController, MFMailComposeViewControllerDelegate
 {
     // MARK: - @IBOutlet
     
@@ -17,7 +17,7 @@ class InvoiceCreatedViewController: AbstractViewController, MFMailComposeViewCon
     // MARK: - Private Variables
     
     private var invoice = State.invoice
-    private var popup :AbstractViewController? = nil
+    private var popup :UIViewController? = nil
 
     // MARK: - Load Metods
     
@@ -71,7 +71,7 @@ class InvoiceCreatedViewController: AbstractViewController, MFMailComposeViewCon
         let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
         shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
         shareVC.view.layer.opacity = 0
-        shareVC.delegate = self
+//        shareVC.delegate = self
         
         shareVC.message = "INVOICE_HEADER".localized()
         shareVC.images = [qrImageView.image!]
@@ -101,7 +101,7 @@ class InvoiceCreatedViewController: AbstractViewController, MFMailComposeViewCon
         
         let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
         
-        let qr :QR = QR()
+        let qr :QRCodeScannerView = QRCodeScannerView()
         
         qrImageView.image =  qr.createQR(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
 

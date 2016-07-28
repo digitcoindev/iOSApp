@@ -14,7 +14,7 @@ protocol ChangeNamePopUptDelegate
     func popUpClosed()
 }
 
-class AccountChangeNameViewController: AbstractViewController {
+class AccountChangeNameViewController: UIViewController {
     
     //MARK: - @IBOutlet
     
@@ -49,7 +49,7 @@ class AccountChangeNameViewController: AbstractViewController {
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
-        (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
+//        (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
     }
     
     @IBAction func didEndEditingOnWxit(sender: UITextField) {
@@ -58,8 +58,8 @@ class AccountChangeNameViewController: AbstractViewController {
     
     @IBAction func changeName(sender: AnyObject) {
         if Validate.stringNotEmpty(newName.text) {
-            (self.delegate as! ChangeNamePopUptDelegate).nameChanged(newName.text!)
-            (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
+//            nameChanged(newName.text!)
+//            (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
         }
     }
     

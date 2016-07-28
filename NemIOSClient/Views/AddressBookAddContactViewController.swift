@@ -16,7 +16,7 @@ protocol AddCustomContactDelegate
     func contactChanged(successfuly :Bool, sendTransaction :Bool)
 }
 
-class AddressBookAddContactViewController: AbstractViewController, APIManagerDelegate {
+class AddressBookAddContactViewController: UIViewController, APIManagerDelegate {
 
     //MARK: - @IBOutlet
     
@@ -77,7 +77,7 @@ class AddressBookAddContactViewController: AbstractViewController, APIManagerDel
     //MARK: - @IBAction
 
     @IBAction func closePopUp(sender: AnyObject) {
-        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
+//        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
@@ -130,32 +130,51 @@ class AddressBookAddContactViewController: AbstractViewController, APIManagerDel
             mutableContact.emailAddresses = newEmails
             if self.contact == nil {
                 AddressBookManager.addContact(mutableContact, responce: { (contact) -> Void in
-                    if self.delegate != nil {
-                        
-                        AddressBookViewController.newContact = contact
-                        
-                        dispatch_async(dispatch_get_main_queue(), {
-                            () -> Void in
-                            self.view.removeFromSuperview()
-                            self.removeFromParentViewController()
-                            (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
-                        })
-                    }
+//                    if self.delegate != nil {
+//                        
+//                        AddressBookViewController.newContact = contact
+//                        
+//                        dispatch_async(dispatch_get_main_queue(), {
+//                            () -> Void in
+//                            self.view.removeFromSuperview()
+//                            self.removeFromParentViewController()
+//                            (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
+//                        })
+//                    }
+                    
+                    AddressBookViewController.newContact = contact
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        () -> Void in
+                        self.view.removeFromSuperview()
+                        self.removeFromParentViewController()
+//                        (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
+                    })
                 })
             } else {
                 AddressBookManager.updateContact(mutableContact, responce: { (contact) -> Void in
-                    if self.delegate != nil {
+//                    if self.delegate != nil {
+//                        
+//                        AddressBookViewController.newContact = contact
+//                        
+//                        dispatch_async(dispatch_get_main_queue(), {
+//                            () -> Void in
+//                            self.view.removeFromSuperview()
+//                            self.removeFromParentViewController()
+//                            (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
+//                                
+//                        })
+//                    }
+                    
+                    AddressBookViewController.newContact = contact
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        () -> Void in
+                        self.view.removeFromSuperview()
+                        self.removeFromParentViewController()
+//                        (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
                         
-                        AddressBookViewController.newContact = contact
-                        
-                        dispatch_async(dispatch_get_main_queue(), {
-                            () -> Void in
-                            self.view.removeFromSuperview()
-                            self.removeFromParentViewController()
-                            (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
-                                
-                        })
-                    }
+                    })
                 })
             }
         }

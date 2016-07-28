@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShareViewController: AbstractViewController {
+class ShareViewController: UIViewController {
     
     @IBOutlet weak var contentView: UIView!
     
@@ -36,9 +36,9 @@ class ShareViewController: AbstractViewController {
         
     }
     
-    override func delegateIsSetted() {
-        _shareManager.delegate = self.delegate as? UIViewController
-    }
+//    override func delegateIsSetted() {
+//        _shareManager.delegate = self.delegate as? UIViewController
+//    }
     
     //MARK: - @IBAction
 

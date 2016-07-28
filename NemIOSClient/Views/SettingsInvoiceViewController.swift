@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsInvoiceViewController: AbstractViewController {
+class SettingsInvoiceViewController: UIViewController {
     
     //MARK: - @IBOutlet
     
@@ -73,7 +73,7 @@ class SettingsInvoiceViewController: AbstractViewController {
         loadData?.invoiceMessage = message.text
         
         CoreDataManager().commit()
-        (self.delegate as! AbstractViewController).viewDidAppear(false)
+//        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
 }

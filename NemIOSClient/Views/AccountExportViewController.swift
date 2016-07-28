@@ -2,7 +2,7 @@ import UIKit
 import Social
 import MessageUI
 
-class AccountExportViewController: AbstractViewController , MFMailComposeViewControllerDelegate
+class AccountExportViewController: UIViewController , MFMailComposeViewControllerDelegate
 {
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var privateKey: UITextView!
@@ -12,12 +12,12 @@ class AccountExportViewController: AbstractViewController , MFMailComposeViewCon
     @IBOutlet weak var publicKeyLabel: UILabel!
     @IBOutlet weak var showPrivateKeyButn: UIButton!
     
-    private var popup :AbstractViewController? = nil
+    private var popup :UIViewController? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let qr :QR = QR()
+        let qr :QRCodeScannerView = QRCodeScannerView()
         
         qrImage.image =  qr.createQR(State.exportAccount!)
         
@@ -57,10 +57,10 @@ class AccountExportViewController: AbstractViewController , MFMailComposeViewCon
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            let popUpController :AbstractViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountExportWarningViewController") as! AbstractViewController
+            let popUpController :UIViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountExportWarningViewController") as! UIViewController
             popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
             popUpController.view.layer.opacity = 0
-            popUpController.delegate = self
+//            popUpController.delegate = self
             
             popup = popUpController
             self.view.addSubview(popUpController.view)
@@ -83,7 +83,7 @@ class AccountExportViewController: AbstractViewController , MFMailComposeViewCon
         let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
         shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
         shareVC.view.layer.opacity = 0
-        shareVC.delegate = self
+//        shareVC.delegate = self
         
         shareVC.images = [qrImage.image!]
         popup = shareVC

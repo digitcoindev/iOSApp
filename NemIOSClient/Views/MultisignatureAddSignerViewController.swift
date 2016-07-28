@@ -13,7 +13,7 @@ protocol AddCosigPopUptDelegate
     func addCosig(publicKey :String)
 }
 
-class MultisignatureAddSignerViewController: AbstractViewController, NEMTextFieldDelegate {
+class MultisignatureAddSignerViewController: UIViewController, NEMTextFieldDelegate {
     
     //MARK: - @IBOutlet
     
@@ -173,14 +173,14 @@ class MultisignatureAddSignerViewController: AbstractViewController, NEMTextFiel
         }
         
         if Validate.hexString(publicKey.text!){
-            (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
+//            (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
             self.view.removeFromSuperview()
             self.removeFromParentViewController()
         } else {
             if  Validate.address(publicKey.text!) {
                 for suggestion in  publicKey.suggestions {
                     if suggestion.key == publicKey.text {
-                        (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
+//                        (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
                         
                         self.view.removeFromSuperview()
                         self.removeFromParentViewController()

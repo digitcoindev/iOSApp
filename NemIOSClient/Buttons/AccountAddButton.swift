@@ -1,6 +1,6 @@
 import UIKit
 
-class ButtonBoxTypeOne: UIButton {
+class AccountAddButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         

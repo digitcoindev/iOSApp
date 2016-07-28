@@ -8,11 +8,11 @@
 
 import UIKit
 
-class AddressBookMessageViewController: AbstractViewController {
+class AddressBookMessageViewController: UIViewController {
 
     //MARK: - @IBOutlet
 
-    @IBOutlet weak var userInfoLabel: NEMLabel!
+    @IBOutlet weak var userInfoLabel: UILabel!
     @IBOutlet weak var userAddressLabel: UITextView!
     @IBOutlet weak var actionButton: UIButton!
     
@@ -46,7 +46,7 @@ class AddressBookMessageViewController: AbstractViewController {
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
-        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
+//        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
 
         self.view.removeFromSuperview()
         self.removeFromParentViewController()

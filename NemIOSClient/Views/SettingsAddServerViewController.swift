@@ -6,7 +6,7 @@ import UIKit
     func popUpClosed()
 }
 
-class SettingsAddServerViewController: AbstractViewController, APIManagerDelegate
+class SettingsAddServerViewController: UIViewController, APIManagerDelegate
 {
     //MARK: - @IBOutlet
 
@@ -49,9 +49,9 @@ class SettingsAddServerViewController: AbstractViewController, APIManagerDelegat
     //MARK: - @IBAction
     
     @IBAction func closePopUp(sender: AnyObject) {
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {
-            (self.delegate as! AddCustomServerDelegate).popUpClosed()
-        }
+//        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {
+//            (self.delegate as! AddCustomServerDelegate).popUpClosed()
+//        }
         
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
@@ -100,9 +100,9 @@ class SettingsAddServerViewController: AbstractViewController, APIManagerDelegat
                 _dataManager.commit()
             }
                         
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {
-                (self.delegate as! AddCustomServerDelegate).serverAdded(true)
-            }
+//            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {
+//                (self.delegate as! AddCustomServerDelegate).serverAdded(true)
+//            }
             
             self.view.removeFromSuperview()
             self.removeFromParentViewController()

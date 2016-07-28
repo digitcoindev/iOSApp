@@ -2,7 +2,7 @@ import UIKit
 @objc protocol AccountsChousePopUpDelegate {
     optional func didChouseAccount(account :AccountGetMetaData)
 }
-class AccountChooserViewController: AbstractViewController, UITableViewDelegate, UITableViewDataSource {
+class AccountChooserViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -49,9 +49,9 @@ class AccountChooserViewController: AbstractViewController, UITableViewDelegate,
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AccountsChousePopUpDelegate.didChouseAccount(_:))) {
-            (self.delegate as! AccountsChousePopUpDelegate).didChouseAccount!(_wallets[indexPath.row])
-        }
+//        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AccountsChousePopUpDelegate.didChouseAccount(_:))) {
+//            (self.delegate as! AccountsChousePopUpDelegate).didChouseAccount!(_wallets[indexPath.row])
+//        }
         
         self.view.removeFromSuperview()
         self.removeFromParentViewController()

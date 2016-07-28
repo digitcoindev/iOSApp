@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsDefaultAccountViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     //MARK: - @IBOutlet
     
@@ -49,7 +49,7 @@ class SettingsDefaultAccountViewController: AbstractViewController, UITableViewD
         let loadData = State.loadData
         loadData?.currentWallet = nil
         CoreDataManager().commit()
-        (self.delegate as! AbstractViewController).viewDidAppear(false)
+//        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
     
@@ -77,7 +77,7 @@ class SettingsDefaultAccountViewController: AbstractViewController, UITableViewD
         let loadData = State.loadData
         loadData?.currentWallet = _accounts[indexPath.row]
         CoreDataManager().commit()
-        (self.delegate as! AbstractViewController).viewDidAppear(false)
+//        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
 }

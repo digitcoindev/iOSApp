@@ -1,7 +1,7 @@
 
 import UIKit
 
-class MoreMenuViewController:  AbstractViewController, APIManagerDelegate
+class MoreMenuViewController:  UIViewController, APIManagerDelegate
 {
     @IBOutlet var tableView: UITableView!
 

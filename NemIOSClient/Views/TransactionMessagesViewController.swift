@@ -1,6 +1,6 @@
 import UIKit
 
-class TransactionMessagesViewController: AbstractViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate, DetailedTableViewCellDelegate
+class TransactionMessagesViewController: UIViewController, UITableViewDelegate, UIAlertViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate, DetailedTableViewCellDelegate
 {
     private struct DefinedCell
     {
@@ -13,7 +13,7 @@ class TransactionMessagesViewController: AbstractViewController, UITableViewDele
     }
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var userInfo: NEMLabel!
+    @IBOutlet weak var userInfo: UILabel!
     @IBOutlet weak var amoundField: NEMTextField?
     @IBOutlet weak var messageField: NEMTextField?
     @IBOutlet weak var sendButton: UIButton?
@@ -55,7 +55,7 @@ class TransactionMessagesViewController: AbstractViewController, UITableViewDele
     private var _unconfirmed = 0
     private var _account_address :String? = nil
     private var _timer: NSTimer? = nil
-    private var _popup :AbstractViewController? = nil
+    private var _popup :UIViewController? = nil
 
     // MARK: - Load Methods
     
@@ -155,7 +155,7 @@ class TransactionMessagesViewController: AbstractViewController, UITableViewDele
                                          height: tableView.frame.height)
             
             accounts.view.layer.opacity = 0
-            accounts.delegate = self
+//            accounts.delegate = self
             
             var wallets = _mainAccount?.cosignatoryOf ?? []
             if _mainAccount != nil
@@ -472,7 +472,7 @@ class TransactionMessagesViewController: AbstractViewController, UITableViewDele
         
         if( indexPath.row != 0 ) {
             var index :Int = 0
-            let cell : ConversationTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("messageCell") as! ConversationTableViewCell
+            let cell : TransactionMessageTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("messageCell") as! TransactionMessageTableViewCell
             
             cell.detailDelegate = self
             cell.detailsIsShown = false

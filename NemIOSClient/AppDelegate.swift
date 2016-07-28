@@ -1,3 +1,11 @@
+//
+//  AppDelegate.swift
+//  NemIOSClient
+//
+//  Created by Thomas Oehri on 20.07.16.
+//  Copyright © 2016 Artygeek. All rights reserved.
+//
+
 import UIKit
 import CoreData
 

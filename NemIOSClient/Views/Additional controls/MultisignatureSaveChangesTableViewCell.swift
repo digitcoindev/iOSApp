@@ -1,21 +1,20 @@
 //
-//  BlockTableViewCell.swift
+//  SaveCell.swift
 //  NemIOSClient
 //
-//  Created by Lyubomir Dominik on 29.10.15.
+//  Created by Lyubomir Dominik on 28.12.15.
 //  Copyright © 2015 Artygeek. All rights reserved.
 //
 
 import UIKit
 
-class BlockTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var block: UILabel!
-    @IBOutlet weak var date: UILabel!
-    @IBOutlet weak var fee: UILabel!
+class MultisignatureSaveChangesTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var saveButton: UIButton!
+
     override func awakeFromNib() {
         super.awakeFromNib()
+        saveButton.setTitle("SAVE_CHANGES".localized(), forState: UIControlState.Normal)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

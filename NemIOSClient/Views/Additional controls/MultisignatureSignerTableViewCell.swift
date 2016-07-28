@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CosigTableViewCell: EditableTableViewCell {
+class MultisignatureSignerTableViewCell: EditableTableViewCell {
     
     // MARK: properties
     

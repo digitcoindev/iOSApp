@@ -1,10 +1,10 @@
 import UIKit
 import Contacts
 
-class TransactionOverviewViewController: AbstractViewController , UITableViewDelegate ,UISearchBarDelegate, APIManagerDelegate
+class TransactionOverviewViewController: UIViewController , UITableViewDelegate ,UISearchBarDelegate, APIManagerDelegate
 {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var userInfo: NEMLabel!
+    @IBOutlet weak var userInfo: UILabel!
     
     let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData?
@@ -80,18 +80,19 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
         
         tabBarController?.title = "MESSAGES".localized()
         
-        let rightBarButton = UIButton()
-        let barButtonImage = UIImage(named: "note")
-        rightBarButton.setImage(barButtonImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(segueToTransactionSendViewController))
+//        let rightBarButton = UIButton()
+//        let barButtonImage = UIImage(named: "note")
+//        rightBarButton.setImage(barButtonImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
         rightBarButton.tintColor = UIColor.whiteColor()
-        rightBarButton.frame = CGRectMake(0, 0, 30, 30)
+//        rightBarButton.frame = CGRectMake(0, 0, 30, 30)
         
-        rightBarButton.addTarget(self, action: #selector(segueToTransactionSendViewController), forControlEvents: .TouchUpInside)
+//        rightBarButton.addTarget(self, action: #selector(segueToTransactionSendViewController), forControlEvents: .TouchUpInside)
         
-        let rightNavigationBarButton = UIBarButtonItem()
-        rightNavigationBarButton.customView = rightBarButton
+//        let rightNavigationBarButton = UIBarButtonItem()
+//        rightNavigationBarButton.customView = rightBarButton
         
-        tabBarController?.navigationItem.rightBarButtonItem = rightNavigationBarButton
+        tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -427,7 +428,7 @@ class TransactionOverviewViewController: AbstractViewController , UITableViewDel
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : MessageCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! MessageCell
+        let cell : TransactionOverviewCorrespondentTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! TransactionOverviewCorrespondentTableViewCell
         let cellData  : Correspondent = _displayList[indexPath.row] as! Correspondent
         let transaction :TransferTransaction? = cellData.transaction
         

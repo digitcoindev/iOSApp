@@ -5,7 +5,7 @@ import UIKit
     func pageSelected(page :String)
 }
 
-class MainVC: AbstractViewController , MainVCDelegate, APIManagerDelegate
+class MainVC: UIViewController , MainVCDelegate, APIManagerDelegate
 {
     
     //MARK: - Private Variables
@@ -42,7 +42,7 @@ class MainVC: AbstractViewController , MainVCDelegate, APIManagerDelegate
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
         if(segue.identifier == "mainContainer") {
             _pages = segue.destinationViewController as! MainContainerVC
-            _pages.delegate = self
+//            _pages.delegate = self
         }
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChouseButton: UIButton {
+class AccountChooserButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()

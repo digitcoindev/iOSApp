@@ -1,16 +1,16 @@
 import UIKit
 
-class HistoryViewController: AbstractViewController , UITableViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
+class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var chouseButton: ChouseButton!
+    @IBOutlet weak var chouseButton: AccountChooserButton!
     
     private var _modifications :[AggregateModificationTransaction] = []
     private var _mainAccount :AccountGetMetaData? = nil
     private var _activeAccount :AccountGetMetaData? = nil
     private var _currentCosignatories :[String] = []
-    private var _contentViews :[AbstractViewController] = []
+    private var _contentViews :[UIViewController] = []
 
     private let _apiManager :APIManager =  APIManager()
     
@@ -40,7 +40,7 @@ class HistoryViewController: AbstractViewController , UITableViewDelegate, APIMa
             accounts.view.frame = tableView.frame
             
             accounts.view.layer.opacity = 0
-            accounts.delegate = self
+//            accounts.delegate = self
             
             var wallets = _mainAccount?.cosignatoryOf ?? []
             

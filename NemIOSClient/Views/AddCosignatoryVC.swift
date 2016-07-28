@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddCosignatoryVC: AbstractViewController {
+class AddCosignatoryVC: UIViewController {
     @IBOutlet weak var minCosig: NEMTextField!
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -57,7 +57,7 @@ class AddCosignatoryVC: AbstractViewController {
                 minCosig.text = ""
                 return
             } else {
-                (self.delegate as! MultisignatureViewController).minCosig = value
+//                (self.delegate as! MultisignatureViewController).minCosig = value
             }
         } else {
             minCosig.text = ""

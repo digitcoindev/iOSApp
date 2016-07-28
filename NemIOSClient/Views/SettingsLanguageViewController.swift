@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsLanguageViewController: AbstractViewController, UITableViewDataSource, UITableViewDelegate {
+class SettingsLanguageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     //MARK: - @IBOutlet
     
@@ -67,7 +67,7 @@ class SettingsLanguageViewController: AbstractViewController, UITableViewDataSou
         let loadData = State.loadData
         loadData?.currentLanguage = nil
         CoreDataManager().commit()
-        (self.delegate as! AbstractViewController).viewDidAppear(false)
+//        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
     
@@ -96,7 +96,7 @@ class SettingsLanguageViewController: AbstractViewController, UITableViewDataSou
         let loadData = State.loadData
         loadData?.currentLanguage = _languages[indexPath.row]
         CoreDataManager().commit()
-        (self.delegate as! AbstractViewController).viewDidAppear(false)
+//        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
 }

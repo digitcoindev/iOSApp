@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuthenticationPasswordCreationViewController: AbstractViewController {
+class AuthenticationPasswordCreationViewController: UIViewController {
     
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
@@ -106,9 +106,9 @@ class AuthenticationPasswordCreationViewController: AbstractViewController {
         
         if passwordData?.toHexString() == passwordValue {
             
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
-            }
+//            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
+//                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
+//            }
         }
     }
     

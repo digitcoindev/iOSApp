@@ -1,6 +1,6 @@
 import UIKit
 
-class MessageCell: UITableViewCell
+class TransactionOverviewCorrespondentTableViewCell: UITableViewCell
 {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var message: UILabel!

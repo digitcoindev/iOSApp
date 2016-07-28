@@ -7,7 +7,7 @@ import AVFoundation
     optional func failedWithError(text :String)
 }
 
-class QR: UIView , AVCaptureMetadataOutputObjectsDelegate
+class QRCodeScannerView: UIView , AVCaptureMetadataOutputObjectsDelegate
 {
     //MARK: - Local Variables
 

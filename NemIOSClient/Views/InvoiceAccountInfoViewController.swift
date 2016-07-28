@@ -1,6 +1,6 @@
 import UIKit
 
-class InvoiceAccountInfoViewController: AbstractViewController
+class InvoiceAccountInfoViewController: UIViewController
 {
     // MARK: - @IBOutlet
 
@@ -19,7 +19,7 @@ class InvoiceAccountInfoViewController: AbstractViewController
     // MARK: - Private Variables
 
     private var address :String!
-    private var popup :AbstractViewController? = nil
+    private var popup :UIViewController? = nil
     
     // MARK: - Load Metods
 
@@ -74,7 +74,7 @@ class InvoiceAccountInfoViewController: AbstractViewController
         let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
         shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
         shareVC.view.layer.opacity = 0
-        shareVC.delegate = self
+//        shareVC.delegate = self
         
         shareVC.message = userAddress.text
         popup = shareVC
@@ -99,7 +99,7 @@ class InvoiceAccountInfoViewController: AbstractViewController
         let shareVC :ShareViewController =  storyboard.instantiateViewControllerWithIdentifier("SharePopUp") as! ShareViewController
         shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
         shareVC.view.layer.opacity = 0
-        shareVC.delegate = self
+//        shareVC.delegate = self
         
         shareVC.message = (Validate.stringNotEmpty(userName.text) ? userName.text! : State.currentWallet!.login) + ": " + address
         shareVC.images = [qrImageView.image!]
@@ -125,7 +125,7 @@ class InvoiceAccountInfoViewController: AbstractViewController
         
         let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions.PrettyPrinted)
         
-        let qr :QR = QR()
+        let qr :QRCodeScannerView = QRCodeScannerView()
         qrImageView.image =  qr.createQR(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
     }
 
