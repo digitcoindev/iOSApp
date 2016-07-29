@@ -1,9 +1,8 @@
 //
-//  ChousePrimAccountVC.swift
-//  NemIOSClient
+//  SettingsDefaultAccountViewController.swift
 //
-//  Created by Lyubomir Dominik on 23.12.15.
-//  Copyright © 2015 Artygeek. All rights reserved.
+//  This file is covered by the LICENSE file in the root of this project.
+//  Copyright (c) 2016 NEM
 //
 
 import UIKit

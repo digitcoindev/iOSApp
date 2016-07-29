@@ -1,9 +1,8 @@
 //
 //  AppDelegate.swift
-//  NemIOSClient
 //
-//  Created by Thomas Oehri on 20.07.16.
-//  Copyright © 2016 Artygeek. All rights reserved.
+//  This file is covered by the LICENSE file in the root of this project.
+//  Copyright (c) 2016 NEM
 //
 
 import UIKit
