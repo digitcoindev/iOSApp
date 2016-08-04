@@ -13,7 +13,7 @@ class TransactionOverviewViewController: UIViewController , UITableViewDelegate 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userInfo: UILabel!
     
-    let dataManager : CoreDataManager = CoreDataManager()
+//    let dataManager : CoreDataManager = CoreDataManager()
     var walletData :AccountGetMetaData?
     
     private var _apiManager :APIManager = APIManager()
@@ -151,7 +151,7 @@ class TransactionOverviewViewController: UIViewController , UITableViewDelegate 
             
             if _requestCounter == 1 {
                 State.currentWallet?.lastTransactionHash = data.first?.hashString
-                CoreDataManager().commit()
+//                CoreDataManager().commit()
             }
             
             let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)

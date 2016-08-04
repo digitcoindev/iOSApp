@@ -14,7 +14,7 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addServer: UIButton!
     
-    private let _dataManager : CoreDataManager = CoreDataManager()
+//    private let _dataManager : CoreDataManager = CoreDataManager()
     private let _apiManager :APIManager = APIManager()
     private var _isEditing = false
     private var _alertShown :Bool = false
@@ -29,7 +29,7 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
 
         _apiManager.delegate = self
         
-        servers = _dataManager.getServers()
+//        servers = _dataManager.getServers()
         title = "SERVER".localized()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
         
@@ -139,7 +139,7 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
             
             let selectedServer :Server = servers[indexPath.row]
             
-            State.currentServer = selectedServer
+//            State.currentServer = selectedServer
             
             _apiManager.heartbeat(selectedServer)
         } else {
@@ -185,7 +185,7 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
             let index :NSIndexPath = self.tableView.indexPathForCell(cell)!
             
             if index.row < self.servers.count {
-                self._dataManager.deleteServer(server: self.servers[index.row])
+//                self._dataManager.deleteServer(server: self.servers[index.row])
                 self.servers.removeAtIndex(index.row)
                 
                 self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
@@ -205,7 +205,7 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
     
     func serverAdded(successfuly: Bool) {
         if successfuly {
-            servers = _dataManager.getServers()
+//            servers = _dataManager.getServers()
             tableView.reloadData()
         }
     }
@@ -222,17 +222,17 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
     
     final func heartbeatResponceFromServer(server :Server ,successed :Bool) {
         if successed {
-            State.currentServer = server
+//            State.currentServer = server
             _apiManager.timeSynchronize(server)
             
-            let loadData :LoadData = _dataManager.getLoadData()
+//            let loadData :LoadData = _dataManager.getLoadData()
             
-            loadData.currentServer = State.currentServer!
-            _dataManager.commit()
+//            loadData.currentServer = State.currentServer!
+//            _dataManager.commit()
             
             self.tableView.reloadData()
         } else {
-            State.currentServer = nil
+//            State.currentServer = nil
             if !_alertShown {
                 _alertShown = true
                 

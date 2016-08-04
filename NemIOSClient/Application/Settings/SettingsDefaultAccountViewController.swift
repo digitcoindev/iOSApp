@@ -16,7 +16,7 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var resetButton: UIButton!
     
-    private let _accounts :[Wallet] = CoreDataManager().getWallets()
+//    private let _accounts :[Wallet] = CoreDataManager().getWallets()
     
     //MARK: - Load Methods
     
@@ -47,7 +47,7 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
     @IBAction func reset(sender: AnyObject) {
         let loadData = State.loadData
         loadData?.currentWallet = nil
-        CoreDataManager().commit()
+//        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
@@ -55,18 +55,19 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
     // MARK: - TableViewDelegate Methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _accounts.count
+//        return _accounts.count
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
 
-        cell.title.text = _accounts[indexPath.row].login
-        if (_accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey) && (_accounts[indexPath.row].login == State.loadData?.currentWallet?.login) {
-            cell.isActive = true
-        } else {
-            cell.isActive = false
-        }
+//        cell.title.text = _accounts[indexPath.row].login
+//        if (_accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey) && (_accounts[indexPath.row].login == State.loadData?.currentWallet?.login) {
+//            cell.isActive = true
+//        } else {
+//            cell.isActive = false
+//        }
         
         return cell
     }
@@ -74,8 +75,8 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         let loadData = State.loadData
-        loadData?.currentWallet = _accounts[indexPath.row]
-        CoreDataManager().commit()
+//        loadData?.currentWallet = _accounts[indexPath.row]
+//        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }

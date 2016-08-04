@@ -55,52 +55,52 @@ class MultisignatureAddSignerViewController: UIViewController, NEMTextFieldDeleg
     
     private func _setSuggestions() {
         var suggestions :[NEMTextField.Suggestion] = []
-        let dataManager = CoreDataManager()
+//        let dataManager = CoreDataManager()
         
-        for wallet in dataManager.getWallets() {
-            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
-            let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-            let account_address = AddressGenerator.generateAddress(publicKey)
-            
-            var find = false
-            
-            for suggestion in suggestions {
-                if suggestion.key == account_address {
-                    find = true
-                    break
-                }
-            }
-            
-            if !find {
-                var sugest = NEMTextField.Suggestion()
-                
-                sugest.key = account_address
-                sugest.value = publicKey
-                suggestions.append(sugest)
-                
-                sugest.key = publicKey
-                sugest.value = publicKey
-                suggestions.append(sugest)
-
-            }
-            
-            find = false
-            
-            for suggestion in suggestions {
-                if suggestion.key == wallet.login {
-                    find = true
-                    break
-                }
-            }
-            
-            if !find {
-                var sugest = NEMTextField.Suggestion()
-                
-                sugest.key = wallet.login
-                sugest.value = publicKey
-                suggestions.append(sugest)
-            }
-        }
+//        for wallet in dataManager.getWallets() {
+//            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
+//            let publicKey = KeyGenerator.generatePublicKey(privateKey!)
+//            let account_address = AddressGenerator.generateAddress(publicKey)
+//            
+//            var find = false
+//            
+//            for suggestion in suggestions {
+//                if suggestion.key == account_address {
+//                    find = true
+//                    break
+//                }
+//            }
+//            
+//            if !find {
+//                var sugest = NEMTextField.Suggestion()
+//                
+//                sugest.key = account_address
+//                sugest.value = publicKey
+//                suggestions.append(sugest)
+//                
+//                sugest.key = publicKey
+//                sugest.value = publicKey
+//                suggestions.append(sugest)
+//
+//            }
+//            
+//            find = false
+//            
+//            for suggestion in suggestions {
+//                if suggestion.key == wallet.login {
+//                    find = true
+//                    break
+//                }
+//            }
+//            
+//            if !find {
+//                var sugest = NEMTextField.Suggestion()
+//                
+//                sugest.key = wallet.login
+//                sugest.value = publicKey
+//                suggestions.append(sugest)
+//            }
+//        }
         
         if AddressBookManager.isAllowed ?? false {
             for contact in AddressBookManager.contacts {

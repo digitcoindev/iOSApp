@@ -7,56 +7,30 @@
 
 import UIKit
 
-class AccountTableViewCell: EditableTableViewCell
-{
-    // MARK: properties
+/// The table view cell that represents an account.
+class AccountTableViewCell: UITableViewCell {
+    
+    // MARK: - Cell Properties
+    
+    /**
+        The account title that will get shown as the
+        title label of the table view cell.
+     */
+    var title: String? {
+        didSet {
+            updateCell()
+        }
+    }
+    
+    // MARK: - Cell Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
     
-    // MARK: inizializers
+    // MARK: - Cell Helper Methods
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    /// Updates the table view cell with the provided title.
+    private func updateCell() {
         
-        titleLabel.text = "loading ..."
-        titleLabel.numberOfLines = 2
-    }
-    
-    // MARK: layout
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-//        for subview in subviews {
-//            if  subview.dynamicType.description().rangeOfString("Reorder") != nil {
-//                
-//                subview.frame.origin.x = 0
-//                subview.frame.size.width = 45
-//                
-//                for view in subview.subviews {
-//                    if view.isKindOfClass(UIImageView) {
-//                        let center = view.center
-//                        view.frame.size = CGSize(width: 15, height: 15)
-//                        view.center = center
-//                        
-//                        (view as! UIImageView).contentMode = .ScaleAspectFit
-//                        (view as! UIImageView).image = UIImage(named: "sort_icon")
-//                    }
-//                }
-//            }
-//        }
-        
-//        if isEditable {
-//            let relativeChange = max(45, _editView!.frame.origin.x) - _editView!.frame.origin.x
-//            _editView?.frame.origin.x += relativeChange
-//            _contentView?.frame.origin.x += relativeChange
-//            _contentView?.frame.size.width -= relativeChange
-//        }
-//        
-//        infoLabel.frame = CGRect(x: _SEPARATOR_OFFSET_, y: 0, width: _contentView!.frame.width - _SEPARATOR_OFFSET_ * 2 , height: _contentView!.frame.height)
-    }
-    
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+        titleLabel.text = title ?? String()
     }
 }

@@ -17,7 +17,7 @@ class AccountExportPasswordViewController: UIViewController
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var passwordSwitch: UISwitch!
     
-    let dataMeneger: CoreDataManager  = CoreDataManager()
+//    let dataMeneger: CoreDataManager  = CoreDataManager()
     
     // MARK: - Load Methods
     

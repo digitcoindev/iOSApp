@@ -4,15 +4,15 @@ class MainContainerVC: UIViewController
 {
     //MARK: - Private Variables
 
-    private let _dataManager :CoreDataManager = CoreDataManager()
+//    private let _dataManager :CoreDataManager = CoreDataManager()
     
     //MARK: - Load Methods
 
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        let wallets :[Wallet] = _dataManager.getWallets()
-        let loadData = _dataManager.getLoadData()
+//        let wallets :[Wallet] = _dataManager.getWallets()
+//        let loadData = _dataManager.getLoadData()
         
 //        if loadData.password == nil || loadData.salt == nil {
 //            self.performSegueWithIdentifier(SegueToCreatePassword, sender: self)

@@ -16,7 +16,7 @@ class AuthenticationPasswordCreationViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var passwordTitle: UILabel!
     
-    let dataMeneger: CoreDataManager  = CoreDataManager()
+//    let dataMeneger: CoreDataManager  = CoreDataManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,10 +63,10 @@ class AuthenticationPasswordCreationViewController: UIViewController {
         let salt :NSData =  NSData().generateRandomIV(32)
         let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:salt, roundCount:2000)!
         
-        let loadData = dataMeneger.getLoadData()
-        loadData.salt = salt.hexadecimalString()
-        loadData.password = passwordHash?.hexadecimalString()
-        dataMeneger.commit()
+//        let loadData = dataMeneger.getLoadData()
+//        loadData.salt = salt.hexadecimalString()
+//        loadData.password = passwordHash?.hexadecimalString()
+//        dataMeneger.commit()
         
 //        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
 //            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)

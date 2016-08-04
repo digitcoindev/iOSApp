@@ -49,7 +49,7 @@ class AccountChooserViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell :AccountTableViewCell = tableView.dequeueReusableCellWithIdentifier("AccountsChousePopUpCell") as! AccountTableViewCell
         cell.titleLabel.attributedText = NSMutableAttributedString(string: _wallets[indexPath.row].address.nemName() , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!])
-        cell.isEditable = false
+//        cell.isEditable = false
         
         return cell
     }

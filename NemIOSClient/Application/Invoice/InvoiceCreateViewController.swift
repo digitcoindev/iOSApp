@@ -15,7 +15,7 @@ class InvoiceCreateViewController: UIViewController
     @IBOutlet weak var amount: UITextField!
     @IBOutlet weak var createButton: UIButton!
 
-    private let _dataManager = CoreDataManager()
+//    private let _dataManager = CoreDataManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,7 @@ class InvoiceCreateViewController: UIViewController
             text = loadData!.invoicePrefix! + "/"
         }
         
-        text = text + "\(_dataManager.getInvoice().count)"
+//        text = text + "\(_dataManager.getInvoice().count)"
         
         if Validate.stringNotEmpty(loadData?.invoicePostfix) {
             text = text + "/" + loadData!.invoicePostfix!
@@ -109,8 +109,8 @@ class InvoiceCreateViewController: UIViewController
         invoice.message = message.text
         invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
         invoice.amount = amountValue * 1000000
-        invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
-        CoreDataManager().commit()
+//        invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
+//        CoreDataManager().commit()
         State.invoice = invoice
         
 //        if self.delegate != nil && self.delegate!.respondsToSelector(Selector("changePage:")) {

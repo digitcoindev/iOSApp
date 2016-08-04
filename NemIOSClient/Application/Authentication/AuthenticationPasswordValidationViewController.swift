@@ -16,7 +16,7 @@ class AuthenticationPasswordValidationViewController: UIViewController
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var passwordTitle: UILabel!
     
-    let dataMeneger: CoreDataManager  = CoreDataManager()
+//    let dataMeneger: CoreDataManager  = CoreDataManager()
     
     private var _showTouchId = true
     

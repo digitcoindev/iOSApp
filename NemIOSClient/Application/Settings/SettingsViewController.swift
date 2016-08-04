@@ -16,14 +16,14 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         case Notification = 3
     }
     
-    let dataManager :CoreDataManager = CoreDataManager()
+//    let dataManager :CoreDataManager = CoreDataManager()
     
     @IBOutlet weak var tableView: UITableView!
     
     private var _content :[[[String]]] = []
     private var _loadData :LoadData? = State.loadData
     private var _popUp :UIViewController? = nil
-    private let _dataManager = CoreDataManager()
+//    private let _dataManager = CoreDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,10 +76,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             switch indexPath.row {
             case 1:
                 _createPopUp("SettingsLanguageViewController")
-            case 2:
-                if _dataManager.getWallets().count != 0 {
-                    _createPopUp("SettingsDefaultAccountViewController")
-                }
+            case 2: break
+//                if _dataManager.getWallets().count != 0 {
+//                    _createPopUp("SettingsDefaultAccountViewController")
+//                }
                 
             case 3:
                 _createPopUp("SettingsInvoiceViewController")
@@ -112,7 +112,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                     _loadData!.touchId = true
                 }
                 
-                dataManager.commit()
+//                dataManager.commit()
                 
                 _refreshData()
             default:
@@ -146,13 +146,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         var accountText = ""
-        if let account = _loadData?.currentWallet {
-            accountText = account.login
-        } else if _dataManager.getWallets().count == 0 {
-            accountText = "NO_ACCOUNTS".localized()
-        } else {
-            accountText = "NONE".localized()
-        }
+//        if let account = _loadData?.currentWallet {
+//            accountText = account.login
+//        } else if _dataManager.getWallets().count == 0 {
+//            accountText = "NO_ACCOUNTS".localized()
+//        } else {
+//            accountText = "NONE".localized()
+//        }
         
         var touchText = ""
         

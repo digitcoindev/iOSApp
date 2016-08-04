@@ -49,7 +49,7 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
 
         let loadData = State.loadData
         loadData?.updateInterval = 0
-        CoreDataManager().commit()
+//        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
@@ -103,7 +103,7 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
 
         let loadData = State.loadData
         loadData?.updateInterval = _intervals[indexPath.row]
-        CoreDataManager().commit()
+//        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }

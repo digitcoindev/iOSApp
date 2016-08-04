@@ -29,7 +29,7 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
     
     var newServer :Server? = nil
     private let _apiManager :APIManager = APIManager()
-    private let _dataManager :CoreDataManager = CoreDataManager()
+//    private let _dataManager :CoreDataManager = CoreDataManager()
     
     //MARK: - Load Methods
 
@@ -87,24 +87,24 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
             alert.show()
         }
         else {
-            let servers :[Server] =  _dataManager.getServers()
-            
-            for server in servers {
-                if server.protocolType == protocolType.text && server.address == serverAddress.text && server.port == serverPort.text {
-                    newServer = server
-                    
-                    break
-                }
-            }
+//            let servers :[Server] =  _dataManager.getServers()
+//            
+//            for server in servers {
+//                if server.protocolType == protocolType.text && server.address == serverAddress.text && server.port == serverPort.text {
+//                    newServer = server
+//                    
+//                    break
+//                }
+//            }
             
             if newServer == nil {
-                newServer =  _dataManager.addServer(protocolType.text!, address: serverAddress.text! ,port: serverPort.text!)
+//                newServer =  _dataManager.addServer(protocolType.text!, address: serverAddress.text! ,port: serverPort.text!)
             } else {
                 newServer?.address = serverAddress.text!
                 newServer?.port = serverPort.text!
                 newServer?.protocolType = protocolType.text!
                 
-                _dataManager.commit()
+//                _dataManager.commit()
             }
                         
 //            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {

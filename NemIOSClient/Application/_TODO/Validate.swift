@@ -4,14 +4,14 @@ class Validate: NSObject
 {
     
     final class func account(privateKey privateKey :String) -> String? {
-        let accounts = CoreDataManager().getWallets()
+//        let accounts = CoreDataManager().getWallets()
         
-        for account in accounts {
-            let privKey =  HashManager.AES256Decrypt(account.privateKey, key: State.loadData!.password!)
-            if privKey == privateKey {
-                return account.login
-            }
-        }
+//        for account in accounts {
+//            let privKey =  HashManager.AES256Decrypt(account.privateKey, key: State.loadData!.password!)
+//            if privKey == privateKey {
+//                return account.login
+//            }
+//        }
         
         return nil
     }

@@ -4,7 +4,7 @@ import CryptoSwift
 class ViewController: UIViewController
 {
     let deviceData : plistFileManager = plistFileManager()
-    let dataManager :CoreDataManager = CoreDataManager()
+//    let dataManager :CoreDataManager = CoreDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()

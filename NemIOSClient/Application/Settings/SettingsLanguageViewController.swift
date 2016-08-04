@@ -65,7 +65,7 @@ class SettingsLanguageViewController: UIViewController, UITableViewDataSource, U
 
         let loadData = State.loadData
         loadData?.currentLanguage = nil
-        CoreDataManager().commit()
+//        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }
@@ -94,7 +94,7 @@ class SettingsLanguageViewController: UIViewController, UITableViewDataSource, U
         LocalizationManager.setLanguage(_languages[indexPath.row])
         let loadData = State.loadData
         loadData?.currentLanguage = _languages[indexPath.row]
-        CoreDataManager().commit()
+//        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }

@@ -18,7 +18,7 @@ class SettingsInvoiceViewController: UIViewController {
     @IBOutlet weak var message: NEMTextField!
     @IBOutlet weak var saveButton: UIButton!
     
-    private let _accounts :[Wallet] = CoreDataManager().getWallets()
+//    private let _accounts :[Wallet] = CoreDataManager().getWallets()
     
     //MARK: - Load Methods
     
@@ -71,7 +71,7 @@ class SettingsInvoiceViewController: UIViewController {
         loadData?.invoicePostfix = postfix.text
         loadData?.invoiceMessage = message.text
         
-        CoreDataManager().commit()
+//        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)
     }

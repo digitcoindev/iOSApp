@@ -96,41 +96,41 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     final func setSuggestions() {
         var suggestions :[NEMTextField.Suggestion] = []
         
-        let dataManager = CoreDataManager()
-        for wallet in dataManager.getWallets() {
-            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
-            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-            
-            var find = false
-            
-            for suggestion in suggestions {
-                if suggestion.key == account_address {
-                    find = true
-                    break
-                }
-            }
-            if !find {
-                var sugest = NEMTextField.Suggestion()
-                sugest.key = account_address
-                sugest.value = account_address
-                suggestions.append(sugest)
-            }
-            
-            find = false
-            
-            for suggestion in suggestions {
-                if suggestion.key == wallet.login {
-                    find = true
-                    break
-                }
-            }
-            if !find {
-                var sugest = NEMTextField.Suggestion()
-                sugest.key = wallet.login
-                sugest.value = account_address
-                suggestions.append(sugest)
-            }
-        }
+//        let dataManager = CoreDataManager()
+//        for wallet in dataManager.getWallets() {
+//            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
+//            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+//            
+//            var find = false
+//            
+//            for suggestion in suggestions {
+//                if suggestion.key == account_address {
+//                    find = true
+//                    break
+//                }
+//            }
+//            if !find {
+//                var sugest = NEMTextField.Suggestion()
+//                sugest.key = account_address
+//                sugest.value = account_address
+//                suggestions.append(sugest)
+//            }
+//            
+//            find = false
+//            
+//            for suggestion in suggestions {
+//                if suggestion.key == wallet.login {
+//                    find = true
+//                    break
+//                }
+//            }
+//            if !find {
+//                var sugest = NEMTextField.Suggestion()
+//                sugest.key = wallet.login
+//                sugest.value = account_address
+//                suggestions.append(sugest)
+//            }
+//        }
         
         // TODO: Disable whole address book don't handle public keys
         

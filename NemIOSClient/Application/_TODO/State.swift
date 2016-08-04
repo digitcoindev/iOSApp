@@ -9,9 +9,9 @@ class State: NSObject
         static var currentVC : String = ""
         static var toVC : String = ""
         static var nextVC :String = ""
-        static var loadData :LoadData? = CoreDataManager().getLoadData()
-        static var currentWallet : Wallet? = CoreDataManager().getLoadData().currentWallet
-        static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
+//        static var loadData :LoadData? = CoreDataManager().getLoadData()
+//        static var currentWallet : Wallet? = CoreDataManager().getLoadData().currentWallet
+//        static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
         static var currentContact :Correspondent!
         static var invoice :InvoiceData? = nil
         static var exportAccount :String? = nil
@@ -33,7 +33,8 @@ class State: NSObject
     
     final class var loadData: LoadData? {
         get {
-            return State.Store.loadData
+//            return State.Store.loadData
+            return nil
         }
     }
     
@@ -96,15 +97,18 @@ class State: NSObject
     }
     
     final class var currentWallet: Wallet? {
-        get { return State.Store.currentWallet }
-        set {
-            State.Store.currentWallet = newValue
-        }
+//        get { return State.Store.currentWallet }
+//        set {
+//            State.Store.currentWallet = newValue
+//        }
+        return nil
     }
         
     final class var currentServer: Server? {
-        get { return State.Store.currentServer }
-        set { State.Store.currentServer = newValue }
+//        get { return State.Store.currentServer }
+//        set { State.Store.currentServer = newValue }
+        
+        return nil
     }
 
     final class var currentContact: Correspondent? {

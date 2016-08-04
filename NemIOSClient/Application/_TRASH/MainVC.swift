@@ -12,7 +12,7 @@ class MainVC: UIViewController , MainVCDelegate, APIManagerDelegate
 
     private var _pages :MainContainerVC = MainContainerVC()
     private let _apiManager :APIManager = APIManager()
-    private let _dataManager : CoreDataManager = CoreDataManager()
+//    private let _dataManager : CoreDataManager = CoreDataManager()
 
     //MARK: - Load Methods
     
@@ -21,12 +21,12 @@ class MainVC: UIViewController , MainVCDelegate, APIManagerDelegate
         
         _apiManager.delegate = self
         self.view.multipleTouchEnabled = false
-        State.currentServer = nil
+//        State.currentServer = nil
         
-        let servers = self._dataManager.getServers()
-        for server in servers {
-            _apiManager.heartbeat(server)
-        }
+//        let servers = self._dataManager.getServers()
+//        for server in servers {
+//            _apiManager.heartbeat(server)
+//        }
     }
     
     override func didReceiveMemoryWarning(){
@@ -56,12 +56,12 @@ class MainVC: UIViewController , MainVCDelegate, APIManagerDelegate
     
     final func heartbeatResponceFromServer(server :Server ,successed :Bool) {
         if successed && State.currentServer == nil {
-            State.currentServer = server
+//            State.currentServer = server
             
-            let loadData :LoadData = _dataManager.getLoadData()
+//            let loadData :LoadData = _dataManager.getLoadData()
             
-            loadData.currentServer = State.currentServer!
-            _dataManager.commit()
+//            loadData.currentServer = State.currentServer!
+//            _dataManager.commit()
         }
     }
 }

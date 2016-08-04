@@ -122,16 +122,16 @@ extension String
     }
     
     func nemName() -> String {
-        let dataManager = CoreDataManager()
-        for wallet in dataManager.getWallets() {
-            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
-            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-            
-            
-            if account_address == self {
-                return wallet.login
-            }
-        }
+//        let dataManager = CoreDataManager()
+//        for wallet in dataManager.getWallets() {
+//            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
+//            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+//            
+//            
+//            if account_address == self {
+//                return wallet.login
+//            }
+//        }
         
         if AddressBookManager.isAllowed ?? false {
             for contact in AddressBookManager.contacts {

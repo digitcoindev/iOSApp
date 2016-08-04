@@ -16,7 +16,7 @@ class SettingsChangePasswordViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scroll: UIScrollView!
     
-    let dataMeneger: CoreDataManager  = CoreDataManager()
+//    let dataMeneger: CoreDataManager  = CoreDataManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,16 +78,16 @@ class SettingsChangePasswordViewController: UIViewController {
         let passwordHash = try? HashManager.generateAesKeyForString(newPassword.text!, salt:salt, roundCount:2000)!
         
         
-        let loadData = dataMeneger.getLoadData()
-        loadData.salt = salt.hexadecimalString()
-        loadData.password = passwordHash?.hexadecimalString()
-        
-        for wallet in dataMeneger.getWallets() {
-            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: passwordHashOld!.hexadecimalString())
-            wallet.privateKey = HashManager.AES256Encrypt(privateKey!, key: loadData.password!)
-        }
-        
-        dataMeneger.commit()
+//        let loadData = dataMeneger.getLoadData()
+//        loadData.salt = salt.hexadecimalString()
+//        loadData.password = passwordHash?.hexadecimalString()
+//        
+//        for wallet in dataMeneger.getWallets() {
+//            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: passwordHashOld!.hexadecimalString())
+//            wallet.privateKey = HashManager.AES256Encrypt(privateKey!, key: loadData.password!)
+//        }
+//        
+//        dataMeneger.commit()
         
         self.view.removeFromSuperview()
         self.removeFromParentViewController()

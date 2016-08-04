@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */; };
 		4F26CDF11D4C45660090B98B /* AccountAddExistingKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26CDF01D4C45660090B98B /* AccountAddExistingKeyViewController.swift */; };
+		4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F675F321D50A00800F1BDD5 /* AccountManager.swift */; };
 		4F850F141D4C3BF00003E192 /* HashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F131D4C3BF00003E192 /* HashManager.swift */; };
 		4F850F171D4C3C930003E192 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F161D4C3C930003E192 /* NSData+Base64.m */; };
 		4F850F1B1D4C3D240003E192 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F1A1D4C3D240003E192 /* Crypto.m */; };
@@ -72,7 +73,7 @@
 		4F9F67E61D4C30880086F98F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E51D4C30880086F98F /* ShareViewController.swift */; };
 		4F9F67E81D4C30900086F98F /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E71D4C30900086F98F /* SocialManager.swift */; };
 		4F9F67EA1D4C31080086F98F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E91D4C31080086F98F /* AppDelegate.swift */; };
-		4F9F67EC1D4C310F0086F98F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67EB1D4C310F0086F98F /* TabBarController.swift */; };
+		4F9F67EC1D4C310F0086F98F /* AccountDetailTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67EB1D4C310F0086F98F /* AccountDetailTabBarController.swift */; };
 		4F9F67EE1D4C31140086F98F /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67ED1D4C31140086F98F /* NavigationController.swift */; };
 		4F9F67F01D4C311C0086F98F /* MoreMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */; };
 		4F9F67F21D4C31300086F98F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F67F11D4C31300086F98F /* Main.storyboard */; };
@@ -81,7 +82,7 @@
 		4F9F68021D4C33000086F98F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68011D4C33000086F98F /* NotificationManager.swift */; };
 		4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68031D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift */; };
 		4F9F68061D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68051D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift */; };
-		4F9F68081D4C33490086F98F /* AccountMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68071D4C33490086F98F /* AccountMainViewController.swift */; };
+		4F9F68081D4C33490086F98F /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68071D4C33490086F98F /* AccountListViewController.swift */; };
 		4F9F680A1D4C33510086F98F /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */; };
 		4F9F680C1D4C33570086F98F /* AccountChangeNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680B1D4C33570086F98F /* AccountChangeNameViewController.swift */; };
 		4F9F680E1D4C33630086F98F /* AccountAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680D1D4C33630086F98F /* AccountAddViewController.swift */; };
@@ -155,6 +156,9 @@
 		4F9F68981D4C39DF0086F98F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F68971D4C39DF0086F98F /* Images.xcassets */; };
 		4F9F689C1D4C39FA0086F98F /* NemIOSClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68991D4C39FA0086F98F /* NemIOSClient.xcdatamodeld */; };
 		4F9F689E1D4C3A160086F98F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F689D1D4C3A160086F98F /* Info.plist */; };
+		4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */; };
+		4FFF8F041D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F021D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld */; };
+		4FFF8F061D523BD000B4BB9F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */; };
 		9809BE271B75008F0028D082 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9809BE291B75008F0028D082 /* Localizable.strings */; };
 		9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9823A4D11B8339B400B532CC /* Correspondent.swift */; };
 		9833B70C1BC5506B009836F9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9833B70B1BC5506B009836F9 /* Enums.swift */; };
@@ -253,6 +257,7 @@
 		4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientUITests.swift; sourceTree = "<group>"; };
 		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F26CDF01D4C45660090B98B /* AccountAddExistingKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddExistingKeyViewController.swift; path = Application/Account/AccountAddExistingKeyViewController.swift; sourceTree = "<group>"; };
+		4F675F321D50A00800F1BDD5 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountManager.swift; path = Application/Account/AccountManager.swift; sourceTree = "<group>"; };
 		4F850F131D4C3BF00003E192 /* HashManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HashManager.swift; path = "Assets/Supporting Files/Crypto/HashManager.swift"; sourceTree = "<group>"; };
 		4F850F151D4C3C8F0003E192 /* NSData+Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		4F850F161D4C3C930003E192 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
@@ -305,7 +310,7 @@
 		4F9F67E51D4C30880086F98F /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Application/_TODO/ShareViewController.swift; sourceTree = "<group>"; };
 		4F9F67E71D4C30900086F98F /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Application/_TODO/SocialManager.swift; sourceTree = "<group>"; };
 		4F9F67E91D4C31080086F98F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Application/Main/AppDelegate.swift; sourceTree = "<group>"; };
-		4F9F67EB1D4C310F0086F98F /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabBarController.swift; path = Application/Main/TabBarController.swift; sourceTree = "<group>"; };
+		4F9F67EB1D4C310F0086F98F /* AccountDetailTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountDetailTabBarController.swift; path = Application/Main/AccountDetailTabBarController.swift; sourceTree = "<group>"; };
 		4F9F67ED1D4C31140086F98F /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = Application/Main/NavigationController.swift; sourceTree = "<group>"; };
 		4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMenuViewController.swift; path = Application/Main/MoreMenuViewController.swift; sourceTree = "<group>"; };
 		4F9F67F11D4C31300086F98F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Application/Main/Main.storyboard; sourceTree = "<group>"; };
@@ -314,7 +319,7 @@
 		4F9F68011D4C33000086F98F /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationManager.swift; path = Application/_TODO/NotificationManager.swift; sourceTree = "<group>"; };
 		4F9F68031D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticationPasswordCreationViewController.swift; path = Application/Authentication/AuthenticationPasswordCreationViewController.swift; sourceTree = "<group>"; };
 		4F9F68051D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticationPasswordValidationViewController.swift; path = Application/Authentication/AuthenticationPasswordValidationViewController.swift; sourceTree = "<group>"; };
-		4F9F68071D4C33490086F98F /* AccountMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountMainViewController.swift; path = Application/Account/AccountMainViewController.swift; sourceTree = "<group>"; };
+		4F9F68071D4C33490086F98F /* AccountListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountListViewController.swift; path = Application/Account/AccountListViewController.swift; sourceTree = "<group>"; };
 		4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountTableViewCell.swift; path = Application/Account/AccountTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F680B1D4C33570086F98F /* AccountChangeNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountChangeNameViewController.swift; path = Application/Account/AccountChangeNameViewController.swift; sourceTree = "<group>"; };
 		4F9F680D1D4C33630086F98F /* AccountAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddViewController.swift; path = Application/Account/AccountAddViewController.swift; sourceTree = "<group>"; };
@@ -389,6 +394,9 @@
 		4F9F689A1D4C39FA0086F98F /* NemData_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemData_2.xcdatamodel; sourceTree = "<group>"; };
 		4F9F689B1D4C39FA0086F98F /* NemIOSClient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClient.xcdatamodel; sourceTree = "<group>"; };
 		4F9F689D1D4C3A160086F98F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Assets/Property Lists/Info.plist"; sourceTree = "<group>"; };
+		4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountModel.swift; path = Models/AccountModel.swift; sourceTree = "<group>"; };
+		4FFF8F031D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClientTEMP.xcdatamodel; sourceTree = "<group>"; };
+		4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		98019A4E1CAC1E4400C61638 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		98019A4F1CAC270E00C61638 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98019A501CAC28CB00C61638 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -531,6 +539,7 @@
 			isa = PBXGroup;
 			children = (
 				4F9F68991D4C39FA0086F98F /* NemIOSClient.xcdatamodeld */,
+				4FFF8F021D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld */,
 			);
 			name = Databases;
 			sourceTree = "<group>";
@@ -547,6 +556,8 @@
 		4F13394E1D40EEF700AA126D /* _TRASH */ = {
 			isa = PBXGroup;
 			children = (
+				4F9F67B71D4C2CEE0086F98F /* Wallet.swift */,
+				4F9F688B1D4C39930086F98F /* CoreDataManager.swift */,
 				4F9F67BF1D4C2E9D0086F98F /* AbstractViewController.swift */,
 				4F9F67BD1D4C2E890086F98F /* AbstactTableViewCell.swift */,
 				4F9F67C11D4C2EBA0086F98F /* ButtonDropDown.swift */,
@@ -615,6 +626,7 @@
 		4F9827FF1D3CD0AE00A3C8B2 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */,
 				4F9F67AD1D4914F20086F98F /* _TODO */,
 			);
 			name = Networking;
@@ -623,7 +635,9 @@
 		4F9828001D3CD0BA00A3C8B2 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F68071D4C33490086F98F /* AccountMainViewController.swift */,
+				4F675F321D50A00800F1BDD5 /* AccountManager.swift */,
+				4F9F68071D4C33490086F98F /* AccountListViewController.swift */,
+				4F9F67EB1D4C310F0086F98F /* AccountDetailTabBarController.swift */,
 				4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */,
 				4F9F680B1D4C33570086F98F /* AccountChangeNameViewController.swift */,
 				4F9F680D1D4C33630086F98F /* AccountAddViewController.swift */,
@@ -784,7 +798,6 @@
 			children = (
 				4F9F68871D4C39810086F98F /* FileService.swift */,
 				4F9F68891D4C398B0086F98F /* plistFileManager.swift */,
-				4F9F688B1D4C39930086F98F /* CoreDataManager.swift */,
 				4F9F688D1D4C39980086F98F /* DoubleExtensions.swift */,
 				4F9F688F1D4C399F0086F98F /* UInt8Extensions.swift */,
 				4F9F68911D4C39A50086F98F /* NSDataExtensions.swift */,
@@ -800,6 +813,31 @@
 				4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		4FFF8EFD1D51D74700B4BB9F /* _TODO */ = {
+			isa = PBXGroup;
+			children = (
+				DA89F1111AD6982100105BB0 /* TransferTransaction.swift */,
+				DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */,
+				DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */,
+				DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */,
+				DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */,
+				DAC3A17F1B03AE2800AABB61 /* Signature.swift */,
+				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
+				DADDA24E1B21D1B500F3F5F5 /* Structs.swift */,
+				9833B70B1BC5506B009836F9 /* Enums.swift */,
+				4F9F67B91D4C2D010086F98F /* Server.swift */,
+				DA3403971B21E4DB00D514C4 /* Invoice.swift */,
+				4F9F67BB1D4C2D0F0086F98F /* LoadData.swift */,
+				9823A4D11B8339B400B532CC /* Correspondent.swift */,
+				DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */,
+				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
+				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
+				DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */,
+				9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */,
+			);
+			name = _TODO;
 			sourceTree = "<group>";
 		};
 		9809BDE81B74E8300028D082 /* Base64 */ = {
@@ -997,7 +1035,6 @@
 			isa = PBXGroup;
 			children = (
 				4F9F67E91D4C31080086F98F /* AppDelegate.swift */,
-				4F9F67EB1D4C310F0086F98F /* TabBarController.swift */,
 				4F9F67ED1D4C31140086F98F /* NavigationController.swift */,
 				4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */,
 				4F9F67F11D4C31300086F98F /* Main.storyboard */,
@@ -1010,25 +1047,8 @@
 		DA35583B1A3ADFD200AFA5FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				DA89F1111AD6982100105BB0 /* TransferTransaction.swift */,
-				DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */,
-				DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */,
-				DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */,
-				DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */,
-				DAC3A17F1B03AE2800AABB61 /* Signature.swift */,
-				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
-				DADDA24E1B21D1B500F3F5F5 /* Structs.swift */,
-				9833B70B1BC5506B009836F9 /* Enums.swift */,
-				4F9F67B71D4C2CEE0086F98F /* Wallet.swift */,
-				4F9F67B91D4C2D010086F98F /* Server.swift */,
-				DA3403971B21E4DB00D514C4 /* Invoice.swift */,
-				4F9F67BB1D4C2D0F0086F98F /* LoadData.swift */,
-				9823A4D11B8339B400B532CC /* Correspondent.swift */,
-				DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */,
-				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
-				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
-				DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */,
-				9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */,
+				4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */,
+				4FFF8EFD1D51D74700B4BB9F /* _TODO */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1284,6 +1304,7 @@
 				4F9F68301D4C351D0086F98F /* TransactionMessagesViewController.swift in Sources */,
 				4F9F68541D4C36400086F98F /* AddressBookViewController.swift in Sources */,
 				4F26CDF11D4C45660090B98B /* AccountAddExistingKeyViewController.swift in Sources */,
+				4FFF8F061D523BD000B4BB9F /* DatabaseManager.swift in Sources */,
 				DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */,
 				4F9F68861D4C39220086F98F /* UIImage+Additions.swift in Sources */,
 				4F9F68641D4C37680086F98F /* MainViewCell.swift in Sources */,
@@ -1291,6 +1312,7 @@
 				98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */,
 				98BB95D51BCCED5B002151F7 /* fe.c in Sources */,
 				4F9F681C1D4C33A40086F98F /* AccountExportWarningViewController.swift in Sources */,
+				4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */,
 				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
 				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
 				4F9F68921D4C39A50086F98F /* NSDataExtensions.swift in Sources */,
@@ -1311,14 +1333,14 @@
 				4F9F68361D4C35480086F98F /* TransactionUnconfirmedTableViewCell.swift in Sources */,
 				98BB95DE1BCCED5B002151F7 /* verify.c in Sources */,
 				4F9F684C1D4C36190086F98F /* MultisignatureSaveChangesTableViewCell.swift in Sources */,
-				4F9F67EC1D4C310F0086F98F /* TabBarController.swift in Sources */,
+				4F9F67EC1D4C310F0086F98F /* AccountDetailTabBarController.swift in Sources */,
 				4F9F683A1D4C359E0086F98F /* MessageCrypto.swift in Sources */,
 				98BB95DB1BCCED5B002151F7 /* seed.c in Sources */,
 				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
 				4F9F68961D4C39B60086F98F /* UISegmentedControlExtensions.swift in Sources */,
 				4F9F68661D4C376F0086F98F /* LocalizationManager.swift in Sources */,
 				98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */,
-				4F9F68081D4C33490086F98F /* AccountMainViewController.swift in Sources */,
+				4F9F68081D4C33490086F98F /* AccountListViewController.swift in Sources */,
 				4F9F67D01D4C2F460086F98F /* KeyCell.swift in Sources */,
 				98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */,
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
@@ -1372,6 +1394,7 @@
 				4F9F68681D4C37740086F98F /* ProfileTableViewCell.swift in Sources */,
 				DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */,
 				4F9F67E21D4C2FAB0086F98F /* DashboardVC.swift in Sources */,
+				4FFF8F041D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld in Sources */,
 				4F9F68061D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift in Sources */,
 				4F9F67DE1D4C2F930086F98F /* QRContainerVC.swift in Sources */,
 				4F9F68621D4C36C70086F98F /* SettingsViewController.swift in Sources */,
@@ -1386,6 +1409,7 @@
 				4F850F1B1D4C3D240003E192 /* Crypto.m in Sources */,
 				4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */,
 				4F9F685A1D4C36520086F98F /* AddressBookMessageViewController.swift in Sources */,
+				4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */,
 				4F9F682E1D4C35160086F98F /* TransactionSendViewController.swift in Sources */,
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
 				4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */,
@@ -1729,6 +1753,17 @@
 			currentVersion = 4F9F689B1D4C39FA0086F98F /* NemIOSClient.xcdatamodel */;
 			name = NemIOSClient.xcdatamodeld;
 			path = Assets/Databases/NemIOSClient.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		4FFF8F021D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4FFF8F031D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodel */,
+			);
+			currentVersion = 4FFF8F031D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodel */;
+			name = NemIOSClientTEMP.xcdatamodeld;
+			path = Assets/Databases/NemIOSClientTEMP.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

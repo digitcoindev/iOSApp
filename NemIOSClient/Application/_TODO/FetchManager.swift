@@ -11,7 +11,7 @@ import UIKit
 class FetchManager: NSObject, APIManagerDelegate {
     private var _accounts :[Wallet] = []
     private var _completionHandler :((UIBackgroundFetchResult) -> Void)? = nil
-    private let _dataManager = CoreDataManager()
+//    private let _dataManager = CoreDataManager()
     private let _apiManager = APIManager()
     private var _account :Wallet? = nil
     private static var _updatesStarted = false
@@ -28,14 +28,14 @@ class FetchManager: NSObject, APIManagerDelegate {
             LocalizationManager.setLanguage(language)
         }
         
-        let dataManager = CoreDataManager()
-        _accounts = dataManager.getWallets()
+//        let dataManager = CoreDataManager()
+//        _accounts = dataManager.getWallets()
         
-        let servers = dataManager.getServers()
+//        let servers = dataManager.getServers()
         
-        for inServer in servers {
-            _apiManager.heartbeat(inServer)
-        }
+//        for inServer in servers {
+//            _apiManager.heartbeat(inServer)
+//        }
     }
     
     func heartbeatResponceFromServer(server: Server, successed: Bool) {
@@ -112,7 +112,7 @@ class FetchManager: NSObject, APIManagerDelegate {
             
             NotificationManager.sheduleLocalNotificationAfter("NEM", body: message, interval: 1, userInfo: nil)
             _account?.lastTransactionHash = data.first!.hashString
-            _dataManager.commit()
+//            _dataManager.commit()
         }
         
         fetchUpdate()
