@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */; };
+		4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24A1751D54E49300AC128A /* AccountExceptions.swift */; };
 		4F26CDF11D4C45660090B98B /* AccountAddExistingKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26CDF01D4C45660090B98B /* AccountAddExistingKeyViewController.swift */; };
 		4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F675F321D50A00800F1BDD5 /* AccountManager.swift */; };
 		4F850F141D4C3BF00003E192 /* HashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F131D4C3BF00003E192 /* HashManager.swift */; };
@@ -256,6 +257,7 @@
 		4F1159D91D38FC5700E13EE0 /* NemIOSClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NemIOSClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientUITests.swift; sourceTree = "<group>"; };
 		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F24A1751D54E49300AC128A /* AccountExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExceptions.swift; path = Common/Exceptions/AccountExceptions.swift; sourceTree = "<group>"; };
 		4F26CDF01D4C45660090B98B /* AccountAddExistingKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddExistingKeyViewController.swift; path = Application/Account/AccountAddExistingKeyViewController.swift; sourceTree = "<group>"; };
 		4F675F321D50A00800F1BDD5 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountManager.swift; path = Application/Account/AccountManager.swift; sourceTree = "<group>"; };
 		4F850F131D4C3BF00003E192 /* HashManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HashManager.swift; path = "Assets/Supporting Files/Crypto/HashManager.swift"; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				DA3DD8A61A6E9DC400B45BF5 /* Cells */,
 				DA031ED71A9226E60021E98B /* Textfields */,
 				4F1159E91D38FF8C00E13EE0 /* Extensions */,
+				4F24A1741D54E43C00AC128A /* Exceptions */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -612,6 +615,14 @@
 				4F9F68391D4C359E0086F98F /* MessageCrypto.swift */,
 			);
 			name = _TODO;
+			sourceTree = "<group>";
+		};
+		4F24A1741D54E43C00AC128A /* Exceptions */ = {
+			isa = PBXGroup;
+			children = (
+				4F24A1751D54E49300AC128A /* AccountExceptions.swift */,
+			);
+			name = Exceptions;
 			sourceTree = "<group>";
 		};
 		4F9827FE1D3CCFE900A3C8B2 /* Authentication */ = {
@@ -1359,6 +1370,7 @@
 				4F9F68281D4C34EC0086F98F /* WalletGenerator.swift in Sources */,
 				4F9F68841D4C39040086F98F /* NEMTextField.swift in Sources */,
 				4F9F67C01D4C2E9D0086F98F /* AbstractViewController.swift in Sources */,
+				4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */,
 				4F9F68441D4C35F20086F98F /* InvoiceScanViewController.swift in Sources */,
 				4F9F68881D4C39810086F98F /* FileService.swift in Sources */,
 				4F9F68181D4C33900086F98F /* AccountExportViewController.swift in Sources */,

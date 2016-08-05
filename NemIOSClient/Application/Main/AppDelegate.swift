@@ -6,15 +6,23 @@
 //
 
 import UIKit
+import AlamofireNetworkActivityIndicator
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    // MARK: - Application Properties
+    
     var window: UIWindow?
+    
+    // MARK: - Application Lifecycle
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        NetworkActivityIndicatorManager.sharedManager.isEnabled = true
+        
         NotificationManager.registerForNotification(application)
+        
         return true
     }
     

@@ -16,6 +16,6 @@ public class Account: NSManagedObject {
     /// The title of the account.
     @NSManaged var title: String
     
-    /// The index/position of the account chosen by the user.
-    @NSManaged var index: Int
+    /// The position of the account in the accounts list.
+    @NSManaged var position: Int
 }
