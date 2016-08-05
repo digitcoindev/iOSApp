@@ -97,7 +97,7 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             case 1:
                 let cell :TextFieldTableViewCell = tableView.dequeueReusableCellWithIdentifier("min cosig cell") as! TextFieldTableViewCell
                 let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories ?? _addArray.count
-                let max = _activeAccount!.cosignatories.count - _removeArray.count
+                let max = _activeAccount!.cosignatories.count - _removeArray.count + _addArray.count
                 if self.minCosig != nil {
                     cell.textField.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER_CHANGED".localized()), "\(self.minCosig!)")
                 } else {
@@ -157,9 +157,9 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
             var relativeChange = 0
             
             if self.minCosig != nil {
-                relativeChange = minCosig! - _activeAccount!.minCosignatories!
+                relativeChange = minCosig! - (_activeAccount!.minCosignatories ?? 0)
             } else if _removeArray.count > 0 && (_activeAccount!.minCosignatories ?? 0) != 0 {
-                relativeChange = min( _activeAccount!.minCosignatories!, _activeAccount!.cosignatories.count - _removeArray.count) - _activeAccount!.minCosignatories!
+                relativeChange = min( (_activeAccount!.minCosignatories ?? 0), _activeAccount!.cosignatories.count - _removeArray.count) - (_activeAccount!.minCosignatories ?? 0)
             }
             
             if relativeChange != 0{
@@ -203,13 +203,12 @@ class MultisigAccountManager: AbstractViewController, UITableViewDelegate, APIMa
     
     @IBAction func minCosigChaned(sender: UITextField) {
         var isNormal = false
-        print()
         if let value = Int(sender.text!) {
             if value >= minCosigValue && value <= maxCosigValue {
                 isNormal = true
                 self.minCosig = value
                 sender.text = ""
-                let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories!
+                let currentValue = (_activeAccount!.minCosignatories == 0 || (_activeAccount!.minCosignatories ?? 0) == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : (_activeAccount!.minCosignatories ?? 0)
 
                 if currentValue == value {
                     sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(value)")
