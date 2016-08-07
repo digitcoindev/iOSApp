@@ -11,5 +11,13 @@ import Foundation
  
  */
 public enum Result: ErrorType {
+    case Success
     case Failure
+}
+
+/**
+ 
+ */
+public enum AccountTitleValidation: ErrorType {
+    case Empty
 }

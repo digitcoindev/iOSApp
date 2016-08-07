@@ -9,7 +9,7 @@ import UIKit
 import AddressBook
 import AddressBookUI
 
-class InvoiceScanViewController: UIViewController, QRDelegate, AddCustomContactDelegate
+class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCustomContactDelegate
 {
     @IBOutlet weak var qrScaner: QRCodeScannerView!
     
@@ -25,12 +25,12 @@ class InvoiceScanViewController: UIViewController, QRDelegate, AddCustomContactD
     override func viewDidAppear(animated: Bool) {
         if !_isInited {
             _isInited = true
-            qrScaner.scanQR(qrScaner.frame.width , height: qrScaner.frame.height )
+            qrScaner.scanQRCode(qrScaner.frame.width , height: qrScaner.frame.height )
         }
 //        State.currentVC = SegueToScanQR
     }
 
-    func detectedQRWithString(text: String) {
+    func detectedQRCode(withString text: String) {
         let base64String :String = text
         if base64String != "Empty scan" {
             let jsonData :NSData = text.dataUsingEncoding(NSUTF8StringEncoding)!
@@ -46,17 +46,14 @@ class InvoiceScanViewController: UIViewController, QRDelegate, AddCustomContactD
             
             if let version = jsonStructure!.objectForKey(QRKeys.Version.rawValue) as? Int {
                 if version != QR_VERSION {
-                    failedWithError("WRONG_QR_VERSION".localized()) {
-                        self.qrScaner.play()
-                    }
+                    failedWithError("WRONG_QR_VERSION".localized())
+                    self.qrScaner.play()
                     
                     return
                 }
             } else {
-                failedWithError("WRONG_QR_VERSION".localized()) {
-                    self.qrScaner.play()
-                }
-
+                failedWithError("WRONG_QR_VERSION".localized())
+                self.qrScaner.play()
                 return
             }
             
@@ -119,12 +116,11 @@ class InvoiceScanViewController: UIViewController, QRDelegate, AddCustomContactD
         }
     }
     
-    func failedWithError(text: String, completion :(Void -> Void)? = nil) {
+    func failedWithError(text: String) {
         let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             alert.dismissViewControllerAnimated(true, completion: nil)
-            completion?()
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)

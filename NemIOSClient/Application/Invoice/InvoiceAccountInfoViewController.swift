@@ -133,7 +133,7 @@ class InvoiceAccountInfoViewController: UIViewController
         let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions.PrettyPrinted)
         
         let qr :QRCodeScannerView = QRCodeScannerView()
-        qrImageView.image =  qr.createQR(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
+        qrImageView.image =  qr.createQRCodeImage(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
     }
 
     override func didReceiveMemoryWarning() {

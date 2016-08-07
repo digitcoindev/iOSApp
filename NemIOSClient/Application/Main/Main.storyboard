@@ -76,10 +76,10 @@
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--Account Add New View Controller-->
+        <!--Account Addition Menu Create New Account View Controller-->
         <scene sceneID="iKO-Rg-86B">
             <objects>
-                <viewController storyboardIdentifier="AccountAddNewViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lGh-oa-eVt" customClass="AccountAddNewViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountAdditionMenuCreateNewAccountViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lGh-oa-eVt" customClass="AccountAdditionMenuCreateNewAccountViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="40s-dh-bYo"/>
                         <viewControllerLayoutGuide type="bottom" id="jcA-ak-6sQ"/>
@@ -100,7 +100,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="nextBtnPressed:" destination="lGh-oa-eVt" eventType="touchUpInside" id="vzq-2r-hva"/>
+                                    <action selector="createAccountButtonPressed:" destination="lGh-oa-eVt" eventType="touchUpInside" id="IXC-f5-JcU"/>
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBn-QE-n0w">
@@ -122,8 +122,8 @@
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                         <connections>
-                                                            <action selector="changeField:" destination="lGh-oa-eVt" eventType="editingDidEndOnExit" id="LjO-uw-Irb"/>
-                                                            <action selector="chouseTextField:" destination="lGh-oa-eVt" eventType="touchDown" id="TWW-dp-R1f"/>
+                                                            <action selector="accountTitleTextFieldFocused:" destination="lGh-oa-eVt" eventType="touchDown" id="cLg-dy-CvF"/>
+                                                            <action selector="changeField:" destination="lGh-oa-eVt" eventType="editingDidEndOnExit" id="YIB-vC-DvS"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
@@ -137,13 +137,14 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="centerX" secondItem="KZ4-Jg-l4J" secondAttribute="centerX" id="36Z-xO-6r6"/>
                                             <constraint firstAttribute="centerY" secondItem="KZ4-Jg-l4J" secondAttribute="centerY" constant="40" id="kgx-hX-A60"/>
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="7Ln-ax-h2Q" firstAttribute="top" secondItem="IBn-QE-n0w" secondAttribute="top" id="4EM-yw-nTG"/>
                                     <constraint firstAttribute="bottom" secondItem="7Ln-ax-h2Q" secondAttribute="bottom" id="S6M-kl-DBT"/>
@@ -168,17 +169,17 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="accountTitleTextField" destination="2gH-SB-ECh" id="DrW-Ub-wdL"/>
                         <outlet property="contentView" destination="KZ4-Jg-l4J" id="BGI-0x-gEm"/>
-                        <outlet property="createButton" destination="Kfl-7c-kdl" id="GFd-UG-vcn"/>
-                        <outlet property="scroll" destination="IBn-QE-n0w" id="V8I-nV-g44"/>
-                        <outlet property="userName" destination="2gH-SB-ECh" id="1me-mg-gl0"/>
-                        <segue destination="3uA-82-ZY4" kind="unwind" identifier="unwindToAccountMainViewController" unwindAction="unwindToMenu:" id="A74-Ol-OIx"/>
+                        <outlet property="createAccountButton" destination="Kfl-7c-kdl" id="R8s-ec-kad"/>
+                        <outlet property="scrollView" destination="IBn-QE-n0w" id="EK9-ce-UaT"/>
+                        <segue destination="3uA-82-ZY4" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="A74-Ol-OIx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O45-KD-rb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="3uA-82-ZY4" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2177.5" y="-573.5"/>
+            <point key="canvasLocation" x="-1681.5" y="-573.5"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="jxn-DR-hqx">
@@ -205,7 +206,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="UE4-zv-nVi" kind="show" identifier="" id="ACJ-Dv-M4p"/>
+                                    <segue destination="3el-fO-uOs" kind="presentation" identifier="showAccountAdditionMenuViewController" id="ACJ-Dv-M4p"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="w4z-DQ-xHC">
@@ -627,7 +628,7 @@
         <!--Import Account-->
         <scene sceneID="BuE-dK-mSa">
             <objects>
-                <viewController storyboardIdentifier="AccountAddViewController" title="Import Account" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UE4-zv-nVi" customClass="AccountAddViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountAdditionMenuViewController" title="Import Account" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UE4-zv-nVi" customClass="AccountAdditionMenuViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ot2-XA-HEO"/>
                         <viewControllerLayoutGuide type="bottom" id="Dd4-fn-5gm"/>
@@ -639,7 +640,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ma-oc-JiL" userLabel="Content container UIVew">
                                 <rect key="frame" x="90" y="139" width="196" height="405"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xB2-TG-LfK" customClass="AccountAddButton" customModule="NemIOSClient" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xB2-TG-LfK" customClass="AccountAdditionMenuButton" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="283" width="196" height="122"/>
                                         <color key="backgroundColor" red="0.25490196078431371" green="0.80784313725490198" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -652,11 +653,10 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="Key:" destination="UE4-zv-nVi" eventType="touchUpInside" id="PgC-2D-SRl"/>
                                             <segue destination="grR-zF-Mkj" kind="show" id="2uK-BA-SVL"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6de-uK-R06" customClass="AccountAddButton" customModule="NemIOSClient" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6de-uK-R06" customClass="AccountAdditionMenuButton" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="141" width="196" height="122"/>
                                         <color key="backgroundColor" red="0.25490196078431371" green="0.80784313725490198" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -669,11 +669,10 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="QR:" destination="UE4-zv-nVi" eventType="touchUpInside" id="WN4-Zt-EGQ"/>
                                             <segue destination="V4J-Dz-rmH" kind="show" id="2w8-8P-A9L"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6C-oM-2r9" customClass="AccountAddButton" customModule="NemIOSClient" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6C-oM-2r9" customClass="AccountAdditionMenuButton" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="196" height="122"/>
                                         <color key="backgroundColor" red="0.25490196078431371" green="0.80784313725490198" blue="0.4823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -686,12 +685,11 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="Custom:" destination="UE4-zv-nVi" eventType="touchUpInside" id="DIR-2I-Lse"/>
-                                            <segue destination="lGh-oa-eVt" kind="show" id="DBU-Ah-adg"/>
+                                            <segue destination="lGh-oa-eVt" kind="show" identifier="showAccountAdditionMenuCreateNewAccountViewController" id="DBU-Ah-adg"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="xB2-TG-LfK" secondAttribute="centerX" id="05R-Ib-q1O"/>
                                     <constraint firstAttribute="centerX" secondItem="I6C-oM-2r9" secondAttribute="centerX" id="0nY-dR-JHt"/>
@@ -710,22 +708,30 @@
                             <constraint firstAttribute="centerY" secondItem="0Ma-oc-JiL" secondAttribute="centerY" constant="-40" id="khp-cd-J1M"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="dBr-mZ-D9Q">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7IM-kb-gnA">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="cancel:" destination="UE4-zv-nVi" id="0k9-Nu-nNl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="custom" destination="I6C-oM-2r9" id="xyK-g5-tsd"/>
-                        <outlet property="key" destination="xB2-TG-LfK" id="OfT-jI-p0x"/>
-                        <outlet property="qr" destination="6de-uK-R06" id="1S2-Gm-pIJ"/>
+                        <outlet property="addExistingAccountViaPrivateKeyButton" destination="xB2-TG-LfK" id="pgt-9c-ETA"/>
+                        <outlet property="addExistingAccountViaQRCodeButton" destination="6de-uK-R06" id="vPn-HY-FjG"/>
+                        <outlet property="createNewAccountButton" destination="I6C-oM-2r9" id="YoH-gN-bQZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ady-7v-bJs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2673.5" y="-573.5"/>
+            <point key="canvasLocation" x="-2177.5" y="-573.5"/>
         </scene>
-        <!--Account Add ExistingQR View Controller-->
+        <!--Account Addition Menu Add Existing AccountQR View Controller-->
         <scene sceneID="4qn-RK-O3n">
             <objects>
-                <viewController storyboardIdentifier="AccountAddExistingQRViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="V4J-Dz-rmH" customClass="AccountAddExistingQRViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountAdditionMenuAddExistingAccountQRViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="V4J-Dz-rmH" customClass="AccountAdditionMenuAddExistingAccountQRViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Cbq-8g-rgO"/>
                         <viewControllerLayoutGuide type="bottom" id="SgJ-EN-6Ue"/>
@@ -735,31 +741,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="deq-Fi-qrg" customClass="QRCodeScannerView" customModule="NemIOSClient" customModuleProvider="target">
-                                <rect key="frame" x="16" y="0.0" width="343" height="343"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="deq-Fi-qrg" secondAttribute="height" multiplier="1:1" id="1bp-Xg-CiW"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="deq-Fi-qrg" firstAttribute="trailing" secondItem="1Kp-n8-3xP" secondAttribute="trailingMargin" id="Ph2-gv-eJ5"/>
-                            <constraint firstItem="deq-Fi-qrg" firstAttribute="leading" secondItem="1Kp-n8-3xP" secondAttribute="leadingMargin" id="R89-ee-dt5"/>
-                            <constraint firstItem="deq-Fi-qrg" firstAttribute="centerX" secondItem="1Kp-n8-3xP" secondAttribute="centerX" id="c4i-sT-rIM"/>
+                            <constraint firstItem="deq-Fi-qrg" firstAttribute="leading" secondItem="1Kp-n8-3xP" secondAttribute="leading" id="2Uq-Zs-15n"/>
+                            <constraint firstItem="deq-Fi-qrg" firstAttribute="top" secondItem="Cbq-8g-rgO" secondAttribute="bottom" id="Sei-z7-YbM"/>
                             <constraint firstItem="deq-Fi-qrg" firstAttribute="top" secondItem="Cbq-8g-rgO" secondAttribute="bottom" id="f4N-Go-vhO"/>
+                            <constraint firstAttribute="trailing" secondItem="deq-Fi-qrg" secondAttribute="trailing" id="jme-11-xds"/>
+                            <constraint firstItem="SgJ-EN-6Ue" firstAttribute="top" secondItem="deq-Fi-qrg" secondAttribute="bottom" id="nFQ-ps-c2P"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="screenScaner" destination="deq-Fi-qrg" id="ljK-GH-EQr"/>
+                        <outlet property="qrCodeScannerView" destination="deq-Fi-qrg" id="OdO-F9-IZs"/>
                         <segue destination="EY9-DV-SIG" kind="show" identifier="showAccountPasswordValidationViewController" id="9qO-lx-esh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4QA-pN-Gjc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1697.5" y="-573.5"/>
+            <point key="canvasLocation" x="-1201.5" y="-573.5"/>
         </scene>
         <!--Account Add Existing Key View Controller-->
         <scene sceneID="9Fz-t1-ddX">
@@ -883,7 +887,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JkU-Ng-CkL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="tqC-86-auS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1217.5" y="-573.5"/>
+            <point key="canvasLocation" x="-721.5" y="-573.5"/>
         </scene>
         <!--Harvesting View Controller-->
         <scene sceneID="YBE-Pf-91O">
@@ -4829,7 +4833,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1uR-Eg-CjV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-737.5" y="-573.5"/>
+            <point key="canvasLocation" x="-241.5" y="-573.5"/>
         </scene>
         <!--Settings Default Account View Controller-->
         <scene sceneID="u0f-iJ-Mtj">
@@ -5965,6 +5969,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EyU-nn-chA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3167" y="-1401"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Ws2-Sh-xZn">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3el-fO-uOs" customClass="NavigationController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="svd-vi-ga3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="UE4-zv-nVi" kind="relationship" relationship="rootViewController" id="aUV-zH-oJl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Rs-yk-Xr2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2673.5" y="-573.5"/>
         </scene>
     </scenes>
     <resources>

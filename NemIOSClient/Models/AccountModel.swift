@@ -18,4 +18,7 @@ public class Account: NSManagedObject {
     
     /// The position of the account in the accounts list.
     @NSManaged var position: Int
+    
+    /// The hashed private key of the account.
+    @NSManaged var privateKey: String
 }

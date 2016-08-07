@@ -86,10 +86,10 @@
 		4F9F68081D4C33490086F98F /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68071D4C33490086F98F /* AccountListViewController.swift */; };
 		4F9F680A1D4C33510086F98F /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */; };
 		4F9F680C1D4C33570086F98F /* AccountChangeNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680B1D4C33570086F98F /* AccountChangeNameViewController.swift */; };
-		4F9F680E1D4C33630086F98F /* AccountAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680D1D4C33630086F98F /* AccountAddViewController.swift */; };
-		4F9F68101D4C336C0086F98F /* AccountAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680F1D4C336C0086F98F /* AccountAddButton.swift */; };
-		4F9F68121D4C33760086F98F /* AccountAddNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68111D4C33760086F98F /* AccountAddNewViewController.swift */; };
-		4F9F68161D4C338A0086F98F /* AccountAddExistingQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68151D4C338A0086F98F /* AccountAddExistingQRViewController.swift */; };
+		4F9F680E1D4C33630086F98F /* AccountAdditionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */; };
+		4F9F68101D4C336C0086F98F /* AccountAdditionMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680F1D4C336C0086F98F /* AccountAdditionMenuButton.swift */; };
+		4F9F68121D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68111D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift */; };
+		4F9F68161D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68151D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift */; };
 		4F9F68181D4C33900086F98F /* AccountExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68171D4C33900086F98F /* AccountExportViewController.swift */; };
 		4F9F681A1D4C339F0086F98F /* AccountExportPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */; };
 		4F9F681C1D4C33A40086F98F /* AccountExportWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F681B1D4C33A40086F98F /* AccountExportWarningViewController.swift */; };
@@ -324,10 +324,10 @@
 		4F9F68071D4C33490086F98F /* AccountListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountListViewController.swift; path = Application/Account/AccountListViewController.swift; sourceTree = "<group>"; };
 		4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountTableViewCell.swift; path = Application/Account/AccountTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F680B1D4C33570086F98F /* AccountChangeNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountChangeNameViewController.swift; path = Application/Account/AccountChangeNameViewController.swift; sourceTree = "<group>"; };
-		4F9F680D1D4C33630086F98F /* AccountAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddViewController.swift; path = Application/Account/AccountAddViewController.swift; sourceTree = "<group>"; };
-		4F9F680F1D4C336C0086F98F /* AccountAddButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddButton.swift; path = Application/Account/AccountAddButton.swift; sourceTree = "<group>"; };
-		4F9F68111D4C33760086F98F /* AccountAddNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddNewViewController.swift; path = Application/Account/AccountAddNewViewController.swift; sourceTree = "<group>"; };
-		4F9F68151D4C338A0086F98F /* AccountAddExistingQRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddExistingQRViewController.swift; path = Application/Account/AccountAddExistingQRViewController.swift; sourceTree = "<group>"; };
+		4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuViewController.swift; path = Application/Account/AccountAdditionMenuViewController.swift; sourceTree = "<group>"; };
+		4F9F680F1D4C336C0086F98F /* AccountAdditionMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuButton.swift; path = Application/Account/AccountAdditionMenuButton.swift; sourceTree = "<group>"; };
+		4F9F68111D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuCreateNewAccountViewController.swift; path = Application/Account/AccountAdditionMenuCreateNewAccountViewController.swift; sourceTree = "<group>"; };
+		4F9F68151D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuAddExistingAccountQRViewController.swift; path = Application/Account/AccountAdditionMenuAddExistingAccountQRViewController.swift; sourceTree = "<group>"; };
 		4F9F68171D4C33900086F98F /* AccountExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportViewController.swift; path = Application/Account/AccountExportViewController.swift; sourceTree = "<group>"; };
 		4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportPasswordViewController.swift; path = Application/Account/AccountExportPasswordViewController.swift; sourceTree = "<group>"; };
 		4F9F681B1D4C33A40086F98F /* AccountExportWarningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportWarningViewController.swift; path = Application/Account/AccountExportWarningViewController.swift; sourceTree = "<group>"; };
@@ -559,6 +559,9 @@
 		4F13394E1D40EEF700AA126D /* _TRASH */ = {
 			isa = PBXGroup;
 			children = (
+				4F9F68251D4C34E70086F98F /* KeyGenerator.swift */,
+				4F9F68271D4C34EC0086F98F /* WalletGenerator.swift */,
+				4F9F680B1D4C33570086F98F /* AccountChangeNameViewController.swift */,
 				4F9F67B71D4C2CEE0086F98F /* Wallet.swift */,
 				4F9F688B1D4C39930086F98F /* CoreDataManager.swift */,
 				4F9F67BF1D4C2E9D0086F98F /* AbstractViewController.swift */,
@@ -590,8 +593,6 @@
 			children = (
 				4F9F68211D4C34D80086F98F /* Validate.swift */,
 				4F9F68231D4C34E00086F98F /* AddressGenerator.swift */,
-				4F9F68251D4C34E70086F98F /* KeyGenerator.swift */,
-				4F9F68271D4C34EC0086F98F /* WalletGenerator.swift */,
 			);
 			name = _TODO;
 			sourceTree = "<group>";
@@ -649,18 +650,17 @@
 				4F675F321D50A00800F1BDD5 /* AccountManager.swift */,
 				4F9F68071D4C33490086F98F /* AccountListViewController.swift */,
 				4F9F67EB1D4C310F0086F98F /* AccountDetailTabBarController.swift */,
-				4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */,
-				4F9F680B1D4C33570086F98F /* AccountChangeNameViewController.swift */,
-				4F9F680D1D4C33630086F98F /* AccountAddViewController.swift */,
-				4F9F680F1D4C336C0086F98F /* AccountAddButton.swift */,
-				4F9F68111D4C33760086F98F /* AccountAddNewViewController.swift */,
-				4F9F68151D4C338A0086F98F /* AccountAddExistingQRViewController.swift */,
+				4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */,
+				4F9F680F1D4C336C0086F98F /* AccountAdditionMenuButton.swift */,
+				4F9F68111D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift */,
+				4F9F68151D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift */,
 				4F26CDF01D4C45660090B98B /* AccountAddExistingKeyViewController.swift */,
 				4F9F68171D4C33900086F98F /* AccountExportViewController.swift */,
 				4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */,
 				4F9F681B1D4C33A40086F98F /* AccountExportWarningViewController.swift */,
 				4F9F681D1D4C33AE0086F98F /* AccountChooserViewController.swift */,
 				4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */,
+				4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */,
 				4F13394F1D41FAE400AA126D /* _TODO */,
 			);
 			name = Account;
@@ -924,7 +924,7 @@
 			name = "RIPEMD-160";
 			sourceTree = "<group>";
 		};
-		DA194E051A431C690030C882 /* Crypto */ = {
+		DA194E051A431C690030C882 /* Cryptography */ = {
 			isa = PBXGroup;
 			children = (
 				4F850F131D4C3BF00003E192 /* HashManager.swift */,
@@ -935,7 +935,7 @@
 				DA29789B1AB9BC85002F65BD /* Base32 */,
 				DA173CE11AA87CCE003AC21F /* RIPEMD-160 */,
 			);
-			name = Crypto;
+			name = Cryptography;
 			sourceTree = "<group>";
 		};
 		DA29789A1AB9BC78002F65BD /* SHA3 (Keccak) */ = {
@@ -1000,7 +1000,7 @@
 		DA3558031A39D3BA00AFA5FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				DA194E051A431C690030C882 /* Crypto */,
+				DA194E051A431C690030C882 /* Cryptography */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1289,8 +1289,8 @@
 				DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */,
 				4F9F67F41D4C32480086F98F /* State.swift in Sources */,
 				4F9F681A1D4C339F0086F98F /* AccountExportPasswordViewController.swift in Sources */,
-				4F9F680E1D4C33630086F98F /* AccountAddViewController.swift in Sources */,
-				4F9F68161D4C338A0086F98F /* AccountAddExistingQRViewController.swift in Sources */,
+				4F9F680E1D4C33630086F98F /* AccountAdditionMenuViewController.swift in Sources */,
+				4F9F68161D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift in Sources */,
 				4F9F68601D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift in Sources */,
 				4F9F68341D4C35430086F98F /* TransactionUnconfirmedViewController.swift in Sources */,
 				4F9F682A1D4C35070086F98F /* TransactionOverviewViewController.swift in Sources */,
@@ -1303,7 +1303,7 @@
 				4F850F171D4C3C930003E192 /* NSData+Base64.m in Sources */,
 				4F9F67BC1D4C2D0F0086F98F /* LoadData.swift in Sources */,
 				4F9F686C1D4C37830086F98F /* ServerViewCell.swift in Sources */,
-				4F9F68101D4C336C0086F98F /* AccountAddButton.swift in Sources */,
+				4F9F68101D4C336C0086F98F /* AccountAdditionMenuButton.swift in Sources */,
 				4F9F68741D4C37B50086F98F /* SettingsAboutViewController.swift in Sources */,
 				4F9F682C1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift in Sources */,
 				4F9F67DC1D4C2F8A0086F98F /* AddCosignatoryVC.swift in Sources */,
@@ -1378,7 +1378,7 @@
 				4F850F2C1D4C3F300003E192 /* FetchManager.swift in Sources */,
 				4F850F2A1D4C3F2B0003E192 /* APIManager.swift in Sources */,
 				4F9F68261D4C34E70086F98F /* KeyGenerator.swift in Sources */,
-				4F9F68121D4C33760086F98F /* AccountAddNewViewController.swift in Sources */,
+				4F9F68121D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift in Sources */,
 				98BB95DA1BCCED5B002151F7 /* sc.c in Sources */,
 				4F9F68821D4C387B0086F98F /* DetailedTableViewCell.swift in Sources */,
 				4F9F67E01D4C2FA20086F98F /* DashboardContainer.swift in Sources */,

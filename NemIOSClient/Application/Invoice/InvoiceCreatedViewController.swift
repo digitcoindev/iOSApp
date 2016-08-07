@@ -110,7 +110,7 @@ class InvoiceCreatedViewController: UIViewController, MFMailComposeViewControlle
         
         let qr :QRCodeScannerView = QRCodeScannerView()
         
-        qrImageView.image =  qr.createQR(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
+        qrImageView.image =  qr.createQRCodeImage(String(data: jsonData, encoding: NSUTF8StringEncoding)!)
 
     }
     

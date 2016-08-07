@@ -20,7 +20,7 @@ public class AccountManager {
     /// The singleton for the account manager.
     public static let sharedInstance = AccountManager()
     
-    // MARK: - Manager Methods
+    // MARK: - Public Manager Methods
     
     /**
         Fetches all stored accounts from the database.
@@ -38,16 +38,30 @@ public class AccountManager {
         Creates a new account object and stores that object in the database.
      
         - Parameter title: The title/name of the new account.
+     
+        - Returns: The result of the operation - success or failure.
      */
-    public func create(account title: String) {
+    public func create(account title: String, completion: (result: Result) -> Void) {
         
         DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+            
+            let privateKey = self.generatePrivateKey()
+            let privateKeyHash = self.createHash(forPrivateKey: privateKey)
             
             let account = transaction.create(Into(Account))
             account.title = title
             account.position = self.maxPosition() + 1
+            account.privateKey = privateKeyHash
             
-            transaction.commit()
+            transaction.commit { (result) -> Void in
+                switch result {
+                case .Success( _):
+                    return completion(result: .Success)
+                    
+                case .Failure( _):
+                    return completion(result: .Failure)
+                }
+            }
         }
     }
     
@@ -67,6 +81,7 @@ public class AccountManager {
         DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
             
             transaction.delete(account)
+            
             transaction.commit()
         }
     }
@@ -91,6 +106,25 @@ public class AccountManager {
     }
     
     /**
+        Updates the saved title/name for an account in the database.
+     
+        - Parameter account: The existing account that should get updated.
+        - Parameter title: The new title for the account that should get updated.
+     */
+    public func updateTitle(forAccount account: Account, withNewTitle title: String) {
+        
+        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+            
+            let editableAccount = transaction.edit(account)!
+            editableAccount.title = title
+            
+            transaction.commit()
+        }
+    }
+    
+    // MARK: - Private Manager Methods
+    
+    /**
         Fetches the position for the last account in the account list.
      
         - Returns: The position of the last account in the account list as an integer.
@@ -100,5 +134,49 @@ public class AccountManager {
         let maxPosition = DatabaseManager.sharedInstance.dataStack.queryValue(From(Account), Select<Int>(.Maximum("position")))
         
         return maxPosition!
+    }
+    
+    /// Generates a new and unique private key.
+    private func generatePrivateKey() -> String {
+        
+        var privateKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
+        createPrivateKey(&privateKeyBytes)
+        
+        let privateKey: String = NSData(bytes: &privateKeyBytes, length: 32).toHexString()
+        
+        return privateKey
+    }
+    
+    /**
+        Generates the public key for the provided private key.
+     
+        - Parameter privateKey: The private key for which the public key should get generated.
+     
+        - Returns: The generated public key as a string.
+     */
+    private func generatePublicKey(forPrivateKey privateKey: String) -> String {
+        
+        var publicKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
+        var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(privateKey.asByteArray().count)
+        createPublicKey(&publicKeyBytes, &privateKeyBytes)
+        
+        let publicKey: String = NSData(bytes: &publicKeyBytes, length: 32).toHexString()
+        
+        return publicKey
+    }
+    
+    /**
+        Creates a hash from the provided private key and application password.
+        
+        - Parameter privateKey: The private key that should get hashed.
+     
+        - Returns: The hashed private key as a string.
+     */
+    private func createHash(forPrivateKey privateKey: String) -> String {
+        
+        let passwordHash = NSData(bytes: "1234".asByteArray())
+        let privateKeyHash = HashManager.AES256Encrypt(privateKey, key: passwordHash.toHexString())
+        
+        return privateKeyHash
     }
 }

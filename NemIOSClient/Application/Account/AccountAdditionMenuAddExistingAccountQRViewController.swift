@@ -1,5 +1,5 @@
 //
-//  AccountAddExistingQRViewController.swift
+//  AccountAdditionMenuAddExistingAccountQRViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -7,65 +7,68 @@
 
 import UIKit
 
-class AccountAddExistingQRViewController: UIViewController, QRDelegate
-{
-    //MARK: - IBOulets
-
-    @IBOutlet weak var screenScaner: QRCodeScannerView!
+/**
+    The account addition view controller that lets the user add an existing
+    account through scanning the qr code for the account.
+ */
+class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     
     private var _isInited = false
+    
+    // MARK: - View Controller Outlets
 
-    //MARK: - Load Methods
+    @IBOutlet weak var qrCodeScannerView: QRCodeScannerView!
+
+    // MARK: - View Controller Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        screenScaner.delegate = self
+        updateViewControllerAppearance()
         
-        title = "SCAN_QR_CODE".localized()
+        qrCodeScannerView.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {
         if !_isInited {
             _isInited = true
-            screenScaner.scanQR(screenScaner.frame.width , height: screenScaner.frame.height )
+            qrCodeScannerView.scanQRCode(qrCodeScannerView.frame.width , height: qrCodeScannerView.frame.height)
         }
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    private func updateViewControllerAppearance() {
         
-//        State.currentVC = SegueToImportFromQR
+        title = "SCAN_QR_CODE".localized()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+}
 
+extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDelegate {
     
-    //MARK: - QRDelegate Methods
-    
-    func detectedQRWithString(text: String) {
-        guard let jsonData = text.dataUsingEncoding(NSUTF8StringEncoding) else {
-            screenScaner.play()
+    func detectedQRCode(withString string: String) {
+        
+        guard let jsonData = string.dataUsingEncoding(NSUTF8StringEncoding) else {
+            qrCodeScannerView.play()
             return
         }
         var jsonStructure :NSDictionary? = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as? NSDictionary
-
+        
         if let version = jsonStructure!.objectForKey(QRKeys.Version.rawValue) as? Int {
             if version != QR_VERSION {
-                failedWithError("WRONG_QR_VERSION".localized()) {
-                    self.screenScaner.play()
-                }
-                
+                failedWithError("WRONG_QR_VERSION".localized())
+                self.qrCodeScannerView.play()
                 return
             }
         } else {
-            failedWithError("WRONG_QR_VERSION".localized()) {
-                self.screenScaner.play()
-            }
-            
+            failedWithError("WRONG_QR_VERSION".localized())
+            self.qrCodeScannerView.play()
             return
         }
         
         if jsonStructure == nil {
-            screenScaner.play()
+            qrCodeScannerView.play()
         }
         else if jsonStructure!.objectForKey(QRKeys.DataType.rawValue) as! Int == QRType.AccountData.rawValue {
             jsonStructure = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as? NSDictionary
@@ -77,8 +80,8 @@ class AccountAddExistingQRViewController: UIViewController, QRDelegate
                 let saltBytes = salt.asByteArray()
                 let saltData = NSData(bytes: saltBytes, length: saltBytes.count)
                 
-//                State.fromVC = SegueToImportFromQR
-//                State.nextVC = SegueToLoginVC
+                //                State.fromVC = SegueToImportFromQR
+                //                State.nextVC = SegueToLoginVC
                 
                 State.importAccountData = {
                     (password) -> Bool in
@@ -90,7 +93,7 @@ class AccountAddExistingQRViewController: UIViewController, QRDelegate
                     if let name = Validate.account(privateKey: normalizedKey) {
                         let alert = UIAlertView(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[name]), delegate: self, cancelButtonTitle: "OK".localized())
                         alert.show()
-
+                        
                         return true
                     }
                     
@@ -103,16 +106,16 @@ class AccountAddExistingQRViewController: UIViewController, QRDelegate
             }
         }
         else {
-            screenScaner.play()
+            qrCodeScannerView.play()
         }
     }
     
-    func failedWithError(text: String, completion :(Void -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    func failedWithError(error: String) {
+        
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: error, preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             alert.dismissViewControllerAnimated(true, completion: nil)
-            completion?()
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)

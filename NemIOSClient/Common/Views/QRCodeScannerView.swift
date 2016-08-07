@@ -8,133 +8,127 @@
 import UIKit
 import AVFoundation
 
-@objc protocol QRDelegate: class
-{
-    func detectedQRWithString(text :String)
-    optional func failedWithError(text :String)
+protocol QRCodeScannerDelegate {
+    func detectedQRCode(withString string: String)
+    func failedWithError(error: String)
 }
 
-class QRCodeScannerView: UIView , AVCaptureMetadataOutputObjectsDelegate
-{
-    //MARK: - Local Variables
+class QRCodeScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
+    
+    // MARK: - View Properties
 
-    weak var delegate :QRDelegate? = nil
-    let previewLayer = AVCaptureVideoPreviewLayer()
-    var currentresult :String!
-    let session :AVCaptureSession = AVCaptureSession()
-    let qrImg :UIImageView = UIImageView()
+    var delegate: QRCodeScannerDelegate?
+    
+    let captureSession :AVCaptureSession = AVCaptureSession()
+    let capturePreviewLayer = AVCaptureVideoPreviewLayer()
     let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+    let qrCodeImageView = UIImageView()
+    var captureResult = String()
 
-    //MARK: - Load Methods
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    // MARK: - View Helper Methods
+    
+    func scanQRCode(width: CGFloat, height: CGFloat) {
+        
+        guard device != nil else {
+            let error = "Failed to access device camera"
+            delegate?.failedWithError(error)
+            return
+        }
+        
+        let captureInput = try? AVCaptureDeviceInput(device: device)
+        let captureOutput = AVCaptureMetadataOutput()
+        let bounds: CGRect = CGRect(x: width / 2, y: height / 2, width: width, height: height)
+        
+        guard captureInput != nil else {
+            let error = "Failed to access device camera"
+            delegate?.failedWithError(error)
+            return
+        }
+        
+        captureSession.addInput(captureInput)
+        captureOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
+        captureSession.addOutput(captureOutput)
+        captureOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+        
+        capturePreviewLayer.session = captureSession
+        capturePreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        capturePreviewLayer.bounds = bounds
+        capturePreviewLayer.position = bounds.origin
+        layer.addSublayer(capturePreviewLayer)
+        
+        captureSession.startRunning()
+        
+        qrCodeImageView.hidden = true
+        qrCodeImageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+        qrCodeImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        
+        addSubview(qrCodeImageView)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
-    //MARK: - QR Methods
-
-    final func scanQR(width :CGFloat , height :CGFloat) {
-        if((device) != nil) {
-            let input = try? AVCaptureDeviceInput(device: device)
-            let output = AVCaptureMetadataOutput()
-            let bounds:CGRect = CGRect(x: width / 2, y: height / 2, width: width, height: height)
-
-            if input != nil {
-                session.addInput(input)
-            } else {
-                let errorString = "Fail to access device camera"
-                
-                if self.delegate != nil {
-                    self.delegate!.failedWithError!(errorString)
-                }
-                return
-            }
-            
-            output.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
-            session.addOutput(output)
-            output.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
-            
-            previewLayer.session =  session
-            previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-            previewLayer.bounds = bounds
-            previewLayer.position = bounds.origin
-            
-            self.layer.addSublayer(previewLayer)
-            session.startRunning()
-            
-            qrImg.hidden = true
-            qrImg.frame = CGRect(x: 0, y:0, width: self.frame.width, height: self.frame.height)
-            qrImg.contentMode = UIViewContentMode.ScaleAspectFit
-            
-            self.addSubview(qrImg)
-        }
-        else {
-            let errorString = "Fail to access device camera"
-            
-            if self.delegate != nil {
-                self.delegate!.failedWithError!(errorString)
-            }
-        }
-    }
-    
-    //MARK: - QR Methods Helper
-
+    /**
+ 
+     */
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+        
         for item in metadataObjects {
-            if let metadataObject = item as? AVMetadataMachineReadableCodeObject {
-                if metadataObject.type == AVMetadataObjectTypeQRCode {
-                    currentresult =  metadataObject.stringValue
-                    
-                    qrImg.image = createQR(currentresult)
-                    
-                    self.stop()
-                    
-                    if self.delegate != nil {
-                        self.delegate!.detectedQRWithString(currentresult)
-                    }
-                }
+            if let metadataObject = item as? AVMetadataMachineReadableCodeObject where metadataObject.type == AVMetadataObjectTypeQRCode {
+                
+                captureResult = metadataObject.stringValue
+                qrCodeImageView.image = createQRCodeImage(captureResult)
+                
+                stop()
+                delegate?.detectedQRCode(withString: captureResult)
             }
         }
     }
     
-    //MARK: - Control Methods
-
-    final func play() {
-        session.startRunning()
-        qrImg.hidden = true
-        previewLayer.hidden = false
+    /**
+ 
+     */
+    func play() {
+        captureSession.startRunning()
+        qrCodeImageView.hidden = true
+        capturePreviewLayer.hidden = false
     }
     
-    final func stop() {
-        session.stopRunning()
-        previewLayer.hidden = true
-        qrImg.hidden = false
+    /**
+ 
+     */
+    func stop() {
+        captureSession.stopRunning()
+        capturePreviewLayer.hidden = true
+        qrCodeImageView.hidden = false
     }
     
-    //MARK: - QR Helper Methods
-    
-    final func createQR(inputStr :String) -> UIImage {
-        let qrCIImage: CIImage = createQRForString(inputStr)
-        let qrUIImage: UIImage = createNonInterpolatedUIImageFromCIImage(qrCIImage, scale: 10);
+    /**
+ 
+     */
+    func createQRCodeImage(inputString: String) -> UIImage {
         
-        return UIImage(CGImage: qrUIImage.CGImage!, scale: 1.0, orientation: .DownMirrored)
+        let qrCodeCIImage: CIImage = createQRCodeCIImage(forString: inputString)
+        let qrCodeUIImage: UIImage = createNonInterpolatedUIImage(fromCIImage: qrCodeCIImage, scale: 10)
+        
+        return UIImage(CGImage: qrCodeUIImage.CGImage!, scale: 1.0, orientation: .DownMirrored)
     }
     
-    func createQRForString (qrString :NSString ) -> CIImage {
-        let srtingData: NSData  = qrString.dataUsingEncoding(NSUTF8StringEncoding)!
-        let qrFilter: CIFilter = CIFilter(name: "CIQRCodeGenerator")!
+    /**
+ 
+     */
+    func createQRCodeCIImage(forString qrCodeString: NSString) -> CIImage {
         
-        qrFilter.setValue(srtingData, forKey: "inputMessage")
-        qrFilter.setValue("M", forKey: "inputCorrectionLevel")
+        let stringData: NSData = qrCodeString.dataUsingEncoding(NSUTF8StringEncoding)!
+        let qrCodeFilter: CIFilter = CIFilter(name: "CIQRCodeGenerator")!
+        qrCodeFilter.setValue(stringData, forKey: "inputMessage")
+        qrCodeFilter.setValue("M", forKey: "inputCorrectionLevel")
         
-        return qrFilter.outputImage!;
+        return qrCodeFilter.outputImage!
     }
     
-    func createNonInterpolatedUIImageFromCIImage(image:CIImage , scale:CGFloat) -> UIImage {
+    /**
+ 
+     */
+    func createNonInterpolatedUIImage(fromCIImage image: CIImage, scale: CGFloat) -> UIImage {
+        
         let cgImage: CGImageRef = CIContext(options: nil).createCGImage(image, fromRect: image.extent)
         
         UIGraphicsBeginImageContext(CGSizeMake(image.extent.size.width * scale, image.extent.size.height * scale ))

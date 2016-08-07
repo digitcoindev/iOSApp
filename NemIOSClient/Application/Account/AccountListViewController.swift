@@ -34,6 +34,16 @@ class AccountListViewController: UIViewController {
         createEditButtonItemIfNeeded()
     }
     
+    /// Needed for a smooth appearance of the alert view controller.
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    
+    /// Needed for a smooth appearance of the alert view controller.
+    override func canResignFirstResponder() -> Bool {
+        return true
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         switch segue.identifier! {
@@ -80,7 +90,9 @@ class AccountListViewController: UIViewController {
         let account = accounts[indexPath.row]
         
         let accountDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), account.title), preferredStyle: .Alert)
+        
         accountDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
+        
         accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Destructive, handler: { (action) in
             
             self.accounts.removeAtIndex(indexPath.row)
@@ -113,19 +125,29 @@ class AccountListViewController: UIViewController {
     }
     
     /**
- 
+        Asks the user to change the title for an existing account and makes
+        the change accordingly.
+     
+        - Parameter indexPath: The index path of the account that should get updated.
      */
     private func changeTitle(forAccountAtIndexPath indexPath: NSIndexPath) {
         
         let account = accounts[indexPath.row]
         
         let accountTitleChangerAlert = UIAlertController(title: "CHANGE".localized(), message: "INPUT_NEW_ACCOUNT_NAME".localized(), preferredStyle: .Alert)
+        
         accountTitleChangerAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
+        
         accountTitleChangerAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: { (action) in
             
             let titleTextField = accountTitleChangerAlert.textFields![0] as UITextField
-            
-            print(titleTextField.text)
+            if let newTitle = titleTextField.text {
+                
+                self.accounts[indexPath.row].title = newTitle
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                
+                AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[indexPath.row], withNewTitle: newTitle)
+            }
         }))
         
         accountTitleChangerAlert.addTextFieldWithConfigurationHandler { (textField) in
@@ -135,11 +157,15 @@ class AccountListViewController: UIViewController {
         presentViewController(accountTitleChangerAlert, animated: true, completion: nil)
     }
     
-    // TODO:
+    // MARK: - View Controller Outlet Actions
     
-    @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
+    /**
+        Unwinds to the account list view controller and reloads all
+        accounts to show.
+     */
+    @IBAction func unwindToAccountListViewController(segue: UIStoryboardSegue) {
         
-//        wallets  = dataManager.getWallets()
+        accounts = AccountManager.sharedInstance.accounts()
         tableView.reloadData()
     }
 }
@@ -203,6 +229,7 @@ extension AccountListViewController: UITableViewDelegate {
         
         if tableView.editing {
             changeTitle(forAccountAtIndexPath: indexPath)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         } else {
             performSegueWithIdentifier("showAccountDetailTabBarController", sender: nil)
         }
