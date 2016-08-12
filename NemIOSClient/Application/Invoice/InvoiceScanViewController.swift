@@ -30,7 +30,7 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
 //        State.currentVC = SegueToScanQR
     }
 
-    func detectedQRCode(withString text: String) {
+    func detectedQRCode(withCaptureResult text: String) {
         let base64String :String = text
         if base64String != "Empty scan" {
             let jsonData :NSData = text.dataUsingEncoding(NSUTF8StringEncoding)!
@@ -39,21 +39,21 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
             jsonStructure = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableLeaves)) as? NSDictionary
 
             if jsonStructure == nil {
-                qrScaner.play()
+                qrScaner.captureSession.startRunning()
                 return 
             }
             
             
             if let version = jsonStructure!.objectForKey(QRKeys.Version.rawValue) as? Int {
                 if version != QR_VERSION {
-                    failedWithError("WRONG_QR_VERSION".localized())
-                    self.qrScaner.play()
+                    failedDetectingQRCode(withError: "WRONG_QR_VERSION".localized())
+                    self.qrScaner.captureSession.startRunning()
                     
                     return
                 }
             } else {
-                failedWithError("WRONG_QR_VERSION".localized())
-                self.qrScaner.play()
+                failedDetectingQRCode(withError: "WRONG_QR_VERSION".localized())
+                self.qrScaner.captureSession.startRunning()
                 return
             }
             
@@ -66,7 +66,7 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
                     addFriend(friendDictionary)
                 }
                 else {
-                    failedWithError("CONTACTS_IS_UNAVAILABLE".localized())
+                    failedDetectingQRCode(withError: "CONTACTS_IS_UNAVAILABLE".localized())
                 }
                 
             case QRType.Invoice.rawValue:
@@ -110,14 +110,15 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
 //                    }
                 }
             default :
-                qrScaner.play()
+                qrScaner.captureSession.startRunning()
                 break
             }
         }
     }
     
-    func failedWithError(text: String) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    func failedDetectingQRCode(withError errorMessage: String) {
+
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: errorMessage, preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             alert.dismissViewControllerAnimated(true, completion: nil)
@@ -195,7 +196,7 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
     }
     
     func popUpClosed(successfuly :Bool) {
-        qrScaner.play()
+        qrScaner.captureSession.startRunning()
     }
     
     func contactChanged(successfuly: Bool, sendTransaction :Bool) {

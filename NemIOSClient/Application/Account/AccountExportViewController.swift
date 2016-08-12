@@ -26,7 +26,7 @@ class AccountExportViewController: UIViewController , MFMailComposeViewControlle
         
         let qr :QRCodeScannerView = QRCodeScannerView()
         
-        qrImage.image =  qr.createQRCodeImage(State.exportAccount!)
+        qrImage.image =  qr.createQRCodeImage(fromCaptureResult: State.exportAccount!)
         
         let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let pub_key = KeyGenerator.generatePublicKey(priv_key!)

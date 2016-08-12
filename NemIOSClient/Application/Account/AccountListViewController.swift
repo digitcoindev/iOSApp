@@ -98,7 +98,7 @@ class AccountListViewController: UIViewController {
             self.accounts.removeAtIndex(indexPath.row)
             self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
             
-            AccountManager.sharedInstance.delete(account)
+            AccountManager.sharedInstance.delete(account: account)
         }))
         
         presentViewController(accountDeletionAlert, animated: true, completion: nil)

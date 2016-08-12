@@ -18,6 +18,13 @@ public enum Result: ErrorType {
 /**
  
  */
-public enum AccountTitleValidation: ErrorType {
-    case Empty
+public enum AccountImportValidation: ErrorType {
+    case ValueMissing
+    case VersionNotMatching
+    case DataTypeNotMatching
+    case NoPasswordProvided
+    case WrongPasswordProvided
+    case AccountAlreadyPresent(accountTitle: String)
+    case InvalidPrivateKey
+    case Other
 }

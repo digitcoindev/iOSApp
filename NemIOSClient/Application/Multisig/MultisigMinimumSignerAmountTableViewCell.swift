@@ -1,5 +1,5 @@
 //
-//  MultisignatureAddSignerTableViewCell.swift
+//  MultisigMinimumSignerAmountTableViewCell.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -7,13 +7,12 @@
 
 import UIKit
 
-class MultisignatureAddSignerTableViewCell: UITableViewCell {
+class MultisigMinimumSignerAmountTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var addLabel: UILabel!
+    @IBOutlet var textField :UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        addLabel.text = "ADD_ADITIONAL_SIGNER".localized()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

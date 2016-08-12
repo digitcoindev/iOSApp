@@ -1,5 +1,5 @@
 //
-//  MultisignatureViewController.swift
+//  MultisigViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MultisignatureViewController: UIViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate, AccountsChousePopUpDelegate
+class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate, AccountsChousePopUpDelegate
 {
 
     @IBOutlet weak var chouseButton: AccountChooserButton!
@@ -74,7 +74,7 @@ class MultisignatureViewController: UIViewController, UITableViewDelegate, APIMa
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.row < _currentCosignatories.count + _addArray.count {
-            let cell :MultisignatureSignerTableViewCell = tableView.dequeueReusableCellWithIdentifier("cosig cell")! as! MultisignatureSignerTableViewCell
+            let cell :MultisigSignerTableViewCell = tableView.dequeueReusableCellWithIdentifier("cosig cell")! as! MultisigSignerTableViewCell
             cell.infoLabel.numberOfLines = 2
             cell.editDelegate = self
             cell.isEditable = (_removeArray.count == 0 && (_removeArray.count + _addArray.count) < 16)  && !self._isMultisig
@@ -101,7 +101,7 @@ class MultisignatureViewController: UIViewController, UITableViewDelegate, APIMa
                 return cell
                 
             case 1:
-                let cell :MultisignatureMinimumSignerAmountTableViewCell = tableView.dequeueReusableCellWithIdentifier("min cosig cell") as! MultisignatureMinimumSignerAmountTableViewCell
+                let cell :MultisigMinimumSignerAmountTableViewCell = tableView.dequeueReusableCellWithIdentifier("min cosig cell") as! MultisigMinimumSignerAmountTableViewCell
                 let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories ?? _addArray.count
                 let max = _activeAccount!.cosignatories.count - _removeArray.count
                 if self.minCosig != nil {
@@ -277,7 +277,7 @@ class MultisignatureViewController: UIViewController, UITableViewDelegate, APIMa
     private func _addCosig() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let popUp :MultisignatureAddSignerViewController =  storyboard.instantiateViewControllerWithIdentifier("MultisignatureAddSignerViewController") as! MultisignatureAddSignerViewController
+        let popUp :MultisigAddSignerViewController =  storyboard.instantiateViewControllerWithIdentifier("MultisignatureAddSignerViewController") as! MultisigAddSignerViewController
         popUp.view.frame = CGRect(x: 0, y: 40, width: popUp.view.frame.width, height: popUp.view.frame.height - 40)
         popUp.view.layer.opacity = 0
 //        popUp.delegate = self

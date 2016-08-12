@@ -24,7 +24,7 @@ class AccountDetailTabBarController: UITabBarController {
         detail tab bar controller will access this property to identify
         which information they should show.
      */
-    var account = Account()
+    var account: Account?
     
     // MARK: - Tab Bar Controller Lifecycle
     

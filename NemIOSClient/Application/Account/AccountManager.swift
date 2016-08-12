@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreStore
+import CryptoSwift
 
 /**
     The account manager singleton used to perform all kinds of actions
@@ -41,17 +42,23 @@ public class AccountManager {
      
         - Returns: The result of the operation - success or failure.
      */
-    public func create(account title: String, completion: (result: Result) -> Void) {
+    public func create(account title: String, withPrivateKey privateKey: String? = nil, completion: (result: Result) -> Void) {
         
         DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
             
-            let privateKey = self.generatePrivateKey()
-            let privateKeyHash = self.createHash(forPrivateKey: privateKey)
+            var privateKey = privateKey
+            if privateKey == nil {
+                privateKey = self.generatePrivateKey()
+            }
+            
+            let encryptedPrivateKey = self.encryptPrivateKey(privateKey!)
             
             let account = transaction.create(Into(Account))
             account.title = title
-            account.position = self.maxPosition() + 1
-            account.privateKey = privateKeyHash
+            account.publicKey = self.generatePublicKey(forPrivateKey: privateKey!)
+            account.privateKey = encryptedPrivateKey
+            account.address = self.generateAddress(forPublicKey: account.publicKey)
+            account.position = self.positionForNewAccount()
             
             transaction.commit { (result) -> Void in
                 switch result {
@@ -71,7 +78,7 @@ public class AccountManager {
         
         - Parameter account: The account object that should get deleted.
      */
-    public func delete(account: Account) {
+    public func delete(account account: Account) {
         
         var accounts = self.accounts()
         accounts.removeAtIndex(account.position)
@@ -122,18 +129,88 @@ public class AccountManager {
         }
     }
     
+    /**
+        Validates if an account with the provided private key already
+        got added to the application or not.
+     
+        - Parameter privateKey: The private key of the account that should get checked for existence.
+     
+        - Throws:
+            - AccountImportValidation.AccountAlreadyPresent if an account with the provided private key already got added to the application.
+     
+        - Returns: A bool indicating that no account with the provided private key was added to the application.
+     */
+    public func validateAccountExistence(forAccountWithPrivateKey privateKey: String) throws -> Bool {
+        
+        let accounts = self.accounts()
+        
+        for account in accounts {
+            let accountPrivateKey = decryptPrivateKey(account.privateKey)
+            if privateKey == accountPrivateKey {
+                throw AccountImportValidation.AccountAlreadyPresent(accountTitle: account.title)
+            }
+        }
+        
+        return true
+    }
+    
+    /**
+        Validates a provided key (private key or public key) and checks
+        if the key is made up of valid characters.
+     
+        - Parameter key: The key that shoud get validated.
+        - Parameter length: The lenght of the key - will use the default length of 64 characters if this parameter isn't provided.
+     
+        - Returns: A bool indicating whether the key is valid or not.
+     */
+    public func validateKey(key: String, length: Int = 64) -> Bool {
+
+        let validator = Array<UInt8>("0123456789abcdef".utf8)
+        var keyArray = Array<UInt8>(key.utf8)
+        
+        if keyArray.count == length || keyArray.count == length + 2 {
+            if keyArray.count == length + 2 {
+                keyArray.removeAtIndex(0)
+                keyArray.removeAtIndex(0)
+            }
+            
+            for value in keyArray {
+                var find = false
+                for valueChecker in validator where valueChecker == value {
+                    find = true
+                    break
+                }
+                
+                if !find {
+                    return false
+                }
+            }
+            
+        } else {
+            return false
+        }
+        
+        return true
+    }
+    
     // MARK: - Private Manager Methods
     
     /**
-        Fetches the position for the last account in the account list.
+        Determines the position for a new account.
      
-        - Returns: The position of the last account in the account list as an integer.
+        - Returns: The position for a new account in the account list as an integer.
      */
-    private func maxPosition() -> Int {
+    private func positionForNewAccount() -> Int {
         
-        let maxPosition = DatabaseManager.sharedInstance.dataStack.queryValue(From(Account), Select<Int>(.Maximum("position")))
-        
-        return maxPosition!
+        if let maxPosition = DatabaseManager.sharedInstance.dataStack.queryValue(From(Account), Select<Int>(.Maximum("position"))) {
+            if (maxPosition == 0) {
+                return maxPosition
+            } else {
+                return maxPosition + 1
+            }
+        } else {
+            return 0
+        }
     }
     
     /// Generates a new and unique private key.
@@ -144,7 +221,7 @@ public class AccountManager {
         
         let privateKey: String = NSData(bytes: &privateKeyBytes, length: 32).toHexString()
         
-        return privateKey
+        return privateKey.nemKeyNormalized()!
     }
     
     /**
@@ -162,21 +239,89 @@ public class AccountManager {
         
         let publicKey: String = NSData(bytes: &publicKeyBytes, length: 32).toHexString()
         
-        return publicKey
+        return publicKey.nemKeyNormalized()!
     }
     
     /**
-        Creates a hash from the provided private key and application password.
-        
-        - Parameter privateKey: The private key that should get hashed.
+        Generates the address for the provided public key.
      
-        - Returns: The hashed private key as a string.
+        - Parameter publicKey: The public key for which the address should get generated.
+        
+        - Returns: The generated address as a string.
      */
-    private func createHash(forPrivateKey privateKey: String) -> String {
+    private func generateAddress(forPublicKey publicKey: String) -> String {
         
-        let passwordHash = NSData(bytes: "1234".asByteArray())
-        let privateKeyHash = HashManager.AES256Encrypt(privateKey, key: passwordHash.toHexString())
+        var inBuffer = publicKey.asByteArray()
+        var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)
         
-        return privateKeyHash
+        SHA256_hash(&stepOneSHA256, &inBuffer, 32)
+        
+        let stepOneSHA256Text = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as! String
+        let stepTwoRIPEMD160Text = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
+        let stepTwoRIPEMD160Buffer = stepTwoRIPEMD160Text.asByteArray()
+        
+        var version = Array<UInt8>()
+        version.append(network)
+        
+        var stepThreeVersionPrefixedRipemd160Buffer = version + stepTwoRIPEMD160Buffer
+        var checksumHash: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        
+        SHA256_hash(&checksumHash, &stepThreeVersionPrefixedRipemd160Buffer, 21)
+        
+        let checksumText = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as! String
+        var checksumBuffer = checksumText.asByteArray()
+        var checksum = Array<UInt8>()
+        checksum.append(checksumBuffer[0])
+        checksum.append(checksumBuffer[1])
+        checksum.append(checksumBuffer[2])
+        checksum.append(checksumBuffer[3])
+        
+        let stepFourResultBuffer = stepThreeVersionPrefixedRipemd160Buffer + checksum
+        let address = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
+        
+        return address
+    }
+    
+    /**
+        Generates the address for the provided private key.
+        
+        - Parameter privateKey: The private key for which the address should get generated.
+     
+        - Returns: The generated address as a string.
+     */
+    private func generateAddress(forPrivateKey privateKey: String) -> String {
+        
+        let publicKey = generatePublicKey(forPrivateKey: privateKey)
+        return generateAddress(forPublicKey: publicKey)
+    }
+    
+    /**
+        Encrypts the provided private key with the application password.
+        
+        - Parameter privateKey: The private key that should get encrypted.
+     
+        - Returns: The encrypted private key as a string.
+     */
+    private func encryptPrivateKey(privateKey: String) -> String {
+        
+        let encryptedApplicationPassword = NSData(bytes: "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf".asByteArray())
+        let encryptedPrivateKey = HashManager.AES256Encrypt(privateKey, key: encryptedApplicationPassword.toHexString())
+        
+        return encryptedPrivateKey
+    }
+    
+    /**
+        Decrypts the provided encrypted private key with the application password.
+     
+        - Parameter encryptedPrivateKey: The encrypted private key that should get decrypted.
+     
+        - Returns: The decrypted private key as a string.
+     */
+    private func decryptPrivateKey(encryptedPrivateKey: String) -> String {
+        
+        let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
+        let privateKey = HashManager.AES256Decrypt(encryptedPrivateKey, key: encryptedApplicationPassword)
+        
+        return privateKey!
     }
 }

@@ -1,5 +1,5 @@
 //
-//  MultisignatureSaveChangesTableViewCell.swift
+//  MultisigAddSignerTableViewCell.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class MultisignatureSaveChangesTableViewCell: UITableViewCell {
-    
-    @IBOutlet weak var saveButton: UIButton!
+class MultisigAddSignerTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var addLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        saveButton.setTitle("SAVE_CHANGES".localized(), forState: UIControlState.Normal)
+        addLabel.text = "ADD_ADITIONAL_SIGNER".localized()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

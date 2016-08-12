@@ -80,7 +80,7 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
                 }
             })
             
-        } catch AccountTitleValidation.Empty {
+        } catch AccountImportValidation.ValueMissing {
             
             let accountTitleEmptyAlert = UIAlertController(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), preferredStyle: .Alert)
             
@@ -99,13 +99,13 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
         - Parameter title: The title for the new account entered by the user.
      
         - Throws: 
-            - AccountTitleValidation.Empty if the title parameter string is empty.
+            - AccountImportValidation.ValueMissing if the title parameter string is empty.
      
         - Returns: A bool indicating that the validation was successful.
      */
     private func validate(enteredInformation title: String) throws -> Bool {
     
-        guard title != String() else { throw AccountTitleValidation.Empty }
+        guard title != String() else { throw AccountImportValidation.ValueMissing }
         
         return true
     }

@@ -3,6 +3,15 @@ import CryptoSwift
 
 extension String
 {
+    
+    var URLEscapedString: String {
+        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
+    }
+    
+    var UTF8EncodedData: NSData {
+        return self.dataUsingEncoding(NSUTF8StringEncoding)!
+    }
+    
     func dataFromHexadecimalString() -> NSData? {
         let trimmedString = self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<> ")).stringByReplacingOccurrencesOfString(" ", withString: "")
         

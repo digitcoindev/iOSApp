@@ -6,116 +6,135 @@
 //
 
 import UIKit
+import Moya
 import Contacts
 
-class TransactionOverviewViewController: UIViewController , UITableViewDelegate ,UISearchBarDelegate, APIManagerDelegate
-{
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var userInfo: UILabel!
+/**
+    The view controller that shows an overview of all transactions
+    for the account that the user has chosen on the account list view
+    controller.
+ */
+class TransactionOverviewViewController: UIViewController, APIManagerDelegate {
     
-//    let dataManager : CoreDataManager = CoreDataManager()
+    // MARK: - View Controller Properties
+
+    var account: Account?
+    
     var walletData :AccountGetMetaData?
     
     private var _apiManager :APIManager = APIManager()
     private var _correspondents :[Correspondent] = []
     
     private var _displayList :NSArray = NSArray()
-    private var _searchText :String = ""
     
     private var _requestsLimit: Int = 2
     private var _transactionsLimit: Int = 50
     private var _showUnconfirmed = true
     
     private var _requestCounter = 0
-    private var _timer: NSTimer? = nil
+//    private var _timer: NSTimer? = nil
     
     private var _account_address: String? = nil
     private var _transactions:[TransferTransaction] = []
     
-    // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
-    //    private var _searchBar : UISearchBar!
+    // MARK: - View Controller Outlets
     
-    // MARK: - Load Methods
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var infoHeaderLabel: UILabel!
+    
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        State.fromVC = SegueToMessages
-        State.currentContact = nil
+        if let tbc = tabBarController as? AccountDetailTabBarController {
+            account = tbc.account
+        }
         
-        userInfo.text = "NO_INTERNET_CONNECTION".localized()
-        //customMessageButton.setTitle("NEW".localized(), forState: UIControlState.Normal)
-        tableView.layer.cornerRadius = 2
+        infoHeaderLabel.text = "NO_INTERNET_CONNECTION".localized()
         _apiManager.delegate = self
-        tableView.tableFooterView = UIView(frame: CGRectZero)
-        
-        // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
-        //        _searchBar = UISearchBar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: 44)))
-        //        _searchBar.delegate = self
-        //        tableView.tableHeaderView = _searchBar
-        //        _searchBar.showsCancelButton = false
-        //        tableView.setContentOffset(CGPoint(x: 0, y: _searchBar.frame.height), animated: false)
         
         _displayList = _correspondents
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-        _account_address = AddressGenerator.generateAddress(publicKey)
+        fetchAccountData()
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.refreshTransactionList()
-            if AddressBookManager.isAllowed ?? false {
-                self.findCorrespondentName()
-            }
-        })
+//        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+//        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
+//        _account_address = AddressGenerator.generateAddress(publicKey)
         
-        if State.currentContact != nil {
-            
-            performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
-        }
+//        dispatch_async(dispatch_get_main_queue(), {
+//            self.refreshTransactionList()
+//            if AddressBookManager.isAllowed ?? false {
+//                self.findCorrespondentName()
+//            }
+//        })
         
-        if let server = State.currentServer {
-            _apiManager.timeSynchronize(server)
-        }
+//        if State.currentContact != nil {
+//            
+//            performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
+//        }
         
-        self.tableView.allowsMultipleSelectionDuringEditing = false
+//        if let server = State.currentServer {
+//            _apiManager.timeSynchronize(server)
+//        }
         
-        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionList), userInfo: nil, repeats: true)
+//        self.tableView.allowsMultipleSelectionDuringEditing = false
+        
+//        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionList), userInfo: nil, repeats: true)
     }
     
     override func viewWillAppear(animated: Bool) {
         
-        tabBarController?.title = "MESSAGES".localized()
-        
-        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(segueToTransactionSendViewController))
-//        let rightBarButton = UIButton()
-//        let barButtonImage = UIImage(named: "note")
-//        rightBarButton.setImage(barButtonImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
-        rightBarButton.tintColor = UIColor.whiteColor()
-//        rightBarButton.frame = CGRectMake(0, 0, 30, 30)
-        
-//        rightBarButton.addTarget(self, action: #selector(segueToTransactionSendViewController), forControlEvents: .TouchUpInside)
-        
-//        let rightNavigationBarButton = UIBarButtonItem()
-//        rightNavigationBarButton.customView = rightBarButton
-        
-        tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-//        State.currentVC = SegueToMessages
+        updateViewControllerAppearance()
+        createBarButtonItem()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        _timer?.invalidate()
+//        _timer?.invalidate()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    private func updateViewControllerAppearance() {
         
+        tabBarController?.title = "MESSAGES".localized()
+    }
+    
+    /// Creates and adds the compose bar button item to the view controller.
+    private func createBarButtonItem() {
+        
+        let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(segueToTransactionSendViewController))
+        rightBarButtonItem.tintColor = UIColor.whiteColor()
+        
+        tabBarController?.navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    /**
+ 
+     */
+    func fetchAccountData() {
+        
+        nisProvider.request(NIS.AccountData(accountAddress: account!.address)) { (result) in
+            
+            switch result {
+            case let .Success(response):
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    let data = try response.mapJSON()
+                    
+                    print(data)
+                }
+                catch {
+                    print(response.statusCode)
+                }
+                
+            case let .Failure(error):
+                print(error)
+            }
+        }
     }
     
     // MARK: - APIManagerDelegate Methods
@@ -139,9 +158,9 @@ class TransactionOverviewViewController: UIViewController , UITableViewDelegate 
             
             userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
             
-            self.userInfo.attributedText = userDescription
+            self.infoHeaderLabel.attributedText = userDescription
         } else {
-            self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            self.infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
     }
     
@@ -200,7 +219,7 @@ class TransactionOverviewViewController: UIViewController , UITableViewDelegate 
             }
             
         } else {
-            self.userInfo.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            self.infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
         }
     }
     
@@ -356,76 +375,44 @@ class TransactionOverviewViewController: UIViewController , UITableViewDelegate 
         return _correspondentsIn
     }
     
-    final func findCorrespondentName() {
-        let contacts :NSArray = AddressBookManager.contacts
-        
-        for correspondent in _correspondents {
-            if correspondent.name.utf16.count > 20 {
-                var find = false
-                for contact in contacts {
-                    let emails: [CNLabeledValue] = contact.emailAddresses
-                    
-                    for email in emails {
-                        if email.label == "NEM" && email.value as! String == correspondent.address {
-                            correspondent.name = (contact.givenName ?? "") + " " + (contact.familyName ?? "")
-                            find = true
-                            break
-                        }
-                    }
-                    
-                    if find {
-                        break
-                    }
-                }
-            }
-        }
-    }
+//    final func findCorrespondentName() {
+//        let contacts :NSArray = AddressBookManager.contacts
+//        
+//        for correspondent in _correspondents {
+//            if correspondent.name.utf16.count > 20 {
+//                var find = false
+//                for contact in contacts {
+//                    let emails: [CNLabeledValue] = contact.emailAddresses
+//                    
+//                    for email in emails {
+//                        if email.label == "NEM" && email.value as! String == correspondent.address {
+//                            correspondent.name = (contact.givenName ?? "") + " " + (contact.familyName ?? "")
+//                            find = true
+//                            break
+//                        }
+//                    }
+//                    
+//                    if find {
+//                        break
+//                    }
+//                }
+//            }
+//        }
+//    }
     
-    final func refreshTransactionList() {
-        if State.currentServer != nil && _account_address != nil {
-            _transactions = []
-            _requestCounter = 0
-            
-            _apiManager.accountGet(State.currentServer!, account_address: _account_address!)
-            _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!)
-        }
-        else {
-            
-            performSegueWithIdentifier("showSettingsServerViewController", sender: nil)
-        }
-    }
-    
-    // TODO: Hidden in Version 2 Build 18 https://github.com/NewEconomyMovement/NEMiOSApp/issues/107
-    // MARK: - Search Bar Data Source
-    
-    //    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-    //        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
-    //
-    //        _displayList = _correspondents
-    //
-    //        tableView.reloadData()
-    //        _searchBar.resignFirstResponder()
-    //    }
-    //
-    //    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-    //        _searchBar.showsCancelButton = true
-    //    }
-    //
-    //    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
-    //        resignFirstResponder()
-    //    }
-    //
-    //    func searchBar(searchBar: UISearchBar, textDidChange _searchText: String) {
-    //        if _searchText == "" {
-    //            _displayList = _correspondents
-    //        }
-    //        else {
-    //            let predicate :NSPredicate = NSPredicate(format: "SELF.name contains[c] %@",_searchText)
-    //            _displayList = (_correspondents as NSArray).filteredArrayUsingPredicate(predicate)
-    //        }
-    //
-    //        tableView.reloadData()
-    //    }
+//    final func refreshTransactionList() {
+//        if State.currentServer != nil && _account_address != nil {
+//            _transactions = []
+//            _requestCounter = 0
+//            
+//            _apiManager.accountGet(State.currentServer!, account_address: _account_address!)
+//            _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!)
+//        }
+//        else {
+//            
+//            performSegueWithIdentifier("showSettingsServerViewController", sender: nil)
+//        }
+//    }
     
     // MARK: - Table View Data Sourse
     
@@ -508,4 +495,11 @@ class TransactionOverviewViewController: UIViewController , UITableViewDelegate 
         
         performSegueWithIdentifier("showTransactionSendViewController", sender: nil)
     }
+}
+
+// MARK: - Table View Delegate
+
+extension TransactionOverviewViewController: UITableViewDelegate {
+    
+    
 }

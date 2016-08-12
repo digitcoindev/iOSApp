@@ -1,5 +1,5 @@
 //
-//  MultisignatureAddSignerViewController.swift
+//  MultisigAddSignerViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -12,7 +12,7 @@ protocol AddCosigPopUptDelegate
     func addCosig(publicKey :String)
 }
 
-class MultisignatureAddSignerViewController: UIViewController, NEMTextFieldDelegate {
+class MultisigAddSignerViewController: UIViewController, NEMTextFieldDelegate {
     
     //MARK: - @IBOutlet
     
@@ -34,8 +34,8 @@ class MultisignatureAddSignerViewController: UIViewController, NEMTextFieldDeleg
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(MultisignatureAddSignerViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(MultisignatureAddSignerViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(MultisigAddSignerViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(MultisigAddSignerViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         errorLabel.layer.cornerRadius = 5
         errorLabel.clipsToBounds = true

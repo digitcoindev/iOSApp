@@ -16,9 +16,15 @@ public class Account: NSManagedObject {
     /// The title of the account.
     @NSManaged var title: String
     
+    /// The address of the account.
+    @NSManaged var address: String
+    
+    /// The public key of the account.
+    @NSManaged var publicKey: String
+    
+    /// The encrypted private key of the account.
+    @NSManaged var privateKey: String
+    
     /// The position of the account in the accounts list.
     @NSManaged var position: Int
-    
-    /// The hashed private key of the account.
-    @NSManaged var privateKey: String
 }
