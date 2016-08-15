@@ -1,6 +1,6 @@
 import UIKit
 
-class ImportanceTransferTransaction: TransactionPostMetaData
+class _ImportanceTransferTransaction: TransactionPostMetaData
 {
     var lengthOfRemoutPublicKey :Int = 32
     var remoutPublicKey :String!

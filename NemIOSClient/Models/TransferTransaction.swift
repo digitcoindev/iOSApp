@@ -1,6 +1,6 @@
 import UIKit
 
-class TransferTransaction: TransactionPostMetaData
+class _TransferTransaction: TransactionPostMetaData
 {
     var amount :Double!
     var recipient :String!

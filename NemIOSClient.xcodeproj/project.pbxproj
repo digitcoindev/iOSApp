@@ -10,6 +10,16 @@
 		4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */; };
 		4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24A1751D54E49300AC128A /* AccountExceptions.swift */; };
 		4F26CDF11D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */; };
+		4F3ACE921D61C2EE0056F234 /* Response+ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE911D61C2EE0056F234 /* Response+ObjectMapper.swift */; };
+		4F3ACE941D61C31C0056F234 /* AccountDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE931D61C31C0056F234 /* AccountDataModel.swift */; };
+		4F3ACE961D61C6210056F234 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3ACE951D61C6210056F234 /* ObjectMapper.framework */; };
+		4F3ACE971D61C6210056F234 /* ObjectMapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3ACE951D61C6210056F234 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F3ACE991D620B100056F234 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE981D620B100056F234 /* TransactionModel.swift */; };
+		4F3ACE9B1D620F680056F234 /* MultisigTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */; };
+		4F3ACE9D1D6214060056F234 /* TransferTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE9C1D6214060056F234 /* TransferTransactionModel.swift */; };
+		4F3ACE9F1D6217430056F234 /* MultisigSignatureTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */; };
+		4F3ACEA11D6218300056F234 /* ImportanceTransferTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */; };
+		4F3ACEA31D6218E10056F234 /* MultisigAggregateModificationTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */; };
 		4F3B428C1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3B428B1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift */; };
 		4F63E36A1D5E03D100BCFFA4 /* NetworkingEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F63E3691D5E03D100BCFFA4 /* NetworkingEndpoints.swift */; };
 		4F63E36D1D5E192500BCFFA4 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F63E36B1D5E18CF00BCFFA4 /* Result.framework */; };
@@ -221,6 +231,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				4F9F67A91D48FE460086F98F /* Moya.framework in Embed Frameworks */,
+				4F3ACE971D61C6210056F234 /* ObjectMapper.framework in Embed Frameworks */,
 				4F9F67891D48F4400086F98F /* GCDKit.framework in Embed Frameworks */,
 				4F9F67851D48F4350086F98F /* Fakery.framework in Embed Frameworks */,
 				4F9F67871D48F43D0086F98F /* CoreStore.framework in Embed Frameworks */,
@@ -264,6 +275,15 @@
 		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F24A1751D54E49300AC128A /* AccountExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExceptions.swift; path = Common/Exceptions/AccountExceptions.swift; sourceTree = "<group>"; };
 		4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; path = Application/Account/AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; sourceTree = "<group>"; };
+		4F3ACE911D61C2EE0056F234 /* Response+ObjectMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Response+ObjectMapper.swift"; path = "Assets/Supporting Files/Response+ObjectMapper.swift"; sourceTree = "<group>"; };
+		4F3ACE931D61C31C0056F234 /* AccountDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountDataModel.swift; path = Models/AccountDataModel.swift; sourceTree = "<group>"; };
+		4F3ACE951D61C6210056F234 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
+		4F3ACE981D620B100056F234 /* TransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionModel.swift; path = Models/TransactionModel.swift; sourceTree = "<group>"; };
+		4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigTransactionModel.swift; path = Models/MultisigTransactionModel.swift; sourceTree = "<group>"; };
+		4F3ACE9C1D6214060056F234 /* TransferTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransferTransactionModel.swift; path = Models/TransferTransactionModel.swift; sourceTree = "<group>"; };
+		4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignatureTransactionModel.swift; path = Models/MultisigSignatureTransactionModel.swift; sourceTree = "<group>"; };
+		4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportanceTransferTransactionModel.swift; path = Models/ImportanceTransferTransactionModel.swift; sourceTree = "<group>"; };
+		4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAggregateModificationTransactionModel.swift; path = Models/MultisigAggregateModificationTransactionModel.swift; sourceTree = "<group>"; };
 		4F3B428B1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuPasswordValidationViewController.swift; path = Application/Account/AccountAdditionMenuPasswordValidationViewController.swift; sourceTree = "<group>"; };
 		4F63E3691D5E03D100BCFFA4 /* NetworkingEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingEndpoints.swift; path = Application/Networking/NetworkingEndpoints.swift; sourceTree = "<group>"; };
 		4F63E36B1D5E18CF00BCFFA4 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -480,6 +500,7 @@
 			files = (
 				4F9F67881D48F4400086F98F /* GCDKit.framework in Frameworks */,
 				4F9F67841D48F4350086F98F /* Fakery.framework in Frameworks */,
+				4F3ACE961D61C6210056F234 /* ObjectMapper.framework in Frameworks */,
 				4F9F67861D48F43D0086F98F /* CoreStore.framework in Frameworks */,
 				4F63E36D1D5E192500BCFFA4 /* Result.framework in Frameworks */,
 				4F9F678A1D48F4780086F98F /* Hue.framework in Frameworks */,
@@ -1003,6 +1024,7 @@
 		DA3558031A39D3BA00AFA5FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4F3ACE911D61C2EE0056F234 /* Response+ObjectMapper.swift */,
 				DA194E051A431C690030C882 /* Cryptography */,
 			);
 			name = "Supporting Files";
@@ -1062,6 +1084,13 @@
 			isa = PBXGroup;
 			children = (
 				4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */,
+				4F3ACE931D61C31C0056F234 /* AccountDataModel.swift */,
+				4F3ACE981D620B100056F234 /* TransactionModel.swift */,
+				4F3ACE9C1D6214060056F234 /* TransferTransactionModel.swift */,
+				4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */,
+				4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */,
+				4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */,
+				4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */,
 				4FFF8EFD1D51D74700B4BB9F /* _TODO */,
 			);
 			name = Models;
@@ -1090,6 +1119,7 @@
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F3ACE951D61C6210056F234 /* ObjectMapper.framework */,
 				4F63E36B1D5E18CF00BCFFA4 /* Result.framework */,
 				4F9F67781D48EF4A0086F98F /* Nimble.framework */,
 				4F9F67791D48EF4A0086F98F /* Quick.framework */,
@@ -1290,6 +1320,7 @@
 				4F9F68421D4C35EE0086F98F /* InvoiceCreatedViewController.swift in Sources */,
 				4F9F680A1D4C33510086F98F /* AccountTableViewCell.swift in Sources */,
 				4F9F67CA1D4C2F0B0086F98F /* MenuButton.swift in Sources */,
+				4F3ACE9B1D620F680056F234 /* MultisigTransactionModel.swift in Sources */,
 				DA89F1191AD7E46800105BB0 /* ImportanceTransferTransaction.swift in Sources */,
 				4F9F67F41D4C32480086F98F /* State.swift in Sources */,
 				4F9F681A1D4C339F0086F98F /* AccountExportPasswordViewController.swift in Sources */,
@@ -1303,7 +1334,10 @@
 				4F9F68721D4C37B10086F98F /* SettingsInvoiceViewController.swift in Sources */,
 				4F9F68701D4C37AA0086F98F /* SettingsDefaultAccountViewController.swift in Sources */,
 				4F9F67EE1D4C31140086F98F /* NavigationController.swift in Sources */,
+				4F3ACE9F1D6217430056F234 /* MultisigSignatureTransactionModel.swift in Sources */,
+				4F3ACE941D61C31C0056F234 /* AccountDataModel.swift in Sources */,
 				4F9F687C1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift in Sources */,
+				4F3ACE9D1D6214060056F234 /* TransferTransactionModel.swift in Sources */,
 				4F850F171D4C3C930003E192 /* NSData+Base64.m in Sources */,
 				4F9F67BC1D4C2D0F0086F98F /* LoadData.swift in Sources */,
 				4F9F686C1D4C37830086F98F /* ServerViewCell.swift in Sources */,
@@ -1316,6 +1350,7 @@
 				4F3B428C1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift in Sources */,
 				4F9F67E81D4C30900086F98F /* SocialManager.swift in Sources */,
 				4F63E36A1D5E03D100BCFFA4 /* NetworkingEndpoints.swift in Sources */,
+				4F3ACEA31D6218E10056F234 /* MultisigAggregateModificationTransactionModel.swift in Sources */,
 				98BB95D61BCCED5B002151F7 /* ge.c in Sources */,
 				4F850F261D4C3DD90003E192 /* RIPEMD+Block.swift in Sources */,
 				4F9F68301D4C351D0086F98F /* TransactionMessagesViewController.swift in Sources */,
@@ -1346,6 +1381,7 @@
 				4F9F680C1D4C33570086F98F /* AccountChangeNameViewController.swift in Sources */,
 				4F9F67EA1D4C31080086F98F /* AppDelegate.swift in Sources */,
 				DAC3A1801B03AE2800AABB61 /* Signature.swift in Sources */,
+				4F3ACE991D620B100056F234 /* TransactionModel.swift in Sources */,
 				4F9F683E1D4C35E30086F98F /* InvoiceAccountInfoViewController.swift in Sources */,
 				4F9F68361D4C35480086F98F /* TransactionUnconfirmedTableViewCell.swift in Sources */,
 				98BB95DE1BCCED5B002151F7 /* verify.c in Sources */,
@@ -1363,6 +1399,7 @@
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
 				4F9F68401D4C35E90086F98F /* InvoiceCreateViewController.swift in Sources */,
 				4F9F68241D4C34E00086F98F /* AddressGenerator.swift in Sources */,
+				4F3ACEA11D6218300056F234 /* ImportanceTransferTransactionModel.swift in Sources */,
 				4F9F67D61D4C2F680086F98F /* MainContainerVC.swift in Sources */,
 				4F9F67D41D4C2F590086F98F /* CustomMessageCell.swift in Sources */,
 				4F9F68021D4C33000086F98F /* NotificationManager.swift in Sources */,
@@ -1425,6 +1462,7 @@
 				4F9F683C1D4C35DE0086F98F /* InvoiceViewController.swift in Sources */,
 				4F9F68801D4C38760086F98F /* EditableTableViewCell.swift in Sources */,
 				4F850F1B1D4C3D240003E192 /* Crypto.m in Sources */,
+				4F3ACE921D61C2EE0056F234 /* Response+ObjectMapper.swift in Sources */,
 				4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */,
 				4F9F685A1D4C36520086F98F /* AddressBookMessageViewController.swift in Sources */,
 				4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */,

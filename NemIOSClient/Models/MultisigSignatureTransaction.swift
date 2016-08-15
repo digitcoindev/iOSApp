@@ -1,6 +1,6 @@
 import UIKit
 
-class MultisigSignatureTransaction: TransactionPostMetaData
+class _MultisigSignatureTransaction: TransactionPostMetaData
 {
     var lengthOfHashObject :Int = 36
     var lengthOfMultisigAccout :Int = 40

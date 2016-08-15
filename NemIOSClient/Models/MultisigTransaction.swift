@@ -1,8 +1,8 @@
 import UIKit
 
-class MultisigTransaction: TransactionPostMetaData
+class _MultisigTransaction: TransactionPostMetaData
 {
-    var innerTransaction : TransactionPostMetaData!
+    var innerTransaction : _TransactionPostMetaData!
     var signatures :[Signature] = [Signature]()
     override init() {
         super.init()

@@ -23,7 +23,7 @@ enum NIS {
 
 extension NIS: TargetType {
     
-    var baseURL: NSURL { return NSURL(string: "http://85.25.36.97:7890")! }
+    var baseURL: NSURL { return NSURL(string: "http://37.187.70.29:7890")! }
     var path: String {
         switch self {
         case .Heartbeat:
