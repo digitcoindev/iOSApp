@@ -12,7 +12,7 @@ class State: NSObject
 //        static var loadData :LoadData? = CoreDataManager().getLoadData()
 //        static var currentWallet : Wallet? = CoreDataManager().getLoadData().currentWallet
 //        static var currentServer : Server? = CoreDataManager().getLoadData().currentServer
-        static var currentContact :Correspondent!
+        static var currentContact :_Correspondent!
         static var invoice :InvoiceData? = nil
         static var exportAccount :String? = nil
     }
@@ -111,7 +111,7 @@ class State: NSObject
         return nil
     }
 
-    final class var currentContact: Correspondent? {
+    final class var currentContact: _Correspondent? {
         get { return State.Store.currentContact }
         set { State.Store.currentContact = newValue}
     }

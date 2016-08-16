@@ -51,7 +51,7 @@ class SignManager: NSObject
         switch (transaction.type) {
         case transferTransaction :
             
-            transactionDependentPart = transferTransactionPart(transaction as! TransferTransaction)
+            transactionDependentPart = transferTransactionPart(transaction as! _TransferTransaction)
             
         case multisigAggregateModificationTransaction :
             
@@ -59,7 +59,7 @@ class SignManager: NSObject
             
         case multisigSignatureTransaction:
             
-            transactionDependentPart = multisigSignatureTransactionPart(transaction as! MultisigSignatureTransaction)
+            transactionDependentPart = multisigSignatureTransactionPart(transaction as! _MultisigSignatureTransaction)
             
         default :
             break
@@ -124,7 +124,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func transferTransactionPart(transaction :TransferTransaction)->Array<UInt8> {
+    final class func transferTransactionPart(transaction :_TransferTransaction)->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let addressLength :Array<UInt8> = [40 , 0 , 0 , 0]
@@ -159,7 +159,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func importanceTransactionPart(transaction :ImportanceTransferTransaction)->Array<UInt8> {
+    final class func importanceTransactionPart(transaction :_ImportanceTransferTransaction)->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let mode :Array<UInt8> =  String(transaction.mode, radix: 16).asByteArrayEndian(4)
@@ -174,7 +174,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func multisigSignatureTransactionPart(transaction :MultisigSignatureTransaction)->Array<UInt8> {
+    final class func multisigSignatureTransactionPart(transaction :_MultisigSignatureTransaction)->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let lengthOfHashObject :Array<UInt8> =  String(transaction.lengthOfHashObject, radix: 16).asByteArrayEndian(4)

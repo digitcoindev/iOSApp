@@ -55,7 +55,7 @@ class AddressBookMessageViewController: UIViewController {
         guard let address = userAddressLabel.text?.stringByReplacingOccurrencesOfString("-", withString: "") else { return }
 
         if Validate.address(address) {
-            let correspondent :Correspondent = Correspondent()
+            let correspondent :_Correspondent = _Correspondent()
             correspondent.address = address
             correspondent.name = userInfoLabel.text!
             State.currentContact = correspondent

@@ -19,6 +19,9 @@ struct AccountData: Mappable {
     /// All cosignatories of the account.
     var cosignatories: [NSDictionary]!
     
+    /// All accounts for which the account acts as a cosignatory.
+    var cosignatoryOf: [NSDictionary]!
+    
     // MARK: - Model Lifecycle
     
     init?(_ map: Map) { }
@@ -30,5 +33,6 @@ struct AccountData: Mappable {
         
         balance <- map["account.balance"]
         cosignatories <- map["meta.cosignatories"]
+        cosignatoryOf <- map["meta.cosignatoryOf"]
     }
 }

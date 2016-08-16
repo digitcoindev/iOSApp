@@ -175,7 +175,7 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
             switch (inData.type) {
             case multisigTransaction:
                 
-                let multisigT  = inData as! MultisigTransaction
+                let multisigT  = inData as! _MultisigTransaction
                 
                 switch(multisigT.innerTransaction.type) {
                 case multisigAggregateModificationTransaction :

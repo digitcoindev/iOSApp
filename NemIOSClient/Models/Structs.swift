@@ -34,6 +34,6 @@ struct InvoiceData
 
 struct CorrespondentCellData
 {
-    var correspondent :Correspondent!
+    var correspondent :_Correspondent!
     var lastMessage :TransferTransaction?
 }

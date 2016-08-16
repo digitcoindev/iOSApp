@@ -57,7 +57,7 @@ class FetchManager: NSObject, APIManagerDelegate {
             return
         }
         
-        var transactions :[TransferTransaction] = []
+        var transactions :[_TransferTransaction] = []
         let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(_account!.privateKey, key: State.loadData!.password!)!)
 
         print("Last transaction hash: " + (_account?.lastTransactionHash ?? "nil"))
@@ -75,17 +75,17 @@ class FetchManager: NSObject, APIManagerDelegate {
                 break
             }
             
-            var transaction :TransferTransaction? = nil
+            var transaction :_TransferTransaction? = nil
             switch (inData.type) {
             case transferTransaction :
-                transaction = inData as? TransferTransaction
+                transaction = inData as? _TransferTransaction
             case multisigTransaction:
                 
-                let multisigT  = inData as! MultisigTransaction
+                let multisigT  = inData as! _MultisigTransaction
                 
                 switch(multisigT.innerTransaction.type) {
                 case transferTransaction :
-                    transaction = multisigT.innerTransaction as? TransferTransaction
+                    transaction = multisigT.innerTransaction as? _TransferTransaction
                 default:
                     break
                 }

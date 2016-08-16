@@ -1,0 +1,14 @@
+//
+//  Correspondent+Additions.swift
+//
+//  This file is covered by the LICENSE file in the root of this project.
+//  Copyright (c) 2016 NEM
+//
+
+import Foundation
+
+extension Correspondent: Equatable { }
+
+func == (lhs: Correspondent, rhs: Correspondent) -> Bool {
+    return lhs.accountAddress == rhs.accountAddress
+}

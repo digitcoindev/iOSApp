@@ -249,7 +249,7 @@ public class AccountManager {
         
         - Returns: The generated address as a string.
      */
-    private func generateAddress(forPublicKey publicKey: String) -> String {
+    public func generateAddress(forPublicKey publicKey: String) -> String {
         
         var inBuffer = publicKey.asByteArray()
         var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)

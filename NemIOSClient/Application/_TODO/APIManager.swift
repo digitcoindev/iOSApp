@@ -261,7 +261,7 @@ class APIManager: NSObject
                             switch(transaction.objectForKey("type") as! Int) {
                             case transferTransaction :
                                 
-                                let requestData :TransferTransaction = TransferTransaction()
+                                let requestData :_TransferTransaction = _TransferTransaction()
                                 
                                 requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
@@ -277,7 +277,7 @@ class APIManager: NSObject
                                 
                             case multisigTransaction :
                                 
-                                let requestData :MultisigTransaction = MultisigTransaction()
+                                let requestData :_MultisigTransaction = _MultisigTransaction()
                                 
                                 requestData.getBeginFrom(meta)
                                 requestData.getFrom(transaction)
@@ -358,7 +358,7 @@ class APIManager: NSObject
                             switch(transaction.objectForKey("type") as! Int) {
                             case transferTransaction :
                                 
-                                let requestData :TransferTransaction = TransferTransaction()
+                                let requestData :_TransferTransaction = _TransferTransaction()
                                 
                                 if  let metaData = meta.objectForKey("data") as? String
                                 {
@@ -382,7 +382,7 @@ class APIManager: NSObject
                                 
                             case multisigTransaction :
                                 
-                                let requestData :MultisigTransaction = MultisigTransaction()
+                                let requestData :_MultisigTransaction = _MultisigTransaction()
                                 
                                 if  meta.objectForKey("data") != nil
                                 {

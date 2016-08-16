@@ -35,12 +35,12 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     var walletData :AccountGetMetaData!
     var xems :Double = 0
     var invoice :InvoiceData? = nil
-    var contact :Correspondent? = State.currentContact
+    var contact :_Correspondent? = State.currentContact
     
     private var _isEnc = false
     private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
     private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
-    private var _preparedTransaction :TransferTransaction? = nil
+    private var _preparedTransaction :_TransferTransaction? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -313,12 +313,12 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         
         let messageBytes :[UInt8] = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
         
-        let transaction :TransferTransaction = TransferTransaction()
+        let transaction :_TransferTransaction = _TransferTransaction()
         
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
         transaction.amount = Double(xems)
         transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
+        transaction.message.type = (_isEnc) ? _MessageType.Ecrypted.rawValue : _MessageType.Normal.rawValue
         transaction.fee = transactionFee
         transaction.recipient = toAddressTextField.text!
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))

@@ -8,14 +8,14 @@
 
 import UIKit
 
-class Correspondent: NSObject {
+class _Correspondent: NSObject {
     var public_key: String? = nil
     var address: String = ""
     var name: String = ""
-    var transaction :TransferTransaction!
+    var transaction :_TransferTransaction!
     
-    class func generateCorespondetsFromTransactions(transactions :[TransferTransaction]) -> [Correspondent]{
-        var correspondents :[Correspondent] = []
+    class func generateCorespondetsFromTransactions(transactions :[_TransferTransaction]) -> [_Correspondent]{
+        var correspondents :[_Correspondent] = []
         
         if State.currentWallet == nil {
            return []
@@ -43,7 +43,7 @@ class Correspondent: NSObject {
             }
             
             if !find {
-                let correspondent = Correspondent()
+                let correspondent = _Correspondent()
                 correspondent.address = (account_address != signerAddress) ? signerAddress : transaction.recipient
                 
                 if correspondent.address == correspondent.address.nemName() {

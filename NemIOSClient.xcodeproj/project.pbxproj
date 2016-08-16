@@ -20,6 +20,9 @@
 		4F3ACE9F1D6217430056F234 /* MultisigSignatureTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */; };
 		4F3ACEA11D6218300056F234 /* ImportanceTransferTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */; };
 		4F3ACEA31D6218E10056F234 /* MultisigAggregateModificationTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */; };
+		4F3ACEA51D6341370056F234 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA41D6341360056F234 /* MessageModel.swift */; };
+		4F3ACEA71D636B6B0056F234 /* CorrespondentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */; };
+		4F3ACEA91D638D820056F234 /* Correspondent+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA81D638D820056F234 /* Correspondent+Additions.swift */; };
 		4F3B428C1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3B428B1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift */; };
 		4F63E36A1D5E03D100BCFFA4 /* NetworkingEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F63E3691D5E03D100BCFFA4 /* NetworkingEndpoints.swift */; };
 		4F63E36D1D5E192500BCFFA4 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F63E36B1D5E18CF00BCFFA4 /* Result.framework */; };
@@ -284,6 +287,9 @@
 		4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignatureTransactionModel.swift; path = Models/MultisigSignatureTransactionModel.swift; sourceTree = "<group>"; };
 		4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportanceTransferTransactionModel.swift; path = Models/ImportanceTransferTransactionModel.swift; sourceTree = "<group>"; };
 		4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAggregateModificationTransactionModel.swift; path = Models/MultisigAggregateModificationTransactionModel.swift; sourceTree = "<group>"; };
+		4F3ACEA41D6341360056F234 /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageModel.swift; path = Models/MessageModel.swift; sourceTree = "<group>"; };
+		4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CorrespondentModel.swift; path = Models/CorrespondentModel.swift; sourceTree = "<group>"; };
+		4F3ACEA81D638D820056F234 /* Correspondent+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Correspondent+Additions.swift"; path = "Common/Extensions/Correspondent+Additions.swift"; sourceTree = "<group>"; };
 		4F3B428B1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuPasswordValidationViewController.swift; path = Application/Account/AccountAdditionMenuPasswordValidationViewController.swift; sourceTree = "<group>"; };
 		4F63E3691D5E03D100BCFFA4 /* NetworkingEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingEndpoints.swift; path = Application/Networking/NetworkingEndpoints.swift; sourceTree = "<group>"; };
 		4F63E36B1D5E18CF00BCFFA4 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -583,6 +589,7 @@
 			children = (
 				4F9F68931D4C39AB0086F98F /* String+Additions.swift */,
 				4F9F68851D4C39220086F98F /* UIImage+Additions.swift */,
+				4F3ACEA81D638D820056F234 /* Correspondent+Additions.swift */,
 				4F9F67B31D4A00DF0086F98F /* _TODO */,
 			);
 			name = Extensions;
@@ -591,6 +598,14 @@
 		4F13394E1D40EEF700AA126D /* _TRASH */ = {
 			isa = PBXGroup;
 			children = (
+				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
+				9823A4D11B8339B400B532CC /* Correspondent.swift */,
+				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
+				DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */,
+				DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */,
+				DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */,
+				DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */,
+				DA89F1111AD6982100105BB0 /* TransferTransaction.swift */,
 				4F9F68231D4C34E00086F98F /* AddressGenerator.swift */,
 				4F9F68211D4C34D80086F98F /* Validate.swift */,
 				4F9F68251D4C34E70086F98F /* KeyGenerator.swift */,
@@ -853,11 +868,6 @@
 		4FFF8EFD1D51D74700B4BB9F /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
-				DA89F1111AD6982100105BB0 /* TransferTransaction.swift */,
-				DA89F1161AD6AAD700105BB0 /* AggregateModificationTransaction.swift */,
-				DA89F1181AD7E46800105BB0 /* ImportanceTransferTransaction.swift */,
-				DAD21B9B1AFCD51F00F6B861 /* MultisigTransaction.swift */,
-				DAC3A17D1B020A0F00AABB61 /* MultisigSignatureTransaction.swift */,
 				DAC3A17F1B03AE2800AABB61 /* Signature.swift */,
 				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
 				DADDA24E1B21D1B500F3F5F5 /* Structs.swift */,
@@ -865,10 +875,7 @@
 				4F9F67B91D4C2D010086F98F /* Server.swift */,
 				DA3403971B21E4DB00D514C4 /* Invoice.swift */,
 				4F9F67BB1D4C2D0F0086F98F /* LoadData.swift */,
-				9823A4D11B8339B400B532CC /* Correspondent.swift */,
 				DAF1382A1AB08F7E0069AC3A /* AccountGetMetaData.swift */,
-				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
-				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
 				DA1A5DA21AC971EF00F70221 /* SignedTransactionMetaData.swift */,
 				9877C6831BE2787400AF9751 /* BlockGetMetaData.swift */,
 			);
@@ -1091,6 +1098,8 @@
 				4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */,
 				4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */,
 				4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */,
+				4F3ACEA41D6341360056F234 /* MessageModel.swift */,
+				4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */,
 				4FFF8EFD1D51D74700B4BB9F /* _TODO */,
 			);
 			name = Models;
@@ -1365,6 +1374,7 @@
 				98BB95D51BCCED5B002151F7 /* fe.c in Sources */,
 				4F9F681C1D4C33A40086F98F /* AccountExportWarningViewController.swift in Sources */,
 				4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */,
+				4F3ACEA91D638D820056F234 /* Correspondent+Additions.swift in Sources */,
 				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
 				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
 				4F9F68921D4C39A50086F98F /* NSDataExtensions.swift in Sources */,
@@ -1411,9 +1421,11 @@
 				4F850F2E1D4C3F350003E192 /* TimeSynchronizator.swift in Sources */,
 				4F9F68321D4C353D0086F98F /* TransactionMessageTableViewCell.swift in Sources */,
 				4F9F68281D4C34EC0086F98F /* WalletGenerator.swift in Sources */,
+				4F3ACEA71D636B6B0056F234 /* CorrespondentModel.swift in Sources */,
 				4F9F68841D4C39040086F98F /* NEMTextField.swift in Sources */,
 				4F9F67C01D4C2E9D0086F98F /* AbstractViewController.swift in Sources */,
 				4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */,
+				4F3ACEA51D6341370056F234 /* MessageModel.swift in Sources */,
 				4F9F68441D4C35F20086F98F /* InvoiceScanViewController.swift in Sources */,
 				4F9F68881D4C39810086F98F /* FileService.swift in Sources */,
 				4F9F68181D4C33900086F98F /* AccountExportViewController.swift in Sources */,

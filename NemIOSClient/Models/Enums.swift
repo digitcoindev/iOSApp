@@ -28,7 +28,7 @@ enum QRType: Int {
     case AccountData = 3
 }
 
-enum MessageType: Int {
+enum _MessageType: Int {
     case Normal = 1
     case Ecrypted = 2
     case Hex = 3

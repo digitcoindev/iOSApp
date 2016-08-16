@@ -7,6 +7,7 @@
 
 import Foundation
 import ObjectMapper
+import SwiftyJSON
 
 ///
 class MultisigAggregateModificationTransaction: Transaction {
@@ -15,9 +16,28 @@ class MultisigAggregateModificationTransaction: Transaction {
     
     var type = TransactionType.MultisigAggregateModificationTransaction
     
+    var timeStamp: Int!
+    
+    /// The fee for the transaction.
+    var fee: Int!
+    
+    /// The deadline of the transaction.
+    var deadline: Int!
+    
+    /// The transaction signature.
+    var signature: String!
+    
+    /// The public key of the account that created the transaction.
+    var signer: String!
+    
     // MARK: - Model Lifecycle
     
     required init?(_ map: Map) { }
+    
+    required init?(jsonData: JSON) {
+        
+//        timeStamp = jsonData["transaction"]["timeStamp"].intValue
+    }
     
     // MARK: - Model Helper Methods
     

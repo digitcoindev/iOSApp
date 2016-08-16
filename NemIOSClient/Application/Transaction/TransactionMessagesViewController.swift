@@ -36,7 +36,7 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
     private var _apiManager :APIManager? = APIManager()
     private var _operationDipatchQueue :dispatch_queue_t = dispatch_queue_create("Message VC operation queu", nil)
     
-    private let _contact :Correspondent = State.currentContact!
+    private let _contact :_Correspondent = State.currentContact!
     private var _accounts :[AccountGetMetaData] = []
     private var _mainAccount :AccountGetMetaData? = nil
     private var _activeAccount :AccountGetMetaData? = nil
@@ -45,7 +45,7 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
     
     private var _bottomInsert :CGFloat = 0
     
-    let contact :Correspondent = State.currentContact!
+    let contact :_Correspondent = State.currentContact!
     
     private let rowLength :Int = 21
     private let textSizeCommon :CGFloat = 12
@@ -198,7 +198,7 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
             return
         }
         
-        let transaction :TransferTransaction = TransferTransaction()
+        let transaction :_TransferTransaction = _TransferTransaction()
         
         if let amount = Double(amoundField!.text!) {
             if Double(_activeAccount?.balance ?? -1) > amount {
@@ -240,7 +240,7 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
         }
         
         transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? MessageType.Ecrypted.rawValue : MessageType.Normal.rawValue
+        transaction.message.type = (_isEnc) ? _MessageType.Ecrypted.rawValue : _MessageType.Normal.rawValue
         
         var fee = 0
         
@@ -281,8 +281,8 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
             var definedCell : DefinedCell = DefinedCell()
             definedCell.type = .Outgoing
             
-            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
-            (transaction as! TransferTransaction)
+            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! _MultisigTransaction).innerTransaction as! _TransferTransaction) :
+            (transaction as! _TransferTransaction)
             
             if (innertTransaction.recipient == _account_address) {
                 definedCell.type = .Incoming
@@ -322,8 +322,8 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
             var definedCell : DefinedCell = DefinedCell()
             definedCell.type = .Processing
             
-            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
-                (transaction as! TransferTransaction)
+            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! _MultisigTransaction).innerTransaction as! _TransferTransaction) :
+                (transaction as! _TransferTransaction)
             innertTransaction.message.signer = contact.public_key
 
             var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized() , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
@@ -345,12 +345,12 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
             
             
             if transaction.type == multisigTransaction {
-                definedCell.minCosignatories = _getMinCosigFor(transaction as! MultisigTransaction)
+                definedCell.minCosignatories = _getMinCosigFor(transaction as! _MultisigTransaction)
             }
             
             if transaction.type == multisigTransaction {
                 let signerAdress = AddressGenerator.generateAddress(innertTransaction.signer)
-                let singnaturesCount = (transaction as! MultisigTransaction).signatures.count + 1
+                let singnaturesCount = (transaction as! _MultisigTransaction).signatures.count + 1
                 var cosignatories = 0
                 var minCosig = 0
 
@@ -485,15 +485,15 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
             cell.detailsIsShown = false
             
             var transaction :TransactionPostMetaData!
-            var innertTransaction :TransferTransaction!
+            var innertTransaction :_TransferTransaction!
             
             if indexPath.row <= _transactions.count {
                 index = indexPath.row - 1
                 cell.cellType = _definedCells[indexPath.row - 1].type
                 cell.setDetails(_definedCells[indexPath.row - 1].detailsTop, middle: _definedCells[indexPath.row - 1].detailsMiddle, bottom: _definedCells[indexPath.row - 1].detailsBottom)
                 transaction = _transactions[index]
-                innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
-                    (transaction as! TransferTransaction)
+                innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! _MultisigTransaction).innerTransaction as! _TransferTransaction) :
+                    (transaction as! _TransferTransaction)
             } else {
                 
                 index = indexPath.row - _transactions.count - 2
@@ -509,8 +509,8 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
                     return cell
                 }
                 transaction  = _unconfirmedTransactions[index]
-                innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! MultisigTransaction).innerTransaction as! TransferTransaction) :
-                    (transaction as! TransferTransaction)
+                innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! _MultisigTransaction).innerTransaction as! _TransferTransaction) :
+                    (transaction as! _TransferTransaction)
             }
             innertTransaction.message.signer = contact.public_key
             let messageText = innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized()
@@ -787,19 +787,19 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
         let publicKey = KeyGenerator.generatePublicKey(privateKey!)
         
         for var index = 0; index < transactions.count; index++ {
-            var transaction :TransferTransaction?
+            var transaction :_TransferTransaction?
             
             switch transactions[index].type {
             case multisigTransaction :
-                let innerTransaction = ((transactions[index] as! MultisigTransaction).innerTransaction as TransactionPostMetaData)
+                let innerTransaction = ((transactions[index] as! _MultisigTransaction).innerTransaction as TransactionPostMetaData)
                 switch innerTransaction.type {
                 case transferTransaction:
-                    transaction = innerTransaction as? TransferTransaction
+                    transaction = innerTransaction as? _TransferTransaction
                 default:
                     break
                 }
             case transferTransaction:
-                transaction = transactions[index] as? TransferTransaction
+                transaction = transactions[index] as? _TransferTransaction
                 
             default :
                 break
@@ -832,8 +832,8 @@ class TransactionMessagesViewController: UIViewController, UITableViewDelegate, 
         return transactions
     }
     
-    private final func _getMinCosigFor(transaction: MultisigTransaction) -> Int? {
-        let innertTransaction =  (transaction.innerTransaction as! TransferTransaction)
+    private final func _getMinCosigFor(transaction: _MultisigTransaction) -> Int? {
+        let innertTransaction =  (transaction.innerTransaction as! _TransferTransaction)
         let transactionsignerAddress = AddressGenerator.generateAddress(innertTransaction.signer)
         
         for account in _accounts {

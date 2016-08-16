@@ -2,7 +2,7 @@ import UIKit
 
 class _MultisigTransaction: TransactionPostMetaData
 {
-    var innerTransaction : _TransactionPostMetaData!
+    var innerTransaction : TransactionPostMetaData!
     var signatures :[Signature] = [Signature]()
     override init() {
         super.init()
@@ -32,7 +32,7 @@ class _MultisigTransaction: TransactionPostMetaData
         switch(innerDictionary.objectForKey("type") as! Int) {
             
         case transferTransaction:
-            let transaction :TransferTransaction = TransferTransaction()
+            let transaction :_TransferTransaction = _TransferTransaction()
             transaction.id = self.id
             transaction.height = self.height
             transaction.hashString = self.hashString
@@ -41,7 +41,7 @@ class _MultisigTransaction: TransactionPostMetaData
             self.innerTransaction = transaction
             
         case importanceTransaction:
-            let transaction :ImportanceTransferTransaction = ImportanceTransferTransaction()
+            let transaction :_ImportanceTransferTransaction = _ImportanceTransferTransaction()
             transaction.id = self.id
             transaction.height = self.height
             transaction.hashString = self.hashString

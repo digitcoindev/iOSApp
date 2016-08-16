@@ -8,6 +8,7 @@
 import UIKit
 import Moya
 import GCDKit
+import SwiftyJSON
 import Contacts
 
 /**
@@ -20,22 +21,18 @@ class TransactionOverviewViewController: UIViewController {
     // MARK: - View Controller Properties
 
     var account: Account?
+    private var accountData: AccountData?
+    private var transactions = [Transaction]()
+    private var correspondents = [Correspondent]()
     
-    var walletData :AccountGetMetaData?
-    
-    private var _apiManager :APIManager = APIManager()
-    private var _correspondents :[Correspondent] = []
     
     private var _displayList :NSArray = NSArray()
-    
     private var _requestsLimit: Int = 2
     private var _transactionsLimit: Int = 50
     private var _showUnconfirmed = true
-    
     private var _requestCounter = 0
 //    private var _timer: NSTimer? = nil
     
-    private var _account_address: String? = nil
     private var _transactions:[_TransferTransaction] = []
     
     // MARK: - View Controller Outlets
@@ -53,33 +50,22 @@ class TransactionOverviewViewController: UIViewController {
         }
         
         infoHeaderLabel.text = "NO_INTERNET_CONNECTION".localized()
-        _apiManager.delegate = self
         
-        _displayList = _correspondents
+        _displayList = correspondents
         
         fetchAccountData(forAccount: account!)
+        fetchAllTransactions(forAccount: account!)
+
         
-//        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-//        let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-//        _account_address = AddressGenerator.generateAddress(publicKey)
-        
-//        dispatch_async(dispatch_get_main_queue(), {
 //            self.refreshTransactionList()
 //            if AddressBookManager.isAllowed ?? false {
 //                self.findCorrespondentName()
 //            }
-//        })
         
-//        if State.currentContact != nil {
-//            
-//            performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
-//        }
         
 //        if let server = State.currentServer {
 //            _apiManager.timeSynchronize(server)
 //        }
-        
-//        self.tableView.allowsMultipleSelectionDuringEditing = false
         
 //        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionList), userInfo: nil, repeats: true)
     }
@@ -175,6 +161,8 @@ class TransactionOverviewViewController: UIViewController {
                         
                         self?.updateBarButtonItemStatus(withAccountData: accountData)
                         self?.updateInfoHeaderLabel(withAccountData: accountData)
+                        
+                        self?.accountData = accountData
                     }
                     
                 } catch {
@@ -203,7 +191,26 @@ class TransactionOverviewViewController: UIViewController {
                 do {
                     try response.filterSuccessfulStatusCodes()
                     
+                    let json = JSON(data: response.data)
+                    var allTransactions = [Transaction]()
                     
+                    for (_, subJson) in json["data"] {
+                        
+                        print(TransactionType(rawValue: subJson["transaction"]["type"].intValue))
+                        
+                        switch subJson["transaction"]["type"].intValue {
+                        case TransactionType.TransferTransaction.rawValue:
+                            
+                            let transferTransaction = try subJson.mapObject(TransferTransaction)
+                            allTransactions.append(transferTransaction)
+                            
+                        default:
+                            return
+                        }
+                    }
+                    
+                    self?.transactions = allTransactions
+                    self?.getCorrespondents(forTransactions: allTransactions)
                     
                 } catch {
                     
@@ -213,7 +220,47 @@ class TransactionOverviewViewController: UIViewController {
             case let .Failure(error):
                 
                 print(error)
+                self?.updateInfoHeaderLabel(withAccountData: nil)
             }
+        }
+    }
+    
+    /**
+ 
+     */
+    private func getCorrespondents(forTransactions transactions: [Transaction]) {
+        
+        var correspondents = [Correspondent]()
+        
+        for transaction in transactions {
+            
+            switch transaction.type {
+            case .TransferTransaction:
+                
+                let transaction = transaction as! TransferTransaction
+                let correspondent = Correspondent()
+                
+                if transaction.signer == account!.publicKey {
+                    
+                    correspondent.accountAddress = transaction.recipient
+                    
+                } else {
+                    
+                    correspondent.accountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer)
+                }
+                
+                if correspondents.contains(correspondent) == false {
+                    correspondents.append(correspondent)
+                }
+                
+            default:
+                return
+            }
+        }
+        
+        print("-------------")
+        for correspondent in correspondents {
+            print(correspondent.accountAddress)
         }
     }
     
@@ -541,15 +588,14 @@ extension TransactionOverviewViewController: UITableViewDataSource {
 extension TransactionOverviewViewController: UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        State.currentContact = _correspondents[indexPath.row] as Correspondent
-        if walletData != nil {
+        if accountData != nil {
             State.invoice = nil
             
             //            var nextVC = ""
-            if walletData!.cosignatories.count > 0 {
+            if accountData!.cosignatories.count > 0 {
                 performSegueWithIdentifier("showTransactionMultisignatureMessagesViewController", sender: nil)
             }
-            else if walletData!.cosignatoryOf.count > 0 {
+            else if accountData!.cosignatoryOf.count > 0 {
                 performSegueWithIdentifier("showTransactionCosignatoryMessagesViewController", sender: nil)
                 
             } else {
