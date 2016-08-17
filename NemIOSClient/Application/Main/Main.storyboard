@@ -1430,7 +1430,7 @@
                                 <gestureRecognizers/>
                                 <color key="sectionIndexBackgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="correspondent" rowHeight="130" id="aQv-nE-hgf" customClass="TransactionOverviewCorrespondentTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TransactionOverviewCorrespondentTableViewCell" rowHeight="130" id="aQv-nE-hgf" customClass="TransactionOverviewCorrespondentTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="375" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aQv-nE-hgf" id="asT-kV-Oik">
@@ -1442,6 +1442,7 @@
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJN-Mw-di8" userLabel="User info">
                                                             <rect key="frame" x="8" y="8" width="195" height="45"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="45" id="KpH-kV-uOP"/>
                                                             </constraints>
@@ -1451,6 +1452,7 @@
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wL0-sB-gX3" userLabel="Date">
                                                             <rect key="frame" x="211" y="8" width="140" height="21"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="fF3-iz-3uN"/>
                                                                 <constraint firstAttribute="width" constant="140" id="rnZ-eY-uQO"/>
@@ -1461,6 +1463,7 @@
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v8w-0S-p7x" userLabel="payload">
                                                             <rect key="frame" x="8" y="55" width="195" height="45"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="45" id="my9-98-8aY"/>
                                                             </constraints>
@@ -1470,6 +1473,7 @@
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- 10 000.123456 XEM" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0a-To-9re" userLabel="XEM Amount">
                                                             <rect key="frame" x="211" y="55" width="140" height="45"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="140" id="fwW-UG-4hO"/>
                                                                 <constraint firstAttribute="height" constant="45" id="zhY-sz-8KA"/>
@@ -1526,11 +1530,11 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="cellContentView" destination="kuj-ZX-PXI" id="3M1-cI-Ozi"/>
-                                            <outlet property="date" destination="wL0-sB-gX3" id="vQK-9d-2ry"/>
-                                            <outlet property="message" destination="v8w-0S-p7x" id="MXw-Z9-gyK"/>
-                                            <outlet property="name" destination="cJN-Mw-di8" id="rcz-Hh-i4p"/>
-                                            <outlet property="xems" destination="B0a-To-9re" id="TJS-uS-UGb"/>
+                                            <outlet property="containerView" destination="kuj-ZX-PXI" id="yBF-jQ-1kF"/>
+                                            <outlet property="mostRecentAmountLabel" destination="B0a-To-9re" id="Zgg-N9-H04"/>
+                                            <outlet property="mostRecentDateLabel" destination="wL0-sB-gX3" id="FHn-wc-bdE"/>
+                                            <outlet property="mostRecentMessageLabel" destination="v8w-0S-p7x" id="ZEb-Pb-8yL"/>
+                                            <outlet property="nameLabel" destination="cJN-Mw-di8" id="GwD-9R-Xyv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1539,15 +1543,33 @@
                                     <outlet property="delegate" destination="bjO-bB-3r9" id="OBc-8d-SGK"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hi0-Wz-HXz">
+                                <rect key="frame" x="0.0" y="50" width="375" height="504"/>
+                                <subviews>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="YAr-jM-JGn">
+                                        <rect key="frame" x="177" y="242" width="20" height="20"/>
+                                        <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="YAr-jM-JGn" firstAttribute="centerY" secondItem="hi0-Wz-HXz" secondAttribute="centerY" id="jnJ-zh-3Tu"/>
+                                    <constraint firstItem="YAr-jM-JGn" firstAttribute="centerX" secondItem="hi0-Wz-HXz" secondAttribute="centerX" id="kZD-JO-COX"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Crn-8V-Vpr" firstAttribute="top" secondItem="RQF-m3-hEU" secondAttribute="bottom" id="4LD-Lc-ShG"/>
                             <constraint firstAttribute="trailing" secondItem="Crn-8V-Vpr" secondAttribute="trailing" id="8vj-Ek-SjS"/>
+                            <constraint firstItem="QyD-ON-UhU" firstAttribute="top" secondItem="hi0-Wz-HXz" secondAttribute="bottom" id="P9h-PX-hsu"/>
+                            <constraint firstItem="hi0-Wz-HXz" firstAttribute="top" secondItem="RQF-m3-hEU" secondAttribute="bottom" id="Wdo-96-SfS"/>
+                            <constraint firstAttribute="trailing" secondItem="hi0-Wz-HXz" secondAttribute="trailing" id="cIL-7H-cKS"/>
                             <constraint firstItem="Crn-8V-Vpr" firstAttribute="leading" secondItem="ujX-dy-Hgh" secondAttribute="leading" id="fhk-qF-t8O"/>
                             <constraint firstAttribute="trailing" secondItem="RQF-m3-hEU" secondAttribute="trailing" id="gXm-KT-FHA"/>
                             <constraint firstItem="RQF-m3-hEU" firstAttribute="top" secondItem="3lx-1a-UgL" secondAttribute="bottom" id="igh-gO-oAj"/>
                             <constraint firstItem="RQF-m3-hEU" firstAttribute="leading" secondItem="ujX-dy-Hgh" secondAttribute="leading" id="pC2-N1-7bZ"/>
+                            <constraint firstItem="hi0-Wz-HXz" firstAttribute="leading" secondItem="ujX-dy-Hgh" secondAttribute="leading" id="sdg-Nz-Tic"/>
                             <constraint firstItem="QyD-ON-UhU" firstAttribute="top" secondItem="Crn-8V-Vpr" secondAttribute="bottom" id="uOT-E4-erh"/>
                         </constraints>
                     </view>
@@ -1556,6 +1578,8 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="infoHeaderLabel" destination="836-Wa-UbO" id="VG1-6m-LL2"/>
+                        <outlet property="loadingActivityIndicator" destination="YAr-jM-JGn" id="5PQ-e2-pim"/>
+                        <outlet property="loadingView" destination="hi0-Wz-HXz" id="XfR-Ww-xTC"/>
                         <outlet property="tableView" destination="Crn-8V-Vpr" id="GKC-sT-gKf"/>
                         <segue destination="0YH-3H-wH5" kind="show" identifier="showTransactionSendViewController" id="1gq-V7-0tx"/>
                         <segue destination="rte-MK-XjK" kind="show" identifier="showTransactionNormalMessagesViewController" id="sJF-sU-Cte"/>

@@ -35,9 +35,6 @@ protocol Transaction: Mappable, SwiftyJSONMappable {
     /// The deadline of the transaction.
     var deadline: Int! { get set }
     
-    /// The transaction signature.
-    var signature: String! { get set }
-    
     /// The public key of the account that created the transaction.
     var signer: String! { get set }
     

@@ -193,6 +193,59 @@ public class AccountManager {
         return true
     }
     
+    /**
+        Generates the address for the provided public key.
+     
+        - Parameter publicKey: The public key for which the address should get generated.
+     
+        - Returns: The generated address as a string.
+     */
+    public func generateAddress(forPublicKey publicKey: String) -> String {
+        
+        var inBuffer = publicKey.asByteArray()
+        var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        
+        SHA256_hash(&stepOneSHA256, &inBuffer, 32)
+        
+        let stepOneSHA256Text = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as! String
+        let stepTwoRIPEMD160Text = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
+        let stepTwoRIPEMD160Buffer = stepTwoRIPEMD160Text.asByteArray()
+        
+        var version = Array<UInt8>()
+        version.append(network)
+        
+        var stepThreeVersionPrefixedRipemd160Buffer = version + stepTwoRIPEMD160Buffer
+        var checksumHash: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        
+        SHA256_hash(&checksumHash, &stepThreeVersionPrefixedRipemd160Buffer, 21)
+        
+        let checksumText = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as! String
+        var checksumBuffer = checksumText.asByteArray()
+        var checksum = Array<UInt8>()
+        checksum.append(checksumBuffer[0])
+        checksum.append(checksumBuffer[1])
+        checksum.append(checksumBuffer[2])
+        checksum.append(checksumBuffer[3])
+        
+        let stepFourResultBuffer = stepThreeVersionPrefixedRipemd160Buffer + checksum
+        let address = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
+        
+        return address
+    }
+    
+    /**
+        Generates the address for the provided private key.
+     
+        - Parameter privateKey: The private key for which the address should get generated.
+     
+        - Returns: The generated address as a string.
+     */
+    public func generateAddress(forPrivateKey privateKey: String) -> String {
+        
+        let publicKey = generatePublicKey(forPrivateKey: privateKey)
+        return generateAddress(forPublicKey: publicKey)
+    }
+    
     // MARK: - Private Manager Methods
     
     /**
@@ -240,59 +293,6 @@ public class AccountManager {
         let publicKey: String = NSData(bytes: &publicKeyBytes, length: 32).toHexString()
         
         return publicKey.nemKeyNormalized()!
-    }
-    
-    /**
-        Generates the address for the provided public key.
-     
-        - Parameter publicKey: The public key for which the address should get generated.
-        
-        - Returns: The generated address as a string.
-     */
-    public func generateAddress(forPublicKey publicKey: String) -> String {
-        
-        var inBuffer = publicKey.asByteArray()
-        var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)
-        
-        SHA256_hash(&stepOneSHA256, &inBuffer, 32)
-        
-        let stepOneSHA256Text = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as! String
-        let stepTwoRIPEMD160Text = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
-        let stepTwoRIPEMD160Buffer = stepTwoRIPEMD160Text.asByteArray()
-        
-        var version = Array<UInt8>()
-        version.append(network)
-        
-        var stepThreeVersionPrefixedRipemd160Buffer = version + stepTwoRIPEMD160Buffer
-        var checksumHash: Array<UInt8> = Array(count: 64, repeatedValue: 0)
-        
-        SHA256_hash(&checksumHash, &stepThreeVersionPrefixedRipemd160Buffer, 21)
-        
-        let checksumText = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as! String
-        var checksumBuffer = checksumText.asByteArray()
-        var checksum = Array<UInt8>()
-        checksum.append(checksumBuffer[0])
-        checksum.append(checksumBuffer[1])
-        checksum.append(checksumBuffer[2])
-        checksum.append(checksumBuffer[3])
-        
-        let stepFourResultBuffer = stepThreeVersionPrefixedRipemd160Buffer + checksum
-        let address = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
-        
-        return address
-    }
-    
-    /**
-        Generates the address for the provided private key.
-        
-        - Parameter privateKey: The private key for which the address should get generated.
-     
-        - Returns: The generated address as a string.
-     */
-    private func generateAddress(forPrivateKey privateKey: String) -> String {
-        
-        let publicKey = generatePublicKey(forPrivateKey: privateKey)
-        return generateAddress(forPublicKey: publicKey)
     }
     
     /**

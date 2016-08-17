@@ -184,7 +184,7 @@ extension AccountListViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("AccountTableViewCell") as! AccountTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("AccountTableViewCell") as! AccountTableViewCell
         cell.title = accounts[indexPath.row].title
         
         return cell

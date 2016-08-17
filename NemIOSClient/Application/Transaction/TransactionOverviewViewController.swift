@@ -25,25 +25,28 @@ class TransactionOverviewViewController: UIViewController {
     private var transactions = [Transaction]()
     private var correspondents = [Correspondent]()
     
+    let dispatchGroup = GCDGroup()
     
-    private var _displayList :NSArray = NSArray()
+    
     private var _requestsLimit: Int = 2
     private var _transactionsLimit: Int = 50
     private var _showUnconfirmed = true
     private var _requestCounter = 0
 //    private var _timer: NSTimer? = nil
     
-    private var _transactions:[_TransferTransaction] = []
-    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var infoHeaderLabel: UILabel!
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
     
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        showLoadingView()
         
         if let tbc = tabBarController as? AccountDetailTabBarController {
             account = tbc.account
@@ -51,10 +54,7 @@ class TransactionOverviewViewController: UIViewController {
         
         infoHeaderLabel.text = "NO_INTERNET_CONNECTION".localized()
         
-        _displayList = correspondents
-        
-        fetchAccountData(forAccount: account!)
-        fetchAllTransactions(forAccount: account!)
+        updateTransactionOverview()
 
         
 //            self.refreshTransactionList()
@@ -139,14 +139,47 @@ class TransactionOverviewViewController: UIViewController {
     }
     
     /**
+        Shows the loading view above the table view which shows
+        an spinning activity indicator.
+     */
+    private func showLoadingView() {
+        
+        loadingActivityIndicator.startAnimating()
+        loadingView.hidden = false
+    }
+    
+    /// Hides the loading view.
+    private func hideLoadingView() {
+        
+        loadingView.hidden = true
+        loadingActivityIndicator.stopAnimating()
+    }
+    
+    ///
+    private func updateTransactionOverview() {
+        
+        transactions = [Transaction]()
+        
+        fetchAccountData(forAccount: account!)
+        fetchAllTransactions(forAccount: account!)
+        fetchUnconfirmedTransactions(forAccount: account!)
+        
+        dispatchGroup.notify(.Main) {
+            self.transactions.sortInPlace({ $0.timeStamp < $1.timeStamp })
+            self.getCorrespondents(forTransactions: self.transactions)
+        }
+    }
+    
+    /**
         Fetches the account data (balance, cosignatories, etc.) for the current account from the active NIS.
         After a successful fetch the info header label gets updated with the account balance. The function
         also checks if the account is a multisig account and disables the compose bar button item accordingly.
+        Do not call this function directly. Use the method updateTransactionOverview.
      
         - Parameter account: The current account for which the account data should get fetched.
      */
     private func fetchAccountData(forAccount account: Account) {
-        
+
         nisProvider.request(NIS.AccountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
@@ -167,21 +200,32 @@ class TransactionOverviewViewController: UIViewController {
                     
                 } catch {
                     
-                    print("Failure: \(response.statusCode)")
+                    GCDQueue.Main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                    }
                 }
                 
             case let .Failure(error):
                 
-                print(error)
-                self?.updateInfoHeaderLabel(withAccountData: nil)
+                GCDQueue.Main.async {
+                    
+                    print(error)
+                    self?.updateInfoHeaderLabel(withAccountData: nil)
+                }
             }
         }
     }
     
     /**
- 
+        Fetches the last 25 transactions for the current account from the active NIS.
+        Do not call this function directly. Use the method updateTransactionOverview.
+     
+        - Parameter account: The current account for which the transactions should get fetched.
      */
     private func fetchAllTransactions(forAccount account: Account) {
+        
+        dispatchGroup.enter()
         
         nisProvider.request(NIS.AllTransactions(accountAddress: account.address)) { [weak self] (result) in
             
@@ -196,8 +240,6 @@ class TransactionOverviewViewController: UIViewController {
                     
                     for (_, subJson) in json["data"] {
                         
-                        print(TransactionType(rawValue: subJson["transaction"]["type"].intValue))
-                        
                         switch subJson["transaction"]["type"].intValue {
                         case TransactionType.TransferTransaction.rawValue:
                             
@@ -205,28 +247,109 @@ class TransactionOverviewViewController: UIViewController {
                             allTransactions.append(transferTransaction)
                             
                         default:
-                            return
+                            break
                         }
                     }
                     
-                    self?.transactions = allTransactions
-                    self?.getCorrespondents(forTransactions: allTransactions)
+                    GCDQueue.Main.async {
+
+                        self?.transactions += allTransactions
+
+                        self?.dispatchGroup.leave()
+                    }
                     
                 } catch {
                     
-                    print("Failure: \(response.statusCode)")
+                    GCDQueue.Main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+
+                        self?.dispatchGroup.leave()
+                    }
                 }
                 
             case let .Failure(error):
                 
-                print(error)
-                self?.updateInfoHeaderLabel(withAccountData: nil)
+                GCDQueue.Main.async {
+                    
+                    print(error)
+                    self?.updateInfoHeaderLabel(withAccountData: nil)
+                    
+                    self?.dispatchGroup.leave()
+                }
             }
         }
     }
     
     /**
- 
+        Fetches all unconfirmed transactions for the provided account.
+        Do not call this function directly. Use the method updateTransactionOverview.
+     
+        - Parameter account: The account for which all unconfirmed transaction should get fetched.
+     */
+    private func fetchUnconfirmedTransactions(forAccount account: Account) {
+        
+        dispatchGroup.enter()
+        
+        nisProvider.request(NIS.UnconfirmedTransactions(accountAddress: account.address)) { [weak self] (result) in
+            
+            switch result {
+            case let .Success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    var unconfirmedTransactions = [Transaction]()
+                    
+                    for (_, subJson) in json["data"] {
+                        
+                        switch subJson["transaction"]["type"].intValue {
+                        case TransactionType.TransferTransaction.rawValue:
+                            
+                            let transferTransaction = try subJson.mapObject(TransferTransaction)
+                            unconfirmedTransactions.append(transferTransaction)
+                            
+                        default:
+                            break
+                        }
+                    }
+                    
+                    GCDQueue.Main.async {
+                        
+                        self?.transactions += unconfirmedTransactions
+
+                        self?.dispatchGroup.leave()
+                    }
+                    
+                } catch {
+                    
+                    GCDQueue.Main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        
+                        self?.dispatchGroup.leave()
+                    }
+                }
+                
+            case let .Failure(error):
+                
+                GCDQueue.Main.async {
+                    
+                    print(error)
+                    self?.updateInfoHeaderLabel(withAccountData: nil)
+                    
+                    self?.dispatchGroup.leave()
+                }
+            }
+        }
+    }
+    
+    /**
+        Determines all correspondents for the provided transactions. Updates the table view with the
+        correspondents once finished. Do not call this function directly. Use the method updateTransactionOverview.
+     
+        - Parameter transactions: The transactions for which the correspondents should get determined.
      */
     private func getCorrespondents(forTransactions transactions: [Transaction]) {
         
@@ -241,239 +364,56 @@ class TransactionOverviewViewController: UIViewController {
                 let correspondent = Correspondent()
                 
                 if transaction.signer == account!.publicKey {
-                    
                     correspondent.accountAddress = transaction.recipient
-                    
+                    transaction.transferType = .Outgoing
                 } else {
-                    
                     correspondent.accountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer)
+                    transaction.transferType = .Incoming
                 }
                 
-                if correspondents.contains(correspondent) == false {
+                if correspondents.contains(correspondent) {
+                    if let index = correspondents.indexOf(correspondent) {
+                        correspondents[index].transactions.append(transaction)
+                        correspondents[index].mostRecentTransaction = transaction
+                    }
+                } else {
+                    correspondent.transactions.append(transaction)
+                    correspondent.mostRecentTransaction = transaction
                     correspondents.append(correspondent)
                 }
                 
             default:
-                return
+                break
             }
         }
         
-        print("-------------")
-        for correspondent in correspondents {
-            print(correspondent.accountAddress)
-        }
+        correspondents.sortInPlace({ $0.mostRecentTransaction.timeStamp > $1.mostRecentTransaction.timeStamp })
+        searchNames(forCorrespondents: &correspondents)
+
+        self.correspondents = correspondents
+        
+        tableView.reloadData()
+        hideLoadingView()
     }
     
-//    final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
-//        if let data = data {
-//            _requestCounter += 1
-//            
-//            if _requestCounter == 1 {
-//                State.currentWallet?.lastTransactionHash = data.first?.hashString
-////                CoreDataManager().commit()
-//            }
-//            
-//            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-//            let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-//            
-//            for inData in data {
-//                var innerTransaction :TransferTransaction? = nil
-//                
-//                switch (inData.type) {
-//                case transferTransaction :
-//                    innerTransaction = inData as? TransferTransaction
-//                    
-//                case multisigTransaction:
-//                    
-//                    let multisigT  = inData as! MultisigTransaction
-//                    
-//                    switch(multisigT.innerTransaction.type) {
-//                    case transferTransaction :
-//                        innerTransaction = multisigT.innerTransaction as? TransferTransaction
-//                        
-//                    default:
-//                        break
-//                    }
-//                default:
-//                    break
-//                }
-//                
-//                if innerTransaction == nil {
-//                    continue
-//                }
-//                
-//                if innerTransaction!.signer != publicKey && innerTransaction!.recipient != self._account_address {
-//                    continue
-//                }
-//                
-//                _transactions.append(innerTransaction!)
-//            }
-//            
-//            if data.count >= 25 && _requestCounter < _requestsLimit && _transactions.count <= _transactionsLimit{
-//                _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!, aditional: "&id=\(Int(data.last!.id))")
-//            } else {
-//                guard let server = State.currentServer else { return }
-//                guard let address = walletData?.address else { return }
-//                
-//                _apiManager.unconfirmedTransactions(server, account_address: address)
-//            }
-//            
-//        } else {
-//            self.infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
-//        }
-//    }
-    
-//    final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
-//        if let data = data {
-//            
-//            var needToSign = false
-//
-//            if data.count > 0 {
-//                let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-//                let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-//                
-//                var addTransactions :[_TransferTransaction] = []
-//                var transaction :_TransferTransaction? = nil
-//
-//                for inTransaction in data {
-//                    
-//                    switch inTransaction.type {
-//                    case multisigTransaction:
-//                        var findSignature = false
-//
-//                        let innerTransaction:TransactionPostMetaData = (inTransaction as! _MultisigTransaction).innerTransaction
-//
-//                        switch innerTransaction.type {
-//                        case transferTransaction:
-//                            if (innerTransaction as! _TransferTransaction).recipient == walletData?.address {
-//                                findSignature = true
-//                            }
-//                            transaction = innerTransaction as? _TransferTransaction
-//                        default:
-//                            findSignature = true
-//                            break
-//                        }
-//                        
-//                        if (inTransaction as! _MultisigTransaction).signer == walletData!.publicKey || innerTransaction.signer == walletData!.publicKey {
-//                            findSignature = true
-//                        }
-//                        
-//                        for sign in (inTransaction as! _MultisigTransaction).signatures {
-//                            if walletData!.publicKey == sign.signer {
-//                                findSignature = true
-//                            }
-//                        }
-//                        
-//                        if !findSignature {
-//                            needToSign = true
-//                        }
-//                        
-//                    case transferTransaction:
-//                        transaction = inTransaction as? _TransferTransaction
-//                        
-//                    default :
-//                        break
-//                    }
-//                    
-//                    if transaction == nil {
-//                        continue
-//                    }
-//                    
-//                    if transaction!.signer != publicKey && transaction!.recipient != self._account_address {
-//                        continue
-//                    }
-//                    
-//                    addTransactions.append(transaction!)
-//
-//                }
-//                
-//                _transactions = addTransactions + _transactions
-//            }
-//            
-//            _correspondents = Correspondent.generateCorespondetsFromTransactions(_transactions)
-//            _displayList = _correspondents
-//            
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.tableView.reloadData()
-//                
-//                if needToSign && self._showUnconfirmed {
-//                    let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "UNCONFIRMED_TRANSACTIONS_DETECTED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
-//                    
-//                    let ok :UIAlertAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.Default) {
-//                        alertAction -> Void in
-//                        
-//                        self.performSegueWithIdentifier("showTransactionUnconfirmedViewController", sender: nil)
-//                    }
-//                    
-//                    let cancel :UIAlertAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.Default) {
-//                        alertAction -> Void in
-//                        self._showUnconfirmed = false
-//                    }
-//                    
-//                    alert.addAction(cancel)
-//                    alert.addAction(ok)
-//       
-//                    self.presentViewController(alert, animated: true, completion: nil)
-//                }
-//            })
-//        }
-//    }
-    
-    // MARK: - Help Methods
-    
-//    final func sort_correspondents(_correspondents :[Correspondent])->[Correspondent] {
-//        var _correspondentsIn = _correspondents
-//        var data :[CorrespondentCellData] = [CorrespondentCellData]()
-//        
-//        for correspondent in _correspondentsIn {
-//            var value = CorrespondentCellData()
-//            value.correspondent = correspondent
-//            value.lastMessage = correspondent.transaction
-//            data.append(value)
-//        }
-//        
-//        for var index = 0 ; index < data.count ; index += 1 {
-//            var sorted = true
-//            
-//            for var indexIN = 0 ; indexIN < data.count - 1 ; indexIN += 1 {
-//                var firstValue :Int!
-//                if data[indexIN].lastMessage != nil {
-//                    firstValue = Int(data[indexIN].lastMessage!.id)
-//                }
-//                else {
-//                    firstValue = -1
-//                }
-//                
-//                var secondValue :Int!
-//                if data[indexIN + 1].lastMessage != nil {
-//                    secondValue = Int(data[indexIN + 1].lastMessage!.id)
-//                }
-//                else {
-//                    secondValue = -1
-//                }
-//                
-//                if firstValue < secondValue || (secondValue == -1 &&  secondValue != firstValue) {
-//                    let accum = data[indexIN + 1]
-//                    data[indexIN + 1] = data[indexIN]
-//                    data[indexIN] = accum
-//                    
-//                    sorted = false
-//                }
-//            }
-//            
-//            if sorted {
-//                break
-//            }
-//        }
-//        
-//        _correspondentsIn.removeAll(keepCapacity: false)
-//        
-//        for correspondent in data {
-//            _correspondentsIn.append(correspondent.correspondent)
-//        }
-//        
-//        return _correspondentsIn
-//    }
+    /**
+        Searches the names for the provided correspondents if available. Checks if the
+        correspondent is an account on the device and otherwise searches in the address
+        book for a matching address. If the name for a correspondent couldn't be found,
+        the account address of the correspondent will get shown in the transaction overview.
+     
+        - Parameter correspondents: The correspondents for which the names should get searched. This is a inout parameter and will write the names directly to the provided correspondent array.
+     */
+    private func searchNames(inout forCorrespondents correspondents: [Correspondent]) {
+        
+        let accounts = AccountManager.sharedInstance.accounts()
+        
+        for correspondent in correspondents {
+            for account in accounts where account.address == correspondent.accountAddress {
+                correspondent.name = account.title
+            }
+        }
+    }
     
 //    final func findCorrespondentName() {
 //        let contacts :NSArray = AddressBookManager.contacts
@@ -499,21 +439,6 @@ class TransactionOverviewViewController: UIViewController {
 //            }
 //        }
 //    }
-    
-//    final func refreshTransactionList() {
-//        if State.currentServer != nil && _account_address != nil {
-//            _transactions = []
-//            _requestCounter = 0
-//            
-//            _apiManager.accountGet(State.currentServer!, account_address: _account_address!)
-//            _apiManager.accountTransfersAll(State.currentServer!, account_address: _account_address!)
-//        }
-//        else {
-//            
-//            performSegueWithIdentifier("showSettingsServerViewController", sender: nil)
-//        }
-//    }
-    
 
     func segueToTransactionSendViewController() {
         
@@ -530,54 +455,14 @@ extension TransactionOverviewViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _displayList.count
+        return correspondents.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : TransactionOverviewCorrespondentTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("correspondent") as! TransactionOverviewCorrespondentTableViewCell
-//        let cellData  : Correspondent = _displayList[indexPath.row] as! Correspondent
-//        let transaction :_TransferTransaction? = cellData.transaction
-//        
-//        cell.name.text = "  " + cellData.name
-//        
-//        if transaction != nil {
-//            cell.message.text = transaction!.message.getMessageString() ?? "ENCRYPTED_MESSAGE".localized()
-//        }
-//        else {
-//            cell.message.text = ""
-//        }
-//        
-//        let dateFormatter = NSDateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        
-//        var timeStamp = Double(transaction!.timeStamp )
-//        
-//        timeStamp += genesis_block_time
-//        
-//        if dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp)) == dateFormatter.stringFromDate(NSDate()) {
-//            dateFormatter.dateFormat = "HH:mm"
-//        }
-//        
-//        cell.date.text = ((transaction?.id == nil) ? ("UNCONFIRMED_DASHBOARD".localized() + " ") : "") + dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
-//        
-//        var color :UIColor!
-//        var vector :String = ""
-//        if transaction?.recipient != _account_address! {
-//            color = UIColor.redColor()
-//            vector = "-"
-//        } else if AddressGenerator.generateAddress(transaction!.signer) ==  _account_address {
-//            color = UIColor(red: 142 / 255, green: 142 / 255, blue: 142 / 255, alpha: 1)
-//            vector = "±"
-//        } else {
-//            color = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
-//            vector = "+"
-//        }
-//        
-//        let attribute = [NSForegroundColorAttributeName : color]
-//        
-//        let amount = vector + "\((transaction!.amount / 1000000).format()) XEM"
-//        
-//        cell.xems.attributedText = NSMutableAttributedString(string: amount, attributes: attribute)
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("TransactionOverviewCorrespondentTableViewCell") as! TransactionOverviewCorrespondentTableViewCell
+        cell.account = account
+        cell.correspondent = correspondents[indexPath.row]
         
         return cell
     }
@@ -587,23 +472,23 @@ extension TransactionOverviewViewController: UITableViewDataSource {
 
 extension TransactionOverviewViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if accountData != nil {
-            State.invoice = nil
-            
-            //            var nextVC = ""
-            if accountData!.cosignatories.count > 0 {
-                performSegueWithIdentifier("showTransactionMultisignatureMessagesViewController", sender: nil)
-            }
-            else if accountData!.cosignatoryOf.count > 0 {
-                performSegueWithIdentifier("showTransactionCosignatoryMessagesViewController", sender: nil)
-                
-            } else {
-                performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
-            }
-        }
-        else {
-            self.tableView.cellForRowAtIndexPath(indexPath)?.selected = false
-        }
-    }
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        if accountData != nil {
+//            State.invoice = nil
+//            
+//            //            var nextVC = ""
+//            if accountData!.cosignatories.count > 0 {
+//                performSegueWithIdentifier("showTransactionMultisignatureMessagesViewController", sender: nil)
+//            }
+//            else if accountData!.cosignatoryOf.count > 0 {
+//                performSegueWithIdentifier("showTransactionCosignatoryMessagesViewController", sender: nil)
+//                
+//            } else {
+//                performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
+//            }
+//        }
+//        else {
+//            self.tableView.cellForRowAtIndexPath(indexPath)?.selected = false
+//        }
+//    }
 }

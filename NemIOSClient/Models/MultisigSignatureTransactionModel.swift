@@ -9,12 +9,18 @@ import Foundation
 import ObjectMapper
 import SwiftyJSON
 
-///
+/**
+    Represents a multisig signature transaction on the NEM blockchain.
+    Visit the [documentation](http://bob.nem.ninja/docs/#multisigSignatureTransaction)
+    for more information.
+ */
 class MultisigSignatureTransaction: Transaction {
     
     // MARK: - Model Properties
     
+    /// The type of the transaction.
     var type = TransactionType.MultisigSignatureTransaction
+    
     
     var timeStamp: Int!
     

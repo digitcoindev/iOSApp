@@ -9,6 +9,12 @@ import Foundation
 import ObjectMapper
 import SwiftyJSON
 
+/// The different transfer types for a transfer transaction.
+enum TransferType {
+    case Incoming
+    case Outgoing
+}
+
 /** 
     Represents a transfer transaction on the NEM blockchain.
     Visit the [documentation](http://bob.nem.ninja/docs/#transferTransaction)
@@ -21,14 +27,20 @@ class TransferTransaction: Transaction {
     /// The type of the transaction.
     var type = TransactionType.TransferTransaction
     
+    /// Additional information about the transaction.
+    var metaData: TransactionMetaData!
+    
     /// The number of seconds elapsed since the creation of the nemesis block.
     var timeStamp: Int!
     
     /// The amount of micro NEM that is transferred from sender to recipient.
-    var amount: Int!
+    var amount: Double!
     
     /// The fee for the transaction.
     var fee: Int!
+    
+    /// The transfer type of the transaction.
+    var transferType: TransferType?
     
     /// The address of the recipient.
     var recipient: String!
@@ -51,8 +63,9 @@ class TransferTransaction: Transaction {
     
     required init?(jsonData: JSON) {
         
+        metaData = try! jsonData["meta"].mapObject(TransactionMetaData)
         timeStamp = jsonData["transaction"]["timeStamp"].intValue
-        amount = jsonData["transaction"]["amount"].intValue
+        amount = jsonData["transaction"]["amount"].doubleValue
         fee = jsonData["transaction"]["fee"].intValue
         recipient = jsonData["transaction"]["recipient"].stringValue
         message = {
@@ -69,6 +82,7 @@ class TransferTransaction: Transaction {
     /// Maps the results from a network request to a transaction object.
     func mapping(map: Map) {
         
+        metaData <- map["meta"]
         timeStamp <- map["transaction.timeStamp"]
         amount <- map["transaction.amount"]
         fee <- map["transaction.fee"]

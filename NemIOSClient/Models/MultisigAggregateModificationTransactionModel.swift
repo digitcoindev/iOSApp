@@ -16,6 +16,12 @@ class MultisigAggregateModificationTransaction: Transaction {
     
     var type = TransactionType.MultisigAggregateModificationTransaction
     
+    /// The id of the transaction.
+    var id: Int?
+    
+    /// The height of the block in which the transaction was included.
+    var height: Int?
+    
     var timeStamp: Int!
     
     /// The fee for the transaction.
