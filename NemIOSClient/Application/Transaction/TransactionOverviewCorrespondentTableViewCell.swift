@@ -43,8 +43,8 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
     /// Updates the table view cell with the provided correspondent data.
     private func updateCell() {
         
-        nameLabel.text = correspondent!.name != nil ? correspondent!.name : correspondent!.accountAddress
-        mostRecentMessageLabel.text = correspondent!.mostRecentTransaction.message?.payload ?? String()
+        nameLabel.text = correspondent!.name != nil ? correspondent!.name : correspondent!.accountAddress.nemAddressNormalised()
+        mostRecentMessageLabel.text = correspondent!.mostRecentTransaction.message?.message ?? String()
         mostRecentDateLabel.text = getDate(fromTransactionTimeStamp: correspondent!.mostRecentTransaction.timeStamp)
         mostRecentAmountLabel.attributedText = formatAmount(correspondent!.mostRecentTransaction.amount)
     }
@@ -75,7 +75,7 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
             dateFormatter.dateFormat = "HH:mm"
         }
         
-        if correspondent!.mostRecentTransaction.id != nil {
+        if correspondent!.mostRecentTransaction.metaData!.id != nil {
             date = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         } else {
             date = "UNCONFIRMED_DASHBOARD".localized()

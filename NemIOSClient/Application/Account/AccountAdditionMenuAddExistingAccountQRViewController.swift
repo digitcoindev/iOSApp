@@ -43,6 +43,7 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         if !isScanning {
             isScanning = true

@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - Model Equatable Extension
+
 extension Message: Equatable { }
 
 func == (lhs: Message, rhs: Message) -> Bool {

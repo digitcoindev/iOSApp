@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ObjectMapper
 import SwiftyJSON
 
 ///
@@ -38,19 +37,8 @@ class ImportanceTransferTransaction: Transaction {
     
     // MARK: - Model Lifecycle
     
-    required init?(_ map: Map) { }
-    
     required init?(jsonData: JSON) {
         
 //        timeStamp = jsonData["transaction"]["timeStamp"].intValue
-    }
-    
-    // MARK: - Model Helper Methods
-    
-    /// Maps the results from a network request to a transaction object.
-    func mapping(map: Map) {
-        
-        //        balance <- map["account.balance"]
-        //        cosignatories <- map["meta.cosignatories"]
     }
 }

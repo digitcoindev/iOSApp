@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ObjectMapper
 import SwiftyJSON
 
 /**
@@ -33,6 +32,9 @@ class MultisigTransaction: Transaction {
     /// The deadline of the transaction.
     var deadline: Int!
     
+    /// The transaction signature.
+    var signature: String!
+    
     /// The array of MulsigSignatureTransaction objects.
     var signatures: [MultisigSignatureTransaction]?
     
@@ -44,30 +46,24 @@ class MultisigTransaction: Transaction {
     
     // MARK: - Model Lifecycle
     
-    required init?(_ map: Map) { }
-    
     required init?(jsonData: JSON) {
         
         metaData = try! jsonData["meta"].mapObject(TransactionMetaData)
         timeStamp = jsonData["transaction"]["timeStamp"].intValue
         fee = jsonData["transaction"]["fee"].intValue
         deadline = jsonData["transaction"]["deadline"].intValue
+        signature = jsonData["transaction"]["signature"].stringValue
         signatures = try! jsonData["transaction"]["signatures"].mapArray(MultisigSignatureTransaction)
         signer = jsonData["transaction"]["signer"].stringValue
-        innerTransaction = try! jsonData["transaction"]["otherTrans"].mapObject(TransferTransaction)
-    }
-    
-    // MARK: - Model Helper Methods
-    
-    /// Maps the results from a network request to a transaction object.
-    func mapping(map: Map) {
         
-        metaData <- map["meta"]
-        timeStamp <- map["transaction.timeStamp"]
-        fee <- map["transaction.fee"]
-        deadline <- map["transaction.deadline"]
-        signatures <- map["transaction.signatures"]
-        signer <- map["transaction.signer"]
-        innerTransaction <- map["transaction.otherTrans"]
+        switch jsonData["transaction"]["otherTrans"]["type"].intValue {
+        case TransactionType.TransferTransaction.rawValue:
+            
+            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"])}".dataUsingEncoding(NSUTF8StringEncoding)!).mapObject(TransferTransaction) 
+            (innerTransaction as! TransferTransaction).metaData = metaData
+            
+        default:
+            break
+        }
     }
 }

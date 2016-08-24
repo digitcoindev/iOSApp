@@ -6,10 +6,8 @@
 //
 
 import UIKit
-import Moya
 import GCDKit
 import SwiftyJSON
-import Contacts
 
 /**
     The view controller that shows an overview of all transactions
@@ -25,14 +23,8 @@ class TransactionOverviewViewController: UIViewController {
     private var transactions = [Transaction]()
     private var correspondents = [Correspondent]()
     
-    let dispatchGroup = GCDGroup()
-    
-    
-    private var _requestsLimit: Int = 2
-    private var _transactionsLimit: Int = 50
-    private var _showUnconfirmed = true
-    private var _requestCounter = 0
-//    private var _timer: NSTimer? = nil
+    private var refreshTimer: NSTimer? = nil
+    private let transactionOverviewDispatchGroup = GCDGroup()
     
     // MARK: - View Controller Outlets
     
@@ -46,46 +38,59 @@ class TransactionOverviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        showLoadingView()
+        account = getAccount()
         
-        if let tbc = tabBarController as? AccountDetailTabBarController {
-            account = tbc.account
+        guard account != nil else {
+            print("Critical: Account not available!")
+            return
         }
         
-        infoHeaderLabel.text = "NO_INTERNET_CONNECTION".localized()
-        
-        updateTransactionOverview()
-
-        
-//            self.refreshTransactionList()
-//            if AddressBookManager.isAllowed ?? false {
-//                self.findCorrespondentName()
-//            }
-        
-        
-//        if let server = State.currentServer {
-//            _apiManager.timeSynchronize(server)
-//        }
-        
-//        _timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionList), userInfo: nil, repeats: true)
+        showLoadingView()
+        updateViewControllerAppearanceOnViewDidLoad()
+        refreshTransactionOverview()
+        startRefreshing()
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        updateViewControllerAppearance()
+        updateViewControllerAppearanceOnViewWillAppear()
         createBarButtonItem()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        _timer?.invalidate()
+        stopRefreshing()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        switch segue.identifier! {
+        case "showTransactionNormalMessagesViewController":
+            
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationViewController = segue.destinationViewController as! TransactionMessagesViewController
+                destinationViewController.account = account
+                destinationViewController.correspondent = correspondents[indexPath.row]
+            }
+            
+        default:
+            return
+        }
     }
     
     // MARK: - View Controller Helper Methods
     
-    /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    /// Updates the appearance (coloring, titles) of the view controller on view did load.
+    private func updateViewControllerAppearanceOnViewDidLoad() {
+        
+        tabBarController?.title = "MESSAGES".localized()
+        infoHeaderLabel.text = "NO_INTERNET_CONNECTION".localized()
+    }
+    
+    /// Updates the appearance (coloring, titles) of the view controller on view will appear.
+    private func updateViewControllerAppearanceOnViewWillAppear() {
         
         tabBarController?.title = "MESSAGES".localized()
     }
@@ -98,6 +103,32 @@ class TransactionOverviewViewController: UIViewController {
         rightBarButtonItem.enabled = false
         
         tabBarController?.navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    /// Segues to the transaction send view controller.
+    func segueToTransactionSendViewController() {
+        performSegueWithIdentifier("showTransactionSendViewController", sender: nil)
+    }
+    
+    /**
+        Fetches the account for which the transaction overview should get
+        shown from the parent account detail tab bar controller.
+     
+        - Returns: The account for which the transaction overview should get shown.
+     */
+    private func getAccount() -> Account? {
+        
+        var account: Account?
+        
+        if let accountDetailTabBarController = tabBarController as? AccountDetailTabBarController {
+            guard accountDetailTabBarController.account != nil else {
+                return account
+            }
+            
+            account = accountDetailTabBarController.account!
+        }
+            
+        return account
     }
     
     /**
@@ -125,15 +156,13 @@ class TransactionOverviewViewController: UIViewController {
     private func updateInfoHeaderLabel(withAccountData accountData: AccountData?) {
         
         guard accountData != nil else {
-            
             infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
-            
             return
         }
         
-        let infoHeaderText = NSMutableAttributedString(string: "\(self.account!.title)")
+        let infoHeaderText = NSMutableAttributedString(string: "\(self.account!.title) ·")
         let infoHeaderTextBalance = " \((accountData!.balance / 1000000).format()) XEM"
-        infoHeaderText.appendAttributedString(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]))
+        infoHeaderText.appendAttributedString(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFontOfSize(infoHeaderLabel.font.pointSize, weight: UIFontWeightRegular)]))
         
         infoHeaderLabel.attributedText = infoHeaderText
     }
@@ -155,8 +184,23 @@ class TransactionOverviewViewController: UIViewController {
         loadingActivityIndicator.stopAnimating()
     }
     
-    ///
-    private func updateTransactionOverview() {
+    /// Starts refreshing the transaction overview in the defined interval.
+    private func startRefreshing() {
+        
+        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionOverview), userInfo: nil, repeats: true)
+    }
+    
+    /// Stops refreshing the transaction overview.
+    private func stopRefreshing() {
+        refreshTimer?.invalidate()
+    }
+    
+    /**
+        Updates the transaction overview table view in an asynchronous manner.
+        Fires off all necessary network calls to get the information needed.
+        Use only this method to update the displayed information.
+    */
+    func refreshTransactionOverview() {
         
         transactions = [Transaction]()
         
@@ -164,7 +208,7 @@ class TransactionOverviewViewController: UIViewController {
         fetchAllTransactions(forAccount: account!)
         fetchUnconfirmedTransactions(forAccount: account!)
         
-        dispatchGroup.notify(.Main) {
+        transactionOverviewDispatchGroup.notify(.Main) {
             self.transactions.sortInPlace({ $0.timeStamp < $1.timeStamp })
             self.getCorrespondents(forTransactions: self.transactions)
         }
@@ -174,7 +218,7 @@ class TransactionOverviewViewController: UIViewController {
         Fetches the account data (balance, cosignatories, etc.) for the current account from the active NIS.
         After a successful fetch the info header label gets updated with the account balance. The function
         also checks if the account is a multisig account and disables the compose bar button item accordingly.
-        Do not call this function directly. Use the method updateTransactionOverview.
+        Do not call this function directly. Use the method refreshTransactionOverview.
      
         - Parameter account: The current account for which the account data should get fetched.
      */
@@ -219,13 +263,13 @@ class TransactionOverviewViewController: UIViewController {
     
     /**
         Fetches the last 25 transactions for the current account from the active NIS.
-        Do not call this function directly. Use the method updateTransactionOverview.
+        Do not call this function directly. Use the method refreshTransactionOverview.
      
         - Parameter account: The current account for which the transactions should get fetched.
      */
     private func fetchAllTransactions(forAccount account: Account) {
         
-        dispatchGroup.enter()
+        transactionOverviewDispatchGroup.enter()
         
         nisProvider.request(NIS.AllTransactions(accountAddress: account.address)) { [weak self] (result) in
             
@@ -246,6 +290,19 @@ class TransactionOverviewViewController: UIViewController {
                             let transferTransaction = try subJson.mapObject(TransferTransaction)
                             allTransactions.append(transferTransaction)
                             
+                        case TransactionType.MultisigTransaction.rawValue:
+                            
+                            switch subJson["transaction"]["otherTrans"]["type"].intValue {
+                            case TransactionType.TransferTransaction.rawValue:
+                                
+                                let multisigTransaction = try subJson.mapObject(MultisigTransaction)
+                                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                                allTransactions.append(transferTransaction)
+                                
+                            default:
+                                break
+                            }
+                            
                         default:
                             break
                         }
@@ -255,7 +312,7 @@ class TransactionOverviewViewController: UIViewController {
 
                         self?.transactions += allTransactions
 
-                        self?.dispatchGroup.leave()
+                        self?.transactionOverviewDispatchGroup.leave()
                     }
                     
                 } catch {
@@ -264,7 +321,7 @@ class TransactionOverviewViewController: UIViewController {
                         
                         print("Failure: \(response.statusCode)")
 
-                        self?.dispatchGroup.leave()
+                        self?.transactionOverviewDispatchGroup.leave()
                     }
                 }
                 
@@ -275,7 +332,7 @@ class TransactionOverviewViewController: UIViewController {
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
                     
-                    self?.dispatchGroup.leave()
+                    self?.transactionOverviewDispatchGroup.leave()
                 }
             }
         }
@@ -283,13 +340,13 @@ class TransactionOverviewViewController: UIViewController {
     
     /**
         Fetches all unconfirmed transactions for the provided account.
-        Do not call this function directly. Use the method updateTransactionOverview.
+        Do not call this function directly. Use the method refreshTransactionOverview.
      
         - Parameter account: The account for which all unconfirmed transaction should get fetched.
      */
     private func fetchUnconfirmedTransactions(forAccount account: Account) {
         
-        dispatchGroup.enter()
+        transactionOverviewDispatchGroup.enter()
         
         nisProvider.request(NIS.UnconfirmedTransactions(accountAddress: account.address)) { [weak self] (result) in
             
@@ -310,6 +367,19 @@ class TransactionOverviewViewController: UIViewController {
                             let transferTransaction = try subJson.mapObject(TransferTransaction)
                             unconfirmedTransactions.append(transferTransaction)
                             
+                        case TransactionType.MultisigTransaction.rawValue:
+                            
+                            switch subJson["transaction"]["otherTrans"]["type"].intValue {
+                            case TransactionType.TransferTransaction.rawValue:
+                                
+                                let multisigTransaction = try subJson.mapObject(MultisigTransaction)
+                                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                                unconfirmedTransactions.append(transferTransaction)
+                                
+                            default:
+                                break
+                            }
+                            
                         default:
                             break
                         }
@@ -319,7 +389,7 @@ class TransactionOverviewViewController: UIViewController {
                         
                         self?.transactions += unconfirmedTransactions
 
-                        self?.dispatchGroup.leave()
+                        self?.transactionOverviewDispatchGroup.leave()
                     }
                     
                 } catch {
@@ -328,7 +398,7 @@ class TransactionOverviewViewController: UIViewController {
                         
                         print("Failure: \(response.statusCode)")
                         
-                        self?.dispatchGroup.leave()
+                        self?.transactionOverviewDispatchGroup.leave()
                     }
                 }
                 
@@ -339,7 +409,7 @@ class TransactionOverviewViewController: UIViewController {
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
                     
-                    self?.dispatchGroup.leave()
+                    self?.transactionOverviewDispatchGroup.leave()
                 }
             }
         }
@@ -347,7 +417,7 @@ class TransactionOverviewViewController: UIViewController {
     
     /**
         Determines all correspondents for the provided transactions. Updates the table view with the
-        correspondents once finished. Do not call this function directly. Use the method updateTransactionOverview.
+        correspondents once finished. Do not call this function directly. Use the method refreshTransactionOverview.
      
         - Parameter transactions: The transactions for which the correspondents should get determined.
      */
@@ -414,36 +484,6 @@ class TransactionOverviewViewController: UIViewController {
             }
         }
     }
-    
-//    final func findCorrespondentName() {
-//        let contacts :NSArray = AddressBookManager.contacts
-//        
-//        for correspondent in _correspondents {
-//            if correspondent.name.utf16.count > 20 {
-//                var find = false
-//                for contact in contacts {
-//                    let emails: [CNLabeledValue] = contact.emailAddresses
-//                    
-//                    for email in emails {
-//                        if email.label == "NEM" && email.value as! String == correspondent.address {
-//                            correspondent.name = (contact.givenName ?? "") + " " + (contact.familyName ?? "")
-//                            find = true
-//                            break
-//                        }
-//                    }
-//                    
-//                    if find {
-//                        break
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-    func segueToTransactionSendViewController() {
-        
-        performSegueWithIdentifier("showTransactionSendViewController", sender: nil)
-    }
 }
 
 // MARK: - Table View Data Source
@@ -472,23 +512,14 @@ extension TransactionOverviewViewController: UITableViewDataSource {
 
 extension TransactionOverviewViewController: UITableViewDelegate {
     
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        if accountData != nil {
-//            State.invoice = nil
-//            
-//            //            var nextVC = ""
-//            if accountData!.cosignatories.count > 0 {
-//                performSegueWithIdentifier("showTransactionMultisignatureMessagesViewController", sender: nil)
-//            }
-//            else if accountData!.cosignatoryOf.count > 0 {
-//                performSegueWithIdentifier("showTransactionCosignatoryMessagesViewController", sender: nil)
-//                
-//            } else {
-//                performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
-//            }
-//        }
-//        else {
-//            self.tableView.cellForRowAtIndexPath(indexPath)?.selected = false
-//        }
-//    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+            
+        if accountData!.cosignatories.count > 0 {
+            performSegueWithIdentifier("showTransactionMultisignatureMessagesViewController", sender: nil)
+        } else if accountData!.cosignatoryOf.count > 0 {
+            performSegueWithIdentifier("showTransactionCosignatoryMessagesViewController", sender: nil)
+        } else {
+            performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
+        }
+    }
 }

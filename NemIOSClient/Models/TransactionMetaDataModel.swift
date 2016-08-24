@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ObjectMapper
 import SwiftyJSON
 
 /**
@@ -14,7 +13,7 @@ import SwiftyJSON
     Visit the [documentation](http://bob.nem.ninja/docs/#transactionMetaData)
     for more information.
  */
-struct TransactionMetaData: Mappable, SwiftyJSONMappable {
+struct TransactionMetaData: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
@@ -26,20 +25,9 @@ struct TransactionMetaData: Mappable, SwiftyJSONMappable {
     
     // MARK: - Model Lifecycle
     
-    init?(_ map: Map) { }
-    
     init?(jsonData: JSON) {
         
         id = jsonData["id"].int
         height = jsonData["height"].int
-    }
-    
-    // MARK: - Model Helper Methods
-    
-    /// Maps the results from a network request to a transaction message object.
-    mutating func mapping(map: Map) {
-        
-        id <- map["id"]
-        height <- map["height"]
     }
 }

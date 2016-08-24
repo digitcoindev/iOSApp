@@ -7,8 +7,32 @@
 
 import UIKit
 
-class TransactionSendViewController: UIViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
-{
+/**
+    The view controller that lets the user send transactions from
+    the current account or the accounts the current account is a 
+    cosignatory of.
+ */
+class TransactionSendViewController: UIViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate {
+    
+    // MARK: - View Controller Properties
+    
+    private var _apiManager = APIManager()
+    private var _mainWallet :AccountGetMetaData? = nil
+    private var _popup :UIViewController? = nil
+    
+    var transactionFee :Double = 10;
+    var walletData :AccountGetMetaData!
+    var xems :Double = 0
+    var invoice :InvoiceData? = nil
+    var contact :_Correspondent? = State.currentContact
+    
+    private var _isEnc = false
+    private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
+    private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
+    private var _preparedTransaction :_TransferTransaction? = nil
+    
+    // MARK: - View Controller Outlets
+    
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var toAddressTextField: NEMTextField!
     @IBOutlet weak var amountTextField: NEMTextField!
@@ -27,169 +51,374 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
 
     @IBOutlet weak var sendButton: UIButton!
     
-    private var _apiManager = APIManager()
-    private var _mainWallet :AccountGetMetaData? = nil
-    private var _popup :UIViewController? = nil
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var customNavigationItem: UINavigationItem!
     
-    var transactionFee :Double = 10;
-    var walletData :AccountGetMetaData!
-    var xems :Double = 0
-    var invoice :InvoiceData? = nil
-    var contact :_Correspondent? = State.currentContact
-    
-    private var _isEnc = false
-    private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
-    private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
-    private var _preparedTransaction :_TransferTransaction? = nil
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         _apiManager.delegate = self
         
-        title = "NEW_TRANSACTION".localized()
+        self.navigationBar.delegate = self
+        
+        updateViewControllerAppearance()
+        
+//        setSuggestions()
+        
+//        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+//        
+//        observer.addObserver(self, selector: #selector(TransactionSendViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+//        observer.addObserver(self, selector: #selector(TransactionSendViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+//        
+//        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+//        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+//        
+//        _apiManager.accountGet(State.currentServer!, account_address: account_address)
+//        
+//        if contact != nil {
+//            toAddressTextField.text = "\(contact!.address)"
+//        }
+//        
+//        if State.invoice != nil {
+//            invoice = State.invoice
+//            State.invoice = nil
+//            toAddressTextField.text = invoice!.address
+//            amountTextField.text = invoice!.amount.format().stringByReplacingOccurrencesOfString(" ", withString: "")
+//            messageTextField.text = invoice!.message
+//            
+//            countTransactionFee()
+//            self.feeTextField.text = transactionFee.format().stringByReplacingOccurrencesOfString(" ", withString: "")
+//        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.view.endEditing(true)
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    private func updateViewControllerAppearance() {
+        
+        customNavigationItem.title = "NEW_TRANSACTION".localized()
         fromLabel.text = "FROM".localized() + ":"
         toLabel.text = "TO".localized() + ":"
         amountLabel.text = "AMOUNT".localized() + ":"
         messageLabel.text = "MESSAGE".localized() + ":"
         feeLabel.text = "FEE".localized() + ":"
         sendButton.setTitle("SEND".localized(), forState: UIControlState.Normal)
-        
-        setSuggestions()
-
         toAddressTextField.placeholder = "ENTER_ADDRESS".localized()
         amountTextField.placeholder = "ENTER_AMOUNT".localized()
         messageTextField.placeholder = "EMPTY_MESSAGE".localized()
         feeTextField.placeholder = "ENTER_FEE".localized()
-        
-        let observer: NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        
-        observer.addObserver(self, selector: #selector(TransactionSendViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        observer.addObserver(self, selector: #selector(TransactionSendViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
-        
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-        
-        _apiManager.accountGet(State.currentServer!, account_address: account_address)
-        
-        if contact != nil {
-            toAddressTextField.text = "\(contact!.address)"
-        }
-        
-        if State.invoice != nil {
-            invoice = State.invoice
-            State.invoice = nil
-            toAddressTextField.text = invoice!.address
-            amountTextField.text = invoice!.amount.format().stringByReplacingOccurrencesOfString(" ", withString: "")
-            messageTextField.text = invoice!.message
-            
-            countTransactionFee()
-            self.feeTextField.text = transactionFee.format().stringByReplacingOccurrencesOfString(" ", withString: "")
-        }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.view.endEditing(true)
     }
     
     final func setSuggestions() {
         var suggestions :[NEMTextField.Suggestion] = []
         
-//        let dataManager = CoreDataManager()
-//        for wallet in dataManager.getWallets() {
-//            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
-//            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-//            
-//            var find = false
-//            
-//            for suggestion in suggestions {
-//                if suggestion.key == account_address {
-//                    find = true
-//                    break
-//                }
-//            }
-//            if !find {
-//                var sugest = NEMTextField.Suggestion()
-//                sugest.key = account_address
-//                sugest.value = account_address
-//                suggestions.append(sugest)
-//            }
-//            
-//            find = false
-//            
-//            for suggestion in suggestions {
-//                if suggestion.key == wallet.login {
-//                    find = true
-//                    break
-//                }
-//            }
-//            if !find {
-//                var sugest = NEMTextField.Suggestion()
-//                sugest.key = wallet.login
-//                sugest.value = account_address
-//                suggestions.append(sugest)
-//            }
-//        }
+        //        let dataManager = CoreDataManager()
+        //        for wallet in dataManager.getWallets() {
+        //            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
+        //            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+        //
+        //            var find = false
+        //
+        //            for suggestion in suggestions {
+        //                if suggestion.key == account_address {
+        //                    find = true
+        //                    break
+        //                }
+        //            }
+        //            if !find {
+        //                var sugest = NEMTextField.Suggestion()
+        //                sugest.key = account_address
+        //                sugest.value = account_address
+        //                suggestions.append(sugest)
+        //            }
+        //
+        //            find = false
+        //
+        //            for suggestion in suggestions {
+        //                if suggestion.key == wallet.login {
+        //                    find = true
+        //                    break
+        //                }
+        //            }
+        //            if !find {
+        //                var sugest = NEMTextField.Suggestion()
+        //                sugest.key = wallet.login
+        //                sugest.value = account_address
+        //                suggestions.append(sugest)
+        //            }
+        //        }
         
         // TODO: Disable whole address book don't handle public keys
         
-//        if AddressBookManager.isAllowed ?? false {
-//            for contact in AddressBookManager.contacts {
-//                var name = ""
-//                if contact.givenName != "" {
-//                    name = contact.givenName
-//                }
-//                
-//                if contact.familyName != "" {
-//                    name += " " + contact.familyName
-//                }
-//                
-//                for email in contact.emailAddresses{
-//                    if email.label == "NEM" {
-//                        let account_address = email.value as? String ?? " "
-//                        
-//                        var find = false
-//                        
-//                        for suggestion in suggestions {
-//                            if suggestion.key == account_address {
-//                                find = true
-//                                break
-//                            }
-//                        }
-//                        if !find {
-//                            var sugest = NEMTextField.Suggestion()
-//                            sugest.key = account_address
-//                            sugest.value = account_address
-//                            suggestions.append(sugest)
-//                        }
-//                        
-//                        find = false
-//                        
-//                        for suggestion in suggestions {
-//                            if suggestion.key == name {
-//                                find = true
-//                                break
-//                            }
-//                        }
-//                        if !find {
-//                            var sugest = NEMTextField.Suggestion()
-//                            sugest.key = name
-//                            sugest.value = account_address
-//                            suggestions.append(sugest)
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        //        if AddressBookManager.isAllowed ?? false {
+        //            for contact in AddressBookManager.contacts {
+        //                var name = ""
+        //                if contact.givenName != "" {
+        //                    name = contact.givenName
+        //                }
+        //
+        //                if contact.familyName != "" {
+        //                    name += " " + contact.familyName
+        //                }
+        //
+        //                for email in contact.emailAddresses{
+        //                    if email.label == "NEM" {
+        //                        let account_address = email.value as? String ?? " "
+        //
+        //                        var find = false
+        //
+        //                        for suggestion in suggestions {
+        //                            if suggestion.key == account_address {
+        //                                find = true
+        //                                break
+        //                            }
+        //                        }
+        //                        if !find {
+        //                            var sugest = NEMTextField.Suggestion()
+        //                            sugest.key = account_address
+        //                            sugest.value = account_address
+        //                            suggestions.append(sugest)
+        //                        }
+        //
+        //                        find = false
+        //
+        //                        for suggestion in suggestions {
+        //                            if suggestion.key == name {
+        //                                find = true
+        //                                break
+        //                            }
+        //                        }
+        //                        if !find {
+        //                            var sugest = NEMTextField.Suggestion()
+        //                            sugest.key = name
+        //                            sugest.value = account_address
+        //                            suggestions.append(sugest)
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
         
         toAddressTextField.suggestions = suggestions
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-//        State.currentVC = SegueToSendTransaction
+    private final func _showPopUp(message :String){
+        
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
+            alertAction -> Void in
+        }
+        
+        alert.addAction(ok)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    private final func _sendTransferTransaction() {
+        
+        let messageBytes :[UInt8] = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+        
+        let transaction :_TransferTransaction = _TransferTransaction()
+        
+        transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
+        transaction.amount = Double(xems)
+        transaction.message.payload = messageBytes
+        transaction.message.type = (_isEnc) ? _MessageType.Ecrypted.rawValue : _MessageType.Normal.rawValue
+        transaction.fee = transactionFee
+        transaction.recipient = toAddressTextField.text!
+        transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
+        transaction.version = 1
+        transaction.signer = walletData.publicKey
+        
+        if _isEnc
+        {
+            _preparedTransaction = transaction
+            
+            _apiManager.accountGet(State.currentServer!, account_address: transaction.recipient)
+        } else {
+            if messageBytes.count > 160 {
+                _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
+                return
+            }
+            _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
+        }
+    }
+    
+    final func countTransactionFee(needUpdate: Bool = true) {
+        var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
+        
+        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
+        
+        var amount = Double(text) ?? 0
+        
+        if amount < 0.000001 && amount != 0 {
+            amountTextField.text = "0"
+            amount = 0
+        }
+        
+        self.xems = amount
+        
+        var newFee :Int = 0
+        
+        if xems >= 8 {
+            newFee = Int(max(2, 99 * atan(xems / 150000)))
+        }
+        else {
+            newFee = 10 - Int(xems)
+        }
+        
+        var messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
+        
+        if _isEnc && messageLength != 0{
+            messageLength! += 64
+        }
+        
+        if messageLength != 0 {
+            newFee += Int(2 * max(1, Int( messageLength! / 16)))
+        }
+        
+        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "FEE".localized() +  ": (" + "MIN".localized() + " ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+        
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "\(Int(newFee))", attributes: [
+            NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
+            NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
+            ]))
+        
+        atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        feeLabel.attributedText = atributedText
+        
+        if !needUpdate {
+            let currentFee  = Int(feeTextField.text!) ?? 0
+            
+            newFee = Int(max(newFee, currentFee))
+        }
+        
+        transactionFee = Double(newFee)
+    }
+    
+    func didChouseAccount(account: AccountGetMetaData) {
+        walletData = account
+        
+        
+        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
+        
+        self.encButton?.enabled = walletData.address == account_address
+        
+        if walletData.address != account_address {
+            _isEnc = false
+            _preparedTransaction = nil
+            encButton.backgroundColor = (_isEnc) ? greenColor : grayColor
+            countTransactionFee()
+            self.feeTextField.text = "\(transactionFee.format())"
+        }
+        
+        encButton.enabled = walletData.address == account_address
+        
+        chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
+        
+        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+        
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
+            NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
+            NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
+            ]))
+        
+        atributedText.appendAttributedString(NSMutableAttributedString(string: "XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        amountLabel.attributedText = atributedText
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        let keyboardHeight:CGFloat = keyboardSize.height - 60
+        
+        self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
+        self.scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        self.scroll.contentInset = UIEdgeInsetsZero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    }
+    
+    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+        
+        if _preparedTransaction != nil && _preparedTransaction!.recipient == account?.address {
+            guard let contactPublicKey = account?.publicKey else {
+                _showPopUp("NO_PUBLIC_KEY_FOR_ENC".localized())
+                return
+            }
+            
+            var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
+            encryptedMessage = MessageCrypto.encrypt(_preparedTransaction!.message.payload!, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
+            _preparedTransaction!.message.payload = encryptedMessage
+            
+            if encryptedMessage.count > 160 {
+                _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
+                return
+            }
+            _apiManager.prepareAnnounce(State.currentServer!, transaction: _preparedTransaction!)
+            _preparedTransaction = nil
+        }
+        
+        walletData = account
+        
+        if _mainWallet == nil {
+            if walletData.publicKey == nil {
+                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
+            }
+            
+            _mainWallet = walletData
+        }
+        
+        if account != nil {
+            if walletData.cosignatoryOf.count > 0 {
+                chooseButon.hidden = false
+                accountLabel.hidden = true
+                chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
+            } else {
+                chooseButon.hidden = true
+                accountLabel.hidden = false
+                accountLabel.text = walletData.address.nemName()
+            }
+            
+            let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
+            
+            atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
+                NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
+                NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
+                ]))
+            
+            atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+            amountLabel.attributedText = atributedText
+        } else {
+            amountLabel.text = "AMOUNT".localized() + ":"
+        }
+    }
+    
+    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+        
+        var message :String = ""
+        if (data ?? []).isEmpty {
+            message = "TRANSACTION_ANOUNCE_FAILED".localized()
+        } else {
+            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
+        }
+        
+        _showPopUp(message)
+    }
+    
+    // MARK: - View Controller Outlet Actions
     
     @IBAction func encTouchUpInside(sender: UIButton) {
         _preparedTransaction = nil
@@ -297,100 +526,6 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         }
     }
     
-    private final func _showPopUp(message :String){
-        
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        
-        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
-            alertAction -> Void in
-        }
-        
-        alert.addAction(ok)
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    private final func _sendTransferTransaction() {
-        
-        let messageBytes :[UInt8] = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
-        
-        let transaction :_TransferTransaction = _TransferTransaction()
-        
-        transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
-        transaction.amount = Double(xems)
-        transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? _MessageType.Ecrypted.rawValue : _MessageType.Normal.rawValue
-        transaction.fee = transactionFee
-        transaction.recipient = toAddressTextField.text!
-        transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
-        transaction.version = 1
-        transaction.signer = walletData.publicKey
-        
-        if _isEnc
-        {
-            _preparedTransaction = transaction
-            
-            _apiManager.accountGet(State.currentServer!, account_address: transaction.recipient)
-        } else {
-            if messageBytes.count > 160 {
-                _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
-                return
-            }
-            _apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
-        }
-    }
-    
-    final func countTransactionFee(needUpdate: Bool = true) {
-        var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
-        
-        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
-        
-        var amount = Double(text) ?? 0
-
-        if amount < 0.000001 && amount != 0 {
-            amountTextField.text = "0"
-            amount = 0
-        }
-
-        self.xems = amount
-        
-        var newFee :Int = 0
-        
-        if xems >= 8 {
-            newFee = Int(max(2, 99 * atan(xems / 150000)))
-        }
-        else {
-            newFee = 10 - Int(xems)
-        }
-       
-        var messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
-        
-        if _isEnc && messageLength != 0{
-            messageLength! += 64
-        }
-        
-        if messageLength != 0 {
-            newFee += Int(2 * max(1, Int( messageLength! / 16)))
-        }
-        
-        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "FEE".localized() +  ": (" + "MIN".localized() + " ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
-        
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "\(Int(newFee))", attributes: [
-            NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
-            NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
-            ]))
-        
-        atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
-        feeLabel.attributedText = atributedText
-        
-        if !needUpdate {
-            let currentFee  = Int(feeTextField.text!) ?? 0
-            
-            newFee = Int(max(newFee, currentFee))
-        }
-        
-        transactionFee = Double(newFee)
-        }
-    
     @IBAction func endTyping(sender: NEMTextField) {
         
         if Int(amountTextField.text!) != nil {
@@ -439,123 +574,16 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         }
     }
     
-    //MARK: - APIManagerDelegate Methods
-    
-    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
-        
-        if _preparedTransaction != nil && _preparedTransaction!.recipient == account?.address {
-            guard let contactPublicKey = account?.publicKey else {
-                _showPopUp("NO_PUBLIC_KEY_FOR_ENC".localized())
-                return
-            }
-            
-            var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
-            encryptedMessage = MessageCrypto.encrypt(_preparedTransaction!.message.payload!, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
-            _preparedTransaction!.message.payload = encryptedMessage
-            
-            if encryptedMessage.count > 160 {
-                _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
-                return
-            }
-            _apiManager.prepareAnnounce(State.currentServer!, transaction: _preparedTransaction!)
-            _preparedTransaction = nil
-        }
-        
-        walletData = account
-        
-        if _mainWallet == nil {
-            if walletData.publicKey == nil {
-                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
-            }
-            
-            _mainWallet = walletData
-        }
-        
-        if account != nil {
-            if walletData.cosignatoryOf.count > 0 {
-                chooseButon.hidden = false
-                accountLabel.hidden = true
-                chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
-            } else {
-                chooseButon.hidden = true
-                accountLabel.hidden = false
-                accountLabel.text = walletData.address.nemName()
-            }
-            
-            let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
-            
-            atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
-                NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
-                NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
-                ]))
-            
-            atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
-            amountLabel.attributedText = atributedText
-        } else {
-            amountLabel.text = "AMOUNT".localized() + ":"
-        }
+    @IBAction func cancel(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
-        
-        var message :String = ""
-        if (data ?? []).isEmpty {
-            message = "TRANSACTION_ANOUNCE_FAILED".localized()
-        } else {
-            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
-        }
-        
-        _showPopUp(message)
-    }
-    
-    //MARK: - AccountsChousePopUpDelegate Methods
-    
-    func didChouseAccount(account: AccountGetMetaData) {
-        walletData = account
-        
-        
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-        
-        self.encButton?.enabled = walletData.address == account_address
-        
-        if walletData.address != account_address {
-            _isEnc = false
-            _preparedTransaction = nil
-            encButton.backgroundColor = (_isEnc) ? greenColor : grayColor
-            countTransactionFee()
-            self.feeTextField.text = "\(transactionFee.format())"
-        }
+}
 
-        encButton.enabled = walletData.address == account_address
+// MARK: - Navigation Bar Delegate
 
-        chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
-        
-        let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
-        
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
-            NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
-            NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
-            ]))
-        
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
-        amountLabel.attributedText = atributedText
-    }
+extension TransactionSendViewController: UINavigationBarDelegate {
     
-    //MARK: - KeyboardDelegate Methods
-    
-    func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        
-        let keyboardHeight:CGFloat = keyboardSize.height - 60
-        
-        self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+        return .TopAttached
     }
 }

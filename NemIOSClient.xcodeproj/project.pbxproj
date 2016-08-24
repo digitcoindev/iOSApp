@@ -10,6 +10,9 @@
 		4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */; };
 		4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24A1751D54E49300AC128A /* AccountExceptions.swift */; };
 		4F26CDF11D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */; };
+		4F2C17081D67312C00FF1F51 /* TransactionMetaData+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C17071D67312C00FF1F51 /* TransactionMetaData+Additions.swift */; };
+		4F2C170A1D67323100FF1F51 /* MultisigTransaction+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C17091D67323100FF1F51 /* MultisigTransaction+Additions.swift */; };
+		4F2C170C1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C170B1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift */; };
 		4F3ACE921D61C2EE0056F234 /* Response+ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE911D61C2EE0056F234 /* Response+ObjectMapper.swift */; };
 		4F3ACE941D61C31C0056F234 /* AccountDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE931D61C31C0056F234 /* AccountDataModel.swift */; };
 		4F3ACE961D61C6210056F234 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3ACE951D61C6210056F234 /* ObjectMapper.framework */; };
@@ -281,6 +284,9 @@
 		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F24A1751D54E49300AC128A /* AccountExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExceptions.swift; path = Common/Exceptions/AccountExceptions.swift; sourceTree = "<group>"; };
 		4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; path = Application/Account/AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; sourceTree = "<group>"; };
+		4F2C17071D67312C00FF1F51 /* TransactionMetaData+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TransactionMetaData+Additions.swift"; path = "Common/Extensions/TransactionMetaData+Additions.swift"; sourceTree = "<group>"; };
+		4F2C17091D67323100FF1F51 /* MultisigTransaction+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MultisigTransaction+Additions.swift"; path = "Common/Extensions/MultisigTransaction+Additions.swift"; sourceTree = "<group>"; };
+		4F2C170B1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MultisigSignatureTransaction+Additions.swift"; sourceTree = "<group>"; };
 		4F3ACE911D61C2EE0056F234 /* Response+ObjectMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Response+ObjectMapper.swift"; path = "Assets/Supporting Files/Response+ObjectMapper.swift"; sourceTree = "<group>"; };
 		4F3ACE931D61C31C0056F234 /* AccountDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountDataModel.swift; path = Models/AccountDataModel.swift; sourceTree = "<group>"; };
 		4F3ACE951D61C6210056F234 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
@@ -596,7 +602,10 @@
 				4F9F68931D4C39AB0086F98F /* String+Additions.swift */,
 				4F9F68851D4C39220086F98F /* UIImage+Additions.swift */,
 				4F3ACEA81D638D820056F234 /* Correspondent+Additions.swift */,
+				4F2C17071D67312C00FF1F51 /* TransactionMetaData+Additions.swift */,
 				4F3ACEAA1D6450830056F234 /* TransferTransaction+Additions.swift */,
+				4F2C17091D67323100FF1F51 /* MultisigTransaction+Additions.swift */,
+				4F2C170B1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift */,
 				4F3ACEAE1D6451580056F234 /* Message+Additions.swift */,
 				4F9F67B31D4A00DF0086F98F /* _TODO */,
 			);
@@ -1366,6 +1375,7 @@
 				4F9F67C41D4C2EC50086F98F /* NEMLabel.swift in Sources */,
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
 				4F3B428C1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift in Sources */,
+				4F2C17081D67312C00FF1F51 /* TransactionMetaData+Additions.swift in Sources */,
 				4F9F67E81D4C30900086F98F /* SocialManager.swift in Sources */,
 				4F63E36A1D5E03D100BCFFA4 /* NetworkingEndpoints.swift in Sources */,
 				4F3ACEA31D6218E10056F234 /* MultisigAggregateModificationTransactionModel.swift in Sources */,
@@ -1415,6 +1425,7 @@
 				4F9F68961D4C39B60086F98F /* UISegmentedControlExtensions.swift in Sources */,
 				4F9F68661D4C376F0086F98F /* LocalizationManager.swift in Sources */,
 				98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */,
+				4F2C170C1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift in Sources */,
 				4F9F68081D4C33490086F98F /* AccountListViewController.swift in Sources */,
 				4F9F67D01D4C2F460086F98F /* KeyCell.swift in Sources */,
 				98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */,
@@ -1428,6 +1439,7 @@
 				4F9F68941D4C39AB0086F98F /* String+Additions.swift in Sources */,
 				4F9F68501D4C36230086F98F /* MultisigAddSignerTableViewCell.swift in Sources */,
 				4F9F67BA1D4C2D010086F98F /* Server.swift in Sources */,
+				4F2C170A1D67323100FF1F51 /* MultisigTransaction+Additions.swift in Sources */,
 				4F9F68561D4C36470086F98F /* AddressBookContactTableViewCell.swift in Sources */,
 				4F9F681E1D4C33AE0086F98F /* AccountChooserViewController.swift in Sources */,
 				4F850F2E1D4C3F350003E192 /* TimeSynchronizator.swift in Sources */,
@@ -1703,7 +1715,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/NemIOSClient/Assets/Property Lists/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClient;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
@@ -1729,7 +1741,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/NemIOSClient/Assets/Property Lists/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClient;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";

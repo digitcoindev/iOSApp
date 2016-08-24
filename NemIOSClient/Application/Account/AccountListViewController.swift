@@ -35,7 +35,7 @@ class AccountListViewController: UIViewController {
     }
     
     /// Needed for a smooth appearance of the alert view controller.
-    override func canBecomeFirstResponder() -> Bool {
+    override func canBecomeFirstResponder() -> Bool {        
         return true
     }
     

@@ -27,8 +27,10 @@ class NavigationController: UINavigationController {
     private func updateControllerAppearance() {
         
         navigationBar.translucent = false
-        navigationBar.barTintColor = UIColor(red: 65.0/255.0, green: 206.0/255.0, blue: 123.0/255.0, alpha: 1)
+        navigationBar.barTintColor = UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)
         navigationBar.tintColor = UIColor.whiteColor()
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationBar.shadowImage = UIImage()
     }
 }

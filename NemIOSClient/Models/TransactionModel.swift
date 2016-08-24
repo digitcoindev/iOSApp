@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ObjectMapper
 import SwiftyJSON
 
 /// All available transaction types on the NEM blockchain.
@@ -19,7 +18,7 @@ enum TransactionType: Int {
 }
 
 /// Represents a transaction on the NEM blockchain.
-protocol Transaction: Mappable, SwiftyJSONMappable {
+protocol Transaction: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
@@ -35,17 +34,13 @@ protocol Transaction: Mappable, SwiftyJSONMappable {
     /// The deadline of the transaction.
     var deadline: Int! { get set }
     
+    /// The transaction signature.
+    var signature: String! { get set }
+    
     /// The public key of the account that created the transaction.
     var signer: String! { get set }
     
     // MARK: - Model Lifecycle
     
-    init?(_ map: Map)
-    
     init?(jsonData: JSON)
-    
-    // MARK: - Model Helper Methods
-    
-    /// Maps the results from a network response to a transaction object.
-    mutating func mapping(map: Map)
 }

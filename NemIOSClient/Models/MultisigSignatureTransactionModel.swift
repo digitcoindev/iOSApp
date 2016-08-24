@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ObjectMapper
 import SwiftyJSON
 
 /**
@@ -21,7 +20,7 @@ class MultisigSignatureTransaction: Transaction {
     /// The type of the transaction.
     var type = TransactionType.MultisigSignatureTransaction
     
-    
+    /// The deadline of the transaction.
     var timeStamp: Int!
     
     /// The fee for the transaction.
@@ -36,21 +35,18 @@ class MultisigSignatureTransaction: Transaction {
     /// The public key of the account that created the transaction.
     var signer: String!
     
-    // MARK: - Model Lifecycle
+    /// The address of the corresponding multisig account.
+    var otherAccount: String!
     
-    required init?(_ map: Map) { }
+    // MARK: - Model Lifecycle
     
     required init?(jsonData: JSON) {
         
-//        timeStamp = jsonData["transaction"]["timeStamp"].intValue
-    }
-    
-    // MARK: - Model Helper Methods
-    
-    /// Maps the results from a network request to a transaction object.
-    func mapping(map: Map) {
-        
-        //        balance <- map["account.balance"]
-        //        cosignatories <- map["meta.cosignatories"]
+        timeStamp = jsonData["timeStamp"].intValue
+        fee = jsonData["fee"].intValue
+        deadline = jsonData["deadline"].intValue
+        signature = jsonData["signature"].stringValue
+        signer = jsonData["signer"].stringValue
+        otherAccount = jsonData["otherAccount"].stringValue
     }
 }

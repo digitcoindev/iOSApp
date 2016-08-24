@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ObjectMapper
 import SwiftyJSON
 
 /// The different transfer types for a transfer transaction.
@@ -28,7 +27,7 @@ class TransferTransaction: Transaction {
     var type = TransactionType.TransferTransaction
     
     /// Additional information about the transaction.
-    var metaData: TransactionMetaData!
+    var metaData: TransactionMetaData?
     
     /// The number of seconds elapsed since the creation of the nemesis block.
     var timeStamp: Int!
@@ -59,37 +58,24 @@ class TransferTransaction: Transaction {
     
     // MARK: - Model Lifecycle
     
-    required init?(_ map: Map) { }
-    
     required init?(jsonData: JSON) {
         
-        metaData = try! jsonData["meta"].mapObject(TransactionMetaData)
+        metaData = try? jsonData["meta"].mapObject(TransactionMetaData)
         timeStamp = jsonData["transaction"]["timeStamp"].intValue
         amount = jsonData["transaction"]["amount"].doubleValue
         fee = jsonData["transaction"]["fee"].intValue
         recipient = jsonData["transaction"]["recipient"].stringValue
-        message = {
-            let messageObject = try! jsonData["transaction"]["message"].mapObject(Message)
-            if messageObject.type != nil && messageObject.payload != nil { return messageObject } else { return nil }
-        }()
         deadline = jsonData["transaction"]["deadline"].intValue
         signature = jsonData["transaction"]["signature"].stringValue
         signer = jsonData["transaction"]["signer"].stringValue
-    }
-    
-    // MARK: - Model Helper Methods
-    
-    /// Maps the results from a network request to a transaction object.
-    func mapping(map: Map) {
-        
-        metaData <- map["meta"]
-        timeStamp <- map["transaction.timeStamp"]
-        amount <- map["transaction.amount"]
-        fee <- map["transaction.fee"]
-        recipient <- map["transaction.recipient"]
-        message <- map["transaction.message"]
-        deadline <- map["transaction.deadline"]
-        signature <- map["transaction.signature"]
-        signer <- map["transaction.signer"]
+        message = {
+            var messageObject = try! jsonData["transaction"]["message"].mapObject(Message)
+            if messageObject.payload != nil {
+                messageObject.signer = signer
+                return messageObject
+            } else {
+                return nil
+            }
+        }()
     }
 }
