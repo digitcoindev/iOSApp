@@ -33,10 +33,10 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     private let infoBottomLabel = UILabel()
     private let incomingColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 234.0/255.0, alpha: 1)
     private let outgoingColor = UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)
-    @IBInspectable var topInset: CGFloat = 2.0
-    @IBInspectable var bottomInset: CGFloat = 2.0
-    @IBInspectable var leftInset: CGFloat = 5.0
-    @IBInspectable var rightInset: CGFloat = 5.0
+    private let topInset: CGFloat = 2.0
+    private let bottomInset: CGFloat = 2.0
+    private let leftInset: CGFloat = 5.0
+    private let rightInset: CGFloat = 5.0
     
     // MARK: - Cell Lifecycle
     
@@ -114,11 +114,9 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
             textColor = UIColor.blackColor()
         }
         
-        let message = transaction.message?.message == String() || transaction.message?.message == nil ? "EMPTY_MESSAGE".localized() : transaction.message?.message
-        let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSForegroundColorAttributeName: textColor, NSFontAttributeName: UIFont.systemFontOfSize(13, weight: UIFontWeightRegular)])
-        
+        var message = transaction.message?.message == "" || transaction.message?.message == nil ? "" : transaction.message?.message
         var amount = String()
-        if (transaction.amount > 0) {
+        if transaction.amount > 0 {
             
             var symbol = String()
             if transaction.transferType == .Incoming {
@@ -128,11 +126,20 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
             }
             
             amount = "\(symbol)\((transaction.amount / 1000000).format()) XEM" ?? String()
-            amount = "\n" + amount
             
-            let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSForegroundColorAttributeName: textColor,NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightMedium)])
-            messageAttributedString.appendAttributedString(amountAttributedString)
+        } else {
+            if message == "" {
+                message = "EMPTY_MESSAGE".localized()
+            }
         }
+        
+        if message! != "" && transaction.amount > 0 {
+            amount = "\n" + amount
+        }
+        
+        let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSForegroundColorAttributeName: textColor, NSFontAttributeName: UIFont.systemFontOfSize(13, weight: UIFontWeightRegular)])
+        let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSForegroundColorAttributeName: textColor,NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightMedium)])
+        messageAttributedString.appendAttributedString(amountAttributedString)
         
         var date = String()
         let dateFormatter = NSDateFormatter()

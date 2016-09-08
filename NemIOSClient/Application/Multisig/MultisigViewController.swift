@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate, AccountsChousePopUpDelegate
+class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate
 {
 
     @IBOutlet weak var chouseButton: AccountChooserButton!
@@ -232,45 +232,45 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         }
     }
     
-    @IBAction func chouseAccount(sender: AnyObject) {
-        if _popUp != nil {
-            _popUp!.view.removeFromSuperview()
-            _popUp!.removeFromParentViewController()
-            _popUp = nil
-            return
-        }
-        
-        if (_mainAccount?.cosignatoryOf ?? []).isEmpty {
-            return
-        }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
-        
-        accounts.view.frame = tableView.frame
-        
-        accounts.view.layer.opacity = 0
-//        accounts.delegate = self
-        
-        var wallets = _mainAccount?.cosignatoryOf ?? []
-        
-        if _mainAccount != nil
-        {
-            wallets.append(self._mainAccount!)
-        }
-        accounts.wallets = wallets
-        
-        if accounts.wallets.count > 0
-        {
-            _popUp = accounts
-            self.view.addSubview(accounts.view)
-            
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                accounts.view.layer.opacity = 1
-                }, completion: nil)
-        }
-    }
+//    @IBAction func chouseAccount(sender: AnyObject) {
+//        if _popUp != nil {
+//            _popUp!.view.removeFromSuperview()
+//            _popUp!.removeFromParentViewController()
+//            _popUp = nil
+//            return
+//        }
+//        
+//        if (_mainAccount?.cosignatoryOf ?? []).isEmpty {
+//            return
+//        }
+//        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        
+//        let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
+//        
+//        accounts.view.frame = tableView.frame
+//        
+//        accounts.view.layer.opacity = 0
+////        accounts.delegate = self
+//        
+//        var wallets = _mainAccount?.cosignatoryOf ?? []
+//        
+//        if _mainAccount != nil
+//        {
+//            wallets.append(self._mainAccount!)
+//        }
+//        accounts.wallets = wallets
+//        
+//        if accounts.wallets.count > 0
+//        {
+//            _popUp = accounts
+//            self.view.addSubview(accounts.view)
+//            
+//            UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                accounts.view.layer.opacity = 1
+//                }, completion: nil)
+//        }
+//    }
     
     //MARK: - Private Methods
     

@@ -9,7 +9,7 @@ import Foundation
 import SwiftyJSON
 
 /// The different transfer types for a transfer transaction.
-enum TransferType {
+public enum TransferType {
     case Incoming
     case Outgoing
 }
@@ -19,48 +19,64 @@ enum TransferType {
     Visit the [documentation](http://bob.nem.ninja/docs/#transferTransaction)
     for more information.
  */
-class TransferTransaction: Transaction {
+public class TransferTransaction: Transaction {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
-    var type = TransactionType.TransferTransaction
+    public var type = TransactionType.TransferTransaction
     
     /// Additional information about the transaction.
-    var metaData: TransactionMetaData?
+    public var metaData: TransactionMetaData?
+    
+    /// The version of the transaction.
+    public var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    var timeStamp: Int!
+    public var timeStamp: Int!
     
     /// The amount of micro NEM that is transferred from sender to recipient.
-    var amount: Double!
+    public var amount: Double!
     
     /// The fee for the transaction.
-    var fee: Int!
+    public var fee: Int!
     
     /// The transfer type of the transaction.
-    var transferType: TransferType?
+    public var transferType: TransferType?
     
     /// The address of the recipient.
-    var recipient: String!
+    public var recipient: String!
     
     /// The message of the transaction.
-    var message: Message?
+    public var message: Message?
     
     /// The deadline of the transaction.
-    var deadline: Int!
+    public var deadline: Int!
     
     /// The transaction signature.
-    var signature: String!
+    public var signature: String!
     
     /// The public key of the account that created the transaction.
-    var signer: String!
+    public var signer: String!
     
     // MARK: - Model Lifecycle
     
-    required init?(jsonData: JSON) {
+    required public init?(version: Int, timeStamp: Int, amount: Double, fee: Int, recipient: String, message: Message?, deadline: Int, signer: String) {
+        
+        self.version = version
+        self.timeStamp = timeStamp
+        self.amount = amount
+        self.fee = fee
+        self.recipient = recipient
+        self.message = message
+        self.deadline = deadline
+        self.signer = signer
+    }
+    
+    required public init?(jsonData: JSON) {
         
         metaData = try? jsonData["meta"].mapObject(TransactionMetaData)
+        version = jsonData["transaction"]["version"].intValue
         timeStamp = jsonData["transaction"]["timeStamp"].intValue
         amount = jsonData["transaction"]["amount"].doubleValue
         fee = jsonData["transaction"]["fee"].intValue

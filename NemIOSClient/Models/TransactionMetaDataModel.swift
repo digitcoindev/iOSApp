@@ -13,19 +13,19 @@ import SwiftyJSON
     Visit the [documentation](http://bob.nem.ninja/docs/#transactionMetaData)
     for more information.
  */
-struct TransactionMetaData: SwiftyJSONMappable {
+public struct TransactionMetaData: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
     /// The id of the transaction.
-    var id: Int?
+    public var id: Int?
     
     /// The height of the block in which the transaction was included.
-    var height: Int?
+    public var height: Int?
     
     // MARK: - Model Lifecycle
     
-    init?(jsonData: JSON) {
+    public init?(jsonData: JSON) {
         
         id = jsonData["id"].int
         height = jsonData["height"].int

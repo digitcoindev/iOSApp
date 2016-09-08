@@ -13,37 +13,23 @@ import SwiftyJSON
     The view controller that shows all messages/transactions with the
     correspondent in detail.
  */
-class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, AccountsChousePopUpDelegate, DetailedTableViewCellDelegate {
+class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     
     // MARK: - View Controller Properties
     
     var account: Account?
     var correspondent: Correspondent?
-    private var accountData: AccountData?
+    var accountData: AccountData?
+    private var activeAccountData: AccountData?
     private var transactions = [Transaction]()
     private var unconfirmedTransactions = [Transaction]()
+    private var rowHeight = [CGFloat]()
+    private var willEncrypt = false
+    private var accountChooserViewController: UIViewController?
     
     private var refreshTimer: NSTimer? = nil
     private let correspondentTransactionsDispatchGroup = GCDGroup()
 
-    private var rowHeight = [CGFloat]()
-    
-    private var _accounts :[AccountGetMetaData] = []
-    private var _mainAccount :AccountGetMetaData? = nil
-    private var _activeAccount :AccountGetMetaData? = nil
-    
-    private var _isEnc = false
-    
-    private var _bottomInsert :CGFloat = 0
-    
-    private let rowLength :Int = 21
-    
-    private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
-    private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
-
-
-    private var _popup :UIViewController? = nil
-    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -54,6 +40,9 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
     @IBOutlet weak var transactionSendButton: UIButton!
     @IBOutlet weak var transactionAccountChooserButton: UIButton!
     @IBOutlet weak var transactionAmountContainerView: UIView!
+    @IBOutlet weak var transactionEncryptionButtonTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var transactionSendBarView: UIView!
+    @IBOutlet weak var transactionSendBarBorderView: UIView!
 
     // MARK: - View Controller Lifecycle
     
@@ -68,16 +57,20 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
             print("Fatal error: Correspondent nil")
             return
         }
+        if accountData != nil {
+            updateInfoHeaderLabel(withAccountData: accountData)
+        }
         
         updateViewControllerAppearance()
         createBarButtonItem()
-        addKeyboardObserver()
-        refreshCorrespondentTransactions()
-//        startRefreshing()
+        showCorrespondentTransactions()
+        startRefreshing()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+        super.viewDidDisappear(animated)
         
         view.endEditing(true)
         stopRefreshing()
@@ -93,7 +86,6 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
     private func updateViewControllerAppearance() {
         
         title = correspondent!.name != nil ? correspondent!.name : correspondent!.accountAddress.nemAddressNormalised()
-        infoHeaderLabel.text = "NO_INTERNET_CONNECTION".localized()
         transactionAmountTextField.placeholder = "AMOUNT".localized()
         transactionMessageTextField.placeholder = "MESSAGE".localized()
         transactionSendButton.setTitle("SEND".localized(), forState: UIControlState.Normal)
@@ -104,39 +96,22 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
         transactionAmountContainerView.layer.cornerRadius = 5
         transactionAmountContainerView.clipsToBounds = true
         transactionMessageTextField.layer.cornerRadius = 5
+        
+        if accountData!.cosignatories?.count > 0 {
+            transactionSendBarView.hidden = true
+            transactionSendBarBorderView.hidden = true
+        }
+        
+        if accountData!.cosignatoryOf?.count > 0 {
+            transactionAccountChooserButton.hidden = false
+            transactionEncryptionButtonTrailingConstraint.constant = -(transactionAccountChooserButton.frame.width + 5)
+        }
     }
     
     /// Creates and adds the compose bar button item to the view controller.
     private func createBarButtonItem() {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Copy", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(copyCorrespondentAddress(_:)))
-    }
-    
-    /// Adds all needed keyboard observers to the view controller.
-    private func addKeyboardObserver() {
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
-    /// Updates the position of all elements if the keyboard appears.
-    func keyboardWillShow(notification: NSNotification) {
-        
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            if self.view.frame.origin.y == 64.0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-    
-    /// Updates the position of all elements if the keyboard disappears.
-    func keyboardWillHide(notification: NSNotification) {
-        
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height
-            }
-        }
     }
     
     /**
@@ -152,11 +127,17 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
             return
         }
         
-        let infoHeaderText = NSMutableAttributedString(string: "\(self.account!.title) ·")
+        let accountTitle = accountData!.title != nil ? accountData!.title! : accountData!.address.nemAddressNormalised()
+        let infoHeaderText = NSMutableAttributedString(string: "\(accountTitle) ·")
         let infoHeaderTextBalance = " \((accountData!.balance / 1000000).format()) XEM"
         infoHeaderText.appendAttributedString(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFontOfSize(infoHeaderLabel.font.pointSize, weight: UIFontWeightRegular)]))
         
         infoHeaderLabel.attributedText = infoHeaderText
+    }
+    
+    /// Scrolls to the table view bottom as soon as the keyboard appears.
+    func keyboardWillShowNotification(notification: NSNotification) {
+        scrollToTableBottom(true)
     }
     
     /// Starts refreshing the transaction overview in the defined interval.
@@ -169,6 +150,25 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
     private func stopRefreshing() {
         refreshTimer?.invalidate()
     }
+    
+    /**
+        Updates the correspondent transactions table view with the provided
+        transactions from the correspondent. Shows the already fetched transactions
+        instantly upon view did load. Use this function only on view did load.
+     */
+    func showCorrespondentTransactions() {
+        
+        transactions = correspondent!.transactions
+        unconfirmedTransactions = correspondent!.unconfirmedTransactions
+        
+        getTransactionsForCorrespondent(fromTransactions: &self.transactions)
+        getTransactionsForCorrespondent(fromTransactions: &self.unconfirmedTransactions)
+        
+        calculateCellHeights()
+        
+        tableView.reloadData()
+        scrollToTableBottom()
+    }
 
     /**
         Updates the correspondent transactions table view in an asynchronous manner.
@@ -176,7 +176,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
         Use only this method to update the displayed information.
      */
     func refreshCorrespondentTransactions() {
-        
+                
         fetchAccountData(forAccount: account!)
         fetchAllTransactions(forAccount: account!)
         fetchUnconfirmedTransactions(forAccount: account!)
@@ -185,12 +185,10 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
             self.getTransactionsForCorrespondent(fromTransactions: &self.transactions)
             self.getTransactionsForCorrespondent(fromTransactions: &self.unconfirmedTransactions)
             
-            self._heightForCell(self.transactions, width: self.tableView.frame.width - 120)
-            self.rowHeight.append(CGFloat())
-            self._heightForCell(self.unconfirmedTransactions, width: self.tableView.frame.width - 120)
+            self.rowHeight = [CGFloat]()
+            self.calculateCellHeights()
             
             self.tableView.reloadData()
-            self.scrollToTableBottom()
         }
     }
     
@@ -212,11 +210,14 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
                 do {
                     try response.filterSuccessfulStatusCodes()
                     
-                    let accountData = try response.mapObject(AccountData)
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData)
                     
                     GCDQueue.Main.async {
                         
-                        self?.updateInfoHeaderLabel(withAccountData: accountData)
+                        if self?.activeAccountData?.address == self?.account?.address {
+                            self?.updateInfoHeaderLabel(withAccountData: accountData)
+                        }
                         
                         self?.accountData = accountData
                     }
@@ -395,6 +396,57 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
     }
     
     /**
+ 
+     */
+    private func announceTransaction(transaction: Transaction) {
+        
+        let requestAnnounce = TransactionManager.sharedInstance.signTransaction(transaction, account: account!)
+        
+        nisProvider.request(NIS.AnnounceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
+            
+            switch result {
+            case let .Success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    let responseJSON = JSON(data: response.data)
+                    try self?.validateAnnounceTransactionResult(responseJSON)
+                    
+                    GCDQueue.Main.async {
+                        
+                        self?._failedWithError("TRANSACTION_ANOUNCE_SUCCESS".localized())
+                    }
+                    
+                } catch TransactionAnnounceValidation.Failure(let errorMessage) {
+                    
+                    GCDQueue.Main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        self?._failedWithError(errorMessage)
+                    }
+                    
+                } catch {
+                    
+                    GCDQueue.Main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        self?._failedWithError("TRANSACTION_ANOUNCE_FAILED".localized())
+                    }
+                }
+                
+            case let .Failure(error):
+                
+                GCDQueue.Main.async {
+                    
+                    print(error)
+                    self?.updateInfoHeaderLabel(withAccountData: nil)
+                    self?._failedWithError("TRANSACTION_ANOUNCE_FAILED".localized())
+                }
+            }
+        }
+    }
+    
+    /**
         Filters out all transaction in connection with the current correspondent and populates the
         table view with that information. Do not call this function directly. Use the method refreshTransactionOverview.
      
@@ -413,10 +465,10 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
                 
                 if correspondent?.accountAddress != account?.address {
                     
-                    if AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer) == correspondent?.accountAddress {
+                    if AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer) == correspondent?.accountAddress && transaction.recipient == account!.address {
                         transaction.transferType = .Incoming
                         correspondentTransactions.append(transaction)
-                    } else if transaction.recipient == correspondent?.accountAddress {
+                    } else if transaction.recipient == correspondent?.accountAddress && transaction.signer == account!.publicKey {
                         transaction.transferType = .Outgoing
                         correspondentTransactions.append(transaction)
                     }
@@ -440,232 +492,100 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
         transactions = correspondentTransactions
     }
     
+    /**
+ 
+     */
+    private func validateAnnounceTransactionResult(responseJSON: JSON) throws {
+        
+        guard let responseCode = responseJSON["code"].int else { throw TransactionAnnounceValidation.Failure(errorMessage: "TRANSACTION_ANOUNCE_FAILED".localized()) }
+        let responseMessage = responseJSON["message"].stringValue
+        
+        switch responseCode {
+        case 1:
+            return
+        default:
+            throw TransactionAnnounceValidation.Failure(errorMessage: responseMessage)
+        }
+    }
+    
+    /// Calculates the heights for all transaction table view cells.
+    private func calculateCellHeights() {
+        
+        getCellHeights(forTransactions: transactions, withViewWidth: tableView.frame.width - 120)
+        rowHeight.append(CGFloat())
+        getCellHeights(forTransactions: unconfirmedTransactions, withViewWidth: tableView.frame.width - 120)
+    }
+    
+    /**
+        Calculates the height for all table view cells. The calculated heights get stored
+        in the array rowHeight and will get applied to the cells.
+     
+        - Parameter transactions: The transactions for which the cell heights should get calculated.
+     */
+    private func getCellHeights(forTransactions transactions: [Transaction], withViewWidth width: CGFloat) {
+        
+        for transaction in transactions {
+            
+            let transferTransaction = transaction as! TransferTransaction
+            
+            var message = transferTransaction.message?.message == String() || transferTransaction.message?.message == nil ? "" : transferTransaction.message?.message
+            var amount = String()
+            
+            if (transferTransaction.amount > 0) {
+                
+                var symbol = String()
+                if transferTransaction.transferType == .Incoming {
+                    symbol = "+"
+                } else {
+                    symbol = "-"
+                }
+                
+                amount = "\(symbol)\((transferTransaction.amount / 1000000).format()) XEM" ?? String()
+                
+                if message != "" {
+                    amount = "\n" + amount
+                }
+                
+            } else {
+                
+                if message == "" {
+                    message = "EMPTY_MESSAGE".localized()
+                }
+            }
+            
+            let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(13, weight: UIFontWeightRegular)])
+            let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightRegular)])
+            messageAttributedString.appendAttributedString(amountAttributedString)
+            
+            let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
+            label.numberOfLines = 10
+            label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            label.attributedText = messageAttributedString
+            label.sizeToFit()
+            
+            rowHeight.append(label.frame.height + 50)
+        }
+    }
+    
     /// Scrolls to the bottom of the table view.
-    func scrollToTableBottom() {
+    private func scrollToTableBottom(animated: Bool = false) {
         
         if tableView.contentSize.height > tableView.frame.size.height {
             let offset = CGPointMake(0, tableView.contentSize.height - tableView.frame.size.height)
-            tableView.setContentOffset(offset, animated: false)
+            tableView.setContentOffset(offset, animated: animated)
         }
     }
     
-//    final func defineData() {
-//        //let publicKey :String = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
-//        var data :[DefinedCell] = []
-//        
-//        for transaction in _transactions {
-//            var definedCell : DefinedCell = DefinedCell()
-//            definedCell.type = .Outgoing
-//            
-//            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! _MultisigTransaction).innerTransaction as! _TransferTransaction) :
-//                (transaction as! _TransferTransaction)
-//            
-//            if (innertTransaction.recipient == _account_address) {
-//                definedCell.type = .Incoming
-//            }
-//            
-////            innertTransaction.message.signer = contact.public_key
-//            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
-//            
-//            if(innertTransaction.amount > 0) {
-//                var text :String = " \((innertTransaction.amount / 1000000).format()) XEM"
-//                if message != ""
-//                {
-//                    text = "\n" + text
-//                }
-//                
-//                let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeXEM)! ])
-//                message.appendAttributedString(messageXEMS)
-//            }
-//            
-//            message = (message.length == 0) ? NSMutableAttributedString(string: "EMPTY_MESSAGE".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
-//            
-//            definedCell.height = _heightForCell(message, width: tableView.frame.width - 120) + 20
-//            
-//            message = NSMutableAttributedString(string: "BLOCK".localized() + ": " , attributes: nil)
-//            message.appendAttributedString(NSMutableAttributedString(string:"\(innertTransaction.height.format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-//            definedCell.detailsTop = message
-//            
-//            message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
-//            message.appendAttributedString(NSMutableAttributedString(string:"\((innertTransaction.fee / 1000000).format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-//            
-//            definedCell.detailsMiddle = message
-//            
-//            data.append(definedCell)
-//        }
-//        
-//        for transaction in _unconfirmedTransactions {
-//            var definedCell : DefinedCell = DefinedCell()
-//            definedCell.type = .Processing
-//            
-//            let innertTransaction = (transaction.type == multisigTransaction) ? ((transaction as! _MultisigTransaction).innerTransaction as! _TransferTransaction) :
-//                (transaction as! _TransferTransaction)
-////            innertTransaction.message.signer = contact.public_key
-//            
-//            var message :NSMutableAttributedString = NSMutableAttributedString(string: innertTransaction.message.getMessageString() ?? "COULD_NOT_DECRYPT".localized() , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: textSizeCommon)!])
-//            
-//            if(innertTransaction.amount != 0) {
-//                var text :String = "\((innertTransaction.amount / 1000000).format()) XEM"
-//                if message != ""
-//                {
-//                    text = "\n" + text
-//                }
-//                
-//                let messageXEMS :NSMutableAttributedString = NSMutableAttributedString(string:text , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: textSizeXEM)! ])
-//                message.appendAttributedString(messageXEMS)
-//            }
-//            
-//            message = (message.length == 0) ? NSMutableAttributedString(string: "EMPTY_MESSAGE".localized(), attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Italic", size: textSizeCommon)! ]) : message
-//            
-//            definedCell.height =  max(_heightForCell(message, width: tableView.frame.width - 120), CGFloat(80))
-//            
-//            
-//            if transaction.type == multisigTransaction {
-//                definedCell.minCosignatories = _getMinCosigFor(transaction as! _MultisigTransaction)
-//            }
-//            
-//            if transaction.type == multisigTransaction {
-//                let signerAdress = AddressGenerator.generateAddress(innertTransaction.signer)
-//                let singnaturesCount = (transaction as! _MultisigTransaction).signatures.count + 1
-//                var cosignatories = 0
-//                var minCosig = 0
-//                
-//                for account in _accounts {
-//                    if account.address == signerAdress {
-//                        minCosig = account.minCosignatories!
-//                        cosignatories = account.cosignatories.count
-//                        break
-//                    }
-//                }
-//                let attribute = [NSForegroundColorAttributeName : greenColor]
-//                
-//                message = NSMutableAttributedString(string:"\(singnaturesCount)" , attributes: attribute)
-//                message.appendAttributedString(NSMutableAttributedString(string: " " + "OF".localized() + " ", attributes: nil))
-//                message.appendAttributedString(NSMutableAttributedString(string:"\(cosignatories) " , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-//                message.appendAttributedString(NSMutableAttributedString(string:"SIGNERS".localized() , attributes: nil))
-//                
-//                definedCell.detailsTop = message
-//                
-//                message = NSMutableAttributedString(string:"MIN".localized() + " " , attributes: nil)
-//                message.appendAttributedString(NSMutableAttributedString(string:"\(((minCosig == 0) ? cosignatories : minCosig))" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-//                message.appendAttributedString(NSMutableAttributedString(string:" " + "SIGNERS".localized() , attributes: nil))
-//                
-//                definedCell.detailsMiddle = message
-//                
-//                message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
-//                message.appendAttributedString(NSMutableAttributedString(string:"\((innertTransaction.fee / 1000000).format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-//                
-//                definedCell.detailsBottom = message
-//            } else {
-//                message = NSMutableAttributedString(string: "FEE".localized() + ": " , attributes: nil)
-//                message.appendAttributedString(NSMutableAttributedString(string:"\((innertTransaction.fee / 1000000).format())" , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue", size: 10)! ]))
-//                
-//                definedCell.detailsMiddle = message
-//            }
-//            
-//            data.append(definedCell)
-//        }
-//        
-//        var removeCount = 0
-//        var addCount = _transactions.count - _completed
-//        
-//        if self.tableView.numberOfRowsInSection(0) == 0 && (addCount > 0 || _unconfirmedTransactions.count > 0){
-//            addCount += 1
-//        }
-//        
-//        removeCount = (_unconfirmed > 0) ? _unconfirmed + 1 : 0
-//        addCount += (_unconfirmedTransactions.count > 0) ? _unconfirmedTransactions.count + 1 : 0
-//        
-//        _completed = _transactions.count
-//        _unconfirmed = _unconfirmedTransactions.count
-//        _definedCells = data
-//        
-//        dispatch_async(dispatch_get_main_queue() , {
-//            () -> Void in
-//            
-//            var actionArray :[NSIndexPath] = []
-//            var rowsCount = self.tableView.numberOfRowsInSection(0)
-//            
-//            for var i = self.tableView.numberOfRowsInSection(0) - removeCount ; 0 < removeCount && addCount > 0 ;i += 1 {
-//                print("update \(i)")
-//                actionArray.append(NSIndexPath(forRow: i, inSection: 0))
-//                removeCount -= 1
-//                addCount -= 1
-//            }
-//            
-//            self.tableView.beginUpdates()
-//            
-//            if actionArray.count > 0 {
-//                self.tableView.reloadRowsAtIndexPaths(actionArray, withRowAnimation: UITableViewRowAnimation.None)
-//            }
-//            
-//            actionArray = []
-//            
-//            for var i = 0 ; i < removeCount && (rowsCount - 1 - i > 0) ;i += 1 {
-//                print("delete \(rowsCount - 1 - i)")
-//                actionArray.append(NSIndexPath(forRow: rowsCount - 1 - i, inSection: 0))
-//            }
-//            if actionArray.count > 0 {
-//                self.tableView.deleteRowsAtIndexPaths(actionArray, withRowAnimation: UITableViewRowAnimation.Left)
-//            }
-//            
-//            actionArray = []
-//            rowsCount = self.tableView.numberOfRowsInSection(0)
-//            
-//            for var i = 0 ; i < addCount ;i += 1 {
-//                actionArray.append(NSIndexPath(forRow: rowsCount + i, inSection: 0))
-//            }
-//            if actionArray.count > 0 {
-//                self.tableView.insertRowsAtIndexPaths(actionArray, withRowAnimation: UITableViewRowAnimation.Fade)
-//            }
-//            
-//            self.tableView.endUpdates()
-//            
-//            //self.tableView.reloadData()
-//            //self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
-//            self.scrollToEnd()
-//        })
-//    }
-    
-    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
-//        self.refreshHistory()
-        if !(data ?? []).isEmpty {
-            transactionMessageTextField!.text = ""
-            transactionAmountTextField!.text = ""
-            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_SUCCESS".localized(), preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
-                alertAction -> Void in
-            }
-            
-            alert.addAction(ok)
-            self.presentViewController(alert, animated: true, completion: nil)
-            
-        } else {
-            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_FAILED".localized(), preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
-                alertAction -> Void in
-            }
-            
-            alert.addAction(ok)
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
-    
-    private final func _getMinCosigFor(transaction: _MultisigTransaction) -> Int? {
-        let innertTransaction =  (transaction.innerTransaction as! _TransferTransaction)
-        let transactionsignerAddress = AddressGenerator.generateAddress(innertTransaction.signer)
+    /// Copies the correspondent address to the pasteboard.
+    func copyCorrespondentAddress(sender: AnyObject) {
         
-        for account in _accounts {
-            if account.address == transactionsignerAddress {
-                return account.minCosignatories
-            }
-        }
+        guard correspondent != nil else { return }
         
-        return nil
+        let pasteBoard = UIPasteboard.generalPasteboard()
+        pasteBoard.string = correspondent!.accountAddress
     }
     
+    // TODO:
     private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
         let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
         
@@ -679,226 +599,104 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate, 
 
     // MARK: - View Controller Outlet Actions
     
-    @IBAction func amoundFieldDidEndOnExit(sender: UITextField) {
+    @IBAction func toggleEncryptionSetting(sender: UIButton) {
+        
+        willEncrypt = !willEncrypt
+        sender.backgroundColor = (willEncrypt) ? UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1) : UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
+    }
+    
+    @IBAction func amountTextFieldDidEndOnExit(sender: UITextField) {
+        
         if Double(sender.text!) == nil {
             sender.text = "0"
         }
     }
     
-    @IBAction func messageFieldDidEndOnExit(sender: UITextField) {
+    @IBAction func chooseAccount(sender: UIButton) {
+        
+        if accountChooserViewController == nil {
+            
+            var accounts = accountData!.cosignatoryOf ?? []
+            accounts.append(accountData!)
+            
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let accountChooserViewController = mainStoryboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
+            accountChooserViewController.view.frame = CGRect(x: tableView.frame.origin.x, y:  tableView.frame.origin.y, width: tableView.frame.width, height: tableView.frame.height)
+            accountChooserViewController.view.layer.opacity = 0
+            accountChooserViewController.delegate = self
+            accountChooserViewController.accounts = accounts
 
-    }
-    
-    @IBAction func copyCorrespondentAddress(sender: AnyObject) {
-        
-        guard correspondent != nil else { return }
-        
-        let pasteBoard: UIPasteboard = UIPasteboard.generalPasteboard()
-        pasteBoard.string = correspondent!.accountAddress
-    }
-    
-    @IBAction func encTouchUpInside(sender: UIButton) {
-        _isEnc = !_isEnc
-        sender.backgroundColor = (_isEnc) ? greenColor : grayColor
-    }
-    
-    @IBAction func accountsButtonDidTouchInside(sender: AnyObject){
-        if _popup == nil {
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
-            _popup = accounts
-            accounts.view.frame = CGRect(x: tableView.frame.origin.x,
-                                         y:  tableView.frame.origin.y,
-                                         width: tableView.frame.width,
-                                         height: tableView.frame.height)
-            
-            accounts.view.layer.opacity = 0
-//            accounts.delegate = self
-            
-            var wallets = _mainAccount?.cosignatoryOf ?? []
-            if _mainAccount != nil
-            {
-                wallets.append(self._mainAccount!)
-            }
-            accounts.wallets = wallets
-            
-            if accounts.wallets.count > 0
-            {
-                self.transactionSendButton.enabled = false
-                self.view.addSubview(accounts.view)
+            self.accountChooserViewController = accountChooserViewController
+
+            if accounts.count > 0 {
+                transactionSendButton.enabled = false
+                view.addSubview(accountChooserViewController.view)
                 
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    accounts.view.layer.opacity = 1
-                    }, completion: nil)
+                UIView.animateWithDuration(0.2, animations: {
+                    accountChooserViewController.view.layer.opacity = 1
+                })
             }
+            
         } else {
-            _popup!.view.removeFromSuperview()
-            _popup!.removeFromParentViewController()
-            _popup = nil
+            
+            accountChooserViewController!.view.removeFromSuperview()
+            accountChooserViewController!.removeFromParentViewController()
+            accountChooserViewController = nil
         }
     }
     
-    @IBAction func sendButtonTouchUpInside(sender: AnyObject) {
+    @IBAction func createTransaction(sender: AnyObject) {
         
-        if _activeAccount == nil || State.currentServer == nil {
-            return
-        }
-        let amount = Double(transactionAmountTextField.text!) ?? 0
-        if amount < 0.000001 && amount != 0 {
+        guard transactionAmountTextField.text != nil else { return }
+        guard transactionMessageTextField.text != nil else { return }
+        if activeAccountData == nil { activeAccountData = accountData }
+        
+        let transactionVersion = 1
+        let transactionTimeStamp = Int(TimeSynchronizator.nemTime)
+        let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
+        var transactionFee = 0.0
+        let transactionRecipient = correspondent!.accountAddress
+        let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding) ?? String()
+        var transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
+        let transactionDeadline = Int(TimeSynchronizator.nemTime + waitTime)
+        let transactionSigner = activeAccountData!.publicKey
+        
+        if transactionAmount < 0.000001 && transactionAmount != 0 {
             transactionAmountTextField!.text = "0"
             return
         }
-        
-        let transaction :_TransferTransaction = _TransferTransaction()
-        
-        if let amount = Double(transactionAmountTextField!.text!) {
-            if Double(_activeAccount?.balance ?? -1) > amount {
-                transaction.amount = amount
-            } else {
-                _failedWithError("ACCOUNT_NOT_ENOUGHT_MONEY".localized())
-                return
-            }
-        } else {
-            transactionAmountTextField!.text = "0"
-            transaction.amount = 0
+        guard (activeAccountData!.balance / 1000000) > transactionAmount else {
+            _failedWithError("ACCOUNT_NOT_ENOUGHT_MONEY".localized())
             return
         }
-                
-        let messageTextHex = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)
-        
-        if !Validate.hexString(messageTextHex!) {
+        guard TransactionManager.sharedInstance.validateHexadecimalString(transactionMessageText) == true else {
             _failedWithError("NOT_A_HEX_STRING".localized())
             return
         }
         
-        var messageBytes :[UInt8] = messageTextHex!.asByteArray()
+        if willEncrypt {
+            guard let recipientPublicKey = correspondent?.accountPublicKey else {
+                _failedWithError("NO_PUBLIC_KEY_FOR_ENC".localized())
+                return
+            }
+            
+            var transactionEncryptedMessageByteArray: [UInt8] = Array(count: 32, repeatedValue: 0)
+            transactionEncryptedMessageByteArray = TransactionManager.sharedInstance.encryptMessage(transactionMessageByteArray, senderEncryptedPrivateKey: account!.privateKey, recipientPublicKey: recipientPublicKey)
+            transactionMessageByteArray = transactionEncryptedMessageByteArray
+        }
         
-//        if _isEnc
-//        {
-//            guard let contactPublicKey = contact.public_key else {
-//                _failedWithError("NO_PUBLIC_KEY_FOR_ENC".localized())
-//
-//                return
-//            }
-//            var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
-//            encryptedMessage = MessageCrypto.encrypt(messageBytes, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
-//            messageBytes = encryptedMessage
-//        }
-        
-        if messageBytes.count > 160 {
+        if transactionMessageByteArray.count > 160 {
             _failedWithError("VALIDAATION_MESSAGE_LEANGTH".localized())
             return
         }
         
-        transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? _MessageType.Ecrypted.rawValue : _MessageType.Normal.rawValue
+        transactionFee = TransactionManager.sharedInstance.calculateFee(forTransactionWithAmount: transactionAmount)
+        transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray)
         
-        var fee = 0
+        let transactionMessage = Message(type: willEncrypt ? MessageType.Encrypted : MessageType.Unencrypted, payload: transactionMessageByteArray)
+        let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount, fee: Int(transactionFee), recipient: transactionRecipient, message: transactionMessage, deadline: transactionDeadline, signer: transactionSigner)
         
-        if transaction.amount >= 8 {
-            fee = Int(max(2, 99 * atan(transaction.amount / 150000)))
-        }
-        else {
-            fee = 10 - Int(transaction.amount)
-        }
-        var messageLength = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
-        
-        if _isEnc && messageLength != 0 {
-            messageLength! += 64
-        }
-
-        if messageLength != 0 {
-            fee += Int(2 * max(1, Int( messageLength! / 16)))
-        }
-        
-        transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
-        transaction.fee = Double(fee)
-//        transaction.recipient = contact.address
-        transaction.type = transferTransaction
-        transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
-        transaction.version = 1
-        transaction.signer = _activeAccount?.publicKey
-        
-//        _apiManager?.prepareAnnounce(State.currentServer!, transaction: transaction)
-        
-        self.view.endEditing(true)
-    }
-    
-    //MARK: - DetailedTableViewCellDelegate Methods
-    
-    func showDetailsForCell(cell: DetailedTableViewCell) {
-        cell.detailsIsShown = true
-    }
-    
-    func hideDetailsForCell(cell: DetailedTableViewCell) {
-        cell.detailsIsShown = false
-    }
-    
-    //MARK: - AccountsChousePopUpDelegate Methods
-    
-    func didChouseAccount(account: AccountGetMetaData) {
-        _activeAccount = account
-        _popup?.view.removeFromSuperview()
-        _popup?.removeFromParentViewController()
-        _popup = nil
-        
-        self.transactionSendButton.enabled = true
-        
-        self.transactionEncryptionButton.enabled = _activeAccount?.address == account.address
-        
-        if _activeAccount?.address != account.address {
-            _isEnc = false
-            self.transactionEncryptionButton.backgroundColor = grayColor
-        }
-        
-        let userDescription :NSMutableAttributedString = NSMutableAttributedString(string: "\(_activeAccount!.address.nemName())")
-        
-        let attribute = [NSForegroundColorAttributeName : UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)]
-        let balance = " \(self._activeAccount!.balance / 1000000) XEM"
-        
-        userDescription.appendAttributedString(NSMutableAttributedString(string: balance, attributes: attribute))
-        
-        dispatch_async(dispatch_get_main_queue() , {
-            () -> Void in
-            self.infoHeaderLabel.attributedText = userDescription
-        })
-    }
-    
-    private func _heightForCell(message: [Transaction], width: CGFloat) {
-        
-        for transaction in message {
-            let transferTransaction = transaction as! TransferTransaction
-            
-            let message = transferTransaction.message?.message == String() || transferTransaction.message?.message == nil ? "EMPTY_MESSAGE".localized() : transferTransaction.message?.message
-            let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(13, weight: UIFontWeightRegular)])
-            
-            var amount = String()
-            if (transferTransaction.amount > 0) {
-                
-                var symbol = String()
-                if transferTransaction.transferType == .Incoming {
-                    symbol = "+"
-                } else {
-                    symbol = "-"
-                }
-                
-                amount = "\(symbol)\((transferTransaction.amount / 1000000).format()) XEM" ?? String()
-                amount = "\n" + amount
-                
-                let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightRegular)])
-                messageAttributedString.appendAttributedString(amountAttributedString)
-            }
-            
-            let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
-            label.numberOfLines = 10
-            label.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            label.attributedText = messageAttributedString
-            label.sizeToFit()
-            
-            rowHeight.append(label.frame.height + 50)
-        }
+        announceTransaction(transaction!)
     }
 }
 
@@ -955,5 +753,29 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
         }
         
         return rowHeight[indexPath.row]
+    }
+}
+
+// MARK: - Account Chooser Delegate
+
+extension TransactionMessagesViewController: AccountChooserDelegate {
+    
+    func didChooseAccount(accountData: AccountData) {
+        
+        activeAccountData = accountData
+        
+        accountChooserViewController?.view.removeFromSuperview()
+        accountChooserViewController?.removeFromParentViewController()
+        accountChooserViewController = nil
+        
+        transactionSendButton.enabled = true
+        transactionEncryptionButton.enabled = activeAccountData?.address == self.accountData?.address
+        
+        if activeAccountData?.address != self.accountData?.address {
+            willEncrypt = false
+            transactionEncryptionButton.backgroundColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
+        }
+        
+        updateInfoHeaderLabel(withAccountData: activeAccountData)
     }
 }

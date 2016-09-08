@@ -11,7 +11,7 @@ import UIKit
 extension UIImage {
     
     /**
-     Changes the color of the image to the specified UIColor.
+        Changes the color of the image to the specified UIColor.
      */
     func imageWithColor(tintColor: UIColor) -> UIImage {
         

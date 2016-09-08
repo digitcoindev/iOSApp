@@ -9,7 +9,7 @@ import Foundation
 import SwiftyJSON
 
 /// All available transaction types on the NEM blockchain.
-enum TransactionType: Int {
+public enum TransactionType: Int {
     case TransferTransaction = 257
     case ImportanceTransferTransaction = 2049
     case MultisigTransaction = 4100
@@ -18,12 +18,15 @@ enum TransactionType: Int {
 }
 
 /// Represents a transaction on the NEM blockchain.
-protocol Transaction: SwiftyJSONMappable {
+public protocol Transaction: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
     var type: TransactionType { get }
+    
+    /// The version of the transaction.
+    var version: Int! { get set }
     
     /// The number of seconds elapsed since the creation of the nemesis block.
     var timeStamp: Int! { get set }

@@ -26,11 +26,27 @@ class AccountTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    // MARK: - Cell Lifecycle
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        updateCellAppearance()
+    }
+    
     // MARK: - Cell Helper Methods
     
     /// Updates the table view cell with the provided title.
     private func updateCell() {
         
         titleLabel.text = title ?? String()
+    }
+    
+    /// Updates the appearance of the table view cell.
+    private func updateCellAppearance() {
+        
+        preservesSuperviewLayoutMargins = false
+        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsetsZero
     }
 }

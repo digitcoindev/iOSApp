@@ -12,7 +12,7 @@ import UIKit
     the current account or the accounts the current account is a 
     cosignatory of.
  */
-class TransactionSendViewController: UIViewController, UIScrollViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate {
+class TransactionSendViewController: UIViewController, UIScrollViewDelegate, APIManagerDelegate {
     
     // MARK: - View Controller Properties
     
@@ -540,39 +540,39 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         sender.becomeFirstResponder()
     }
     
-    @IBAction func chouseAccount(sender: AnyObject) {
-        if _popup == nil {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
-            _popup = accounts
-            accounts.view.frame = CGRect(origin: CGPoint(x: scroll.frame.origin.x, y: scroll.frame.origin.y + 5 ), size: scroll.frame.size)
-            
-            accounts.view.layer.opacity = 0
-//            accounts.delegate = self
-            
-            var wallets = _mainWallet?.cosignatoryOf ?? []
-            
-            if _mainWallet != nil
-            {
-                wallets.append(self._mainWallet!)
-            }
-            accounts.wallets = wallets
-            
-            if accounts.wallets.count > 0
-            {
-                self.contentView.addSubview(accounts.view)
-                
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    accounts.view.layer.opacity = 1
-                    }, completion: nil)
-            }
-        } else {
-            _popup!.view.removeFromSuperview()
-            _popup!.removeFromParentViewController()
-            _popup = nil
-        }
-    }
+//    @IBAction func chouseAccount(sender: AnyObject) {
+//        if _popup == nil {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            
+//            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
+//            _popup = accounts
+//            accounts.view.frame = CGRect(origin: CGPoint(x: scroll.frame.origin.x, y: scroll.frame.origin.y + 5 ), size: scroll.frame.size)
+//            
+//            accounts.view.layer.opacity = 0
+////            accounts.delegate = self
+//            
+//            var wallets = _mainWallet?.cosignatoryOf ?? []
+//            
+//            if _mainWallet != nil
+//            {
+//                wallets.append(self._mainWallet!)
+//            }
+//            accounts.wallets = wallets
+//            
+//            if accounts.wallets.count > 0
+//            {
+//                self.contentView.addSubview(accounts.view)
+//                
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    accounts.view.layer.opacity = 1
+//                    }, completion: nil)
+//            }
+//        } else {
+//            _popup!.view.removeFromSuperview()
+//            _popup!.removeFromParentViewController()
+//            _popup = nil
+//        }
+//    }
     
     @IBAction func cancel(sender: UIBarButtonItem) {
         dismissViewControllerAnimated(true, completion: nil)

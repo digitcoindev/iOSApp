@@ -11,7 +11,7 @@ import Foundation
 
 extension Message: Equatable { }
 
-func == (lhs: Message, rhs: Message) -> Bool {
+public func == (lhs: Message, rhs: Message) -> Bool {
     return lhs.type == rhs.type &&
         lhs.type == rhs.type &&
         lhs.payload == rhs.payload

@@ -6,61 +6,63 @@
 //
 
 import UIKit
-@objc protocol AccountsChousePopUpDelegate {
-    optional func didChouseAccount(account :AccountGetMetaData)
+
+protocol AccountChooserDelegate {
+    func didChooseAccount(account: AccountData)
 }
-class AccountChooserViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+/// The view controller that lets the user choose from different listed accounts.
+class AccountChooserViewController: UIViewController {
+    
+    // MARK: - View Controller Properties
+    
+    var delegate: AccountChooserDelegate?
+    var accounts: [AccountData]? {
+        didSet {
+            updateTableView()
+        }
+    }
+    
+    // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var _wallets :[AccountGetMetaData] = []
-    private let _apiManager :APIManager = APIManager()
-
-    var wallets :[AccountGetMetaData] {
-        get {
-            return _wallets
-        }
-        
-        set {
-            _wallets = newValue
-            tableView.reloadData()
-        }
-    }
+    // MARK: - View Controller Helper Methods
     
-    //MARK: Load Methods
-
-    override func viewDidLoad() {
+    /// Reloads/Updates the table view.
+    private func updateTableView() {
         
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
-        _apiManager.delegate = self
-
-    }
-    
-    override func viewDidAppear(animated: Bool) {
+        guard accounts != nil else { return }
         
+        tableView.reloadData()
     }
+}
+
+// MARK: - Table View Delegate
+
+extension AccountChooserViewController: UITableViewDataSource, UITableViewDelegate {
     
-    //MARK: UITableViewDataSource Methods
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _wallets.count
+        return accounts!.count
     }
-   
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell :AccountTableViewCell = tableView.dequeueReusableCellWithIdentifier("AccountsChousePopUpCell") as! AccountTableViewCell
-        cell.titleLabel.attributedText = NSMutableAttributedString(string: _wallets[indexPath.row].address.nemName() , attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!])
-//        cell.isEditable = false
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("AccountTableViewCell") as! AccountTableViewCell
+        cell.title = accounts![indexPath.row].title ?? accounts![indexPath.row].address.nemAddressNormalised()
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-//        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AccountsChousePopUpDelegate.didChouseAccount(_:))) {
-//            (self.delegate as! AccountsChousePopUpDelegate).didChouseAccount!(_wallets[indexPath.row])
-//        }
+        delegate?.didChooseAccount(accounts![indexPath.row])
         
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
+        view.removeFromSuperview()
+        removeFromParentViewController()
     }
 }

@@ -1,6 +1,6 @@
 import UIKit
 
-class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerDelegate, AccountsChousePopUpDelegate
+class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -31,39 +31,39 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
 
     }
     
-    @IBAction func chouseAccount(sender: AnyObject) {
-        if _contentViews.count == 0 {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
-            
-            accounts.view.frame = tableView.frame
-            
-            accounts.view.layer.opacity = 0
-//            accounts.delegate = self
-            
-            var wallets = _mainAccount?.cosignatoryOf ?? []
-            
-            if _mainAccount != nil
-            {
-                wallets.append(self._mainAccount!)
-            }
-            accounts.wallets = wallets
-            
-            if accounts.wallets.count > 0
-            {
-                _contentViews.append(accounts)
-                self.view.addSubview(accounts.view)
-                
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    accounts.view.layer.opacity = 1
-                    }, completion: nil)
-            }
-        } else {
-            _contentViews.first?.view.removeFromSuperview()
-            _contentViews.removeFirst()
-        }
-    }
+//    @IBAction func chouseAccount(sender: AnyObject) {
+//        if _contentViews.count == 0 {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            
+//            let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
+//            
+//            accounts.view.frame = tableView.frame
+//            
+//            accounts.view.layer.opacity = 0
+////            accounts.delegate = self
+//            
+//            var wallets = _mainAccount?.cosignatoryOf ?? []
+//            
+//            if _mainAccount != nil
+//            {
+//                wallets.append(self._mainAccount!)
+//            }
+//            accounts.wallets = wallets
+//            
+//            if accounts.wallets.count > 0
+//            {
+//                _contentViews.append(accounts)
+//                self.view.addSubview(accounts.view)
+//                
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    accounts.view.layer.opacity = 1
+//                    }, completion: nil)
+//            }
+//        } else {
+//            _contentViews.first?.view.removeFromSuperview()
+//            _contentViews.removeFirst()
+//        }
+//    }
     
 //    @IBAction func backButtonTouchUpInside(sender: AnyObject) {
 //        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {

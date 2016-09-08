@@ -43,10 +43,11 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
     /// Updates the table view cell with the provided correspondent data.
     private func updateCell() {
         
+        let mostRecentTransferTransaction = correspondent!.mostRecentTransaction as! TransferTransaction
         nameLabel.text = correspondent!.name != nil ? correspondent!.name : correspondent!.accountAddress.nemAddressNormalised()
-        mostRecentMessageLabel.text = correspondent!.mostRecentTransaction.message?.message ?? String()
+        mostRecentMessageLabel.text = mostRecentTransferTransaction.message?.message ?? String()
         mostRecentDateLabel.text = getDate(fromTransactionTimeStamp: correspondent!.mostRecentTransaction.timeStamp)
-        mostRecentAmountLabel.attributedText = formatAmount(correspondent!.mostRecentTransaction.amount)
+        mostRecentAmountLabel.attributedText = formatAmount(mostRecentTransferTransaction.amount)
     }
     
     /// Updates the appearance of the table view cell.
@@ -75,7 +76,8 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
             dateFormatter.dateFormat = "HH:mm"
         }
         
-        if correspondent!.mostRecentTransaction.metaData!.id != nil {
+        let mostRecentTransferTransaction = correspondent!.mostRecentTransaction as! TransferTransaction
+        if mostRecentTransferTransaction.metaData!.id != nil {
             date = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
         } else {
             date = "UNCONFIRMED_DASHBOARD".localized()
@@ -98,7 +100,8 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
         var textColor = UIColor()
         var sign = String()
         
-        if (correspondent!.mostRecentTransaction.transferType == .Outgoing && correspondent!.mostRecentTransaction.recipient != account!.address) {
+        let mostRecentTransferTransaction = correspondent!.mostRecentTransaction as! TransferTransaction
+        if (mostRecentTransferTransaction.transferType == .Outgoing && mostRecentTransferTransaction.recipient != account!.address) {
             sign = "-"
             textColor = UIColor.redColor()
         } else if correspondent!.mostRecentTransaction.signer == account!.publicKey {

@@ -11,7 +11,7 @@ import Foundation
 
 extension MultisigTransaction: Equatable { }
 
-func == (lhs: MultisigTransaction, rhs: MultisigTransaction) -> Bool {
+public func == (lhs: MultisigTransaction, rhs: MultisigTransaction) -> Bool {
     return lhs.type == rhs.type &&
         lhs.timeStamp == rhs.timeStamp &&
         lhs.metaData == rhs.metaData &&
@@ -25,7 +25,7 @@ func == (lhs: MultisigTransaction, rhs: MultisigTransaction) -> Bool {
 
 extension MultisigTransaction: CustomStringConvertible {
     
-    var description: String {
+    public var description: String {
         return "NemIOSClient.MultisigTransaction(type: \(type), timeStamp: \(timeStamp), metaData: \(metaData), fee: \(fee),, deadline: \(deadline), signature: \(signature), signatures: \(signatures), signer: \(signer), innerTransaction: \(innerTransaction))"
     }
 }

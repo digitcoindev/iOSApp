@@ -11,7 +11,7 @@ import Foundation
 
 extension TransactionMetaData: Equatable { }
 
-func == (lhs: TransactionMetaData, rhs: TransactionMetaData) -> Bool {
+public func == (lhs: TransactionMetaData, rhs: TransactionMetaData) -> Bool {
     return lhs.id == rhs.id &&
         lhs.height == rhs.height
 }

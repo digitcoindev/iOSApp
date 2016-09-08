@@ -58,20 +58,25 @@ class TransactionOverviewViewController: UIViewController {
         createBarButtonItem()
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewWillDisappear(animated: Bool) {
         
-        stopRefreshing()
+        guard let navigationViewControllers = navigationController?.viewControllers else { return }
+        
+        // Needed to invalidate the refresh timer. Otherwise the view controller wouldn't get deinitialized.
+        if navigationViewControllers.contains({ NSStringFromClass($0.classForCoder).componentsSeparatedByString(".").last! == "\(AccountDetailTabBarController.self)" }) != true {
+            stopRefreshing()
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         switch segue.identifier! {
-        case "showTransactionNormalMessagesViewController":
+        case "showTransactionMessagesViewController":
             
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationViewController = segue.destinationViewController as! TransactionMessagesViewController
                 destinationViewController.account = account
+                destinationViewController.accountData = accountData
                 destinationViewController.correspondent = correspondents[indexPath.row]
             }
             
@@ -140,7 +145,7 @@ class TransactionOverviewViewController: UIViewController {
      */
     private func updateBarButtonItemStatus(withAccountData accountData: AccountData) {
         
-        if accountData.cosignatories.count > 0 {
+        if accountData.cosignatories?.count > 0 {
             self.tabBarController?.navigationItem.rightBarButtonItem!.enabled = false
         } else {
             self.tabBarController?.navigationItem.rightBarButtonItem!.enabled = true
@@ -193,6 +198,7 @@ class TransactionOverviewViewController: UIViewController {
     /// Stops refreshing the transaction overview.
     private func stopRefreshing() {
         refreshTimer?.invalidate()
+        refreshTimer = nil
     }
     
     /**
@@ -232,7 +238,8 @@ class TransactionOverviewViewController: UIViewController {
                 do {
                     try response.filterSuccessfulStatusCodes()
                     
-                    let accountData = try response.mapObject(AccountData)
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData)
                     
                     GCDQueue.Main.async {
                         
@@ -429,27 +436,40 @@ class TransactionOverviewViewController: UIViewController {
             
             switch transaction.type {
             case .TransferTransaction:
-                
+                            
                 let transaction = transaction as! TransferTransaction
-                let correspondent = Correspondent()
+                var correspondent: Correspondent? = nil
                 
                 if transaction.signer == account!.publicKey {
-                    correspondent.accountAddress = transaction.recipient
+                    correspondent = Correspondent()
+                    correspondent!.accountAddress = transaction.recipient
                     transaction.transferType = .Outgoing
-                } else {
-                    correspondent.accountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer)
+                } else if transaction.recipient == account!.address {
+                    correspondent = Correspondent()
+                    correspondent!.accountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer)
+                    correspondent!.accountPublicKey = transaction.signer
                     transaction.transferType = .Incoming
                 }
                 
-                if correspondents.contains(correspondent) {
-                    if let index = correspondents.indexOf(correspondent) {
-                        correspondents[index].transactions.append(transaction)
-                        correspondents[index].mostRecentTransaction = transaction
+                if correspondent != nil {
+                    if correspondents.contains(correspondent!) {
+                        if let index = correspondents.indexOf(correspondent!) {
+                            if transaction.metaData?.id != nil {
+                                correspondents[index].transactions.append(transaction)
+                            } else {
+                                correspondents[index].unconfirmedTransactions.append(transaction)
+                            }
+                            correspondents[index].mostRecentTransaction = transaction
+                        }
+                    } else {
+                        if transaction.metaData?.id != nil {
+                            correspondent!.transactions.append(transaction)
+                        } else {
+                            correspondent!.unconfirmedTransactions.append(transaction)
+                        }
+                        correspondent!.mostRecentTransaction = transaction
+                        correspondents.append(correspondent!)
                     }
-                } else {
-                    correspondent.transactions.append(transaction)
-                    correspondent.mostRecentTransaction = transaction
-                    correspondents.append(correspondent)
                 }
                 
             default:
@@ -514,12 +534,6 @@ extension TransactionOverviewViewController: UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
             
-        if accountData!.cosignatories.count > 0 {
-            performSegueWithIdentifier("showTransactionMultisignatureMessagesViewController", sender: nil)
-        } else if accountData!.cosignatoryOf.count > 0 {
-            performSegueWithIdentifier("showTransactionCosignatoryMessagesViewController", sender: nil)
-        } else {
-            performSegueWithIdentifier("showTransactionNormalMessagesViewController", sender: nil)
-        }
+        performSegueWithIdentifier("showTransactionMessagesViewController", sender: nil)
     }
 }

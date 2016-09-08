@@ -13,40 +13,43 @@ import SwiftyJSON
     Visit the [documentation](http://bob.nem.ninja/docs/#multisigTransaction)
     for more information.
  */
-class MultisigTransaction: Transaction {
+public class MultisigTransaction: Transaction {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
-    var type = TransactionType.MultisigTransaction
+    public var type = TransactionType.MultisigTransaction
     
     /// Additional information about the transaction.
-    var metaData: TransactionMetaData!
+    public var metaData: TransactionMetaData!
+    
+    /// The version of the transaction.
+    public var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    var timeStamp: Int!
+    public var timeStamp: Int!
     
     /// The fee for the transaction.
-    var fee: Int!
+    public var fee: Int!
     
     /// The deadline of the transaction.
-    var deadline: Int!
+    public var deadline: Int!
     
     /// The transaction signature.
-    var signature: String!
+    public var signature: String!
     
     /// The array of MulsigSignatureTransaction objects.
-    var signatures: [MultisigSignatureTransaction]?
+    public var signatures: [MultisigSignatureTransaction]?
     
     /// The public key of the account that created the transaction.
-    var signer: String!
+    public var signer: String!
     
     /// The inner transaction of the multisig transaction.
-    var innerTransaction: Transaction!
+    public var innerTransaction: Transaction!
     
     // MARK: - Model Lifecycle
     
-    required init?(jsonData: JSON) {
+    required public init?(jsonData: JSON) {
         
         metaData = try! jsonData["meta"].mapObject(TransactionMetaData)
         timeStamp = jsonData["transaction"]["timeStamp"].intValue

@@ -130,6 +130,26 @@ public class AccountManager {
     }
     
     /**
+        Searches for the title of an account with the provided account
+        address. The account with the provided account address could already
+        be present in the app or saved inside the address book.
+     
+        - Parameter accountAddress: The account address for which the account title should get fetched.
+     
+        - Returns: The title of the account with the provided account address. If no title was found the method will return nil.
+     */
+    public func titleForAccount(withAddress accountAddress: String) -> String? {
+        
+        let accounts = self.accounts()
+        
+        for account in accounts where account.address == accountAddress {
+            return account.title
+        }
+        
+        return nil
+    }
+    
+    /**
         Validates if an account with the provided private key already
         got added to the application or not.
      
@@ -246,6 +266,21 @@ public class AccountManager {
         return generateAddress(forPublicKey: publicKey)
     }
     
+    /**
+        Decrypts the provided encrypted private key with the application password.
+     
+        - Parameter encryptedPrivateKey: The encrypted private key that should get decrypted.
+     
+        - Returns: The decrypted private key as a string.
+     */
+    public func decryptPrivateKey(encryptedPrivateKey: String) -> String {
+        
+        let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
+        let privateKey = HashManager.AES256Decrypt(encryptedPrivateKey, key: encryptedApplicationPassword)
+        
+        return privateKey!
+    }
+    
     // MARK: - Private Manager Methods
     
     /**
@@ -308,20 +343,5 @@ public class AccountManager {
         let encryptedPrivateKey = HashManager.AES256Encrypt(privateKey, key: encryptedApplicationPassword.toHexString())
         
         return encryptedPrivateKey
-    }
-    
-    /**
-        Decrypts the provided encrypted private key with the application password.
-     
-        - Parameter encryptedPrivateKey: The encrypted private key that should get decrypted.
-     
-        - Returns: The decrypted private key as a string.
-     */
-    private func decryptPrivateKey(encryptedPrivateKey: String) -> String {
-        
-        let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
-        let privateKey = HashManager.AES256Decrypt(encryptedPrivateKey, key: encryptedApplicationPassword)
-        
-        return privateKey!
     }
 }

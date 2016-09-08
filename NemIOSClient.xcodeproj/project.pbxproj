@@ -180,6 +180,11 @@
 		4F9F68981D4C39DF0086F98F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F68971D4C39DF0086F98F /* Images.xcassets */; };
 		4F9F689C1D4C39FA0086F98F /* NemIOSClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68991D4C39FA0086F98F /* NemIOSClient.xcdatamodeld */; };
 		4F9F689E1D4C3A160086F98F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F689D1D4C3A160086F98F /* Info.plist */; };
+		4FA5B5821D81B86F00B1F907 /* TransactionExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */; };
+		4FA92FC71D7093A800C9477B /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */; };
+		4FB442CB1D75E71A00A98BAC /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */; };
+		4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */; };
+		4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */; };
 		4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */; };
 		4FFF8F041D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F021D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld */; };
 		4FFF8F061D523BD000B4BB9F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */; };
@@ -442,6 +447,11 @@
 		4F9F689A1D4C39FA0086F98F /* NemData_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemData_2.xcdatamodel; sourceTree = "<group>"; };
 		4F9F689B1D4C39FA0086F98F /* NemIOSClient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClient.xcdatamodel; sourceTree = "<group>"; };
 		4F9F689D1D4C3A160086F98F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Assets/Property Lists/Info.plist"; sourceTree = "<group>"; };
+		4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionExceptions.swift; path = Common/Exceptions/TransactionExceptions.swift; sourceTree = "<group>"; };
+		4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardLayoutConstraint.swift; path = "Assets/Supporting Files/KeyboardLayoutConstraint.swift"; sourceTree = "<group>"; };
+		4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionManager.swift; path = Application/Transaction/TransactionManager.swift; sourceTree = "<group>"; };
+		4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestAnnounceModel.swift; path = Models/RequestAnnounceModel.swift; sourceTree = "<group>"; };
+		4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array<UInt8>+Additions.swift"; path = "Common/Extensions/Array<UInt8>+Additions.swift"; sourceTree = "<group>"; };
 		4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountModel.swift; path = Models/AccountModel.swift; sourceTree = "<group>"; };
 		4FFF8F031D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClientTEMP.xcdatamodel; sourceTree = "<group>"; };
 		4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -600,6 +610,7 @@
 			isa = PBXGroup;
 			children = (
 				4F9F68931D4C39AB0086F98F /* String+Additions.swift */,
+				4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */,
 				4F9F68851D4C39220086F98F /* UIImage+Additions.swift */,
 				4F3ACEA81D638D820056F234 /* Correspondent+Additions.swift */,
 				4F2C17071D67312C00FF1F51 /* TransactionMetaData+Additions.swift */,
@@ -615,6 +626,8 @@
 		4F13394E1D40EEF700AA126D /* _TRASH */ = {
 			isa = PBXGroup;
 			children = (
+				4F9F68371D4C356A0086F98F /* SignManager.swift */,
+				4F9F68391D4C359E0086F98F /* MessageCrypto.swift */,
 				DAF1382E1AB09EFB0069AC3A /* MessageGetMetaData.swift */,
 				9823A4D11B8339B400B532CC /* Correspondent.swift */,
 				DA2BE9C41AB330E000E48D8F /* TransactionPostMetaData.swift */,
@@ -666,19 +679,11 @@
 			name = _TODO;
 			sourceTree = "<group>";
 		};
-		4F1339511D4210B400AA126D /* _TODO */ = {
-			isa = PBXGroup;
-			children = (
-				4F9F68371D4C356A0086F98F /* SignManager.swift */,
-				4F9F68391D4C359E0086F98F /* MessageCrypto.swift */,
-			);
-			name = _TODO;
-			sourceTree = "<group>";
-		};
 		4F24A1741D54E43C00AC128A /* Exceptions */ = {
 			isa = PBXGroup;
 			children = (
 				4F24A1751D54E49300AC128A /* AccountExceptions.swift */,
+				4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */,
 			);
 			name = Exceptions;
 			sourceTree = "<group>";
@@ -726,6 +731,7 @@
 		4F9828011D3CD0C100A3C8B2 /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
+				4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */,
 				4F9F68291D4C35070086F98F /* TransactionOverviewViewController.swift */,
 				4F9F682B1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift */,
 				4F9F682D1D4C35160086F98F /* TransactionSendViewController.swift */,
@@ -733,7 +739,6 @@
 				4F9F68311D4C353D0086F98F /* TransactionMessageTableViewCell.swift */,
 				4F9F68331D4C35430086F98F /* TransactionUnconfirmedViewController.swift */,
 				4F9F68351D4C35480086F98F /* TransactionUnconfirmedTableViewCell.swift */,
-				4F1339511D4210B400AA126D /* _TODO */,
 			);
 			name = Transaction;
 			sourceTree = "<group>";
@@ -1049,6 +1054,7 @@
 			isa = PBXGroup;
 			children = (
 				4F3ACE911D61C2EE0056F234 /* Response+ObjectMapper.swift */,
+				4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */,
 				DA194E051A431C690030C882 /* Cryptography */,
 			);
 			name = "Supporting Files";
@@ -1116,6 +1122,7 @@
 				4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */,
 				4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */,
 				4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */,
+				4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */,
 				4F3ACEA41D6341360056F234 /* MessageModel.swift */,
 				4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */,
 				4FFF8EFD1D51D74700B4BB9F /* _TODO */,
@@ -1393,6 +1400,7 @@
 				98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */,
 				98BB95D51BCCED5B002151F7 /* fe.c in Sources */,
 				4F9F681C1D4C33A40086F98F /* AccountExportWarningViewController.swift in Sources */,
+				4FA5B5821D81B86F00B1F907 /* TransactionExceptions.swift in Sources */,
 				4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */,
 				4F3ACEA91D638D820056F234 /* Correspondent+Additions.swift in Sources */,
 				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
@@ -1402,6 +1410,7 @@
 				4F9F68521D4C363C0086F98F /* AddressBookManager.swift in Sources */,
 				4F9F67DA1D4C2F790086F98F /* HistoryViewController.swift in Sources */,
 				4F9F67D81D4C2F710086F98F /* MainVC.swift in Sources */,
+				4FA92FC71D7093A800C9477B /* KeyboardLayoutConstraint.swift in Sources */,
 				4F9F67B81D4C2CEE0086F98F /* Wallet.swift in Sources */,
 				4F9F684A1D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift in Sources */,
 				4F9F67BE1D4C2E890086F98F /* AbstactTableViewCell.swift in Sources */,
@@ -1421,12 +1430,14 @@
 				4F9F67EC1D4C310F0086F98F /* AccountDetailTabBarController.swift in Sources */,
 				4F9F683A1D4C359E0086F98F /* MessageCrypto.swift in Sources */,
 				98BB95DB1BCCED5B002151F7 /* seed.c in Sources */,
+				4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */,
 				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
 				4F9F68961D4C39B60086F98F /* UISegmentedControlExtensions.swift in Sources */,
 				4F9F68661D4C376F0086F98F /* LocalizationManager.swift in Sources */,
 				98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */,
 				4F2C170C1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift in Sources */,
 				4F9F68081D4C33490086F98F /* AccountListViewController.swift in Sources */,
+				4FB442CB1D75E71A00A98BAC /* TransactionManager.swift in Sources */,
 				4F9F67D01D4C2F460086F98F /* KeyCell.swift in Sources */,
 				98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */,
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
@@ -1505,6 +1516,7 @@
 				4F9F682E1D4C35160086F98F /* TransactionSendViewController.swift in Sources */,
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
 				4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */,
+				4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */,
 				4F9F67C21D4C2EBA0086F98F /* ButtonDropDown.swift in Sources */,
 				4F850F1D1D4C3D550003E192 /* keccak.c in Sources */,
 				9877C6841BE2787400AF9751 /* BlockGetMetaData.swift in Sources */,
@@ -1715,7 +1727,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/NemIOSClient/Assets/Property Lists/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClient;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClientNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
@@ -1741,7 +1753,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/NemIOSClient/Assets/Property Lists/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClient;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClientNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";

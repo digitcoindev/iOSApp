@@ -8,19 +8,25 @@
 import Foundation
 
 /// Represents a correspondent with whom some sort of transaction was performed.
-class Correspondent {
+public class Correspondent {
     
     // MARK: - Model Properties
     
     /// The name of the correspondent if available.
-    var name: String?
+    public var name: String?
     
     /// The account address of the correspondent.
-    var accountAddress: String!
+    public var accountAddress: String!
+    
+    /// The public key of the correspondent.
+    public var accountPublicKey: String?
     
     /// All transactions in conjunction with the correspondent.
-    var transactions = [TransferTransaction]()
+    public var transactions = [Transaction]()
+    
+    /// All unconfirmed transactions in conjunction with the correspondent.
+    public var unconfirmedTransactions = [Transaction]()
     
     /// The most recently performed transfer transaction.
-    var mostRecentTransaction: TransferTransaction!
+    public var mostRecentTransaction: Transaction!
 }

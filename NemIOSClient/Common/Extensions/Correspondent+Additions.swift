@@ -11,6 +11,6 @@ import Foundation
 
 extension Correspondent: Equatable { }
 
-func == (lhs: Correspondent, rhs: Correspondent) -> Bool {
+public func == (lhs: Correspondent, rhs: Correspondent) -> Bool {
     return lhs.accountAddress == rhs.accountAddress
 }

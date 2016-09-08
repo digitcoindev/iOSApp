@@ -6,33 +6,49 @@
 //
 
 import Foundation
-import ObjectMapper
+import SwiftyJSON
 
 /// The meta data for an account.
-struct AccountData: Mappable {
+public struct AccountData: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
+    /// The title of the account.
+    public var title: String?
+    
+    /// The address of the account.
+    public var address: String!
+    
+    /// The public key of the account.
+    public var publicKey: String!
+    
     /// The current balance of the account.
-    var balance: Double!
+    public var balance: Double!
     
     /// All cosignatories of the account.
-    var cosignatories: [NSDictionary]!
+    public var cosignatories: [AccountData]!
     
     /// All accounts for which the account acts as a cosignatory.
-    var cosignatoryOf: [NSDictionary]!
+    public var cosignatoryOf: [AccountData]!
     
     // MARK: - Model Lifecycle
     
-    init?(_ map: Map) { }
-    
-    // MARK: - Model Helper Methods
-    
-    /// Maps the results from a network request to an account data object.
-    mutating func mapping(map: Map) {
+    public init?(jsonData: JSON) {
         
-        balance <- map["account.balance"]
-        cosignatories <- map["meta.cosignatories"]
-        cosignatoryOf <- map["meta.cosignatoryOf"]
+        if jsonData["meta"] == nil {
+            address = jsonData["address"].stringValue
+            publicKey = jsonData["publicKey"].stringValue
+            balance = jsonData["balance"].doubleValue
+            cosignatories = [AccountData]()
+            cosignatoryOf = [AccountData]()
+        } else {
+            address = jsonData["account"]["address"].stringValue
+            publicKey = jsonData["account"]["publicKey"].stringValue
+            balance = jsonData["account"]["balance"].doubleValue
+            cosignatories = try! jsonData["meta"]["cosignatories"].mapArray(AccountData)
+            cosignatoryOf = try! jsonData["meta"]["cosignatoryOf"].mapArray(AccountData)
+        }
+    
+        title = AccountManager.sharedInstance.titleForAccount(withAddress: address)
     }
 }

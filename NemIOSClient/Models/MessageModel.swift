@@ -9,55 +9,61 @@ import Foundation
 import SwiftyJSON
 
 /// All available message types.
-enum MessageType: Int {
+public enum MessageType: Int {
     case Unencrypted = 1
     case Encrypted = 2
 }
 
 /// Represents a transaction message on the NEM blockchain.
-struct Message: SwiftyJSONMappable {
+public struct Message: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
     /// The type of the message.
-    var type: MessageType
+    public var type: MessageType
     
     /// The payload is the actual (possibly encrypted) message data.
-    var payload: String!
+    public var payload: [UInt8]!
     
     /// The message payload (data) as a readable string.
-    var message: String!
+    public var message: String?
     
     // The public key of the account that created the transaction.
-    var signer: String!
+    public var signer: String?
     
-    var encryptedPrivateKey: String!
+    public var encryptedPrivateKey: String?
     
     // MARK: - Model Lifecycle
     
-    init?(jsonData: JSON) {
+    public init?(type: MessageType, payload: [UInt8]) {
+        
+        self.type = type
+        self.payload = payload
+    }
+    
+    public init?(jsonData: JSON) {
 
         type = MessageType(rawValue: jsonData["type"].intValue) ?? MessageType.Unencrypted
-        payload = jsonData["payload"].string
+        payload = jsonData["payload"].string?.asByteArray()
         message = {
             guard payload != nil else { return String() }
 
             switch type {
             case .Unencrypted:
-                if payload!.asByteArray().first == UInt8(0xfe) {
+                if payload!.first == UInt8(0xfe) {
                     print("HMMMM")
-                    var bytes = self.payload!.asByteArray()
+                    var bytes = self.payload!
                     bytes.removeFirst()
                     return String(bytes: bytes, encoding: NSUTF8StringEncoding)
                 } else {
-                    return String(bytes: payload!.asByteArray(), encoding: NSUTF8StringEncoding)
+                    return String(bytes: payload!, encoding: NSUTF8StringEncoding)
                 }
                 
             case MessageType.Encrypted:
                 guard signer != nil else { return String() }
                 let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-                let decryptedMessage :String? = MessageCrypto.decrypt(self.payload!.asByteArray(), recipientPrivateKey: privateKey!
-                    , senderPublicKey: signer)
+                let decryptedMessage :String? = MessageCrypto.decrypt(self.payload!, recipientPrivateKey: privateKey!
+                    , senderPublicKey: signer!)
                 
                 return decryptedMessage
             }

@@ -114,6 +114,9 @@ extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDe
                 
         let captureResultJSON = JSON(data: encodedCaptureResult)
         
+        // TODO:
+        print(captureResultJSON)
+        
         do {
             try validate(captureResult: captureResultJSON)
             

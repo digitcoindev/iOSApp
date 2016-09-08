@@ -34,6 +34,15 @@ class AccountListViewController: UIViewController {
         createEditButtonItemIfNeeded()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if (tableView.indexPathForSelectedRow != nil) {
+            let indexPath = tableView.indexPathForSelectedRow!
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
     /// Needed for a smooth appearance of the alert view controller.
     override func canBecomeFirstResponder() -> Bool {        
         return true

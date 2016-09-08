@@ -11,7 +11,7 @@ import Foundation
 
 extension TransferTransaction: Equatable { }
 
-func == (lhs: TransferTransaction, rhs: TransferTransaction) -> Bool {
+public func == (lhs: TransferTransaction, rhs: TransferTransaction) -> Bool {
     return lhs.type == rhs.type &&
     lhs.timeStamp == rhs.timeStamp &&
     lhs.metaData == rhs.metaData &&
@@ -29,7 +29,7 @@ func == (lhs: TransferTransaction, rhs: TransferTransaction) -> Bool {
 
 extension TransferTransaction: CustomStringConvertible {
     
-    var description: String {
+    public var description: String {
         return "NemIOSClient.TransferTransaction(type: \(type), timeStamp: \(timeStamp), metaData: \(metaData), amount: \(amount), fee: \(fee), transferType: \(transferType), recipient: \(recipient), message: \(message), deadline: \(deadline), signature: \(signature), signer: \(signer))"
     }
 }
