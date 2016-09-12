@@ -102,54 +102,54 @@ class MultisigAddSignerViewController: UIViewController, NEMTextFieldDelegate {
 //            }
 //        }
         
-        if AddressBookManager.isAllowed ?? false {
-            for contact in AddressBookManager.contacts {
-                var name = ""
-                if contact.givenName != "" {
-                    name = contact.givenName
-                }
-                
-                if contact.familyName != "" {
-                    name += " " + contact.familyName
-                }
-                
-                for email in contact.emailAddresses{
-                    if email.label == "NEM" {
-                        let account_address = email.value as? String ?? " "
-                        
-                        var find = false
-                        
-                        for suggestion in suggestions {
-                            if suggestion.key == account_address {
-                                find = true
-                                break
-                            }
-                        }
-                        if !find {
-                            var sugest = NEMTextField.Suggestion()
-                            sugest.key = account_address
-                            sugest.value = account_address
-                            suggestions.append(sugest)
-                        }
-                        
-                        find = false
-                        
-                        for suggestion in suggestions {
-                            if suggestion.key == name {
-                                find = true
-                                break
-                            }
-                        }
-                        if !find {
-                            var sugest = NEMTextField.Suggestion()
-                            sugest.key = name
-                            sugest.value = account_address
-                            suggestions.append(sugest)
-                        }
-                    }
-                }
-            }
-        }
+//        if AddressBookManager.isAllowed ?? false {
+//            for contact in AddressBookManager.contacts {
+//                var name = ""
+//                if contact.givenName != "" {
+//                    name = contact.givenName
+//                }
+//                
+//                if contact.familyName != "" {
+//                    name += " " + contact.familyName
+//                }
+//                
+//                for email in contact.emailAddresses{
+//                    if email.label == "NEM" {
+//                        let account_address = email.value as? String ?? " "
+//                        
+//                        var find = false
+//                        
+//                        for suggestion in suggestions {
+//                            if suggestion.key == account_address {
+//                                find = true
+//                                break
+//                            }
+//                        }
+//                        if !find {
+//                            var sugest = NEMTextField.Suggestion()
+//                            sugest.key = account_address
+//                            sugest.value = account_address
+//                            suggestions.append(sugest)
+//                        }
+//                        
+//                        find = false
+//                        
+//                        for suggestion in suggestions {
+//                            if suggestion.key == name {
+//                                find = true
+//                                break
+//                            }
+//                        }
+//                        if !find {
+//                            var sugest = NEMTextField.Suggestion()
+//                            sugest.key = name
+//                            sugest.value = account_address
+//                            suggestions.append(sugest)
+//                        }
+//                    }
+//                }
+//            }
+//        }
         
         publicKey.suggestions = suggestions
         publicKey.tableViewMaxRows = 5

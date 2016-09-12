@@ -62,12 +62,12 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
                 
                 let friendDictionary :NSDictionary = jsonStructure!.objectForKey(QRKeys.Data.rawValue) as! NSDictionary
                 
-                if (AddressBookManager.isAllowed ?? false) {
-                    addFriend(friendDictionary)
-                }
-                else {
-                    failedDetectingQRCode(withError: "CONTACTS_IS_UNAVAILABLE".localized())
-                }
+//                if (AddressBookManager.isAllowed ?? false) {
+//                    addFriend(friendDictionary)
+//                }
+//                else {
+//                    failedDetectingQRCode(withError: "CONTACTS_IS_UNAVAILABLE".localized())
+//                }
                 
             case QRType.Invoice.rawValue:
                 

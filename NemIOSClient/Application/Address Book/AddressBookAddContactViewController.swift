@@ -101,82 +101,82 @@ class AddressBookAddContactViewController: UIViewController, APIManagerDelegate 
     //MARK: - Private Helpers
     
     final private func _changeContact() {
-        address.text = address.text?.stringByReplacingOccurrencesOfString("-", withString: "")
-        if (Validate.stringNotEmpty(firstName.text) || Validate.stringNotEmpty(lastName.text)) && Validate.address(address.text) {
-            
-            let mutableContact :CNMutableContact = ((self.contact) ?? CNContact()).mutableCopy() as! CNMutableContact
-            
-            mutableContact.givenName = firstName.text!
-            mutableContact.familyName = lastName.text!
-            
-            var newEmails :[CNLabeledValue] = []
-            var find = false
-            
-            for email in mutableContact.emailAddresses {
-                let newEmail = CNLabeledValue(label: email.label, value: (email.label == "NEM") ? address.text! : email.value)
-                newEmails.append(newEmail)
-                
-                if newEmail.value as! String == "NEM" {
-                    find = true
-                }
-            }
-            
-            if !find {
-                let newEmail = CNLabeledValue(label: "NEM", value: address.text!)
-                newEmails.append(newEmail)
-            }
-            
-            mutableContact.emailAddresses = newEmails
-            if self.contact == nil {
-                AddressBookManager.addContact(mutableContact, responce: { (contact) -> Void in
-//                    if self.delegate != nil {
+//        address.text = address.text?.stringByReplacingOccurrencesOfString("-", withString: "")
+//        if (Validate.stringNotEmpty(firstName.text) || Validate.stringNotEmpty(lastName.text)) && Validate.address(address.text) {
+//            
+//            let mutableContact :CNMutableContact = ((self.contact) ?? CNContact()).mutableCopy() as! CNMutableContact
+//            
+//            mutableContact.givenName = firstName.text!
+//            mutableContact.familyName = lastName.text!
+//            
+//            var newEmails :[CNLabeledValue] = []
+//            var find = false
+//            
+//            for email in mutableContact.emailAddresses {
+//                let newEmail = CNLabeledValue(label: email.label, value: (email.label == "NEM") ? address.text! : email.value)
+//                newEmails.append(newEmail)
+//                
+//                if newEmail.value as! String == "NEM" {
+//                    find = true
+//                }
+//            }
+//            
+//            if !find {
+//                let newEmail = CNLabeledValue(label: "NEM", value: address.text!)
+//                newEmails.append(newEmail)
+//            }
+//            
+//            mutableContact.emailAddresses = newEmails
+//            if self.contact == nil {
+//                AddressBookManager.addContact(mutableContact, responce: { (contact) -> Void in
+////                    if self.delegate != nil {
+////                        
+////                        AddressBookViewController.newContact = contact
+////                        
+////                        dispatch_async(dispatch_get_main_queue(), {
+////                            () -> Void in
+////                            self.view.removeFromSuperview()
+////                            self.removeFromParentViewController()
+////                            (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
+////                        })
+////                    }
+//                    
+//                    AddressBookViewController.newContact = contact
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        () -> Void in
+//                        self.view.removeFromSuperview()
+//                        self.removeFromParentViewController()
+////                        (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
+//                    })
+//                })
+//            } else {
+//                AddressBookManager.updateContact(mutableContact, responce: { (contact) -> Void in
+////                    if self.delegate != nil {
+////                        
+////                        AddressBookViewController.newContact = contact
+////                        
+////                        dispatch_async(dispatch_get_main_queue(), {
+////                            () -> Void in
+////                            self.view.removeFromSuperview()
+////                            self.removeFromParentViewController()
+////                            (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
+////                                
+////                        })
+////                    }
+//                    
+//                    AddressBookViewController.newContact = contact
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        () -> Void in
+//                        self.view.removeFromSuperview()
+//                        self.removeFromParentViewController()
+////                        (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
 //                        
-//                        AddressBookViewController.newContact = contact
-//                        
-//                        dispatch_async(dispatch_get_main_queue(), {
-//                            () -> Void in
-//                            self.view.removeFromSuperview()
-//                            self.removeFromParentViewController()
-//                            (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
-//                        })
-//                    }
-                    
-                    AddressBookViewController.newContact = contact
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        () -> Void in
-                        self.view.removeFromSuperview()
-                        self.removeFromParentViewController()
-//                        (self.delegate as! AddCustomContactDelegate).contactAdded(true, sendTransaction: self.startConversationSwitch.on)
-                    })
-                })
-            } else {
-                AddressBookManager.updateContact(mutableContact, responce: { (contact) -> Void in
-//                    if self.delegate != nil {
-//                        
-//                        AddressBookViewController.newContact = contact
-//                        
-//                        dispatch_async(dispatch_get_main_queue(), {
-//                            () -> Void in
-//                            self.view.removeFromSuperview()
-//                            self.removeFromParentViewController()
-//                            (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
-//                                
-//                        })
-//                    }
-                    
-                    AddressBookViewController.newContact = contact
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        () -> Void in
-                        self.view.removeFromSuperview()
-                        self.removeFromParentViewController()
-//                        (self.delegate as! AddCustomContactDelegate).contactChanged(true, sendTransaction: self.startConversationSwitch.on)
-                        
-                    })
-                })
-            }
-        }
+//                    })
+//                })
+//            }
+//        }
     }
     
     //MARK: - APIManagerDelegate Methods

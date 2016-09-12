@@ -142,21 +142,21 @@ extension String
 //            }
 //        }
         
-        if AddressBookManager.isAllowed ?? false {
-            for contact in AddressBookManager.contacts {
-                for email in contact.emailAddresses{
-                    if email.label == "NEM" {
-                        let account_address = email.value as? String ?? " "
-                        if account_address == self {
-                            var resultName = contact.givenName ?? ""
-                            resultName = resultName + (contact.familyName == "" ? "" : " \(contact.familyName)")
-                            
-                            return resultName
-                        }
-                    }
-                }
-            }
-        }
+//        if AddressBookManager.isAllowed ?? false {
+//            for contact in AddressBookManager.contacts {
+//                for email in contact.emailAddresses{
+//                    if email.label == "NEM" {
+//                        let account_address = email.value as? String ?? " "
+//                        if account_address == self {
+//                            var resultName = contact.givenName ?? ""
+//                            resultName = resultName + (contact.familyName == "" ? "" : " \(contact.familyName)")
+//                            
+//                            return resultName
+//                        }
+//                    }
+//                }
+//            }
+//        }
         
         return self.nemAddressNormalised()
     }
