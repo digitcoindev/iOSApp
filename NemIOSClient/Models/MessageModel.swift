@@ -35,10 +35,11 @@ public struct Message: SwiftyJSONMappable {
     
     // MARK: - Model Lifecycle
     
-    public init?(type: MessageType, payload: [UInt8]) {
+    public init?(type: MessageType, payload: [UInt8], message: String?) {
         
         self.type = type
         self.payload = payload
+        self.message = message
     }
     
     public init?(jsonData: JSON) {

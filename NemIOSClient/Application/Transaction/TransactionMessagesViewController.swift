@@ -396,7 +396,9 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     }
     
     /**
- 
+        Signs and announces a new transaction to the NIS.
+     
+        - Parameter transaction: The transaction object that should get signed and announced.
      */
     private func announceTransaction(transaction: Transaction) {
         
@@ -414,7 +416,14 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     
                     GCDQueue.Main.async {
                         
-                        self?._failedWithError("TRANSACTION_ANOUNCE_SUCCESS".localized())
+                        self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_SUCCESS".localized())
+                        
+                        if self != nil && transaction.type == .TransferTransaction {
+                            self!.unconfirmedTransactions.append(transaction)
+                            self!.getCellHeights(forTransactions: [transaction], withViewWidth: self!.tableView.frame.width - 120)
+                            self!.tableView.reloadData()
+                            self!.scrollToTableBottom(false)
+                        }
                     }
                     
                 } catch TransactionAnnounceValidation.Failure(let errorMessage) {
@@ -422,7 +431,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     GCDQueue.Main.async {
                         
                         print("Failure: \(response.statusCode)")
-                        self?._failedWithError(errorMessage)
+                        self?.showAlert(withMessage: errorMessage)
                     }
                     
                 } catch {
@@ -430,7 +439,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     GCDQueue.Main.async {
                         
                         print("Failure: \(response.statusCode)")
-                        self?._failedWithError("TRANSACTION_ANOUNCE_FAILED".localized())
+                        self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
                     }
                 }
                 
@@ -440,7 +449,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
-                    self?._failedWithError("TRANSACTION_ANOUNCE_FAILED".localized())
+                    self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
                 }
             }
         }
@@ -493,7 +502,13 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     }
     
     /**
- 
+        Validates the response (announce transaction result object) of the NIS
+        regarding the announcement of the transaction.
+     
+        - Parameter responseJSON: The response of the NIS JSON formatted.
+     
+        - Throws:
+            - TransactionAnnounceValidation.Failure if the announcement of the transaction wasn't successful.
      */
     private func validateAnnounceTransactionResult(responseJSON: JSON) throws {
         
@@ -521,6 +536,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         in the array rowHeight and will get applied to the cells.
      
         - Parameter transactions: The transactions for which the cell heights should get calculated.
+        - Parameter width: The width of the table view.
      */
     private func getCellHeights(forTransactions transactions: [Transaction], withViewWidth width: CGFloat) {
         
@@ -567,7 +583,11 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         }
     }
     
-    /// Scrolls to the bottom of the table view.
+    /**
+        Scrolls to the bottom of the table view.
+     
+        - Parameter animated: Bool whether the scrolling should get animated or not.
+     */
     private func scrollToTableBottom(animated: Bool = false) {
         
         if tableView.contentSize.height > tableView.frame.size.height {
@@ -585,16 +605,22 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         pasteBoard.string = correspondent!.accountAddress
     }
     
-    // TODO:
-    private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    /**
+        Shows an alert view controller with the provided alert message.
+     
+        - Parameter message: The message that should get shown.
+        - Parameter completion: An optional action that should get performed on completion.
+     */
+    private func showAlert(withMessage message: String, completion: (Void -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             alert.dismissViewControllerAnimated(true, completion: nil)
             completion?()
         }))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true, completion: nil)
     }
 
     // MARK: - View Controller Outlet Actions
@@ -652,13 +678,13 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         if activeAccountData == nil { activeAccountData = accountData }
         
         let transactionVersion = 1
-        let transactionTimeStamp = Int(TimeSynchronizator.nemTime)
+        let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
         let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
         var transactionFee = 0.0
         let transactionRecipient = correspondent!.accountAddress
         let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding) ?? String()
         var transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
-        let transactionDeadline = Int(TimeSynchronizator.nemTime + waitTime)
+        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
         let transactionSigner = activeAccountData!.publicKey
         
         if transactionAmount < 0.000001 && transactionAmount != 0 {
@@ -666,17 +692,17 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
             return
         }
         guard (activeAccountData!.balance / 1000000) > transactionAmount else {
-            _failedWithError("ACCOUNT_NOT_ENOUGHT_MONEY".localized())
+            showAlert(withMessage: "ACCOUNT_NOT_ENOUGHT_MONEY".localized())
             return
         }
         guard TransactionManager.sharedInstance.validateHexadecimalString(transactionMessageText) == true else {
-            _failedWithError("NOT_A_HEX_STRING".localized())
+            showAlert(withMessage: "NOT_A_HEX_STRING".localized())
             return
         }
         
         if willEncrypt {
             guard let recipientPublicKey = correspondent?.accountPublicKey else {
-                _failedWithError("NO_PUBLIC_KEY_FOR_ENC".localized())
+                showAlert(withMessage: "NO_PUBLIC_KEY_FOR_ENC".localized())
                 return
             }
             
@@ -686,15 +712,24 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         }
         
         if transactionMessageByteArray.count > 160 {
-            _failedWithError("VALIDAATION_MESSAGE_LEANGTH".localized())
+            showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
             return
         }
         
         transactionFee = TransactionManager.sharedInstance.calculateFee(forTransactionWithAmount: transactionAmount)
         transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray)
         
-        let transactionMessage = Message(type: willEncrypt ? MessageType.Encrypted : MessageType.Unencrypted, payload: transactionMessageByteArray)
-        let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount, fee: Int(transactionFee), recipient: transactionRecipient, message: transactionMessage, deadline: transactionDeadline, signer: transactionSigner)
+        let transactionMessage = Message(type: willEncrypt ? MessageType.Encrypted : MessageType.Unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextField.text!)
+        let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: Int(transactionFee * 1000000), recipient: transactionRecipient, message: transactionMessage, deadline: transactionDeadline, signer: transactionSigner)
+        
+        // Check if the transaction is a multisig transaction
+        if activeAccountData!.publicKey != account!.publicKey {
+            
+            let multisigTransaction = MultisigTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Int(6 * 1000000), deadline: transactionDeadline, signer: account!.publicKey, innerTransaction: transaction!)
+            
+            announceTransaction(multisigTransaction!)
+            return
+        }
         
         announceTransaction(transaction!)
     }

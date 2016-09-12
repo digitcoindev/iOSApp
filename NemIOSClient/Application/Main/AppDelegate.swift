@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         NetworkActivityIndicatorManager.sharedManager.isEnabled = true
+        TimeManager.sharedInstance.synchronizeTime()
         
         NotificationManager.registerForNotification(application)
         
@@ -27,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
+        
+        TimeManager.sharedInstance.synchronizeTime()
+        
         //        if State.currentVC == SegueToPasswordValidation {return}
         //
         //        var root = UIApplication.sharedApplication().windows.first?.rootViewController

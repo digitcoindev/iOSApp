@@ -41,17 +41,30 @@ public class TransactionManager {
         let commonPartByteArray = generateCommonTransactionPart(forTransaction: transaction)
         var transactionDependentPartByteArray: [UInt8]!
         
+        transactionByteArray += commonPartByteArray
+        
         switch transaction.type {
         case .TransferTransaction:
+            
             transactionDependentPartByteArray = generateTransferTransactionPart(forTransaction: transaction as! TransferTransaction)
+            
+            transactionByteArray += transactionDependentPartByteArray
+            
+        case .MultisigTransaction:
+            
+            let transferTransactionCommonPartByteArray = generateCommonTransactionPart(forTransaction: (transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)
+            transactionDependentPartByteArray = generateTransferTransactionPart(forTransaction: (transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)
+            
+            let innerTransactionLengthByteArray: [UInt8] = String(Int64(transferTransactionCommonPartByteArray.count + transactionDependentPartByteArray.count), radix: 16).asByteArrayEndian(4)
+            
+            transactionByteArray += innerTransactionLengthByteArray
+            transactionByteArray += transferTransactionCommonPartByteArray
+            transactionByteArray += transactionDependentPartByteArray
             
         default:
             break
         }
 
-        transactionByteArray += commonPartByteArray
-        transactionByteArray += transactionDependentPartByteArray
-        
         transactionSignatureByteArray = generateTransactionSignature(forTransactionWithData: transactionByteArray, signWithAccount: account)
 
         transactionByteArrayHexadecimal = transactionByteArray.toHexadecimalString()
@@ -222,7 +235,7 @@ public class TransactionManager {
         transactionVersionByteArray = [UInt8(transaction.version), 0, 0, network]
         transactionTimeStampByteArray = String(Int64(transaction.timeStamp), radix: 16).asByteArrayEndian(4)
         transactionSignerByteArray = transaction.signer.asByteArray()
-        transactionFeeByteArray = String(transaction.fee * 1000000, radix: 16).asByteArrayEndian(8)
+        transactionFeeByteArray = String(transaction.fee, radix: 16).asByteArrayEndian(8)
         transactionDeadlineByteArray = String(Int64(transaction.deadline), radix: 16).asByteArrayEndian(4)
         
         commonPartByteArray += transactionTypeByteArray
@@ -254,7 +267,7 @@ public class TransactionManager {
         var transactionMessageFieldLengthByteArray: [UInt8]!
         
         transactionRecipientAddressByteArray = Array<UInt8>(transaction.recipient.utf8)
-        transactionAmountByteArray = String(Int64(transaction.amount * 1000000), radix: 16).asByteArrayEndian(8)
+        transactionAmountByteArray = String(Int64(transaction.amount), radix: 16).asByteArrayEndian(8)
         
         transactionDependentPartByteArray += transactionRecipientAddressLengthByteArray
         transactionDependentPartByteArray += transactionRecipientAddressByteArray

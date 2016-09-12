@@ -21,7 +21,7 @@ public class MultisigTransaction: Transaction {
     public var type = TransactionType.MultisigTransaction
     
     /// Additional information about the transaction.
-    public var metaData: TransactionMetaData!
+    public var metaData: TransactionMetaData?
     
     /// The version of the transaction.
     public var version: Int!
@@ -48,6 +48,16 @@ public class MultisigTransaction: Transaction {
     public var innerTransaction: Transaction!
     
     // MARK: - Model Lifecycle
+    
+    required public init?(version: Int, timeStamp: Int, fee: Int, deadline: Int, signer: String, innerTransaction: Transaction) {
+        
+        self.version = version
+        self.timeStamp = timeStamp
+        self.fee = fee
+        self.deadline = deadline
+        self.signer = signer
+        self.innerTransaction = innerTransaction
+    }
     
     required public init?(jsonData: JSON) {
         
