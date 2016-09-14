@@ -1,5 +1,5 @@
 //
-//  AddressBookAddContactViewController.swift
+//  AddressBookUpdateContactViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -15,7 +15,7 @@ protocol AddCustomContactDelegate
     func contactChanged(successfuly :Bool, sendTransaction :Bool)
 }
 
-class AddressBookAddContactViewController: UIViewController, APIManagerDelegate {
+class AddressBookUpdateContactViewController: UIViewController, APIManagerDelegate {
 
     //MARK: - @IBOutlet
     
@@ -52,8 +52,8 @@ class AddressBookAddContactViewController: UIViewController, APIManagerDelegate 
         
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         
-        center.addObserver(self, selector: #selector(AddressBookAddContactViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(AddressBookAddContactViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddressBookUpdateContactViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddressBookUpdateContactViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true

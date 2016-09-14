@@ -1656,7 +1656,7 @@
                                 <rect key="frame" x="0.0" y="120" width="375" height="434"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddressBookContactTableViewCell" id="BPi-GP-FmM" customClass="AddressBookContactTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddressBookContactTableViewCell" id="BPi-GP-FmM" customClass="AddressBookContactTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BPi-GP-FmM" id="YMi-YJ-z72">
@@ -1712,6 +1712,7 @@
                         <outlet property="searchTextField" destination="h55-Bv-L6S" id="TwV-OH-LVg"/>
                         <outlet property="tableView" destination="K9E-Bm-Zm0" id="RKv-uS-0l7"/>
                         <segue destination="0YH-3H-wH5" kind="show" identifier="showTransactionSendViewController" id="Iy1-h5-Od4"/>
+                        <segue destination="zu1-Oe-WSB" kind="presentation" identifier="showAddressBookUpdateContactViewController" id="zDg-Pc-36Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ClN-3S-Ghc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2659,10 +2660,10 @@
             </objects>
             <point key="canvasLocation" x="199.5" y="6638.5"/>
         </scene>
-        <!--Address Book Add Contact View Controller-->
+        <!--Address Book Update Contact View Controller-->
         <scene sceneID="jDB-iM-Boh">
             <objects>
-                <viewController storyboardIdentifier="AddressBookAddContactViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zu1-Oe-WSB" customClass="AddressBookAddContactViewController" customModule="NemIOSClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddressBookUpdateContactViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zu1-Oe-WSB" customClass="AddressBookUpdateContactViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TYk-AA-ck6"/>
                         <viewControllerLayoutGuide type="bottom" id="kdY-lb-AyK"/>

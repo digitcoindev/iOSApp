@@ -13,7 +13,7 @@ import Contacts
     NEM account address. This view controller lets the user add new contacts or 
     send a transaction directly to a specific contact.
  */
-class AddressBookViewController: UIViewController, UIAlertViewDelegate, EditableTableViewCellDelegate, AddCustomContactDelegate {
+class AddressBookViewController: UIViewController, UIAlertViewDelegate, AddCustomContactDelegate {
     
     // MARK: - View Controller Properties
     
@@ -41,6 +41,7 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
             print(contacts)
             self?.contacts = contacts
             self?.tableView.reloadData()
+            self?.createEditButtonItemIfNeeded()
         }
     }
     
@@ -48,7 +49,12 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
         super.viewWillAppear(animated)
         
         updateViewControllerAppearanceOnViewWillAppear()
-        createBarButtonItem()
+        createEditButtonItemIfNeeded()
+        
+        if (tableView.indexPathForSelectedRow != nil) {
+            let indexPath = tableView.indexPathForSelectedRow!
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
     }
     
     // MARK: - View Controller Helper Methods
@@ -57,7 +63,6 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
     private func updateViewControllerAppearanceOnViewDidLoad() {
         
         tabBarController?.title = "ADDRESS_BOOK".localized()
-        tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
         addContactButton.setTitle("  " + "ADD_CONTACT".localized(), forState: UIControlState.Normal)
         searchTextField.placeholder = "SEARCH_CONTACTS".localized()
         
@@ -70,10 +75,74 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
         tabBarController?.title = "ADDRESS_BOOK".localized()
     }
     
-    /// Creates and adds the edit bar button item to the view controller.
-    private func createBarButtonItem() {
+    /**
+        Checks if there are any contacts to show and creates an edit button
+        item on the right of the navigation bar if that's the case.
+     */
+    private func createEditButtonItemIfNeeded() {
         
-        tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
+        if (contacts.count > 0) {
+            tabBarController?.navigationItem.rightBarButtonItem = editButtonItem()
+        } else {
+            tabBarController?.navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
+    /**
+        Asks the user for confirmation of the deletion of a contact and deletes
+        the contact accordingly from both the table view and the database.
+     
+        - Parameter indexPath: The index path of the contact that should get removed and deleted.
+     */
+    private func deleteContact(atIndexPath indexPath: NSIndexPath) {
+        
+        let contact = contacts[indexPath.row]
+        
+        let contactDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK".localized(), "\(contact.givenName) \(contact.familyName)"), preferredStyle: .Alert)
+        
+        contactDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
+        
+        contactDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Destructive, handler: { (action) in
+            
+            self.contacts.removeAtIndex(indexPath.row)
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
+            
+//            AccountManager.sharedInstance.delete(account: account)
+        }))
+        
+        presentViewController(contactDeletionAlert, animated: true, completion: nil)
+    }
+    
+    /**
+        Lets the user change/update a contact.
+     
+        - Parameter indexPath: The index path of the contact that should get updated.
+     */
+    private func updateContact(atIndexPath indexPath: NSIndexPath) {
+        
+        let contact = contacts[indexPath.row]
+        
+//        let accountTitleChangerAlert = UIAlertController(title: "CHANGE".localized(), message: "INPUT_NEW_ACCOUNT_NAME".localized(), preferredStyle: .Alert)
+//        
+//        accountTitleChangerAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
+//        
+//        accountTitleChangerAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: { (action) in
+//            
+//            let titleTextField = accountTitleChangerAlert.textFields![0] as UITextField
+//            if let newTitle = titleTextField.text {
+//                
+//                self.accounts[indexPath.row].title = newTitle
+//                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//                
+//                AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[indexPath.row], withNewTitle: newTitle)
+//            }
+//        }))
+//        
+//        accountTitleChangerAlert.addTextFieldWithConfigurationHandler { (textField) in
+//            textField.text = account.title
+//        }
+//        
+//        presentViewController(accountTitleChangerAlert, animated: true, completion: nil)
     }
     
     final private func _sendMessageTo(contact: CNContact)
@@ -107,7 +176,7 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
+        let contactCustomVC :AddressBookUpdateContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookUpdateContactViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         //        contactCustomVC.delegate = self
@@ -124,7 +193,7 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
+        let contactCustomVC :AddressBookUpdateContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookUpdateContactViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: contactCustomVC.view.frame.width, height: contactCustomVC.view.frame.height - view.frame.height)
         contactCustomVC.view.layer.opacity = 0
         contactCustomVC.firstName.text = contact.givenName
@@ -152,63 +221,6 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
 
     @IBAction func endAction(sender: AnyObject) {
         searchTextField.becomeFirstResponder()
-    }
-    
-    @IBAction func editButtonTouchUpInside(sender: AnyObject) {
-//        if _tempController != nil { return }
-//
-//        _isEditing = !_isEditing
-//        
-//        let title = _isEditing ? "DONE".localized() : "EDIT".localized()
-//        tabBarController?.navigationItem.rightBarButtonItem!.title = title
-//
-//        for cell in self.tableView.visibleCells {
-//            (cell as! AddressBookContactTableViewCell).isEditable = _isEditing
-//        }
-    }
-    
-    func filterChanged(sender: AnyObject) {
-//        displayList.removeAll()
-//        
-//        AddressBookManager.refresh({ () -> Void in
-//            self.contacts = AddressBookManager.contacts
-//            
-//            if self.contacts == nil || self.contacts!.count == 0 {
-//                return
-//            }
-//            
-//            for contact in self.contacts! {
-//                var isValidValue = false
-//                let needToAddSearchFilter = self.searchTextField.text != nil && self.searchTextField.text != ""
-//                
-//                if needToAddSearchFilter {
-//                    //TODO: Fixed to Swift 2.2 in Version 2 Build 31 BETA, could be error
-//                    
-//                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(contact.givenName)
-//                        {
-//                            isValidValue = true
-//                        }
-//                    
-//                        if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.searchTextField.text!).evaluateWithObject(contact.familyName)
-//                        {
-//                            isValidValue = true
-//                        }
-//                }
-//                else {
-//                    isValidValue = true
-//                }
-//                
-//                if !isValidValue {
-//                    continue
-//                }
-//                
-//                self.displayList.append(contact)
-//            }
-//            
-//            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-//                self.tableView.reloadData()
-//            }
-//        })
     }
     
     @IBAction func addNewContact(sender: AnyObject) {
@@ -292,32 +304,6 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, Editable
             _tempController = nil
         }
     }
-    
-    // MARK: - EditableTableViewCellDelegate Methods
-    
-    final func deleteCell(cell: EditableTableViewCell) {
-//        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK".localized(), (cell as! AddressBookContactTableViewCell).infoLabel.text!), preferredStyle: UIAlertControllerStyle.Alert)
-//        
-//        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-//            let index :NSIndexPath = self.tableView.indexPathForCell(cell)!
-//            
-//            if index.row < self.displayList.count {
-//                AddressBookManager.deleteContact(self.displayList[index.row], responce: nil)
-//                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                    self.displayList.removeAtIndex(index.row)
-//                    self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
-//                    
-//                })
-//            }
-//            alert.dismissViewControllerAnimated(true, completion: nil)
-//        }))
-//        
-//        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-//            alert.dismissViewControllerAnimated(true, completion: nil)
-//        }))
-//        
-//        self.presentViewController(alert, animated: true, completion: nil)
-    }
 }
 
 // MARK: - Table View Delegate
@@ -340,8 +326,35 @@ extension AddressBookViewController: UITableViewDataSource, UITableViewDelegate 
         return cell
     }
     
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        switch editingStyle {
+        case .Delete:
+            
+            deleteContact(atIndexPath: indexPath)
+            
+        default:
+            return
+        }
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell :AddressBookContactTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! AddressBookContactTableViewCell
+        print("DIDSELECT")
+        if tableView.editing {
+            performSegueWithIdentifier("showAddressBookUpdateContactViewController", sender: nil)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+//            performSegueWithIdentifier("showAccountDetailTabBarController", sender: nil)
+        }
         
 //        if _isEditing || !cell.isAddress {
 //            _changeContact(contacts[indexPath.row])

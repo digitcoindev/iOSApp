@@ -155,7 +155,7 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let contactCustomVC :AddressBookAddContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookAddContactViewController
+        let contactCustomVC :AddressBookUpdateContactViewController =  storyboard.instantiateViewControllerWithIdentifier("AddressBookAddContactViewController") as! AddressBookUpdateContactViewController
         contactCustomVC.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         contactCustomVC.view.layer.opacity = 0
 //        contactCustomVC.delegate = self

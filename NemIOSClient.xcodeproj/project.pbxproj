@@ -146,7 +146,7 @@
 		4F9F68521D4C363C0086F98F /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68511D4C363C0086F98F /* AddressBookManager.swift */; };
 		4F9F68541D4C36400086F98F /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68531D4C36400086F98F /* AddressBookViewController.swift */; };
 		4F9F68561D4C36470086F98F /* AddressBookContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */; };
-		4F9F68581D4C364D0086F98F /* AddressBookAddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68571D4C364D0086F98F /* AddressBookAddContactViewController.swift */; };
+		4F9F68581D4C364D0086F98F /* AddressBookUpdateContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68571D4C364D0086F98F /* AddressBookUpdateContactViewController.swift */; };
 		4F9F685A1D4C36520086F98F /* AddressBookMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68591D4C36520086F98F /* AddressBookMessageViewController.swift */; };
 		4F9F685C1D4C368B0086F98F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F685B1D4C368B0086F98F /* LaunchScreen.xib */; };
 		4F9F685E1D4C36A50086F98F /* HarvestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F685D1D4C36A50086F98F /* HarvestingViewController.swift */; };
@@ -413,7 +413,7 @@
 		4F9F68511D4C363C0086F98F /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = "Application/Address Book/AddressBookManager.swift"; sourceTree = "<group>"; };
 		4F9F68531D4C36400086F98F /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookViewController.swift; path = "Application/Address Book/AddressBookViewController.swift"; sourceTree = "<group>"; };
 		4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookContactTableViewCell.swift; path = "Application/Address Book/AddressBookContactTableViewCell.swift"; sourceTree = "<group>"; };
-		4F9F68571D4C364D0086F98F /* AddressBookAddContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookAddContactViewController.swift; path = "Application/Address Book/AddressBookAddContactViewController.swift"; sourceTree = "<group>"; };
+		4F9F68571D4C364D0086F98F /* AddressBookUpdateContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookUpdateContactViewController.swift; path = "Application/Address Book/AddressBookUpdateContactViewController.swift"; sourceTree = "<group>"; };
 		4F9F68591D4C36520086F98F /* AddressBookMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookMessageViewController.swift; path = "Application/Address Book/AddressBookMessageViewController.swift"; sourceTree = "<group>"; };
 		4F9F685B1D4C368B0086F98F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Application/Main/LaunchScreen.xib; sourceTree = "<group>"; };
 		4F9F685D1D4C36A50086F98F /* HarvestingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestingViewController.swift; path = Application/Harvesting/HarvestingViewController.swift; sourceTree = "<group>"; };
@@ -779,7 +779,7 @@
 				4F9F68511D4C363C0086F98F /* AddressBookManager.swift */,
 				4F9F68531D4C36400086F98F /* AddressBookViewController.swift */,
 				4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */,
-				4F9F68571D4C364D0086F98F /* AddressBookAddContactViewController.swift */,
+				4F9F68571D4C364D0086F98F /* AddressBookUpdateContactViewController.swift */,
 				4F9F68591D4C36520086F98F /* AddressBookMessageViewController.swift */,
 			);
 			name = "Address Book";
@@ -1484,7 +1484,7 @@
 				4F9F687A1D4C37C40086F98F /* SettingsAddServerViewController.swift in Sources */,
 				4F9F68221D4C34D80086F98F /* Validate.swift in Sources */,
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
-				4F9F68581D4C364D0086F98F /* AddressBookAddContactViewController.swift in Sources */,
+				4F9F68581D4C364D0086F98F /* AddressBookUpdateContactViewController.swift in Sources */,
 				4F9F68001D4C32FA0086F98F /* NotificationBaner.swift in Sources */,
 				4F9F686E1D4C37A50086F98F /* SettingsLanguageViewController.swift in Sources */,
 				4F9F67C81D4C2F040086F98F /* FilterButton.swift in Sources */,
