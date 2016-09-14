@@ -8,8 +8,8 @@ class Server: NSManagedObject
     @NSManaged var address: String
     @NSManaged var port: String
 
-    class func createInManagedObjectContext(moc: NSManagedObjectContext, name: String, address: String, port: String) -> Server {
-        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Server", inManagedObjectContext: moc) as! Server
+    class func createInManagedObjectContext(_ moc: NSManagedObjectContext, name: String, address: String, port: String) -> Server {
+        let newItem = NSEntityDescription.insertNewObject(forEntityName: "Server", into: moc) as! Server
         newItem.protocolType = name
         newItem.address = address
         newItem.port = port

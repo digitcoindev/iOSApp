@@ -37,18 +37,18 @@ class AccountDetailTabBarController: UITabBarController {
     // MARK: - Tab Bar Conroller Helper Methods
     
     /// Updates the appearance (coloring, etc) of the tab bar controller.
-    private func updateTabBarControllerAppearance() {
+    fileprivate func updateTabBarControllerAppearance() {
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(white: 0.64, alpha: 1.0)], forState: .Normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)], forState: .Selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(white: 0.64, alpha: 1.0)], for: UIControlState())
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)], for: .selected)
         
         for item in tabBar.items! as [UITabBarItem] {
             if let normalImage = item.image {
-                item.image = normalImage.imageWithColor(UIColor(white:0.64, alpha:1.0)).imageWithRenderingMode(.AlwaysOriginal)
+                item.image = normalImage.imageWithColor(UIColor(white:0.64, alpha:1.0)).withRenderingMode(.alwaysOriginal)
             }
             
             if let selectedImage = item.selectedImage {
-                item.selectedImage = selectedImage.imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)).imageWithRenderingMode(.AlwaysOriginal)
+                item.selectedImage = selectedImage.imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)).withRenderingMode(.alwaysOriginal)
             }
         }
     }

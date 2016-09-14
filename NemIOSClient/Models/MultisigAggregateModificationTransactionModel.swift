@@ -9,34 +9,34 @@ import Foundation
 import SwiftyJSON
 
 ///
-public class MultisigAggregateModificationTransaction: Transaction {
+open class MultisigAggregateModificationTransaction: Transaction {
     
     // MARK: - Model Properties
     
-    public var type = TransactionType.MultisigAggregateModificationTransaction
+    open var type = TransactionType.multisigAggregateModificationTransaction
     
     /// The version of the transaction.
-    public var version: Int!
+    open var version: Int!
     
     /// The id of the transaction.
-    public var id: Int?
+    open var id: Int?
     
     /// The height of the block in which the transaction was included.
-    public var height: Int?
+    open var height: Int?
     
-    public var timeStamp: Int!
+    open var timeStamp: Int!
     
     /// The fee for the transaction.
-    public var fee: Int!
+    open var fee: Int!
     
     /// The deadline of the transaction.
-    public var deadline: Int!
+    open var deadline: Int!
     
     /// The transaction signature.
-    public var signature: String!
+    open var signature: String!
     
     /// The public key of the account that created the transaction.
-    public var signer: String!
+    open var signer: String!
     
     // MARK: - Model Lifecycle
     

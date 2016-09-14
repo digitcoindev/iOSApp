@@ -18,7 +18,7 @@ class AuthenticationPasswordValidationViewController: UIViewController
     
 //    let dataMeneger: CoreDataManager  = CoreDataManager()
     
-    private var _showTouchId = true
+    fileprivate var _showTouchId = true
     
     // MARK: - Load Methods
     
@@ -30,31 +30,31 @@ class AuthenticationPasswordValidationViewController: UIViewController
         passwordTitle.text = "ENTET_PASSWORD".localized()
         password.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
 
-        confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
+        confirm.setTitle("CONFIRM".localized(), for: UIControlState())
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
     }
     
-    override func viewDidAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: UIApplicationDidBecomeActiveNotification, object: nil)
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         super.viewDidAppear(animated)
         
         _showTouchId = true
         applicationDidBecomeActive(nil)
     }
     
-    func applicationDidBecomeActive(notification: NSNotification?) {
+    func applicationDidBecomeActive(_ notification: Notification?) {
         if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool && _showTouchId{
             _showTouchId = false
             authenticateUser()
         }
     }
     
-    override func  viewDidDisappear(animated: Bool) {
+    override func  viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,11 +63,11 @@ class AuthenticationPasswordValidationViewController: UIViewController
     
     // MARK: - IBAction
 
-    @IBAction func editingDidBegin(sender: AnyObject) {
-        password.textColor = UIColor.blackColor()
+    @IBAction func editingDidBegin(_ sender: AnyObject) {
+        password.textColor = UIColor.black
     }
     
-    @IBAction func passwordValidation(sender: AnyObject) {
+    @IBAction func passwordValidation(_ sender: AnyObject) {
         password.endEditing(true)
 
         if State.importAccountData != nil {
@@ -78,31 +78,31 @@ class AuthenticationPasswordValidationViewController: UIViewController
         _validateFromDatabase()
     }
     
-    @IBAction func hideKeyBoard(sender: AnyObject) {
+    @IBAction func hideKeyBoard(_ sender: AnyObject) {
         (sender as! UITextField).becomeFirstResponder()
     }
     // MARK: - Private Methods
     
-    private func _validateFromImport() {
+    fileprivate func _validateFromImport() {
         
-        let success = State.importAccountData?(password: password.text!) ?? false
+        let success = State.importAccountData?(password.text!) ?? false
         if success {
             State.importAccountData = nil
             
-                performSegueWithIdentifier("unwindToAccountMainViewController", sender: nil)
+                performSegue(withIdentifier: "unwindToAccountMainViewController", sender: nil)
 
         }  else {
-            password.textColor = UIColor.redColor()
+            password.textColor = UIColor.red
         }
     }
         
-    private func _validateFromDatabase() {
+    fileprivate func _validateFromDatabase() {
         
         guard let salt = State.loadData?.salt else {return}
-        guard let saltData :NSData = NSData.fromHexString(salt) else {return}
+        guard let saltData :Data = Data.fromHexString(salt) else {return}
         guard let passwordValue = State.loadData?.password else {return}
         
-        let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+        let passwordData :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
         
         if passwordData?.toHexString() == passwordValue {
 //            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
@@ -110,9 +110,9 @@ class AuthenticationPasswordValidationViewController: UIViewController
 //            } else {
 //                self.dismissViewControllerAnimated(true, completion: nil)
 //            }
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         } else {
-            password.textColor = UIColor.redColor()
+            password.textColor = UIColor.red
         }
     }
     
@@ -125,20 +125,20 @@ class AuthenticationPasswordValidationViewController: UIViewController
         var error: NSError?
         let reasonString = "Authentication is needed to access messages."
         
-        context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, error: &error)
+        context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error)
         context.localizedFallbackTitle = ""
         
-        [context .evaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: NSError?) -> Void in
+        [context .evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: NSError?) -> Void in
             self._showTouchId = false
 
             if success {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
 //                    if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
 //                        (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
 //                    } else {
 //                        self.dismissViewControllerAnimated(true, completion: nil)
 //                    }
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
                 })
             } else {
 
@@ -146,14 +146,14 @@ class AuthenticationPasswordValidationViewController: UIViewController
                 
                 switch evalPolicyError!.code {
                     
-                case LAError.SystemCancel.rawValue:
+                case LAError.Code.systemCancel.rawValue:
                     self._showTouchId = true
                     print("Authentication was cancelled by the system")
                     
-                case LAError.UserCancel.rawValue:
+                case LAError.Code.userCancel.rawValue:
                     print("Authentication was cancelled by the user")
                     
-                case LAError.UserFallback.rawValue:
+                case LAError.Code.userFallback.rawValue:
                     self._showTouchId = true
                     print("User selected to enter custom password")
                 default:
@@ -161,15 +161,15 @@ class AuthenticationPasswordValidationViewController: UIViewController
                 }
             }
             
-        })]
+        } as! (Bool, Error?) -> Void)]
         if error != nil
         {
             switch error!.code{
                 
-            case LAError.TouchIDNotEnrolled.rawValue:
+            case LAError.Code.touchIDNotEnrolled.rawValue:
                 print("TouchID is not enrolled")
                 
-            case LAError.PasscodeNotSet.rawValue:
+            case LAError.Code.passcodeNotSet.rawValue:
                 print("A passcode has not been set")
                 
             default:

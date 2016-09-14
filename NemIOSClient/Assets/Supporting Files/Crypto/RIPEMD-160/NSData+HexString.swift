@@ -1,6 +1,6 @@
 import Foundation
 
-extension NSData {
+extension Data {
     public func toHexString () -> String {
         let sha256description = self.description as String
         
@@ -20,7 +20,7 @@ extension NSData {
         return result
     }
 
-    public class func fromHexString (string: String) -> NSData {
+    public static func fromHexString (_ string: String) -> Data {
         // Based on: http://stackoverflow.com/a/2505561/313633
         let data = NSMutableData()
             
@@ -29,15 +29,15 @@ extension NSData {
         for char in string.characters {
             temp+=String(char)
             if(temp.characters.count == 2) {
-                let scanner = NSScanner(string: temp)
+                let scanner = Scanner(string: temp)
                 var value: CUnsignedInt = 0
-                scanner.scanHexInt(&value)
-                data.appendBytes(&value, length: 1)
+                scanner.scanHexInt32(&value)
+                data.append(&value, length: 1)
                 temp = ""
             }
             
         }
         
-        return data as NSData
+        return data as Data
     }
 }

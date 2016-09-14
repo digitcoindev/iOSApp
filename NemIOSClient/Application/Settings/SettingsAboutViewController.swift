@@ -23,11 +23,11 @@ class SettingsAboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let versionNumber = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
-        let buildNumber = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
+        let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         
         infoLabel.text = "VERSION".localized() + " " + versionNumber + " " + "BUILD".localized() + " " + buildNumber + "BETA"
-        actionButton.setTitle("OK".localized(), forState: UIControlState.Normal)
+        actionButton.setTitle("OK".localized(), for: UIControlState())
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -39,12 +39,12 @@ class SettingsAboutViewController: UIViewController {
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func okAction(sender: AnyObject) {
+    @IBAction func okAction(_ sender: AnyObject) {
         closePopUp(self)
     }
 }

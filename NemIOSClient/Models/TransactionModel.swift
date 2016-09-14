@@ -10,11 +10,11 @@ import SwiftyJSON
 
 /// All available transaction types on the NEM blockchain.
 public enum TransactionType: Int {
-    case TransferTransaction = 257
-    case ImportanceTransferTransaction = 2049
-    case MultisigTransaction = 4100
-    case MultisigSignatureTransaction = 4098
-    case MultisigAggregateModificationTransaction = 4097
+    case transferTransaction = 257
+    case importanceTransferTransaction = 2049
+    case multisigTransaction = 4100
+    case multisigSignatureTransaction = 4098
+    case multisigAggregateModificationTransaction = 4097
 }
 
 /// Represents a transaction on the NEM blockchain.

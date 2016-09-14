@@ -29,7 +29,7 @@ class AccountAdditionMenuButton: UIButton {
         Calculates the frame size of the button image view and
         layouts the frame accordingly.
      */
-    private func layoutImageView() {
+    fileprivate func layoutImageView() {
         
         if let imageView = self.imageView {
             imageView.frame = CGRect(x: (self.frame.width / 2) - 12, y: (self.frame.height / 3) - 8, width: 24, height: 24)
@@ -40,7 +40,7 @@ class AccountAdditionMenuButton: UIButton {
         Calculates the frame size of the title label and layouts
         the frame accordingly.
      */
-    private func layoutTitleLabel() {
+    fileprivate func layoutTitleLabel() {
         
         if let titleLabel = self.titleLabel {
             titleLabel.sizeToFit()

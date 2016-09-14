@@ -15,10 +15,10 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
     @IBOutlet weak var addServer: UIButton!
     
 //    private let _dataManager : CoreDataManager = CoreDataManager()
-    private let _apiManager :APIManager = APIManager()
-    private var _isEditing = false
-    private var _alertShown :Bool = false
-    private var _popUp :UIViewController? = nil
+    fileprivate let _apiManager :APIManager = APIManager()
+    fileprivate var _isEditing = false
+    fileprivate var _alertShown :Bool = false
+    fileprivate var _popUp :UIViewController? = nil
 
     var servers : [Server] = []
 
@@ -31,30 +31,30 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
         
 //        servers = _dataManager.getServers()
         title = "SERVER".localized()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
         
-        addServer.setTitle("  " + "ADD_SERVER".localized(), forState: UIControlState.Normal)
+        addServer.setTitle("  " + "ADD_SERVER".localized(), for: UIControlState())
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        State.currentVC = SegueToServerVC
     }
     
     // MARK: - IBAction
 
-    @IBAction func addAccountTouchUpInside(sender: AnyObject) {
+    @IBAction func addAccountTouchUpInside(_ sender: AnyObject) {
         showServerPopUp()
     }
     
-    @IBAction func editButtonTouchUpInside(sender: AnyObject) {
+    @IBAction func editButtonTouchUpInside(_ sender: AnyObject) {
         if _popUp != nil { return }
 
         _isEditing = !_isEditing
@@ -64,35 +64,35 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
 
         for cell in self.tableView.visibleCells {
             (cell as! ServerViewCell).inEditingState = _isEditing
-            (cell as! ServerViewCell).actionButton.userInteractionEnabled = _isEditing
+            (cell as! ServerViewCell).actionButton.isUserInteractionEnabled = _isEditing
             (cell as! ServerViewCell).layoutCell(animated: true)
         }
     }
     
     // MARK: - TableViewDelegate Methods
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return servers.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ServerViewCell = self.tableView.dequeueReusableCellWithIdentifier("serverCell") as! ServerViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ServerViewCell = self.tableView.dequeueReusableCell(withIdentifier: "serverCell") as! ServerViewCell
         cell.delegate = self
         
-        let cellData  : Server = servers[indexPath.row]
+        let cellData  : Server = servers[(indexPath as NSIndexPath).row]
         cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
-        if servers[indexPath.row] == State.currentServer {
+        if servers[(indexPath as NSIndexPath).row] == State.currentServer {
             cell.isActiveServer = true
         }  else {
             cell.isActiveServer = false
         }
         
         cell.inEditingState = _isEditing
-        cell.actionButton.userInteractionEnabled = _isEditing
+        cell.actionButton.isUserInteractionEnabled = _isEditing
 
         cell.layoutCell(animated: false)
 //        let fileName = "server \(cellData.address).png"
@@ -116,44 +116,44 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !_isEditing {
             if  State.currentServer != nil {
                 
                 var oldIndex = 0
                 
-                for var i = 0 ; i < servers.count ; i += 1 {
+                for i in 0  ..< servers.count {
                     if servers[i] == State.currentServer! {
                         oldIndex = i
                     }
                 }
                 
-                let oldIndexPath = NSIndexPath(forRow: oldIndex, inSection: 0)
+                let oldIndexPath = IndexPath(row: oldIndex, section: 0)
                 
                 if oldIndexPath != indexPath {
-                    let serverCell = tableView.cellForRowAtIndexPath(oldIndexPath) as? ServerViewCell
+                    let serverCell = tableView.cellForRow(at: oldIndexPath) as? ServerViewCell
                     
                     serverCell?.isActiveServer = false
                 }
             }
             
-            let selectedServer :Server = servers[indexPath.row]
+            let selectedServer :Server = servers[(indexPath as NSIndexPath).row]
             
 //            State.currentServer = selectedServer
             
             _apiManager.heartbeat(selectedServer)
         } else {
-            let selectedServer :Server = servers[indexPath.row]
+            let selectedServer :Server = servers[(indexPath as NSIndexPath).row]
 
             showServerPopUp(selectedServer)
         }
     }
     
-    private func showServerPopUp(server :Server? = nil)
+    fileprivate func showServerPopUp(_ server :Server? = nil)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let serverCustomVC :SettingsAddServerViewController =  storyboard.instantiateViewControllerWithIdentifier("SettingsAddServerViewController") as! SettingsAddServerViewController
+        let serverCustomVC :SettingsAddServerViewController =  storyboard.instantiateViewController(withIdentifier: "SettingsAddServerViewController") as! SettingsAddServerViewController
         serverCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - view.frame.height)
         serverCustomVC.view.layer.opacity = 0
 //        serverCustomVC.delegate = self
@@ -163,47 +163,47 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
             serverCustomVC.protocolType.text = server!.protocolType
             serverCustomVC.serverAddress.text = server!.address
             serverCustomVC.serverPort.text = server!.port
-            serverCustomVC.saveBtn.setTitle("CHANGE_SERVER".localized(), forState: UIControlState.Normal)
+            serverCustomVC.saveBtn.setTitle("CHANGE_SERVER".localized(), for: UIControlState())
         } else {
-            serverCustomVC.saveBtn.setTitle("ADD_SERVER".localized(), forState: UIControlState.Normal)
+            serverCustomVC.saveBtn.setTitle("ADD_SERVER".localized(), for: UIControlState())
         }
         
         _popUp = serverCustomVC
         self.view.addSubview(serverCustomVC.view)
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             serverCustomVC.view.layer.opacity = 1
             }, completion: nil)
     }
     
     //MARK: - ServerCell Delegate
     
-    func deleteCell(cell :UITableViewCell) {       
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_SERVERS".localized(), (cell as! ServerViewCell).serverName.text!), preferredStyle: UIAlertControllerStyle.Alert)
+    func deleteCell(_ cell :UITableViewCell) {       
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_SERVERS".localized(), (cell as! ServerViewCell).serverName.text!), preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            let index :NSIndexPath = self.tableView.indexPathForCell(cell)!
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            let index :IndexPath = self.tableView.indexPath(for: cell)!
             
-            if index.row < self.servers.count {
+            if (index as NSIndexPath).row < self.servers.count {
 //                self._dataManager.deleteServer(server: self.servers[index.row])
-                self.servers.removeAtIndex(index.row)
+                self.servers.remove(at: (index as NSIndexPath).row)
                 
-                self.tableView.deleteRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.Left)
+                self.tableView.deleteRows(at: [index], with: UITableViewRowAnimation.left)
             }
             
-            alert.dismissViewControllerAnimated(true, completion: nil)
+            alert.dismiss(animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
         }))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - AddCustomServerDelegate Methods
     
-    func serverAdded(successfuly: Bool) {
+    func serverAdded(_ successfuly: Bool) {
         if successfuly {
 //            servers = _dataManager.getServers()
             tableView.reloadData()
@@ -220,7 +220,7 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
     
     //MARK: - APIManagerDelegate Methods
     
-    final func heartbeatResponceFromServer(server :Server ,successed :Bool) {
+    final func heartbeatResponceFromServer(_ server :Server ,successed :Bool) {
         if successed {
 //            State.currentServer = server
             _apiManager.timeSynchronize(server)
@@ -236,15 +236,15 @@ class SettingsServerViewController: UIViewController, UITableViewDataSource, UIT
             if !_alertShown {
                 _alertShown = true
                 
-                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "SERVER_UNAVAILABLE".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "SERVER_UNAVAILABLE".localized(), preferredStyle: UIAlertControllerStyle.alert)
                 
-                alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
                     self._alertShown = false
 
-                    alert.dismissViewControllerAnimated(true, completion: nil)
+                    alert.dismiss(animated: true, completion: nil)
                 }))
                 
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }

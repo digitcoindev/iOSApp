@@ -18,10 +18,10 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
     @IBOutlet weak var lastBlocks: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    private var _mainAccount :AccountGetMetaData? = nil
-    private let _apiManager :APIManager =  APIManager()
+    fileprivate var _mainAccount :AccountGetMetaData? = nil
+    fileprivate let _apiManager :APIManager =  APIManager()
     
-    private var _blocks :[BlockGetMetaData] = []
+    fileprivate var _blocks :[BlockGetMetaData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,10 +35,10 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
         infoView.clipsToBounds = true
-        infoView.hidden = true
+        infoView.isHidden = true
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
 //        State.currentVC = SegueToHistoryVC
@@ -46,29 +46,29 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
 
     //MARK: - UITableViewDelegate Methods
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _blocks.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell :HarvestingBlockTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("block cell") as! HarvestingBlockTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let cell :HarvestingBlockTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "block cell") as! HarvestingBlockTableViewCell
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, YYYY H:mm:ss"
         
-        var timeStamp = Double(_blocks[indexPath.row].timeStamp)
+        var timeStamp = Double(_blocks[(indexPath as NSIndexPath).row].timeStamp)
         timeStamp += genesis_block_time
         
-        cell.date.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
-        cell.block.text = "BLOCK".localized() + " #\(_blocks[indexPath.row].id)"
-        cell.fee.text = "FEE".localized() + ": \(_blocks[indexPath.row].totalFee / 100000)"
+        cell.date.text = dateFormatter.string(from: Date(timeIntervalSince1970: timeStamp))
+        cell.block.text = "BLOCK".localized() + " #\(_blocks[(indexPath as NSIndexPath).row].id)"
+        cell.fee.text = "FEE".localized() + ": \(_blocks[(indexPath as NSIndexPath).row].totalFee / 100000)"
         
         return cell
     }
     
     //MARK: - APIManagerDelegate Methods
     
-    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+    func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
         
         if account != nil {
             
@@ -92,7 +92,7 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
                 NSFontAttributeName:fontLight
             ]
             message = "\(account!.balance / 1000000)" + " XEM"
-            atributedText.appendAttributedString(NSMutableAttributedString(string: message, attributes: atributes))
+            atributedText.append(NSMutableAttributedString(string: message, attributes: atributes))
             
             balance.attributedText = atributedText
             
@@ -117,7 +117,7 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
                 NSForegroundColorAttributeName : greenClor,
                 NSFontAttributeName:fontLight
             ]
-            atributedText.appendAttributedString(NSMutableAttributedString(string: message, attributes: atributes))
+            atributedText.append(NSMutableAttributedString(string: message, attributes: atributes))
             harvestingStatus.attributedText = atributedText
             
             if account!.harvestedBlocks > 0 {
@@ -149,17 +149,17 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
                         constraint.constant = 155
                     }
                 }
-                delegatedKey.hidden = true
+                delegatedKey.isHidden = true
             }
             
-            infoView.hidden = false
+            infoView.isHidden = false
         }
     }
     
-    func accountHarvestResponceWithBlocks(blocks: [BlockGetMetaData]?) {
+    func accountHarvestResponceWithBlocks(_ blocks: [BlockGetMetaData]?) {
         if blocks != nil && blocks!.count > 0 {
             _blocks = blocks!
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.tableView.reloadData()
             })
         }

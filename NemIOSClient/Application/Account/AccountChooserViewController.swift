@@ -8,7 +8,7 @@
 import UIKit
 
 protocol AccountChooserDelegate {
-    func didChooseAccount(account: AccountData)
+    func didChooseAccount(_ account: AccountData)
 }
 
 /// The view controller that lets the user choose from different listed accounts.
@@ -30,7 +30,7 @@ class AccountChooserViewController: UIViewController {
     // MARK: - View Controller Helper Methods
     
     /// Reloads/Updates the table view.
-    private func updateTableView() {
+    fileprivate func updateTableView() {
         
         guard accounts != nil else { return }
         
@@ -42,25 +42,25 @@ class AccountChooserViewController: UIViewController {
 
 extension AccountChooserViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return accounts!.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("AccountTableViewCell") as! AccountTableViewCell
-        cell.title = accounts![indexPath.row].title ?? accounts![indexPath.row].address.nemAddressNormalised()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
+        cell.title = accounts![(indexPath as NSIndexPath).row].title ?? accounts![(indexPath as NSIndexPath).row].address.nemAddressNormalised()
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        delegate?.didChooseAccount(accounts![indexPath.row])
+        delegate?.didChooseAccount(accounts![(indexPath as NSIndexPath).row])
         
         view.removeFromSuperview()
         removeFromParentViewController()

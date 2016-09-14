@@ -10,9 +10,9 @@ import Contacts
 
 protocol AddCustomContactDelegate
 {
-    func popUpClosed(successfuly :Bool)
-    func contactAdded(successfuly :Bool, sendTransaction :Bool)
-    func contactChanged(successfuly :Bool, sendTransaction :Bool)
+    func popUpClosed(_ successfuly :Bool)
+    func contactAdded(_ successfuly :Bool, sendTransaction :Bool)
+    func contactChanged(_ successfuly :Bool, sendTransaction :Bool)
 }
 
 class AddressBookUpdateContactViewController: UIViewController, APIManagerDelegate {
@@ -35,7 +35,7 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
     
     //MARK: - Private variables
     
-    private var _apiManager = APIManager()
+    fileprivate var _apiManager = APIManager()
     
     //MARK: - Load Methods
 
@@ -47,13 +47,13 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
         firstName.placeholder = "FIRST_NAME".localized()
         lastName.placeholder = "LAST_NAME".localized()
         address.placeholder = "ADDRESS".localized()
-        saveBtn.setTitle("ADD_CONTACT".localized(), forState: UIControlState.Normal)
+        saveBtn.setTitle("ADD_CONTACT".localized(), for: UIControlState())
         switchLabel.text = "SEND_TRANSACTION_AFTER_ADDING".localized()
         
-        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NotificationCenter = NotificationCenter.default
         
-        center.addObserver(self, selector: #selector(AddressBookUpdateContactViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(AddressBookUpdateContactViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddressBookUpdateContactViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(AddressBookUpdateContactViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -75,17 +75,17 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
     
     //MARK: - @IBAction
 
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
 //        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func addContact(sender: UIButton) {
+    @IBAction func addContact(_ sender: UIButton) {
         _changeContact()
     }
     
-    @IBAction func textFieldChange(sender: UITextField) {
+    @IBAction func textFieldChange(_ sender: UITextField) {
         switch sender {
         case firstName:
             lastName.becomeFirstResponder()
@@ -100,7 +100,7 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
     
     //MARK: - Private Helpers
     
-    final private func _changeContact() {
+    final fileprivate func _changeContact() {
 //        address.text = address.text?.stringByReplacingOccurrencesOfString("-", withString: "")
 //        if (Validate.stringNotEmpty(firstName.text) || Validate.stringNotEmpty(lastName.text)) && Validate.address(address.text) {
 //            
@@ -181,15 +181,15 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
     
     //MARK: - APIManagerDelegate Methods
     
-    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
-        startConversationSwitch.enabled =  (account?.cosignatories.count ?? 0) == 0
+    func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
+        startConversationSwitch.isEnabled =  (account?.cosignatories.count ?? 0) == 0
     }
     
     //MARK: - Keyboard Delegate
     
-    final func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+    final func keyboardWillShow(_ notification: Notification) {
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         var keyboardHeight:CGFloat = keyboardSize.height
         
@@ -199,8 +199,8 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
         scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        self.scroll.contentInset = UIEdgeInsets.zero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }

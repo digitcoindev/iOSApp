@@ -24,12 +24,12 @@ class AddCosignatoryVC: UIViewController {
         
         minCosig.placeholder = "  " + "REPEAT_PASSWORD_PLACEHOLDER".localized()
         
-        saveBtn.setTitle("CHANGE".localized(), forState: UIControlState.Normal)
+        saveBtn.setTitle("CHANGE".localized(), for: UIControlState())
         
-        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NotificationCenter = NotificationCenter.default
         
-        center.addObserver(self, selector: #selector(AddCosignatoryVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(AddCosignatoryVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddCosignatoryVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(AddCosignatoryVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -41,16 +41,16 @@ class AddCosignatoryVC: UIViewController {
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func hideKeyboard(sender: AnyObject) {
+    @IBAction func hideKeyboard(_ sender: AnyObject) {
         sender.endEditing(true)
     }
     
-    @IBAction func saveChanges(sender: AnyObject) {
+    @IBAction func saveChanges(_ sender: AnyObject) {
         
         if let value = Int(minCosig.text ?? "") {
             if value < minCosigValue || value > maxCosigValue {
@@ -71,22 +71,22 @@ class AddCosignatoryVC: UIViewController {
     
     //MARK: - Private Methods
     
-    private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    fileprivate func _failedWithError(_ text: String, completion :((Void) -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
             completion?()
         }))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Keyboard Delegate
     
-    final func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+    final func keyboardWillShow(_ notification: Notification) {
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         var keyboardHeight:CGFloat = keyboardSize.height
         
@@ -96,8 +96,8 @@ class AddCosignatoryVC: UIViewController {
         scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        self.scroll.contentInset = UIEdgeInsets.zero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }

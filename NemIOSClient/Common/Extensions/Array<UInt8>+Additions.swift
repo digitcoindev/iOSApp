@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension SequenceType where Generator.Element == UInt8 {
+extension Sequence where Iterator.Element == UInt8 {
     
     func toHexadecimalString() -> String {
         

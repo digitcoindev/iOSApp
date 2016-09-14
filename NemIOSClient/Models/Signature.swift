@@ -12,16 +12,16 @@ class Signature: NSObject
     var version :Double!
     var signer :String!
 
-    final func fromDictionary(dictionary :NSDictionary) -> Signature {
-        self.timeStamp = dictionary.objectForKey("timeStamp") as! Double
-        self.otherHash = (dictionary.objectForKey("otherHash") as! NSDictionary).objectForKey("data") as! String
-        self.otherAccount = dictionary.objectForKey("otherAccount") as! String
-        self.signature = dictionary.objectForKey("signature") as! String
-        self.fee = dictionary.objectForKey("fee") as! Double
-        self.type = dictionary.objectForKey("type") as! Double
-        self.deadline = dictionary.objectForKey("deadline") as! Double
-        self.version = dictionary.objectForKey("version") as! Double
-        self.signer = dictionary.objectForKey("signer") as! String
+    final func fromDictionary(_ dictionary :NSDictionary) -> Signature {
+        self.timeStamp = dictionary.object(forKey: "timeStamp") as! Double
+        self.otherHash = (dictionary.object(forKey: "otherHash") as! NSDictionary).object(forKey: "data") as! String
+        self.otherAccount = dictionary.object(forKey: "otherAccount") as! String
+        self.signature = dictionary.object(forKey: "signature") as! String
+        self.fee = dictionary.object(forKey: "fee") as! Double
+        self.type = dictionary.object(forKey: "type") as! Double
+        self.deadline = dictionary.object(forKey: "deadline") as! Double
+        self.version = dictionary.object(forKey: "version") as! Double
+        self.signer = dictionary.object(forKey: "signer") as! String
         
         return self
     }

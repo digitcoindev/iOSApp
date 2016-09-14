@@ -14,7 +14,7 @@ class _Correspondent: NSObject {
     var name: String = ""
     var transaction :_TransferTransaction!
     
-    class func generateCorespondetsFromTransactions(transactions :[_TransferTransaction]) -> [_Correspondent]{
+    class func generateCorespondetsFromTransactions(_ transactions :[_TransferTransaction]) -> [_Correspondent]{
         var correspondents :[_Correspondent] = []
         
         if State.currentWallet == nil {

@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Application Lifecycle
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         NetworkActivityIndicatorManager.sharedManager.isEnabled = true
         TimeManager.sharedInstance.synchronizeTime()
@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         
         TimeManager.sharedInstance.synchronizeTime()
         
@@ -50,11 +50,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        }
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         NotificationManager.didReceiveLocalNotificaton(notification)
     }
     
-    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         FetchManager().update(completionHandler)
     }
 }

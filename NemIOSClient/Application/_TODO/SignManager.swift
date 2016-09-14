@@ -3,7 +3,7 @@ import UIKit
 
 class SignManager: NSObject
 {
-    final class func signTransaction(transaction :TransactionPostMetaData )->SignedTransactionMetaData {
+    final class func signTransaction(_ transaction :TransactionPostMetaData )->SignedTransactionMetaData {
         let signedTransaction :SignedTransactionMetaData = SignedTransactionMetaData()
         
         var array = SignManager.dataGeneration(transaction)
@@ -27,21 +27,21 @@ class SignManager: NSObject
         return signedTransaction
     }
     
-    final class func signatureGeneration(data : Array<UInt8> )->Array<UInt8> {
+    final class func signatureGeneration(_ data : Array<UInt8> )->Array<UInt8> {
         let myPrivateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let myPublicKey = KeyGenerator.generatePublicKey(myPrivateKey!)
 
         var processData : Array<UInt8> = Array(data)
         var privateKey :Array<UInt8> = Array(myPrivateKey!.utf8)
         var publicKey :Array<UInt8> = Array(myPublicKey.utf8)
-        var signature : Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        var signature : Array<UInt8> = Array(repeating: 0, count: 64)
         
         Sign(&signature, &processData, Int32(processData.count), &publicKey, &privateKey)
         
         return signature
     }
     
-    final class func dataGeneration(transaction :TransactionPostMetaData )->Array<UInt8> {
+    final class func dataGeneration(_ transaction :TransactionPostMetaData )->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let commonPart :Array<UInt8> = SignManager.commonPart(transaction ,isMultisignPart :false )
@@ -81,7 +81,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func commonPart(transaction :TransactionPostMetaData ,isMultisignPart :Bool )->Array<UInt8> {
+    final class func commonPart(_ transaction :TransactionPostMetaData ,isMultisignPart :Bool )->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         var transactionType :Array<UInt8>!
@@ -124,7 +124,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func transferTransactionPart(transaction :_TransferTransaction)->Array<UInt8> {
+    final class func transferTransactionPart(_ transaction :_TransferTransaction)->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let addressLength :Array<UInt8> = [40 , 0 , 0 , 0]
@@ -159,7 +159,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func importanceTransactionPart(transaction :_ImportanceTransferTransaction)->Array<UInt8> {
+    final class func importanceTransactionPart(_ transaction :_ImportanceTransferTransaction)->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let mode :Array<UInt8> =  String(transaction.mode, radix: 16).asByteArrayEndian(4)
@@ -174,7 +174,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func multisigSignatureTransactionPart(transaction :_MultisigSignatureTransaction)->Array<UInt8> {
+    final class func multisigSignatureTransactionPart(_ transaction :_MultisigSignatureTransaction)->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let lengthOfHashObject :Array<UInt8> =  String(transaction.lengthOfHashObject, radix: 16).asByteArrayEndian(4)
@@ -195,7 +195,7 @@ class SignManager: NSObject
         return result
     }
     
-    final class func aggregateModificationTransactionPart(transaction :AggregateModificationTransaction)->Array<UInt8> {
+    final class func aggregateModificationTransactionPart(_ transaction :AggregateModificationTransaction)->Array<UInt8> {
         var result :Array<UInt8> = Array<UInt8>()
         
         let modificationsCount :Array<UInt8> = String(transaction.modifications.count, radix: 16).asByteArrayEndian(4)

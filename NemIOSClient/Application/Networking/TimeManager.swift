@@ -13,60 +13,60 @@ import SwiftyJSON
     The time manager that synchronizes the time of the application 
     with the NIS time.
  */
-public class TimeManager {
+open class TimeManager {
     
     // MARK: - Manager Properties
     
     /// The singleton for the time manager.
-    public static let sharedInstance = TimeManager()
+    open static let sharedInstance = TimeManager()
     
     /// The time of the NEM network.
-    private var nisTime = 0.0 {
+    fileprivate var nisTime = 0.0 {
         didSet {
-            localTime = NSDate()
+            localTime = Date()
         }
     }
     
     /// The local time of the device.
-    private var localTime = NSDate()
+    fileprivate var localTime = Date()
     
     /// The current time stamp synchronized with the NEM network.
-    public var timeStamp: Double {
+    open var timeStamp: Double {
         get {
-            return nisTime + NSDate().timeIntervalSinceDate(localTime)
+            return nisTime + Date().timeIntervalSince(localTime)
         }
     }
     
     // MARK: - Manager Methods
     
     /// Synchronizes the application time with the NEM network time.
-    public func synchronizeTime() {
+    open func synchronizeTime() {
         
-        nisProvider.request(NIS.SynchronizeTime) { [unowned self] (result) in
+        nisProvider.request(NIS.synchronizeTime) { [unowned self] (result) in
             
             switch result {
-            case let .Success(response):
+            case let .success(response):
                 
                 do {
                     try response.filterSuccessfulStatusCodes()
                     let responseJSON = JSON(data: response.data)
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
                         
                         self.nisTime = responseJSON["receiveTimeStamp"].doubleValue / 1000
                     }
                     
                 } catch {
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                     }
                 }
                 
-            case let .Failure(error):
+            case let .failure(error):
                 
-                GCDQueue.Main.async {
+                GCDQueue.main.async {
                     
                     print(error)
                 }

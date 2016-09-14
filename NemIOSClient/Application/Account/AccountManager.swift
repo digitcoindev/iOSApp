@@ -14,12 +14,12 @@ import CryptoSwift
     in relationship with an account. Use this managers available methods 
     instead of writing your own logic.
  */
-public class AccountManager {
+open class AccountManager {
     
     // MARK: - Manager Properties
     
     /// The singleton for the account manager.
-    public static let sharedInstance = AccountManager()
+    open static let sharedInstance = AccountManager()
     
     // MARK: - Public Manager Methods
     
@@ -28,9 +28,9 @@ public class AccountManager {
      
         - Returns: An array of accounts ordered by position (ascending).
      */
-    public func accounts() -> [Account] {
+    open func accounts() -> [Account] {
         
-        let accounts = DatabaseManager.sharedInstance.dataStack.fetchAll(From(Account), OrderBy(.Ascending("position"))) ?? []
+        let accounts = DatabaseManager.sharedInstance.dataStack.fetchAll(From(Account), OrderBy(.ascending("position"))) ?? []
         
         return accounts
     }
@@ -42,7 +42,7 @@ public class AccountManager {
      
         - Returns: The result of the operation - success or failure.
      */
-    public func create(account title: String, withPrivateKey privateKey: String? = nil, completion: (result: Result) -> Void) {
+    open func create(account title: String, withPrivateKey privateKey: String? = nil, completion: @escaping (_ result: Result) -> Void) {
         
         DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
             
@@ -62,11 +62,11 @@ public class AccountManager {
             
             transaction.commit { (result) -> Void in
                 switch result {
-                case .Success( _):
-                    return completion(result: .Success)
+                case .success( _):
+                    return completion(result: .success)
                     
-                case .Failure( _):
-                    return completion(result: .Failure)
+                case .failure( _):
+                    return completion(result: .failure)
                 }
             }
         }
@@ -78,10 +78,10 @@ public class AccountManager {
         
         - Parameter account: The account object that should get deleted.
      */
-    public func delete(account account: Account) {
+    open func delete(account: Account) {
         
         var accounts = self.accounts()
-        accounts.removeAtIndex(account.position)
+        accounts.remove(at: account.position)
         
         updatePosition(forAccounts: accounts)
         
@@ -99,13 +99,13 @@ public class AccountManager {
      
         - Parameter accounts: An array of all accounts in their state after the move (with their new indexPath).
      */
-    public func updatePosition(forAccounts accounts: [Account]) {
+    open func updatePosition(forAccounts accounts: [Account]) {
         
         DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
             
             for account in accounts {
                 let editableAccount = transaction.edit(account)!
-                editableAccount.position = accounts.indexOf(account)!
+                editableAccount.position = accounts.index(of: account)!
             }
             
             transaction.commit()
@@ -118,7 +118,7 @@ public class AccountManager {
         - Parameter account: The existing account that should get updated.
         - Parameter title: The new title for the account that should get updated.
      */
-    public func updateTitle(forAccount account: Account, withNewTitle title: String) {
+    open func updateTitle(forAccount account: Account, withNewTitle title: String) {
         
         DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
             
@@ -138,7 +138,7 @@ public class AccountManager {
      
         - Returns: The title of the account with the provided account address. If no title was found the method will return nil.
      */
-    public func titleForAccount(withAddress accountAddress: String) -> String? {
+    open func titleForAccount(withAddress accountAddress: String) -> String? {
         
         let accounts = self.accounts()
         
@@ -160,14 +160,14 @@ public class AccountManager {
      
         - Returns: A bool indicating that no account with the provided private key was added to the application.
      */
-    public func validateAccountExistence(forAccountWithPrivateKey privateKey: String) throws -> Bool {
+    open func validateAccountExistence(forAccountWithPrivateKey privateKey: String) throws -> Bool {
         
         let accounts = self.accounts()
         
         for account in accounts {
             let accountPrivateKey = decryptPrivateKey(account.privateKey)
             if privateKey == accountPrivateKey {
-                throw AccountImportValidation.AccountAlreadyPresent(accountTitle: account.title)
+                throw AccountImportValidation.accountAlreadyPresent(accountTitle: account.title)
             }
         }
         
@@ -183,15 +183,15 @@ public class AccountManager {
      
         - Returns: A bool indicating whether the key is valid or not.
      */
-    public func validateKey(key: String, length: Int = 64) -> Bool {
+    open func validateKey(_ key: String, length: Int = 64) -> Bool {
 
         let validator = Array<UInt8>("0123456789abcdef".utf8)
         var keyArray = Array<UInt8>(key.utf8)
         
         if keyArray.count == length || keyArray.count == length + 2 {
             if keyArray.count == length + 2 {
-                keyArray.removeAtIndex(0)
-                keyArray.removeAtIndex(0)
+                keyArray.remove(at: 0)
+                keyArray.remove(at: 0)
             }
             
             for value in keyArray {
@@ -220,14 +220,14 @@ public class AccountManager {
      
         - Returns: The generated address as a string.
      */
-    public func generateAddress(forPublicKey publicKey: String) -> String {
+    open func generateAddress(forPublicKey publicKey: String) -> String {
         
         var inBuffer = publicKey.asByteArray()
-        var stepOneSHA256: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        var stepOneSHA256: Array<UInt8> = Array(repeating: 0, count: 64)
         
         SHA256_hash(&stepOneSHA256, &inBuffer, 32)
         
-        let stepOneSHA256Text = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: NSUTF8StringEncoding) as! String
+        let stepOneSHA256Text = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: String.Encoding.utf8.rawValue) as! String
         let stepTwoRIPEMD160Text = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
         let stepTwoRIPEMD160Buffer = stepTwoRIPEMD160Text.asByteArray()
         
@@ -235,11 +235,11 @@ public class AccountManager {
         version.append(network)
         
         var stepThreeVersionPrefixedRipemd160Buffer = version + stepTwoRIPEMD160Buffer
-        var checksumHash: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+        var checksumHash: Array<UInt8> = Array(repeating: 0, count: 64)
         
         SHA256_hash(&checksumHash, &stepThreeVersionPrefixedRipemd160Buffer, 21)
         
-        let checksumText = NSString(bytes: checksumHash, length: checksumHash.count, encoding: NSUTF8StringEncoding) as! String
+        let checksumText = NSString(bytes: checksumHash, length: checksumHash.count, encoding: String.Encoding.utf8.rawValue) as! String
         var checksumBuffer = checksumText.asByteArray()
         var checksum = Array<UInt8>()
         checksum.append(checksumBuffer[0])
@@ -248,7 +248,7 @@ public class AccountManager {
         checksum.append(checksumBuffer[3])
         
         let stepFourResultBuffer = stepThreeVersionPrefixedRipemd160Buffer + checksum
-        let address = Base32Encode(NSData(bytes: stepFourResultBuffer, length: stepFourResultBuffer.count))
+        let address = Base32Encode(Data(bytes: UnsafePointer<UInt8>(stepFourResultBuffer), count: stepFourResultBuffer.count))
         
         return address
     }
@@ -260,7 +260,7 @@ public class AccountManager {
      
         - Returns: The generated address as a string.
      */
-    public func generateAddress(forPrivateKey privateKey: String) -> String {
+    open func generateAddress(forPrivateKey privateKey: String) -> String {
         
         let publicKey = generatePublicKey(forPrivateKey: privateKey)
         return generateAddress(forPublicKey: publicKey)
@@ -273,7 +273,7 @@ public class AccountManager {
      
         - Returns: The decrypted private key as a string.
      */
-    public func decryptPrivateKey(encryptedPrivateKey: String) -> String {
+    open func decryptPrivateKey(_ encryptedPrivateKey: String) -> String {
         
         let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
         let privateKey = HashManager.AES256Decrypt(encryptedPrivateKey, key: encryptedApplicationPassword)
@@ -288,7 +288,7 @@ public class AccountManager {
      
         - Returns: The position for a new account in the account list as an integer.
      */
-    private func positionForNewAccount() -> Int {
+    fileprivate func positionForNewAccount() -> Int {
         
         if let maxPosition = DatabaseManager.sharedInstance.dataStack.queryValue(From(Account), Select<Int>(.Maximum("position"))) {
             if (maxPosition == 0) {
@@ -302,12 +302,12 @@ public class AccountManager {
     }
     
     /// Generates a new and unique private key.
-    private func generatePrivateKey() -> String {
+    fileprivate func generatePrivateKey() -> String {
         
-        var privateKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
+        var privateKeyBytes: Array<UInt8> = Array(repeating: 0, count: 32)
         createPrivateKey(&privateKeyBytes)
         
-        let privateKey: String = NSData(bytes: &privateKeyBytes, length: 32).toHexString()
+        let privateKey: String = Data(bytes: UnsafePointer<UInt8>(&privateKeyBytes), count: 32).toHexString()
         
         return privateKey.nemKeyNormalized()!
     }
@@ -319,13 +319,13 @@ public class AccountManager {
      
         - Returns: The generated public key as a string.
      */
-    private func generatePublicKey(forPrivateKey privateKey: String) -> String {
+    fileprivate func generatePublicKey(forPrivateKey privateKey: String) -> String {
         
-        var publicKeyBytes: Array<UInt8> = Array(count: 32, repeatedValue: 0)
+        var publicKeyBytes: Array<UInt8> = Array(repeating: 0, count: 32)
         var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(privateKey.asByteArray().count)
         createPublicKey(&publicKeyBytes, &privateKeyBytes)
         
-        let publicKey: String = NSData(bytes: &publicKeyBytes, length: 32).toHexString()
+        let publicKey: String = Data(bytes: UnsafePointer<UInt8>(&publicKeyBytes), count: 32).toHexString()
         
         return publicKey.nemKeyNormalized()!
     }
@@ -337,9 +337,9 @@ public class AccountManager {
      
         - Returns: The encrypted private key as a string.
      */
-    private func encryptPrivateKey(privateKey: String) -> String {
+    fileprivate func encryptPrivateKey(_ privateKey: String) -> String {
         
-        let encryptedApplicationPassword = NSData(bytes: "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf".asByteArray())
+        let encryptedApplicationPassword = Data(bytes: "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf".asByteArray())
         let encryptedPrivateKey = HashManager.AES256Encrypt(privateKey, key: encryptedApplicationPassword.toHexString())
         
         return encryptedPrivateKey

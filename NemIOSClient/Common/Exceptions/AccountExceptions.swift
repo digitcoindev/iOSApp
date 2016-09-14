@@ -10,21 +10,21 @@ import Foundation
 /**
  
  */
-public enum Result: ErrorType {
-    case Success
-    case Failure
+public enum Result: Error {
+    case success
+    case failure
 }
 
 /**
  
  */
-public enum AccountImportValidation: ErrorType {
-    case ValueMissing
-    case VersionNotMatching
-    case DataTypeNotMatching
-    case NoPasswordProvided
-    case WrongPasswordProvided
-    case AccountAlreadyPresent(accountTitle: String)
-    case InvalidPrivateKey
-    case Other
+public enum AccountImportValidation: Error {
+    case valueMissing
+    case versionNotMatching
+    case dataTypeNotMatching
+    case noPasswordProvided
+    case wrongPasswordProvided
+    case accountAlreadyPresent(accountTitle: String)
+    case invalidPrivateKey
+    case other
 }

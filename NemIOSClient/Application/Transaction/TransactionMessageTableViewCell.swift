@@ -9,9 +9,9 @@ import UIKit
 
 /// All available types for the message table view cell.
 enum MessageCellType {
-    case Incoming
-    case Outgoing
-    case Processing
+    case incoming
+    case outgoing
+    case processing
 }
 
 /// Represents a message/transaction with a correspondent in the transaction messages view controller.
@@ -26,17 +26,17 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
         }
     }
     
-    private let transactionDateLabel = UILabel()
-    private let transactionMessageTextView = UITextView()
-    private let infoTopLabel = UILabel()
-    private let infoCenterLabel = UILabel()
-    private let infoBottomLabel = UILabel()
-    private let incomingColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 234.0/255.0, alpha: 1)
-    private let outgoingColor = UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)
-    private let topInset: CGFloat = 2.0
-    private let bottomInset: CGFloat = 2.0
-    private let leftInset: CGFloat = 5.0
-    private let rightInset: CGFloat = 5.0
+    fileprivate let transactionDateLabel = UILabel()
+    fileprivate let transactionMessageTextView = UITextView()
+    fileprivate let infoTopLabel = UILabel()
+    fileprivate let infoCenterLabel = UILabel()
+    fileprivate let infoBottomLabel = UILabel()
+    fileprivate let incomingColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 234.0/255.0, alpha: 1)
+    fileprivate let outgoingColor = UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)
+    fileprivate let topInset: CGFloat = 2.0
+    fileprivate let bottomInset: CGFloat = 2.0
+    fileprivate let leftInset: CGFloat = 5.0
+    fileprivate let rightInset: CGFloat = 5.0
     
     // MARK: - Cell Lifecycle
     
@@ -55,7 +55,7 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     override func layoutSubviews() {
         
         infoTopLabel.frame.size = CGSize(width: 80, height: 20)
-        infoTopLabel.frame.origin = CGPointZero
+        infoTopLabel.frame.origin = CGPoint.zero
         infoCenterLabel.frame.size = CGSize(width: 80, height: 20)
         infoCenterLabel.frame.origin = CGPoint(x: 0, y: 20)
         infoBottomLabel.frame.size = CGSize(width: 80, height: 20)
@@ -69,21 +69,21 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
         transactionDateLabel.frame.size.width = _contentView!.frame.width - 20
         
         switch cellType! {
-        case .Incoming :
+        case .incoming :
             transactionDateLabel.frame.origin.x = 20
             transactionMessageTextView.frame.size.width = _contentView!.frame.size.width * 0.75
             transactionMessageTextView.sizeToFit()
             transactionMessageTextView.frame.origin = CGPoint(x: 15, y: transactionDateLabel.frame.height + 5)
             transactionMessageTextView.frame.size = CGSize(width: min(_contentView!.frame.size.width * 0.75, transactionMessageTextView.frame.size.width), height: transactionMessageTextView.frame.size.height)
             
-        case .Outgoing :
+        case .outgoing :
             transactionDateLabel.frame.origin.x = 0
             transactionMessageTextView.frame.size.width = _contentView!.frame.size.width * 0.75
             transactionMessageTextView.sizeToFit()
             transactionMessageTextView.frame.size = CGSize(width: min(_contentView!.frame.size.width * 0.75, transactionMessageTextView.frame.size.width), height: transactionMessageTextView.frame.size.height)
             transactionMessageTextView.frame.origin = CGPoint(x: _contentView!.frame.size.width - transactionMessageTextView.frame.size.width - 15, y: transactionDateLabel.frame.height + 5)
 
-        case .Processing :
+        case .processing :
             transactionDateLabel.frame.size.width = _contentView!.frame.width
             transactionMessageTextView.frame.size.width = _contentView!.frame.size.width - CGFloat(30)
             transactionMessageTextView.sizeToFit()
@@ -95,23 +95,23 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     // MARK: - Cell Helper Methods
     
     /// Updates the table view cell with the provided transaction data.
-    private func updateCell() {
+    fileprivate func updateCell() {
         
-        var textColor = UIColor.blackColor()
+        var textColor = UIColor.black
         
         switch cellType! {
-        case .Incoming:
-            transactionDateLabel.textAlignment = NSTextAlignment.Left
+        case .incoming:
+            transactionDateLabel.textAlignment = NSTextAlignment.left
             transactionMessageTextView.backgroundColor = incomingColor
-            textColor = UIColor.blackColor()
-        case .Outgoing:
-            transactionDateLabel.textAlignment = NSTextAlignment.Right
+            textColor = UIColor.black
+        case .outgoing:
+            transactionDateLabel.textAlignment = NSTextAlignment.right
             transactionMessageTextView.backgroundColor = outgoingColor
-            textColor = UIColor.whiteColor()
-        case .Processing:
-            transactionDateLabel.textAlignment = NSTextAlignment.Center
+            textColor = UIColor.white
+        case .processing:
+            transactionDateLabel.textAlignment = NSTextAlignment.center
             transactionMessageTextView.backgroundColor = incomingColor
-            textColor = UIColor.blackColor()
+            textColor = UIColor.black
         }
         
         var message = transaction.message?.message == "" || transaction.message?.message == nil ? "" : transaction.message?.message
@@ -119,7 +119,7 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
         if transaction.amount > 0 {
             
             var symbol = String()
-            if transaction.transferType == .Incoming {
+            if transaction.transferType == .incoming {
                 symbol = "+"
             } else {
                 symbol = "-"
@@ -137,15 +137,15 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
             amount = "\n" + amount
         }
         
-        let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSForegroundColorAttributeName: textColor, NSFontAttributeName: UIFont.systemFontOfSize(13, weight: UIFontWeightRegular)])
-        let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSForegroundColorAttributeName: textColor,NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightMedium)])
-        messageAttributedString.appendAttributedString(amountAttributedString)
+        let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSForegroundColorAttributeName: textColor, NSFontAttributeName: UIFont.systemFont(ofSize: 13, weight: UIFontWeightRegular)])
+        let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSForegroundColorAttributeName: textColor,NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)])
+        messageAttributedString.append(amountAttributedString)
         
         var date = String()
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm dd.MM.yy"
         let timeStamp = Double(transaction.timeStamp)
-        date = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: genesis_block_time + timeStamp))
+        date = dateFormatter.string(from: Date(timeIntervalSince1970: genesis_block_time + timeStamp))
         
         setMessage(messageAttributedString)
         setDate(date)
@@ -154,15 +154,15 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     }
     
     /// Updates the appearance of the table view cell.
-    private func updateCellAppearance() {
+    fileprivate func updateCellAppearance() {
         
         transactionDateLabel.numberOfLines = 1
-        transactionDateLabel.font = UIFont.systemFontOfSize(10, weight: UIFontWeightRegular)
+        transactionDateLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFontWeightRegular)
         
-        transactionMessageTextView.scrollEnabled = false
+        transactionMessageTextView.isScrollEnabled = false
         transactionMessageTextView.layer.cornerRadius = 5
         transactionMessageTextView.clipsToBounds = true
-        transactionMessageTextView.editable = false
+        transactionMessageTextView.isEditable = false
         transactionMessageTextView.textContainerInset = UIEdgeInsetsMake(8, 5, 8, 5)
         
         infoTopLabel.numberOfLines = 1
@@ -176,19 +176,19 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     }
     
     /// Updates the date label with the provided date and calls layoutSubviews.
-    private func setDate(date: String) {
+    fileprivate func setDate(_ date: String) {
         transactionDateLabel.text = date
         layoutSubviews()
     }
     
     /// Updates the message label with the provided message/amount and calls layoutSubviews.
-    private func setMessage(message: NSAttributedString) {
+    fileprivate func setMessage(_ message: NSAttributedString) {
         transactionMessageTextView.attributedText = message
         layoutSubviews()
     }
     
     /// Updates the details labels with the provided details.
-    private func setDetails(topInformation: NSAttributedString, centerInformation: NSAttributedString, bottomInformation: NSAttributedString) {
+    fileprivate func setDetails(_ topInformation: NSAttributedString, centerInformation: NSAttributedString, bottomInformation: NSAttributedString) {
         infoTopLabel.attributedText = topInformation
         infoCenterLabel.attributedText = centerInformation
         infoBottomLabel.attributedText = bottomInformation

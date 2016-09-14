@@ -24,13 +24,13 @@ class NavigationController: UINavigationController {
     // MARK: - Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the controller.
-    private func updateControllerAppearance() {
+    fileprivate func updateControllerAppearance() {
         
-        navigationBar.translucent = false
+        navigationBar.isTranslucent = false
         navigationBar.barTintColor = UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)
-        navigationBar.tintColor = UIColor.whiteColor()
-        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationBar.tintColor = UIColor.white
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationBar.shadowImage = UIImage()
     }
 }

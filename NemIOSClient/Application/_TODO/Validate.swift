@@ -3,7 +3,7 @@ import UIKit
 class Validate: NSObject
 {
     
-    final class func account(privateKey privateKey :String) -> String? {
+    final class func account(privateKey :String) -> String? {
 //        let accounts = CoreDataManager().getWallets()
         
 //        for account in accounts {
@@ -16,25 +16,25 @@ class Validate: NSObject
         return nil
     }
     
-    final class func address(inputText :String? ,length: Int = 40) -> Bool {
+    final class func address(_ inputText :String? ,length: Int = 40) -> Bool {
         if inputText == nil {
             return false
         }
         
-        if inputText!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) != 40 {
+        if inputText!.lengthOfBytes(using: String.Encoding.utf8) != 40 {
             return false
         }
         
         let expresion = "^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$"
         
-        let range = inputText!.rangeOfString(expresion, options:.RegularExpressionSearch)
+        let range = inputText!.range(of: expresion, options:.regularExpression)
 
         let result = range != nil ? true : false
         return result
 
     }
     
-    final class func key(inputText :String? ,length: Int = 64) -> Bool {
+    final class func key(_ inputText :String? ,length: Int = 64) -> Bool {
         if inputText == nil {
             return false
         }
@@ -44,8 +44,8 @@ class Validate: NSObject
         
         if keyArray.count == length || keyArray.count == length + 2 {
             if keyArray.count == length + 2 {
-                keyArray.removeAtIndex(0)
-                keyArray.removeAtIndex(0)
+                keyArray.remove(at: 0)
+                keyArray.remove(at: 0)
             }
             
             for value in keyArray {
@@ -71,7 +71,7 @@ class Validate: NSObject
         return true
     }
     
-    final class func password(inputText :String) -> Bool {
+    final class func password(_ inputText :String) -> Bool {
         let keyArray :Array<UInt8> = Array<UInt8>(inputText.utf8)
         
         if keyArray.count < 6 {
@@ -81,7 +81,7 @@ class Validate: NSObject
         return true
     }
     
-    final class func stringNotEmpty(inputText :String?) -> Bool {
+    final class func stringNotEmpty(_ inputText :String?) -> Bool {
         if inputText == nil {
             return false
         }
@@ -91,21 +91,21 @@ class Validate: NSObject
         }
         
         let regEx = "^ *$"
-        let range = inputText!.rangeOfString(regEx, options:.RegularExpressionSearch)
+        let range = inputText!.range(of: regEx, options:.regularExpression)
         let result = range == nil ? true : false
         
         return result
     }
     
-    final class func hexString(text : String) -> Bool {
+    final class func hexString(_ text : String) -> Bool {
         let regex: NSRegularExpression?
         do {
-            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive)
+            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .caseInsensitive)
         } catch {
             regex = nil
         }
         
-        let found = regex?.firstMatchInString(text, options: [], range: NSMakeRange(0, text.characters.count))
+        let found = regex?.firstMatch(in: text, options: [], range: NSMakeRange(0, text.characters.count))
         
         if found == nil || found?.range.location == NSNotFound || text.characters.count % 2 != 0 {
             return false

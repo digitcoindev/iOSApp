@@ -34,33 +34,33 @@ class AccountListViewController: UIViewController {
         createEditButtonItemIfNeeded()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if (tableView.indexPathForSelectedRow != nil) {
             let indexPath = tableView.indexPathForSelectedRow!
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
     /// Needed for a smooth appearance of the alert view controller.
-    override func canBecomeFirstResponder() -> Bool {        
+    override var canBecomeFirstResponder : Bool {        
         return true
     }
     
     /// Needed for a smooth appearance of the alert view controller.
-    override func canResignFirstResponder() -> Bool {
+    override var canResignFirstResponder : Bool {
         return true
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segue.identifier! {
         case "showAccountDetailTabBarController":
             
             if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationViewController = segue.destinationViewController as! AccountDetailTabBarController
-                destinationViewController.account = accounts[indexPath.row]
+                let destinationViewController = segue.destination as! AccountDetailTabBarController
+                destinationViewController.account = accounts[(indexPath as NSIndexPath).row]
             }
             
         default:
@@ -71,20 +71,20 @@ class AccountListViewController: UIViewController {
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    fileprivate func updateViewControllerAppearance() {
         
         navigationItem.title = "ACCOUNTS".localized()
-        addAccountButton.setTitle("   " + "ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
+        addAccountButton.setTitle("   " + "ADD_ACCOUNT".localized(), for: UIControlState())
     }
     
     /**
         Checks if there are any accounts to show and creates an edit button
         item on the right of the navigation bar if that's the case.
      */
-    private func createEditButtonItemIfNeeded() {
+    fileprivate func createEditButtonItemIfNeeded() {
         
         if (accounts.count > 0) {
-            navigationItem.rightBarButtonItem = editButtonItem()
+            navigationItem.rightBarButtonItem = editButtonItem
         }
     }
     
@@ -94,23 +94,23 @@ class AccountListViewController: UIViewController {
      
         - Parameter indexPath: The index path of the account that should get removed and deleted.
      */
-    private func deleteAccount(atIndexPath indexPath: NSIndexPath) {
+    fileprivate func deleteAccount(atIndexPath indexPath: IndexPath) {
         
-        let account = accounts[indexPath.row]
+        let account = accounts[(indexPath as NSIndexPath).row]
         
-        let accountDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), account.title), preferredStyle: .Alert)
+        let accountDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), account.title), preferredStyle: .alert)
         
-        accountDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
+        accountDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
         
-        accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Destructive, handler: { (action) in
+        accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { (action) in
             
-            self.accounts.removeAtIndex(indexPath.row)
-            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
+            self.accounts.remove(at: (indexPath as NSIndexPath).row)
+            self.tableView.deleteRows(at: [indexPath], with: .bottom)
             
             AccountManager.sharedInstance.delete(account: account)
         }))
         
-        presentViewController(accountDeletionAlert, animated: true, completion: nil)
+        present(accountDeletionAlert, animated: true, completion: nil)
     }
     
     /**
@@ -120,15 +120,15 @@ class AccountListViewController: UIViewController {
         - Parameter sourceIndexPath: The previous index path of the account (before the move).
         - Parameter destinationIndexPath: The new index path of the account (after the move)
      */
-    private func moveAccount(fromPosition sourceIndexPath: NSIndexPath, toPosition destinationIndexPath: NSIndexPath) {
+    fileprivate func moveAccount(fromPosition sourceIndexPath: IndexPath, toPosition destinationIndexPath: IndexPath) {
         
         if sourceIndexPath == destinationIndexPath {
             return
         }
         
-        let moveableAccount = accounts[sourceIndexPath.row]
-        accounts.removeAtIndex(sourceIndexPath.row)
-        accounts.insert(moveableAccount, atIndex: destinationIndexPath.row)
+        let moveableAccount = accounts[(sourceIndexPath as NSIndexPath).row]
+        accounts.remove(at: (sourceIndexPath as NSIndexPath).row)
+        accounts.insert(moveableAccount, at: (destinationIndexPath as NSIndexPath).row)
         
         AccountManager.sharedInstance.updatePosition(forAccounts: accounts)
     }
@@ -139,31 +139,31 @@ class AccountListViewController: UIViewController {
      
         - Parameter indexPath: The index path of the account that should get updated.
      */
-    private func changeTitle(forAccountAtIndexPath indexPath: NSIndexPath) {
+    fileprivate func changeTitle(forAccountAtIndexPath indexPath: IndexPath) {
         
-        let account = accounts[indexPath.row]
+        let account = accounts[(indexPath as NSIndexPath).row]
         
-        let accountTitleChangerAlert = UIAlertController(title: "CHANGE".localized(), message: "INPUT_NEW_ACCOUNT_NAME".localized(), preferredStyle: .Alert)
+        let accountTitleChangerAlert = UIAlertController(title: "CHANGE".localized(), message: "INPUT_NEW_ACCOUNT_NAME".localized(), preferredStyle: .alert)
         
-        accountTitleChangerAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
+        accountTitleChangerAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
         
-        accountTitleChangerAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: { (action) in
+        accountTitleChangerAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { (action) in
             
             let titleTextField = accountTitleChangerAlert.textFields![0] as UITextField
             if let newTitle = titleTextField.text {
                 
-                self.accounts[indexPath.row].title = newTitle
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                self.accounts[(indexPath as NSIndexPath).row].title = newTitle
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 
-                AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[indexPath.row], withNewTitle: newTitle)
+                AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[(indexPath as NSIndexPath).row], withNewTitle: newTitle)
             }
         }))
         
-        accountTitleChangerAlert.addTextFieldWithConfigurationHandler { (textField) in
+        accountTitleChangerAlert.addTextField { (textField) in
             textField.text = account.title
         }
         
-        presentViewController(accountTitleChangerAlert, animated: true, completion: nil)
+        present(accountTitleChangerAlert, animated: true, completion: nil)
     }
     
     // MARK: - View Controller Outlet Actions
@@ -172,7 +172,7 @@ class AccountListViewController: UIViewController {
         Unwinds to the account list view controller and reloads all
         accounts to show.
      */
-    @IBAction func unwindToAccountListViewController(segue: UIStoryboardSegue) {
+    @IBAction func unwindToAccountListViewController(_ segue: UIStoryboardSegue) {
         
         accounts = AccountManager.sharedInstance.accounts()
         tableView.reloadData()
@@ -183,31 +183,31 @@ class AccountListViewController: UIViewController {
 
 extension AccountListViewController: UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return accounts.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("AccountTableViewCell") as! AccountTableViewCell
-        cell.title = accounts[indexPath.row].title
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
+        cell.title = accounts[(indexPath as NSIndexPath).row].title
         
         return cell
     }
     
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         switch editingStyle {
-        case .Delete:
+        case .delete:
             
             deleteAccount(atIndexPath: indexPath)
             
@@ -216,16 +216,16 @@ extension AccountListViewController: UITableViewDataSource {
         }
     }
     
-    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
         moveAccount(fromPosition: sourceIndexPath, toPosition: destinationIndexPath)
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 }
@@ -234,13 +234,13 @@ extension AccountListViewController: UITableViewDataSource {
 
 extension AccountListViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.editing {
+        if tableView.isEditing {
             changeTitle(forAccountAtIndexPath: indexPath)
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         } else {
-            performSegueWithIdentifier("showAccountDetailTabBarController", sender: nil)
+            performSegue(withIdentifier: "showAccountDetailTabBarController", sender: nil)
         }
     }
 }

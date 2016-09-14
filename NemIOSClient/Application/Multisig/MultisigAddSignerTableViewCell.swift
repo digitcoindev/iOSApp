@@ -16,7 +16,7 @@ class MultisigAddSignerTableViewCell: UITableViewCell {
         addLabel.text = "ADD_ADITIONAL_SIGNER".localized()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 }

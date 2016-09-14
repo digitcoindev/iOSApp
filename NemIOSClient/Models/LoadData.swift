@@ -24,8 +24,8 @@ class LoadData: NSManagedObject {
     @NSManaged var currentServer: Server?
     @NSManaged var currentWallet: Wallet?
     
-    class func createInManagedObjectContext(moc: NSManagedObjectContext) -> LoadData {
-        let newItem = NSEntityDescription.insertNewObjectForEntityForName("LoadData", inManagedObjectContext: moc) as! LoadData
+    class func createInManagedObjectContext(_ moc: NSManagedObjectContext) -> LoadData {
+        let newItem = NSEntityDescription.insertNewObject(forEntityName: "LoadData", into: moc) as! LoadData
         
         newItem.updateInterval = 0
         return newItem

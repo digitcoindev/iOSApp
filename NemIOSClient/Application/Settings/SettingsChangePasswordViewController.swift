@@ -25,12 +25,12 @@ class SettingsChangePasswordViewController: UIViewController {
         newPassword.placeholder = "  " + "PASSWORD_PLACEHOLDER".localized()
         repeatPassword.placeholder = "  " + "REPEAT_PASSWORD_PLACEHOLDER".localized()
         
-        saveBtn.setTitle("CHANGE".localized(), forState: UIControlState.Normal)
+        saveBtn.setTitle("CHANGE".localized(), for: UIControlState())
         
-        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NotificationCenter = NotificationCenter.default
         
-        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -42,12 +42,12 @@ class SettingsChangePasswordViewController: UIViewController {
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {        
+    @IBAction func closePopUp(_ sender: AnyObject) {        
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func changePassword(sender: AnyObject) {
+    @IBAction func changePassword(_ sender: AnyObject) {
         
         if !Validate.stringNotEmpty(newPassword.text) || !Validate.stringNotEmpty(repeatPassword.text) || !Validate.stringNotEmpty(oldPassword.text){
             _failedWithError("FIELDS_EMPTY_ERROR".localized())
@@ -66,8 +66,8 @@ class SettingsChangePasswordViewController: UIViewController {
             return
         }
         
-        let salt :NSData =  NSData(bytes: State.loadData!.salt!.asByteArray())
-        let passwordHashOld :NSData? = try? HashManager.generateAesKeyForString(oldPassword.text!, salt:salt, roundCount:2000)!
+        let salt :Data =  Data(bytes: State.loadData!.salt!.asByteArray())
+        let passwordHashOld :Data? = try? HashManager.generateAesKeyForString(oldPassword.text!, salt:salt, roundCount:2000)!
         
         if passwordHashOld == nil || passwordHashOld?.hexadecimalString() != State.loadData?.password {
             _failedWithError("WRONG_OLD_PASSWORD".localized())
@@ -93,7 +93,7 @@ class SettingsChangePasswordViewController: UIViewController {
         self.removeFromParentViewController()
     }
     
-    @IBAction func changeField(sender: UITextField) {
+    @IBAction func changeField(_ sender: UITextField) {
         switch sender {
         case oldPassword:
             newPassword.becomeFirstResponder()
@@ -106,40 +106,40 @@ class SettingsChangePasswordViewController: UIViewController {
         }
     }
     
-    @IBAction func validateField(sender: UITextField){
+    @IBAction func validateField(_ sender: UITextField){
         
         if repeatPassword.text == newPassword.text {
-            repeatPassword.textColor = UIColor.greenColor()
+            repeatPassword.textColor = UIColor.green
         } else {
-            repeatPassword.textColor = UIColor.redColor()
+            repeatPassword.textColor = UIColor.red
         }
         
         if Validate.password(newPassword.text!){
-            newPassword.textColor = UIColor.greenColor()
+            newPassword.textColor = UIColor.green
         } else {
-            repeatPassword.textColor = UIColor.redColor()
-            newPassword.textColor = UIColor.redColor()
+            repeatPassword.textColor = UIColor.red
+            newPassword.textColor = UIColor.red
         }
     }
     
     //MARK: - Private Methods
     
-    private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    fileprivate func _failedWithError(_ text: String, completion :((Void) -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
             completion?()
         }))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Keyboard Delegate
     
-    final func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+    final func keyboardWillShow(_ notification: Notification) {
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         var keyboardHeight:CGFloat = keyboardSize.height
         
@@ -149,8 +149,8 @@ class SettingsChangePasswordViewController: UIViewController {
         scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        self.scroll.contentInset = UIEdgeInsets.zero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }

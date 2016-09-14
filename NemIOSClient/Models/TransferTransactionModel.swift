@@ -10,8 +10,8 @@ import SwiftyJSON
 
 /// The different transfer types for a transfer transaction.
 public enum TransferType {
-    case Incoming
-    case Outgoing
+    case incoming
+    case outgoing
 }
 
 /** 
@@ -19,45 +19,45 @@ public enum TransferType {
     Visit the [documentation](http://bob.nem.ninja/docs/#transferTransaction)
     for more information.
  */
-public class TransferTransaction: Transaction {
+open class TransferTransaction: Transaction {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
-    public var type = TransactionType.TransferTransaction
+    open var type = TransactionType.transferTransaction
     
     /// Additional information about the transaction.
-    public var metaData: TransactionMetaData?
+    open var metaData: TransactionMetaData?
     
     /// The version of the transaction.
-    public var version: Int!
+    open var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    public var timeStamp: Int!
+    open var timeStamp: Int!
     
     /// The amount of micro NEM that is transferred from sender to recipient.
-    public var amount: Double!
+    open var amount: Double!
     
     /// The fee for the transaction.
-    public var fee: Int!
+    open var fee: Int!
     
     /// The transfer type of the transaction.
-    public var transferType: TransferType?
+    open var transferType: TransferType?
     
     /// The address of the recipient.
-    public var recipient: String!
+    open var recipient: String!
     
     /// The message of the transaction.
-    public var message: Message?
+    open var message: Message?
     
     /// The deadline of the transaction.
-    public var deadline: Int!
+    open var deadline: Int!
     
     /// The transaction signature.
-    public var signature: String!
+    open var signature: String!
     
     /// The public key of the account that created the transaction.
-    public var signer: String!
+    open var signer: String!
     
     // MARK: - Model Lifecycle
     

@@ -23,18 +23,18 @@ class AddressBookMessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        actionButton.setTitle("SEND_MESSAGE".localized(), forState: UIControlState.Normal)
+        actionButton.setTitle("SEND_MESSAGE".localized(), for: UIControlState())
         
-        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NotificationCenter = NotificationCenter.default
         
-        center.addObserver(self, selector: #selector(AddressBookMessageViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(AddressBookMessageViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AddressBookMessageViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(AddressBookMessageViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         self.view.endEditing(true)
     }
 
@@ -44,15 +44,15 @@ class AddressBookMessageViewController: UIViewController {
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
 //        (self.delegate as! AddCustomContactDelegate).popUpClosed(true)
 
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func sendMessage(sender: AnyObject) {
-        guard let address = userAddressLabel.text?.stringByReplacingOccurrencesOfString("-", withString: "") else { return }
+    @IBAction func sendMessage(_ sender: AnyObject) {
+        guard let address = userAddressLabel.text?.replacingOccurrences(of: "-", with: "") else { return }
 
         if Validate.address(address) {
             let correspondent :_Correspondent = _Correspondent()
@@ -64,7 +64,7 @@ class AddressBookMessageViewController: UIViewController {
 //                ((self.delegate as! AbstractViewController).delegate as! MainVCDelegate).pageSelected(SegueToSendTransaction)
 //            }
             
-            performSegueWithIdentifier("showTransactionSendViewController", sender: nil)
+            performSegue(withIdentifier: "showTransactionSendViewController", sender: nil)
         }
     }
     
@@ -73,9 +73,9 @@ class AddressBookMessageViewController: UIViewController {
     
     //MARK: - Keyboard Delegate
     
-    final func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+    final func keyboardWillShow(_ notification: Notification) {
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         var keyboardHeight:CGFloat = keyboardSize.height
         
@@ -85,8 +85,8 @@ class AddressBookMessageViewController: UIViewController {
         scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        self.scroll.contentInset = UIEdgeInsets.zero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }

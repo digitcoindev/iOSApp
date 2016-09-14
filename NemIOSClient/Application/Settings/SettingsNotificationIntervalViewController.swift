@@ -16,7 +16,7 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var resetButton: UIButton!
     
-    private let _intervals :[Int] = [0, 90, 180, 360, 720, 1440, 2880, 4320, 8640]
+    fileprivate let _intervals :[Int] = [0, 90, 180, 360, 720, 1440, 2880, 4320, 8640]
     
     //MARK: - Load Methods
     
@@ -26,10 +26,10 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
         
-        resetButton.setTitle("RESET".localized(), forState: UIControlState.Normal)
+        resetButton.setTitle("RESET".localized(), for: UIControlState())
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
     }
     
@@ -39,13 +39,13 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func reset(sender: AnyObject) {
-        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+    @IBAction func reset(_ sender: AnyObject) {
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
 
         let loadData = State.loadData
         loadData?.updateInterval = 0
@@ -56,13 +56,13 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
     
     // MARK: - TableViewDelegate Methods
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _intervals.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
-        switch _intervals[indexPath.row] {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ActiveCell = self.tableView.dequeueReusableCell(withIdentifier: "acc cell") as! ActiveCell
+        switch _intervals[(indexPath as NSIndexPath).row] {
         case 0 :
             cell.title.text = "NEVER".localized()
         case 90 :
@@ -85,7 +85,7 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
             break
         }
         
-        if _intervals[indexPath.row] == State.loadData?.updateInterval as! Int {
+        if _intervals[(indexPath as NSIndexPath).row] == State.loadData?.updateInterval as! Int {
             cell.isActive = true
         } else {
             cell.isActive = false
@@ -94,15 +94,15 @@ class SettingsNotificationIntervalViewController: UIViewController, UITableViewD
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 {
-            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).row == 0 {
+            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
         } else {
-            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(NSTimeInterval(_intervals[indexPath.row]))
+            UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(_intervals[(indexPath as NSIndexPath).row]))
         }
 
         let loadData = State.loadData
-        loadData?.updateInterval = _intervals[indexPath.row]
+        loadData?.updateInterval = _intervals[(indexPath as NSIndexPath).row] as NSNumber?
 //        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)

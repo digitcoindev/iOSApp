@@ -37,16 +37,16 @@ class AccountTableViewCell: UITableViewCell {
     // MARK: - Cell Helper Methods
     
     /// Updates the table view cell with the provided title.
-    private func updateCell() {
+    fileprivate func updateCell() {
         
         titleLabel.text = title ?? String()
     }
     
     /// Updates the appearance of the table view cell.
-    private func updateCellAppearance() {
+    fileprivate func updateCellAppearance() {
         
         preservesSuperviewLayoutMargins = false
-        separatorInset = UIEdgeInsetsZero
-        layoutMargins = UIEdgeInsetsZero
+        separatorInset = UIEdgeInsets.zero
+        layoutMargins = UIEdgeInsets.zero
     }
 }

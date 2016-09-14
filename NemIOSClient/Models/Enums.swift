@@ -23,13 +23,13 @@ enum QRKeys: String {
 }
 
 enum QRType: Int {
-    case UserData = 1
-    case Invoice = 2
-    case AccountData = 3
+    case userData = 1
+    case invoice = 2
+    case accountData = 3
 }
 
 enum _MessageType: Int {
-    case Normal = 1
-    case Ecrypted = 2
-    case Hex = 3
+    case normal = 1
+    case ecrypted = 2
+    case hex = 3
 }

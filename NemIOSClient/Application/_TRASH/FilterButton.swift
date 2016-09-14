@@ -2,7 +2,7 @@ import UIKit
 
 class FilterButton: UIButton {
     
-    private var _isFilterActive = true
+    fileprivate var _isFilterActive = true
     
     var isFilterActive :Bool {
         get {
@@ -13,7 +13,7 @@ class FilterButton: UIButton {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.addTarget(self, action: #selector(FilterButton.touchUpInside), forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: #selector(FilterButton.touchUpInside), for: UIControlEvents.touchUpInside)
     }
     
     final func touchUpInside() {
@@ -21,7 +21,7 @@ class FilterButton: UIButton {
         setFilterToState(nil)
     }
     
-    final func setFilterToState(active: Bool?) {
+    final func setFilterToState(_ active: Bool?) {
         
         if active != nil {
             _isFilterActive = active!
@@ -30,10 +30,10 @@ class FilterButton: UIButton {
         }
         
         if _isFilterActive {
-            self.setImage(UIImage(named: "logo _active"), forState: UIControlState.Normal)
+            self.setImage(UIImage(named: "logo _active"), for: UIControlState())
         }
         else {
-            self.setImage(UIImage(named: "logo _passive"), forState: UIControlState.Normal)
+            self.setImage(UIImage(named: "logo _passive"), for: UIControlState())
         }
     }
 }

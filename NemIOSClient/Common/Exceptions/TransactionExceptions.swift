@@ -10,6 +10,6 @@ import Foundation
 /**
  
  */
-public enum TransactionAnnounceValidation: ErrorType {
-    case Failure(errorMessage: String)
+public enum TransactionAnnounceValidation: Error {
+    case failure(errorMessage: String)
 }

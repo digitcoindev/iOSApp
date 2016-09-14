@@ -28,8 +28,8 @@ class TransactionUnconfirmedTableViewCell: UITableViewCell
         
         fromLabel.text = "FROM".localized() + ":"
         toLabel.text = "TO".localized() + ":"
-        confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
-        showChanges?.setTitle("SHOW_CHANGES".localized(), forState: UIControlState.Normal)
+        confirm.setTitle("CONFIRM".localized(), for: UIControlState())
+        showChanges?.setTitle("SHOW_CHANGES".localized(), for: UIControlState())
         
         fromAccount.text = ""
         toAccount.text = ""
@@ -45,14 +45,14 @@ class TransactionUnconfirmedTableViewCell: UITableViewCell
         self.layer.cornerRadius = 10
     }
 
-    @IBAction func confirmTouchUpInside(sender: AnyObject) {
+    @IBAction func confirmTouchUpInside(_ sender: AnyObject) {
         self.delegate?.confirmTransactionAtIndex(self.tag)
     }
-    @IBAction func showTouchUpInside(sender: AnyObject) {
+    @IBAction func showTouchUpInside(_ sender: AnyObject) {
         self.delegate?.showTransactionAtIndex(self.tag)
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }

@@ -20,7 +20,7 @@ class MessagesButtonTypeOne: UIButton {
         }
         
         if let imageView = self.imageView {
-            imageView.contentMode =  UIViewContentMode.ScaleAspectFit
+            imageView.contentMode =  UIViewContentMode.scaleAspectFit
             imageView.frame = CGRect(x: titleLabel!.frame.origin.x + titleLabel!.frame.width + 5, y: 0, width: self.frame.width / 2 , height: self.frame.height)
         }
     }

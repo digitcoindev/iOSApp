@@ -34,13 +34,13 @@ class AddressBookContactTableViewCell: UITableViewCell {
     // MARK: - Cell Helper Methods
     
     /// Updates the table view cell with the provided contact data.
-    private func updateCell() {
+    fileprivate func updateCell() {
         
         titleLabel.text = "\(contact.givenName) \(contact.familyName)"
     }
     
     /// Updates the appearance of the table view cell.
-    private func updateCellAppearance() {
+    fileprivate func updateCellAppearance() {
         
         titleLabel.text = String()
     }

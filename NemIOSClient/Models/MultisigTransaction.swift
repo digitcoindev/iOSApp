@@ -10,26 +10,26 @@ class _MultisigTransaction: TransactionPostMetaData
         type = multisigTransaction
     }
     
-    final override func getFrom(dictionary: NSDictionary) {
-        if dictionary.objectForKey("signature") != nil {
-            self.signature = dictionary.objectForKey("signature") as! String
+    final override func getFrom(_ dictionary: NSDictionary) {
+        if dictionary.object(forKey: "signature") != nil {
+            self.signature = dictionary.object(forKey: "signature") as! String
         }
         
-        for dic in dictionary.objectForKey("signatures") as! [NSDictionary] {
+        for dic in dictionary.object(forKey: "signatures") as! [NSDictionary] {
             let sign :Signature = Signature().fromDictionary(dic)
             self.signatures.append(sign)
         }
         
-        self.timeStamp  = dictionary.objectForKey("timeStamp") as! Double
-        self.fee = dictionary.objectForKey("fee") as! Double
-        self.type = dictionary.objectForKey("type") as! Int
-        self.deadline = dictionary.objectForKey("deadline") as! Double
-        self.version = dictionary.objectForKey("version") as! Double
-        self.signer = dictionary.objectForKey("signer") as! String
+        self.timeStamp  = dictionary.object(forKey: "timeStamp") as! Double
+        self.fee = dictionary.object(forKey: "fee") as! Double
+        self.type = dictionary.object(forKey: "type") as! Int
+        self.deadline = dictionary.object(forKey: "deadline") as! Double
+        self.version = dictionary.object(forKey: "version") as! Double
+        self.signer = dictionary.object(forKey: "signer") as! String
         
-        let innerDictionary :NSDictionary = dictionary.objectForKey("otherTrans") as! NSDictionary
+        let innerDictionary :NSDictionary = dictionary.object(forKey: "otherTrans") as! NSDictionary
          
-        switch(innerDictionary.objectForKey("type") as! Int) {
+        switch(innerDictionary.object(forKey: "type") as! Int) {
             
         case transferTransaction:
             let transaction :_TransferTransaction = _TransferTransaction()

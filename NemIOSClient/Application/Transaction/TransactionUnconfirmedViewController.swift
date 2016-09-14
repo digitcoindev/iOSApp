@@ -14,18 +14,18 @@ class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegat
     
     var walletData :AccountGetMetaData!
     var unconfirmedTransactions  :[TransactionPostMetaData] = [TransactionPostMetaData]()
-    private var _apiManager :APIManager = APIManager()
+    fileprivate var _apiManager :APIManager = APIManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         _apiManager.delegate = self
         
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        State.currentVC = SegueToUnconfirmedTransactionVC
         
@@ -36,13 +36,13 @@ class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegat
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return unconfirmedTransactions.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let transaction :_MultisigTransaction = unconfirmedTransactions[indexPath.row] as! _MultisigTransaction
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let transaction :_MultisigTransaction = unconfirmedTransactions[(indexPath as NSIndexPath).row] as! _MultisigTransaction
         
         switch (transaction.innerTransaction.type) {
         case transferTransaction:
@@ -57,29 +57,29 @@ class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegat
         return 344
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let transaction :_MultisigTransaction = unconfirmedTransactions[indexPath.row] as! _MultisigTransaction
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let transaction :_MultisigTransaction = unconfirmedTransactions[(indexPath as NSIndexPath).row] as! _MultisigTransaction
         
         switch (transaction.innerTransaction.type) {
         case transferTransaction:
             let innerTransaction = (transaction.innerTransaction) as! _TransferTransaction
-            let cell : TransactionUnconfirmedTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("transferTransaction") as! TransactionUnconfirmedTableViewCell
+            let cell : TransactionUnconfirmedTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "transferTransaction") as! TransactionUnconfirmedTableViewCell
             cell.fromAccount.text = AddressGenerator.generateAddress(innerTransaction.signer).nemName()
             cell.toAccount.text = innerTransaction.recipient.nemName()
             cell.message.text = innerTransaction.message.getMessageString() ?? "ENCRYPTED_MESSAGE".localized()
             cell.delegate = self
             cell.xem.text = "\(innerTransaction.amount / 1000000) XEM"
             
-            cell.tag = indexPath.row
+            cell.tag = (indexPath as NSIndexPath).row
             
             return cell
             
         case multisigAggregateModificationTransaction:
             
             let innerTrnsaction :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
-            let cell : TransactionUnconfirmedTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("multisigAggregateModificationTransaction") as! TransactionUnconfirmedTableViewCell
+            let cell : TransactionUnconfirmedTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "multisigAggregateModificationTransaction") as! TransactionUnconfirmedTableViewCell
             cell.delegate = self
-            cell.tag = indexPath.row
+            cell.tag = (indexPath as NSIndexPath).row
             cell.fromAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)
             cell.toAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)
             
@@ -91,7 +91,7 @@ class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegat
         return UITableViewCell()
     }
     
-    final func confirmTransactionAtIndex(index: Int){
+    final func confirmTransactionAtIndex(_ index: Int){
         if unconfirmedTransactions.count > index {
             let transaction :_MultisigTransaction = unconfirmedTransactions[index] as! _MultisigTransaction
             
@@ -132,7 +132,7 @@ class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegat
         }
     }
     
-    final func showTransactionAtIndex(index: Int){
+    final func showTransactionAtIndex(_ index: Int){
         var text :String = "ACCOUNT".localized() + " : "
         
         let transaction :AggregateModificationTransaction = (unconfirmedTransactions[index] as! _MultisigTransaction).innerTransaction as! AggregateModificationTransaction
@@ -151,60 +151,60 @@ class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegat
             }
         }
         
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Destructive) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.destructive) {
             alertAction -> Void in
         }
         
         alert.addAction(ok)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    private final func _showPopUp(message :String){
+    fileprivate final func _showPopUp(_ message :String){
         
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default) {
             alertAction -> Void in
             
         }
         
         alert.addAction(ok)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - APIManagerDelegate Methods
     
-    final func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+    final func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
         if let responceAccount = account {
             walletData = responceAccount
-            unconfirmedTransactions.removeAll(keepCapacity: false)
+            unconfirmedTransactions.removeAll(keepingCapacity: false)
             _apiManager.unconfirmedTransactions(State.currentServer!, account_address: walletData.address)
         }
     }
     
-    final func unconfirmedTransactionsResponceWithTransactions(data: [TransactionPostMetaData]?) {
+    final func unconfirmedTransactionsResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         if let data = data {
             unconfirmedTransactions = data
             let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
             
             for var i = 0 ; i < unconfirmedTransactions.count ; i += 1 {
                 if unconfirmedTransactions[i].type != multisigTransaction {
-                    unconfirmedTransactions.removeAtIndex(i)
+                    unconfirmedTransactions.remove(at: i)
                     i -= 1
                 }
                 else {
                     let transaction :_MultisigTransaction = unconfirmedTransactions[i] as! _MultisigTransaction
 
                     if transaction.innerTransaction.type != transferTransaction && transaction.innerTransaction.type != multisigAggregateModificationTransaction {
-                        unconfirmedTransactions.removeAtIndex(i)
+                        unconfirmedTransactions.remove(at: i)
                         i -= 1
                         continue
                     }
                     
                     if transaction.signer == walletData.publicKey{
-                        unconfirmedTransactions.removeAtIndex(i)
+                        unconfirmedTransactions.remove(at: i)
                         i -= 1
                         continue
                     }
@@ -212,20 +212,20 @@ class TransactionUnconfirmedViewController: UIViewController ,UITableViewDelegat
                     for sign in transaction.signatures {
                         if publicKey == sign.signer
                         {
-                            unconfirmedTransactions.removeAtIndex(i)
+                            unconfirmedTransactions.remove(at: i)
                             i -= 1
                             break
                         }
                     }
                 }
             }
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.tableView.reloadData()
             })
         }
     }
     
-    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+    func prepareAnnounceResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         
         var message :String = ""
         if (data ?? []).isEmpty {

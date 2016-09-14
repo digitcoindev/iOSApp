@@ -9,7 +9,7 @@ import UIKit
 
 protocol ChangeNamePopUptDelegate
 {
-    func nameChanged(name :String)
+    func nameChanged(_ name :String)
     func popUpClosed()
 }
 
@@ -29,12 +29,12 @@ class AccountChangeNameViewController: UIViewController {
         super.viewDidLoad()
         
         newName.placeholder = "   " + "INPUT_NEW_ACCOUNT_NAME".localized()
-        saveBtn.setTitle("CHANGE".localized(), forState: UIControlState.Normal)
+        saveBtn.setTitle("CHANGE".localized(), for: UIControlState())
         
-        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NotificationCenter = NotificationCenter.default
         
-        center.addObserver(self, selector: #selector(AccountChangeNameViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(AccountChangeNameViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(AccountChangeNameViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(AccountChangeNameViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -47,15 +47,15 @@ class AccountChangeNameViewController: UIViewController {
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
 //        (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
     }
     
-    @IBAction func didEndEditingOnWxit(sender: UITextField) {
+    @IBAction func didEndEditingOnWxit(_ sender: UITextField) {
         sender.endEditing(true)
     }
     
-    @IBAction func changeName(sender: AnyObject) {
+    @IBAction func changeName(_ sender: AnyObject) {
         if Validate.stringNotEmpty(newName.text) {
 //            nameChanged(newName.text!)
 //            (self.delegate as! ChangeNamePopUptDelegate).popUpClosed()
@@ -64,9 +64,9 @@ class AccountChangeNameViewController: UIViewController {
     
     //MARK: - Keyboard Delegate
     
-    final func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+    final func keyboardWillShow(_ notification: Notification) {
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         var keyboardHeight:CGFloat = keyboardSize.height
         
@@ -76,8 +76,8 @@ class AccountChangeNameViewController: UIViewController {
         scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        self.scroll.contentInset = UIEdgeInsets.zero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }

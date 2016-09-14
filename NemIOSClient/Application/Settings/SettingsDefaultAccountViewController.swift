@@ -26,10 +26,10 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
         
-        resetButton.setTitle("RESET".localized(), forState: UIControlState.Normal)
+        resetButton.setTitle("RESET".localized(), for: UIControlState())
 
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
     }
     
@@ -39,12 +39,12 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func reset(sender: AnyObject) {
+    @IBAction func reset(_ sender: AnyObject) {
         let loadData = State.loadData
         loadData?.currentWallet = nil
 //        CoreDataManager().commit()
@@ -54,13 +54,13 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
     
     // MARK: - TableViewDelegate Methods
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return _accounts.count
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ActiveCell = self.tableView.dequeueReusableCell(withIdentifier: "acc cell") as! ActiveCell
 
 //        cell.title.text = _accounts[indexPath.row].login
 //        if (_accounts[indexPath.row].privateKey == State.loadData?.currentWallet?.privateKey) && (_accounts[indexPath.row].login == State.loadData?.currentWallet?.login) {
@@ -72,7 +72,7 @@ class SettingsDefaultAccountViewController: UIViewController, UITableViewDataSou
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         let loadData = State.loadData
 //        loadData?.currentWallet = _accounts[indexPath.row]

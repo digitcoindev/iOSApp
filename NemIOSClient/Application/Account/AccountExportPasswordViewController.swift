@@ -29,22 +29,22 @@ class AccountExportPasswordViewController: UIViewController
         passwordTitle.text = "ENTET_PASSWORD_EXPORT".localized()
         password.placeholder = "PASSWORD_PLACEHOLDER".localized()
         passwordLabel.text = "PASSWORD_PLACEHOLDER_EXPORT".localized()
-        confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
+        confirm.setTitle("CONFIRM".localized(), for: UIControlState())
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
 //        State.currentVC = SegueToPasswordExport
     }
     
     // MARK: - IBAction
     
-    @IBAction func switchChanged(sender: UISwitch) {
+    @IBAction func switchChanged(_ sender: UISwitch) {
         var height :CGFloat = 0
         
-        if sender.on {
+        if sender.isOn {
             height = 100
             password.text = ""
             password.endEditing(true)
@@ -58,30 +58,30 @@ class AccountExportPasswordViewController: UIViewController
                 break
             }
         }
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.view.layoutIfNeeded()
-        }
+        }) 
     }
     
-    @IBAction func passwordValidation(sender: AnyObject) {
+    @IBAction func passwordValidation(_ sender: AnyObject) {
         password.endEditing(true)
         
         _prepareForExport()
     }
     
-    @IBAction func hideKeyBoard(sender: AnyObject) {
+    @IBAction func hideKeyBoard(_ sender: AnyObject) {
         (sender as! UITextField).becomeFirstResponder()
     }
     // MARK: - Private Methods
     
-    private func _prepareForExport() {
+    fileprivate func _prepareForExport() {
         
-        if !passwordSwitch.on && !Validate.stringNotEmpty(password.text){
+        if !passwordSwitch.isOn && !Validate.stringNotEmpty(password.text){
             _failedWithError("FIELDS_EMPTY_ERROR".localized())
             return
         }
         
-        if !passwordSwitch.on && !Validate.password(password.text!) {
+        if !passwordSwitch.isOn && !Validate.password(password.text!) {
             _failedWithError("PASSOWORD_LENGTH_ERROR".localized())
             return
         }
@@ -93,18 +93,18 @@ class AccountExportPasswordViewController: UIViewController
         
         if password.text != "" {
             let privateKey = HashManager.AES256Decrypt(privateKey_AES, key: State.loadData!.password!)
-            let saltData = NSData(bytes: salt.asByteArray())
-            let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+            let saltData = Data(bytes: salt.asByteArray())
+            let passwordHash :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
             privateKey_AES = HashManager.AES256Encrypt(privateKey!, key: passwordHash!.hexadecimalString())
         }
         
         let objects = [login, salt, privateKey_AES]
         let keys = [QRKeys.Name.rawValue, QRKeys.Salt.rawValue, QRKeys.PrivateKey.rawValue]
         
-        let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys)
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.AccountData.rawValue, jsonAccountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
-        let jsonData :NSData = try! NSJSONSerialization.dataWithJSONObject(jsonDictionary, options: NSJSONWritingOptions())
-        let jsonString :String = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as! String
+        let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys as [NSCopying])
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.accountData.rawValue, jsonAccountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
+        let jsonData :Data = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions())
+        let jsonString :String = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
         
         State.exportAccount = jsonString
         
@@ -112,17 +112,17 @@ class AccountExportPasswordViewController: UIViewController
 //            (self.delegate as! MainVCDelegate).pageSelected(SegueToExportAccount)
 //        }
         
-        performSegueWithIdentifier("showAccountExportViewController", sender: nil)
+        performSegue(withIdentifier: "showAccountExportViewController", sender: nil)
     }
     
-    private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    fileprivate func _failedWithError(_ text: String, completion :((Void) -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
             completion?()
         }))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 }

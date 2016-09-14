@@ -36,7 +36,7 @@ class AccountExportWarningViewController: UIViewController {
         ]
         
         message = "PRIVATE_KEY_SECURITY_WARNING_PART_TWO".localized()
-        atributedText.appendAttributedString(NSMutableAttributedString(string: message, attributes: atributes))
+        atributedText.append(NSMutableAttributedString(string: message, attributes: atributes))
         
         atributes = [
             NSFontAttributeName:fontLight
@@ -44,7 +44,7 @@ class AccountExportWarningViewController: UIViewController {
         
         
         message = "PRIVATE_KEY_SECURITY_WARNING_PART_THREE".localized()
-        atributedText.appendAttributedString(NSMutableAttributedString(string: message, attributes: atributes))
+        atributedText.append(NSMutableAttributedString(string: message, attributes: atributes))
         
         atributes = [
             NSForegroundColorAttributeName : color,
@@ -52,11 +52,11 @@ class AccountExportWarningViewController: UIViewController {
         ]
         
         message = "PRIVATE_KEY_SECURITY_WARNING_PART_FOUR".localized()
-        atributedText.appendAttributedString(NSMutableAttributedString(string: message, attributes: atributes))
+        atributedText.append(NSMutableAttributedString(string: message, attributes: atributes))
         
         warningMessageText.attributedText = atributedText
         
-        saveBtn.setTitle("SHOW_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
+        saveBtn.setTitle("SHOW_PRIVATE_KEY".localized(), for: UIControlState())
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
@@ -68,12 +68,12 @@ class AccountExportWarningViewController: UIViewController {
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func showKey(sender: AnyObject) {
+    @IBAction func showKey(_ sender: AnyObject) {
         
 //        (self.delegate as! AccountExportViewController).showPrivateKeyButn.setTitle("HIDE_PRIVATE_KEY".localized(), forState: UIControlState.Normal)
 //        (self.delegate as! AccountExportViewController).privateKey.hidden = false

@@ -14,35 +14,35 @@ class DashboardContainer: UIViewController
         super.didReceiveMemoryWarning()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
 //        if self.delegate != nil {
 //            (segue.destinationViewController as! UIViewController).delegate = self.delegate
 //        }
         
         if (self.childViewControllers.count > 0) {
-            self.swapFromViewController(self.childViewControllers.first!, toViewController: segue.destinationViewController)
+            self.swapFromViewController(self.childViewControllers.first!, toViewController: segue.destination)
         }
         else {
-            self.addChildViewController(segue.destinationViewController )
-            (segue.destinationViewController ).view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-            self.view.addSubview((segue.destinationViewController ).view)
-            segue.destinationViewController.didMoveToParentViewController(self)
+            self.addChildViewController(segue.destination )
+            (segue.destination ).view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            self.view.addSubview((segue.destination ).view)
+            segue.destination.didMove(toParentViewController: self)
         }
         
     }
     
-    func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController ) {
-        toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-        fromViewController.willMoveToParentViewController(nil)
+    func swapFromViewController(_ fromViewController :UIViewController , toViewController :UIViewController ) {
+        toViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        fromViewController.willMove(toParentViewController: nil)
         self.addChildViewController(toViewController)
-        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionNone, animations: {
+        self.transition(from: fromViewController, to: toViewController, duration: 0.5, options: UIViewAnimationOptions(), animations: {
                 value in
             }
             , completion: {
                 finish in
                 
                 fromViewController.removeFromParentViewController()
-                toViewController.didMoveToParentViewController(self)
+                toViewController.didMove(toParentViewController: self)
         })
     }
     

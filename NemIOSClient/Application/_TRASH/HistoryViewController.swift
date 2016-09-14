@@ -6,13 +6,13 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var chouseButton: AccountChooserButton!
     
-    private var _modifications :[AggregateModificationTransaction] = []
-    private var _mainAccount :AccountGetMetaData? = nil
-    private var _activeAccount :AccountGetMetaData? = nil
-    private var _currentCosignatories :[String] = []
-    private var _contentViews :[UIViewController] = []
+    fileprivate var _modifications :[AggregateModificationTransaction] = []
+    fileprivate var _mainAccount :AccountGetMetaData? = nil
+    fileprivate var _activeAccount :AccountGetMetaData? = nil
+    fileprivate var _currentCosignatories :[String] = []
+    fileprivate var _contentViews :[UIViewController] = []
 
-    private let _apiManager :APIManager =  APIManager()
+    fileprivate let _apiManager :APIManager =  APIManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData()
 //        State.currentVC = SegueToHistoryVC
 
@@ -71,63 +71,63 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
 //        }
 //    }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return _modifications.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _modifications[section].modifications.count + 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let  cell = tableView.dequeueReusableCellWithIdentifier("title") as! KeyCell
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).row == 0 {
+            let  cell = tableView.dequeueReusableCell(withIdentifier: "title") as! KeyCell
             
-            let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: [UIRectCorner.TopLeft, UIRectCorner.TopRight], cornerRadii: CGSizeMake(10, 10))
+            let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: [UIRectCorner.topLeft, UIRectCorner.topRight], cornerRadii: CGSize(width: 10, height: 10))
             let maskLayer :CAShapeLayer = CAShapeLayer()
             maskLayer.frame = cell.bounds
-            maskLayer.path = maskPath.CGPath
+            maskLayer.path = maskPath.cgPath
             cell.layer.mask = maskLayer
             cell.layer.masksToBounds = true
 
             cell.key.text = ""
             
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            var timeStamp = Double(_modifications[indexPath.section].timeStamp )
+            var timeStamp = Double(_modifications[(indexPath as NSIndexPath).section].timeStamp )
             
             timeStamp += genesis_block_time
             
-            cell.key.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
+            cell.key.text = dateFormatter.string(from: Date(timeIntervalSince1970: timeStamp))
             
             return cell
         }
         else {
-            let modification :AccountModification = _modifications[indexPath.section].modifications[indexPath.row - 1]
+            let modification :AccountModification = _modifications[(indexPath as NSIndexPath).section].modifications[(indexPath as NSIndexPath).row - 1]
             var cell :KeyCell? = nil
             if modification.modificationType == 1 {
-                cell = self.tableView.dequeueReusableCellWithIdentifier("add") as? KeyCell
+                cell = self.tableView.dequeueReusableCell(withIdentifier: "add") as? KeyCell
                 
                 cell!.key.text = ""
-                cell!.cellIndex = indexPath.row
+                cell!.cellIndex = (indexPath as NSIndexPath).row
                 
                 cell!.key.text = modification.publicKey
             }
             else {
-                cell = self.tableView.dequeueReusableCellWithIdentifier("delete") as? KeyCell
+                cell = self.tableView.dequeueReusableCell(withIdentifier: "delete") as? KeyCell
                 
                 cell!.key.text = ""
-                cell!.cellIndex = indexPath.row
+                cell!.cellIndex = (indexPath as NSIndexPath).row
                 
                 cell!.key.text = modification.publicKey
             }
             
-            if indexPath.row == _modifications[indexPath.section].modifications.count && cell != nil {
-                let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: [UIRectCorner.BottomLeft, UIRectCorner.BottomRight], cornerRadii: CGSizeMake(10, 10))
+            if (indexPath as NSIndexPath).row == _modifications[(indexPath as NSIndexPath).section].modifications.count && cell != nil {
+                let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight], cornerRadii: CGSize(width: 10, height: 10))
                 let maskLayer :CAShapeLayer = CAShapeLayer()
                 maskLayer.frame = cell!.bounds
-                maskLayer.path = maskPath.CGPath
+                maskLayer.path = maskPath.cgPath
                 cell!.layer.mask = maskLayer
                 cell!.layer.masksToBounds = true
             }
@@ -138,7 +138,7 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
     
     //MARK: - AccountChousePopUp Methods
     
-    func didChouseAccount(account: AccountGetMetaData) {
+    func didChouseAccount(_ account: AccountGetMetaData) {
         
         if _contentViews.count > 0 {
             _contentViews.first?.view.removeFromSuperview()
@@ -147,16 +147,16 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
         
         _activeAccount = account
         _apiManager.accountTransfersAll(State.currentServer!, account_address: account.address)
-        chouseButton.setTitle(account.address, forState: UIControlState.Normal)
+        chouseButton.setTitle(account.address, for: UIControlState())
     }
     
     //MARK: - APIManagerDelegate Methods
     
-    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+    func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
         
         if account != nil {
             
-            chouseButton.setTitle(account?.address, forState: UIControlState.Normal)
+            chouseButton.setTitle(account?.address, for: UIControlState())
             
             if _mainAccount == nil {
                 _mainAccount = account
@@ -167,7 +167,7 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
         }
     }
     
-    func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
+    func accountTransfersAllResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         
         _modifications.removeAll()
         
@@ -197,7 +197,7 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
             }
         }
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.tableView.reloadData()
         }
     }

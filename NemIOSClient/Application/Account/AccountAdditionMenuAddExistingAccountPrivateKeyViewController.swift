@@ -15,8 +15,8 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
     
     // MARK: - View Controller Properties
     
-    private var accountTitle = String()
-    private var accountPrivateKey = String()
+    fileprivate var accountTitle = String()
+    fileprivate var accountPrivateKey = String()
     
     // MARK: - View Controller Outlets
 
@@ -36,35 +36,35 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    fileprivate func updateViewControllerAppearance() {
         
         title = "IMPORT_FROM_KEY".localized()
         accountPrivateKeyTextField.placeholder = "PRIVATE_KEY".localized()
         accountTitleTextField.placeholder = "NAME".localized()
-        addAccountButton.setTitle("ADD_ACCOUNT".localized(), forState: UIControlState.Normal)
+        addAccountButton.setTitle("ADD_ACCOUNT".localized(), for: UIControlState())
         
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
     }
     
     /// Adds all needed keyboard observers to the view controller.
-    private func addKeyboardObserver() {
+    fileprivate func addKeyboardObserver() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AccountAdditionMenuAddExistingAccountPrivateKeyViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AccountAdditionMenuAddExistingAccountPrivateKeyViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountAdditionMenuAddExistingAccountPrivateKeyViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountAdditionMenuAddExistingAccountPrivateKeyViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     /// Makes the scroll view scrollable as soon as the keyboard shows.
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         
-        let info: NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let info: NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         var keyboardHeight:CGFloat = keyboardSize.height
         keyboardHeight -= self.view.frame.height - self.scrollView.frame.height
         
@@ -73,9 +73,9 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
     }
     
     /// Resets the scroll view as soon as the keyboard hides.
-    func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = UIEdgeInsetsZero
-        scrollView.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        scrollView.contentInset = UIEdgeInsets.zero
+        scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
     /**
@@ -88,13 +88,13 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
      
         - Returns: A bool indicating that the validation was successful.
      */
-    private func validateEntries() throws -> Bool {
+    fileprivate func validateEntries() throws -> Bool {
         
-        guard let accountTitle = accountTitleTextField.text else { throw AccountImportValidation.ValueMissing }
-        guard let accountPrivateKey = accountPrivateKeyTextField.text else { throw AccountImportValidation.ValueMissing }
-        guard accountTitle != String() else { throw AccountImportValidation.ValueMissing }
-        guard accountPrivateKey != String() else { throw AccountImportValidation.ValueMissing }
-        guard let accountPrivateKeyNormalized = accountPrivateKey.nemKeyNormalized() else { throw AccountImportValidation.InvalidPrivateKey }
+        guard let accountTitle = accountTitleTextField.text else { throw AccountImportValidation.valueMissing }
+        guard let accountPrivateKey = accountPrivateKeyTextField.text else { throw AccountImportValidation.valueMissing }
+        guard accountTitle != String() else { throw AccountImportValidation.valueMissing }
+        guard accountPrivateKey != String() else { throw AccountImportValidation.valueMissing }
+        guard let accountPrivateKeyNormalized = accountPrivateKey.nemKeyNormalized() else { throw AccountImportValidation.invalidPrivateKey }
         
         do {
             try AccountManager.sharedInstance.validateAccountExistence(forAccountWithPrivateKey: accountPrivateKeyNormalized)
@@ -102,8 +102,8 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
             self.accountTitle = accountTitle
             self.accountPrivateKey = accountPrivateKeyNormalized
             
-        } catch AccountImportValidation.AccountAlreadyPresent(let existingAccountTitle) {
-            throw AccountImportValidation.AccountAlreadyPresent(accountTitle: existingAccountTitle)
+        } catch AccountImportValidation.accountAlreadyPresent(let existingAccountTitle) {
+            throw AccountImportValidation.accountAlreadyPresent(accountTitle: existingAccountTitle)
         }
         
         return true
@@ -111,7 +111,7 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
     
     // MARK: - View Controller Outlet Actions
     
-    @IBAction func importAccount(sender: UIButton) {
+    @IBAction func importAccount(_ sender: UIButton) {
         
         do {
             try validateEntries()
@@ -119,66 +119,66 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
             AccountManager.sharedInstance.create(account: accountTitle, withPrivateKey: accountPrivateKey, completion: { (result) in
                 
                 switch result {
-                case .Success:
-                    self.performSegueWithIdentifier("unwindToAccountListViewController", sender: nil)
+                case .success:
+                    self.performSegue(withIdentifier: "unwindToAccountListViewController", sender: nil)
                     
-                case .Failure:
-                    let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .Alert)
+                case .failure:
+                    let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
                     
-                    accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: nil))
+                    accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
                     
-                    self.presentViewController(accountCreationFailureAlert, animated: true, completion: nil)
+                    self.present(accountCreationFailureAlert, animated: true, completion: nil)
                 }
             })
             
-        } catch AccountImportValidation.ValueMissing {
+        } catch AccountImportValidation.valueMissing {
             
-            let importAccountValueMissingAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+            let importAccountValueMissingAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), preferredStyle: UIAlertControllerStyle.alert)
             
-            importAccountValueMissingAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+            importAccountValueMissingAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
             
-            presentViewController(importAccountValueMissingAlert, animated: true, completion: nil)
+            present(importAccountValueMissingAlert, animated: true, completion: nil)
             
-        } catch AccountImportValidation.InvalidPrivateKey {
+        } catch AccountImportValidation.invalidPrivateKey {
             
-            let importAccountInvalidPrivateKeyAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: "PRIVATE_KEY_ERROR_1".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+            let importAccountInvalidPrivateKeyAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: "PRIVATE_KEY_ERROR_1".localized(), preferredStyle: UIAlertControllerStyle.alert)
             
-            importAccountInvalidPrivateKeyAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+            importAccountInvalidPrivateKeyAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
             
-            presentViewController(importAccountInvalidPrivateKeyAlert, animated: true, completion: nil)
+            present(importAccountInvalidPrivateKeyAlert, animated: true, completion: nil)
             
-        } catch AccountImportValidation.AccountAlreadyPresent(let existingAccountTitle) {
+        } catch AccountImportValidation.accountAlreadyPresent(let existingAccountTitle) {
             
-            let importAccountAlreadyPresentAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[existingAccountTitle]), preferredStyle: UIAlertControllerStyle.Alert)
+            let importAccountAlreadyPresentAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[existingAccountTitle]), preferredStyle: UIAlertControllerStyle.alert)
             
-            importAccountAlreadyPresentAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+            importAccountAlreadyPresentAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
             
-            presentViewController(importAccountAlreadyPresentAlert, animated: true, completion: nil)
+            present(importAccountAlreadyPresentAlert, animated: true, completion: nil)
             
         } catch {
             
-            let importAccountOtherAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: "Couldn't add account", preferredStyle: UIAlertControllerStyle.Alert)
+            let importAccountOtherAlert: UIAlertController = UIAlertController(title: "VALIDATION".localized(), message: "Couldn't add account", preferredStyle: UIAlertControllerStyle.alert)
             
-            importAccountOtherAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+            importAccountOtherAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
             
-            presentViewController(importAccountOtherAlert, animated: true, completion: nil)
+            present(importAccountOtherAlert, animated: true, completion: nil)
         }
     }
     
-    @IBAction func textFieldFocused(sender: UITextField) {
+    @IBAction func textFieldFocused(_ sender: UITextField) {
         validateTextField(sender)
-        scrollView.scrollRectToVisible(sender.convertRect(sender.frame, toView: self.view), animated: true)
+        scrollView.scrollRectToVisible(sender.convert(sender.frame, to: self.view), animated: true)
     }
     
-    @IBAction func validateTextField(sender: UITextField){
+    @IBAction func validateTextField(_ sender: UITextField){
         
         switch sender {
         case accountPrivateKeyTextField:
             
             if AccountManager.sharedInstance.validateKey(accountPrivateKeyTextField.text!) {
-                sender.textColor = UIColor.greenColor()
+                sender.textColor = UIColor.green
             } else {
-                sender.textColor = UIColor.redColor()
+                sender.textColor = UIColor.red
             }
             
         default:
@@ -186,7 +186,7 @@ class AccountAdditionMenuAddExistingAccountPrivateKeyViewController: UIViewContr
         }
     }
     
-    @IBAction func changeTextField(sender: UITextField) {
+    @IBAction func changeTextField(_ sender: UITextField) {
         
         switch sender {
         case accountPrivateKeyTextField:

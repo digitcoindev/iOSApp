@@ -10,15 +10,15 @@ import UIKit
 
 protocol DetailedTableViewCellDelegate: class
 {
-    func showDetailsForCell(cell: DetailedTableViewCell)
-    func hideDetailsForCell(cell: DetailedTableViewCell)
+    func showDetailsForCell(_ cell: DetailedTableViewCell)
+    func hideDetailsForCell(_ cell: DetailedTableViewCell)
 }
 
 class DetailedTableViewCell: AbstactTableViewCell {
     
     // MARK: internal variables
     
-    internal let _detailedView: UIView? = UIView(frame: CGRectZero)
+    internal let _detailedView: UIView? = UIView(frame: CGRect.zero)
     
     // MARK: properties
     
@@ -40,15 +40,15 @@ class DetailedTableViewCell: AbstactTableViewCell {
             let duration = (_detailsIsShown == newValue) ? 0.01 : 0.2
             _detailsIsShown = newValue
             
-            UIView.animateWithDuration(duration) { () -> Void in
+            UIView.animate(withDuration: duration, animations: { () -> Void in
                 self.layoutSubviews()
-            }
+            }) 
         }
     }
     
     // MARK: private variables
     
-    private var _detailsIsShown : Bool? = nil
+    fileprivate var _detailsIsShown : Bool? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,11 +57,11 @@ class DetailedTableViewCell: AbstactTableViewCell {
         
         
         let swipeRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(DetailedTableViewCell.handleSwipeGesturesRight(_:)))
-        swipeRecognizerRight.direction = .Right
+        swipeRecognizerRight.direction = .right
         self.addGestureRecognizer(swipeRecognizerRight)
         
         let swipeRecognizerLeft = UISwipeGestureRecognizer(target: self, action: #selector(DetailedTableViewCell.handleSwipeGesturesLeft(_:)))
-        swipeRecognizerLeft.direction = .Left
+        swipeRecognizerLeft.direction = .left
         self.addGestureRecognizer(swipeRecognizerLeft)
         
         
@@ -81,20 +81,20 @@ class DetailedTableViewCell: AbstactTableViewCell {
         _contentView?.frame = CGRect(x: 0, y: 0, width: _detailedView!.frame.origin.x , height: self.frame.height)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     // MARK: GestureRecogniser Methods
     
-    func handleSwipeGesturesLeft(sender: UISwipeGestureRecognizer)
+    func handleSwipeGesturesLeft(_ sender: UISwipeGestureRecognizer)
     {
         if !detailsIsShown {
             self.detailDelegate?.showDetailsForCell(self)
         }
     }
     
-    func handleSwipeGesturesRight(sender: UISwipeGestureRecognizer)
+    func handleSwipeGesturesRight(_ sender: UISwipeGestureRecognizer)
     {
         if detailsIsShown {
             self.detailDelegate?.hideDetailsForCell(self)

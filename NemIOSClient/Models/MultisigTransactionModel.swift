@@ -13,39 +13,39 @@ import SwiftyJSON
     Visit the [documentation](http://bob.nem.ninja/docs/#multisigTransaction)
     for more information.
  */
-public class MultisigTransaction: Transaction {
+open class MultisigTransaction: Transaction {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
-    public var type = TransactionType.MultisigTransaction
+    open var type = TransactionType.multisigTransaction
     
     /// Additional information about the transaction.
-    public var metaData: TransactionMetaData?
+    open var metaData: TransactionMetaData?
     
     /// The version of the transaction.
-    public var version: Int!
+    open var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    public var timeStamp: Int!
+    open var timeStamp: Int!
     
     /// The fee for the transaction.
-    public var fee: Int!
+    open var fee: Int!
     
     /// The deadline of the transaction.
-    public var deadline: Int!
+    open var deadline: Int!
     
     /// The transaction signature.
-    public var signature: String!
+    open var signature: String!
     
     /// The array of MulsigSignatureTransaction objects.
-    public var signatures: [MultisigSignatureTransaction]?
+    open var signatures: [MultisigSignatureTransaction]?
     
     /// The public key of the account that created the transaction.
-    public var signer: String!
+    open var signer: String!
     
     /// The inner transaction of the multisig transaction.
-    public var innerTransaction: Transaction!
+    open var innerTransaction: Transaction!
     
     // MARK: - Model Lifecycle
     
@@ -70,9 +70,9 @@ public class MultisigTransaction: Transaction {
         signer = jsonData["transaction"]["signer"].stringValue
         
         switch jsonData["transaction"]["otherTrans"]["type"].intValue {
-        case TransactionType.TransferTransaction.rawValue:
+        case TransactionType.transferTransaction.rawValue:
             
-            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"])}".dataUsingEncoding(NSUTF8StringEncoding)!).mapObject(TransferTransaction) 
+            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"])}".data(using: String.Encoding.utf8)!).mapObject(TransferTransaction) 
             (innerTransaction as! TransferTransaction).metaData = metaData
             
         default:

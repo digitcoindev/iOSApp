@@ -2,7 +2,7 @@ import UIKit
 
 protocol EditableTableViewCellDelegate: class
 {
-    func deleteCell(cell: EditableTableViewCell)
+    func deleteCell(_ cell: EditableTableViewCell)
 }
 
 class EditableTableViewCell: AbstactTableViewCell
@@ -32,17 +32,17 @@ class EditableTableViewCell: AbstactTableViewCell
                 let duration = (_isEditable == newValue) ? 0.01 : 0.2
                 _isEditable = newValue
                 
-                UIView.animateWithDuration(duration) { () -> Void in
+                UIView.animate(withDuration: duration, animations: { () -> Void in
                     self.layoutSubviews()
-                }
+                }) 
             }
     }
     
     // MARK: private variables
 
-    private var _isEditable : Bool? = nil
-    private let _editImageView: UIImageView = UIImageView()
-    private let _deleteButton :UIButton = UIButton(type: UIButtonType.Custom)
+    fileprivate var _isEditable : Bool? = nil
+    fileprivate let _editImageView: UIImageView = UIImageView()
+    fileprivate let _deleteButton :UIButton = UIButton(type: UIButtonType.custom)
 
     // MARK: inizializers
 
@@ -53,7 +53,7 @@ class EditableTableViewCell: AbstactTableViewCell
         self.addSubview(_deleteView!)
         
         _editImageView.image = UIImage(named: "edit_account_icon")
-        _editImageView.contentMode = .ScaleAspectFit
+        _editImageView.contentMode = .scaleAspectFit
         
         self._editView?.addSubview(_editImageView)
 //        
@@ -97,7 +97,7 @@ class EditableTableViewCell: AbstactTableViewCell
     
     // MARK: Actions
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     

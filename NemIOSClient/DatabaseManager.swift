@@ -13,19 +13,19 @@ import CoreStore
     This manager is utilizing the CoreStore framework.
     Use only this manager to interact with the database.
  */
-public class DatabaseManager: NSObject {
+open class DatabaseManager: NSObject {
     
     // MARK: - Manager Properties
     
     /// The singleton for the database manager.
-    public static let sharedInstance = DatabaseManager()
+    open static let sharedInstance = DatabaseManager()
     
     /// The data stack that manages all available stores.
-    public let dataStack = DataStack(modelName: "NemIOSClientTEMP")
+    open let dataStack = DataStack(modelName: "NemIOSClientTEMP")
     
     // MARK: - Manager Lifecycle
     
-    private override init() {
+    fileprivate override init() {
         super.init()
         synthesizeDatabaseManager()
     }
@@ -33,7 +33,7 @@ public class DatabaseManager: NSObject {
     // MARK: - Manager Helper Methods
     
     /// Synthesizes the database manager and adds all stores to the data stack.
-    private func synthesizeDatabaseManager() {
+    fileprivate func synthesizeDatabaseManager() {
         
         try! dataStack.addStorageAndWait(
             SQLiteStore(

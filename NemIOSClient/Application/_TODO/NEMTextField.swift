@@ -1,7 +1,7 @@
 import UIKit
 
 protocol NEMTextFieldDelegate {
-    func newNemTexfieldSize(size: CGSize)
+    func newNemTexfieldSize(_ size: CGSize)
 }
 
 class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
@@ -16,9 +16,9 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
     let tableView :UITableView = UITableView()
     var tableViewMaxRows :Int = 5
     
-    private var _suggestions :[Suggestion] = []
+    fileprivate var _suggestions :[Suggestion] = []
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if tableView.frame.contains(point) {
             return tableView
         }
@@ -33,24 +33,24 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.clipsToBounds = false
-        tableView.frame = CGRectMake(0, self.frame.height, self.frame.width, 0)
-        tableView.hidden = true
+        tableView.frame = CGRect(x: 0, y: self.frame.height, width: self.frame.width, height: 0)
+        tableView.isHidden = true
         tableView.delegate = self
         tableView.dataSource = self
         self.addSubview(tableView)
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "standart")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "standart")
         
-        self.addTarget(self, action: #selector(NEMTextField.updateSuggestions(_:)), forControlEvents: UIControlEvents.EditingChanged)
-        self.addTarget(self, action: #selector(NEMTextField.hideSuggenstions(_:)), forControlEvents: UIControlEvents.EditingDidEnd)
+        self.addTarget(self, action: #selector(NEMTextField.updateSuggestions(_:)), for: UIControlEvents.editingChanged)
+        self.addTarget(self, action: #selector(NEMTextField.hideSuggenstions(_:)), for: UIControlEvents.editingDidEnd)
 
     }
     
-    func updateSuggestions(sender: AnyObject) {
+    func updateSuggestions(_ sender: AnyObject) {
         
         _suggestions = []
         
         for suggestion in suggestions {
-            if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.text!).evaluateWithObject(suggestion.key) && self.text! != suggestion.key
+            if NSPredicate(format: "SELF BEGINSWITH[c] %@",self.text!).evaluate(with: suggestion.key) && self.text! != suggestion.key
             {
                 _suggestions.append(suggestion)
             }
@@ -67,54 +67,54 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
             self.nemDelegate?.newNemTexfieldSize(newSize)
             
             tableView.frame.size.width = self.frame.width
-            tableView.hidden = false
+            tableView.isHidden = false
             tableView.reloadData()
         } else {
             self.nemDelegate?.newNemTexfieldSize(CGSize(width: self.frame.width, height: self.frame.height))
 
-            tableView.hidden = true
+            tableView.isHidden = true
         }
     }
     
-    func hideSuggenstions(sender: AnyObject) {
-        tableView.hidden = true
+    func hideSuggenstions(_ sender: AnyObject) {
+        tableView.isHidden = true
         
         self.nemDelegate?.newNemTexfieldSize(CGSize(width: self.frame.width, height: self.frame.height))
     }
     
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        let rect = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width - 15, bounds.height)
-        return CGRectInset(rect, 10, 0)
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        let rect = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.width - 15, height: bounds.height)
+        return rect.insetBy(dx: 10, dy: 0)
     }
     
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return textRectForBounds(bounds)
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return textRect(forBounds: bounds)
     }
     
     // MARK: - TableViewDelegate Methods
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _suggestions.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("standart")!
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "standart")!
         
-        var resultSuggestion = _suggestions[indexPath.row].value
-        if _suggestions[indexPath.row].value != _suggestions[indexPath.row].key {
-            resultSuggestion = _suggestions[indexPath.row].key + " " + "(\(_suggestions[indexPath.row].value))"
+        var resultSuggestion = _suggestions[(indexPath as NSIndexPath).row].value
+        if _suggestions[(indexPath as NSIndexPath).row].value != _suggestions[(indexPath as NSIndexPath).row].key {
+            resultSuggestion = _suggestions[(indexPath as NSIndexPath).row].key + " " + "(\(_suggestions[(indexPath as NSIndexPath).row].value))"
         }
         
         cell.textLabel?.text = resultSuggestion
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.text = _suggestions[indexPath.row].value
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.text = _suggestions[(indexPath as NSIndexPath).row].value
         updateSuggestions(self)
     }
 }

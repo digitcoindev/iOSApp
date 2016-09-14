@@ -13,30 +13,30 @@ import SwiftyJSON
     Visit the [documentation](http://bob.nem.ninja/docs/#multisigSignatureTransaction)
     for more information.
  */
-public class MultisigSignatureTransaction: Transaction {
+open class MultisigSignatureTransaction: Transaction {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
-    public var type = TransactionType.MultisigSignatureTransaction
+    open var type = TransactionType.multisigSignatureTransaction
     
     /// The version of the transaction.
-    public var version: Int!
+    open var version: Int!
     
     /// The deadline of the transaction.
-    public var timeStamp: Int!
+    open var timeStamp: Int!
     
     /// The fee for the transaction.
-    public var fee: Int!
+    open var fee: Int!
     
     /// The deadline of the transaction.
-    public var deadline: Int!
+    open var deadline: Int!
     
     /// The transaction signature.
-    public var signature: String!
+    open var signature: String!
     
     /// The public key of the account that created the transaction.
-    public var signer: String!
+    open var signer: String!
     
     /// The address of the corresponding multisig account.
     var otherAccount: String!

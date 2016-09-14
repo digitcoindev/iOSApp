@@ -30,16 +30,16 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    fileprivate func updateViewControllerAppearance() {
         
         title = "CREATE_NEW_ACCCOUNT".localized()
-        createAccountButton.setTitle("CREATE_NEW_ACCCOUNT".localized(), forState: UIControlState.Normal)
+        createAccountButton.setTitle("CREATE_NEW_ACCCOUNT".localized(), for: UIControlState())
         accountTitleTextField.placeholder = "ACCOUNT_NAME_PLACEHOLDER".localized()
         
         contentView.layer.cornerRadius = 10
@@ -47,10 +47,10 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
     }
     
     /// Adds all needed keyboard observers to the view controller.
-    private func addKeyboardObserver() {
+    fileprivate func addKeyboardObserver() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AccountAdditionMenuCreateNewAccountViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AccountAdditionMenuCreateNewAccountViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountAdditionMenuCreateNewAccountViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AccountAdditionMenuCreateNewAccountViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     /**
@@ -61,32 +61,32 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
      
         - Parameter title: The title for the new account.
      */
-    private func createAccount(withTitle title: String) {
+    fileprivate func createAccount(withTitle title: String) {
         
         do {
             try validate(enteredInformation: title)
             
             AccountManager.sharedInstance.create(account: title, completion: { (result) in
                 switch result {
-                case .Success:
-                    self.performSegueWithIdentifier("unwindToAccountListViewController", sender: nil)
+                case .success:
+                    self.performSegue(withIdentifier: "unwindToAccountListViewController", sender: nil)
                     
-                case .Failure:
-                    let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .Alert)
+                case .failure:
+                    let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
                     
-                    accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: nil))
+                    accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
                     
-                    self.presentViewController(accountCreationFailureAlert, animated: true, completion: nil)
+                    self.present(accountCreationFailureAlert, animated: true, completion: nil)
                 }
             })
             
-        } catch AccountImportValidation.ValueMissing {
+        } catch AccountImportValidation.valueMissing {
             
-            let accountTitleEmptyAlert = UIAlertController(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), preferredStyle: .Alert)
+            let accountTitleEmptyAlert = UIAlertController(title: "VALIDATION".localized(), message: "FIELDS_EMPTY_ERROR".localized(), preferredStyle: .alert)
             
-            accountTitleEmptyAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: nil))
+            accountTitleEmptyAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
             
-            presentViewController(accountTitleEmptyAlert, animated: true, completion: nil)
+            present(accountTitleEmptyAlert, animated: true, completion: nil)
             
         } catch {
             return
@@ -103,18 +103,18 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
      
         - Returns: A bool indicating that the validation was successful.
      */
-    private func validate(enteredInformation title: String) throws -> Bool {
+    fileprivate func validate(enteredInformation title: String) throws -> Bool {
     
-        guard title != String() else { throw AccountImportValidation.ValueMissing }
+        guard title != String() else { throw AccountImportValidation.valueMissing }
         
         return true
     }
     
     /// Makes the scroll view scrollable as soon as the keyboard shows.
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         
-        let info: NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let info: NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         var keyboardHeight:CGFloat = keyboardSize.height
         keyboardHeight -= self.view.frame.height - self.scrollView.frame.height
         
@@ -123,25 +123,25 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
     }
     
     /// Resets the scroll view as soon as the keyboard hides.
-    func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = UIEdgeInsetsZero
-        scrollView.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        scrollView.contentInset = UIEdgeInsets.zero
+        scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
     // MARK: - View Controller Outlet Actions
     
-    @IBAction func accountTitleTextFieldFocused(sender: UITextField) {
-        scrollView.scrollRectToVisible(view.convertRect(sender.frame, fromView: sender), animated: true)
+    @IBAction func accountTitleTextFieldFocused(_ sender: UITextField) {
+        scrollView.scrollRectToVisible(view.convert(sender.frame, from: sender), animated: true)
     }
         
-    @IBAction func createAccountButtonPressed(sender: AnyObject) {
+    @IBAction func createAccountButtonPressed(_ sender: AnyObject) {
         
         if let accountTitle = accountTitleTextField.text {
             createAccount(withTitle: accountTitle)
         }
     }
     
-    @IBAction func changeField(sender: UITextField) {
+    @IBAction func changeField(_ sender: UITextField) {
         sender.endEditing(true)
     }
 }

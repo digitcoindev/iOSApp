@@ -9,16 +9,16 @@
 import UIKit
 
 class FetchManager: NSObject, APIManagerDelegate {
-    private var _accounts :[Wallet] = []
-    private var _completionHandler :((UIBackgroundFetchResult) -> Void)? = nil
+    fileprivate var _accounts :[Wallet] = []
+    fileprivate var _completionHandler :((UIBackgroundFetchResult) -> Void)? = nil
 //    private let _dataManager = CoreDataManager()
-    private let _apiManager = APIManager()
-    private var _account :Wallet? = nil
-    private static var _updatesStarted = false
-    private var _server :Server? = nil
-    private var strongSelf: FetchManager? = nil
+    fileprivate let _apiManager = APIManager()
+    fileprivate var _account :Wallet? = nil
+    fileprivate static var _updatesStarted = false
+    fileprivate var _server :Server? = nil
+    fileprivate var strongSelf: FetchManager? = nil
     
-    func update(completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func update(_ completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         strongSelf = self
         _apiManager.delegate = strongSelf
         _apiManager.timeOutIntervar = 60
@@ -38,7 +38,7 @@ class FetchManager: NSObject, APIManagerDelegate {
 //        }
     }
     
-    func heartbeatResponceFromServer(server: Server, successed: Bool) {
+    func heartbeatResponceFromServer(_ server: Server, successed: Bool) {
         if _server == nil && successed{
             _server = server
             if !FetchManager._updatesStarted {
@@ -49,10 +49,10 @@ class FetchManager: NSObject, APIManagerDelegate {
         }
     }
 
-    final func accountTransfersAllResponceWithTransactions(data: [TransactionPostMetaData]?) {
+    final func accountTransfersAllResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         guard let data = data else {
             NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_RESPONCE_FROM_SERVER".localized(), interval: 1, userInfo: nil)
-            _completionHandler?(.Failed)
+            _completionHandler?(.failed)
             FetchManager._updatesStarted = false
             return
         }
@@ -118,13 +118,13 @@ class FetchManager: NSObject, APIManagerDelegate {
         fetchUpdate()
     }
     
-    private func fetchUpdate() {
+    fileprivate func fetchUpdate() {
         guard let account = _accounts.first else {
             if !FetchManager._updatesStarted {
 
-                _completionHandler?(.Failed)
+                _completionHandler?(.failed)
             } else {
-                _completionHandler?(.NewData)
+                _completionHandler?(.newData)
             }
             FetchManager._updatesStarted = false
             strongSelf = nil
@@ -133,7 +133,7 @@ class FetchManager: NSObject, APIManagerDelegate {
         
         guard let server = _server else {
             NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_PRIMARY_SERVER".localized(), interval: 1, userInfo: nil)
-            _completionHandler?(.Failed)
+            _completionHandler?(.failed)
             FetchManager._updatesStarted = false
             return
         }

@@ -16,7 +16,7 @@ class SettingsLanguageViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var resetButton: UIButton!
     
-    private let _languages :[String] =
+    fileprivate let _languages :[String] =
         [   "LANGUAGE_GERMAN".localized(),
             "LANGUAGE_ENGLISH".localized(),
             "LANGUAGE_SPANISH".localized(),
@@ -42,10 +42,10 @@ class SettingsLanguageViewController: UIViewController, UITableViewDataSource, U
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
         
-        resetButton.setTitle("RESET".localized(), forState: UIControlState.Normal)
+        resetButton.setTitle("RESET".localized(), for: UIControlState())
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
     }
     
@@ -55,12 +55,12 @@ class SettingsLanguageViewController: UIViewController, UITableViewDataSource, U
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func reset(sender: AnyObject) {
+    @IBAction func reset(_ sender: AnyObject) {
         LocalizationManager.setLanguage("Default")
 
         let loadData = State.loadData
@@ -72,15 +72,15 @@ class SettingsLanguageViewController: UIViewController, UITableViewDataSource, U
     
     // MARK: - TableViewDelegate Methods
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _languages.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : ActiveCell = self.tableView.dequeueReusableCellWithIdentifier("acc cell") as! ActiveCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell : ActiveCell = self.tableView.dequeueReusableCell(withIdentifier: "acc cell") as! ActiveCell
         
-        cell.title.text = _languages[indexPath.row]
-        if _languages[indexPath.row] == State.loadData?.currentLanguage {
+        cell.title.text = _languages[(indexPath as NSIndexPath).row]
+        if _languages[(indexPath as NSIndexPath).row] == State.loadData?.currentLanguage {
             cell.isActive = true
         } else {
             cell.isActive = false
@@ -89,11 +89,11 @@ class SettingsLanguageViewController: UIViewController, UITableViewDataSource, U
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
         
-        LocalizationManager.setLanguage(_languages[indexPath.row])
+        LocalizationManager.setLanguage(_languages[(indexPath as NSIndexPath).row])
         let loadData = State.loadData
-        loadData?.currentLanguage = _languages[indexPath.row]
+        loadData?.currentLanguage = _languages[(indexPath as NSIndexPath).row]
 //        CoreDataManager().commit()
 //        (self.delegate as! AbstractViewController).viewDidAppear(false)
         closePopUp(self)

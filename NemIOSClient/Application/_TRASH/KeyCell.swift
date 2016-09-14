@@ -10,11 +10,11 @@ class KeyCell: UITableViewCell
         super.awakeFromNib()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    @IBAction func touchUpInside(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("deleteCellAtIndex", object:cellIndex )
+    @IBAction func touchUpInside(_ sender: AnyObject) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "deleteCellAtIndex"), object:cellIndex )
     }
 }

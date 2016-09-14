@@ -21,13 +21,13 @@ class InvoiceViewController: UIViewController {
         
 //        actionBar.removeBorders()
         
-        actionBar.setTitle("MY_INFO".localized(), forSegmentAtIndex: 0)
-        actionBar.setTitle("NEW_INVOICE".localized(), forSegmentAtIndex: 1)
-        actionBar.setTitle("SCAN_QR".localized(), forSegmentAtIndex: 2)
+        actionBar.setTitle("MY_INFO".localized(), forSegmentAt: 0)
+        actionBar.setTitle("NEW_INVOICE".localized(), forSegmentAt: 1)
+        actionBar.setTitle("SCAN_QR".localized(), forSegmentAt: 2)
         
-        infoContainerView.hidden = false
-        createInvoiceContainerView.hidden = true
-        scanInvoiceContainerView.hidden = true
+        infoContainerView.isHidden = false
+        createInvoiceContainerView.isHidden = true
+        scanInvoiceContainerView.isHidden = true
         
         tabBarController?.title = "MY_INFO".localized()
         
@@ -49,7 +49,7 @@ class InvoiceViewController: UIViewController {
 //        }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         switch actionBar.selectedSegmentIndex {
         case 0 :
@@ -71,29 +71,29 @@ class InvoiceViewController: UIViewController {
         tabBarController?.navigationItem.rightBarButtonItem = nil
     }
 
-    @IBAction func handleView(sender: UISegmentedControl) {
+    @IBAction func handleView(_ sender: UISegmentedControl) {
         switch actionBar.selectedSegmentIndex {
         case 0 :
             
-            infoContainerView.hidden = false
-            createInvoiceContainerView.hidden = true
-            scanInvoiceContainerView.hidden = true
+            infoContainerView.isHidden = false
+            createInvoiceContainerView.isHidden = true
+            scanInvoiceContainerView.isHidden = true
             
             tabBarController?.title = "MY_INFO".localized()
             
         case 1 :
             
-            createInvoiceContainerView.hidden = false
-            infoContainerView.hidden = true
-            scanInvoiceContainerView.hidden = true
+            createInvoiceContainerView.isHidden = false
+            infoContainerView.isHidden = true
+            scanInvoiceContainerView.isHidden = true
 
             tabBarController?.title = "NEW_INVOICE".localized()
             
         case 2 :
             
-            scanInvoiceContainerView.hidden = false
-            infoContainerView.hidden = true
-            createInvoiceContainerView.hidden = true
+            scanInvoiceContainerView.isHidden = false
+            infoContainerView.isHidden = true
+            createInvoiceContainerView.isHidden = true
             
             tabBarController?.title = "SCAN_QR".localized()
 

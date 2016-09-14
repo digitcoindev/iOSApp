@@ -12,5 +12,5 @@ let network :UInt8 = testNetwork
 let genesis_block_time :Double = 1427587585
 let waitTime :Double = 21600
 
-let updateInterval :NSTimeInterval = 30
+let updateInterval :TimeInterval = 30
  

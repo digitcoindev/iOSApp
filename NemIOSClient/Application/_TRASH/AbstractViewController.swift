@@ -2,7 +2,7 @@ import UIKit
 
 class AbstractViewController: UIViewController
 {
-    weak private var _delegate :AnyObject?
+    weak fileprivate var _delegate :AnyObject?
     
     var delegate :AnyObject?{
         set{
@@ -19,11 +19,11 @@ class AbstractViewController: UIViewController
         super.viewDidLoad()
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
     }

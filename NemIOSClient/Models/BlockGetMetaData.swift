@@ -15,12 +15,12 @@ class BlockGetMetaData: NSObject {
     var id :Int = -1
     var height :Int = -1
     
-    final func getFrom(dictionary :NSDictionary) -> BlockGetMetaData {
-        self.timeStamp = dictionary.objectForKey("timeStamp") as! Int
-        self.difficulty = dictionary.objectForKey("difficulty") as! Int
-        self.totalFee = dictionary.objectForKey("totalFee") as! Double
-        self.id = dictionary.objectForKey("id") as! Int
-        self.height = dictionary.objectForKey("height") as! Int
+    final func getFrom(_ dictionary :NSDictionary) -> BlockGetMetaData {
+        self.timeStamp = dictionary.object(forKey: "timeStamp") as! Int
+        self.difficulty = dictionary.object(forKey: "difficulty") as! Int
+        self.totalFee = dictionary.object(forKey: "totalFee") as! Double
+        self.id = dictionary.object(forKey: "id") as! Int
+        self.height = dictionary.object(forKey: "height") as! Int
         
         return self
     }

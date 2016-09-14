@@ -24,13 +24,13 @@ class AuthenticationPasswordCreationViewController: UIViewController {
         passwordTitle.text = "CREATE_PASSWORD".localized()
         password.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
         repeatPassword.placeholder = "   " + "REPEAT_PASSWORD_PLACEHOLDER".localized()
-        confirm.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
+        confirm.setTitle("CONFIRM".localized(), for: UIControlState())
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        State.currentVC = SegueToCreatePassword
     }
@@ -41,7 +41,7 @@ class AuthenticationPasswordCreationViewController: UIViewController {
     
     // MARK: - IBAction
     
-    @IBAction func submitPassword(sender: AnyObject) {
+    @IBAction func submitPassword(_ sender: AnyObject) {
         sender.endEditing(true)
         if !Validate.stringNotEmpty(password.text) || !Validate.stringNotEmpty(repeatPassword.text) {
             _failedWithError("FIELDS_EMPTY_ERROR".localized())
@@ -60,8 +60,8 @@ class AuthenticationPasswordCreationViewController: UIViewController {
             return
         }
         
-        let salt :NSData =  NSData().generateRandomIV(32)
-        let passwordHash :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:salt, roundCount:2000)!
+        let salt :Data =  (Data() as NSData).generateRandomIV(32)
+        let passwordHash :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:salt, roundCount:2000)!
         
 //        let loadData = dataMeneger.getLoadData()
 //        loadData.salt = salt.hexadecimalString()
@@ -73,35 +73,35 @@ class AuthenticationPasswordCreationViewController: UIViewController {
 //        }
     }
     
-    @IBAction func validateField(sender: UITextField){
+    @IBAction func validateField(_ sender: UITextField){
         
         if repeatPassword.text == password.text {
-            repeatPassword.textColor = UIColor.greenColor()
+            repeatPassword.textColor = UIColor.green
         } else {
-            repeatPassword.textColor = UIColor.redColor()
+            repeatPassword.textColor = UIColor.red
         }
         
         if Validate.password(password.text!){
-            password.textColor = UIColor.greenColor()
+            password.textColor = UIColor.green
         } else {
-            repeatPassword.textColor = UIColor.redColor()
-            password.textColor = UIColor.redColor()
+            repeatPassword.textColor = UIColor.red
+            password.textColor = UIColor.red
         }
     }
     
-    @IBAction func hideKeyBoard(sender: AnyObject) {
+    @IBAction func hideKeyBoard(_ sender: AnyObject) {
         (sender as! UITextField).becomeFirstResponder()
     }
     
     // MARK: - Private Methods
     
-    private func _validateFromDatabase() {
+    fileprivate func _validateFromDatabase() {
         
         guard let salt = State.loadData?.salt else {return}
-        guard let saltData :NSData = NSData.fromHexString(salt) else {return}
+        guard let saltData :Data = Data.fromHexString(salt) else {return}
         guard let passwordValue = State.loadData?.password else {return}
         
-        let passwordData :NSData? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+        let passwordData :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
         
         if passwordData?.toHexString() == passwordValue {
             
@@ -111,14 +111,14 @@ class AuthenticationPasswordCreationViewController: UIViewController {
         }
     }
     
-    private func _failedWithError(text: String, completion :(Void -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.Alert)
+    fileprivate func _failedWithError(_ text: String, completion :((Void) -> Void)? = nil) {
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
             completion?()
         }))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 }

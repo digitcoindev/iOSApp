@@ -6,6 +6,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class InvoiceCreateViewController: UIViewController
 {
@@ -25,7 +45,7 @@ class InvoiceCreateViewController: UIViewController
         name.placeholder = "ENTER_NAME".localized()
         message.placeholder = "ENTER_MESSAGE".localized()
         
-        createButton.setTitle("CREATE".localized(), forState: UIControlState.Normal)
+        createButton.setTitle("CREATE".localized(), for: UIControlState())
         
         containerView.layer.cornerRadius = 10
         containerView.clipsToBounds = true
@@ -54,7 +74,7 @@ class InvoiceCreateViewController: UIViewController
         message.text = text
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        State.currentVC = SegueToCreateInvoice
     }
@@ -63,7 +83,7 @@ class InvoiceCreateViewController: UIViewController
         super.didReceiveMemoryWarning()
     }
 
-    @IBAction func hideKeyboard(sender: AnyObject) {
+    @IBAction func hideKeyboard(_ sender: AnyObject) {
         if name.text == "" {
             name.becomeFirstResponder()
         }
@@ -75,9 +95,9 @@ class InvoiceCreateViewController: UIViewController
         }
     }
     
-    @IBAction func confirm(sender: AnyObject) {
+    @IBAction func confirm(_ sender: AnyObject) {
         
-        let amountValue = Double(amount.text!.stringByReplacingOccurrencesOfString(" ", withString: "")) ?? 0
+        let amountValue = Double(amount.text!.replacingOccurrences(of: " ", with: "")) ?? 0
 
         if amountValue < 0.000001 && amount != 0 {
             amount.text = "0"
@@ -88,10 +108,10 @@ class InvoiceCreateViewController: UIViewController
             return
         }
         
-        if message.text?.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count > 255 {
-            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "MESSAGE_LENGTH".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+        if message.text?.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 255 {
+            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "MESSAGE_LENGTH".localized(), preferredStyle: UIAlertControllerStyle.alert)
             
-            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
+            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default) {
                 alertAction -> Void in
                 
 //                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
@@ -100,7 +120,7 @@ class InvoiceCreateViewController: UIViewController
             }
             alert.addAction(ok)
             
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
             return
         }
         
@@ -117,6 +137,6 @@ class InvoiceCreateViewController: UIViewController
 //            (self.delegate as! InvoiceViewController).changePage(SegueToCreateInvoiceResult)
 //        }
         
-        performSegueWithIdentifier("showInvoiceCreatedViewController", sender: nil)
+        performSegue(withIdentifier: "showInvoiceCreatedViewController", sender: nil)
     }
 }

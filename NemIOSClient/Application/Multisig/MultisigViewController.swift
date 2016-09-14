@@ -6,6 +6,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate
 {
@@ -15,17 +35,17 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
     @IBOutlet weak var minCosigField: NEMTextField!
     @IBOutlet weak var accountLabel: UILabel!
     
-    private var _mainAccount :AccountGetMetaData? = nil
-    private var _activeAccount :AccountGetMetaData? = nil
+    fileprivate var _mainAccount :AccountGetMetaData? = nil
+    fileprivate var _activeAccount :AccountGetMetaData? = nil
     
-    private let _apiManager :APIManager =  APIManager()
-    private var _popUp :UIViewController? = nil
+    fileprivate let _apiManager :APIManager =  APIManager()
+    fileprivate var _popUp :UIViewController? = nil
 
-    private var _currentCosignatories :[String] = []
-    private var _addArray :[String] = []
-    private var _removeArray :[String] = []
+    fileprivate var _currentCosignatories :[String] = []
+    fileprivate var _addArray :[String] = []
+    fileprivate var _removeArray :[String] = []
     
-    private var _isMultisig :Bool = false
+    fileprivate var _isMultisig :Bool = false
     
     var minCosigValue = 0
     var maxCosigValue = 0
@@ -38,7 +58,7 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         _apiManager.delegate = self
         title = "MULTISIG".localized()
         
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
@@ -47,12 +67,12 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        State.currentVC = SegueTomultisigAccountManager
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         var count = _currentCosignatories.count + _addArray.count
         
@@ -71,37 +91,37 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         return count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row < _currentCosignatories.count + _addArray.count {
-            let cell :MultisigSignerTableViewCell = tableView.dequeueReusableCellWithIdentifier("cosig cell")! as! MultisigSignerTableViewCell
+        if (indexPath as NSIndexPath).row < _currentCosignatories.count + _addArray.count {
+            let cell :MultisigSignerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cosig cell")! as! MultisigSignerTableViewCell
             cell.infoLabel.numberOfLines = 2
             cell.editDelegate = self
             cell.isEditable = (_removeArray.count == 0 && (_removeArray.count + _addArray.count) < 16)  && !self._isMultisig
             
             var index = 0
-            if indexPath.row >= _currentCosignatories.count {
-                index = indexPath.row - _currentCosignatories.count
+            if (indexPath as NSIndexPath).row >= _currentCosignatories.count {
+                index = (indexPath as NSIndexPath).row - _currentCosignatories.count
                 
                 if index < _addArray.count {
                     cell.infoLabel.text =  AddressGenerator.generateAddress(_addArray[index]).nemName()
                 }
                 
             } else {
-                cell.infoLabel.text = AddressGenerator.generateAddress(_currentCosignatories[indexPath.row]).nemName()
+                cell.infoLabel.text = AddressGenerator.generateAddress(_currentCosignatories[(indexPath as NSIndexPath).row]).nemName()
             }
             
             return cell
         } else {
-            let index = indexPath.row - _currentCosignatories.count - _addArray.count
+            let index = (indexPath as NSIndexPath).row - _currentCosignatories.count - _addArray.count
             
             switch index {
             case 0:
-                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
+                let cell :UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "add cosig cell")!
                 return cell
                 
             case 1:
-                let cell :MultisigMinimumSignerAmountTableViewCell = tableView.dequeueReusableCellWithIdentifier("min cosig cell") as! MultisigMinimumSignerAmountTableViewCell
+                let cell :MultisigMinimumSignerAmountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "min cosig cell") as! MultisigMinimumSignerAmountTableViewCell
                 let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories ?? _addArray.count
                 let max = _activeAccount!.cosignatories.count - _removeArray.count
                 if self.minCosig != nil {
@@ -116,40 +136,40 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
                 return cell
                 
             case 2:
-                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("save cell")!
+                let cell :UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "save cell")!
                 return cell
                 
             default :
-                let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier("add cosig cell")!
+                let cell :UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "add cosig cell")!
                 return cell
             }
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row >= _addArray.count + _currentCosignatories.count {
+        if (indexPath as NSIndexPath).row >= _addArray.count + _currentCosignatories.count {
             _addCosig()
         }
     }
     
-    func deleteCell(cell: EditableTableViewCell) {
-        var index = tableView.indexPathForCell(cell)!.row
+    func deleteCell(_ cell: EditableTableViewCell) {
+        var index = (tableView.indexPath(for: cell)! as NSIndexPath).row
         
         if index >= _currentCosignatories.count {
             index = index - _currentCosignatories.count
-            _addArray.removeAtIndex(index)
+            _addArray.remove(at: index)
         } else {
             _removeArray.append(_currentCosignatories[index])
-            _currentCosignatories.removeAtIndex(index)
+            _currentCosignatories.remove(at: index)
         }
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.tableView.reloadData()
         }
     }
     
-    @IBAction func saveChanges(sender: AnyObject) {
+    @IBAction func saveChanges(_ sender: AnyObject) {
         
         if _removeArray.count > 1 {
             _showPopUp( "MULTISIG_REMOVE_COUNT_ERROR".localized())
@@ -201,7 +221,7 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
     
     //MARK: - @IBAction
     
-    @IBAction func minCosigChaned(sender: UITextField) {
+    @IBAction func minCosigChaned(_ sender: UITextField) {
         var isNormal = false
         print()
         if let value = Int(sender.text!) {
@@ -274,10 +294,10 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
     
     //MARK: - Private Methods
     
-    private func _addCosig() {
+    fileprivate func _addCosig() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let popUp :MultisigAddSignerViewController =  storyboard.instantiateViewControllerWithIdentifier("MultisignatureAddSignerViewController") as! MultisigAddSignerViewController
+        let popUp :MultisigAddSignerViewController =  storyboard.instantiateViewController(withIdentifier: "MultisignatureAddSignerViewController") as! MultisigAddSignerViewController
         popUp.view.frame = CGRect(x: 0, y: 40, width: popUp.view.frame.width, height: popUp.view.frame.height - 40)
         popUp.view.layer.opacity = 0
 //        popUp.delegate = self
@@ -285,12 +305,12 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         _popUp = popUp
         self.view.addSubview(popUp.view)
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             popUp.view.layer.opacity = 1
             }, completion: nil)
     }
     
-    private func _generateTableData() {
+    fileprivate func _generateTableData() {
         var newCosigList :[String] = []
         
         for cosig in _activeAccount!.cosignatories {
@@ -301,20 +321,20 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         _addArray = []
         _removeArray = []
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.tableView.reloadData()
         }
     }
     
-    private func _sortModifications(modifications :[String]) -> [String] {
+    fileprivate func _sortModifications(_ modifications :[String]) -> [String] {
         var resutModifications = modifications
         for var sorted = false ; !sorted; {
             sorted = true
-            for var i = 1; i < resutModifications.count ; i += 1 {
+            for i in 1 ..< resutModifications.count {
                 let previousAddress = AddressGenerator.generateAddress(resutModifications[i-1])
                 let currentAddress = AddressGenerator.generateAddress(resutModifications[i])
                 
-                if previousAddress.compare(currentAddress) == NSComparisonResult.OrderedDescending {
+                if previousAddress.compare(currentAddress) == ComparisonResult.orderedDescending {
                     let mod = resutModifications[i]
                     resutModifications[i] = resutModifications[i-1]
                     resutModifications[i-1] = mod
@@ -325,28 +345,28 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         return resutModifications
     }
     
-    private final func _showPopUp(message :String){
+    fileprivate final func _showPopUp(_ message :String){
         
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default) {
             alertAction -> Void in
         }
         
         alert.addAction(ok)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - AccountChousePopUp Methods
 
-    func addCosig(publicKey: String) {
+    func addCosig(_ publicKey: String) {
         _addArray.append(publicKey)
         tableView.reloadData()
     }
     
     //MARK: - AccountChousePopUp Methods
     
-    func didChouseAccount(account: AccountGetMetaData) {
+    func didChouseAccount(_ account: AccountGetMetaData) {
         
         if _popUp != nil {
             _popUp!.view.removeFromSuperview()
@@ -359,18 +379,18 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
 
     //MARK: - APIManagerDelegate Methods
     
-    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
-        chouseButton.setTitle(account!.address.nemName(), forState: UIControlState.Normal)
+    func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
+        chouseButton.setTitle(account!.address.nemName(), for: UIControlState())
         accountLabel.text = account!.address.nemName()
 
         if account != nil {
             if _mainAccount == nil {
                 if account!.cosignatoryOf.count > 0 {
-                    chouseButton.hidden = false
-                    accountLabel.hidden = true
+                    chouseButton.isHidden = false
+                    accountLabel.isHidden = true
                 } else {
-                    chouseButton.hidden = true
-                    accountLabel.hidden = false
+                    chouseButton.isHidden = true
+                    accountLabel.isHidden = false
                 }
                 
                 if account?.cosignatories.count > 0 {
@@ -387,7 +407,7 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         }
     }
     
-    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+    func prepareAnnounceResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         
         var message :String = ""
         
@@ -403,7 +423,7 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         }
     }
     
-    func failWithError(message: String) {
+    func failWithError(_ message: String) {
         _showPopUp(message.localized())
     }
 }

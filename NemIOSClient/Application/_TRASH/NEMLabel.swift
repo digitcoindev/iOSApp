@@ -7,7 +7,7 @@ class NEMLabel: UILabel
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
         
         let recogniser :UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NEMLabel.longPressDetected))
         recogniser.minimumPressDuration = 0.5
@@ -15,13 +15,13 @@ class NEMLabel: UILabel
         
         copylable = UILabel()
         copylable.text = "COPIED".localized()
-        copylable.hidden = true
+        copylable.isHidden = true
         copylable.font = UIFont(name: copylable.font.fontName, size: 17)
         copylable.sizeToFit()
         copylable.frame.size = CGSize(width: copylable.frame.size.width + 10, height: copylable.frame.size.height + 10)
-        copylable.textColor = UIColor.whiteColor()
-        copylable.textAlignment = NSTextAlignment.Center
-        copylable.backgroundColor = UIColor.blackColor()
+        copylable.textColor = UIColor.white
+        copylable.textAlignment = NSTextAlignment.center
+        copylable.backgroundColor = UIColor.black
         copylable.clipsToBounds = true
         copylable.layer.cornerRadius = 5.0
         
@@ -41,14 +41,14 @@ class NEMLabel: UILabel
     }
     
     final func longPressDetected() {
-        let pasteBoard :UIPasteboard = UIPasteboard.generalPasteboard()
+        let pasteBoard :UIPasteboard = UIPasteboard.general
         pasteBoard.string = self.text
-        copylable.hidden = false
+        copylable.isHidden = false
         
-        NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(NEMLabel.hideCopyLable), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(NEMLabel.hideCopyLable), userInfo: nil, repeats: false)
     }
     
     func hideCopyLable() {
-        copylable.hidden = true
+        copylable.isHidden = true
     }
 }

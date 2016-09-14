@@ -1246,11 +1246,13 @@
 					4F1159D81D38FC5700E13EE0 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 6Y3EYUED96;
+						LastSwiftMigration = 0800;
 						TestTargetID = DA3557FF1A39D3B900AFA5FD;
 					};
 					DA3557FF1A39D3B900AFA5FD = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = 6Y3EYUED96;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -1266,6 +1268,7 @@
 					DA3558171A39D3BC00AFA5FD = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = TWWK2EDBEZ;
+						LastSwiftMigration = 0800;
 						TestTargetID = DA3557FF1A39D3B900AFA5FD;
 					};
 				};
@@ -1592,6 +1595,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClientUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = NemIOSClient;
 			};
 			name = Debug;
@@ -1612,6 +1616,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gospore.NemIOSClientUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = NemIOSClient;
 			};
 			name = Release;
@@ -1728,6 +1733,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1754,6 +1760,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1778,6 +1785,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NemIOSClient.app/NemIOSClient";
 			};
 			name = Debug;
@@ -1798,6 +1806,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "artygeek.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NemIOSClient.app/NemIOSClient";
 			};
 			name = Release;

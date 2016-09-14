@@ -12,11 +12,11 @@ class AccountChooserButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.layer.borderColor = UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1).CGColor
+        self.layer.borderColor = UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1).cgColor
         self.layer.borderWidth = 1
         
         if let imageView = self.imageView {
-            imageView.contentMode =  UIViewContentMode.ScaleAspectFit
+            imageView.contentMode =  UIViewContentMode.scaleAspectFit
             imageView.frame = CGRect(x: self.frame.width - self.frame.height * 0.75 - 5, y: self.frame.height * 0.125, width: self.frame.height * 0.75, height: self.frame.height * 0.75)
         }
         

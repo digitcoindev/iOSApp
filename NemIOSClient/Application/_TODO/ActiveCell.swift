@@ -12,7 +12,7 @@ class ActiveCell: UITableViewCell {
     @IBOutlet var title: UILabel!
     @IBOutlet weak var actionButton: UIButton!
 
-    private var _isActive = false
+    fileprivate var _isActive = false
     var isActive :Bool {
         get {
             return _isActive
@@ -20,9 +20,9 @@ class ActiveCell: UITableViewCell {
         set {
             if _isActive != newValue {
                 if newValue {
-                    self.actionButton.setImage(UIImage(named: "server_indicator_active"), forState: UIControlState.Normal)
+                    self.actionButton.setImage(UIImage(named: "server_indicator_active"), for: UIControlState())
                 } else {
-                    self.actionButton.setImage(UIImage(named: "server_indicator_passive"), forState: UIControlState.Normal)
+                    self.actionButton.setImage(UIImage(named: "server_indicator_passive"), for: UIControlState())
                 }
             }
             _isActive = newValue
@@ -34,13 +34,13 @@ class ActiveCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
 
-    @IBAction func activateCell(sender: AnyObject) {
+    @IBAction func activateCell(_ sender: AnyObject) {
         super.setSelected(true, animated: true)
     }
 }

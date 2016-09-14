@@ -15,7 +15,7 @@ class _MultisigSignatureTransaction: TransactionPostMetaData
         type = multisigSignatureTransaction
     }
     
-    final override func getFrom(dictionary: NSDictionary) {
+    final override func getFrom(_ dictionary: NSDictionary) {
         
     }
 }

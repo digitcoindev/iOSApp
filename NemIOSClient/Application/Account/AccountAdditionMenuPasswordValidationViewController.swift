@@ -20,7 +20,7 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
     var accountTitle = String()
     var accountEncryptedPrivateKey = String()
     var accountSalt = String()
-    private var accountPrivateKey = String()
+    fileprivate var accountPrivateKey = String()
     
     // MARK: - View Controller Outlets
     
@@ -43,11 +43,11 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    fileprivate func updateViewControllerAppearance() {
         
         customNavigationItem.title = "ENTET_PASSWORD".localized()
         passwordTextField.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
-        confirmationButton.setTitle("CONFIRM".localized(), forState: UIControlState.Normal)
+        confirmationButton.setTitle("CONFIRM".localized(), for: UIControlState())
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
@@ -65,15 +65,15 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
 
         - Returns: A bool indicating that the verification was successful.
      */
-    private func verifyPassword() throws -> Bool {
+    fileprivate func verifyPassword() throws -> Bool {
         
-        guard let enteredPassword = passwordTextField.text else { throw AccountImportValidation.NoPasswordProvided }
+        guard let enteredPassword = passwordTextField.text else { throw AccountImportValidation.noPasswordProvided }
         
         let accountSaltBytes = accountSalt.asByteArray()
-        let accountSaltData = NSData(bytes: accountSaltBytes, length: accountSaltBytes.count)
+        let accountSaltData = Data(bytes: UnsafePointer<UInt8>(accountSaltBytes), count: accountSaltBytes.count)
 
-        guard let passwordHash = try? HashManager.generateAesKeyForString(enteredPassword, salt: accountSaltData, roundCount:2000) else { throw AccountImportValidation.Other }
-        guard let accountPrivateKey = HashManager.AES256Decrypt(accountEncryptedPrivateKey, key: passwordHash!.toHexString())?.nemKeyNormalized() else { throw AccountImportValidation.WrongPasswordProvided }
+        guard let passwordHash = try? HashManager.generateAesKeyForString(enteredPassword, salt: accountSaltData, roundCount:2000) else { throw AccountImportValidation.other }
+        guard let accountPrivateKey = HashManager.AES256Decrypt(accountEncryptedPrivateKey, key: passwordHash!.toHexString())?.nemKeyNormalized() else { throw AccountImportValidation.wrongPasswordProvided }
                                 
         do {
             try AccountManager.sharedInstance.validateAccountExistence(forAccountWithPrivateKey: accountPrivateKey)
@@ -81,14 +81,14 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
             
             return true
             
-        } catch AccountImportValidation.AccountAlreadyPresent(let existingAccountTitle) {
-            throw AccountImportValidation.AccountAlreadyPresent(accountTitle: existingAccountTitle)
+        } catch AccountImportValidation.accountAlreadyPresent(let existingAccountTitle) {
+            throw AccountImportValidation.accountAlreadyPresent(accountTitle: existingAccountTitle)
         }
     }
     
     // MARK: - View Controller Outlet Actions
     
-    @IBAction func verifyPassword(sender: UIButton) {
+    @IBAction func verifyPassword(_ sender: UIButton) {
         
         passwordTextField.endEditing(true)
         
@@ -98,46 +98,46 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
             AccountManager.sharedInstance.create(account: accountTitle, withPrivateKey: accountPrivateKey, completion: { (result) in
                 
                 switch result {
-                case .Success:
-                    self.performSegueWithIdentifier("unwindToAccountListViewController", sender: nil)
+                case .success:
+                    self.performSegue(withIdentifier: "unwindToAccountListViewController", sender: nil)
                     
-                case .Failure:
-                    let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .Alert)
+                case .failure:
+                    let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
                     
-                    accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: nil))
+                    accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
                     
-                    self.presentViewController(accountCreationFailureAlert, animated: true, completion: nil)
+                    self.present(accountCreationFailureAlert, animated: true, completion: nil)
                 }
             })
             
-        } catch AccountImportValidation.AccountAlreadyPresent(let existingAccountTitle) {
+        } catch AccountImportValidation.accountAlreadyPresent(let existingAccountTitle) {
             
-            let accountAlreadyPresentAlert = UIAlertController(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[existingAccountTitle]), preferredStyle: .Alert)
+            let accountAlreadyPresentAlert = UIAlertController(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[existingAccountTitle]), preferredStyle: .alert)
             
-            accountAlreadyPresentAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: nil))
+            accountAlreadyPresentAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
             
-            self.presentViewController(accountAlreadyPresentAlert, animated: true, completion: nil)
+            self.present(accountAlreadyPresentAlert, animated: true, completion: nil)
             
-        } catch AccountImportValidation.WrongPasswordProvided {
+        } catch AccountImportValidation.wrongPasswordProvided {
             
-            let verificationFailureAlert = UIAlertController(title: "Error", message: "Wrong password provided", preferredStyle: .Alert)
+            let verificationFailureAlert = UIAlertController(title: "Error", message: "Wrong password provided", preferredStyle: .alert)
             
-            verificationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: nil))
+            verificationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
             
-            presentViewController(verificationFailureAlert, animated: true, completion: nil)
+            present(verificationFailureAlert, animated: true, completion: nil)
             
         } catch {
             
-            let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .Alert)
+            let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
             
-            accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: nil))
+            accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
             
-            presentViewController(accountCreationFailureAlert, animated: true, completion: nil)
+            present(accountCreationFailureAlert, animated: true, completion: nil)
         }
     }
     
-    @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -145,7 +145,7 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
 
 extension AccountAdditionMenuPasswordValidationViewController: UINavigationBarDelegate {
     
-    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-        return .TopAttached
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
     }
 }

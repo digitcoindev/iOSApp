@@ -12,7 +12,7 @@ import SwiftyJSON
     A RequestAnnounce object is used to transfer the transaction data 
     and the signature to NIS in order to initiate and broadcast a transaction.
  */
-public class RequestAnnounce {
+open class RequestAnnounce {
     
     // MARK: - Model Properties
     
@@ -21,10 +21,10 @@ public class RequestAnnounce {
         creating the corresponding byte array and then converting the byte array 
         to a hexadecimal string.
      */
-    public var data: String!
+    open var data: String!
     
     /// The signature for the transaction as hexadecimal string.
-    public var signature: String!
+    open var signature: String!
     
     // MARK: - Model Lifecycle
     

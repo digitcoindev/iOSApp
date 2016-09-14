@@ -37,7 +37,7 @@ class SettingsInvoiceViewController: UIViewController {
         postfix.placeholder = "   " + "POSTFIX".localized()
         message.placeholder = "   " + "MESSAGE".localized()
         
-        saveButton.setTitle("SAVE".localized(), forState: UIControlState.Normal)
+        saveButton.setTitle("SAVE".localized(), for: UIControlState())
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,12 +46,12 @@ class SettingsInvoiceViewController: UIViewController {
 
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func switchField(sender: NEMTextField) {
+    @IBAction func switchField(_ sender: NEMTextField) {
         switch sender {
         case prefix:
             postfix.becomeFirstResponder()
@@ -65,7 +65,7 @@ class SettingsInvoiceViewController: UIViewController {
     }
     
     
-    @IBAction func reset(sender: AnyObject) {
+    @IBAction func reset(_ sender: AnyObject) {
         let loadData = State.loadData
         loadData?.invoicePrefix = prefix.text
         loadData?.invoicePostfix = postfix.text

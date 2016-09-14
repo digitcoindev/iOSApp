@@ -14,46 +14,46 @@ import GCDKit
     relationship with the address book or a contact. Use this managers available 
     methods instead of writing your own logic.
  */
-public class AddressBookManager {
+open class AddressBookManager {
     
     // MARK: - Manager Properties
 
     /// The singleton for the address book manager.
-    public static let sharedInstance = AddressBookManager()
+    open static let sharedInstance = AddressBookManager()
     
     ///
-    private var contactStore = CNContactStore()
+    fileprivate var contactStore = CNContactStore()
     
     // MARK: - Public Manager Methods
     
     /**
  
      */
-    public func contacts(completion: (contacts: [CNContact]) -> Void) {
+    open func contacts(_ completion: @escaping (_ contacts: [CNContact]) -> Void) {
         
         var contacts = [CNContact]()
         
-        GCDQueue.UserInitiated.async {
+        GCDQueue.userInitiated.async {
             
             self.requestAccess { (accessGranted) -> Void in
                 if accessGranted {
                     
                     let containerIdentifier = self.contactStore.defaultContainerIdentifier()
                     let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey]
-                    let predicate = CNContact.predicateForContactsInContainerWithIdentifier(containerIdentifier)
+                    let predicate = CNContact.predicateForContactsInContainer(withIdentifier: containerIdentifier)
                     
                     do {
-                        contacts = try self.contactStore.unifiedContactsMatchingPredicate(predicate, keysToFetch: keysToFetch)
+                        contacts = try self.contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
                         
                     } catch let error as NSError {
                         
-                        GCDQueue.Main.async {
+                        GCDQueue.main.async {
                             print(error)
                         }
                     }
                 }
                 
-                GCDQueue.Main.async {
+                GCDQueue.main.async {
                     return completion(contacts: contacts)
                 }
             }
@@ -65,24 +65,24 @@ public class AddressBookManager {
     /**
  
      */
-    private func requestAccess(completion: (accessGranted: Bool) -> Void) {
-        let authorizationStatus = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
+    fileprivate func requestAccess(_ completion: @escaping (_ accessGranted: Bool) -> Void) {
+        let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
         
         switch authorizationStatus {
-        case .Authorized:
-            return completion(accessGranted: true)
+        case .authorized:
+            return completion(true)
             
-        case .Denied, .NotDetermined:
-            contactStore.requestAccessForEntityType(CNEntityType.Contacts, completionHandler: { (access, accessError) -> Void in
+        case .denied, .notDetermined:
+            contactStore.requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
                 if access {
-                    return completion(accessGranted: access)
+                    return completion(access)
                 } else {
-                    return completion(accessGranted: false)
+                    return completion(false)
                 }
             })
             
         default:
-            completion(accessGranted: false)
+            completion(false)
         }
     }
 }

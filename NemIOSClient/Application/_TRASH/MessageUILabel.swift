@@ -9,10 +9,10 @@
 import UIKit
 
 class MessageUILabel: UILabel {
-    override func drawTextInRect(rect: CGRect) {
+    override func drawText(in rect: CGRect) {
         let newRect = CGRect(x: rect.origin.x + 5, y: rect.origin.y, width: rect.size.width, height: rect.size.height)
         
-        super.drawTextInRect(newRect)
+        super.drawText(in: newRect)
     }
     override func sizeToFit() {
         super.sizeToFit()

@@ -4,56 +4,56 @@ import UIKit
 
 class HashManager: NSObject
 {
-    final class func AES256Encrypt(inputText :String ,key :String) -> String {
+    final class func AES256Encrypt(_ inputText :String ,key :String) -> String {
         let messageBytes = inputText.asByteArray()
-        var messageData = NSData(bytes: messageBytes, length: messageBytes.count)
+        var messageData = Data(bytes: UnsafePointer<UInt8>(messageBytes), count: messageBytes.count)
 
-        let ivData = NSData().generateRandomIV(16)
-        let customizedIVBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData.bytes), count: ivData.length))
+        let ivData = (Data() as NSData).generateRandomIV(16)
+        let customizedIVBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: ivData!.bytes.bindMemory(to: UInt8.self, capacity: ivData!.count), count: ivData!.count))
         messageData = messageData.aesEncrypt(key.asByteArray(), iv: customizedIVBytes)!
         
         return customizedIVBytes.toHexString() + messageData.toHexString()
     }
     
-    final class func AES256Decrypt(inputText :String ,key :String) -> String? {
+    final class func AES256Decrypt(_ inputText :String ,key :String) -> String? {
         let inputBytes = inputText.asByteArray()
         let customizedIV =  Array(inputBytes[0..<16])
         let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
         
-        var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
+        var data :Data? = Data(bytes: UnsafePointer<UInt8>(encryptedBytes), count: encryptedBytes.count)
         
         data = data?.aesDecrypt(key.asByteArray(), iv: customizedIV)
         
         return data?.toHexString()
     }
     
-    final class func SHA256Encrypt(data :[UInt8])->String {
-        var outBuffer: Array<UInt8> = Array(count: 64, repeatedValue: 0)
+    final class func SHA256Encrypt(_ data :[UInt8])->String {
+        var outBuffer: Array<UInt8> = Array(repeating: 0, count: 64)
         var inBuffer: Array<UInt8> = Array(data)
         let len :Int32 = Int32(inBuffer.count)
         SHA256_hash(&outBuffer, &inBuffer, len)
         
-        let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: NSUTF8StringEncoding) as! String
+        let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: String.Encoding.utf8.rawValue) as! String
         
         return hash
     }
     
-    final func RIPEMD160Encrypt(inputText: String)->String {
+    final func RIPEMD160Encrypt(_ inputText: String)->String {
         return RIPEMD.asciiDigest(inputText) as String
     }
     
-    final class func generateAesKeyForString(string: String, salt: NSData, roundCount: Int?) throws -> NSData? {
+    final class func generateAesKeyForString(_ string: String, salt: Data, roundCount: Int?) throws -> Data? {
         let error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         let nsDerivedKey = NSMutableData(length: 32)
         var actualRoundCount: UInt32
         
         let algorithm: CCPBKDFAlgorithm        = CCPBKDFAlgorithm(kCCPBKDF2)
         let prf:       CCPseudoRandomAlgorithm = CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA1)
-        let saltBytes  = UnsafePointer<UInt8>(salt.bytes)
-        let saltLength = size_t(salt.length)
+        let saltBytes  = (salt as NSData).bytes.bindMemory(to: UInt8.self, capacity: salt.count)
+        let saltLength = size_t(salt.count)
         let nsPassword        = string as NSString
-        let nsPasswordPointer = UnsafePointer<Int8>(nsPassword.cStringUsingEncoding(NSUTF8StringEncoding))
-        let nsPasswordLength  = size_t(nsPassword.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+        let nsPasswordPointer = UnsafePointer<Int8>(nsPassword.cString(using: String.Encoding.utf8.rawValue))
+        let nsPasswordLength  = size_t(nsPassword.lengthOfBytes(using: String.Encoding.utf8.rawValue))
         let nsDerivedKeyPointer = UnsafeMutablePointer<UInt8>(nsDerivedKey!.mutableBytes)
         let nsDerivedKeyLength = size_t(nsDerivedKey!.length)
         let msec: UInt32 = 300
@@ -82,7 +82,7 @@ class HashManager: NSObject
             throw error
         }
         
-        return nsDerivedKey!
+        return nsDerivedKey! as Data
     }
     
     

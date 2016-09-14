@@ -5,9 +5,9 @@ extension UInt8
     init?(_ string: String, radix: UInt8) {
         let digits = "0123456789abcdefghijklmnopqrstuvwxyz"
         var result = UInt8(0)
-        for digit in string.lowercaseString.characters {
-            if let range = digits.rangeOfString(String(digit)) {
-                let val = UInt8(digits.startIndex.distanceTo(range.startIndex))
+        for digit in string.lowercased().characters {
+            if let range = digits.range(of: String(digit)) {
+                let val = UInt8(digits.characters.distance(from: digits.startIndex, to: range.lowerBound))
                 if val >= radix {
                     return nil
                 }

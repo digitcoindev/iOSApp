@@ -21,13 +21,13 @@ class TransactionPostMetaData: NSObject
         
     }
     
-    func getFrom(dictionary: NSDictionary) {
+    func getFrom(_ dictionary: NSDictionary) {
         
     }
     
-    func getBeginFrom(dictionary: NSDictionary) {
-        self.id = dictionary.objectForKey("id") as! Double
-        self.height = dictionary.objectForKey("height") as! Double
-        self.hashString = dictionary.objectForKey("hash")!.objectForKey("data") as! String
+    func getBeginFrom(_ dictionary: NSDictionary) {
+        self.id = dictionary.object(forKey: "id") as! Double
+        self.height = dictionary.object(forKey: "height") as! Double
+        self.hashString = (dictionary.object(forKey: "hash")! as AnyObject).object(forKey: "data") as! String
     }
 }

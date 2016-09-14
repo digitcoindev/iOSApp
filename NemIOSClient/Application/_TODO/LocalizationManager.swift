@@ -9,9 +9,9 @@
 import UIKit
 
 class LocalizationManager {
-    private static var bundle :NSBundle? = nil
+    fileprivate static var bundle :Bundle? = nil
     
-    class func setLanguage(language :String) {
+    class func setLanguage(_ language :String) {
         var languageId = language
         
         switch language {
@@ -52,18 +52,18 @@ class LocalizationManager {
             return
         }
         
-        guard let path = NSBundle.mainBundle().pathForResource(languageId, ofType: "lproj") else {
-            bundle = NSBundle.mainBundle()
+        guard let path = Bundle.main.path(forResource: languageId, ofType: "lproj") else {
+            bundle = Bundle.main
             return
         }
         
-        bundle = NSBundle(path: path) ?? NSBundle.mainBundle()
+        bundle = Bundle(path: path) ?? Bundle.main
     }
     
-    class func localizedSting(key :String, defaultValue: String? = nil) -> String? {
+    class func localizedSting(_ key :String, defaultValue: String? = nil) -> String? {
         
         if let _bundle = bundle {
-            return _bundle.localizedStringForKey(key, value: nil, table: nil) ?? defaultValue
+            return _bundle.localizedString(forKey: key, value: nil, table: nil) ?? defaultValue
         } else {
             return NSLocalizedString(key, comment: defaultValue ?? key)
         }

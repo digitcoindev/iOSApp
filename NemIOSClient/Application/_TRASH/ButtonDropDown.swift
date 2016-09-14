@@ -20,62 +20,62 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     }
 
     func setup() {
-        tableView = UITableView(frame: CGRectMake(0,self.frame.height, self.frame.width, dropMenuHeight))
+        tableView = UITableView(frame: CGRect(x: 0,y: self.frame.height, width: self.frame.width, height: dropMenuHeight))
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.hidden = true
+        tableView.isHidden = true
         
         self.addSubview(tableView)
-        self.addTarget(self, action: #selector(ButtonDropDown.touchUpInside), forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: #selector(ButtonDropDown.touchUpInside), for: UIControlEvents.touchUpInside)
     }
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        let frame :CGRect = CGRectMake(0,self.bounds.height, self.bounds.width, tableView.bounds.height)
-        if CGRectContainsPoint(frame, point) && !tableView.hidden {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let frame :CGRect = CGRect(x: 0,y: self.bounds.height, width: self.bounds.width, height: tableView.bounds.height)
+        if frame.contains(point) && !tableView.isHidden {
             return tableView
         }
         
-        if CGRectContainsPoint(self.bounds, point) {
+        if self.bounds.contains(point) {
             return self
         }
         
         return nil
     }
     
-    final func setDropDownMenuHeight(height: CGFloat) {
+    final func setDropDownMenuHeight(_ height: CGFloat) {
         dropMenuHeight = height
         dinamicDropDown = false
         
-        tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, self.frame.size.width, dropMenuHeight);
+        tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: self.frame.size.width, height: dropMenuHeight);
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return content.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : UITableViewCell = UITableViewCell()
-        cell.textLabel!.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
-        cell.textLabel!.text = content[indexPath.row]
+        cell.textLabel!.lineBreakMode = NSLineBreakMode.byTruncatingMiddle
+        cell.textLabel!.text = content[(indexPath as NSIndexPath).row]
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedRow = indexPath.row
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedRow = (indexPath as NSIndexPath).row
         
-        self.setTitle(content[selectedRow], forState: UIControlState.Normal)
-        self.setTitle(content[selectedRow], forState: UIControlState.Selected)
-        self.setTitle(content[selectedRow], forState: UIControlState.Disabled)
+        self.setTitle(content[selectedRow], for: UIControlState())
+        self.setTitle(content[selectedRow], for: UIControlState.selected)
+        self.setTitle(content[selectedRow], for: UIControlState.disabled)
         
-        tableView.hidden = true
+        tableView.isHidden = true
         
         if contentAtions.count == content.count {
             contentAtions[selectedRow]()
         }
     }
     
-    final func setContent(content :[String] , contentActions :[funcBlock]?) {
+    final func setContent(_ content :[String] , contentActions :[funcBlock]?) {
         self.content = content
         
         if contentActions != nil {
@@ -84,21 +84,21 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     }
     
     final func touchUpInside() {
-        tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, self.frame.size.width, dropMenuHeight);
+        tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: self.frame.size.width, height: dropMenuHeight);
 
         if content.count < 1 {
-            tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, 0)
+            tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: 0)
         }
         else if dinamicDropDown {
-            tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, CGFloat(content.count * 44) )
+            tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: CGFloat(content.count * 44) )
         }
         else {
-            tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, dropMenuHeight)
+            tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: dropMenuHeight)
         }
         
         tableView.reloadData()
         
-        tableView.hidden = !tableView.hidden
+        tableView.isHidden = !tableView.isHidden
 
     }
 }

@@ -12,15 +12,15 @@ class ViewController: UIViewController
         let errorLogs = plistFileManager().readErrorLog()
         if errorLogs != nil {
             if errorLogs != "" {
-                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "Error copied to pasteboard ", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "Error copied to pasteboard ", preferredStyle: UIAlertControllerStyle.alert)
                 
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                    alert.dismissViewControllerAnimated(true, completion: nil)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+                    alert.dismiss(animated: true, completion: nil)
                 }))
                 
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
                 
-                UIPasteboard.generalPasteboard().string = errorLogs
+                UIPasteboard.general.string = errorLogs
             }
         }
 
@@ -28,14 +28,14 @@ class ViewController: UIViewController
             LocalizationManager.setLanguage(language)
         }
 
-        if let updateInterval = State.loadData?.updateInterval where Int(updateInterval) > 0 {
-            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(Double(updateInterval))
+        if let updateInterval = State.loadData?.updateInterval , Int(updateInterval) > 0 {
+            UIApplication.shared.setMinimumBackgroundFetchInterval(Double(updateInterval))
         } else {
-            UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
 //        AddressBookManager.create()
         
 //        self.performSegueWithIdentifier(SegueToMainVC, sender: self)

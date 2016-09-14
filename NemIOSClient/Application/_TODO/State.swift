@@ -4,7 +4,7 @@ import UIKit
 
 class State: NSObject
 {
-    private struct Store {
+    fileprivate struct Store {
         static var stackVC : [String] = [String]()
         static var currentVC : String = ""
         static var toVC : String = ""
@@ -17,9 +17,9 @@ class State: NSObject
         static var exportAccount :String? = nil
     }
     
-    private struct ImportStore {
+    fileprivate struct ImportStore {
         static var isAccount: Bool = false
-        static var passwordCompletitionBlock :((password: String)->Bool)? = nil
+        static var passwordCompletitionBlock :((_ password: String)->Bool)? = nil
     }
     
     final class var exportAccount: String? {
@@ -121,7 +121,7 @@ class State: NSObject
         set { State.Store.invoice = newValue }
     }
     
-    final class var importAccountData:((password: String)->Bool)? {
+    final class var importAccountData:((_ password: String)->Bool)? {
         get { return (State.ImportStore.isAccount) ? State.ImportStore.passwordCompletitionBlock : nil}
         set {
                 State.ImportStore.isAccount = (newValue == nil) ? false : true

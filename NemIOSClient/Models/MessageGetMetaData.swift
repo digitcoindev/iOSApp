@@ -2,7 +2,7 @@ import UIKit
 
 class MessageGetMetaData: NSObject
 {
-    private var _payload :[UInt8]?
+    fileprivate var _payload :[UInt8]?
     var payload :[UInt8]? {
         get {
             return _payload
@@ -26,8 +26,8 @@ class MessageGetMetaData: NSObject
                     
                     return bytes.toHexString()
                 } else {
-                    let messageData = NSData(bytes: &self.payload!, length: self.payload!.count)
-                    return (NSString(data: messageData, encoding: NSUTF8StringEncoding) as? String)
+                    let messageData = Data(bytes: UnsafePointer<UInt8>(&self.payload!), count: self.payload!.count)
+                    return (NSString(data: messageData, encoding: String.Encoding.utf8) as? String)
                 }
                 
             case 2:

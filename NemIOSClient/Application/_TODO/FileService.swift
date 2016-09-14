@@ -10,110 +10,110 @@ import UIKit
 
 enum FileServiceResponceState
 {
-    case FileAlreadyExist
-    case FileNotExist
-    case UnsupportedFileName
-    case Failed
-    case Successed
+    case fileAlreadyExist
+    case fileNotExist
+    case unsupportedFileName
+    case failed
+    case successed
 }
 
 protocol FileServiceProtocol
 {
-    func createFileWithName(name: String, data: NSData, responce: ((state: FileServiceResponceState) -> Void)?)
-    func deleteFileWithName(name: String, responce: ((state: FileServiceResponceState) -> Void)?)
-    func renameFile(name: String, toName: String, responce: ((state: FileServiceResponceState) -> Void)?)
+    func createFileWithName(_ name: String, data: Data, responce: ((_ state: FileServiceResponceState) -> Void)?)
+    func deleteFileWithName(_ name: String, responce: ((_ state: FileServiceResponceState) -> Void)?)
+    func renameFile(_ name: String, toName: String, responce: ((_ state: FileServiceResponceState) -> Void)?)
 }
 
 class FileService: FileServiceProtocol
 {
-    private let _manager :NSFileManager = NSFileManager()
-    private let _documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+    fileprivate let _manager :FileManager = FileManager()
+    fileprivate let _documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
     
-    func createFileWithName(name: String, data: NSData, responce: ((state: FileServiceResponceState) -> Void)?)
+    func createFileWithName(_ name: String, data: Data, responce: ((_ state: FileServiceResponceState) -> Void)?)
     {
         if !_validateFieName(name)
         {
-            responce?(state: FileServiceResponceState.UnsupportedFileName)
+            responce?(FileServiceResponceState.unsupportedFileName)
             return
         }
         
         let path = name.path()
-        if _manager.fileExistsAtPath(path)
+        if _manager.fileExists(atPath: path)
         {
-            responce?(state: FileServiceResponceState.FileAlreadyExist)
+            responce?(FileServiceResponceState.fileAlreadyExist)
         }
         else
         {
-            data.writeToFile(path, atomically: true)
-            responce?(state: FileServiceResponceState.Successed)
+            try? data.write(to: URL(fileURLWithPath: path), options: [.atomic])
+            responce?(FileServiceResponceState.successed)
         }
     }
     
-    func deleteFileWithName(name: String, responce: ((state: FileServiceResponceState) -> Void)?)
+    func deleteFileWithName(_ name: String, responce: ((_ state: FileServiceResponceState) -> Void)?)
     {
         if !_validateFieName(name)
         {
-            responce?(state: FileServiceResponceState.UnsupportedFileName)
+            responce?(FileServiceResponceState.unsupportedFileName)
             return
         }
         
         let path = name.path()
-        if _manager.fileExistsAtPath(path)
+        if _manager.fileExists(atPath: path)
         {
-            try! _manager.removeItemAtPath(path)
-            responce?(state: FileServiceResponceState.Successed)
+            try! _manager.removeItem(atPath: path)
+            responce?(FileServiceResponceState.successed)
         }
         else
         {
-            responce?(state: FileServiceResponceState.FileNotExist)
+            responce?(FileServiceResponceState.fileNotExist)
         }
     }
     
-    func fileExist(name: String)-> Bool
+    func fileExist(_ name: String)-> Bool
     {
         if !_validateFieName(name)
         {
             return false
         }
         
-        return _manager.fileExistsAtPath(name.path())
+        return _manager.fileExists(atPath: name.path())
     }
     
-    func renameFile(name: String, toName: String, responce: ((state: FileServiceResponceState) -> Void)?)
+    func renameFile(_ name: String, toName: String, responce: ((_ state: FileServiceResponceState) -> Void)?)
     {
         if !_validateFieName(name) || !_validateFieName(toName)
         {
-            responce?(state: FileServiceResponceState.UnsupportedFileName)
+            responce?(FileServiceResponceState.unsupportedFileName)
             return
         }
         
-        if _manager.fileExistsAtPath(name.path())
+        if _manager.fileExists(atPath: name.path())
         {
-            if _manager.fileExistsAtPath(toName.path())
+            if _manager.fileExists(atPath: toName.path())
             {
-                responce?(state: FileServiceResponceState.FileAlreadyExist)
+                responce?(FileServiceResponceState.fileAlreadyExist)
             }
             else
             {
-                try! _manager.moveItemAtPath(name.path(), toPath: toName.path())
-                responce?(state: FileServiceResponceState.Successed)
+                try! _manager.moveItem(atPath: name.path(), toPath: toName.path())
+                responce?(FileServiceResponceState.successed)
             }
         }
         else
         {
-            responce?(state: FileServiceResponceState.FileNotExist)
+            responce?(FileServiceResponceState.fileNotExist)
         }
     }
     
     //MARK: Private Methods
     
-    private func _validateFieName(name: String)->Bool
+    fileprivate func _validateFieName(_ name: String)->Bool
     {
         let validExtantions = [".png", ".mov"]
         for ext in validExtantions
         {
             let stringRegEx = "\\b[A-Za-z]*(\\\(ext))\\b"
-            let range = name.rangeOfString(stringRegEx, options:.RegularExpressionSearch)
+            let range = name.range(of: stringRegEx, options:.regularExpression)
             
             if range != nil {return true}
         }

@@ -5,24 +5,24 @@ extension String
 {
     
     var URLEscapedString: String {
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
+        return self.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)!
     }
     
-    var UTF8EncodedData: NSData {
-        return self.dataUsingEncoding(NSUTF8StringEncoding)!
+    var UTF8EncodedData: Data {
+        return self.data(using: String.Encoding.utf8)!
     }
     
-    func dataFromHexadecimalString() -> NSData? {
-        let trimmedString = self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<> ")).stringByReplacingOccurrencesOfString(" ", withString: "")
+    func dataFromHexadecimalString() -> Data? {
+        let trimmedString = self.trimmingCharacters(in: CharacterSet(charactersIn: "<> ")).replacingOccurrences(of: " ", with: "")
         
         let regex: NSRegularExpression?
         do {
-            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive)
+            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .caseInsensitive)
         } catch {
             regex = nil
         }
         
-        let found = regex?.firstMatchInString(trimmedString, options: [], range: NSMakeRange(0, trimmedString.characters.count))
+        let found = regex?.firstMatch(in: trimmedString, options: [], range: NSMakeRange(0, trimmedString.characters.count))
         
         if found == nil || found?.range.location == NSNotFound || trimmedString.characters.count % 2 != 0 {
             return nil
@@ -30,34 +30,34 @@ extension String
         
         let data = NSMutableData(capacity: trimmedString.characters.count / 2)
         
-        for var index = trimmedString.startIndex; index < trimmedString.endIndex; index = index.successor().successor() {
-            let byteString = trimmedString.substringWithRange(Range<String.Index>(start: index, end: index.successor().successor()))
+        for var index = trimmedString.startIndex; index < trimmedString.endIndex; index = <#T##Collection corresponding to your index##Collection#>.index(after: <#T##Collection corresponding to `index`##Collection#>.index(after: index)) {
+            let byteString = trimmedString.substring(with: (index ..< <#T##Collection corresponding to your index##Collection#>.index(after: <#T##Collection corresponding to `index`##Collection#>.index(after: index))))
             let num = UInt8(byteString.withCString { strtoul($0, nil, 16) })
-            data?.appendBytes([num] as [UInt8], length: 1)
+            data?.append([num] as [UInt8], length: 1)
         }
         
-        return data
+        return data as Data?
     }
     
     func path() -> String
     {
-        let _documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let _documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         
-        let path = (_documentsPath as NSString).stringByAppendingPathComponent(self)
+        let path = (_documentsPath as NSString).appendingPathComponent(self)
         
         return path
     }
     
-    func stringFromHexadecimalStringUsingEncoding(encoding: NSStringEncoding) -> String? {
+    func stringFromHexadecimalStringUsingEncoding(_ encoding: String.Encoding) -> String? {
         if let data = dataFromHexadecimalString() {
-            return NSString(data: data, encoding: encoding) as? String
+            return NSString(data: data, encoding: encoding.rawValue) as? String
         }
         
         return nil
     }
     
-    func hexadecimalStringUsingEncoding(encoding: NSStringEncoding) -> String? {
-        let data = dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+    func hexadecimalStringUsingEncoding(_ encoding: String.Encoding) -> String? {
+        let data = self.data(using: String.Encoding.utf8, allowLossyConversion: false)
         return data?.hexadecimalString()
     }
     
@@ -72,15 +72,15 @@ extension String
         
         arrayLength = arrayLength / 2
         
-        var buffer : Array<UInt8> = Array(count: arrayLength , repeatedValue: 0)
-        for var index :Int = 0 ; index < arrayLength  ; index += 1 {
-            let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+        var buffer : Array<UInt8> = Array(repeating: 0 , count: arrayLength)
+        for index :Int in 0  ..< arrayLength  {
+            let substring :String = (hexString as NSString).substring(with: NSRange(location: 2 * index, length: 2))
             buffer[index] = UInt8(substring, radix: 16)!
         }
         return buffer
     }
     
-    func asByteArray(length: Int)-> Array<UInt8> {
+    func asByteArray(_ length: Int)-> Array<UInt8> {
         var arrayLength :Int = self.utf16.count
         var hexString = self
         
@@ -91,16 +91,16 @@ extension String
         
         arrayLength = arrayLength / 2
         
-        var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
-        for var index :Int = 0 ; index < arrayLength  ; index += 1 {
-            let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+        var buffer : Array<UInt8> = Array(repeating: 0 , count: length)
+        for index :Int in 0  ..< arrayLength  {
+            let substring :String = (hexString as NSString).substring(with: NSRange(location: 2 * index, length: 2))
             buffer[index] = UInt8(substring, radix: 16)!
         }
         
         return buffer
     }
     
-    func asByteArrayEndian(length: Int)-> Array<UInt8> {
+    func asByteArrayEndian(_ length: Int)-> Array<UInt8> {
         var arrayLength :Int = self.utf16.count
         var hexString = self
         
@@ -111,9 +111,9 @@ extension String
         
         arrayLength = arrayLength / 2
         
-        var buffer : Array<UInt8> = Array(count: length , repeatedValue: 0)
-        for var index :Int = 0 ; index < arrayLength  ; index += 1 {
-            let substring :String = (hexString as NSString).substringWithRange(NSRange(location: 2 * index, length: 2))
+        var buffer : Array<UInt8> = Array(repeating: 0 , count: length)
+        for index :Int in 0  ..< arrayLength  {
+            let substring :String = (hexString as NSString).substring(with: NSRange(location: 2 * index, length: 2))
             buffer[arrayLength - index - 1] = UInt8(substring, radix: 16)!
         }
         
@@ -123,11 +123,11 @@ extension String
     func nemAddressNormalised() -> String {
         var newString = ""
         for var i = 0 ; i < self.characters.count ; i += 6 {
-            let substring = (self as NSString).substringWithRange(NSRange(location: i, length: ((self.characters.count - i) >= 6) ? 6 : self.characters.count - i))
+            let substring = (self as NSString).substring(with: NSRange(location: i, length: ((self.characters.count - i) >= 6) ? 6 : self.characters.count - i))
             newString += substring + "-"
         }
         let length :Int = newString.characters.count - 1
-        return (newString as NSString).substringWithRange(NSRange(location: 0, length: length))
+        return (newString as NSString).substring(with: NSRange(location: 0, length: length))
     }
     
     func nemName() -> String {
@@ -164,7 +164,7 @@ extension String
     func nemKeyNormalized() -> String? {
         if Validate.key(self) {
             if self.asByteArray().count > 32 {
-                return (self as NSString).substringWithRange(NSRange(location: 2, length: 64))
+                return (self as NSString).substring(with: NSRange(location: 2, length: 64))
             } else {
                 return self
             }
@@ -173,7 +173,7 @@ extension String
         }
     }
     
-    func localized(defaultValue :String? = nil) -> String {
+    func localized(_ defaultValue :String? = nil) -> String {
         return LocalizationManager.localizedSting(self, defaultValue: defaultValue) ?? self
     }
 }

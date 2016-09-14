@@ -16,11 +16,11 @@ class ShareViewController: UIViewController {
 
     var message :String? = nil
     var images :[UIImage]? = nil
-    var urls :[NSURL]? = nil
+    var urls :[URL]? = nil
     
     //MARK: - Private Variables
     
-    private var _shareManager :SocialManagerProtocol = SocialManager()
+    fileprivate var _shareManager :SocialManagerProtocol = SocialManager()
 
     //MARK: - Load Methods
 
@@ -42,16 +42,16 @@ class ShareViewController: UIViewController {
     
     //MARK: - @IBAction
 
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
     }
     
-    @IBAction func shareWithMail(sender: AnyObject) {
+    @IBAction func shareWithMail(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
         
-        var data :[NSData] = []
+        var data :[Data] = []
         
         for image in images ?? [] {
             let imageData = UIImageJPEGRepresentation(image, 1.0)
@@ -61,14 +61,14 @@ class ShareViewController: UIViewController {
         _shareManager.mailSand(message ?? "", images: data)
     }
     
-    @IBAction func shareWithFacebook(sender: AnyObject) {
+    @IBAction func shareWithFacebook(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
         
         _shareManager.facebookPostToWall(message, images: images, urls: urls)
     }
     
-    @IBAction func shareWithTwitter(sender: AnyObject) {
+    @IBAction func shareWithTwitter(_ sender: AnyObject) {
         self.view.removeFromSuperview()
         self.removeFromParentViewController()
         

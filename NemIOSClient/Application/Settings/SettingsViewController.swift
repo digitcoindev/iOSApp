@@ -9,71 +9,71 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
 {
-    private enum SettingsCategory :Int {
-        case General = 0
-        case Security = 1
-        case Server = 2
-        case Notification = 3
+    fileprivate enum SettingsCategory :Int {
+        case general = 0
+        case security = 1
+        case server = 2
+        case notification = 3
     }
     
 //    let dataManager :CoreDataManager = CoreDataManager()
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var _content :[[[String]]] = []
-    private var _loadData :LoadData? = State.loadData
-    private var _popUp :UIViewController? = nil
+    fileprivate var _content :[[[String]]] = []
+    fileprivate var _loadData :LoadData? = State.loadData
+    fileprivate var _popUp :UIViewController? = nil
 //    private let _dataManager = CoreDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
         _refreshData()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         _refreshData()
 //        State.currentVC = SegueToSettings
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return max(_content.count, 1)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if _content.count == 0 {return 1}
         return max(_content[section].count, 1)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if _content.count == 0 {
-            return self.tableView!.dequeueReusableCellWithIdentifier("Loading")!
+            return self.tableView!.dequeueReusableCell(withIdentifier: "Loading")!
         }
         
         var cell :ProfileTableViewCell!
 
-        if indexPath.row == 0 {
-            cell = self.tableView!.dequeueReusableCellWithIdentifier("category cell") as! ProfileTableViewCell
+        if (indexPath as NSIndexPath).row == 0 {
+            cell = self.tableView!.dequeueReusableCell(withIdentifier: "category cell") as! ProfileTableViewCell
 
         } else {
-            cell = self.tableView!.dequeueReusableCellWithIdentifier("content cell") as! ProfileTableViewCell
+            cell = self.tableView!.dequeueReusableCell(withIdentifier: "content cell") as! ProfileTableViewCell
         }
         
         
-        cell.titleLabel!.text = _content[indexPath.section][indexPath.row][0]
-        cell.contentLabel?.text = _content[indexPath.section][indexPath.row][1]
+        cell.titleLabel!.text = _content[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row][0]
+        cell.contentLabel?.text = _content[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row][1]
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        switch indexPath.section {
-        case SettingsCategory.General.rawValue :
-            switch indexPath.row {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch (indexPath as NSIndexPath).section {
+        case SettingsCategory.general.rawValue :
+            switch (indexPath as NSIndexPath).row {
             case 1:
                 _createPopUp("SettingsLanguageViewController")
             case 2: break
@@ -91,16 +91,16 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             default:
                 break
             }
-        case SettingsCategory.Server.rawValue:
-            switch indexPath.row {
+        case SettingsCategory.server.rawValue:
+            switch (indexPath as NSIndexPath).row {
             case 1:
-                performSegueWithIdentifier("showSettingsServerViewController", sender: nil)
+                performSegue(withIdentifier: "showSettingsServerViewController", sender: nil)
             default:
                 break
             }
             
-        case SettingsCategory.Security.rawValue:
-            switch indexPath.row {
+        case SettingsCategory.security.rawValue:
+            switch (indexPath as NSIndexPath).row {
             case 1:
                 _createPopUp("SettingsChangePasswordViewController")
                 break
@@ -119,8 +119,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 break
             }
             
-        case SettingsCategory.Notification.rawValue:
-            switch indexPath.row {
+        case SettingsCategory.notification.rawValue:
+            switch (indexPath as NSIndexPath).row {
             case 1:
                 _createPopUp("SettingsNotificationIntervalViewController")
                 break
@@ -135,7 +135,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     //MARK: - Private Methods
     
-    private final func _refreshData(){
+    fileprivate final func _refreshData(){
         _loadData = State.loadData
         title = "SETTINGS".localized()
         var serverText = ""
@@ -214,7 +214,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.reloadData()
     }
     
-    private final func _createPopUp(withId: String) {
+    fileprivate final func _createPopUp(_ withId: String) {
         if _popUp != nil {
             _popUp!.view.removeFromSuperview()
             _popUp!.removeFromParentViewController()
@@ -223,7 +223,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let popUpController :UIViewController =  storyboard.instantiateViewControllerWithIdentifier(withId) as! UIViewController
+        let popUpController :UIViewController =  storyboard.instantiateViewController(withIdentifier: withId) 
         popUpController.view.frame = CGRect(x: 0, y: view.frame.height, width: popUpController.view.frame.width, height: popUpController.view.frame.height - view.frame.height)
         popUpController.view.layer.opacity = 0
 //        popUpController.delegate = self
@@ -231,7 +231,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         _popUp = popUpController
         self.view.addSubview(popUpController.view)
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             popUpController.view.layer.opacity = 1
             }, completion: nil)
 

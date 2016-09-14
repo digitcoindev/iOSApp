@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 /// Represents an account object.
-public class Account: NSManagedObject {
+open class Account: NSManagedObject {
     
     // MARK: - Model Properties
     

@@ -6,6 +6,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 /**
     The view controller that lets the user send transactions from
@@ -16,9 +36,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     
     // MARK: - View Controller Properties
     
-    private var _apiManager = APIManager()
-    private var _mainWallet :AccountGetMetaData? = nil
-    private var _popup :UIViewController? = nil
+    fileprivate var _apiManager = APIManager()
+    fileprivate var _mainWallet :AccountGetMetaData? = nil
+    fileprivate var _popup :UIViewController? = nil
     
     var transactionFee :Double = 10;
     var walletData :AccountGetMetaData!
@@ -26,10 +46,10 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     var invoice :InvoiceData? = nil
     var contact :_Correspondent? = State.currentContact
     
-    private var _isEnc = false
-    private let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
-    private let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
-    private var _preparedTransaction :_TransferTransaction? = nil
+    fileprivate var _isEnc = false
+    fileprivate let greenColor :UIColor = UIColor(red: 65/256, green: 206/256, blue: 123/256, alpha: 1)
+    fileprivate let grayColor :UIColor = UIColor(red: 239 / 255, green: 239 / 255, blue: 244 / 255, alpha: 1)
+    fileprivate var _preparedTransaction :_TransferTransaction? = nil
     
     // MARK: - View Controller Outlets
     
@@ -93,7 +113,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
 //        }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.view.endEditing(true)
@@ -102,7 +122,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    fileprivate func updateViewControllerAppearance() {
         
         customNavigationItem.title = "NEW_TRANSACTION".localized()
         fromLabel.text = "FROM".localized() + ":"
@@ -110,7 +130,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         amountLabel.text = "AMOUNT".localized() + ":"
         messageLabel.text = "MESSAGE".localized() + ":"
         feeLabel.text = "FEE".localized() + ":"
-        sendButton.setTitle("SEND".localized(), forState: UIControlState.Normal)
+        sendButton.setTitle("SEND".localized(), for: UIControlState())
         toAddressTextField.placeholder = "ENTER_ADDRESS".localized()
         amountTextField.placeholder = "ENTER_AMOUNT".localized()
         messageTextField.placeholder = "EMPTY_MESSAGE".localized()
@@ -118,7 +138,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     }
     
     final func setSuggestions() {
-        var suggestions :[NEMTextField.Suggestion] = []
+        let suggestions :[NEMTextField.Suggestion] = []
         
         //        let dataManager = CoreDataManager()
         //        for wallet in dataManager.getWallets() {
@@ -210,28 +230,28 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         toAddressTextField.suggestions = suggestions
     }
     
-    private final func _showPopUp(message :String){
+    fileprivate final func _showPopUp(_ message :String){
         
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
-        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default) {
+        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default) {
             alertAction -> Void in
         }
         
         alert.addAction(ok)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    private final func _sendTransferTransaction() {
+    fileprivate final func _sendTransferTransaction() {
         
-        let messageBytes :[UInt8] = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)!.asByteArray()
+        let messageBytes :[UInt8] = messageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray()
         
         let transaction :_TransferTransaction = _TransferTransaction()
         
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
         transaction.amount = Double(xems)
         transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? _MessageType.Ecrypted.rawValue : _MessageType.Normal.rawValue
+        transaction.message.type = (_isEnc) ? _MessageType.ecrypted.rawValue : _MessageType.normal.rawValue
         transaction.fee = transactionFee
         transaction.recipient = toAddressTextField.text!
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
@@ -252,10 +272,10 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         }
     }
     
-    final func countTransactionFee(needUpdate: Bool = true) {
-        var text = amountTextField.text!.stringByReplacingOccurrencesOfString(" ", withString: "")
+    final func countTransactionFee(_ needUpdate: Bool = true) {
+        var text = amountTextField.text!.replacingOccurrences(of: " ", with: "")
         
-        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
+        text = text.replacingOccurrences(of: ",", with: "")
         
         var amount = Double(text) ?? 0
         
@@ -275,7 +295,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
             newFee = 10 - Int(xems)
         }
         
-        var messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count
+        var messageLength = messageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count
         
         if _isEnc && messageLength != 0{
             messageLength! += 64
@@ -287,12 +307,12 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         
         let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "FEE".localized() +  ": (" + "MIN".localized() + " ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "\(Int(newFee))", attributes: [
+        atributedText.append(NSMutableAttributedString(string: "\(Int(newFee))", attributes: [
             NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
             NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
             ]))
         
-        atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        atributedText.append(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
         feeLabel.attributedText = atributedText
         
         if !needUpdate {
@@ -304,14 +324,14 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         transactionFee = Double(newFee)
     }
     
-    func didChouseAccount(account: AccountGetMetaData) {
+    func didChouseAccount(_ account: AccountGetMetaData) {
         walletData = account
         
         
         let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
-        self.encButton?.enabled = walletData.address == account_address
+        self.encButton?.isEnabled = walletData.address == account_address
         
         if walletData.address != account_address {
             _isEnc = false
@@ -321,24 +341,24 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
             self.feeTextField.text = "\(transactionFee.format())"
         }
         
-        encButton.enabled = walletData.address == account_address
+        encButton.isEnabled = walletData.address == account_address
         
-        chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
+        chooseButon.setTitle(walletData.address.nemName(), for: UIControlState())
         
         let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
         
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
+        atributedText.append(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
             NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
             NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
             ]))
         
-        atributedText.appendAttributedString(NSMutableAttributedString(string: "XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        atributedText.append(NSMutableAttributedString(string: "XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
         amountLabel.attributedText = atributedText
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+    func keyboardWillShow(_ notification: Notification) {
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         let keyboardHeight:CGFloat = keyboardSize.height - 60
         
@@ -346,12 +366,12 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         self.scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        self.scroll.contentInset = UIEdgeInsets.zero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
-    func accountGetResponceWithAccount(account: AccountGetMetaData?) {
+    func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
         
         if _preparedTransaction != nil && _preparedTransaction!.recipient == account?.address {
             guard let contactPublicKey = account?.publicKey else {
@@ -359,7 +379,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
                 return
             }
             
-            var encryptedMessage :[UInt8] = Array(count: 32, repeatedValue: 0)
+            var encryptedMessage :[UInt8] = Array(repeating: 0, count: 32)
             encryptedMessage = MessageCrypto.encrypt(_preparedTransaction!.message.payload!, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
             _preparedTransaction!.message.payload = encryptedMessage
             
@@ -383,30 +403,30 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         
         if account != nil {
             if walletData.cosignatoryOf.count > 0 {
-                chooseButon.hidden = false
-                accountLabel.hidden = true
-                chooseButon.setTitle(walletData.address.nemName(), forState: UIControlState.Normal)
+                chooseButon.isHidden = false
+                accountLabel.isHidden = true
+                chooseButon.setTitle(walletData.address.nemName(), for: UIControlState())
             } else {
-                chooseButon.hidden = true
-                accountLabel.hidden = false
+                chooseButon.isHidden = true
+                accountLabel.isHidden = false
                 accountLabel.text = walletData.address.nemName()
             }
             
             let atributedText :NSMutableAttributedString = NSMutableAttributedString(string: "AMOUNT".localized() + " (" + "BALANCE".localized() + ": ", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!])
             
-            atributedText.appendAttributedString(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
+            atributedText.append(NSMutableAttributedString(string: "\((walletData.balance / 1000000).format())", attributes: [
                 NSForegroundColorAttributeName : UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1),
                 NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!
                 ]))
             
-            atributedText.appendAttributedString(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+            atributedText.append(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 17)!]))
             amountLabel.attributedText = atributedText
         } else {
             amountLabel.text = "AMOUNT".localized() + ":"
         }
     }
     
-    func prepareAnnounceResponceWithTransactions(data: [TransactionPostMetaData]?) {
+    func prepareAnnounceResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         
         var message :String = ""
         if (data ?? []).isEmpty {
@@ -420,7 +440,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     
     // MARK: - View Controller Outlet Actions
     
-    @IBAction func encTouchUpInside(sender: UIButton) {
+    @IBAction func encTouchUpInside(_ sender: UIButton) {
         _preparedTransaction = nil
         _isEnc = !_isEnc
         sender.backgroundColor = (_isEnc) ? greenColor : grayColor
@@ -428,14 +448,14 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         self.feeTextField.text = "\(transactionFee.format())"
     }
     
-    @IBAction func textFieldEditingChanged(sender: UITextField) {
+    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         countTransactionFee()
         if self.feeTextField.text! != transactionFee.format() && self.feeTextField.text! != ""{
             self.feeTextField.text = transactionFee.format()
         }
     }
     
-    @IBAction func textFieldReturnKeyToched(sender: UITextField) {
+    @IBAction func textFieldReturnKeyToched(_ sender: UITextField) {
         
         switch sender {
         case toAddressTextField :
@@ -451,8 +471,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         countTransactionFee(sender != feeTextField)
         self.feeTextField.text = transactionFee.format()
         
-        var text = self.xems.format().stringByReplacingOccurrencesOfString(" ", withString: "")
-        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
+        var text = self.xems.format().replacingOccurrences(of: " ", with: "")
+        text = text.replacingOccurrences(of: ",", with: "")
         
         if text == "0" {
             text = ""
@@ -461,12 +481,12 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         self.amountTextField.text = text
     }
     
-    @IBAction func textFieldEditingEnd(sender: UITextField) {
+    @IBAction func textFieldEditingEnd(_ sender: UITextField) {
         countTransactionFee(sender != feeTextField)
         self.feeTextField.text = transactionFee.format()
         
-        var text = self.xems.format().stringByReplacingOccurrencesOfString(" ", withString: "")
-        text = text.stringByReplacingOccurrencesOfString(",", withString: "")
+        var text = self.xems.format().replacingOccurrences(of: " ", with: "")
+        text = text.replacingOccurrences(of: ",", with: "")
         
         if text == "0" {
             text = ""
@@ -475,7 +495,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         self.amountTextField.text = text
     }
     
-    @IBAction func send(sender: AnyObject) {
+    @IBAction func send(_ sender: AnyObject) {
         let amount = Double(amountTextField.text!) ?? 0
         if amount < 0.000001 && amount != 0 {
             countTransactionFee()
@@ -489,14 +509,14 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
             return
         }
         
-        if messageTextField.text?.hexadecimalStringUsingEncoding(NSUTF8StringEncoding)?.asByteArray().count > 128 {
+        if messageTextField.text?.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 128 {
             _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
             return
         }
         
         if walletData != nil {
             var state = true
-            toAddressTextField.text = toAddressTextField.text?.stringByReplacingOccurrencesOfString("-", withString: "")
+            toAddressTextField.text = toAddressTextField.text?.replacingOccurrences(of: "-", with: "")
             state = (state && Validate.stringNotEmpty(toAddressTextField.text))
             state = (state && (Validate.stringNotEmpty(messageTextField.text) || Validate.stringNotEmpty(amountTextField.text)))
             state = (state && Validate.stringNotEmpty(feeTextField.text))
@@ -526,7 +546,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         }
     }
     
-    @IBAction func endTyping(sender: NEMTextField) {
+    @IBAction func endTyping(_ sender: NEMTextField) {
         
         if Int(amountTextField.text!) != nil {
             self.xems = Double(amountTextField.text!)!
@@ -574,8 +594,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
 //        }
 //    }
     
-    @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -583,7 +603,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
 
 extension TransactionSendViewController: UINavigationBarDelegate {
     
-    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
-        return .TopAttached
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
     }
 }

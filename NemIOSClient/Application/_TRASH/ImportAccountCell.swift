@@ -10,15 +10,15 @@ class ImportAccountCell: UITableViewCell
         
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }
 
 
     
-    @IBAction func sandNotification(sender: UITextField) {
-        NSNotificationCenter.defaultCenter().postNotificationName("Import", object:sender.text )
+    @IBAction func sandNotification(_ sender: UITextField) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "Import"), object:sender.text )
         
         password.text = ""
     }

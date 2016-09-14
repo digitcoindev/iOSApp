@@ -13,10 +13,10 @@ class MultisigSaveChangesTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        saveButton.setTitle("SAVE_CHANGES".localized(), forState: UIControlState.Normal)
+        saveButton.setTitle("SAVE_CHANGES".localized(), for: UIControlState())
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
 }

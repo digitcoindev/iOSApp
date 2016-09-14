@@ -41,7 +41,7 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
     // MARK: - Cell Helper Methods
     
     /// Updates the table view cell with the provided correspondent data.
-    private func updateCell() {
+    fileprivate func updateCell() {
         
         let mostRecentTransferTransaction = correspondent!.mostRecentTransaction as! TransferTransaction
         nameLabel.text = correspondent!.name != nil ? correspondent!.name : correspondent!.accountAddress.nemAddressNormalised()
@@ -51,7 +51,7 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
     }
     
     /// Updates the appearance of the table view cell.
-    private func updateCellAppearance() {
+    fileprivate func updateCellAppearance() {
         
         containerView.layer.cornerRadius = 5
     }
@@ -64,21 +64,21 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
      
         - Returns: The human readable date or time the transaction was performed as a string.
      */
-    private func getDate(fromTransactionTimeStamp timeStamp: Int) -> String {
+    fileprivate func getDate(fromTransactionTimeStamp timeStamp: Int) -> String {
         
         let timeStamp = Double(timeStamp) + genesis_block_time
         var date = String()
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        if dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp)) == dateFormatter.stringFromDate(NSDate()) {
+        if dateFormatter.string(from: Date(timeIntervalSince1970: timeStamp)) == dateFormatter.string(from: Date()) {
             dateFormatter.dateFormat = "HH:mm"
         }
         
         let mostRecentTransferTransaction = correspondent!.mostRecentTransaction as! TransferTransaction
         if mostRecentTransferTransaction.metaData!.id != nil {
-            date = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: timeStamp))
+            date = dateFormatter.string(from: Date(timeIntervalSince1970: timeStamp))
         } else {
             date = "UNCONFIRMED_DASHBOARD".localized()
         }
@@ -94,16 +94,16 @@ class TransactionOverviewCorrespondentTableViewCell: UITableViewCell {
      
         - Returns: The amount as a formatted attributed string.
      */
-    private func formatAmount(amount: Double) -> NSMutableAttributedString {
+    fileprivate func formatAmount(_ amount: Double) -> NSMutableAttributedString {
         
         var amountAttributedString = NSMutableAttributedString()
         var textColor = UIColor()
         var sign = String()
         
         let mostRecentTransferTransaction = correspondent!.mostRecentTransaction as! TransferTransaction
-        if (mostRecentTransferTransaction.transferType == .Outgoing && mostRecentTransferTransaction.recipient != account!.address) {
+        if (mostRecentTransferTransaction.transferType == .outgoing && mostRecentTransferTransaction.recipient != account!.address) {
             sign = "-"
-            textColor = UIColor.redColor()
+            textColor = UIColor.red
         } else if correspondent!.mostRecentTransaction.signer == account!.publicKey {
             sign = "±"
             textColor = UIColor(red: 142.0/255.0, green: 142.0/255.0, blue: 142.0/255.0, alpha: 1)

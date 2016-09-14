@@ -48,7 +48,7 @@ class MainContainerVC: UIViewController
         super.didReceiveMemoryWarning()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!){
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!){
 //        if self.delegate != nil {
 //            (segue.destinationViewController as! AbstractViewController).delegate = self.delegate
 //        }
@@ -66,13 +66,13 @@ class MainContainerVC: UIViewController
         
     }
     
-    func swapFromViewController(fromViewController :UIViewController , toViewController :UIViewController ){
-        toViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-        NSNotificationCenter().removeObserver(self)
-        fromViewController.willMoveToParentViewController(nil)
+    func swapFromViewController(_ fromViewController :UIViewController , toViewController :UIViewController ){
+        toViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        NotificationCenter().removeObserver(self)
+        fromViewController.willMove(toParentViewController: nil)
         
         self.addChildViewController(toViewController)
-        self.transitionFromViewController(fromViewController, toViewController: toViewController, duration: 0.5, options: UIViewAnimationOptions.TransitionNone
+        self.transition(from: fromViewController, to: toViewController, duration: 0.5, options: UIViewAnimationOptions()
             , animations: {
                 value in
             }
@@ -80,7 +80,7 @@ class MainContainerVC: UIViewController
                 finish in
                 
                 fromViewController.removeFromParentViewController()
-                toViewController.didMoveToParentViewController(self)
+                toViewController.didMove(toParentViewController: self)
             })
     }
     

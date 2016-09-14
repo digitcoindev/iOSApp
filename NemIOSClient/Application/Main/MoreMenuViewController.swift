@@ -23,7 +23,7 @@ class MoreMenuViewController:  UIViewController, APIManagerDelegate
         
 //        menu = [SegueTomultisigAccountManager, SegueToHarvestDetails, SegueToExportAccount]
         
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
                 
 //        for page in menu {
@@ -34,26 +34,26 @@ class MoreMenuViewController:  UIViewController, APIManagerDelegate
 //        }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         tabBarController?.title = "MORE".localized()
         tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
 //        State.currentVC = SegueToMainMenu
     }
     
     // MARK: - Table view data source
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return menuItems.count
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : MainViewCell = self.tableView.dequeueReusableCellWithIdentifier("mainCell") as! MainViewCell
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let cell : MainViewCell = self.tableView.dequeueReusableCell(withIdentifier: "mainCell") as! MainViewCell
 //        var titleText = menuItems.objectAtIndex(indexPath.row) as? String
 //        switch titleText!
 //        {
@@ -71,7 +71,7 @@ class MoreMenuViewController:  UIViewController, APIManagerDelegate
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
 //        var page: String  = menuItems.objectAtIndex(indexPath.row) as! String
 //
 //        State.toVC = page

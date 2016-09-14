@@ -9,7 +9,7 @@ import UIKit
 
 @objc protocol ServerCellDelegate
 {
-    optional func deleteCell(cell :UITableViewCell)
+    @objc optional func deleteCell(_ cell :UITableViewCell)
 }
 
 class ServerViewCell: UITableViewCell
@@ -20,8 +20,8 @@ class ServerViewCell: UITableViewCell
     @IBOutlet weak var flagImageView: UIImageView!
     @IBOutlet weak var actionContent: UIView!
     
-    private var _inEditingState :Bool = false
-    private var _isActiveServer :Bool = false
+    fileprivate var _inEditingState :Bool = false
+    fileprivate var _isActiveServer :Bool = false
     
     
     var isActiveServer :Bool {
@@ -51,7 +51,7 @@ class ServerViewCell: UITableViewCell
         self.contentView.clipsToBounds = true
     }
     
-    final func layoutCell(animated animated :Bool) {
+    final func layoutCell(animated :Bool) {
         let duration = (animated) ? 0.5 : 0.1
         if !_inEditingState {
             
@@ -59,13 +59,13 @@ class ServerViewCell: UITableViewCell
             cons?.constant = -58
             
             
-            UIView.animateWithDuration(duration, animations: { () -> Void in
+            UIView.animate(withDuration: duration, animations: { () -> Void in
                 self.contentView.layoutIfNeeded()
                 }, completion: { (successed :Bool) -> Void in
                     if self._isActiveServer {
-                        self.actionButton.setImage(UIImage(named: "server_indicator_active"), forState: UIControlState.Normal)
+                        self.actionButton.setImage(UIImage(named: "server_indicator_active"), for: UIControlState())
                     } else {
-                        self.actionButton.setImage(UIImage(named: "server_indicator_passive"), forState: UIControlState.Normal)
+                        self.actionButton.setImage(UIImage(named: "server_indicator_passive"), for: UIControlState())
                     }
                     
             })
@@ -75,23 +75,23 @@ class ServerViewCell: UITableViewCell
             cons?.constant = 0
             
             
-            UIView.animateWithDuration(duration, animations: { () -> Void in
+            UIView.animate(withDuration: duration, animations: { () -> Void in
                 self.contentView.layoutIfNeeded()
                 }, completion: { (successed :Bool) -> Void in
                     
-                    self.actionButton.setImage(UIImage(named: "delete_icon"), forState: UIControlState.Normal)
+                    self.actionButton.setImage(UIImage(named: "delete_icon"), for: UIControlState())
             })
         }
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
     }
-    @IBAction func deleteCell(sender: AnyObject){
+    @IBAction func deleteCell(_ sender: AnyObject){
         
         if _inEditingState {
-            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(ServerCellDelegate.deleteCell(_:))) {
+            if self.delegate != nil && self.delegate!.responds(to: #selector(ServerCellDelegate.deleteCell(_:))) {
                 (self.delegate as! ServerCellDelegate).deleteCell!(self)
             }
         } else {

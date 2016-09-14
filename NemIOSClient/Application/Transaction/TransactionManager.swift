@@ -6,18 +6,38 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 /**
     The transaction manager singleton used to perform all kinds of actions
     in relationship with a transaction. Use this managers available methods
     instead of writing your own logic.
  */
-public class TransactionManager {
+open class TransactionManager {
     
     // MARK: - Manager Properties
     
     /// The singleton for the transaction manager.
-    public static let sharedInstance = TransactionManager()
+    open static let sharedInstance = TransactionManager()
 
     // MARK: - Public Manager Methods
     
@@ -31,7 +51,7 @@ public class TransactionManager {
      
         - Returns: The request announce object of the provided transaction that will get passed to the NIS to announce the transaction.
      */
-    public func signTransaction(transaction: Transaction, account: Account) -> RequestAnnounce {
+    open func signTransaction(_ transaction: Transaction, account: Account) -> RequestAnnounce {
         
         var transactionByteArray = [UInt8]()
         var transactionByteArrayHexadecimal = String()
@@ -44,13 +64,13 @@ public class TransactionManager {
         transactionByteArray += commonPartByteArray
         
         switch transaction.type {
-        case .TransferTransaction:
+        case .transferTransaction:
             
             transactionDependentPartByteArray = generateTransferTransactionPart(forTransaction: transaction as! TransferTransaction)
             
             transactionByteArray += transactionDependentPartByteArray
             
-        case .MultisigTransaction:
+        case .multisigTransaction:
             
             let transferTransactionCommonPartByteArray = generateCommonTransactionPart(forTransaction: (transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)
             transactionDependentPartByteArray = generateTransferTransactionPart(forTransaction: (transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)
@@ -82,7 +102,7 @@ public class TransactionManager {
      
         - Returns: The fee for the transaction as a double.
      */
-    public func calculateFee(forTransactionWithAmount transactionAmount: Double) -> Double {
+    open func calculateFee(forTransactionWithAmount transactionAmount: Double) -> Double {
         
         var transactionFee = 0.0
         
@@ -104,7 +124,7 @@ public class TransactionManager {
      
         - Returns: The fee for the transaction as a double.
      */
-    public func calculateFee(forTransactionWithMessage transactionMessageByteArray: [UInt8]) -> Double {
+    open func calculateFee(forTransactionWithMessage transactionMessageByteArray: [UInt8]) -> Double {
         
         var transactionFee = 0.0
         
@@ -125,27 +145,27 @@ public class TransactionManager {
      
         - Returns: The encrypted message as a byte array.
      */
-    public func encryptMessage(messageByteArray: [UInt8], senderEncryptedPrivateKey: String, recipientPublicKey: String) -> Array<UInt8> {
+    open func encryptMessage(_ messageByteArray: [UInt8], senderEncryptedPrivateKey: String, recipientPublicKey: String) -> Array<UInt8> {
         
         let senderPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(senderEncryptedPrivateKey)
         
-        let saltData = NSData().generateRandomIV(32)
-        var saltByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(saltData.bytes), count: saltData.length))
+        let saltData = (Data() as NSData).generateRandomIV(32)
+        var saltByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: saltData!.bytes.bindMemory(to: UInt8.self, capacity: saltData!.count), count: saltData!.count))
         
-        var sharedSecretByteArray: [UInt8] = Array(count: 32, repeatedValue: 0)
+        var sharedSecretByteArray: [UInt8] = Array(repeating: 0, count: 32)
         var senderPrivateKeyByteArray: Array<UInt8> = senderPrivateKey.asByteArrayEndian(32)
         var recipientPublicKeyByteArray: Array<UInt8> = recipientPublicKey.asByteArray()
         
         ed25519_key_exchange_nem(&sharedSecretByteArray, &recipientPublicKeyByteArray, &senderPrivateKeyByteArray, &saltByteArray)
         
         var messageByteArray = messageByteArray
-        var messageData = NSData(bytes: &messageByteArray, length: messageByteArray.count)
+        var messageData = Data(bytes: UnsafePointer<UInt8>(&messageByteArray), count: messageByteArray.count)
         
-        let ivData = NSData().generateRandomIV(16)
-        let customizedIVByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData.bytes), count: ivData.length))
+        let ivData = (Data() as NSData).generateRandomIV(16)
+        let customizedIVByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: ivData!.bytes.bindMemory(to: UInt8.self, capacity: ivData!.count), count: ivData!.count))
         messageData = messageData.aesEncrypt(sharedSecretByteArray, iv: customizedIVByteArray)!
-        var encryptedByteArray: Array<UInt8> = Array(count: messageData.length, repeatedValue: 0)
-        messageData.getBytes(&encryptedByteArray, length: messageData.length)
+        var encryptedByteArray: Array<UInt8> = Array(repeating: 0, count: messageData.count)
+        (messageData as NSData).getBytes(&encryptedByteArray, length: messageData.count)
         let encryptedMessageByteArray = saltByteArray + customizedIVByteArray + encryptedByteArray
         
         return encryptedMessageByteArray
@@ -160,7 +180,7 @@ public class TransactionManager {
      
         - Returns: The decrypted message as a string or nil if the message was empty.
      */
-    public func decryptMessage(encryptedMessageByteArray: Array<UInt8>, recipientEncryptedPrivateKey: String, senderPublicKey: String) -> String? {
+    open func decryptMessage(_ encryptedMessageByteArray: Array<UInt8>, recipientEncryptedPrivateKey: String, senderPublicKey: String) -> String? {
         
         let recipientPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(recipientEncryptedPrivateKey)
         
@@ -170,18 +190,18 @@ public class TransactionManager {
         
         var recipientPrivateKeyByteArray: Array<UInt8> = recipientPrivateKey.asByteArrayEndian(32)
         var senderPublicKeyByteArray: Array<UInt8> = senderPublicKey.asByteArray()
-        var sharedSecretByteArray: Array<UInt8> = Array(count: 32, repeatedValue: 0)
+        var sharedSecretByteArray: Array<UInt8> = Array(repeating: 0, count: 32)
         
         ed25519_key_exchange_nem(&sharedSecretByteArray, &senderPublicKeyByteArray, &recipientPrivateKeyByteArray, &saltByteArray)
         
-        var messageData: NSData? = NSData(bytes: &encByteArray, length: encByteArray.count)
+        var messageData: Data? = Data(bytes: UnsafePointer<UInt8>(&encByteArray), count: encByteArray.count)
         messageData = messageData?.aesDecrypt(sharedSecretByteArray, iv: ivByteArray)
         
         if messageData == nil {
             return nil
         }
         
-        return NSString(data: messageData!, encoding: NSUTF8StringEncoding) as? String
+        return NSString(data: messageData!, encoding: String.Encoding.utf8.rawValue) as? String
     }
 
     /**
@@ -192,16 +212,16 @@ public class TransactionManager {
      
         - Returns: A bool indicating whether the validation was succesful or not.
      */
-    public func validateHexadecimalString(hexadecimalString: String) -> Bool {
+    open func validateHexadecimalString(_ hexadecimalString: String) -> Bool {
         
         let regex: NSRegularExpression?
         do {
-            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .CaseInsensitive)
+            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .caseInsensitive)
         } catch {
             regex = nil
         }
         
-        let textCheckingResult = regex?.firstMatchInString(hexadecimalString, options: [], range: NSMakeRange(0, hexadecimalString.characters.count))
+        let textCheckingResult = regex?.firstMatch(in: hexadecimalString, options: [], range: NSMakeRange(0, hexadecimalString.characters.count))
         
         if textCheckingResult == nil || textCheckingResult?.range.location == NSNotFound || hexadecimalString.characters.count % 2 != 0 {
             return false
@@ -219,7 +239,7 @@ public class TransactionManager {
      
         - Returns: The common part of the transaction data byte array.
      */
-    private func generateCommonTransactionPart(forTransaction transaction: Transaction) -> [UInt8] {
+    fileprivate func generateCommonTransactionPart(forTransaction transaction: Transaction) -> [UInt8] {
         
         var commonPartByteArray = [UInt8]()
         
@@ -257,7 +277,7 @@ public class TransactionManager {
      
         - Returns: The transaction dependent part of the transaction data byte array for a transfer transaction.
      */
-    private func generateTransferTransactionPart(forTransaction transaction: TransferTransaction) -> [UInt8] {
+    fileprivate func generateTransferTransactionPart(forTransaction transaction: TransferTransaction) -> [UInt8] {
         
         var transactionDependentPartByteArray = [UInt8]()
         
@@ -307,7 +327,7 @@ public class TransactionManager {
      
         - Returns: The transaction signature as a byte array.
      */
-    private func generateTransactionSignature(forTransactionWithData transactionDataByteArray: [UInt8], signWithAccount account: Account) -> [UInt8] {
+    fileprivate func generateTransactionSignature(forTransactionWithData transactionDataByteArray: [UInt8], signWithAccount account: Account) -> [UInt8] {
         
         let accountPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(account.privateKey)
         let accountPublicKey = account.publicKey
@@ -315,7 +335,7 @@ public class TransactionManager {
         var transactionDataByteArray = transactionDataByteArray
         var accountPrivateKeyByteArray: [UInt8] = Array(accountPrivateKey.utf8)
         var accountPublicKeyByteArray: [UInt8] = Array(accountPublicKey.utf8)
-        var transactionSignature: [UInt8] = Array(count: 64, repeatedValue: 0)
+        var transactionSignature: [UInt8] = Array(repeating: 0, count: 64)
         
         Sign(&transactionSignature, &transactionDataByteArray, Int32(transactionDataByteArray.count), &accountPublicKeyByteArray, &accountPrivateKeyByteArray)
         

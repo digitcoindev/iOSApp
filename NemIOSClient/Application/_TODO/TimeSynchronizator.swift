@@ -1,13 +1,13 @@
 import UIKit
-private var once = dispatch_once_t()
+private var once = Int()
 
 class TimeSynchronizator
 {
     struct Store {
         static var isSynchronized :Bool = false
         static var nemTime :Double = 0
-        static var appTime :NSDate = NSDate()
-        static let observers :NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        static var appTime :Date = Date()
+        static let observers :NotificationCenter = NotificationCenter.default
     }
 
     final class var isSynchronized: Bool {
@@ -21,11 +21,11 @@ class TimeSynchronizator
     
     final class var nemTime: Double {
         get {
-            return Store.nemTime + NSDate().timeIntervalSinceDate(Store.appTime)
+            return Store.nemTime + Date().timeIntervalSince(Store.appTime)
         }
         set {
             Store.nemTime = newValue
-            Store.appTime = NSDate()
+            Store.appTime = Date()
             Store.isSynchronized = true
         }
     }

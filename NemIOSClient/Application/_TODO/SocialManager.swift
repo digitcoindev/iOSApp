@@ -13,9 +13,9 @@ import MessageUI
 protocol SocialManagerProtocol {
     var delegate: UIViewController? { get set }
     
-    func facebookPostToWall(message: String?, images: [UIImage]?, urls: [NSURL]?)
-    func twitterPostToWall(message: String?, images: [UIImage]?, urls: [NSURL]?)
-    func mailSand(message: String?, images: [NSData]?)
+    func facebookPostToWall(_ message: String?, images: [UIImage]?, urls: [URL]?)
+    func twitterPostToWall(_ message: String?, images: [UIImage]?, urls: [URL]?)
+    func mailSand(_ message: String?, images: [Data]?)
 }
 
 class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManagerProtocol {
@@ -24,59 +24,59 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
     
     // MARK: - Facebook Methods
 
-    func facebookPostToWall(message: String?, images: [UIImage]?, urls: [NSURL]?) {
+    func facebookPostToWall(_ message: String?, images: [UIImage]?, urls: [URL]?) {
         
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {
+        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook) {
             
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             
             facebookSheet.setInitialText(message ?? "SOCIAL_NEM_HEADER".localized()) 
             
-            self.delegate?.presentViewController(facebookSheet, animated: true, completion: nil)
+            self.delegate?.present(facebookSheet, animated: true, completion: nil)
             
         }
         else {
-            let alert = UIAlertController(title: "INFO".localized(), message: "NO_FACEBOOK_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "INFO".localized(), message: "NO_FACEBOOK_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.alert)
             
-            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
             
-            self.delegate?.presentViewController(alert, animated: true, completion: nil)
+            self.delegate?.present(alert, animated: true, completion: nil)
         }
     }
     
     // MARK: - Twitter Methods
 
-    func twitterPostToWall(message: String?, images: [UIImage]?, urls: [NSURL]?) {
+    func twitterPostToWall(_ message: String?, images: [UIImage]?, urls: [URL]?) {
         
-        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
+        if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter) {
             
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             
             facebookSheet.setInitialText(message ?? "SOCIAL_NEM_HEADER".localized())
             
             for image in images ?? [] {
-                facebookSheet.addImage(image)
+                facebookSheet.add(image)
             }
             
             for url in urls ?? [] {
-                facebookSheet.addURL(url)
+                facebookSheet.add(url)
             }
                         
-            self.delegate?.presentViewController(facebookSheet, animated: true, completion: nil)
+            self.delegate?.present(facebookSheet, animated: true, completion: nil)
             
         }
         else {
-            let alert = UIAlertController(title: "INFO".localized(), message: "NO_TWITTER_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "INFO".localized(), message: "NO_TWITTER_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.alert)
             
-            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
             
-            self.delegate?.presentViewController(alert, animated: true, completion: nil)
+            self.delegate?.present(alert, animated: true, completion: nil)
         }
     }
     
     // MARK: - Email Methods
     
-    func mailSand(message: String?, images: [NSData]?) {
+    func mailSand(_ message: String?, images: [Data]?) {
         
         if(MFMailComposeViewController.canSendMail()) {
             let myMail : MFMailComposeViewController = MFMailComposeViewController()
@@ -90,20 +90,20 @@ class SocialManager: NSObject, MFMailComposeViewControllerDelegate, SocialManage
                 myMail.addAttachmentData(image, mimeType: "image/jped", fileName: "image")
             }
             
-            self.delegate?.presentViewController(myMail, animated: true, completion: nil)
+            self.delegate?.present(myMail, animated: true, completion: nil)
         }
         else {            
-            let alert = UIAlertController(title: "INFO".localized(), message: "NO_MAIL_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "INFO".localized(), message: "NO_MAIL_ACCOUNT".localized(), preferredStyle: UIAlertControllerStyle.alert)
             
-            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
             
-            self.delegate?.presentViewController(alert, animated: true, completion: nil)
+            self.delegate?.present(alert, animated: true, completion: nil)
         }
     }
 
     // MARK: -  MFMailComposeViewControllerDelegate Methos
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }

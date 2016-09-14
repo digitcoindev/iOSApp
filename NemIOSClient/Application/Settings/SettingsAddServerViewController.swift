@@ -9,7 +9,7 @@ import UIKit
 
 @objc protocol AddCustomServerDelegate
 {
-    func serverAdded(successfuly :Bool)
+    func serverAdded(_ successfuly :Bool)
     func popUpClosed()
 }
 
@@ -28,7 +28,7 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
     //MARK: - Private Variables
     
     var newServer :Server? = nil
-    private let _apiManager :APIManager = APIManager()
+    fileprivate let _apiManager :APIManager = APIManager()
 //    private let _dataManager :CoreDataManager = CoreDataManager()
     
     //MARK: - Load Methods
@@ -36,12 +36,12 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.userInteractionEnabled = true
+        self.view.isUserInteractionEnabled = true
 
-        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        let center: NotificationCenter = NotificationCenter.default
         
-        center.addObserver(self, selector: #selector(SettingsAddServerViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(SettingsAddServerViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(SettingsAddServerViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(SettingsAddServerViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         _apiManager.delegate = self
         
@@ -55,7 +55,7 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
     
     //MARK: - @IBAction
     
-    @IBAction func closePopUp(sender: AnyObject) {
+    @IBAction func closePopUp(_ sender: AnyObject) {
 //        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(AddCustomServerDelegate.serverAdded(_:))) {
 //            (self.delegate as! AddCustomServerDelegate).popUpClosed()
 //        }
@@ -64,7 +64,7 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
         self.removeFromParentViewController()
     }
     
-    @IBAction func textFieldChange(sender: UITextField) {
+    @IBAction func textFieldChange(_ sender: UITextField) {
         switch sender {
         case protocolType:
             serverAddress.becomeFirstResponder()
@@ -77,7 +77,7 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
         }
     }
     
-    @IBAction func addServer(sender: AnyObject) {
+    @IBAction func addServer(_ sender: AnyObject) {
         if !Validate.stringNotEmpty(serverAddress.text) || !Validate.stringNotEmpty(serverPort.text) || !Validate.stringNotEmpty(protocolType.text) {
             let alert :UIAlertView = UIAlertView(title: "INFO".localized(), message: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"), delegate: self, cancelButtonTitle: "OK")
             alert.show()
@@ -122,9 +122,9 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
     
     //MARK: - Keyboard Delegate
     
-    final func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+    final func keyboardWillShow(_ notification: Notification) {
+        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         var keyboardHeight:CGFloat = keyboardSize.height
                 
@@ -134,8 +134,8 @@ class SettingsAddServerViewController: UIViewController, APIManagerDelegate
         scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
-        self.scroll.contentInset = UIEdgeInsetsZero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsetsZero
+    func keyboardWillHide(_ notification: Notification) {
+        self.scroll.contentInset = UIEdgeInsets.zero
+        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }

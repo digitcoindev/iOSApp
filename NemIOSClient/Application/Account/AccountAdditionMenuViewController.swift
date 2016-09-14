@@ -34,14 +34,14 @@ class AccountAdditionMenuViewController: UIViewController {
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    fileprivate func updateViewControllerAppearance() {
         
         title = "ADD_ACCOUNT".localized()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-        createNewAccountButton.setTitle("CREATE_NEW".localized(), forState: .Normal)
-        addExistingAccountViaQRCodeButton.setTitle("SCAN_QR_CODE".localized(), forState: .Normal)
-        addExistingAccountViaPrivateKeyButton.setTitle("IMPORT_KEY".localized(), forState: .Normal)
+        createNewAccountButton.setTitle("CREATE_NEW".localized(), for: UIControlState())
+        addExistingAccountViaQRCodeButton.setTitle("SCAN_QR_CODE".localized(), for: UIControlState())
+        addExistingAccountViaPrivateKeyButton.setTitle("IMPORT_KEY".localized(), for: UIControlState())
         
         createNewAccountButton.layer.cornerRadius = 5
         addExistingAccountViaQRCodeButton.layer.cornerRadius = 5
@@ -54,7 +54,7 @@ class AccountAdditionMenuViewController: UIViewController {
         Dismisses the account addition menu view controller and returns
         to the account list view controller.
      */
-    @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 }

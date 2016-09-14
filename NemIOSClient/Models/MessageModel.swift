@@ -10,8 +10,8 @@ import SwiftyJSON
 
 /// All available message types.
 public enum MessageType: Int {
-    case Unencrypted = 1
-    case Encrypted = 2
+    case unencrypted = 1
+    case encrypted = 2
 }
 
 /// Represents a transaction message on the NEM blockchain.
@@ -44,23 +44,23 @@ public struct Message: SwiftyJSONMappable {
     
     public init?(jsonData: JSON) {
 
-        type = MessageType(rawValue: jsonData["type"].intValue) ?? MessageType.Unencrypted
+        type = MessageType(rawValue: jsonData["type"].intValue) ?? MessageType.unencrypted
         payload = jsonData["payload"].string?.asByteArray()
         message = {
             guard payload != nil else { return String() }
 
             switch type {
-            case .Unencrypted:
+            case .unencrypted:
                 if payload!.first == UInt8(0xfe) {
                     print("HMMMM")
                     var bytes = self.payload!
                     bytes.removeFirst()
-                    return String(bytes: bytes, encoding: NSUTF8StringEncoding)
+                    return String(bytes: bytes, encoding: String.Encoding.utf8)
                 } else {
-                    return String(bytes: payload!, encoding: NSUTF8StringEncoding)
+                    return String(bytes: payload!, encoding: String.Encoding.utf8)
                 }
                 
-            case MessageType.Encrypted:
+            case MessageType.encrypted:
                 guard signer != nil else { return String() }
                 let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
                 let decryptedMessage :String? = MessageCrypto.decrypt(self.payload!, recipientPrivateKey: privateKey!

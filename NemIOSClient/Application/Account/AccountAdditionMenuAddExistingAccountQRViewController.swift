@@ -17,16 +17,16 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     // MARK: - View Controller Properties
     
     /// Bool that indicates whether the QR code scanner view is already scanning.
-    private var isScanning = false
+    fileprivate var isScanning = false
     
     /// The title of the account that should get imported.
-    private var accountTitle = String()
+    fileprivate var accountTitle = String()
     
     /// The encrypted private key of the account that should get imported.
-    private var accountEncryptedPrivateKey = String()
+    fileprivate var accountEncryptedPrivateKey = String()
     
     /// The salt of the account that should get imported.
-    private var accountSalt = String()
+    fileprivate var accountSalt = String()
     
     // MARK: - View Controller Outlets
 
@@ -42,7 +42,7 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
         qrCodeScannerView.delegate = self
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if !isScanning {
@@ -53,12 +53,12 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segue.identifier! {
         case "showAccountAdditionMenuPasswordValidationViewController":
             
-            let destinationViewController = segue.destinationViewController as! AccountAdditionMenuPasswordValidationViewController
+            let destinationViewController = segue.destination as! AccountAdditionMenuPasswordValidationViewController
             destinationViewController.accountTitle = accountTitle
             destinationViewController.accountEncryptedPrivateKey = accountEncryptedPrivateKey
             destinationViewController.accountSalt = accountSalt
@@ -71,7 +71,7 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
+    fileprivate func updateViewControllerAppearance() {
         
         title = "SCAN_QR_CODE".localized()
     }
@@ -88,14 +88,14 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
      
         - Returns: A bool indicating that the validation was successful.
      */
-    private func validate(captureResult captureResult: JSON) throws -> Bool {
+    fileprivate func validate(captureResult: JSON) throws -> Bool {
         
-        guard captureResult != nil else { throw AccountImportValidation.ValueMissing }
-        guard captureResult[QRKeys.Version.rawValue].intValue == QR_VERSION else { throw AccountImportValidation.VersionNotMatching }
-        guard captureResult[QRKeys.DataType.rawValue].intValue == QRType.AccountData.rawValue else { throw AccountImportValidation.DataTypeNotMatching }
-        guard captureResult["data"][QRKeys.Name.rawValue].string != nil else { throw AccountImportValidation.ValueMissing }
-        guard captureResult["data"][QRKeys.PrivateKey.rawValue].string != nil else { throw AccountImportValidation.ValueMissing }
-        guard captureResult["data"][QRKeys.Salt.rawValue].string != nil else { throw AccountImportValidation.ValueMissing }
+        guard captureResult != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult[QRKeys.Version.rawValue].intValue == QR_VERSION else { throw AccountImportValidation.versionNotMatching }
+        guard captureResult[QRKeys.DataType.rawValue].intValue == QRType.accountData.rawValue else { throw AccountImportValidation.dataTypeNotMatching }
+        guard captureResult["data"][QRKeys.Name.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult["data"][QRKeys.PrivateKey.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult["data"][QRKeys.Salt.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
         
         return true
     }
@@ -107,7 +107,7 @@ extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDe
     
     func detectedQRCode(withCaptureResult captureResult: String) {
         
-        guard let encodedCaptureResult = captureResult.dataUsingEncoding(NSUTF8StringEncoding) else {
+        guard let encodedCaptureResult = captureResult.data(using: String.Encoding.utf8) else {
             qrCodeScannerView.captureSession.startRunning()
             return
         }
@@ -120,7 +120,7 @@ extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDe
         do {
             try validate(captureResult: captureResultJSON)
             
-        } catch AccountImportValidation.VersionNotMatching {
+        } catch AccountImportValidation.versionNotMatching {
             
             failedDetectingQRCode(withError: "WRONG_QR_VERSION".localized())
             qrCodeScannerView.captureSession.startRunning()
@@ -136,15 +136,15 @@ extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDe
         self.accountEncryptedPrivateKey = captureResultJSON["data"][QRKeys.PrivateKey.rawValue].string!
         self.accountSalt = captureResultJSON["data"][QRKeys.Salt.rawValue].string!
         
-        performSegueWithIdentifier("showAccountAdditionMenuPasswordValidationViewController", sender: nil)
+        performSegue(withIdentifier: "showAccountAdditionMenuPasswordValidationViewController", sender: nil)
     }
     
     func failedDetectingQRCode(withError errorMessage: String) {
         
-        let qrCodeDetectionFailureAlert: UIAlertController = UIAlertController(title: "INFO".localized(), message: errorMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let qrCodeDetectionFailureAlert: UIAlertController = UIAlertController(title: "INFO".localized(), message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         
-        qrCodeDetectionFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.Default, handler: nil))
+        qrCodeDetectionFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
         
-        presentViewController(qrCodeDetectionFailureAlert, animated: true, completion: nil)
+        present(qrCodeDetectionFailureAlert, animated: true, completion: nil)
     }
 }

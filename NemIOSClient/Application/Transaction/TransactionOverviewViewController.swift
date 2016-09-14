@@ -8,6 +8,26 @@
 import UIKit
 import GCDKit
 import SwiftyJSON
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 /**
     The view controller that shows an overview of all transactions
@@ -19,12 +39,12 @@ class TransactionOverviewViewController: UIViewController {
     // MARK: - View Controller Properties
 
     var account: Account?
-    private var accountData: AccountData?
-    private var transactions = [Transaction]()
-    private var correspondents = [Correspondent]()
+    fileprivate var accountData: AccountData?
+    fileprivate var transactions = [Transaction]()
+    fileprivate var correspondents = [Correspondent]()
     
-    private var refreshTimer: NSTimer? = nil
-    private let transactionOverviewDispatchGroup = GCDGroup()
+    fileprivate var refreshTimer: Timer? = nil
+    fileprivate let transactionOverviewDispatchGroup = GCDGroup()
     
     // MARK: - View Controller Outlets
     
@@ -51,33 +71,33 @@ class TransactionOverviewViewController: UIViewController {
         startRefreshing()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         updateViewControllerAppearanceOnViewWillAppear()
         createBarButtonItem()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         
         guard let navigationViewControllers = navigationController?.viewControllers else { return }
         
         // Needed to invalidate the refresh timer. Otherwise the view controller wouldn't get deinitialized.
-        if navigationViewControllers.contains({ NSStringFromClass($0.classForCoder).componentsSeparatedByString(".").last! == "\(AccountDetailTabBarController.self)" }) != true {
+        if navigationViewControllers.contains(where: { NSStringFromClass($0.classForCoder).components(separatedBy: ".").last! == "\(AccountDetailTabBarController.self)" }) != true {
             stopRefreshing()
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segue.identifier! {
         case "showTransactionMessagesViewController":
             
             if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationViewController = segue.destinationViewController as! TransactionMessagesViewController
+                let destinationViewController = segue.destination as! TransactionMessagesViewController
                 destinationViewController.account = account
                 destinationViewController.accountData = accountData
-                destinationViewController.correspondent = correspondents[indexPath.row]
+                destinationViewController.correspondent = correspondents[(indexPath as NSIndexPath).row]
             }
             
         default:
@@ -88,31 +108,31 @@ class TransactionOverviewViewController: UIViewController {
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller on view did load.
-    private func updateViewControllerAppearanceOnViewDidLoad() {
+    fileprivate func updateViewControllerAppearanceOnViewDidLoad() {
         
         tabBarController?.title = "MESSAGES".localized()
         infoHeaderLabel.text = "NO_INTERNET_CONNECTION".localized()
     }
     
     /// Updates the appearance (coloring, titles) of the view controller on view will appear.
-    private func updateViewControllerAppearanceOnViewWillAppear() {
+    fileprivate func updateViewControllerAppearanceOnViewWillAppear() {
         
         tabBarController?.title = "MESSAGES".localized()
     }
     
     /// Creates and adds the compose bar button item to the view controller.
-    private func createBarButtonItem() {
+    fileprivate func createBarButtonItem() {
         
-        let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(segueToTransactionSendViewController))
-        rightBarButtonItem.tintColor = UIColor.whiteColor()
-        rightBarButtonItem.enabled = false
+        let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(segueToTransactionSendViewController))
+        rightBarButtonItem.tintColor = UIColor.white
+        rightBarButtonItem.isEnabled = false
         
         tabBarController?.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     /// Segues to the transaction send view controller.
     func segueToTransactionSendViewController() {
-        performSegueWithIdentifier("showTransactionSendViewController", sender: nil)
+        performSegue(withIdentifier: "showTransactionSendViewController", sender: nil)
     }
     
     /**
@@ -121,7 +141,7 @@ class TransactionOverviewViewController: UIViewController {
      
         - Returns: The account for which the transaction overview should get shown.
      */
-    private func getAccount() -> Account? {
+    fileprivate func getAccount() -> Account? {
         
         var account: Account?
         
@@ -143,12 +163,12 @@ class TransactionOverviewViewController: UIViewController {
      
         - Parameter accountData: The fetched account data. Used to determine if the account is a multisig account.
      */
-    private func updateBarButtonItemStatus(withAccountData accountData: AccountData) {
+    fileprivate func updateBarButtonItemStatus(withAccountData accountData: AccountData) {
         
         if accountData.cosignatories?.count > 0 {
-            self.tabBarController?.navigationItem.rightBarButtonItem!.enabled = false
+            self.tabBarController?.navigationItem.rightBarButtonItem!.isEnabled = false
         } else {
-            self.tabBarController?.navigationItem.rightBarButtonItem!.enabled = true
+            self.tabBarController?.navigationItem.rightBarButtonItem!.isEnabled = true
         }
     }
     
@@ -158,16 +178,16 @@ class TransactionOverviewViewController: UIViewController {
      
         - Parameter accountData: The fetched account data including the balance for the account. If this parameter doesn't get provided, the info header label will be updated with an error message.
      */
-    private func updateInfoHeaderLabel(withAccountData accountData: AccountData?) {
+    fileprivate func updateInfoHeaderLabel(withAccountData accountData: AccountData?) {
         
         guard accountData != nil else {
-            infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.redColor()])
+            infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.red])
             return
         }
         
         let infoHeaderText = NSMutableAttributedString(string: "\(self.account!.title) ·")
         let infoHeaderTextBalance = " \((accountData!.balance / 1000000).format()) XEM"
-        infoHeaderText.appendAttributedString(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFontOfSize(infoHeaderLabel.font.pointSize, weight: UIFontWeightRegular)]))
+        infoHeaderText.append(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFont(ofSize: infoHeaderLabel.font.pointSize, weight: UIFontWeightRegular)]))
         
         infoHeaderLabel.attributedText = infoHeaderText
     }
@@ -176,27 +196,27 @@ class TransactionOverviewViewController: UIViewController {
         Shows the loading view above the table view which shows
         an spinning activity indicator.
      */
-    private func showLoadingView() {
+    fileprivate func showLoadingView() {
         
         loadingActivityIndicator.startAnimating()
-        loadingView.hidden = false
+        loadingView.isHidden = false
     }
     
     /// Hides the loading view.
-    private func hideLoadingView() {
+    fileprivate func hideLoadingView() {
         
-        loadingView.hidden = true
+        loadingView.isHidden = true
         loadingActivityIndicator.stopAnimating()
     }
     
     /// Starts refreshing the transaction overview in the defined interval.
-    private func startRefreshing() {
+    fileprivate func startRefreshing() {
         
-        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionOverview), userInfo: nil, repeats: true)
+        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionOverview), userInfo: nil, repeats: true)
     }
     
     /// Stops refreshing the transaction overview.
-    private func stopRefreshing() {
+    fileprivate func stopRefreshing() {
         refreshTimer?.invalidate()
         refreshTimer = nil
     }
@@ -214,8 +234,8 @@ class TransactionOverviewViewController: UIViewController {
         fetchAllTransactions(forAccount: account!)
         fetchUnconfirmedTransactions(forAccount: account!)
         
-        transactionOverviewDispatchGroup.notify(.Main) {
-            self.transactions.sortInPlace({ $0.timeStamp < $1.timeStamp })
+        transactionOverviewDispatchGroup.notify(.main) {
+            self.transactions.sort(by: { $0.timeStamp < $1.timeStamp })
             self.getCorrespondents(forTransactions: self.transactions)
         }
     }
@@ -228,12 +248,12 @@ class TransactionOverviewViewController: UIViewController {
      
         - Parameter account: The current account for which the account data should get fetched.
      */
-    private func fetchAccountData(forAccount account: Account) {
+    fileprivate func fetchAccountData(forAccount account: Account) {
 
-        nisProvider.request(NIS.AccountData(accountAddress: account.address)) { [weak self] (result) in
+        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
-            case let .Success(response):
+            case let .success(response):
                 
                 do {
                     try response.filterSuccessfulStatusCodes()
@@ -241,7 +261,7 @@ class TransactionOverviewViewController: UIViewController {
                     let json = JSON(data: response.data)
                     let accountData = try json.mapObject(AccountData)
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
                         
                         self?.updateBarButtonItemStatus(withAccountData: accountData)
                         self?.updateInfoHeaderLabel(withAccountData: accountData)
@@ -251,15 +271,15 @@ class TransactionOverviewViewController: UIViewController {
                     
                 } catch {
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                     }
                 }
                 
-            case let .Failure(error):
+            case let .failure(error):
                 
-                GCDQueue.Main.async {
+                GCDQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -274,14 +294,14 @@ class TransactionOverviewViewController: UIViewController {
      
         - Parameter account: The current account for which the transactions should get fetched.
      */
-    private func fetchAllTransactions(forAccount account: Account) {
+    fileprivate func fetchAllTransactions(forAccount account: Account) {
         
         transactionOverviewDispatchGroup.enter()
         
-        nisProvider.request(NIS.AllTransactions(accountAddress: account.address)) { [weak self] (result) in
+        nisProvider.request(NIS.allTransactions(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
-            case let .Success(response):
+            case let .success(response):
                 
                 do {
                     try response.filterSuccessfulStatusCodes()
@@ -292,15 +312,15 @@ class TransactionOverviewViewController: UIViewController {
                     for (_, subJson) in json["data"] {
                         
                         switch subJson["transaction"]["type"].intValue {
-                        case TransactionType.TransferTransaction.rawValue:
+                        case TransactionType.transferTransaction.rawValue:
                             
                             let transferTransaction = try subJson.mapObject(TransferTransaction)
                             allTransactions.append(transferTransaction)
                             
-                        case TransactionType.MultisigTransaction.rawValue:
+                        case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.TransferTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
@@ -315,7 +335,7 @@ class TransactionOverviewViewController: UIViewController {
                         }
                     }
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
 
                         self?.transactions += allTransactions
 
@@ -324,7 +344,7 @@ class TransactionOverviewViewController: UIViewController {
                     
                 } catch {
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
 
@@ -332,9 +352,9 @@ class TransactionOverviewViewController: UIViewController {
                     }
                 }
                 
-            case let .Failure(error):
+            case let .failure(error):
                 
-                GCDQueue.Main.async {
+                GCDQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -351,14 +371,14 @@ class TransactionOverviewViewController: UIViewController {
      
         - Parameter account: The account for which all unconfirmed transaction should get fetched.
      */
-    private func fetchUnconfirmedTransactions(forAccount account: Account) {
+    fileprivate func fetchUnconfirmedTransactions(forAccount account: Account) {
         
         transactionOverviewDispatchGroup.enter()
         
-        nisProvider.request(NIS.UnconfirmedTransactions(accountAddress: account.address)) { [weak self] (result) in
+        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
-            case let .Success(response):
+            case let .success(response):
                 
                 do {
                     try response.filterSuccessfulStatusCodes()
@@ -369,15 +389,15 @@ class TransactionOverviewViewController: UIViewController {
                     for (_, subJson) in json["data"] {
                         
                         switch subJson["transaction"]["type"].intValue {
-                        case TransactionType.TransferTransaction.rawValue:
+                        case TransactionType.transferTransaction.rawValue:
                             
                             let transferTransaction = try subJson.mapObject(TransferTransaction)
                             unconfirmedTransactions.append(transferTransaction)
                             
-                        case TransactionType.MultisigTransaction.rawValue:
+                        case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.TransferTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
@@ -392,7 +412,7 @@ class TransactionOverviewViewController: UIViewController {
                         }
                     }
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
                         
                         self?.transactions += unconfirmedTransactions
 
@@ -401,7 +421,7 @@ class TransactionOverviewViewController: UIViewController {
                     
                 } catch {
                     
-                    GCDQueue.Main.async {
+                    GCDQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                         
@@ -409,9 +429,9 @@ class TransactionOverviewViewController: UIViewController {
                     }
                 }
                 
-            case let .Failure(error):
+            case let .failure(error):
                 
-                GCDQueue.Main.async {
+                GCDQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -428,14 +448,14 @@ class TransactionOverviewViewController: UIViewController {
      
         - Parameter transactions: The transactions for which the correspondents should get determined.
      */
-    private func getCorrespondents(forTransactions transactions: [Transaction]) {
+    fileprivate func getCorrespondents(forTransactions transactions: [Transaction]) {
         
         var correspondents = [Correspondent]()
         
         for transaction in transactions {
             
             switch transaction.type {
-            case .TransferTransaction:
+            case .transferTransaction:
                             
                 let transaction = transaction as! TransferTransaction
                 var correspondent: Correspondent? = nil
@@ -443,17 +463,17 @@ class TransactionOverviewViewController: UIViewController {
                 if transaction.signer == account!.publicKey {
                     correspondent = Correspondent()
                     correspondent!.accountAddress = transaction.recipient
-                    transaction.transferType = .Outgoing
+                    transaction.transferType = .outgoing
                 } else if transaction.recipient == account!.address {
                     correspondent = Correspondent()
                     correspondent!.accountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer)
                     correspondent!.accountPublicKey = transaction.signer
-                    transaction.transferType = .Incoming
+                    transaction.transferType = .incoming
                 }
                 
                 if correspondent != nil {
                     if correspondents.contains(correspondent!) {
-                        if let index = correspondents.indexOf(correspondent!) {
+                        if let index = correspondents.index(of: correspondent!) {
                             if transaction.metaData?.id != nil {
                                 correspondents[index].transactions.append(transaction)
                             } else {
@@ -477,7 +497,7 @@ class TransactionOverviewViewController: UIViewController {
             }
         }
         
-        correspondents.sortInPlace({ $0.mostRecentTransaction.timeStamp > $1.mostRecentTransaction.timeStamp })
+        correspondents.sort(by: { $0.mostRecentTransaction.timeStamp > $1.mostRecentTransaction.timeStamp })
         searchNames(forCorrespondents: &correspondents)
 
         self.correspondents = correspondents
@@ -494,7 +514,7 @@ class TransactionOverviewViewController: UIViewController {
      
         - Parameter correspondents: The correspondents for which the names should get searched. This is a inout parameter and will write the names directly to the provided correspondent array.
      */
-    private func searchNames(inout forCorrespondents correspondents: [Correspondent]) {
+    fileprivate func searchNames(forCorrespondents correspondents: inout [Correspondent]) {
         
         let accounts = AccountManager.sharedInstance.accounts()
         
@@ -510,19 +530,19 @@ class TransactionOverviewViewController: UIViewController {
 
 extension TransactionOverviewViewController: UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return correspondents.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("TransactionOverviewCorrespondentTableViewCell") as! TransactionOverviewCorrespondentTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionOverviewCorrespondentTableViewCell") as! TransactionOverviewCorrespondentTableViewCell
         cell.account = account
-        cell.correspondent = correspondents[indexPath.row]
+        cell.correspondent = correspondents[(indexPath as NSIndexPath).row]
         
         return cell
     }
@@ -532,8 +552,8 @@ extension TransactionOverviewViewController: UITableViewDataSource {
 
 extension TransactionOverviewViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             
-        performSegueWithIdentifier("showTransactionMessagesViewController", sender: nil)
+        performSegue(withIdentifier: "showTransactionMessagesViewController", sender: nil)
     }
 }
