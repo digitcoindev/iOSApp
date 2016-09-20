@@ -147,9 +147,9 @@ open class TransactionManager {
      */
     open func encryptMessage(_ messageByteArray: [UInt8], senderEncryptedPrivateKey: String, recipientPublicKey: String) -> Array<UInt8> {
         
-        let senderPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(senderEncryptedPrivateKey)
+        let senderPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: senderEncryptedPrivateKey)
         
-        let saltData = (Data() as NSData).generateRandomIV(32)
+        let saltData = NSData().generateRandomIV(32)
         var saltByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(saltData!.bytes), count: saltData!.count))
         
         var sharedSecretByteArray: [UInt8] = Array(repeating: 0, count: 32)
@@ -159,13 +159,14 @@ open class TransactionManager {
         ed25519_key_exchange_nem(&sharedSecretByteArray, &recipientPublicKeyByteArray, &senderPrivateKeyByteArray, &saltByteArray)
         
         var messageByteArray = messageByteArray
-        var messageData = Data(bytes: &messageByteArray, count: messageByteArray.count)
+        var messageData = NSData(bytes: &messageByteArray, length: messageByteArray.count)
         
-        let ivData = (Data() as NSData).generateRandomIV(16)
+        let ivData = NSData().generateRandomIV(16)
         let customizedIVByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData!.bytes), count: ivData!.count))
-        messageData = messageData.aesEncrypt(sharedSecretByteArray, iv: customizedIVByteArray)!
-        var encryptedByteArray: Array<UInt8> = Array(repeating: 0, count: messageData.count)
-        (messageData as NSData).getBytes(&encryptedByteArray, length: messageData.count)
+        messageData = messageData.aesEncrypt(key: sharedSecretByteArray, iv: customizedIVByteArray)!
+        var encryptedByteArray: Array<UInt8> = Array(repeating: 0, count: messageData.length)
+        messageData.getBytes(&encryptedByteArray, length: messageData.length)
+
         let encryptedMessageByteArray = saltByteArray + customizedIVByteArray + encryptedByteArray
         
         return encryptedMessageByteArray
@@ -182,7 +183,7 @@ open class TransactionManager {
      */
     open func decryptMessage(_ encryptedMessageByteArray: Array<UInt8>, recipientEncryptedPrivateKey: String, senderPublicKey: String) -> String? {
         
-        let recipientPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(recipientEncryptedPrivateKey)
+        let recipientPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: recipientEncryptedPrivateKey)
         
         var saltByteArray: Array<UInt8> = Array(encryptedMessageByteArray[0..<32])
         let ivByteArray: Array<UInt8> = Array(encryptedMessageByteArray[32..<48])
@@ -194,14 +195,14 @@ open class TransactionManager {
         
         ed25519_key_exchange_nem(&sharedSecretByteArray, &senderPublicKeyByteArray, &recipientPrivateKeyByteArray, &saltByteArray)
         
-        var messageData: Data? = Data(bytes: encByteArray, count: encByteArray.count)
-        messageData = messageData?.aesDecrypt(sharedSecretByteArray, iv: ivByteArray)
+        var messageData: NSData? = NSData(bytes: encByteArray, length: encByteArray.count)
+        messageData = messageData?.aesDecrypt(key: sharedSecretByteArray, iv: ivByteArray)
         
         if messageData == nil {
             return nil
         }
         
-        return NSString(data: messageData!, encoding: String.Encoding.utf8.rawValue) as? String
+        return NSString(data: messageData! as Data, encoding: String.Encoding.utf8.rawValue) as? String
     }
 
     /**
@@ -329,7 +330,7 @@ open class TransactionManager {
      */
     fileprivate func generateTransactionSignature(forTransactionWithData transactionDataByteArray: [UInt8], signWithAccount account: Account) -> [UInt8] {
         
-        let accountPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(account.privateKey)
+        let accountPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: account.privateKey)
         let accountPublicKey = account.publicKey
         
         var transactionDataByteArray = transactionDataByteArray

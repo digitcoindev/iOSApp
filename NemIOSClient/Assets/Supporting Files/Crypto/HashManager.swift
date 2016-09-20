@@ -4,27 +4,24 @@ import UIKit
 
 class HashManager: NSObject
 {
-    final class func AES256Encrypt(_ inputText :String ,key :String) -> String {
+    final class func AES256Encrypt(inputText :String ,key :String) -> String {
         let messageBytes = inputText.asByteArray()
         var messageData = NSData(bytes: messageBytes, length: messageBytes.count)
 
         let ivData = NSData().generateRandomIV(16)
-        let customizedIVBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData!.bytes), count: ivData!.count))
-
-        messageData = messageData.aesEncrypt(key: key.asByteArray(), iv: customizedIVBytes)!
+        messageData = messageData.aesEncrypt(key: key.asByteArray(), iv: ivData!.bytes)!
         
-        return customizedIVBytes.toHexString() + messageData.toHexString()
+        return ivData!.bytes.toHexString() + messageData.toHexString()
     }
     
-    final class func AES256Decrypt(_ inputText :String ,key :String) -> String? {
+    final class func AES256Decrypt(inputText :String ,key :String) -> String? {
         let inputBytes = inputText.asByteArray()
         let customizedIV =  Array(inputBytes[0..<16])
         let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
-        
         var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
-        data = data?.aesDecrypt(key: key.asByteArray(), iv: customizedIV)
+        data = data!.aesDecrypt(key: key.asByteArray(), iv: customizedIV)
         
-        return data?.toHexString()
+        return data!.toHexString()
     }
     
     final class func SHA256Encrypt(_ data :[UInt8])->String {

@@ -30,7 +30,7 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
         
         title = "HARVEST_DETAILS".localized()
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)
@@ -137,7 +137,7 @@ class HarvestingViewController: UIViewController , UITableViewDelegate, APIManag
                 NSFontAttributeName:fontLight
             ]
             
-            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+            let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
             
             message = "DELEGATED_KEY".localized() + ": \(HashManager.SHA256Encrypt(privateKey!.asByteArray()))"
             atributedText = NSMutableAttributedString(string: message, attributes: atributes)

@@ -92,10 +92,10 @@ class AccountExportPasswordViewController: UIViewController
         var privateKey_AES = State.currentWallet!.privateKey
         
         if password.text != "" {
-            let privateKey = HashManager.AES256Decrypt(privateKey_AES, key: State.loadData!.password!)
+            let privateKey = HashManager.AES256Decrypt(inputText: privateKey_AES, key: State.loadData!.password!)
             let saltData = Data(bytes: salt.asByteArray())
             let passwordHash :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:saltData as NSData, roundCount:2000)! as Data?
-            privateKey_AES = HashManager.AES256Encrypt(privateKey!, key: passwordHash!.hexadecimalString())
+            privateKey_AES = HashManager.AES256Encrypt(inputText: privateKey!, key: passwordHash!.toHexadecimalString())
         }
         
         let objects = [login, salt, privateKey_AES]

@@ -21,7 +21,7 @@ class _Correspondent: NSObject {
            return []
         }
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!
+        let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)!
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey)
         
         for transaction in transactions {

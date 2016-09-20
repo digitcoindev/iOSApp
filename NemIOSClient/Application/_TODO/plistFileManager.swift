@@ -24,7 +24,7 @@ class plistFileManager: NSObject
     func validatePair(_ way :String , password :String) -> Bool {
         let data = fileManager.contents(atPath: documents + "/NEMfolder/" + way)
         if let str = data?.base64EncodedString(options: NSData.Base64EncodingOptions()) {
-            if(HashManager.AES256Decrypt(str, key: password) == way) {
+            if(HashManager.AES256Decrypt(inputText: str, key: password) == way) {
                 return true
             }
         }

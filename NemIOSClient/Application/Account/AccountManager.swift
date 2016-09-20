@@ -165,7 +165,7 @@ open class AccountManager {
         let accounts = self.accounts()
         
         for account in accounts {
-            let accountPrivateKey = decryptPrivateKey(account.privateKey)
+            let accountPrivateKey = decryptPrivateKey(encryptedPrivateKey: account.privateKey)
             if privateKey == accountPrivateKey {
                 throw AccountImportValidation.accountAlreadyPresent(accountTitle: account.title)
             }
@@ -273,10 +273,10 @@ open class AccountManager {
      
         - Returns: The decrypted private key as a string.
      */
-    open func decryptPrivateKey(_ encryptedPrivateKey: String) -> String {
+    open func decryptPrivateKey(encryptedPrivateKey: String) -> String {
         
         let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
-        let privateKey = HashManager.AES256Decrypt(encryptedPrivateKey, key: encryptedApplicationPassword)
+        let privateKey = HashManager.AES256Decrypt(inputText: encryptedPrivateKey, key: encryptedApplicationPassword)
         
         return privateKey!
     }
@@ -339,8 +339,8 @@ open class AccountManager {
      */
     fileprivate func encryptPrivateKey(_ privateKey: String) -> String {
         
-        let encryptedApplicationPassword = Data(bytes: "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf".asByteArray())
-        let encryptedPrivateKey = HashManager.AES256Encrypt(privateKey, key: encryptedApplicationPassword.toHexString())
+        let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
+        let encryptedPrivateKey = HashManager.AES256Encrypt(inputText: privateKey, key: encryptedApplicationPassword)
         
         return encryptedPrivateKey
     }

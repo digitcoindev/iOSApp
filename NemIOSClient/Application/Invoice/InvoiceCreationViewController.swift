@@ -129,7 +129,7 @@ class InvoiceCreationViewController: UIViewController {
         var invoice :InvoiceData = InvoiceData()
         invoice.name = invoiceAccountTitleTextField.text
         invoice.message = invoiceMessageTextField.text
-        invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
+        invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)!)
         invoice.amount = amountValue * 1000000
 //        invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
 //        CoreDataManager().commit()

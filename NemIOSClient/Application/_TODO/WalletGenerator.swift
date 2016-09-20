@@ -11,7 +11,7 @@ class WalletGenerator: NSObject
 //        }
         
         let passwordHash :Data? = Data(bytes: State.loadData!.password!.asByteArray())
-        let privateKeyHash :String = HashManager.AES256Encrypt(privateKeyString!, key: passwordHash!.toHexString())
+        let privateKeyHash :String = HashManager.AES256Encrypt(inputText: privateKeyString!, key: passwordHash!.toHexString())
 
 //        dataManager.addWallet(login, privateKey: privateKeyHash)
     }

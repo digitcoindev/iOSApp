@@ -28,7 +28,7 @@ class SignManager: NSObject
     }
     
     final class func signatureGeneration(_ data : Array<UInt8> )->Array<UInt8> {
-        let myPrivateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let myPrivateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
 //        let myPublicKey = KeyGenerator.generatePublicKey(myPrivateKey!)
         let myPublicKey = String()
 

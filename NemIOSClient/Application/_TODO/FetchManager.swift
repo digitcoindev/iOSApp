@@ -141,7 +141,7 @@ class FetchManager: NSObject, APIManagerDelegate {
         _account = account
         _accounts.removeFirst()
         
-        let address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(account.privateKey, key: State.loadData!.password!)!)
+        let address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(inputText: account.privateKey, key: State.loadData!.password!)!)
         _apiManager.accountTransfersAll(server, account_address: address)
     }
 }

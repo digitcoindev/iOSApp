@@ -61,7 +61,7 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(State.currentServer!, account_address: account_address)

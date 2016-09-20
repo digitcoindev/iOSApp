@@ -62,7 +62,7 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
             return
         }
         
-        let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+        let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
         let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
         
         _apiManager.accountGet(server, account_address: account_address)

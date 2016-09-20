@@ -29,9 +29,9 @@ class AccountListViewController: UIViewController {
         super.viewDidLoad()
         
         accounts = AccountManager.sharedInstance.accounts()
-        print("\(accounts[4].title): \(accounts[4].privateKey)")
-        
-        print(AccountManager.sharedInstance.decryptPrivateKey(accounts[4].privateKey))
+//        print("\(accounts[4].title): \(accounts[4].privateKey)")
+//        
+//        print(AccountManager.sharedInstance.decryptPrivateKey(accounts[4].privateKey))
         
         updateViewControllerAppearance()
         createEditButtonItemIfNeeded()
