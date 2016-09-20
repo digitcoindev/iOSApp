@@ -38,7 +38,7 @@ open class DatabaseManager: NSObject {
         try! dataStack.addStorageAndWait(
             SQLiteStore(
                 fileName: "NemIOSClientTEMP.sqlite",
-                localStorageOptions: .RecreateStoreOnModelMismatch
+                localStorageOptions: .recreateStoreOnModelMismatch
             )
         )
     }

@@ -125,7 +125,7 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
                 symbol = "-"
             }
             
-            amount = "\(symbol)\((transaction.amount / 1000000).format()) XEM" ?? String()
+            amount = "\(symbol)\((transaction.amount / 1000000).format()) XEM" 
             
         } else {
             if message == "" {

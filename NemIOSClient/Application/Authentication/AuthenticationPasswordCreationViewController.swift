@@ -61,7 +61,7 @@ class AuthenticationPasswordCreationViewController: UIViewController {
         }
         
         let salt :Data =  (Data() as NSData).generateRandomIV(32)
-        let passwordHash :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:salt, roundCount:2000)!
+        let passwordHash :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:salt as NSData, roundCount:2000)! as Data?
         
 //        let loadData = dataMeneger.getLoadData()
 //        loadData.salt = salt.hexadecimalString()
@@ -101,7 +101,7 @@ class AuthenticationPasswordCreationViewController: UIViewController {
         guard let saltData :Data = Data.fromHexString(salt) else {return}
         guard let passwordValue = State.loadData?.password else {return}
         
-        let passwordData :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+        let passwordData :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:saltData as NSData, roundCount:2000)! as Data?
         
         if passwordData?.toHexString() == passwordValue {
             

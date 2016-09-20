@@ -171,51 +171,51 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
     
     @IBAction func saveChanges(_ sender: AnyObject) {
         
-        if _removeArray.count > 1 {
-            _showPopUp( "MULTISIG_REMOVE_COUNT_ERROR".localized())
-        }
-        else if (_currentCosignatories.count + _addArray.count) > 16 {
-            _showPopUp( "MULTISIG_COSIGNATORIES_COUNT_ERROR".localized())
-        }
-        else {
-            var fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
-            
-            var relativeChange = 0
-            
-            if self.minCosig != nil {
-                relativeChange = minCosig! - _activeAccount!.minCosignatories!
-            } else if _removeArray.count > 0 && (_activeAccount!.minCosignatories ?? 0) != 0 {
-                relativeChange = min( _activeAccount!.minCosignatories!, _activeAccount!.cosignatories.count - _removeArray.count) - _activeAccount!.minCosignatories!
-            }
-            
-            if relativeChange != 0{
-                fee += 6
-            }
-            
-            let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
-            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-            let publickey = self._activeAccount!.publicKey ?? KeyGenerator.generatePublicKey(privateKey!)
-            
-            transaction.timeStamp = TimeSynchronizator.nemTime
-            transaction.deadline = TimeSynchronizator.nemTime + waitTime
-            transaction.version = 2
-            transaction.signer = publickey
-            transaction.privateKey = privateKey
-            transaction.minCosignatory = relativeChange
-            
-            for publickey in _sortModifications(self._addArray) {
-                transaction.addModification(1, publicKey: publickey)
-            }
-            
-            for publickey in _sortModifications(self._removeArray)
-            {
-                transaction.addModification(2, publicKey: publickey)
-            }
-            
-            transaction.fee = Double(fee)
-            
-            self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
-        }
+//        if _removeArray.count > 1 {
+//            _showPopUp( "MULTISIG_REMOVE_COUNT_ERROR".localized())
+//        }
+//        else if (_currentCosignatories.count + _addArray.count) > 16 {
+//            _showPopUp( "MULTISIG_COSIGNATORIES_COUNT_ERROR".localized())
+//        }
+//        else {
+//            var fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
+//            
+//            var relativeChange = 0
+//            
+//            if self.minCosig != nil {
+//                relativeChange = minCosig! - _activeAccount!.minCosignatories!
+//            } else if _removeArray.count > 0 && (_activeAccount!.minCosignatories ?? 0) != 0 {
+//                relativeChange = min( _activeAccount!.minCosignatories!, _activeAccount!.cosignatories.count - _removeArray.count) - _activeAccount!.minCosignatories!
+//            }
+//            
+//            if relativeChange != 0{
+//                fee += 6
+//            }
+//            
+//            let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
+//            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+//            let publickey = self._activeAccount!.publicKey ?? KeyGenerator.generatePublicKey(privateKey!)
+//            
+//            transaction.timeStamp = TimeSynchronizator.nemTime
+//            transaction.deadline = TimeSynchronizator.nemTime + waitTime
+//            transaction.version = 2
+//            transaction.signer = publickey
+//            transaction.privateKey = privateKey
+//            transaction.minCosignatory = relativeChange
+//            
+//            for publickey in _sortModifications(self._addArray) {
+//                transaction.addModification(1, publicKey: publickey)
+//            }
+//            
+//            for publickey in _sortModifications(self._removeArray)
+//            {
+//                transaction.addModification(2, publicKey: publickey)
+//            }
+//            
+//            transaction.fee = Double(fee)
+//            
+//            self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
+//        }
     }
     
     
@@ -328,20 +328,20 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
     
     fileprivate func _sortModifications(_ modifications :[String]) -> [String] {
         var resutModifications = modifications
-        for var sorted = false ; !sorted; {
-            sorted = true
-            for i in 1 ..< resutModifications.count {
-                let previousAddress = AddressGenerator.generateAddress(resutModifications[i-1])
-                let currentAddress = AddressGenerator.generateAddress(resutModifications[i])
-                
-                if previousAddress.compare(currentAddress) == ComparisonResult.orderedDescending {
-                    let mod = resutModifications[i]
-                    resutModifications[i] = resutModifications[i-1]
-                    resutModifications[i-1] = mod
-                    sorted = false
-                }
-            }
-        }
+//        for var sorted = false ; !sorted; {
+//            sorted = true
+//            for i in 1 ..< resutModifications.count {
+//                let previousAddress = AddressGenerator.generateAddress(resutModifications[i-1])
+//                let currentAddress = AddressGenerator.generateAddress(resutModifications[i])
+//                
+//                if previousAddress.compare(currentAddress) == ComparisonResult.orderedDescending {
+//                    let mod = resutModifications[i]
+//                    resutModifications[i] = resutModifications[i-1]
+//                    resutModifications[i-1] = mod
+//                    sorted = false
+//                }
+//            }
+//        }
         return resutModifications
     }
     

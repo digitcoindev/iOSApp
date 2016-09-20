@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import GCDKit
 import SwiftyJSON
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -28,7 +28,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 /**
     The view controller that shows an overview of all transactions
     for the account that the user has chosen on the account list view
@@ -44,7 +43,7 @@ class TransactionOverviewViewController: UIViewController {
     fileprivate var correspondents = [Correspondent]()
     
     fileprivate var refreshTimer: Timer? = nil
-    fileprivate let transactionOverviewDispatchGroup = GCDGroup()
+    fileprivate let transactionOverviewDispatchGroup = DispatchGroup()
     
     // MARK: - View Controller Outlets
     
@@ -234,7 +233,7 @@ class TransactionOverviewViewController: UIViewController {
         fetchAllTransactions(forAccount: account!)
         fetchUnconfirmedTransactions(forAccount: account!)
         
-        transactionOverviewDispatchGroup.notify(.main) {
+        transactionOverviewDispatchGroup.notify(queue: .main) { 
             self.transactions.sort(by: { $0.timeStamp < $1.timeStamp })
             self.getCorrespondents(forTransactions: self.transactions)
         }
@@ -259,9 +258,9 @@ class TransactionOverviewViewController: UIViewController {
                     try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
-                    let accountData = try json.mapObject(AccountData)
+                    let accountData = try json.mapObject(AccountData.self)
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         self?.updateBarButtonItemStatus(withAccountData: accountData)
                         self?.updateInfoHeaderLabel(withAccountData: accountData)
@@ -271,7 +270,7 @@ class TransactionOverviewViewController: UIViewController {
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                     }
@@ -279,7 +278,7 @@ class TransactionOverviewViewController: UIViewController {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -314,7 +313,7 @@ class TransactionOverviewViewController: UIViewController {
                         switch subJson["transaction"]["type"].intValue {
                         case TransactionType.transferTransaction.rawValue:
                             
-                            let transferTransaction = try subJson.mapObject(TransferTransaction)
+                            let transferTransaction = try subJson.mapObject(TransferTransaction.self)
                             allTransactions.append(transferTransaction)
                             
                         case TransactionType.multisigTransaction.rawValue:
@@ -322,7 +321,7 @@ class TransactionOverviewViewController: UIViewController {
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
                             case TransactionType.transferTransaction.rawValue:
                                 
-                                let multisigTransaction = try subJson.mapObject(MultisigTransaction)
+                                let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
                                 allTransactions.append(transferTransaction)
                                 
@@ -335,7 +334,7 @@ class TransactionOverviewViewController: UIViewController {
                         }
                     }
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
 
                         self?.transactions += allTransactions
 
@@ -344,7 +343,7 @@ class TransactionOverviewViewController: UIViewController {
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
 
@@ -354,7 +353,7 @@ class TransactionOverviewViewController: UIViewController {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -391,7 +390,7 @@ class TransactionOverviewViewController: UIViewController {
                         switch subJson["transaction"]["type"].intValue {
                         case TransactionType.transferTransaction.rawValue:
                             
-                            let transferTransaction = try subJson.mapObject(TransferTransaction)
+                            let transferTransaction = try subJson.mapObject(TransferTransaction.self)
                             unconfirmedTransactions.append(transferTransaction)
                             
                         case TransactionType.multisigTransaction.rawValue:
@@ -399,7 +398,7 @@ class TransactionOverviewViewController: UIViewController {
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
                             case TransactionType.transferTransaction.rawValue:
                                 
-                                let multisigTransaction = try subJson.mapObject(MultisigTransaction)
+                                let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
                                 unconfirmedTransactions.append(transferTransaction)
                                 
@@ -412,7 +411,7 @@ class TransactionOverviewViewController: UIViewController {
                         }
                     }
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         self?.transactions += unconfirmedTransactions
 
@@ -421,7 +420,7 @@ class TransactionOverviewViewController: UIViewController {
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                         
@@ -431,7 +430,7 @@ class TransactionOverviewViewController: UIViewController {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)

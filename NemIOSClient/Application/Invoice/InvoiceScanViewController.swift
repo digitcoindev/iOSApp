@@ -89,7 +89,7 @@ class InvoiceScanViewController: UIViewController, QRCodeScannerDelegate, AddCus
                     State.importAccountData = {
                         (password) -> Bool in
                         
-                        guard let passwordHash :Data? = try? HashManager.generateAesKeyForString(password, salt:saltData, roundCount:2000) else {return false}
+                        guard let passwordHash :Data? = try! HashManager.generateAesKeyForString(password, salt:saltData as NSData, roundCount:2000) as Data?? else {return false}
                         guard let privateKey :String = HashManager.AES256Decrypt(privateKey_AES, key: passwordHash!.toHexString()) else {return false}
                         guard let normalizedKey = privateKey.nemKeyNormalized() else { return false }
                         

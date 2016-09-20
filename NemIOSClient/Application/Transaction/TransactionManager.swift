@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -25,7 +26,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     return rhs < lhs
   }
 }
-
 
 /**
     The transaction manager singleton used to perform all kinds of actions
@@ -150,7 +150,7 @@ open class TransactionManager {
         let senderPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(senderEncryptedPrivateKey)
         
         let saltData = (Data() as NSData).generateRandomIV(32)
-        var saltByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: saltData!.bytes.bindMemory(to: UInt8.self, capacity: saltData!.count), count: saltData!.count))
+        var saltByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(saltData!.bytes), count: saltData!.count))
         
         var sharedSecretByteArray: [UInt8] = Array(repeating: 0, count: 32)
         var senderPrivateKeyByteArray: Array<UInt8> = senderPrivateKey.asByteArrayEndian(32)
@@ -159,10 +159,10 @@ open class TransactionManager {
         ed25519_key_exchange_nem(&sharedSecretByteArray, &recipientPublicKeyByteArray, &senderPrivateKeyByteArray, &saltByteArray)
         
         var messageByteArray = messageByteArray
-        var messageData = Data(bytes: UnsafePointer<UInt8>(&messageByteArray), count: messageByteArray.count)
+        var messageData = Data(bytes: &messageByteArray, count: messageByteArray.count)
         
         let ivData = (Data() as NSData).generateRandomIV(16)
-        let customizedIVByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: ivData!.bytes.bindMemory(to: UInt8.self, capacity: ivData!.count), count: ivData!.count))
+        let customizedIVByteArray: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData!.bytes), count: ivData!.count))
         messageData = messageData.aesEncrypt(sharedSecretByteArray, iv: customizedIVByteArray)!
         var encryptedByteArray: Array<UInt8> = Array(repeating: 0, count: messageData.count)
         (messageData as NSData).getBytes(&encryptedByteArray, length: messageData.count)
@@ -186,7 +186,7 @@ open class TransactionManager {
         
         var saltByteArray: Array<UInt8> = Array(encryptedMessageByteArray[0..<32])
         let ivByteArray: Array<UInt8> = Array(encryptedMessageByteArray[32..<48])
-        var encByteArray: Array<UInt8> = Array(encryptedMessageByteArray[48..<encryptedMessageByteArray.count])
+        let encByteArray: Array<UInt8> = Array(encryptedMessageByteArray[48..<encryptedMessageByteArray.count])
         
         var recipientPrivateKeyByteArray: Array<UInt8> = recipientPrivateKey.asByteArrayEndian(32)
         var senderPublicKeyByteArray: Array<UInt8> = senderPublicKey.asByteArray()
@@ -194,7 +194,7 @@ open class TransactionManager {
         
         ed25519_key_exchange_nem(&sharedSecretByteArray, &senderPublicKeyByteArray, &recipientPrivateKeyByteArray, &saltByteArray)
         
-        var messageData: Data? = Data(bytes: UnsafePointer<UInt8>(&encByteArray), count: encByteArray.count)
+        var messageData: Data? = Data(bytes: encByteArray, count: encByteArray.count)
         messageData = messageData?.aesDecrypt(sharedSecretByteArray, iv: ivByteArray)
         
         if messageData == nil {

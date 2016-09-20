@@ -1,11 +1,12 @@
 //
-//  InvoiceCreateViewController.swift
+//  InvoiceCreationViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
 //
 
 import UIKit
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -26,33 +27,30 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
-class InvoiceCreateViewController: UIViewController
-{
+/// The view controller that lets the user create a new invoice.
+class InvoiceCreationViewController: UIViewController {
+    
+    // MARK: - View Controller Outlets
+    
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var message: NEMTextField!
-    @IBOutlet weak var name: NEMTextField!
-    @IBOutlet weak var amount: UITextField!
-    @IBOutlet weak var createButton: UIButton!
+    @IBOutlet weak var invoiceAccountTitleTextField: UITextField!
+    @IBOutlet weak var invoiceAmountTextField: UITextField!
+    @IBOutlet weak var invoiceMessageTextField: UITextField!
+    @IBOutlet weak var createInvoiceButton: UIButton!
 
-//    private let _dataManager = CoreDataManager()
-
+    // MARK: - View Controller Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        State.fromVC = SegueToCreateInvoice
 
-        amount.placeholder = "ENTER_AMOUNT".localized()
-        name.placeholder = "ENTER_NAME".localized()
-        message.placeholder = "ENTER_MESSAGE".localized()
-        
-        createButton.setTitle("CREATE".localized(), for: UIControlState())
+        updateViewControllerAppearance()
         
         containerView.layer.cornerRadius = 10
         containerView.clipsToBounds = true
         
         let loadData = State.loadData
         
-        name.text = State.currentWallet?.login ?? ""
+        invoiceAccountTitleTextField.text = State.currentWallet?.login ?? ""
         var text = ""
         
         if Validate.stringNotEmpty(loadData?.invoicePrefix) {
@@ -71,44 +69,48 @@ class InvoiceCreateViewController: UIViewController
             text = text + loadData!.invoiceMessage!
         }
         
-        message.text = text
+        invoiceMessageTextField.text = text
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        State.currentVC = SegueToCreateInvoice
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller on view did load.
+    fileprivate func updateViewControllerAppearance() {
+        
+        invoiceAccountTitleTextField.placeholder = "ENTER_NAME".localized()
+        invoiceAmountTextField.placeholder = "ENTER_AMOUNT".localized()
+        invoiceMessageTextField.placeholder = "ENTER_MESSAGE".localized()
+        createInvoiceButton.setTitle("CREATE".localized(), for: UIControlState())
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+    
+    // MARK: - View Controller Outlet Actions
 
     @IBAction func hideKeyboard(_ sender: AnyObject) {
-        if name.text == "" {
-            name.becomeFirstResponder()
+        if invoiceAccountTitleTextField.text == "" {
+            invoiceAccountTitleTextField.becomeFirstResponder()
         }
-        else if amount.text == "" {
-            amount.becomeFirstResponder()
+        else if invoiceAmountTextField.text == "" {
+            invoiceAmountTextField.becomeFirstResponder()
         }
-        else if message.text == "" {
-            message.becomeFirstResponder()
+        else if invoiceMessageTextField.text == "" {
+            invoiceMessageTextField.becomeFirstResponder()
         }
     }
     
-    @IBAction func confirm(_ sender: AnyObject) {
+    @IBAction func createInvoiceButtonPressed(_ sender: UIButton) {
         
-        let amountValue = Double(amount.text!.replacingOccurrences(of: " ", with: "")) ?? 0
+        let amountValue = Double(invoiceAmountTextField.text!.replacingOccurrences(of: " ", with: "")) ?? 0
 
-        if amountValue < 0.000001 && amount != 0 {
-            amount.text = "0"
+        if amountValue < 0.000001 && amountValue != 0 {
+            invoiceAmountTextField.text = "0"
             return
         }
         
-        if name.text == "" {
+        if invoiceAccountTitleTextField.text == "" {
             return
         }
         
-        if message.text?.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 255 {
+        if invoiceMessageTextField.text?.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 255 {
             let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "MESSAGE_LENGTH".localized(), preferredStyle: UIAlertControllerStyle.alert)
             
             let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default) {
@@ -125,8 +127,8 @@ class InvoiceCreateViewController: UIViewController
         }
         
         var invoice :InvoiceData = InvoiceData()
-        invoice.name = name.text
-        invoice.message = message.text
+        invoice.name = invoiceAccountTitleTextField.text
+        invoice.message = invoiceMessageTextField.text
         invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
         invoice.amount = amountValue * 1000000
 //        invoice.number = Int(CoreDataManager().addInvoice(invoice).number)

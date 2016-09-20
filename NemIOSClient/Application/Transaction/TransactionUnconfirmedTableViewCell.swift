@@ -21,7 +21,7 @@ class TransactionUnconfirmedTableViewCell: UITableViewCell
     @IBOutlet weak var toLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel?
     
-    weak var delegate :TransactionUnconfirmedViewController? = nil
+//    weak var delegate :TransactionUnconfirmedViewController? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,10 +46,10 @@ class TransactionUnconfirmedTableViewCell: UITableViewCell
     }
 
     @IBAction func confirmTouchUpInside(_ sender: AnyObject) {
-        self.delegate?.confirmTransactionAtIndex(self.tag)
+//        self.delegate?.confirmTransactionAtIndex(self.tag)
     }
     @IBAction func showTouchUpInside(_ sender: AnyObject) {
-        self.delegate?.showTransactionAtIndex(self.tag)
+//        self.delegate?.showTransactionAtIndex(self.tag)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

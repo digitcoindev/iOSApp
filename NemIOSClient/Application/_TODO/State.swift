@@ -61,25 +61,25 @@ class State: NSObject
             State.Store.currentVC = newValue!
         }
     }
-    final class var lastVC:String {
-        get {
-            var inState = true
-            let value = State.Store.stackVC.last!
-            
-            for ;inState; {
-                if State.Store.stackVC.count > 1 && State.Store.stackVC.last! == value {
-                    State.Store.stackVC.removeLast()
-                }
-                else {
-                    inState = false
-                }
-            }
-
-            return State.Store.stackVC.last!
-            
-        }
-    }
-    
+//    final class var lastVC:String {
+//        get {
+//            var inState = true
+//            let value = State.Store.stackVC.last!
+//            
+//            for ;inState; {
+//                if State.Store.stackVC.count > 1 && State.Store.stackVC.last! == value {
+//                    State.Store.stackVC.removeLast()
+//                }
+//                else {
+//                    inState = false
+//                }
+//            }
+//
+//            return State.Store.stackVC.last!
+//            
+//        }
+//    }
+//    
     final class var countVC: Int {
         get {
             return State.Store.stackVC.count

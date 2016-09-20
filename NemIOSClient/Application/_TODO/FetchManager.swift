@@ -58,7 +58,7 @@ class FetchManager: NSObject, APIManagerDelegate {
         }
         
         var transactions :[_TransferTransaction] = []
-        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(_account!.privateKey, key: State.loadData!.password!)!)
+//        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(_account!.privateKey, key: State.loadData!.password!)!)
 
         print("Last transaction hash: " + (_account?.lastTransactionHash ?? "nil"))
         print("Current transaction hash: " + (data.first?.hashString ?? "nil"))
@@ -94,9 +94,9 @@ class FetchManager: NSObject, APIManagerDelegate {
             }
             
             
-            if transaction?.signer == publicKey {
-                continue
-            }
+//            if transaction?.signer == publicKey {
+//                continue
+//            }
             
             if transaction != nil {
                 transactions.append(transaction!)

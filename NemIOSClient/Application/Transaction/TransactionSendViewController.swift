@@ -250,8 +250,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         
         transaction.timeStamp = Double(Int(TimeSynchronizator.nemTime))
         transaction.amount = Double(xems)
-        transaction.message.payload = messageBytes
-        transaction.message.type = (_isEnc) ? _MessageType.ecrypted.rawValue : _MessageType.normal.rawValue
+//        transaction.message.payload = messageBytes
+//        transaction.message.type = (_isEnc) ? _MessageType.ecrypted.rawValue : _MessageType.normal.rawValue
         transaction.fee = transactionFee
         transaction.recipient = toAddressTextField.text!
         transaction.deadline = Double(Int(TimeSynchronizator.nemTime + waitTime))
@@ -380,8 +380,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
             }
             
             var encryptedMessage :[UInt8] = Array(repeating: 0, count: 32)
-            encryptedMessage = MessageCrypto.encrypt(_preparedTransaction!.message.payload!, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
-            _preparedTransaction!.message.payload = encryptedMessage
+//            encryptedMessage = MessageCrypto.encrypt(_preparedTransaction!.message.payload!, senderPrivateKey: HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!, recipientPublicKey: contactPublicKey)
+//            _preparedTransaction!.message.payload = encryptedMessage
             
             if encryptedMessage.count > 160 {
                 _showPopUp("VALIDAATION_MESSAGE_LEANGTH".localized())
@@ -394,9 +394,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         walletData = account
         
         if _mainWallet == nil {
-            if walletData.publicKey == nil {
-                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
-            }
+//            if walletData.publicKey == nil {
+//                walletData.publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
+//            }
             
             _mainWallet = walletData
         }

@@ -102,7 +102,7 @@ class AuthenticationPasswordValidationViewController: UIViewController
         guard let saltData :Data = Data.fromHexString(salt) else {return}
         guard let passwordValue = State.loadData?.password else {return}
         
-        let passwordData :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+        let passwordData :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:saltData as NSData, roundCount:2000)! as Data?
         
         if passwordData?.toHexString() == passwordValue {
 //            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {

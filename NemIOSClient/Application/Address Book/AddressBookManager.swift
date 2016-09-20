@@ -7,7 +7,6 @@
 
 import UIKit
 import Contacts
-import GCDKit
 
 /**
     The address book manager singleton used to perform all kinds of actions in 
@@ -33,7 +32,7 @@ open class AddressBookManager {
         
         var contacts = [CNContact]()
         
-        GCDQueue.userInitiated.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             
             self.requestAccess { (accessGranted) -> Void in
                 if accessGranted {
@@ -43,18 +42,18 @@ open class AddressBookManager {
                     let predicate = CNContact.predicateForContactsInContainer(withIdentifier: containerIdentifier)
                     
                     do {
-                        contacts = try self.contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
+                        contacts = try self.contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch as [CNKeyDescriptor])
                         
                     } catch let error as NSError {
                         
-                        GCDQueue.main.async {
+                        DispatchQueue.main.async {
                             print(error)
                         }
                     }
                 }
                 
-                GCDQueue.main.async {
-                    return completion(contacts: contacts)
+                DispatchQueue.main.async {
+                    return completion(contacts)
                 }
             }
         }

@@ -63,8 +63,7 @@ public struct Message: SwiftyJSONMappable {
             case MessageType.encrypted:
                 guard signer != nil else { return String() }
                 let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-                let decryptedMessage :String? = MessageCrypto.decrypt(self.payload!, recipientPrivateKey: privateKey!
-                    , senderPublicKey: signer!)
+                let decryptedMessage: String? = TransactionManager.sharedInstance.decryptMessage(self.payload!, recipientEncryptedPrivateKey: privateKey!, senderPublicKey: signer!)
                 
                 return decryptedMessage
             }

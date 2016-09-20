@@ -19,11 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        NetworkActivityIndicatorManager.sharedManager.isEnabled = true
+        NetworkActivityIndicatorManager.shared.isEnabled = true
         TimeManager.sharedInstance.synchronizeTime()
         
         NotificationManager.registerForNotification(application)
-        
+                
         return true
     }
     

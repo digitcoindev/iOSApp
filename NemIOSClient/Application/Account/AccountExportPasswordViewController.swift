@@ -94,7 +94,7 @@ class AccountExportPasswordViewController: UIViewController
         if password.text != "" {
             let privateKey = HashManager.AES256Decrypt(privateKey_AES, key: State.loadData!.password!)
             let saltData = Data(bytes: salt.asByteArray())
-            let passwordHash :Data? = try? HashManager.generateAesKeyForString(password.text!, salt:saltData, roundCount:2000)!
+            let passwordHash :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:saltData as NSData, roundCount:2000)! as Data?
             privateKey_AES = HashManager.AES256Encrypt(privateKey!, key: passwordHash!.hexadecimalString())
         }
         
@@ -102,7 +102,7 @@ class AccountExportPasswordViewController: UIViewController
         let keys = [QRKeys.Name.rawValue, QRKeys.Salt.rawValue, QRKeys.PrivateKey.rawValue]
         
         let jsonAccountDictionary :NSDictionary = NSDictionary(objects: objects, forKeys: keys as [NSCopying])
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.accountData.rawValue, jsonAccountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.accountData.rawValue, jsonAccountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue as NSCopying, QRKeys.Data.rawValue as NSCopying, QRKeys.Version.rawValue as NSCopying])
         let jsonData :Data = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions())
         let jsonString :String = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
         

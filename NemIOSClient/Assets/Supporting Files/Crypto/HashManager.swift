@@ -6,11 +6,12 @@ class HashManager: NSObject
 {
     final class func AES256Encrypt(_ inputText :String ,key :String) -> String {
         let messageBytes = inputText.asByteArray()
-        var messageData = Data(bytes: UnsafePointer<UInt8>(messageBytes), count: messageBytes.count)
+        var messageData = NSData(bytes: messageBytes, length: messageBytes.count)
 
-        let ivData = (Data() as NSData).generateRandomIV(16)
-        let customizedIVBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: ivData!.bytes.bindMemory(to: UInt8.self, capacity: ivData!.count), count: ivData!.count))
-        messageData = messageData.aesEncrypt(key.asByteArray(), iv: customizedIVBytes)!
+        let ivData = NSData().generateRandomIV(16)
+        let customizedIVBytes: Array<UInt8> = Array(UnsafeBufferPointer(start: UnsafePointer<UInt8>(ivData!.bytes), count: ivData!.count))
+
+        messageData = messageData.aesEncrypt(key: key.asByteArray(), iv: customizedIVBytes)!
         
         return customizedIVBytes.toHexString() + messageData.toHexString()
     }
@@ -20,9 +21,8 @@ class HashManager: NSObject
         let customizedIV =  Array(inputBytes[0..<16])
         let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
         
-        var data :Data? = Data(bytes: UnsafePointer<UInt8>(encryptedBytes), count: encryptedBytes.count)
-        
-        data = data?.aesDecrypt(key.asByteArray(), iv: customizedIV)
+        var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
+        data = data?.aesDecrypt(key: key.asByteArray(), iv: customizedIV)
         
         return data?.toHexString()
     }
@@ -42,20 +42,23 @@ class HashManager: NSObject
         return RIPEMD.asciiDigest(inputText) as String
     }
     
-    final class func generateAesKeyForString(_ string: String, salt: Data, roundCount: Int?) throws -> Data? {
+    final class func generateAesKeyForString(_ string: String, salt: NSData, roundCount: Int?) throws -> NSData? {
         let error: NSError! = NSError(domain: "Migrator", code: 0, userInfo: nil)
         let nsDerivedKey = NSMutableData(length: 32)
         var actualRoundCount: UInt32
         
         let algorithm: CCPBKDFAlgorithm        = CCPBKDFAlgorithm(kCCPBKDF2)
         let prf:       CCPseudoRandomAlgorithm = CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA1)
-        let saltBytes  = (salt as NSData).bytes.bindMemory(to: UInt8.self, capacity: salt.count)
-        let saltLength = size_t(salt.count)
+        let saltBytes  = salt.bytes
+        let saltLength = size_t(salt.length)
+
         let nsPassword        = string as NSString
         let nsPasswordPointer = UnsafePointer<Int8>(nsPassword.cString(using: String.Encoding.utf8.rawValue))
         let nsPasswordLength  = size_t(nsPassword.lengthOfBytes(using: String.Encoding.utf8.rawValue))
-        let nsDerivedKeyPointer = UnsafeMutablePointer<UInt8>(nsDerivedKey!.mutableBytes)
+
+        let nsDerivedKeyPointer = nsDerivedKey!.mutableBytes
         let nsDerivedKeyLength = size_t(nsDerivedKey!.length)
+
         let msec: UInt32 = 300
         
         if roundCount != nil {
@@ -74,18 +77,17 @@ class HashManager: NSObject
         let result = CCKeyDerivationPBKDF(
             algorithm,
             nsPasswordPointer,   nsPasswordLength,
-            saltBytes,           saltLength,
+            saltBytes.assumingMemoryBound(to: UInt8.self),
+            saltLength,
             prf,                 actualRoundCount,
-            nsDerivedKeyPointer, nsDerivedKeyLength)
+            nsDerivedKeyPointer.assumingMemoryBound(to: UInt8.self), nsDerivedKeyLength)
         
         if result != 0 {            
             throw error
         }
         
-        return nsDerivedKey! as Data
+        return nsDerivedKey
     }
-    
-    
 }
 
 

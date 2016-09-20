@@ -28,11 +28,11 @@ class AccountExportViewController: UIViewController , MFMailComposeViewControlle
         
         qrImage.image =  qr.createQRCodeImage(fromCaptureResult: State.exportAccount!)
         
-        let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let pub_key = KeyGenerator.generatePublicKey(priv_key!)
-        privateKey.text = priv_key
-        publicKey.text = pub_key
-                
+//        let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
+//        let pub_key = KeyGenerator.generatePublicKey(priv_key!)
+//        privateKey.text = priv_key
+//        publicKey.text = pub_key
+        
         shareButton.setTitle("SHARE_QR".localized(), for: UIControlState())
         copyButton.setTitle("SAVE_QR".localized(), for: UIControlState())
         title = "EXPORT_ACCOUNT".localized()

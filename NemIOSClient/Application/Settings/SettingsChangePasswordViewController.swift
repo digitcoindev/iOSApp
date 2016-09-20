@@ -67,7 +67,7 @@ class SettingsChangePasswordViewController: UIViewController {
         }
         
         let salt :Data =  Data(bytes: State.loadData!.salt!.asByteArray())
-        let passwordHashOld :Data? = try? HashManager.generateAesKeyForString(oldPassword.text!, salt:salt, roundCount:2000)!
+        let passwordHashOld :Data? = try! HashManager.generateAesKeyForString(oldPassword.text!, salt:salt as NSData, roundCount:2000)! as Data?
         
         if passwordHashOld == nil || passwordHashOld?.hexadecimalString() != State.loadData?.password {
             _failedWithError("WRONG_OLD_PASSWORD".localized())
@@ -75,7 +75,7 @@ class SettingsChangePasswordViewController: UIViewController {
             return
         }
         
-        let passwordHash = try? HashManager.generateAesKeyForString(newPassword.text!, salt:salt, roundCount:2000)!
+        let passwordHash = try? HashManager.generateAesKeyForString(newPassword.text!, salt:salt as NSData, roundCount:2000)!
         
         
 //        let loadData = dataMeneger.getLoadData()

@@ -104,7 +104,7 @@ class InvoiceCreatedViewController: UIViewController, MFMailComposeViewControlle
             QRKeys.Message.rawValue : invoice!.message as AnyObject
         ]
         
-        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.invoice.rawValue, userDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue, QRKeys.Data.rawValue, QRKeys.Version.rawValue])
+        let jsonDictionary :NSDictionary = NSDictionary(objects: [QRType.invoice.rawValue, userDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue as NSCopying, QRKeys.Data.rawValue as NSCopying, QRKeys.Version.rawValue as NSCopying])
         
         let jsonData :Data = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions())
         

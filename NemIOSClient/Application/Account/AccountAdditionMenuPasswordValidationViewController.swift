@@ -70,7 +70,7 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
         guard let enteredPassword = passwordTextField.text else { throw AccountImportValidation.noPasswordProvided }
         
         let accountSaltBytes = accountSalt.asByteArray()
-        let accountSaltData = Data(bytes: UnsafePointer<UInt8>(accountSaltBytes), count: accountSaltBytes.count)
+        let accountSaltData = NSData(bytes: accountSaltBytes, length: accountSaltBytes.count)
 
         guard let passwordHash = try? HashManager.generateAesKeyForString(enteredPassword, salt: accountSaltData, roundCount:2000) else { throw AccountImportValidation.other }
         guard let accountPrivateKey = HashManager.AES256Decrypt(accountEncryptedPrivateKey, key: passwordHash!.toHexString())?.nemKeyNormalized() else { throw AccountImportValidation.wrongPasswordProvided }

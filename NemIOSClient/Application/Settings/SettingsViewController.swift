@@ -145,7 +145,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             serverText = "NONE".localized()
         }
         
-        var accountText = ""
+        let accountText = ""
 //        if let account = _loadData?.currentWallet {
 //            accountText = account.login
 //        } else if _dataManager.getWallets().count == 0 {

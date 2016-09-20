@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import GCDKit
 import SwiftyJSON
 
 /**
@@ -51,14 +50,14 @@ open class TimeManager {
                     try response.filterSuccessfulStatusCodes()
                     let responseJSON = JSON(data: response.data)
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         self.nisTime = responseJSON["receiveTimeStamp"].doubleValue / 1000
                     }
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                     }
@@ -66,7 +65,7 @@ open class TimeManager {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                 }

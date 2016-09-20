@@ -41,13 +41,13 @@ class NotificationManager
     fileprivate class func showNotificationBaner(_ title: String){
         var root = UIApplication.shared.windows.first?.rootViewController
         
-        for ;; {
-            if root?.presentedViewController != nil {
-                root = root?.presentedViewController
-            } else {
-                break
-            }
-        }
+//        for ;; {
+//            if root?.presentedViewController != nil {
+//                root = root?.presentedViewController
+//            } else {
+//                break
+//            }
+//        }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let identifire = "NotificationBaner"

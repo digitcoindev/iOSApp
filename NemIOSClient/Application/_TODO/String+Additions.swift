@@ -12,32 +12,35 @@ extension String
         return self.data(using: String.Encoding.utf8)!
     }
     
-    func dataFromHexadecimalString() -> Data? {
-        let trimmedString = self.trimmingCharacters(in: CharacterSet(charactersIn: "<> ")).replacingOccurrences(of: " ", with: "")
-        
-        let regex: NSRegularExpression?
-        do {
-            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .caseInsensitive)
-        } catch {
-            regex = nil
-        }
-        
-        let found = regex?.firstMatch(in: trimmedString, options: [], range: NSMakeRange(0, trimmedString.characters.count))
-        
-        if found == nil || found?.range.location == NSNotFound || trimmedString.characters.count % 2 != 0 {
-            return nil
-        }
-        
-        let data = NSMutableData(capacity: trimmedString.characters.count / 2)
-        
-        for var index = trimmedString.startIndex; index < trimmedString.endIndex; index = <#T##Collection corresponding to your index##Collection#>.index(after: <#T##Collection corresponding to `index`##Collection#>.index(after: index)) {
-            let byteString = trimmedString.substring(with: (index ..< <#T##Collection corresponding to your index##Collection#>.index(after: <#T##Collection corresponding to `index`##Collection#>.index(after: index))))
-            let num = UInt8(byteString.withCString { strtoul($0, nil, 16) })
-            data?.append([num] as [UInt8], length: 1)
-        }
-        
-        return data as Data?
-    }
+//    func dataFromHexadecimalString() -> Data? {
+//        let trimmedString = self.trimmingCharacters(in: CharacterSet(charactersIn: "<> ")).replacingOccurrences(of: " ", with: "")
+//        
+//        let regex: NSRegularExpression?
+//        do {
+//            regex = try NSRegularExpression(pattern: "^[0-9a-f]*$", options: .caseInsensitive)
+//        } catch {
+//            regex = nil
+//        }
+//        
+//        let found = regex?.firstMatch(in: trimmedString, options: [], range: NSMakeRange(0, trimmedString.characters.count))
+//        
+//        if found == nil || found?.range.location == NSNotFound || trimmedString.characters.count % 2 != 0 {
+//            return nil
+//        }
+//        
+//        let data = NSMutableData(capacity: trimmedString.characters.count / 2)
+//        
+//        for var index = trimmedString.startIndex; index < trimmedString.endIndex; index = index.successor().successor() {
+//
+//            let byteString = trimmedString.substringWithRange(Range<String.Index>(start: index, end: index.successor().successor()))
+//            
+//            
+//            let num = UInt8(byteString.withCString { strtoul($0, nil, 16) })
+//            data?.appendBytes([num] as [UInt8], length: 1)
+//        }
+//        
+//        return data as Data?
+//    }
     
     func path() -> String
     {
@@ -48,13 +51,13 @@ extension String
         return path
     }
     
-    func stringFromHexadecimalStringUsingEncoding(_ encoding: String.Encoding) -> String? {
-        if let data = dataFromHexadecimalString() {
-            return NSString(data: data, encoding: encoding.rawValue) as? String
-        }
-        
-        return nil
-    }
+//    func stringFromHexadecimalStringUsingEncoding(_ encoding: String.Encoding) -> String? {
+//        if let data = dataFromHexadecimalString() {
+//            return NSString(data: data, encoding: encoding.rawValue) as? String
+//        }
+//        
+//        return nil
+//    }
     
     func hexadecimalStringUsingEncoding(_ encoding: String.Encoding) -> String? {
         let data = self.data(using: String.Encoding.utf8, allowLossyConversion: false)
@@ -122,7 +125,8 @@ extension String
     
     func nemAddressNormalised() -> String {
         var newString = ""
-        for var i = 0 ; i < self.characters.count ; i += 6 {
+        
+        for i in stride(from: 0, to: self.characters.count, by: 6) {
             let substring = (self as NSString).substring(with: NSRange(location: i, length: ((self.characters.count - i) >= 6) ? 6 : self.characters.count - i))
             newString += substring + "-"
         }

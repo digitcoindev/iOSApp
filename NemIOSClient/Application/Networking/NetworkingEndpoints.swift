@@ -12,7 +12,9 @@ import Moya
 
 let endpointClosure = { (target: NIS) -> Endpoint<NIS> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding)
+//    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding)
+    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters)
+
     return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
 }
 
@@ -56,7 +58,7 @@ extension NIS: TargetType {
             return .POST
         }
     }
-    var parameters: [String: AnyObject]? {
+    var parameters: [String: Any]? {
         switch self {
         case .heartbeat:
             return nil
@@ -72,14 +74,14 @@ extension NIS: TargetType {
             return ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject]
         }
     }
-    var parameterEncoding: Moya.ParameterEncoding {
-        switch self {
-        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions:
-            return ParameterEncoding.url
-        case .announceTransaction:
-            return ParameterEncoding.json
-        }
-    }
+//    var parameterEncoding: Moya.ParameterEncoding {
+//        switch self {
+//        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions:
+//            return ParameterEncoding.url
+//        case .announceTransaction:
+//            return ParameterEncoding.json
+//        }
+//    }
     var headers: [String: String] {
         switch self {
         case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions:
@@ -87,6 +89,9 @@ extension NIS: TargetType {
         case .announceTransaction:
             return ["Content-Type": "application/json"]
         }
+    }
+    var task: Task {
+        return .request
     }
     var sampleData: Data {
         switch self {

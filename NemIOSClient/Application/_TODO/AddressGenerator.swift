@@ -38,8 +38,9 @@ class AddressGenerator: NSObject
     }
     
     final class func generateAddressFromPrivateKey(_ privateKey: String)->String {
-        let publicKey :String =  KeyGenerator.generatePublicKey(privateKey)
+//        let publicKey :String =  KeyGenerator.generatePublicKey(privateKey)
         
-        return AddressGenerator.generateAddress(publicKey)
+//        return AddressGenerator.generateAddress(publicKey)
+        return String()
     }
 }

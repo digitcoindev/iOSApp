@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import GCDKit
 import SwiftyJSON
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -28,7 +28,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 /**
     The view controller that shows all messages/transactions with the
     correspondent in detail.
@@ -48,7 +47,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     fileprivate var accountChooserViewController: UIViewController?
     
     fileprivate var refreshTimer: Timer? = nil
-    fileprivate let correspondentTransactionsDispatchGroup = GCDGroup()
+    fileprivate let correspondentTransactionsDispatchGroup = DispatchGroup()
 
     // MARK: - View Controller Outlets
     
@@ -201,7 +200,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         fetchAllTransactions(forAccount: account!)
         fetchUnconfirmedTransactions(forAccount: account!)
         
-        correspondentTransactionsDispatchGroup.notify(.main) {
+        correspondentTransactionsDispatchGroup.notify(queue: .main) {
             self.getTransactionsForCorrespondent(fromTransactions: &self.transactions)
             self.getTransactionsForCorrespondent(fromTransactions: &self.unconfirmedTransactions)
             
@@ -231,9 +230,9 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
-                    let accountData = try json.mapObject(AccountData)
+                    let accountData = try json.mapObject(AccountData.self)
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         if self?.activeAccountData?.address == self?.account?.address {
                             self?.updateInfoHeaderLabel(withAccountData: accountData)
@@ -244,7 +243,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                     }
@@ -252,7 +251,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -287,7 +286,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         switch subJson["transaction"]["type"].intValue {
                         case TransactionType.transferTransaction.rawValue:
                             
-                            let transferTransaction = try subJson.mapObject(TransferTransaction)
+                            let transferTransaction = try subJson.mapObject(TransferTransaction.self)
                             allTransactions.append(transferTransaction)
                             
                         case TransactionType.multisigTransaction.rawValue:
@@ -295,7 +294,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
                             case TransactionType.transferTransaction.rawValue:
                                 
-                                let multisigTransaction = try subJson.mapObject(MultisigTransaction)
+                                let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
                                 allTransactions.append(transferTransaction)
                                 
@@ -308,7 +307,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         }
                     }
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         self?.transactions = allTransactions
                         
@@ -317,7 +316,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                         
@@ -327,7 +326,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -364,7 +363,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         switch subJson["transaction"]["type"].intValue {
                         case TransactionType.transferTransaction.rawValue:
                             
-                            let transferTransaction = try subJson.mapObject(TransferTransaction)
+                            let transferTransaction = try subJson.mapObject(TransferTransaction.self)
                             unconfirmedTransactions.append(transferTransaction)
                             
                         case TransactionType.multisigTransaction.rawValue:
@@ -372,7 +371,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
                             case TransactionType.transferTransaction.rawValue:
                                 
-                                let multisigTransaction = try subJson.mapObject(MultisigTransaction)
+                                let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
                                 unconfirmedTransactions.append(transferTransaction)
                                 
@@ -385,7 +384,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         }
                     }
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         self?.unconfirmedTransactions = unconfirmedTransactions
                         
@@ -394,7 +393,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                         
@@ -404,7 +403,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -434,7 +433,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     let responseJSON = JSON(data: response.data)
                     try self?.validateAnnounceTransactionResult(responseJSON)
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_SUCCESS".localized())
                         
@@ -448,7 +447,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     
                 } catch TransactionAnnounceValidation.failure(let errorMessage) {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                         self?.showAlert(withMessage: errorMessage)
@@ -456,7 +455,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     
                 } catch {
                     
-                    GCDQueue.main.async {
+                    DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
                         self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
@@ -465,7 +464,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                 
             case let .failure(error):
                 
-                GCDQueue.main.async {
+                DispatchQueue.main.async {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
@@ -576,7 +575,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     symbol = "-"
                 }
                 
-                amount = "\(symbol)\((transferTransaction.amount / 1000000).format()) XEM" ?? String()
+                amount = "\(symbol)\((transferTransaction.amount / 1000000).format()) XEM" 
                 
                 if message != "" {
                     amount = "\n" + amount
@@ -740,7 +739,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray)
         
         let transactionMessage = Message(type: willEncrypt ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextField.text!)
-        let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: Int(transactionFee * 1000000), recipient: transactionRecipient, message: transactionMessage, deadline: transactionDeadline, signer: transactionSigner)
+        let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: Int(transactionFee * 1000000), recipient: transactionRecipient!, message: transactionMessage, deadline: transactionDeadline, signer: transactionSigner!)
         
         // Check if the transaction is a multisig transaction
         if activeAccountData!.publicKey != account!.publicKey {

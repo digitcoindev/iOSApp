@@ -30,7 +30,7 @@ open class AccountManager {
      */
     open func accounts() -> [Account] {
         
-        let accounts = DatabaseManager.sharedInstance.dataStack.fetchAll(From(Account), OrderBy(.ascending("position"))) ?? []
+        let accounts = DatabaseManager.sharedInstance.dataStack.fetchAll(From(Account.self), OrderBy(.ascending("position"))) ?? []
         
         return accounts
     }
@@ -53,7 +53,7 @@ open class AccountManager {
             
             let encryptedPrivateKey = self.encryptPrivateKey(privateKey!)
             
-            let account = transaction.create(Into(Account))
+            let account = transaction.create(Into(Account.self))
             account.title = title
             account.publicKey = self.generatePublicKey(forPrivateKey: privateKey!)
             account.privateKey = encryptedPrivateKey
@@ -63,10 +63,10 @@ open class AccountManager {
             transaction.commit { (result) -> Void in
                 switch result {
                 case .success( _):
-                    return completion(result: .success)
+                    return completion(.success)
                     
                 case .failure( _):
-                    return completion(result: .failure)
+                    return completion(.failure)
                 }
             }
         }
@@ -248,7 +248,7 @@ open class AccountManager {
         checksum.append(checksumBuffer[3])
         
         let stepFourResultBuffer = stepThreeVersionPrefixedRipemd160Buffer + checksum
-        let address = Base32Encode(Data(bytes: UnsafePointer<UInt8>(stepFourResultBuffer), count: stepFourResultBuffer.count))
+        let address = Base32Encode(Data(bytes: stepFourResultBuffer, count: stepFourResultBuffer.count))
         
         return address
     }
@@ -290,7 +290,7 @@ open class AccountManager {
      */
     fileprivate func positionForNewAccount() -> Int {
         
-        if let maxPosition = DatabaseManager.sharedInstance.dataStack.queryValue(From(Account), Select<Int>(.Maximum("position"))) {
+        if let maxPosition = DatabaseManager.sharedInstance.dataStack.queryValue(From(Account.self), Select<Int>(.maximum(#keyPath(Account.position)))) {
             if (maxPosition == 0) {
                 return maxPosition
             } else {
@@ -307,8 +307,8 @@ open class AccountManager {
         var privateKeyBytes: Array<UInt8> = Array(repeating: 0, count: 32)
         createPrivateKey(&privateKeyBytes)
         
-        let privateKey: String = Data(bytes: UnsafePointer<UInt8>(&privateKeyBytes), count: 32).toHexString()
-        
+        let privateKey = Data(bytes: privateKeyBytes).toHexadecimalString()
+
         return privateKey.nemKeyNormalized()!
     }
     
@@ -325,7 +325,7 @@ open class AccountManager {
         var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(privateKey.asByteArray().count)
         createPublicKey(&publicKeyBytes, &privateKeyBytes)
         
-        let publicKey: String = Data(bytes: UnsafePointer<UInt8>(&publicKeyBytes), count: 32).toHexString()
+        let publicKey = Data(bytes: publicKeyBytes).toHexadecimalString()
         
         return publicKey.nemKeyNormalized()!
     }

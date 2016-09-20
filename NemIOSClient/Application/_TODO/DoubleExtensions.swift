@@ -9,7 +9,7 @@ extension Double
         numberFormatter.groupingSeparator = " "
         numberFormatter.minimumFractionDigits = 0
         numberFormatter.maximumFractionDigits = maximumFractionDigits
-        let finalNumber = numberFormatter.string(from: NSNumber(self))
+        let finalNumber = numberFormatter.string(from: self as NSNumber)
         return finalNumber!
     }
 }

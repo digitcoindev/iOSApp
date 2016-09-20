@@ -29,7 +29,8 @@ class SignManager: NSObject
     
     final class func signatureGeneration(_ data : Array<UInt8> )->Array<UInt8> {
         let myPrivateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let myPublicKey = KeyGenerator.generatePublicKey(myPrivateKey!)
+//        let myPublicKey = KeyGenerator.generatePublicKey(myPrivateKey!)
+        let myPublicKey = String()
 
         var processData : Array<UInt8> = Array(data)
         var privateKey :Array<UInt8> = Array(myPrivateKey!.utf8)
@@ -65,7 +66,8 @@ class SignManager: NSObject
             break
         }
         
-        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
+//        let publicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
+        let publicKey = String()
         
         if publicKey != transaction.signer {
             let multisignCommonPart :Array<UInt8> = SignManager.commonPart(transaction  ,isMultisignPart :true )
@@ -91,8 +93,8 @@ class SignManager: NSObject
         if isMultisignPart {
             transactionType = String(Int64(multisigTransaction), radix: 16).asByteArrayEndian(4)
             fee = String(Int64(6 * 1000000), radix: 16).asByteArrayEndian(8)
-            let myPublicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
-
+//            let myPublicKey = KeyGenerator.generatePublicKey(HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)!)
+            let myPublicKey = String()
             publicKey = myPublicKey.asByteArray()
 
         }
@@ -136,25 +138,25 @@ class SignManager: NSObject
         let amount = String(Int64(transaction.amount * 1000000), radix: 16).asByteArrayEndian(8)
         result = result + amount
         
-        if transaction.message.payload != nil &&  transaction.message.payload!.count > 0 {
-            let payload :Array<UInt8> = transaction.message.payload!
-            let length :Int = payload.count + 8
-            
-            let messageLength :Array<UInt8> = String(length, radix: 16).asByteArrayEndian(4)
-            result = result + messageLength
-            
-            let messageType :Array<UInt8> = [UInt8(transaction.message.type) , 0 , 0, 0 ]
-            result = result + messageType
-            
-            let payloadLength :Array<UInt8> = String(payload.count, radix: 16).asByteArrayEndian(4)
-            result = result + payloadLength
-            
-            result = result + payload
-        }
-        else {
-            let messageLength :Array<UInt8> = [0 , 0 , 0 , 0]
-            result = result + messageLength
-        }
+//        if transaction.message.payload != nil &&  transaction.message.payload!.count > 0 {
+//            let payload :Array<UInt8> = transaction.message.payload!
+//            let length :Int = payload.count + 8
+//            
+//            let messageLength :Array<UInt8> = String(length, radix: 16).asByteArrayEndian(4)
+//            result = result + messageLength
+//            
+//            let messageType :Array<UInt8> = [UInt8(transaction.message.type) , 0 , 0, 0 ]
+//            result = result + messageType
+//            
+//            let payloadLength :Array<UInt8> = String(payload.count, radix: 16).asByteArrayEndian(4)
+//            result = result + payloadLength
+//            
+//            result = result + payload
+//        }
+//        else {
+//            let messageLength :Array<UInt8> = [0 , 0 , 0 , 0]
+//            result = result + messageLength
+//        }
         
         return result
     }
