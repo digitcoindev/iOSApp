@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -25,7 +26,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     return rhs < lhs
   }
 }
-
 
 /**
     The view controller that lets the user send transactions from
@@ -73,6 +73,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
     
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
+    @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     
     // MARK: - View Controller Lifecycle
     
@@ -117,6 +118,12 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate, API
         super.viewWillDisappear(animated)
         
         self.view.endEditing(true)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        viewTopConstraint.constant = self.navigationBar.frame.height
     }
     
     // MARK: - View Controller Helper Methods

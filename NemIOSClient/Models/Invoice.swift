@@ -1,7 +1,7 @@
 import Foundation
 import CoreData
 
-class Invoice: NSManagedObject
+class _Invoice: NSManagedObject
 {
 
     @NSManaged var name: String
@@ -10,15 +10,15 @@ class Invoice: NSManagedObject
 //    @NSManaged var amount: NSNumber
     @NSManaged var message: String
 
-    class func createInManagedObjectContext(_ moc: NSManagedObjectContext, address: String, name: String , message: String , amount: Double , number: Int ) -> Invoice {
-        let newItem = NSEntityDescription.insertNewObject(forEntityName: "Invoice", into: moc) as! Invoice
-        newItem.address = address
-        newItem.name = name
-        newItem.message = message
-//        newItem.amount = amount
-//        newItem.number = number
-        
-        return newItem
-    }
+//    class func createInManagedObjectContext(_ moc: NSManagedObjectContext, address: String, name: String , message: String , amount: Double , number: Int ) -> Invoice {
+//        let newItem = NSEntityDescription.insertNewObject(forEntityName: "Invoice", into: moc) as! Invoice
+//        newItem.address = address
+//        newItem.name = name
+//        newItem.message = message
+////        newItem.amount = amount
+////        newItem.number = number
+//        
+//        return newItem
+//    }
 }
  

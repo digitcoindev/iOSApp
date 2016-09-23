@@ -15,17 +15,6 @@ import UIKit
  */
 class AccountDetailTabBarController: UITabBarController {
     
-    // MARK: - Tab Bar Controller Properties
-    
-    /**
-        The account object that gets provided by the account list view
-        controller when the user chooses to see more details about a 
-        certain account. All other view controllers inside the account
-        detail tab bar controller will access this property to identify
-        which information they should show.
-     */
-    var account: Account?
-    
     // MARK: - Tab Bar Controller Lifecycle
     
     override func viewDidLoad() {

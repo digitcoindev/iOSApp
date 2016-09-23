@@ -6,162 +6,242 @@
 //
 
 import UIKit
+import SwiftyJSON
 
-class HarvestingViewController: UIViewController , UITableViewDelegate, APIManagerDelegate {
+/// The harvesting view controller that shows infos about harvesting for the current account.
+class HarvestingViewController: UIViewController {
     
-    @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var importance: UILabel!
-    @IBOutlet weak var balance: UILabel!
-    @IBOutlet weak var vastedBalance: UILabel!
-    @IBOutlet weak var harvestingStatus: UILabel!
-    @IBOutlet weak var delegatedKey: UITextView!
-    @IBOutlet weak var lastBlocks: UILabel!
+    // MARK: - View Controller Properties
+    
+    fileprivate var account: Account?
+    fileprivate var accountData: AccountData?
+    fileprivate var harvestedBlocks = [Block]()
+    
+    fileprivate let harvestingDispatchGroup = DispatchGroup()
+    
+    // MARK: - View Controller Outlets
+    
+    @IBOutlet weak var harvestingInfoView: UIView!
+    @IBOutlet weak var accountImportanceLabel: UILabel!
+    @IBOutlet weak var accountBalanceLabel: UILabel!
+    @IBOutlet weak var accountVestedBalanceLabel: UILabel!
+    @IBOutlet weak var accountHarvestingStatusLabel: UILabel!
+    @IBOutlet weak var accountDelegatedKeyTextView: UITextView!
+    @IBOutlet weak var accountHarvestedBlocksLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
     
-    fileprivate var _mainAccount :AccountGetMetaData? = nil
-    fileprivate let _apiManager :APIManager =  APIManager()
-    
-    fileprivate var _blocks :[BlockGetMetaData] = []
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _apiManager.delegate = self
+        account = AccountManager.sharedInstance.activeAccount
+        
+        guard account != nil else {
+            print("Critical: Account not available!")
+            return
+        }
+
+        showLoadingView()
+        updateViewControllerAppearance()
+        refreshHarvestingInfo()
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
         
         title = "HARVEST_DETAILS".localized()
         
-        let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-        
-        _apiManager.accountGet(State.currentServer!, account_address: account_address)
-        infoView.clipsToBounds = true
-        infoView.isHidden = true
+        harvestingInfoView.clipsToBounds = true
+        harvestingInfoView.isHidden = true
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    /**
+        Shows the loading view above the table view which shows
+        an spinning activity indicator.
+     */
+    fileprivate func showLoadingView() {
         
-//        State.currentVC = SegueToHistoryVC
-    }
-
-    //MARK: - UITableViewDelegate Methods
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _blocks.count
+        loadingActivityIndicator.startAnimating()
+        loadingView.isHidden = false
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell :HarvestingBlockTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "block cell") as! HarvestingBlockTableViewCell
+    /// Hides the loading view.
+    fileprivate func hideLoadingView() {
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, YYYY H:mm:ss"
-        
-        var timeStamp = Double(_blocks[(indexPath as NSIndexPath).row].timeStamp)
-        timeStamp += genesis_block_time
-        
-        cell.date.text = dateFormatter.string(from: Date(timeIntervalSince1970: timeStamp))
-        cell.block.text = "BLOCK".localized() + " #\(_blocks[(indexPath as NSIndexPath).row].id)"
-        cell.fee.text = "FEE".localized() + ": \(_blocks[(indexPath as NSIndexPath).row].totalFee / 100000)"
-        
-        return cell
+        loadingView.isHidden = true
+        loadingActivityIndicator.stopAnimating()
     }
     
-    //MARK: - APIManagerDelegate Methods
-    
-    func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
+    /**
+        Updates the harvesting info table view in an asynchronous manner.
+        Fires off all necessary network calls to get the information needed.
+        Use only this method to update the displayed information.
+     */
+    func refreshHarvestingInfo() {
         
-        if account != nil {
+        fetchHarvestInfoData(forAccount: account!)
+        fetchAccountData(forAccount: account!)
+        
+        harvestingDispatchGroup.notify(queue: .main) {
+            self.updateHarvestingInfoView()
+            self.tableView.reloadData()
+            self.hideLoadingView()
+        }
+    }
+    
+    /**
+        Fetches information about harvested blocks for the provided account.
+     
+        - Parameter account: The account for which information about harvested blocks should get fetched.
+     */
+    fileprivate func fetchHarvestInfoData(forAccount account: Account) {
+        
+        harvestingDispatchGroup.enter()
+        
+        nisProvider.request(NIS.harvestInfoData(accountAddress: account.address)) { [weak self] (result) in
             
-            _mainAccount = account
-            
-            let fontLight = UIFont(name: "HelveticaNeue-Light", size: 14)!
-            let greenClor = UIColor(red: 51 / 256, green: 191 / 256, blue: 86 / 256, alpha: 1)
-            
-            var atributes :[String:AnyObject] = [
-                NSFontAttributeName : fontLight
-            ]
-            var message = "POI".localized() + ": " + account!.importance.format(maximumFractionDigits: 2) + " ‱"
-            var atributedText = NSMutableAttributedString(string: message, attributes: atributes)
-            importance.attributedText = atributedText
-
-            message = "BALANCE".localized() + ": "
-            atributedText = NSMutableAttributedString(string: message, attributes: atributes)
-            
-            atributes = [
-                NSForegroundColorAttributeName : greenClor,
-                NSFontAttributeName:fontLight
-            ]
-            message = "\(account!.balance / 1000000)" + " XEM"
-            atributedText.append(NSMutableAttributedString(string: message, attributes: atributes))
-            
-            balance.attributedText = atributedText
-            
-            atributes = [
-                NSFontAttributeName:fontLight
-            ]
-            message = "VASTED_BALANCE".localized() + ": "
-            message += (account!.vestedBalance! / 1000000).format() + " XEM"
-            atributedText = NSMutableAttributedString(string: message, attributes: atributes)
-            vastedBalance.attributedText = atributedText
-            
-            message = "DELEGATED_HARVESTING".localized() + ": "
-            atributedText = NSMutableAttributedString(string: message, attributes: atributes)
-            
-            switch account!.remoteStatus {
-            case "ACTIVE" :
-                message = "UNLOCKED".localized()
-            default :
-                message = "LOCKED".localized()
-            }
-            atributes = [
-                NSForegroundColorAttributeName : greenClor,
-                NSFontAttributeName:fontLight
-            ]
-            atributedText.append(NSMutableAttributedString(string: message, attributes: atributes))
-            harvestingStatus.attributedText = atributedText
-            
-            if account!.harvestedBlocks > 0 {
-                message = String(format: "LAST_HARVESTED_BLOCK".localized(), (account!.harvestedBlocks > 25) ? 25 : account!.harvestedBlocks)
-                _apiManager.accountHarvests(State.currentServer!, account_address: account!.address)
-            } else {
-                message = "NO_HARVESTED_BLOCK".localized()
-            }
-            
-            atributes = [
-                NSFontAttributeName:fontLight
-            ]
-            atributedText = NSMutableAttributedString(string: message, attributes: atributes)
-            lastBlocks.attributedText = atributedText
-            
-            atributes = [
-                NSFontAttributeName:fontLight
-            ]
-            
-            let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
-            
-            message = "DELEGATED_KEY".localized() + ": \(HashManager.SHA256Encrypt(privateKey!.asByteArray()))"
-            atributedText = NSMutableAttributedString(string: message, attributes: atributes)
-            delegatedKey.attributedText = atributedText
-            
-            if account!.status == "LOCKED" {
-                for constraint in infoView.constraints {
-                    if constraint.identifier == "InfoHeight" {
-                        constraint.constant = 155
+            switch result {
+            case let .success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let harvestedBlocks = try json.mapArray(Block.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.harvestedBlocks = harvestedBlocks
+                        
+                        self?.harvestingDispatchGroup.leave()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        
+                        self?.harvestingDispatchGroup.leave()
                     }
                 }
-                delegatedKey.isHidden = true
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                    
+                    self?.harvestingDispatchGroup.leave()
+                }
             }
-            
-            infoView.isHidden = false
         }
     }
     
-    func accountHarvestResponceWithBlocks(_ blocks: [BlockGetMetaData]?) {
-        if blocks != nil && blocks!.count > 0 {
-            _blocks = blocks!
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.tableView.reloadData()
-            })
+    /**
+        Fetches the account data (balance, cosignatories, etc.) for the current account from the active NIS.
+     
+        - Parameter account: The current account for which the account data should get fetched.
+     */
+    fileprivate func fetchAccountData(forAccount account: Account) {
+        
+        harvestingDispatchGroup.enter()
+        
+        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.accountData = accountData
+                        
+                        self?.harvestingDispatchGroup.leave()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        
+                        self?.harvestingDispatchGroup.leave()
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                    
+                    self?.harvestingDispatchGroup.leave()
+                }
+            }
         }
+    }
+    
+    /// Updates the info view with the fetched harvesting information.
+    fileprivate func updateHarvestingInfoView() {
+        
+        let importance = "\("POI".localized()): \(accountData!.importance.format(maximumFractionDigits: 2)) ‱"
+        let balance = "\("BALANCE".localized()): \(accountData!.balance / 1000000) XEM"
+        let vestedBalance = "\("VASTED_BALANCE".localized()): \(accountData!.vestedBalance / 1000000) XEM"
+        let remoteStatus = "\("DELEGATED_HARVESTING".localized()): \(accountData!.remoteStatus == "ACTIVE" ? "UNLOCKED".localized() : "LOCKED".localized())"
+        let harvestedBlocks = accountData!.harvestedBlocks > 0 ? String(format: "LAST_HARVESTED_BLOCK".localized(), accountData!.harvestedBlocks > 25 ? 25 : accountData!.harvestedBlocks) : "NO_HARVESTED_BLOCK".localized()
+        let privateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: account!.privateKey)
+        let delegatedKey = "\("DELEGATED_KEY".localized()): \(HashManager.SHA256Encrypt(privateKey.asByteArray()))"
+        
+        print(delegatedKey)
+        
+        accountImportanceLabel.text = importance
+        accountBalanceLabel.text = balance
+        accountVestedBalanceLabel.text = vestedBalance
+        accountHarvestingStatusLabel.text = remoteStatus
+        accountHarvestedBlocksLabel.text = harvestedBlocks
+        accountDelegatedKeyTextView.text = delegatedKey
+        
+        if accountData!.status == "LOCKED" {
+            for constraint in harvestingInfoView.constraints {
+                if constraint.identifier == "InfoHeight" {
+                    constraint.constant = 155
+                }
+            }
+            self.accountDelegatedKeyTextView.isHidden = true
+        }
+        
+        harvestingInfoView.isHidden = false
+    }
+}
+
+// MARK: - Table View Delegate
+
+extension HarvestingViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return harvestedBlocks.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HarvestingBlockTableViewCell") as! HarvestingBlockTableViewCell
+        cell.block = harvestedBlocks[indexPath.row]
+        
+        return cell
     }
 }

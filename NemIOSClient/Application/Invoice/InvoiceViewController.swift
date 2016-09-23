@@ -7,13 +7,8 @@
 
 import UIKit
 
-
 /// The view controller that lets the user create and scan invoices.
 class InvoiceViewController: UIViewController {
-    
-    // MARK: - View Controller Properties
-    
-    var account: Account?
     
     // MARK: - View Controller Outlets
 
@@ -27,13 +22,6 @@ class InvoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        account = getAccount()
-        
-        guard account != nil else {
-            print("Critical: Account not available!")
-            return
-        }
-        
         updateViewControllerAppearanceOnViewDidLoad()
     }
     
@@ -41,19 +29,6 @@ class InvoiceViewController: UIViewController {
         super.viewWillAppear(animated)
         
         updateViewControllerAppearanceOnViewWillAppear()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        switch segue.identifier! {
-        case "embedInvoiceAccountInfoViewController":
-            
-            let destinationViewController = segue.destination as! InvoiceAccountInfoViewController
-            destinationViewController.account = account
-            
-        default:
-            return
-        }
     }
     
     // MARK: - View Controller Helper Methods
@@ -77,26 +52,6 @@ class InvoiceViewController: UIViewController {
         
         tabBarController?.navigationItem.rightBarButtonItem = nil
         handleSegmentChange(segmentedControl)
-    }
-    
-    /**
-        Fetches the account from the parent account detail tab bar controller.
-     
-        - Returns: The current account.
-     */
-    fileprivate func getAccount() -> Account? {
-        
-        var account: Account?
-        
-        if let accountDetailTabBarController = tabBarController as? AccountDetailTabBarController {
-            guard accountDetailTabBarController.account != nil else {
-                return account
-            }
-            
-            account = accountDetailTabBarController.account!
-        }
-        
-        return account
     }
     
     // MARK: - View Controller Outlet Actions

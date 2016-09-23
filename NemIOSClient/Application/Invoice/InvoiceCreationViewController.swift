@@ -30,6 +30,11 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 /// The view controller that lets the user create a new invoice.
 class InvoiceCreationViewController: UIViewController {
     
+    // MARK: - View Controller Properties
+    
+    var account: Account!
+    var invoice: Invoice?
+    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var containerView: UIView!
@@ -42,34 +47,50 @@ class InvoiceCreationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        account = AccountManager.sharedInstance.activeAccount
+        
+        guard account != nil else {
+            print("Critical: Account not available!")
+            return
+        }
 
         updateViewControllerAppearance()
         
-        containerView.layer.cornerRadius = 10
-        containerView.clipsToBounds = true
-        
-        let loadData = State.loadData
-        
-        invoiceAccountTitleTextField.text = State.currentWallet?.login ?? ""
-        var text = ""
-        
-        if Validate.stringNotEmpty(loadData?.invoicePrefix) {
-            text = loadData!.invoicePrefix! + "/"
-        }
-        
+        invoiceAccountTitleTextField.text = account.title
+    
+//        var text = ""
+//        
+//        if Validate.stringNotEmpty(loadData?.invoicePrefix) {
+//            text = loadData!.invoicePrefix! + "/"
+//        }
+//        
 //        text = text + "\(_dataManager.getInvoice().count)"
+//        
+//        if Validate.stringNotEmpty(loadData?.invoicePostfix) {
+//            text = text + "/" + loadData!.invoicePostfix!
+//        }
+//        
+//        text = text + ": "
+//        
+//        if Validate.stringNotEmpty(loadData?.invoiceMessage) {
+//            text = text + loadData!.invoiceMessage!
+//        }
+//        
+//        invoiceMessageTextField.text = text
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if Validate.stringNotEmpty(loadData?.invoicePostfix) {
-            text = text + "/" + loadData!.invoicePostfix!
+        switch segue.identifier! {
+        case "showInvoiceCreatedViewController":
+            
+            let destinationViewController = segue.destination as! InvoiceCreatedViewController
+            destinationViewController.invoice = invoice
+            
+        default:
+            return
         }
-        
-        text = text + ": "
-        
-        if Validate.stringNotEmpty(loadData?.invoiceMessage) {
-            text = text + loadData!.invoiceMessage!
-        }
-        
-        invoiceMessageTextField.text = text
     }
     
     // MARK: - View Controller Helper Methods
@@ -81,64 +102,69 @@ class InvoiceCreationViewController: UIViewController {
         invoiceAmountTextField.placeholder = "ENTER_AMOUNT".localized()
         invoiceMessageTextField.placeholder = "ENTER_MESSAGE".localized()
         createInvoiceButton.setTitle("CREATE".localized(), for: UIControlState())
+        
+        containerView.layer.cornerRadius = 10
+        containerView.clipsToBounds = true
     }
     
     // MARK: - View Controller Outlet Actions
 
     @IBAction func hideKeyboard(_ sender: AnyObject) {
+        
         if invoiceAccountTitleTextField.text == "" {
             invoiceAccountTitleTextField.becomeFirstResponder()
-        }
-        else if invoiceAmountTextField.text == "" {
+        } else if invoiceAmountTextField.text == "" {
             invoiceAmountTextField.becomeFirstResponder()
-        }
-        else if invoiceMessageTextField.text == "" {
+        } else if invoiceMessageTextField.text == "" {
             invoiceMessageTextField.becomeFirstResponder()
         }
     }
     
     @IBAction func createInvoiceButtonPressed(_ sender: UIButton) {
         
-        let amountValue = Double(invoiceAmountTextField.text!.replacingOccurrences(of: " ", with: "")) ?? 0
-
-        if amountValue < 0.000001 && amountValue != 0 {
+        guard invoiceAccountTitleTextField.text != nil else { return }
+        guard invoiceAmountTextField.text != nil else { return }
+        guard invoiceMessageTextField.text != nil else { return }
+        
+        let invoiceAccountTitle = invoiceAccountTitleTextField.text!
+        let invoiceAccountAddress = account.address
+        let invoiceAmount = Double(invoiceAmountTextField.text!.replacingOccurrences(of: " ", with: "")) ?? 0.0
+        let invoiceMessage = invoiceMessageTextField.text!
+        
+        if invoiceAmount < 0.000001 && invoiceAmount != 0 {
             invoiceAmountTextField.text = "0"
             return
         }
-        
-        if invoiceAccountTitleTextField.text == "" {
+        if invoiceAccountTitle == "" {
+            return
+        }
+        if invoiceMessage.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 255 {
+            
+            let messageLengthAlert = UIAlertController(title: "INFO".localized(), message: "MESSAGE_LENGTH".localized(), preferredStyle: UIAlertControllerStyle.alert)
+            
+            messageLengthAlert.addAction(UIAlertAction(title: "OK".localized(), style: .cancel, handler: nil))
+            
+            present(messageLengthAlert, animated: true, completion: nil)
+            
             return
         }
         
-        if invoiceMessageTextField.text?.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 255 {
-            let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "MESSAGE_LENGTH".localized(), preferredStyle: UIAlertControllerStyle.alert)
+        InvoiceManager.sharedInstance.createInvoice(withAccountTitle: invoiceAccountTitle, andAccountAddress: invoiceAccountAddress, andAmount: Int(invoiceAmount * 1000000), andMessage: invoiceMessage) { [unowned self] (result, invoice) in
             
-            let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default) {
-                alertAction -> Void in
+            switch result {
+            case .success:
                 
-//                if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-//                    (self.delegate as! MainVCDelegate).pageSelected(SegueToUnconfirmedTransactionVC)
-//                }
+                self.invoice = invoice
+                self.performSegue(withIdentifier: "showInvoiceCreatedViewController", sender: nil)
+                
+            case .failure:
+                
+                let invoiceCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create invoice", preferredStyle: .alert)
+                
+                invoiceCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
+                
+                self.present(invoiceCreationFailureAlert, animated: true, completion: nil)
             }
-            alert.addAction(ok)
-            
-            self.present(alert, animated: true, completion: nil)
-            return
         }
-        
-        var invoice :InvoiceData = InvoiceData()
-        invoice.name = invoiceAccountTitleTextField.text
-        invoice.message = invoiceMessageTextField.text
-        invoice.address = AddressGenerator.generateAddressFromPrivateKey(HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)!)
-        invoice.amount = amountValue * 1000000
-//        invoice.number = Int(CoreDataManager().addInvoice(invoice).number)
-//        CoreDataManager().commit()
-        State.invoice = invoice
-        
-//        if self.delegate != nil && self.delegate!.respondsToSelector(Selector("changePage:")) {
-//            (self.delegate as! InvoiceViewController).changePage(SegueToCreateInvoiceResult)
-//        }
-        
-        performSegue(withIdentifier: "showInvoiceCreatedViewController", sender: nil)
     }
 }

@@ -34,12 +34,18 @@ class InvoiceAccountInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        account = AccountManager.sharedInstance.activeAccount
+        
+        guard account != nil else {
+            print("Critical: Account not available!")
+            return
+        }
 
         updateViewControllerAppearance()
         
         accountAddressLabel.text = account.address.nemAddressNormalised()
         accountTitleTextField.placeholder = account.title
-        
         generateQRCode(forAccount: account)
     }
     

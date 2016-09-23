@@ -29,9 +29,6 @@ class AccountListViewController: UIViewController {
         super.viewDidLoad()
         
         accounts = AccountManager.sharedInstance.accounts()
-//        print("\(accounts[4].title): \(accounts[4].privateKey)")
-//        
-//        print(AccountManager.sharedInstance.decryptPrivateKey(accounts[4].privateKey))
         
         updateViewControllerAppearance()
         createEditButtonItemIfNeeded()
@@ -47,12 +44,12 @@ class AccountListViewController: UIViewController {
     }
     
     /// Needed for a smooth appearance of the alert view controller.
-    override var canBecomeFirstResponder : Bool {        
+    override var canBecomeFirstResponder: Bool {
         return true
     }
     
     /// Needed for a smooth appearance of the alert view controller.
-    override var canResignFirstResponder : Bool {
+    override var canResignFirstResponder: Bool {
         return true
     }
     
@@ -62,8 +59,7 @@ class AccountListViewController: UIViewController {
         case "showAccountDetailTabBarController":
             
             if let indexPath = tableView.indexPathForSelectedRow {
-                let destinationViewController = segue.destination as! AccountDetailTabBarController
-                destinationViewController.account = accounts[(indexPath as NSIndexPath).row]
+                AccountManager.sharedInstance.activeAccount = accounts[indexPath.row]
             }
             
         default:
@@ -105,7 +101,7 @@ class AccountListViewController: UIViewController {
         
         accountDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
         
-        accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { (action) in
+        accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { [unowned self] (action) in
             
             self.accounts.remove(at: (indexPath as NSIndexPath).row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
@@ -150,7 +146,7 @@ class AccountListViewController: UIViewController {
         
         accountTitleChangerAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
         
-        accountTitleChangerAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { (action) in
+        accountTitleChangerAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [unowned self] (action) in
             
             let titleTextField = accountTitleChangerAlert.textFields![0] as UITextField
             if let newTitle = titleTextField.text {
@@ -162,7 +158,7 @@ class AccountListViewController: UIViewController {
             }
         }))
         
-        accountTitleChangerAlert.addTextField { (textField) in
+        accountTitleChangerAlert.addTextField { [unowned self] (textField) in
             textField.text = account.title
         }
         

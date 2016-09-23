@@ -57,7 +57,7 @@ class TransactionOverviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        account = getAccount()
+        account = AccountManager.sharedInstance.activeAccount
         
         guard account != nil else {
             print("Critical: Account not available!")
@@ -66,7 +66,7 @@ class TransactionOverviewViewController: UIViewController {
         
         showLoadingView()
         updateViewControllerAppearanceOnViewDidLoad()
-        refreshTransactionOverview()
+        refreshTransactionOverview(updateStatusBarButton: true)
         startRefreshing()
     }
     
@@ -132,27 +132,6 @@ class TransactionOverviewViewController: UIViewController {
     /// Segues to the transaction send view controller.
     func segueToTransactionSendViewController() {
         performSegue(withIdentifier: "showTransactionSendViewController", sender: nil)
-    }
-    
-    /**
-        Fetches the account for which the transaction overview should get
-        shown from the parent account detail tab bar controller.
-     
-        - Returns: The account for which the transaction overview should get shown.
-     */
-    fileprivate func getAccount() -> Account? {
-        
-        var account: Account?
-        
-        if let accountDetailTabBarController = tabBarController as? AccountDetailTabBarController {
-            guard accountDetailTabBarController.account != nil else {
-                return account
-            }
-            
-            account = accountDetailTabBarController.account!
-        }
-            
-        return account
     }
     
     /**
@@ -224,12 +203,14 @@ class TransactionOverviewViewController: UIViewController {
         Updates the transaction overview table view in an asynchronous manner.
         Fires off all necessary network calls to get the information needed.
         Use only this method to update the displayed information.
+     
+        - Parameter updateStatusBarButton: Bool whether the status bar button status should get updated or not.
     */
-    func refreshTransactionOverview() {
+    func refreshTransactionOverview(updateStatusBarButton: Bool = false) {
         
         transactions = [Transaction]()
         
-        fetchAccountData(forAccount: account!)
+        fetchAccountData(forAccount: account!, updateStatusBarButton: updateStatusBarButton)
         fetchAllTransactions(forAccount: account!)
         fetchUnconfirmedTransactions(forAccount: account!)
         
@@ -246,8 +227,9 @@ class TransactionOverviewViewController: UIViewController {
         Do not call this function directly. Use the method refreshTransactionOverview.
      
         - Parameter account: The current account for which the account data should get fetched.
+        - Parameter updateStatusBarButton: Bool whether the status bar button status should get updated or not.
      */
-    fileprivate func fetchAccountData(forAccount account: Account) {
+    fileprivate func fetchAccountData(forAccount account: Account, updateStatusBarButton: Bool = true) {
 
         nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
             
@@ -262,7 +244,9 @@ class TransactionOverviewViewController: UIViewController {
                     
                     DispatchQueue.main.async {
                         
-                        self?.updateBarButtonItemStatus(withAccountData: accountData)
+                        if updateStatusBarButton {
+                            self?.updateBarButtonItemStatus(withAccountData: accountData)
+                        }
                         self?.updateInfoHeaderLabel(withAccountData: accountData)
                         
                         self?.accountData = accountData

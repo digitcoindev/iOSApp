@@ -66,7 +66,7 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
         do {
             try validate(enteredInformation: title)
             
-            AccountManager.sharedInstance.create(account: title, completion: { (result) in
+            AccountManager.sharedInstance.create(account: title, completion: { [unowned self] (result) in
                 switch result {
                 case .success:
                     self.performSegue(withIdentifier: "unwindToAccountListViewController", sender: nil)

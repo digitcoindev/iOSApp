@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow access to your photo library to save QR code images</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow access to your contacts to save NEM addresses for your contacts</string>
 	<key>NSCameraUsageDescription</key>
 	<string>NEM needs access to the camera to scan the QR code</string>
 	<key>CFBundleDevelopmentRegion</key>

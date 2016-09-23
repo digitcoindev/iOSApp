@@ -29,6 +29,10 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scroll: UIScrollView!
     
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var customNavigationItem: UINavigationItem!
+    @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
+    
     //MARK: - Properties
     
     var contact :CNContact? = nil
@@ -41,6 +45,8 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationBar.delegate = self
         
         _apiManager.delegate = self
         
@@ -67,6 +73,12 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
         
         _apiManager.accountGet(server, account_address: account_address)
 
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        viewTopConstraint.constant = self.navigationBar.frame.height
     }
 
     override func didReceiveMemoryWarning() {
@@ -179,6 +191,10 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
 //        }
     }
     
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     //MARK: - APIManagerDelegate Methods
     
     func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
@@ -202,5 +218,14 @@ class AddressBookUpdateContactViewController: UIViewController, APIManagerDelega
     func keyboardWillHide(_ notification: Notification) {
         self.scroll.contentInset = UIEdgeInsets.zero
         self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
+    }
+}
+
+// MARK: - Navigation Bar Delegate
+
+extension AddressBookUpdateContactViewController: UINavigationBarDelegate {
+    
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
     }
 }

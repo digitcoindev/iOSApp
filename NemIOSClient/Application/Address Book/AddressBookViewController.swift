@@ -102,7 +102,7 @@ class AddressBookViewController: UIViewController, UIAlertViewDelegate, AddCusto
         
         contactDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
         
-        contactDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { (action) in
+        contactDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { [unowned self] (action) in
             
             self.contacts.remove(at: (indexPath as NSIndexPath).row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)

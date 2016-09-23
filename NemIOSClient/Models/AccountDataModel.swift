@@ -25,11 +25,26 @@ public struct AccountData: SwiftyJSONMappable {
     /// The current balance of the account.
     public var balance: Double!
     
+    /// The vested part of the balance of the account in micro NEM.
+    public var vestedBalance: Double!
+    
+    /// The importance of the account.
+    public var importance: Double!
+    
+    /// The number blocks that the account already harvested.
+    public var harvestedBlocks: Int!
+    
     /// All cosignatories of the account.
     public var cosignatories: [AccountData]!
     
     /// All accounts for which the account acts as a cosignatory.
     public var cosignatoryOf: [AccountData]!
+    
+    /// The harvesting status of a queried account.
+    public var status: String!
+    
+    /// The status of remote harvesting of a queried account.
+    public var remoteStatus: String!
     
     // MARK: - Model Lifecycle
     
@@ -39,14 +54,24 @@ public struct AccountData: SwiftyJSONMappable {
             address = jsonData["address"].stringValue
             publicKey = jsonData["publicKey"].stringValue
             balance = jsonData["balance"].doubleValue
+            vestedBalance = jsonData["vestedBalance"].doubleValue
+            importance = jsonData["importance"].doubleValue
+            harvestedBlocks = jsonData["harvestedBlocks"].intValue
             cosignatories = [AccountData]()
             cosignatoryOf = [AccountData]()
+            status = String()
+            remoteStatus = String()
         } else {
             address = jsonData["account"]["address"].stringValue
             publicKey = jsonData["account"]["publicKey"].stringValue
             balance = jsonData["account"]["balance"].doubleValue
+            vestedBalance = jsonData["account"]["vestedBalance"].doubleValue
+            importance = jsonData["account"]["importance"].doubleValue
+            harvestedBlocks = jsonData["account"]["harvestedBlocks"].intValue
             cosignatories = try! jsonData["meta"]["cosignatories"].mapArray(AccountData)
             cosignatoryOf = try! jsonData["meta"]["cosignatoryOf"].mapArray(AccountData)
+            status = jsonData["meta"]["status"].stringValue
+            remoteStatus = jsonData["meta"]["remoteStatus"].stringValue
         }
     
         title = AccountManager.sharedInstance.titleForAccount(withAddress: address)

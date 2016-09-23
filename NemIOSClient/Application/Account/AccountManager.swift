@@ -21,6 +21,9 @@ open class AccountManager {
     /// The singleton for the account manager.
     open static let sharedInstance = AccountManager()
     
+    /// The currently active account.
+    open var activeAccount: Account?
+    
     // MARK: - Public Manager Methods
     
     /**

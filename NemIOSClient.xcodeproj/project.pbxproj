@@ -130,7 +130,7 @@
 		4F9F683E1D4C35E30086F98F /* InvoiceAccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F683D1D4C35E30086F98F /* InvoiceAccountInfoViewController.swift */; };
 		4F9F68401D4C35E90086F98F /* InvoiceCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F683F1D4C35E90086F98F /* InvoiceCreationViewController.swift */; };
 		4F9F68421D4C35EE0086F98F /* InvoiceCreatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68411D4C35EE0086F98F /* InvoiceCreatedViewController.swift */; };
-		4F9F68441D4C35F20086F98F /* InvoiceScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68431D4C35F20086F98F /* InvoiceScanViewController.swift */; };
+		4F9F68441D4C35F20086F98F /* InvoiceScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68431D4C35F20086F98F /* InvoiceScannerViewController.swift */; };
 		4F9F68461D4C36040086F98F /* MultisigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68451D4C36040086F98F /* MultisigViewController.swift */; };
 		4F9F68481D4C360B0086F98F /* MultisigSignerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68471D4C360B0086F98F /* MultisigSignerTableViewCell.swift */; };
 		4F9F684A1D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68491D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift */; };
@@ -179,6 +179,9 @@
 		4FB442CB1D75E71A00A98BAC /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */; };
 		4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */; };
 		4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */; };
+		4FC27A041D95297700421F00 /* BlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC27A031D95297600421F00 /* BlockModel.swift */; };
+		4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */; };
+		4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */; };
 		4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */; };
 		4FFF8F041D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F021D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld */; };
 		4FFF8F061D523BD000B4BB9F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */; };
@@ -393,7 +396,7 @@
 		4F9F683D1D4C35E30086F98F /* InvoiceAccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceAccountInfoViewController.swift; path = Application/Invoice/InvoiceAccountInfoViewController.swift; sourceTree = "<group>"; };
 		4F9F683F1D4C35E90086F98F /* InvoiceCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceCreationViewController.swift; path = Application/Invoice/InvoiceCreationViewController.swift; sourceTree = "<group>"; };
 		4F9F68411D4C35EE0086F98F /* InvoiceCreatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceCreatedViewController.swift; path = Application/Invoice/InvoiceCreatedViewController.swift; sourceTree = "<group>"; };
-		4F9F68431D4C35F20086F98F /* InvoiceScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceScanViewController.swift; path = Application/Invoice/InvoiceScanViewController.swift; sourceTree = "<group>"; };
+		4F9F68431D4C35F20086F98F /* InvoiceScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceScannerViewController.swift; path = Application/Invoice/InvoiceScannerViewController.swift; sourceTree = "<group>"; };
 		4F9F68451D4C36040086F98F /* MultisigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigViewController.swift; path = Application/Multisig/MultisigViewController.swift; sourceTree = "<group>"; };
 		4F9F68471D4C360B0086F98F /* MultisigSignerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignerTableViewCell.swift; path = Application/Multisig/MultisigSignerTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F68491D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigMinimumSignerAmountTableViewCell.swift; path = Application/Multisig/MultisigMinimumSignerAmountTableViewCell.swift; sourceTree = "<group>"; };
@@ -444,6 +447,9 @@
 		4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionManager.swift; path = Application/Transaction/TransactionManager.swift; sourceTree = "<group>"; };
 		4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestAnnounceModel.swift; path = Models/RequestAnnounceModel.swift; sourceTree = "<group>"; };
 		4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array<UInt8>+Additions.swift"; path = "Common/Extensions/Array<UInt8>+Additions.swift"; sourceTree = "<group>"; };
+		4FC27A031D95297600421F00 /* BlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockModel.swift; path = Models/BlockModel.swift; sourceTree = "<group>"; };
+		4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceManager.swift; path = Application/Invoice/InvoiceManager.swift; sourceTree = "<group>"; };
+		4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceModel.swift; path = Models/InvoiceModel.swift; sourceTree = "<group>"; };
 		4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountModel.swift; path = Models/AccountModel.swift; sourceTree = "<group>"; };
 		4FFF8F031D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClientTEMP.xcdatamodel; sourceTree = "<group>"; };
 		4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -739,11 +745,12 @@
 		4F9828021D3CD0C900A3C8B2 /* Invoice */ = {
 			isa = PBXGroup;
 			children = (
+				4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */,
 				4F9F683B1D4C35DE0086F98F /* InvoiceViewController.swift */,
 				4F9F683D1D4C35E30086F98F /* InvoiceAccountInfoViewController.swift */,
 				4F9F683F1D4C35E90086F98F /* InvoiceCreationViewController.swift */,
 				4F9F68411D4C35EE0086F98F /* InvoiceCreatedViewController.swift */,
-				4F9F68431D4C35F20086F98F /* InvoiceScanViewController.swift */,
+				4F9F68431D4C35F20086F98F /* InvoiceScannerViewController.swift */,
 			);
 			name = Invoice;
 			sourceTree = "<group>";
@@ -1107,6 +1114,8 @@
 				4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */,
 				4F3ACEA41D6341360056F234 /* MessageModel.swift */,
 				4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */,
+				4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */,
+				4FC27A031D95297600421F00 /* BlockModel.swift */,
 				4FFF8EFD1D51D74700B4BB9F /* _TODO */,
 			);
 			name = Models;
@@ -1398,6 +1407,7 @@
 				4FA92FC71D7093A800C9477B /* KeyboardLayoutConstraint.swift in Sources */,
 				4F9F67B81D4C2CEE0086F98F /* Wallet.swift in Sources */,
 				4F9F684A1D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift in Sources */,
+				4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */,
 				4F9F67BE1D4C2E890086F98F /* AbstactTableViewCell.swift in Sources */,
 				4F9F684E1D4C361F0086F98F /* MultisigAddSignerViewController.swift in Sources */,
 				4F9F68481D4C360B0086F98F /* MultisigSignerTableViewCell.swift in Sources */,
@@ -1446,7 +1456,7 @@
 				4F9F67C01D4C2E9D0086F98F /* AbstractViewController.swift in Sources */,
 				4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */,
 				4F3ACEA51D6341370056F234 /* MessageModel.swift in Sources */,
-				4F9F68441D4C35F20086F98F /* InvoiceScanViewController.swift in Sources */,
+				4F9F68441D4C35F20086F98F /* InvoiceScannerViewController.swift in Sources */,
 				4F9F68881D4C39810086F98F /* FileService.swift in Sources */,
 				4F9F68181D4C33900086F98F /* AccountExportViewController.swift in Sources */,
 				4F9F68461D4C36040086F98F /* MultisigViewController.swift in Sources */,
@@ -1467,6 +1477,7 @@
 				4F9F689C1D4C39FA0086F98F /* NemIOSClient.xcdatamodeld in Sources */,
 				4F850F201D4C3D7E0003E192 /* Base32.swift in Sources */,
 				4F9F67CC1D4C2F160086F98F /* MessagesButtonTypeOne.swift in Sources */,
+				4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */,
 				4F9F68201D4C33B80086F98F /* AccountChooserButton.swift in Sources */,
 				4F9F688E1D4C39980086F98F /* DoubleExtensions.swift in Sources */,
 				98BB95E11BCCEDB6002151F7 /* generator.c in Sources */,
@@ -1475,6 +1486,7 @@
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
 				4F9F68581D4C364D0086F98F /* AddressBookUpdateContactViewController.swift in Sources */,
 				4F9F68001D4C32FA0086F98F /* NotificationBaner.swift in Sources */,
+				4FC27A041D95297700421F00 /* BlockModel.swift in Sources */,
 				4F9F686E1D4C37A50086F98F /* SettingsLanguageViewController.swift in Sources */,
 				4F9F67C81D4C2F040086F98F /* FilterButton.swift in Sources */,
 				4F9F67CE1D4C2F260086F98F /* DashboardButtonBox.swift in Sources */,

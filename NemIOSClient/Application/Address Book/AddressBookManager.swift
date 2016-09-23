@@ -20,13 +20,15 @@ open class AddressBookManager {
     /// The singleton for the address book manager.
     open static let sharedInstance = AddressBookManager()
     
-    ///
+    /// The contact store used to work with the address book.
     fileprivate var contactStore = CNContactStore()
     
     // MARK: - Public Manager Methods
     
     /**
- 
+        Fetches all contacts of the address book.
+     
+        - Returns: All contacts of the address book.
      */
     open func contacts(_ completion: @escaping (_ contacts: [CNContact]) -> Void) {
         
@@ -59,10 +61,64 @@ open class AddressBookManager {
         }
     }
     
+    /**
+        Creates a new contact and saves that contact in the local address book 
+        of the device.
+     
+        - Parameter firstName: The first name of the new contact.
+        - Parameter lastName: The last name of the contact.
+        - Parameter accountAddress: The account address of the new contact.
+     
+        - Returns: The operation result.
+     */
+    open func createContact(withFirstName firstName: String, andLastName lastName: String, andAccountAddress accountAddress: String, completion: @escaping (_ result: Result) -> Void) {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            self.requestAccess { (accessGranted) -> Void in
+                if accessGranted {
+                    
+                    let contactAccountAddress = CNLabeledValue(label: "NEM", value: accountAddress as NSString)
+                    
+                    let contact = CNMutableContact()
+                    contact.givenName = firstName
+                    contact.familyName = lastName
+                    contact.emailAddresses = [contactAccountAddress]
+                    
+                    let saveRequest = CNSaveRequest()
+                    saveRequest.add(contact, toContainerWithIdentifier: nil)
+                    
+                    do {
+                        try self.contactStore.execute(saveRequest)
+                        
+                        DispatchQueue.main.async {
+                            return completion(.success)
+                        }
+                        
+                    } catch let error as NSError {
+                        
+                        DispatchQueue.main.async {
+                            print(error)
+                            return completion(.failure)
+                        }
+                    }
+                    
+                } else {
+                    
+                    DispatchQueue.main.async {
+                        return completion(.failure)
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Private Manager Methods
     
     /**
- 
+        Checks if the application has access to the address book of the user.
+     
+        - Returns: Bool indicating whether the application has access or not.
      */
     fileprivate func requestAccess(_ completion: @escaping (_ accessGranted: Bool) -> Void) {
         let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
@@ -93,36 +149,8 @@ open class AddressBookManager {
 
 
 
-    
-//    //MARK: - Inizializers
-//    
-//    final class func create() {
-//        refresh(nil)
-//    }
-//    
 //    //MARK: - Controllers
-//    
-//    final class func addContact(contact :CNMutableContact, responce: (CNMutableContact? -> Void)?)
-//    {
-//        let state = _actionWithAccess({ () -> Void in
-//            
-//            let saveRequest = CNSaveRequest()
-//            saveRequest.addContact(contact, toContainerWithIdentifier:nil)
-//            do {
-//                try contactStore.executeSaveRequest(saveRequest)
-//            } catch let error as NSError {
-//                print(error)
-//                responce?(nil)
-//                return
-//            }
-//            
-//            responce?(contact)
-//        })
-//        
-//        if !(state ?? true) {
-//            responce?(nil)
-//        }
-//    }
+
 //    
 //    final class func updateContact(contact :CNMutableContact, responce: (CNMutableContact? -> Void)?)
 //    {

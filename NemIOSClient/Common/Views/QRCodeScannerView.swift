@@ -27,7 +27,7 @@ class QRCodeScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
 
     var delegate: QRCodeScannerDelegate?
     
-    let captureSession :AVCaptureSession = AVCaptureSession()
+    var captureSession :AVCaptureSession = AVCaptureSession()
     let capturePreviewLayer = AVCaptureVideoPreviewLayer()
     let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
     var captureResult = String()

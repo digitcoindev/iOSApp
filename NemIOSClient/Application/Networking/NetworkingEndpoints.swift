@@ -29,6 +29,7 @@ enum NIS {
     case allTransactions(accountAddress: String)
     case unconfirmedTransactions(accountAddress: String)
     case announceTransaction(requestAnnounce: RequestAnnounce)
+    case harvestInfoData(accountAddress: String)
 }
 
 extension NIS: TargetType {
@@ -48,11 +49,13 @@ extension NIS: TargetType {
             return "/account/unconfirmedTransactions"
         case .announceTransaction(_):
             return "/transaction/announce"
+        case .harvestInfoData(_):
+            return "/account/harvests"
         }
     }
     var method: Moya.Method {
         switch self {
-        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions:
+        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
             return .GET
         case .announceTransaction:
             return .POST
@@ -72,11 +75,13 @@ extension NIS: TargetType {
             return ["address": accountAddress as AnyObject]
         case .announceTransaction(let requestAnnounce):
             return ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject]
+        case .harvestInfoData(let accountAddress):
+            return ["address": accountAddress as AnyObject]
         }
     }
 //    var parameterEncoding: Moya.ParameterEncoding {
 //        switch self {
-//        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions:
+//        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
 //            return ParameterEncoding.url
 //        case .announceTransaction:
 //            return ParameterEncoding.json
@@ -84,7 +89,7 @@ extension NIS: TargetType {
 //    }
     var headers: [String: String] {
         switch self {
-        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions:
+        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
             return [String: String]()
         case .announceTransaction:
             return ["Content-Type": "application/json"]
@@ -106,6 +111,8 @@ extension NIS: TargetType {
         case .unconfirmedTransactions(_):
             return "{\"data\":[]}".UTF8EncodedData as Data
         case .announceTransaction(_):
+            return "{\"data\":[]}".UTF8EncodedData as Data
+        case .harvestInfoData(_):
             return "{\"data\":[]}".UTF8EncodedData as Data
         }
     }
