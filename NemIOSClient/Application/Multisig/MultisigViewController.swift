@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SwiftyJSON
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -26,146 +28,251 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
+/// The view controller that lets the user manage multisig for the account.
+class MultisigViewController: UIViewController {
+    
+    // MARK: - View Controller Properties
+    
+    fileprivate var account: Account?
+    fileprivate var accountData: AccountData?
+    fileprivate var activeAccountData: AccountData?
+    fileprivate var accountChooserViewController: UIViewController?
+    
+    // MARK: - View Controller Outlets
 
-class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerDelegate, EditableTableViewCellDelegate, AddCosigPopUptDelegate
-{
-
-    @IBOutlet weak var chouseButton: AccountChooserButton!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var multisigAccountChooserButton: AccountChooserButton!
     @IBOutlet weak var minCosigField: NEMTextField!
-    @IBOutlet weak var accountLabel: UILabel!
+    @IBOutlet weak var infoHeaderLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
     
-    fileprivate var _mainAccount :AccountGetMetaData? = nil
-    fileprivate var _activeAccount :AccountGetMetaData? = nil
-    
-    fileprivate let _apiManager :APIManager =  APIManager()
-    fileprivate var _popUp :UIViewController? = nil
-
-    fileprivate var _currentCosignatories :[String] = []
-    fileprivate var _addArray :[String] = []
-    fileprivate var _removeArray :[String] = []
-    
-    fileprivate var _isMultisig :Bool = false
-    
-    var minCosigValue = 0
-    var maxCosigValue = 0
-    
-    var minCosig :Int? = nil
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _apiManager.delegate = self
+        account = AccountManager.sharedInstance.activeAccount
+        
+        guard account != nil else {
+            print("Critical: Account not available!")
+            return
+        }
+        
+        showLoadingView()
+        updateViewControllerAppearance()
+        
+        fetchAccountData(forAccount: account!)
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
+        
         title = "MULTISIG".localized()
-        
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
-        
-        let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
-        let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-        
-        _apiManager.accountGet(State.currentServer!, account_address: account_address)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        State.currentVC = SegueTomultisigAccountManager
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    /**
+        Updates the info header label with the fetched account data.
+     
+        - Parameter accountData: The fetched account data for the account.
+     */
+    fileprivate func updateInfoHeaderLabel(withAccountData accountData: AccountData?) {
         
-        var count = _currentCosignatories.count + _addArray.count
-        
-        if !_isMultisig {
-            count += 1
-            
-            if _activeAccount != nil && (_activeAccount!.cosignatories.count > 0 || _addArray.count > 0){
-                count += 1
-            }
+        guard accountData != nil else {
+            infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.red])
+            return
         }
         
-        if _addArray.count > 0 || _removeArray.count > 0 || minCosig != nil {
-            count += 1
-        }
-        
-        return count
+        let accountTitle = accountData!.title != nil ? accountData!.title! : accountData!.address.nemAddressNormalised()
+        let infoHeaderText = NSMutableAttributedString(string: "\(accountTitle)")
+        infoHeaderLabel.attributedText = infoHeaderText
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+    /**
+        Updates the multisig account chooser button title with the fetched account data.
+     
+        - Parameter accountData: The fetched account data for the account.
+     */
+    fileprivate func updateAccountChooserButtonTitle(withAccountData accountData: AccountData?) {
         
-        if (indexPath as NSIndexPath).row < _currentCosignatories.count + _addArray.count {
-            let cell :MultisigSignerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cosig cell")! as! MultisigSignerTableViewCell
-            cell.infoLabel.numberOfLines = 2
-            cell.editDelegate = self
-            cell.isEditable = (_removeArray.count == 0 && (_removeArray.count + _addArray.count) < 16)  && !self._isMultisig
+        guard accountData != nil else {
+            multisigAccountChooserButton.setTitle("LOST_CONNECTION".localized(), for: .normal)
+            return
+        }
+        
+        let accountTitle = accountData!.title != nil ? accountData!.title! : accountData!.address.nemAddressNormalised()
+        multisigAccountChooserButton.setTitle(accountTitle, for: .normal)
+    }
+    
+    /**
+        Shows the loading view above the table view which shows
+        an spinning activity indicator.
+     */
+    fileprivate func showLoadingView() {
+        
+        loadingActivityIndicator.startAnimating()
+        loadingView.isHidden = false
+    }
+    
+    /// Hides the loading view.
+    fileprivate func hideLoadingView() {
+        
+        loadingView.isHidden = true
+        loadingActivityIndicator.stopAnimating()
+    }
+    
+    /**
+        Fetches the account data (balance, cosignatories, etc.) for the current account from the active NIS.
+     
+        - Parameter account: The current account for which the account data should get fetched.
+     */
+    fileprivate func fetchAccountData(forAccount account: Account) {
+        
+        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
             
-            var index = 0
-            if (indexPath as NSIndexPath).row >= _currentCosignatories.count {
-                index = (indexPath as NSIndexPath).row - _currentCosignatories.count
+            switch result {
+            case let .success(response):
                 
-                if index < _addArray.count {
-                    cell.infoLabel.text =  AddressGenerator.generateAddress(_addArray[index]).nemName()
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.accountData = accountData
+                        self?.activeAccountData = accountData
+                        
+                        if self?.accountData?.cosignatoryOf.count > 0 {
+                            
+                            self?.multisigAccountChooserButton.isHidden = false
+                            self?.infoHeaderLabel.isHidden = true
+                            
+                            self?.updateAccountChooserButtonTitle(withAccountData: accountData)
+                            
+                        } else {
+                            
+                            self?.multisigAccountChooserButton.isHidden = true
+                            self?.infoHeaderLabel.isHidden = false
+                            
+                            self?.updateInfoHeaderLabel(withAccountData: accountData)
+                        }
+                        
+                        self?.tableView.reloadData()
+                        self?.hideLoadingView()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                    }
                 }
                 
-            } else {
-                cell.infoLabel.text = AddressGenerator.generateAddress(_currentCosignatories[(indexPath as NSIndexPath).row]).nemName()
-            }
-            
-            return cell
-        } else {
-            let index = (indexPath as NSIndexPath).row - _currentCosignatories.count - _addArray.count
-            
-            switch index {
-            case 0:
-                let cell :UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "add cosig cell")!
-                return cell
+            case let .failure(error):
                 
-            case 1:
-                let cell :MultisigMinimumSignerAmountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "min cosig cell") as! MultisigMinimumSignerAmountTableViewCell
-                let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories ?? _addArray.count
-                let max = _activeAccount!.cosignatories.count - _removeArray.count
-                if self.minCosig != nil {
-                    cell.textField.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER_CHANGED".localized()), "\(self.minCosig!)")
-                } else {
-                    cell.textField.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    /**
+        Fetches the account data (balance, cosignatories, etc.) for the current account from the active NIS.
+     
+        - Parameter accountData: The current account for which the account data should get fetched.
+     */
+    fileprivate func fetchAccountData(forAccount accountData: AccountData) {
+        
+        nisProvider.request(NIS.accountData(accountAddress: accountData.address)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.activeAccountData = accountData
+                        
+                        if self?.accountData?.cosignatoryOf.count > 0 {
+                            
+                            self?.multisigAccountChooserButton.isHidden = false
+                            self?.infoHeaderLabel.isHidden = true
+                            
+                            self?.updateAccountChooserButtonTitle(withAccountData: accountData)
+                            
+                        } else {
+                            
+                            self?.multisigAccountChooserButton.isHidden = true
+                            self?.infoHeaderLabel.isHidden = false
+                            
+                            self?.updateInfoHeaderLabel(withAccountData: accountData)
+                        }
+                        
+                        self?.tableView.reloadData()
+                        self?.hideLoadingView()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                    }
                 }
                 
-                self.minCosigValue = (max == 0) ? 0 : 1
-                self.maxCosigValue = max
+            case let .failure(error):
                 
-                return cell
-                
-            case 2:
-                let cell :UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "save cell")!
-                return cell
-                
-            default :
-                let cell :UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "add cosig cell")!
-                return cell
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                }
             }
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if (indexPath as NSIndexPath).row >= _addArray.count + _currentCosignatories.count {
-            _addCosig()
-        }
-    }
+    // MARK: - View Controller Outlet Actions
     
-    func deleteCell(_ cell: EditableTableViewCell) {
-        var index = (tableView.indexPath(for: cell)! as NSIndexPath).row
+    @IBAction func chooseAccount(_ sender: UIButton) {
         
-        if index >= _currentCosignatories.count {
-            index = index - _currentCosignatories.count
-            _addArray.remove(at: index)
+        if accountChooserViewController == nil {
+            
+            var accounts = accountData!.cosignatoryOf ?? []
+            accounts.append(accountData!)
+            
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let accountChooserViewController = mainStoryboard.instantiateViewController(withIdentifier: "AccountChooserViewController") as! AccountChooserViewController
+            accountChooserViewController.view.frame = CGRect(x: tableView.frame.origin.x, y:  tableView.frame.origin.y, width: tableView.frame.width, height: tableView.frame.height)
+            accountChooserViewController.view.layer.opacity = 0
+            accountChooserViewController.delegate = self
+            accountChooserViewController.accounts = accounts
+            
+            self.accountChooserViewController = accountChooserViewController
+            
+            if accounts.count > 0 {
+                view.addSubview(accountChooserViewController.view)
+                
+                UIView.animate(withDuration: 0.2, animations: {
+                    accountChooserViewController.view.layer.opacity = 1
+                })
+            }
+            
         } else {
-            _removeArray.append(_currentCosignatories[index])
-            _currentCosignatories.remove(at: index)
-        }
-        
-        DispatchQueue.main.async { () -> Void in
-            self.tableView.reloadData()
+            
+            accountChooserViewController!.view.removeFromSuperview()
+            accountChooserViewController!.removeFromParentViewController()
+            accountChooserViewController = nil
         }
     }
     
@@ -218,112 +325,44 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
 //        }
     }
     
-    
-    //MARK: - @IBAction
-    
     @IBAction func minCosigChaned(_ sender: UITextField) {
-        var isNormal = false
-        print()
-        if let value = Int(sender.text!) {
-            if value >= minCosigValue && value <= maxCosigValue {
-                isNormal = true
-                self.minCosig = value
-                sender.text = ""
-                let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories!
-
-                if currentValue == value {
-                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(value)")
-                } else {
-                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER_CHANGED".localized()), "\(value)")
-                }
-            }
-        }
-        
-        if !isNormal {
-            sender.text = ""
-            self.minCosig = nil
-            if let minCosignatories = _activeAccount!.minCosignatories {
-                let currentValue = (minCosignatories == 0 || minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : minCosignatories
-                
-                sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
-            }
-        } else {
-            self.tableView.reloadData()
-        }
+//        var isNormal = false
+//        print()
+//        if let value = Int(sender.text!) {
+//            if value >= minCosigValue && value <= maxCosigValue {
+//                isNormal = true
+//                self.minCosig = value
+//                sender.text = ""
+//                let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories!
+//
+//                if currentValue == value {
+//                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(value)")
+//                } else {
+//                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER_CHANGED".localized()), "\(value)")
+//                }
+//            }
+//        }
+//        
+//        if !isNormal {
+//            sender.text = ""
+//            self.minCosig = nil
+//            if let minCosignatories = _activeAccount!.minCosignatories {
+//                let currentValue = (minCosignatories == 0 || minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : minCosignatories
+//                
+//                sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
+//            }
+//        } else {
+//            self.tableView.reloadData()
+//        }
     }
     
-//    @IBAction func chouseAccount(sender: AnyObject) {
-//        if _popUp != nil {
-//            _popUp!.view.removeFromSuperview()
-//            _popUp!.removeFromParentViewController()
-//            _popUp = nil
-//            return
-//        }
-//        
-//        if (_mainAccount?.cosignatoryOf ?? []).isEmpty {
-//            return
-//        }
-//        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        
-//        let accounts :AccountChooserViewController =  storyboard.instantiateViewControllerWithIdentifier("AccountChooserViewController") as! AccountChooserViewController
-//        
-//        accounts.view.frame = tableView.frame
-//        
-//        accounts.view.layer.opacity = 0
-////        accounts.delegate = self
-//        
-//        var wallets = _mainAccount?.cosignatoryOf ?? []
-//        
-//        if _mainAccount != nil
-//        {
-//            wallets.append(self._mainAccount!)
-//        }
-//        accounts.wallets = wallets
-//        
-//        if accounts.wallets.count > 0
-//        {
-//            _popUp = accounts
-//            self.view.addSubview(accounts.view)
-//            
-//            UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                accounts.view.layer.opacity = 1
-//                }, completion: nil)
-//        }
-//    }
-    
-    //MARK: - Private Methods
-    
-    fileprivate func _addCosig() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    /**
+        Unwinds to the account list view controller and reloads all
+        accounts to show.
+     */
+    @IBAction func unwindToMultisigViewController(_ segue: UIStoryboardSegue) {
         
-        let popUp :MultisigAddSignerViewController =  storyboard.instantiateViewController(withIdentifier: "MultisignatureAddSignerViewController") as! MultisigAddSignerViewController
-        popUp.view.frame = CGRect(x: 0, y: 40, width: popUp.view.frame.width, height: popUp.view.frame.height - 40)
-        popUp.view.layer.opacity = 0
-//        popUp.delegate = self
-        
-        _popUp = popUp
-        self.view.addSubview(popUp.view)
-        
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            popUp.view.layer.opacity = 1
-            }, completion: nil)
-    }
-    
-    fileprivate func _generateTableData() {
-        var newCosigList :[String] = []
-        
-        for cosig in _activeAccount!.cosignatories {
-            newCosigList.append(cosig.publicKey ?? "NO_PUBLICKEY".localized() )
-        }
-        
-        _currentCosignatories = newCosigList
-        _addArray = []
-        _removeArray = []
-        
-        DispatchQueue.main.async { () -> Void in
-            self.tableView.reloadData()
-        }
+        tableView.reloadData()
     }
     
     fileprivate func _sortModifications(_ modifications :[String]) -> [String] {
@@ -357,73 +396,131 @@ class MultisigViewController: UIViewController, UITableViewDelegate, APIManagerD
         self.present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - AccountChousePopUp Methods
-
     func addCosig(_ publicKey: String) {
-        _addArray.append(publicKey)
-        tableView.reloadData()
-    }
-    
-    //MARK: - AccountChousePopUp Methods
-    
-    func didChouseAccount(_ account: AccountGetMetaData) {
-        
-        if _popUp != nil {
-            _popUp!.view.removeFromSuperview()
-            _popUp!.removeFromParentViewController()
-            _popUp = nil
-        }
-        _activeAccount = nil
-        _apiManager.accountGet(State.currentServer!, account_address: account.address)
-    }
-
-    //MARK: - APIManagerDelegate Methods
-    
-    func accountGetResponceWithAccount(_ account: AccountGetMetaData?) {
-        chouseButton.setTitle(account!.address.nemName(), for: UIControlState())
-        accountLabel.text = account!.address.nemName()
-
-        if account != nil {
-            if _mainAccount == nil {
-                if account!.cosignatoryOf.count > 0 {
-                    chouseButton.isHidden = false
-                    accountLabel.isHidden = true
-                } else {
-                    chouseButton.isHidden = true
-                    accountLabel.isHidden = false
-                }
-                
-                if account?.cosignatories.count > 0 {
-                    _isMultisig = true
-                }
-                
-                _mainAccount = account
-            }
-            
-            if _activeAccount == nil {
-                _activeAccount = account
-                _generateTableData()
-            }
-        }
+//        _addArray.append(publicKey)
+//        tableView.reloadData()
     }
     
     func prepareAnnounceResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         
-        var message :String = ""
-        
-        minCosig = nil
-        _addArray = []
-        _removeArray = []
-        
-        self.tableView.reloadData()
-        
-        if !(data ?? []).isEmpty {
-            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
-            _showPopUp(message)
-        }
+//        var message :String = ""
+//        
+//        minCosig = nil
+//        _addArray = []
+//        _removeArray = []
+//        
+//        self.tableView.reloadData()
+//        
+//        if !(data ?? []).isEmpty {
+//            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
+//            _showPopUp(message)
+//        }
     }
     
     func failWithError(_ message: String) {
-        _showPopUp(message.localized())
+//        _showPopUp(message.localized())
+    }
+}
+
+// MARK: - Table View Delegate
+
+extension MultisigViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if let activeAccountData = activeAccountData {
+            if activeAccountData.cosignatories.count > 0 {
+                if accountData == activeAccountData {
+                    
+                    return activeAccountData.cosignatories.count
+                    
+                } else {
+                    
+                    return activeAccountData.cosignatories.count + 2
+                }
+                
+            } else {
+                
+                return 1
+            }
+            
+        } else {
+            
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if activeAccountData?.cosignatories.count > 0 {
+            if accountData == activeAccountData {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignerTableViewCell") as! MultisigSignerTableViewCell
+                cell.signerAccountData = activeAccountData!.cosignatories[indexPath.row]
+                
+                return cell
+                
+            } else {
+                
+                if indexPath.row < activeAccountData!.cosignatories.count {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignerTableViewCell") as! MultisigSignerTableViewCell
+                    cell.signerAccountData = activeAccountData!.cosignatories[indexPath.row]
+                    
+                    return cell
+                    
+                } else if indexPath.row == activeAccountData!.cosignatories.count {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigAddSignerTableViewCell") as! MultisigAddSignerTableViewCell
+                    
+                    return cell
+                    
+                } else {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "min cosig cell") as! MultisigMinimumSignerAmountTableViewCell
+                    
+                    let minCosignatories = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories
+                    let maxCosignatories = activeAccountData!.cosignatories.count
+                    
+                    cell.textField.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(minCosignatories!)")
+                                    
+                    return cell
+                }
+            }
+            
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigAddSignerTableViewCell") as! MultisigAddSignerTableViewCell
+            
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == activeAccountData!.cosignatories.count {
+            
+            performSegue(withIdentifier: "showMultisigAddSignerViewController", sender: nil)
+        }
+    }
+}
+
+// MARK: - Account Chooser Delegate
+
+extension MultisigViewController: AccountChooserDelegate {
+    
+    func didChooseAccount(_ accountData: AccountData) {
+        
+        activeAccountData = accountData
+        
+        accountChooserViewController?.view.removeFromSuperview()
+        accountChooserViewController?.removeFromParentViewController()
+        accountChooserViewController = nil
+        
+        fetchAccountData(forAccount: accountData)
     }
 }

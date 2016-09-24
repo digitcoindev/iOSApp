@@ -7,35 +7,42 @@
 
 import UIKit
 
-class MultisigSignerTableViewCell: EditableTableViewCell {
+/// The table view cell that represents a multisig signer.
+class MultisigSignerTableViewCell: UITableViewCell {
     
-    // MARK: properties
+    // MARK: - Cell Properties
     
-    let infoLabel: UILabel = UILabel()
+    var signerAccountData: AccountData? {
+        didSet {
+            updateCell()
+        }
+    }
     
-    // MARK: inizializers
+    // MARK: - Cell Outlets
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    // MARK: - Cell Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        infoLabel.text = "loading ..."
-        infoLabel.numberOfLines = 2
-        
-        _contentView?.addSubview(infoLabel)
+        updateCellAppearance()
     }
-
-    // MARK: layout
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    // MARK: - Cell Helper Methods
+    
+    /// Updates the table view cell with the provided title.
+    fileprivate func updateCell() {
         
-        var _accum = _editView!.frame.width
-        _editView?.frame = CGRect(x: -_accum, y: 0, width: _accum, height: self.frame.height)
+        titleLabel.text = signerAccountData!.title ?? signerAccountData!.address
+    }
+    
+    /// Updates the appearance of the table view cell.
+    fileprivate func updateCellAppearance() {
         
-        _accum = _editView!.frame.origin.x + _editView!.frame.width
-        
-        _contentView?.frame = CGRect(x: _accum, y: 0, width: _deleteView!.frame.origin.x - _accum, height: self.frame.height)
-        
-        infoLabel.frame = CGRect(x: _SEPARATOR_OFFSET_, y: 0, width: _contentView!.frame.width - _SEPARATOR_OFFSET_ * 2 , height: _contentView!.frame.height)
+        preservesSuperviewLayoutMargins = false
+        separatorInset = UIEdgeInsets.zero
+        layoutMargins = UIEdgeInsets.zero
     }
 }

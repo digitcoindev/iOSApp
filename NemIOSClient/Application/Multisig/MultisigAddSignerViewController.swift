@@ -7,50 +7,54 @@
 
 import UIKit
 
-protocol AddCosigPopUptDelegate
-{
-    func addCosig(_ publicKey :String)
-}
-
+/// The view controller that lets the user add a new multisig cosigner.
 class MultisigAddSignerViewController: UIViewController, NEMTextFieldDelegate {
     
-    //MARK: - @IBOutlet
+    // MARK: - View Controller Outlets
     
     @IBOutlet weak var publicKey: NEMTextField!
     
-    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scroll: UIScrollView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var customNavigationItem: UINavigationItem!
+    @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     
-    //MARK: - Load Methods
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        publicKey.placeholder = "   " + "INPUT_PUBLIC_KEY".localized()
+        self.navigationBar.delegate = self
+        
+        updateViewControllerAppearance()
+        
         _setSuggestions()
-        saveBtn.setTitle("ADD_COSIGNATORY".localized(), for: UIControlState())
         
         let center: NotificationCenter = NotificationCenter.default
         
         center.addObserver(self, selector: #selector(MultisigAddSignerViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         center.addObserver(self, selector: #selector(MultisigAddSignerViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
-        errorLabel.layer.cornerRadius = 5
-        errorLabel.clipsToBounds = true
+        viewTopConstraint.constant = self.navigationBar.frame.height
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
+        
+        customNavigationItem.title = "ADD_COSIGNATORY".localized()
+        publicKey.placeholder = "   " + "INPUT_PUBLIC_KEY".localized()
+        saveBtn.setTitle("ADD_COSIGNATORY".localized(), for: UIControlState())
         
         contentView.layer.cornerRadius = 5
         contentView.clipsToBounds = true
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-            }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     fileprivate func _setSuggestions() {
@@ -156,50 +160,44 @@ class MultisigAddSignerViewController: UIViewController, NEMTextFieldDelegate {
         publicKey.nemDelegate = self
     }
     
-    //MARK: - @IBAction
-    
-    @IBAction func closePopUp(_ sender: AnyObject) {
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
-    }
+    // MARK: View Controller Outlet Actions
     
     @IBAction func addCosig(_ sender: AnyObject) {
-        if !Validate.stringNotEmpty(publicKey.text) {
-            errorLabel.text = "FIELDS_EMPTY_ERROR".localized()
-            errorLabel.isHidden = false
-            publicKey.endEditing(true)
-            return
-        }
-        
-        if Validate.hexString(publicKey.text!){
-//            (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
-            self.view.removeFromSuperview()
-            self.removeFromParentViewController()
-        } else {
-            if  Validate.address(publicKey.text!) {
-                for suggestion in  publicKey.suggestions {
-                    if suggestion.key == publicKey.text {
-//                        (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
-                        
-                        self.view.removeFromSuperview()
-                        self.removeFromParentViewController()
-                        return
-                    }
-                }
-                
-                errorLabel.text = "UNKNOWN_ACCOUNT_ADDRESS".localized()
-            } else {
-                errorLabel.text = "UNKNOWN_TEXT".localized()
-            }
-            
-            errorLabel.isHidden = false
-            publicKey.endEditing(true)
-        }
+//        if !Validate.stringNotEmpty(publicKey.text) {
+//            errorLabel.text = "FIELDS_EMPTY_ERROR".localized()
+//            errorLabel.isHidden = false
+//            publicKey.endEditing(true)
+//            return
+//        }
+//        
+//        if Validate.hexString(publicKey.text!){
+////            (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
+//            self.view.removeFromSuperview()
+//            self.removeFromParentViewController()
+//        } else {
+//            if  Validate.address(publicKey.text!) {
+//                for suggestion in  publicKey.suggestions {
+//                    if suggestion.key == publicKey.text {
+////                        (self.delegate as? AddCosigPopUptDelegate)?.addCosig(publicKey.text!)
+//                        
+//                        self.view.removeFromSuperview()
+//                        self.removeFromParentViewController()
+//                        return
+//                    }
+//                }
+//                
+//                errorLabel.text = "UNKNOWN_ACCOUNT_ADDRESS".localized()
+//            } else {
+//                errorLabel.text = "UNKNOWN_TEXT".localized()
+//            }
+//            
+//            errorLabel.isHidden = false
+//            publicKey.endEditing(true)
+//        }
     }
     
-    @IBAction func textFieldEditingDidBegin(_ sender: AnyObject) {
-        errorLabel.text = ""
-        errorLabel.isHidden = true
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - NEMTextFieldDelegate Methods
@@ -236,3 +234,11 @@ class MultisigAddSignerViewController: UIViewController, NEMTextFieldDelegate {
     }
 }
 
+// MARK: - Navigation Bar Delegate
+
+extension MultisigAddSignerViewController: UINavigationBarDelegate {
+    
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
+    }
+}

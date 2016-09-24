@@ -7,16 +7,30 @@
 
 import UIKit
 
+/// The table view cell that lets the user add a new multisig cosigner.
 class MultisigAddSignerTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var addLabel: UILabel!
+    // MARK: - Cell Outlets
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    // MARK: - Cell Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        addLabel.text = "ADD_ADITIONAL_SIGNER".localized()
+        
+        updateCellAppearance()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    
+    // MARK: - Cell Helper Methods
+    
+    /// Updates the appearance of the table view cell.
+    fileprivate func updateCellAppearance() {
+        
+        titleLabel.text = "ADD_ADITIONAL_SIGNER".localized()
+        
+        preservesSuperviewLayoutMargins = false
+        separatorInset = UIEdgeInsets.zero
+        layoutMargins = UIEdgeInsets.zero
     }
 }

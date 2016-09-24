@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */; };
 		4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24A1751D54E49300AC128A /* AccountExceptions.swift */; };
+		4F26197B1D97103100D891DD /* AccountData+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26197A1D97103000D891DD /* AccountData+Additions.swift */; };
 		4F26CDF11D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */; };
 		4F2C17081D67312C00FF1F51 /* TransactionMetaData+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C17071D67312C00FF1F51 /* TransactionMetaData+Additions.swift */; };
 		4F2C170A1D67323100FF1F51 /* MultisigTransaction+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C17091D67323100FF1F51 /* MultisigTransaction+Additions.swift */; };
@@ -282,6 +283,7 @@
 		4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientUITests.swift; sourceTree = "<group>"; };
 		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F24A1751D54E49300AC128A /* AccountExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExceptions.swift; path = Common/Exceptions/AccountExceptions.swift; sourceTree = "<group>"; };
+		4F26197A1D97103000D891DD /* AccountData+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AccountData+Additions.swift"; path = "Common/Extensions/AccountData+Additions.swift"; sourceTree = "<group>"; };
 		4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; path = Application/Account/AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; sourceTree = "<group>"; };
 		4F2C17071D67312C00FF1F51 /* TransactionMetaData+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TransactionMetaData+Additions.swift"; path = "Common/Extensions/TransactionMetaData+Additions.swift"; sourceTree = "<group>"; };
 		4F2C17091D67323100FF1F51 /* MultisigTransaction+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MultisigTransaction+Additions.swift"; path = "Common/Extensions/MultisigTransaction+Additions.swift"; sourceTree = "<group>"; };
@@ -613,6 +615,7 @@
 				4F2C17091D67323100FF1F51 /* MultisigTransaction+Additions.swift */,
 				4F2C170B1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift */,
 				4F3ACEAE1D6451580056F234 /* Message+Additions.swift */,
+				4F26197A1D97103000D891DD /* AccountData+Additions.swift */,
 				4F9F67B31D4A00DF0086F98F /* _TODO */,
 			);
 			name = Extensions;
@@ -1399,6 +1402,7 @@
 				4F3ACEA91D638D820056F234 /* Correspondent+Additions.swift in Sources */,
 				DA1A5DA31AC971EF00F70221 /* SignedTransactionMetaData.swift in Sources */,
 				9833B70C1BC5506B009836F9 /* Enums.swift in Sources */,
+				4F26197B1D97103100D891DD /* AccountData+Additions.swift in Sources */,
 				4F9F68921D4C39A50086F98F /* NSDataExtensions.swift in Sources */,
 				4F9F68901D4C399F0086F98F /* UInt8Extensions.swift in Sources */,
 				4F9F68521D4C363C0086F98F /* AddressBookManager.swift in Sources */,

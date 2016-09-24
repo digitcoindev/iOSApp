@@ -40,6 +40,9 @@ public struct AccountData: SwiftyJSONMappable {
     /// All accounts for which the account acts as a cosignatory.
     public var cosignatoryOf: [AccountData]!
     
+    /// The minimum number of cosignatories that need to sign a transaction.
+    public var minCosignatories: Int?
+    
     /// The harvesting status of a queried account.
     public var status: String!
     
@@ -59,6 +62,7 @@ public struct AccountData: SwiftyJSONMappable {
             harvestedBlocks = jsonData["harvestedBlocks"].intValue
             cosignatories = [AccountData]()
             cosignatoryOf = [AccountData]()
+            minCosignatories = nil
             status = String()
             remoteStatus = String()
         } else {
@@ -70,6 +74,7 @@ public struct AccountData: SwiftyJSONMappable {
             harvestedBlocks = jsonData["account"]["harvestedBlocks"].intValue
             cosignatories = try! jsonData["meta"]["cosignatories"].mapArray(AccountData)
             cosignatoryOf = try! jsonData["meta"]["cosignatoryOf"].mapArray(AccountData)
+            minCosignatories = jsonData["account"]["multisigInfo"]["minCosignatories"].intValue
             status = jsonData["meta"]["status"].stringValue
             remoteStatus = jsonData["meta"]["remoteStatus"].stringValue
         }

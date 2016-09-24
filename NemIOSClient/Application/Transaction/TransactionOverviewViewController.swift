@@ -144,9 +144,9 @@ class TransactionOverviewViewController: UIViewController {
     fileprivate func updateBarButtonItemStatus(withAccountData accountData: AccountData) {
         
         if accountData.cosignatories?.count > 0 {
-            self.tabBarController?.navigationItem.rightBarButtonItem!.isEnabled = false
+            self.tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = false
         } else {
-            self.tabBarController?.navigationItem.rightBarButtonItem!.isEnabled = true
+            self.tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
