@@ -12,8 +12,7 @@ import Moya
 
 let endpointClosure = { (target: NIS) -> Endpoint<NIS> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-//    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding)
-    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters)
+    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding)
 
     return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
 }
@@ -79,14 +78,14 @@ extension NIS: TargetType {
             return ["address": accountAddress as AnyObject]
         }
     }
-//    var parameterEncoding: Moya.ParameterEncoding {
-//        switch self {
-//        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
-//            return ParameterEncoding.url
-//        case .announceTransaction:
-//            return ParameterEncoding.json
-//        }
-//    }
+    var parameterEncoding: Moya.ParameterEncoding {
+        switch self {
+        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
+            return URLEncoding.default
+        case .announceTransaction:
+            return JSONEncoding.default
+        }
+    }
     var headers: [String: String] {
         switch self {
         case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:

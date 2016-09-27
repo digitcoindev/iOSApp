@@ -211,7 +211,7 @@ open class TransactionManager {
      
         - Parameter hexadecimalString: The hexadecimal string that should get validated.
      
-        - Returns: A bool indicating whether the validation was succesful or not.
+        - Returns: A bool indicating whether the validation was successful or not.
      */
     open func validateHexadecimalString(_ hexadecimalString: String) -> Bool {
         
@@ -229,6 +229,25 @@ open class TransactionManager {
         }
         
         return true
+    }
+    
+    /**
+        Validates a given account address and checks if the account address
+        is made up of valid characters.
+     
+        - Parameter accountAddress: The account address that should get validated.
+     
+        - Returns: A bool indicating whether the validation was successful or not.
+     */
+    open func validateAccountAddress(_ accountAddress: String) -> Bool {
+
+        guard accountAddress.lengthOfBytes(using: String.Encoding.utf8) == 40 else { return false }
+        
+        let regex = "^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$"
+        let range = accountAddress.range(of: regex, options: .regularExpression)
+        let textCheckingResult = range != nil ? true : false
+        
+        return textCheckingResult
     }
     
     // MARK: - Private Manager Methods

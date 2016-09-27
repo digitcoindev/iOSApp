@@ -22,7 +22,6 @@
 		4F3ACE9B1D620F680056F234 /* MultisigTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */; };
 		4F3ACE9D1D6214060056F234 /* TransferTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE9C1D6214060056F234 /* TransferTransactionModel.swift */; };
 		4F3ACE9F1D6217430056F234 /* MultisigSignatureTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */; };
-		4F3ACEA11D6218300056F234 /* ImportanceTransferTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */; };
 		4F3ACEA31D6218E10056F234 /* MultisigAggregateModificationTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */; };
 		4F3ACEA51D6341370056F234 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA41D6341360056F234 /* MessageModel.swift */; };
 		4F3ACEA71D636B6B0056F234 /* CorrespondentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */; };
@@ -31,6 +30,8 @@
 		4F3ACEAF1D6451580056F234 /* Message+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEAE1D6451580056F234 /* Message+Additions.swift */; };
 		4F3ACEB11D64F1FA0056F234 /* TransactionMetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ACEB01D64F1F90056F234 /* TransactionMetaDataModel.swift */; };
 		4F3B428C1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3B428B1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift */; };
+		4F45BF051D99E00E00E90618 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F45BF041D99E00E00E90618 /* ReactiveSwift.framework */; };
+		4F45BF061D99E00E00E90618 /* ReactiveSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F45BF041D99E00E00E90618 /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F540AA21D85E72600CA5385 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F540AA11D85E72600CA5385 /* TimeManager.swift */; };
 		4F63E36A1D5E03D100BCFFA4 /* NetworkingEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F63E3691D5E03D100BCFFA4 /* NetworkingEndpoints.swift */; };
 		4F63E36D1D5E192500BCFFA4 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F63E36B1D5E18CF00BCFFA4 /* Result.framework */; };
@@ -111,7 +112,6 @@
 		4F9F68161D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68151D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift */; };
 		4F9F68181D4C33900086F98F /* AccountExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68171D4C33900086F98F /* AccountExportViewController.swift */; };
 		4F9F681A1D4C339F0086F98F /* AccountExportPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */; };
-		4F9F681C1D4C33A40086F98F /* AccountExportWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F681B1D4C33A40086F98F /* AccountExportWarningViewController.swift */; };
 		4F9F681E1D4C33AE0086F98F /* AccountChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F681D1D4C33AE0086F98F /* AccountChooserViewController.swift */; };
 		4F9F68201D4C33B80086F98F /* AccountChooserButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */; };
 		4F9F68221D4C34D80086F98F /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68211D4C34D80086F98F /* Validate.swift */; };
@@ -133,11 +133,11 @@
 		4F9F68421D4C35EE0086F98F /* InvoiceCreatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68411D4C35EE0086F98F /* InvoiceCreatedViewController.swift */; };
 		4F9F68441D4C35F20086F98F /* InvoiceScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68431D4C35F20086F98F /* InvoiceScannerViewController.swift */; };
 		4F9F68461D4C36040086F98F /* MultisigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68451D4C36040086F98F /* MultisigViewController.swift */; };
-		4F9F68481D4C360B0086F98F /* MultisigSignerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68471D4C360B0086F98F /* MultisigSignerTableViewCell.swift */; };
-		4F9F684A1D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68491D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift */; };
+		4F9F68481D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68471D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift */; };
+		4F9F684A1D4C36140086F98F /* MultisigMinimumCosignatoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68491D4C36140086F98F /* MultisigMinimumCosignatoriesTableViewCell.swift */; };
 		4F9F684C1D4C36190086F98F /* MultisigSaveChangesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F684B1D4C36190086F98F /* MultisigSaveChangesTableViewCell.swift */; };
-		4F9F684E1D4C361F0086F98F /* MultisigAddSignerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F684D1D4C361F0086F98F /* MultisigAddSignerViewController.swift */; };
-		4F9F68501D4C36230086F98F /* MultisigAddSignerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F684F1D4C36230086F98F /* MultisigAddSignerTableViewCell.swift */; };
+		4F9F684E1D4C361F0086F98F /* MultisigAddCosignatoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F684D1D4C361F0086F98F /* MultisigAddCosignatoryViewController.swift */; };
+		4F9F68501D4C36230086F98F /* MultisigAddCosignatoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F684F1D4C36230086F98F /* MultisigAddCosignatoryTableViewCell.swift */; };
 		4F9F68521D4C363C0086F98F /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68511D4C363C0086F98F /* AddressBookManager.swift */; };
 		4F9F68541D4C36400086F98F /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68531D4C36400086F98F /* AddressBookViewController.swift */; };
 		4F9F68561D4C36470086F98F /* AddressBookContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */; };
@@ -176,6 +176,7 @@
 		4F9F68981D4C39DF0086F98F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F68971D4C39DF0086F98F /* Images.xcassets */; };
 		4F9F689C1D4C39FA0086F98F /* NemIOSClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68991D4C39FA0086F98F /* NemIOSClient.xcdatamodeld */; };
 		4FA5B5821D81B86F00B1F907 /* TransactionExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */; };
+		4FA825CE1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA825CD1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift */; };
 		4FA92FC71D7093A800C9477B /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */; };
 		4FB442CB1D75E71A00A98BAC /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */; };
 		4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */; };
@@ -247,6 +248,7 @@
 				4F9F67871D48F43D0086F98F /* CoreStore.framework in Embed Frameworks */,
 				4F9828161D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Embed Frameworks */,
 				4F9828141D3CEFBE00A3C8B2 /* CryptoSwift.framework in Embed Frameworks */,
+				4F45BF061D99E00E00E90618 /* ReactiveSwift.framework in Embed Frameworks */,
 				4F63E36E1D5E192500BCFFA4 /* Result.framework in Embed Frameworks */,
 				4F9828101D3CEFBE00A3C8B2 /* Alamofire.framework in Embed Frameworks */,
 				4F9828121D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */,
@@ -295,7 +297,6 @@
 		4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigTransactionModel.swift; path = Models/MultisigTransactionModel.swift; sourceTree = "<group>"; };
 		4F3ACE9C1D6214060056F234 /* TransferTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransferTransactionModel.swift; path = Models/TransferTransactionModel.swift; sourceTree = "<group>"; };
 		4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignatureTransactionModel.swift; path = Models/MultisigSignatureTransactionModel.swift; sourceTree = "<group>"; };
-		4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportanceTransferTransactionModel.swift; path = Models/ImportanceTransferTransactionModel.swift; sourceTree = "<group>"; };
 		4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAggregateModificationTransactionModel.swift; path = Models/MultisigAggregateModificationTransactionModel.swift; sourceTree = "<group>"; };
 		4F3ACEA41D6341360056F234 /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageModel.swift; path = Models/MessageModel.swift; sourceTree = "<group>"; };
 		4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CorrespondentModel.swift; path = Models/CorrespondentModel.swift; sourceTree = "<group>"; };
@@ -304,6 +305,7 @@
 		4F3ACEAE1D6451580056F234 /* Message+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Message+Additions.swift"; path = "Common/Extensions/Message+Additions.swift"; sourceTree = "<group>"; };
 		4F3ACEB01D64F1F90056F234 /* TransactionMetaDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionMetaDataModel.swift; path = Models/TransactionMetaDataModel.swift; sourceTree = "<group>"; };
 		4F3B428B1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuPasswordValidationViewController.swift; path = Application/Account/AccountAdditionMenuPasswordValidationViewController.swift; sourceTree = "<group>"; };
+		4F45BF041D99E00E00E90618 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		4F540AA11D85E72600CA5385 /* TimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeManager.swift; path = Application/Networking/TimeManager.swift; sourceTree = "<group>"; };
 		4F63E3691D5E03D100BCFFA4 /* NetworkingEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingEndpoints.swift; path = Application/Networking/NetworkingEndpoints.swift; sourceTree = "<group>"; };
 		4F63E36B1D5E18CF00BCFFA4 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -378,7 +380,6 @@
 		4F9F68151D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuAddExistingAccountQRViewController.swift; path = Application/Account/AccountAdditionMenuAddExistingAccountQRViewController.swift; sourceTree = "<group>"; };
 		4F9F68171D4C33900086F98F /* AccountExportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportViewController.swift; path = Application/Account/AccountExportViewController.swift; sourceTree = "<group>"; };
 		4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportPasswordViewController.swift; path = Application/Account/AccountExportPasswordViewController.swift; sourceTree = "<group>"; };
-		4F9F681B1D4C33A40086F98F /* AccountExportWarningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExportWarningViewController.swift; path = Application/Account/AccountExportWarningViewController.swift; sourceTree = "<group>"; };
 		4F9F681D1D4C33AE0086F98F /* AccountChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountChooserViewController.swift; path = Application/Account/AccountChooserViewController.swift; sourceTree = "<group>"; };
 		4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountChooserButton.swift; path = Application/Account/AccountChooserButton.swift; sourceTree = "<group>"; };
 		4F9F68211D4C34D80086F98F /* Validate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Application/_TODO/Validate.swift; sourceTree = "<group>"; };
@@ -400,11 +401,11 @@
 		4F9F68411D4C35EE0086F98F /* InvoiceCreatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceCreatedViewController.swift; path = Application/Invoice/InvoiceCreatedViewController.swift; sourceTree = "<group>"; };
 		4F9F68431D4C35F20086F98F /* InvoiceScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceScannerViewController.swift; path = Application/Invoice/InvoiceScannerViewController.swift; sourceTree = "<group>"; };
 		4F9F68451D4C36040086F98F /* MultisigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigViewController.swift; path = Application/Multisig/MultisigViewController.swift; sourceTree = "<group>"; };
-		4F9F68471D4C360B0086F98F /* MultisigSignerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSignerTableViewCell.swift; path = Application/Multisig/MultisigSignerTableViewCell.swift; sourceTree = "<group>"; };
-		4F9F68491D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigMinimumSignerAmountTableViewCell.swift; path = Application/Multisig/MultisigMinimumSignerAmountTableViewCell.swift; sourceTree = "<group>"; };
+		4F9F68471D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigCosignatoryTableViewCell.swift; path = Application/Multisig/MultisigCosignatoryTableViewCell.swift; sourceTree = "<group>"; };
+		4F9F68491D4C36140086F98F /* MultisigMinimumCosignatoriesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigMinimumCosignatoriesTableViewCell.swift; path = Application/Multisig/MultisigMinimumCosignatoriesTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F684B1D4C36190086F98F /* MultisigSaveChangesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigSaveChangesTableViewCell.swift; path = Application/Multisig/MultisigSaveChangesTableViewCell.swift; sourceTree = "<group>"; };
-		4F9F684D1D4C361F0086F98F /* MultisigAddSignerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAddSignerViewController.swift; path = Application/Multisig/MultisigAddSignerViewController.swift; sourceTree = "<group>"; };
-		4F9F684F1D4C36230086F98F /* MultisigAddSignerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAddSignerTableViewCell.swift; path = Application/Multisig/MultisigAddSignerTableViewCell.swift; sourceTree = "<group>"; };
+		4F9F684D1D4C361F0086F98F /* MultisigAddCosignatoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAddCosignatoryViewController.swift; path = Application/Multisig/MultisigAddCosignatoryViewController.swift; sourceTree = "<group>"; };
+		4F9F684F1D4C36230086F98F /* MultisigAddCosignatoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigAddCosignatoryTableViewCell.swift; path = Application/Multisig/MultisigAddCosignatoryTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F68511D4C363C0086F98F /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = "Application/Address Book/AddressBookManager.swift"; sourceTree = "<group>"; };
 		4F9F68531D4C36400086F98F /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookViewController.swift; path = "Application/Address Book/AddressBookViewController.swift"; sourceTree = "<group>"; };
 		4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookContactTableViewCell.swift; path = "Application/Address Book/AddressBookContactTableViewCell.swift"; sourceTree = "<group>"; };
@@ -445,6 +446,7 @@
 		4F9F689B1D4C39FA0086F98F /* NemIOSClient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClient.xcdatamodel; sourceTree = "<group>"; };
 		4F9F689D1D4C3A160086F98F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Assets/Property Lists/Info.plist"; sourceTree = "<group>"; };
 		4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionExceptions.swift; path = Common/Exceptions/TransactionExceptions.swift; sourceTree = "<group>"; };
+		4FA825CD1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultisigCosignatoryModificationModel.swift; path = Models/MultisigCosignatoryModificationModel.swift; sourceTree = "<group>"; };
 		4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardLayoutConstraint.swift; path = "Assets/Supporting Files/KeyboardLayoutConstraint.swift"; sourceTree = "<group>"; };
 		4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransactionManager.swift; path = Application/Transaction/TransactionManager.swift; sourceTree = "<group>"; };
 		4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestAnnounceModel.swift; path = Models/RequestAnnounceModel.swift; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 				4F3ACE961D61C6210056F234 /* ObjectMapper.framework in Frameworks */,
 				4F9F67861D48F43D0086F98F /* CoreStore.framework in Frameworks */,
 				4F63E36D1D5E192500BCFFA4 /* Result.framework in Frameworks */,
+				4F45BF051D99E00E00E90618 /* ReactiveSwift.framework in Frameworks */,
 				4F9828111D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
 				4F9828131D3CEFBE00A3C8B2 /* CryptoSwift.framework in Frameworks */,
 				4F9828151D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Frameworks */,
@@ -624,6 +627,7 @@
 		4F13394E1D40EEF700AA126D /* _TRASH */ = {
 			isa = PBXGroup;
 			children = (
+				4F9F67F31D4C32480086F98F /* State.swift */,
 				4F9F68591D4C36520086F98F /* AddressBookMessageViewController.swift */,
 				4F850F2B1D4C3F300003E192 /* FetchManager.swift */,
 				4F850F291D4C3F2B0003E192 /* APIManager.swift */,
@@ -722,7 +726,6 @@
 				4F3B428B1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift */,
 				4F9F68171D4C33900086F98F /* AccountExportViewController.swift */,
 				4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */,
-				4F9F681B1D4C33A40086F98F /* AccountExportWarningViewController.swift */,
 				4F9F681D1D4C33AE0086F98F /* AccountChooserViewController.swift */,
 				4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */,
 				4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */,
@@ -762,11 +765,11 @@
 			isa = PBXGroup;
 			children = (
 				4F9F68451D4C36040086F98F /* MultisigViewController.swift */,
-				4F9F68471D4C360B0086F98F /* MultisigSignerTableViewCell.swift */,
-				4F9F68491D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift */,
+				4F9F68471D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift */,
+				4F9F68491D4C36140086F98F /* MultisigMinimumCosignatoriesTableViewCell.swift */,
 				4F9F684B1D4C36190086F98F /* MultisigSaveChangesTableViewCell.swift */,
-				4F9F684D1D4C361F0086F98F /* MultisigAddSignerViewController.swift */,
-				4F9F684F1D4C36230086F98F /* MultisigAddSignerTableViewCell.swift */,
+				4F9F684D1D4C361F0086F98F /* MultisigAddCosignatoryViewController.swift */,
+				4F9F684F1D4C36230086F98F /* MultisigAddCosignatoryTableViewCell.swift */,
 			);
 			name = Multisig;
 			sourceTree = "<group>";
@@ -831,14 +834,6 @@
 				4F1159DD1D38FC5800E13EE0 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		4F9F67AC1D4914110086F98F /* _TODO */ = {
-			isa = PBXGroup;
-			children = (
-				4F9F67F31D4C32480086F98F /* State.swift */,
-			);
-			name = _TODO;
 			sourceTree = "<group>";
 		};
 		4F9F67AF1D4A00AB0086F98F /* _TODO */ = {
@@ -1012,6 +1007,7 @@
 		DA3557F71A39D3B800AFA5FD = {
 			isa = PBXGroup;
 			children = (
+				4F45BF041D99E00E00E90618 /* ReactiveSwift.framework */,
 				DA3558021A39D3B900AFA5FD /* NemIOSClient */,
 				DA35581B1A39D3BC00AFA5FD /* NemIOSClientTests */,
 				4F1159DA1D38FC5800E13EE0 /* NemIOSClientUITests */,
@@ -1097,7 +1093,6 @@
 				4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */,
 				4F9F67F11D4C31300086F98F /* Main.storyboard */,
 				4F9F685B1D4C368B0086F98F /* LaunchScreen.xib */,
-				4F9F67AC1D4914110086F98F /* _TODO */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -1110,10 +1105,10 @@
 				4F3ACE981D620B100056F234 /* TransactionModel.swift */,
 				4F3ACEB01D64F1F90056F234 /* TransactionMetaDataModel.swift */,
 				4F3ACE9C1D6214060056F234 /* TransferTransactionModel.swift */,
-				4F3ACEA01D6218300056F234 /* ImportanceTransferTransactionModel.swift */,
 				4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */,
 				4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */,
 				4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */,
+				4FA825CD1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift */,
 				4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */,
 				4F3ACEA41D6341360056F234 /* MessageModel.swift */,
 				4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */,
@@ -1396,7 +1391,6 @@
 				DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */,
 				98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */,
 				98BB95D51BCCED5B002151F7 /* fe.c in Sources */,
-				4F9F681C1D4C33A40086F98F /* AccountExportWarningViewController.swift in Sources */,
 				4FA5B5821D81B86F00B1F907 /* TransactionExceptions.swift in Sources */,
 				4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */,
 				4F3ACEA91D638D820056F234 /* Correspondent+Additions.swift in Sources */,
@@ -1410,11 +1404,11 @@
 				4F9F67D81D4C2F710086F98F /* MainVC.swift in Sources */,
 				4FA92FC71D7093A800C9477B /* KeyboardLayoutConstraint.swift in Sources */,
 				4F9F67B81D4C2CEE0086F98F /* Wallet.swift in Sources */,
-				4F9F684A1D4C36140086F98F /* MultisigMinimumSignerAmountTableViewCell.swift in Sources */,
+				4F9F684A1D4C36140086F98F /* MultisigMinimumCosignatoriesTableViewCell.swift in Sources */,
 				4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */,
 				4F9F67BE1D4C2E890086F98F /* AbstactTableViewCell.swift in Sources */,
-				4F9F684E1D4C361F0086F98F /* MultisigAddSignerViewController.swift in Sources */,
-				4F9F68481D4C360B0086F98F /* MultisigSignerTableViewCell.swift in Sources */,
+				4F9F684E1D4C361F0086F98F /* MultisigAddCosignatoryViewController.swift in Sources */,
+				4F9F68481D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift in Sources */,
 				4F9F686A1D4C377A0086F98F /* ActiveCell.swift in Sources */,
 				4F9F680C1D4C33570086F98F /* AccountChangeNameViewController.swift in Sources */,
 				4F3ACEAF1D6451580056F234 /* Message+Additions.swift in Sources */,
@@ -1442,12 +1436,11 @@
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
 				4F9F68401D4C35E90086F98F /* InvoiceCreationViewController.swift in Sources */,
 				4F9F68241D4C34E00086F98F /* AddressGenerator.swift in Sources */,
-				4F3ACEA11D6218300056F234 /* ImportanceTransferTransactionModel.swift in Sources */,
 				4F9F67D61D4C2F680086F98F /* MainContainerVC.swift in Sources */,
 				4F9F67D41D4C2F590086F98F /* CustomMessageCell.swift in Sources */,
 				4F9F68021D4C33000086F98F /* NotificationManager.swift in Sources */,
 				4F9F68941D4C39AB0086F98F /* String+Additions.swift in Sources */,
-				4F9F68501D4C36230086F98F /* MultisigAddSignerTableViewCell.swift in Sources */,
+				4F9F68501D4C36230086F98F /* MultisigAddCosignatoryTableViewCell.swift in Sources */,
 				4F9F67BA1D4C2D010086F98F /* Server.swift in Sources */,
 				4F2C170A1D67323100FF1F51 /* MultisigTransaction+Additions.swift in Sources */,
 				4F9F68561D4C36470086F98F /* AddressBookContactTableViewCell.swift in Sources */,
@@ -1489,6 +1482,7 @@
 				4F9F68221D4C34D80086F98F /* Validate.swift in Sources */,
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
 				4F9F68581D4C364D0086F98F /* AddressBookUpdateContactViewController.swift in Sources */,
+				4FA825CE1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift in Sources */,
 				4F9F68001D4C32FA0086F98F /* NotificationBaner.swift in Sources */,
 				4FC27A041D95297700421F00 /* BlockModel.swift in Sources */,
 				4F9F686E1D4C37A50086F98F /* SettingsLanguageViewController.swift in Sources */,

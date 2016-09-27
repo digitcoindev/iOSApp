@@ -348,12 +348,14 @@ extension AddressBookViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         print("DIDSELECT")
+        
         if tableView.isEditing {
             performSegue(withIdentifier: "showAddressBookUpdateContactViewController", sender: nil)
             tableView.deselectRow(at: indexPath, animated: true)
         } else {
-//            performSegueWithIdentifier("showAccountDetailTabBarController", sender: nil)
+            
         }
         
 //        if _isEditing || !cell.isAddress {

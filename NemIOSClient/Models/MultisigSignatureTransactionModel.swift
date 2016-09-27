@@ -23,7 +23,7 @@ open class MultisigSignatureTransaction: Transaction {
     /// The version of the transaction.
     open var version: Int!
     
-    /// The deadline of the transaction.
+    /// The number of seconds elapsed since the creation of the nemesis block.
     open var timeStamp: Int!
     
     /// The fee for the transaction.

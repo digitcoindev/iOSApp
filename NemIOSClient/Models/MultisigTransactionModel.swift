@@ -61,18 +61,18 @@ open class MultisigTransaction: Transaction {
     
     required public init?(jsonData: JSON) {
         
-        metaData = try! jsonData["meta"].mapObject(TransactionMetaData)
+        metaData = try! jsonData["meta"].mapObject(TransactionMetaData.self)
         timeStamp = jsonData["transaction"]["timeStamp"].intValue
         fee = jsonData["transaction"]["fee"].intValue
         deadline = jsonData["transaction"]["deadline"].intValue
         signature = jsonData["transaction"]["signature"].stringValue
-        signatures = try! jsonData["transaction"]["signatures"].mapArray(MultisigSignatureTransaction)
+        signatures = try! jsonData["transaction"]["signatures"].mapArray(MultisigSignatureTransaction.self)
         signer = jsonData["transaction"]["signer"].stringValue
         
         switch jsonData["transaction"]["otherTrans"]["type"].intValue {
         case TransactionType.transferTransaction.rawValue:
             
-            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"])}".data(using: String.Encoding.utf8)!).mapObject(TransferTransaction) 
+            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"])}".data(using: String.Encoding.utf8)!).mapObject(TransferTransaction.self) 
             (innerTransaction as! TransferTransaction).metaData = metaData
             
         default:

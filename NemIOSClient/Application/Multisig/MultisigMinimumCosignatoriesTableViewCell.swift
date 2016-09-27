@@ -1,5 +1,5 @@
 //
-//  MultisigSignerTableViewCell.swift
+//  MultisigMinimumCosignatoriesTableViewCell.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -7,20 +7,12 @@
 
 import UIKit
 
-/// The table view cell that represents a multisig signer.
-class MultisigSignerTableViewCell: UITableViewCell {
-    
-    // MARK: - Cell Properties
-    
-    var signerAccountData: AccountData? {
-        didSet {
-            updateCell()
-        }
-    }
+/// The table view cell that lets the user edit the minimum amount of cosignatories needed to sign a transaction.
+class MultisigMinimumCosignatoriesTableViewCell: UITableViewCell {
     
     // MARK: - Cell Outlets
     
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var textField: UITextField!
     
     // MARK: - Cell Lifecycle
     
@@ -31,12 +23,6 @@ class MultisigSignerTableViewCell: UITableViewCell {
     }
     
     // MARK: - Cell Helper Methods
-    
-    /// Updates the table view cell with the provided title.
-    fileprivate func updateCell() {
-        
-        titleLabel.text = signerAccountData!.title ?? signerAccountData!.address
-    }
     
     /// Updates the appearance of the table view cell.
     fileprivate func updateCellAppearance() {

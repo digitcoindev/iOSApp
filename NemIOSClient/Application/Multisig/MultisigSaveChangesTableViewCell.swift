@@ -7,16 +7,30 @@
 
 import UIKit
 
+/// Represents the button that lets the user save multisig changes.
 class MultisigSaveChangesTableViewCell: UITableViewCell {
     
+    // MARK: - Cell Outlets
+    
     @IBOutlet weak var saveButton: UIButton!
-
+    
+    // MARK: - Cell Lifecycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        saveButton.setTitle("SAVE_CHANGES".localized(), for: UIControlState())
+        
+        updateCellAppearance()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    
+    // MARK: - Cell Helper Methods
+    
+    /// Updates the appearance of the table view cell.
+    fileprivate func updateCellAppearance() {
+        
+        saveButton.setTitle("SAVE_CHANGES".localized(), for: UIControlState())
+        
+        preservesSuperviewLayoutMargins = false
+        separatorInset = UIEdgeInsets.zero
+        layoutMargins = UIEdgeInsets.zero
     }
 }

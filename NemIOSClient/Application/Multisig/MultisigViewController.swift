@@ -36,6 +36,8 @@ class MultisigViewController: UIViewController {
     fileprivate var account: Account?
     fileprivate var accountData: AccountData?
     fileprivate var activeAccountData: AccountData?
+    fileprivate var addedCosignatories = [String]()
+    fileprivate var removedCosignatories = [String]()
     fileprivate var accountChooserViewController: UIViewController?
     
     // MARK: - View Controller Outlets
@@ -104,6 +106,24 @@ class MultisigViewController: UIViewController {
         
         let accountTitle = accountData!.title != nil ? accountData!.title! : accountData!.address.nemAddressNormalised()
         multisigAccountChooserButton.setTitle(accountTitle, for: .normal)
+    }
+    
+    /**
+        Shows an alert view controller with the provided alert message.
+     
+        - Parameter message: The message that should get shown.
+        - Parameter completion: An optional action that should get performed on completion.
+     */
+    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
+            completion?()
+        }))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     /**
@@ -190,6 +210,9 @@ class MultisigViewController: UIViewController {
      */
     fileprivate func fetchAccountData(forAccount accountData: AccountData) {
         
+        addedCosignatories = [String]()
+        removedCosignatories = [String]()
+        
         nisProvider.request(NIS.accountData(accountAddress: accountData.address)) { [weak self] (result) in
             
             switch result {
@@ -242,6 +265,101 @@ class MultisigViewController: UIViewController {
         }
     }
     
+    /**
+        Signs and announces a new transaction to the NIS.
+     
+        - Parameter transaction: The transaction object that should get signed and announced.
+     */
+    fileprivate func announceTransaction(_ transaction: Transaction) {
+        
+        let requestAnnounce = TransactionManager.sharedInstance.signTransaction(transaction, account: account!)
+        
+        nisProvider.request(NIS.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    let responseJSON = JSON(data: response.data)
+                    print("--- \(responseJSON)")
+                    try self?.validateAnnounceTransactionResult(responseJSON)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_SUCCESS".localized())
+                    }
+                    
+                } catch TransactionAnnounceValidation.failure(let errorMessage) {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        self?.showAlert(withMessage: errorMessage)
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                    self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
+                }
+            }
+        }
+    }
+    
+    /**
+        Validates the response (announce transaction result object) of the NIS
+        regarding the announcement of the transaction.
+     
+        - Parameter responseJSON: The response of the NIS JSON formatted.
+     
+        - Throws:
+        - TransactionAnnounceValidation.Failure if the announcement of the transaction wasn't successful.
+     */
+    fileprivate func validateAnnounceTransactionResult(_ responseJSON: JSON) throws {
+        
+        guard let responseCode = responseJSON["code"].int else { throw TransactionAnnounceValidation.failure(errorMessage: "TRANSACTION_ANOUNCE_FAILED".localized()) }
+        let responseMessage = responseJSON["message"].stringValue
+        
+        switch responseCode {
+        case 1:
+            return
+        default:
+            throw TransactionAnnounceValidation.failure(errorMessage: responseMessage)
+        }
+    }
+    
+    /**
+        Removes the cosignatory from the table view.
+     
+        - Parameter indexPath: The index path of the cosignatory that should get removed.
+     */
+    fileprivate func deleteCosignatory(atIndexPath indexPath: IndexPath) {
+        
+        if indexPath.row < activeAccountData!.cosignatories.count {
+            
+            removedCosignatories.append(activeAccountData!.cosignatories[indexPath.row].publicKey)
+            activeAccountData!.cosignatories.remove(at: indexPath.row)
+            
+        } else {
+            
+            addedCosignatories.remove(at: indexPath.row - activeAccountData!.cosignatories.count)
+        }
+        
+        tableView.reloadData()
+    }
+    
     // MARK: - View Controller Outlet Actions
     
     @IBAction func chooseAccount(_ sender: UIButton) {
@@ -276,53 +394,48 @@ class MultisigViewController: UIViewController {
         }
     }
     
-    @IBAction func saveChanges(_ sender: AnyObject) {
+    @IBAction func unwindToMultisigViewController(_ sender: UIStoryboardSegue) {
         
-//        if _removeArray.count > 1 {
-//            _showPopUp( "MULTISIG_REMOVE_COUNT_ERROR".localized())
-//        }
-//        else if (_currentCosignatories.count + _addArray.count) > 16 {
-//            _showPopUp( "MULTISIG_COSIGNATORIES_COUNT_ERROR".localized())
-//        }
-//        else {
-//            var fee = 10 + 6 * Int64(_addArray.count + _removeArray.count)
-//            
-//            var relativeChange = 0
-//            
-//            if self.minCosig != nil {
-//                relativeChange = minCosig! - _activeAccount!.minCosignatories!
-//            } else if _removeArray.count > 0 && (_activeAccount!.minCosignatories ?? 0) != 0 {
-//                relativeChange = min( _activeAccount!.minCosignatories!, _activeAccount!.cosignatories.count - _removeArray.count) - _activeAccount!.minCosignatories!
-//            }
-//            
-//            if relativeChange != 0{
-//                fee += 6
-//            }
-//            
-//            let transaction :AggregateModificationTransaction = AggregateModificationTransaction()
-//            let privateKey = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-//            let publickey = self._activeAccount!.publicKey ?? KeyGenerator.generatePublicKey(privateKey!)
-//            
-//            transaction.timeStamp = TimeSynchronizator.nemTime
-//            transaction.deadline = TimeSynchronizator.nemTime + waitTime
-//            transaction.version = 2
-//            transaction.signer = publickey
-//            transaction.privateKey = privateKey
-//            transaction.minCosignatory = relativeChange
-//            
-//            for publickey in _sortModifications(self._addArray) {
-//                transaction.addModification(1, publicKey: publickey)
-//            }
-//            
-//            for publickey in _sortModifications(self._removeArray)
-//            {
-//                transaction.addModification(2, publicKey: publickey)
-//            }
-//            
-//            transaction.fee = Double(fee)
-//            
-//            self._apiManager.prepareAnnounce(State.currentServer!, transaction: transaction)
-//        }
+        if let sourceViewController = sender.source as? MultisigAddCosignatoryViewController {
+            let newCosignatoryPublicKey = sourceViewController.newCosignatoryPublicKey
+            
+            addedCosignatories.append(newCosignatoryPublicKey!)
+            tableView.reloadData()
+        }
+    }
+    
+    @IBAction func saveMultisigChanges(_ sender: UIButton) {
+        
+        guard removedCosignatories.count <= 1 else {
+            showAlert(withMessage: "MULTISIG_REMOVE_COUNT_ERROR".localized())
+            return
+        }
+        guard (activeAccountData!.cosignatories.count + addedCosignatories.count) <= 16 else {
+            showAlert(withMessage: "MULTISIG_COSIGNATORIES_COUNT_ERROR".localized())
+            return
+        }
+        
+        // TODO:
+        let relativeChange = 0
+        
+        let transactionVersion = 2
+        let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
+        let transactionFee = 10 + 6 * (addedCosignatories.count + removedCosignatories.count)
+        let transactionRelativeChange = relativeChange
+        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
+        let transactionSigner = activeAccountData!.publicKey
+        
+        let transaction = MultisigAggregateModificationTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: transactionFee, relativeChange: transactionRelativeChange, deadline: transactionDeadline, signer: transactionSigner!)
+        
+        for cosignatoryAccount in addedCosignatories {
+            transaction!.addModification(.addCosignatory, cosignatoryAccount: cosignatoryAccount)
+        }
+        
+        for cosignatoryAccount in removedCosignatories {
+            transaction!.addModification(.deleteCosignatory, cosignatoryAccount: cosignatoryAccount)
+        }
+
+        announceTransaction(transaction!)
     }
     
     @IBAction func minCosigChaned(_ sender: UITextField) {
@@ -355,71 +468,6 @@ class MultisigViewController: UIViewController {
 //            self.tableView.reloadData()
 //        }
     }
-    
-    /**
-        Unwinds to the account list view controller and reloads all
-        accounts to show.
-     */
-    @IBAction func unwindToMultisigViewController(_ segue: UIStoryboardSegue) {
-        
-        tableView.reloadData()
-    }
-    
-    fileprivate func _sortModifications(_ modifications :[String]) -> [String] {
-        var resutModifications = modifications
-//        for var sorted = false ; !sorted; {
-//            sorted = true
-//            for i in 1 ..< resutModifications.count {
-//                let previousAddress = AddressGenerator.generateAddress(resutModifications[i-1])
-//                let currentAddress = AddressGenerator.generateAddress(resutModifications[i])
-//                
-//                if previousAddress.compare(currentAddress) == ComparisonResult.orderedDescending {
-//                    let mod = resutModifications[i]
-//                    resutModifications[i] = resutModifications[i-1]
-//                    resutModifications[i-1] = mod
-//                    sorted = false
-//                }
-//            }
-//        }
-        return resutModifications
-    }
-    
-    fileprivate final func _showPopUp(_ message :String){
-        
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
-        
-        let ok :UIAlertAction = UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default) {
-            alertAction -> Void in
-        }
-        
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func addCosig(_ publicKey: String) {
-//        _addArray.append(publicKey)
-//        tableView.reloadData()
-    }
-    
-    func prepareAnnounceResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
-        
-//        var message :String = ""
-//        
-//        minCosig = nil
-//        _addArray = []
-//        _removeArray = []
-//        
-//        self.tableView.reloadData()
-//        
-//        if !(data ?? []).isEmpty {
-//            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
-//            _showPopUp(message)
-//        }
-    }
-    
-    func failWithError(_ message: String) {
-//        _showPopUp(message.localized())
-    }
 }
 
 // MARK: - Table View Delegate
@@ -440,12 +488,26 @@ extension MultisigViewController: UITableViewDelegate, UITableViewDataSource {
                     
                 } else {
                     
-                    return activeAccountData.cosignatories.count + 2
+                    if addedCosignatories.count > 0 || removedCosignatories.count > 0 {
+                        
+                        return activeAccountData.cosignatories.count + addedCosignatories.count + 3
+
+                    } else {
+                        
+                        return activeAccountData.cosignatories.count + addedCosignatories.count + 2
+                    }
                 }
                 
             } else {
                 
-                return 1
+                if addedCosignatories.count > 0 || removedCosignatories.count > 0 {
+                    
+                    return addedCosignatories.count + 3
+
+                } else {
+                    
+                    return addedCosignatories.count + 1
+                }
             }
             
         } else {
@@ -459,8 +521,8 @@ extension MultisigViewController: UITableViewDelegate, UITableViewDataSource {
         if activeAccountData?.cosignatories.count > 0 {
             if accountData == activeAccountData {
                 
-                let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignerTableViewCell") as! MultisigSignerTableViewCell
-                cell.signerAccountData = activeAccountData!.cosignatories[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigCosignatoryTableViewCell") as! MultisigCosignatoryTableViewCell
+                cell.cosignatoryAccountData = activeAccountData!.cosignatories[indexPath.row]
                 
                 return cell
                 
@@ -468,43 +530,137 @@ extension MultisigViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 if indexPath.row < activeAccountData!.cosignatories.count {
                     
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignerTableViewCell") as! MultisigSignerTableViewCell
-                    cell.signerAccountData = activeAccountData!.cosignatories[indexPath.row]
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigCosignatoryTableViewCell") as! MultisigCosignatoryTableViewCell
+                    cell.cosignatoryAccountData = activeAccountData!.cosignatories[indexPath.row]
                     
                     return cell
                     
-                } else if indexPath.row == activeAccountData!.cosignatories.count {
+                } else if indexPath.row >= activeAccountData!.cosignatories.count && indexPath.row < activeAccountData!.cosignatories.count + addedCosignatories.count {
                     
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigAddSignerTableViewCell") as! MultisigAddSignerTableViewCell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigCosignatoryTableViewCell") as! MultisigCosignatoryTableViewCell
+                    cell.cosignatoryIdentifier = addedCosignatories[indexPath.row - activeAccountData!.cosignatories.count]
                     
+                    return cell
+                    
+                } else if indexPath.row == activeAccountData!.cosignatories.count + addedCosignatories.count {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigAddCosignatoryTableViewCell") as! MultisigAddCosignatoryTableViewCell
+                    
+                    return cell
+                    
+                } else if indexPath.row == activeAccountData!.cosignatories.count + addedCosignatories.count + 1 {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigMinimumCosignatoriesTableViewCell") as! MultisigMinimumCosignatoriesTableViewCell
+                    
+                    let minCosignatories = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories
+                    
+                    cell.textField.placeholder = String(format: ("MIN_COSIG_PLACEHOLDER".localized()), "\(minCosignatories!)")
+                                    
                     return cell
                     
                 } else {
                     
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "min cosig cell") as! MultisigMinimumSignerAmountTableViewCell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigSaveChangesTableViewCell") as! MultisigSaveChangesTableViewCell
                     
-                    let minCosignatories = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories
-                    let maxCosignatories = activeAccountData!.cosignatories.count
-                    
-                    cell.textField.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(minCosignatories!)")
-                                    
                     return cell
                 }
             }
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigAddSignerTableViewCell") as! MultisigAddSignerTableViewCell
-            
-            return cell
+            if indexPath.row < addedCosignatories.count {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigCosignatoryTableViewCell") as! MultisigCosignatoryTableViewCell
+                cell.cosignatoryIdentifier = addedCosignatories[indexPath.row]
+                
+                return cell
+                
+            } else if indexPath.row == addedCosignatories.count {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigAddCosignatoryTableViewCell") as! MultisigAddCosignatoryTableViewCell
+                
+                return cell
+                
+            } else if indexPath.row == addedCosignatories.count + 1 {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigMinimumCosignatoriesTableViewCell") as! MultisigMinimumCosignatoriesTableViewCell
+                
+                let minCosignatories = addedCosignatories.count
+                
+                cell.textField.placeholder = String(format: ("MIN_COSIG_PLACEHOLDER".localized()), "\(minCosignatories)")
+                
+                return cell
+                
+            } else {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MultisigSaveChangesTableViewCell") as! MultisigSaveChangesTableViewCell
+                
+                return cell
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        switch editingStyle {
+        case .delete:
+            
+            deleteCosignatory(atIndexPath: indexPath)
+            
+        default:
+            return
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            
+        if activeAccountData?.cosignatories.count > 0 {
+            if accountData == activeAccountData {
+                
+                return false
+                
+            } else {
+                
+                if indexPath.row < activeAccountData!.cosignatories.count {
+                    
+                    if removedCosignatories.count == 0 {
+                        return true
+                    } else {
+                        return false
+                    }
+                    
+                } else if indexPath.row >= activeAccountData!.cosignatories.count && indexPath.row < activeAccountData!.cosignatories.count + addedCosignatories.count {
+                    
+                    return true
+                    
+                } else {
+                    
+                    return false
+                }
+            }
+            
+        } else {
+            
+            if indexPath.row < addedCosignatories.count {
+                
+                return true
+                
+            } else {
+                
+                return false
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row == activeAccountData!.cosignatories.count {
+        if indexPath.row == addedCosignatories.count + activeAccountData!.cosignatories.count {
             
-            performSegue(withIdentifier: "showMultisigAddSignerViewController", sender: nil)
+            performSegue(withIdentifier: "showMultisigAddCosignatoryViewController", sender: nil)
         }
     }
 }

@@ -28,6 +28,11 @@ class MoreMenuViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         updateViewControllerAppearanceOnViewWillAppear()
+        
+        if (tableView.indexPathForSelectedRow != nil) {
+            let indexPath = tableView.indexPathForSelectedRow!
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 
     // MARK: - View Controller Helper Methods
@@ -48,5 +53,12 @@ class MoreMenuViewController: UITableViewController {
         
         tabBarController?.title = "MORE".localized()
         tabBarController?.navigationItem.rightBarButtonItem = nil
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    @IBAction func unwindToMoreMenuViewController(_ sender: UIStoryboardSegue) {
+        
+
     }
 }

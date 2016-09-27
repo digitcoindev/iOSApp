@@ -1,5 +1,5 @@
 //
-//  MultisigAddSignerTableViewCell.swift
+//  MultisigAddCosignatoryTableViewCell.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2016 NEM
@@ -8,7 +8,7 @@
 import UIKit
 
 /// The table view cell that lets the user add a new multisig cosigner.
-class MultisigAddSignerTableViewCell: UITableViewCell {
+class MultisigAddCosignatoryTableViewCell: UITableViewCell {
 
     // MARK: - Cell Outlets
     

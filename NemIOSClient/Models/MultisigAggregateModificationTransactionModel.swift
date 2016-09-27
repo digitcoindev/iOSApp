@@ -8,26 +8,32 @@
 import Foundation
 import SwiftyJSON
 
-///
+/**
+    Represents a multisig aggregate modification transaction on the NEM blockchain.
+    Visit the [documentation](http://bob.nem.ninja/docs/#multisigAggregateModificationTransaction)
+    for more information.
+ */
 open class MultisigAggregateModificationTransaction: Transaction {
     
     // MARK: - Model Properties
     
+    /// The type of the transaction.
     open var type = TransactionType.multisigAggregateModificationTransaction
     
     /// The version of the transaction.
     open var version: Int!
     
-    /// The id of the transaction.
-    open var id: Int?
-    
-    /// The height of the block in which the transaction was included.
-    open var height: Int?
-    
+    /// The number of seconds elapsed since the creation of the nemesis block.
     open var timeStamp: Int!
     
     /// The fee for the transaction.
     open var fee: Int!
+    
+    /// The array of multisig modifications.
+    open var modifications = [MultisigCosignatoryModification]()
+    
+    /// Value indicating the relative change of the minimum cosignatories.
+    open var relativeChange: Int!
     
     /// The deadline of the transaction.
     open var deadline: Int!
@@ -40,8 +46,26 @@ open class MultisigAggregateModificationTransaction: Transaction {
     
     // MARK: - Model Lifecycle
     
+    required public init?(version: Int, timeStamp: Int, fee: Int, relativeChange: Int, deadline: Int, signer: String) {
+        
+        self.version = version
+        self.timeStamp = timeStamp
+        self.fee = fee
+        self.relativeChange = relativeChange
+        self.deadline = deadline
+        self.signer = signer
+    }
+    
     required public init?(jsonData: JSON) {
         
-//        timeStamp = jsonData["transaction"]["timeStamp"].intValue
+    }
+    
+    // MARK: - Model Helper Methods
+    
+    public func addModification(_ modificationType: ModificationType, cosignatoryAccount: String) {
+        
+        let modification = MultisigCosignatoryModification(modificationType: modificationType, cosignatoryAccount: cosignatoryAccount)
+        
+        self.modifications.append(modification!)
     }
 }

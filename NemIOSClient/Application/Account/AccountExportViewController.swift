@@ -6,101 +6,148 @@
 //
 
 import UIKit
-import Social
-import MessageUI
 
-class AccountExportViewController: UIViewController , MFMailComposeViewControllerDelegate
-{
-    @IBOutlet weak var qrImage: UIImageView!
-    @IBOutlet weak var privateKey: UITextView!
-    @IBOutlet weak var publicKey: UITextView!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var copyButton: UIButton!
-    @IBOutlet weak var publicKeyLabel: UILabel!
-    @IBOutlet weak var showPrivateKeyButn: UIButton!
+/**
+    The view controller that shows the export account QR code and lets 
+    the user show the public- and private key of the account.
+ */
+class AccountExportViewController: UIViewController {
     
-    fileprivate var popup :UIViewController? = nil
-
+    // MARK: - View Controller Properties
+    
+    var accountJsonString: String!
+    fileprivate var account: Account?
+    
+    // MARK: - View Controller Outlets
+    
+    @IBOutlet weak var exportQRCodeImageView: UIImageView!
+    @IBOutlet weak var saveQRCodeImageButton: UIButton!
+    @IBOutlet weak var shareQRCodeImageButton: UIButton!
+    @IBOutlet weak var publicKeyHeadingLabel: UILabel!
+    @IBOutlet weak var publicKeyTextView: UITextView!
+    @IBOutlet weak var showPrivateKeyButton: UIButton!
+    @IBOutlet weak var privateKeyTextView: UITextView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var customNavigationItem: UINavigationItem!
+    @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
+    
+    // MARK: - View Controller Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let qr :QRCodeScannerView = QRCodeScannerView()
+        self.navigationBar.delegate = self
         
-        qrImage.image =  qr.createQRCodeImage(fromCaptureResult: State.exportAccount!)
+        account = AccountManager.sharedInstance.activeAccount
         
-//        let priv_key = HashManager.AES256Decrypt(State.currentWallet!.privateKey, key: State.loadData!.password!)
-//        let pub_key = KeyGenerator.generatePublicKey(priv_key!)
-//        privateKey.text = priv_key
-//        publicKey.text = pub_key
+        guard account != nil else {
+            print("Critical: Account not available!")
+            return
+        }
         
-        shareButton.setTitle("SHARE_QR".localized(), for: UIControlState())
-        copyButton.setTitle("SAVE_QR".localized(), for: UIControlState())
-        title = "EXPORT_ACCOUNT".localized()
-        publicKeyLabel.text = "PUBLIC_KEY".localized()
-        showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), for: UIControlState())
+        updateViewControllerAppearance()
+        generateQRCode(forAccount: accountJsonString)
+        
+        publicKeyTextView.text = account!.publicKey
+        privateKeyTextView.text = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: account!.privateKey)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        State.currentVC = SegueToExportAccount
-    }
- 
-    override func viewDidDisappear(_ animated: Bool) {
-        self.view.endEditing(true)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        viewTopConstraint.constant = self.navigationBar.frame.height + 8
     }
     
-    @IBAction func showPrivateKey(_ sender: AnyObject) {
-        self.view.endEditing(true)
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
         
-        if  !privateKey.isHidden {
-            showPrivateKeyButn.setTitle("VIEW_PRIVATE_KEY".localized(), for: UIControlState())
-            privateKey.isHidden = true
+        customNavigationItem.title = "EXPORT_ACCOUNT".localized()
+        saveQRCodeImageButton.setTitle("SAVE_QR".localized(), for: UIControlState())
+        shareQRCodeImageButton.setTitle("SHARE_QR".localized(), for: UIControlState())
+        publicKeyHeadingLabel.text = "PUBLIC_KEY".localized()
+        showPrivateKeyButton.setTitle("VIEW_PRIVATE_KEY".localized(), for: UIControlState())
+    }
+    
+    /**
+        Generates the QR code image for the account export.
+     
+        - Parameter accountJsonString: The account export json string for which the QR code should get generated.
+     */
+    fileprivate func generateQRCode(forAccount accountJsonString: String) {
+        
+        let qrCodeScannerView = QRCodeScannerView()
+        exportQRCodeImageView.image = qrCodeScannerView.createQRCodeImage(fromCaptureResult: accountJsonString)
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    @IBAction func showPrivateKeyButtonPressed(_ sender: UIButton) {
+        
+        view.endEditing(true)
+        
+        if privateKeyTextView.isHidden == false {
+            
+            showPrivateKeyButton.setTitle("VIEW_PRIVATE_KEY".localized(), for: UIControlState())
+            privateKeyTextView.isHidden = true
+            
         } else {
-            if popup != nil {
-                popup!.view.removeFromSuperview()
-                popup!.removeFromParentViewController()
-                popup = nil
-            }
             
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let accountExportingAlert = UIAlertController(title: "WARNING".localized(), message: "\("PRIVATE_KEY_SECURITY_WARNING_PART_ONE".localized()) \("PRIVATE_KEY_SECURITY_WARNING_PART_TWO".localized()) \("PRIVATE_KEY_SECURITY_WARNING_PART_THREE".localized()) \("PRIVATE_KEY_SECURITY_WARNING_PART_FOUR".localized())", preferredStyle: .alert)
             
-            let popUpController :UIViewController =  storyboard.instantiateViewController(withIdentifier: "AccountExportWarningViewController") 
-            popUpController.view.frame = CGRect(x: 0, y: 40, width: popUpController.view.frame.width, height: popUpController.view.frame.height - 40)
-            popUpController.view.layer.opacity = 0
-//            popUpController.delegate = self
+            accountExportingAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
             
-            popup = popUpController
-            self.view.addSubview(popUpController.view)
+            accountExportingAlert.addAction(UIAlertAction(title: "SHOW_PRIVATE_KEY".localized(), style: .destructive, handler: { [unowned self] (action) in
+                
+                self.showPrivateKeyButton.setTitle("HIDE_PRIVATE_KEY".localized(), for: UIControlState())
+                self.privateKeyTextView.isHidden = false
+            }))
             
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                popUpController.view.layer.opacity = 1
-                }, completion: nil)
+            present(accountExportingAlert, animated: true, completion: nil)
         }
     }
     
-    @IBAction func copyQR(_ sender: AnyObject) {
-        UIImageWriteToSavedPhotosAlbum(qrImage.image!, nil, nil, nil)
+    @IBAction func saveExportQRCodeImage(_ sender: UIButton) {
+        
+        guard exportQRCodeImageView.image != nil else { return }
+        
+        UIImageWriteToSavedPhotosAlbum(exportQRCodeImageView.image!, nil, nil, nil)
     }
     
-    @IBAction func shareQR(_ sender: AnyObject) {
-        self.view.endEditing(true)
+    @IBAction func shareExportQRCodeImage(_ sender: UIButton) {
+        
+        //        self.view.endEditing(true)
+        //
+        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //
+        //        let shareVC :ShareViewController =  storyboard.instantiateViewController(withIdentifier: "SharePopUp") as! ShareViewController
+        //        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
+        //        shareVC.view.layer.opacity = 0
+        ////        shareVC.delegate = self
+        //
+        //        shareVC.images = [qrImage.image!]
+        //        popup = shareVC
+        //
+        //        DispatchQueue.main.async(execute: { () -> Void in
+        //            self.view.addSubview(shareVC.view)
+        //
+        //            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+        //                shareVC.view.layer.opacity = 1
+        //                }, completion: nil)
+        //        })
+    }
+    
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "unwindToMoreMenuViewController", sender: nil)
+    }
+}
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let shareVC :ShareViewController =  storyboard.instantiateViewController(withIdentifier: "SharePopUp") as! ShareViewController
-        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
-        shareVC.view.layer.opacity = 0
-//        shareVC.delegate = self
-        
-        shareVC.images = [qrImage.image!]
-        popup = shareVC
-        
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.view.addSubview(shareVC.view)
-            
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                shareVC.view.layer.opacity = 1
-                }, completion: nil)
-        })
+// MARK: - Navigation Bar Delegate
+
+extension AccountExportViewController: UINavigationBarDelegate {
+    
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
     }
 }
