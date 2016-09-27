@@ -178,6 +178,6 @@ extension String
     }
     
     func localized(_ defaultValue :String? = nil) -> String {
-        return LocalizationManager.localizedSting(self, defaultValue: defaultValue) ?? self
+        return SettingsManager.sharedInstance.localizedSting(self, defaultValue: defaultValue) ?? self
     }
 }

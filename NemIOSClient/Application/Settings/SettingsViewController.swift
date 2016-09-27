@@ -7,233 +7,206 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, APIManagerDelegate
-{
-    fileprivate enum SettingsCategory :Int {
-        case general = 0
-        case security = 1
-        case server = 2
-        case notification = 3
-    }
+/// The view controller that lets the user perform settings changes.
+class SettingsViewController: UITableViewController {
     
-//    let dataManager :CoreDataManager = CoreDataManager()
+    // MARK: - View Controller Outlets
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var generalLanguageHeadingLabel: UILabel!
+    @IBOutlet weak var generalLanguageValueLabel: UILabel!
+    @IBOutlet weak var generalInvoiceMessageHeadingLabel: UILabel!
+    @IBOutlet weak var generalAboutHeadingLabel: UILabel!
+    @IBOutlet weak var securityChangePasswordHeadingLabel: UILabel!
+    @IBOutlet weak var securityTouchIDHeadingLabel: UILabel!
+    @IBOutlet weak var securityTouchIDValueLabel: UILabel!
+    @IBOutlet weak var serverHeadingLabel: UILabel!
+    @IBOutlet weak var serverValueLabel: UILabel!
+    @IBOutlet weak var notificationUpdateIntervalHeadingLabel: UILabel!
+    @IBOutlet weak var notificationUpdateIntervalValueLabel: UILabel!
     
-    fileprivate var _content :[[[String]]] = []
-    fileprivate var _loadData :LoadData? = State.loadData
-    fileprivate var _popUp :UIViewController? = nil
-//    private let _dataManager = CoreDataManager()
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
         
-        _refreshData()
+        updateViewControllerAppearance()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        _refreshData()
-//        State.currentVC = SegueToSettings
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return max(_content.count, 1)
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if _content.count == 0 {return 1}
-        return max(_content[section].count, 1)
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        if _content.count == 0 {
-            return self.tableView!.dequeueReusableCell(withIdentifier: "Loading")!
+        if (tableView.indexPathForSelectedRow != nil) {
+            let path = tableView.indexPathForSelectedRow!
+            tableView.deselectRow(at: path, animated: true)
         }
         
-        var cell :ProfileTableViewCell!
-
-        if (indexPath as NSIndexPath).row == 0 {
-            cell = self.tableView!.dequeueReusableCell(withIdentifier: "category cell") as! ProfileTableViewCell
-
-        } else {
-            cell = self.tableView!.dequeueReusableCell(withIdentifier: "content cell") as! ProfileTableViewCell
-        }
-        
-        
-        cell.titleLabel!.text = _content[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row][0]
-        cell.contentLabel?.text = _content[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row][1]
-        
-        return cell
+        handleAllSettings()
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch (indexPath as NSIndexPath).section {
-        case SettingsCategory.general.rawValue :
-            switch (indexPath as NSIndexPath).row {
-            case 1:
-                _createPopUp("SettingsLanguageViewController")
-            case 2: break
-//                if _dataManager.getWallets().count != 0 {
-//                    _createPopUp("SettingsDefaultAccountViewController")
-//                }
-                
-            case 3:
-                _createPopUp("SettingsInvoiceViewController")
-                
-            case 4:
-                
-                _createPopUp("SettingsAboutViewController")
-                
-            default:
-                break
-            }
-        case SettingsCategory.server.rawValue:
-            switch (indexPath as NSIndexPath).row {
-            case 1:
-                performSegue(withIdentifier: "showSettingsServerViewController", sender: nil)
-            default:
-                break
-            }
-            
-        case SettingsCategory.security.rawValue:
-            switch (indexPath as NSIndexPath).row {
-            case 1:
-                _createPopUp("SettingsChangePasswordViewController")
-                break
-                
-            case 2:
-                if (_loadData!.touchId ?? true) as Bool {
-                    _loadData!.touchId = false
-                } else {
-                    _loadData!.touchId = true
-                }
-                
-//                dataManager.commit()
-                
-                _refreshData()
-            default:
-                break
-            }
-            
-        case SettingsCategory.notification.rawValue:
-            switch (indexPath as NSIndexPath).row {
-            case 1:
-                _createPopUp("SettingsNotificationIntervalViewController")
-                break
-
-            default:
-                break
-            }
+    // MARK: - Table View Delegate
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        cell.preservesSuperviewLayoutMargins = false
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        switch section {
+        case 0:
+            return "GENERAL".localized()
+        case 1:
+            return "SECURITY".localized()
+        case 2:
+            return "SERVER_SETTINGS".localized()
+        case 3:
+            return "NOTIFICATION".localized()
         default:
-            break
+            return String()
         }
     }
     
-    //MARK: - Private Methods
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
+        
+        title = "SETTINGS".localized()
+        generalLanguageHeadingLabel.text = "LANGUAGE".localized()
+        generalInvoiceMessageHeadingLabel.text = "INVOICE_MESSAGE_CONFIG".localized()
+        generalAboutHeadingLabel.text = "ABOUT".localized()
+        securityChangePasswordHeadingLabel.text = "PASSWORD_CHANGE_CONFIG".localized()
+        securityTouchIDHeadingLabel.text = "TOUCH_ID".localized()
+        serverHeadingLabel.text = "SERVER".localized()
+        notificationUpdateIntervalHeadingLabel.text = "UPDATE_INTERVAL".localized()
+    }
+    
+    /**
+        Handles displaying informations in the settings view controller.
+        For example handles what gets displayed in all detail labels etc.
+     */
+    fileprivate func handleAllSettings() {
+        
+        handleApplicationLanguageSetting()
+    }
+    
+    /// Displays the current set application language.
+    fileprivate func handleApplicationLanguageSetting() {
+        
+        let applicationLanguage = SettingsManager.sharedInstance.applicationLanguage()
+        
+        switch applicationLanguage {
+        case .automatic:
+            generalLanguageValueLabel.text = "BASE".localized()
+        case .german:
+            generalLanguageValueLabel.text = "LANGUAGE_GERMAN".localized()
+        case .english:
+            generalLanguageValueLabel.text = "LANGUAGE_ENGLISH".localized()
+        case .spanish:
+            generalLanguageValueLabel.text = "LANGUAGE_SPANISH".localized()
+        case .finnish:
+            generalLanguageValueLabel.text = "LANGUAGE_FINNISH".localized()
+        case .french:
+            generalLanguageValueLabel.text = "LANGUAGE_FRENCH".localized()
+        case .croatian:
+            generalLanguageValueLabel.text = "LANGUAGE_CROATIAN".localized()
+        case .indonesian:
+            generalLanguageValueLabel.text = "LANGUAGE_INDONESIAN".localized()
+        case .italian:
+            generalLanguageValueLabel.text = "LANGUAGE_ITALIAN".localized()
+        case .japanese:
+            generalLanguageValueLabel.text = "LANGUAGE_JAPANESE".localized()
+        case .korean:
+            generalLanguageValueLabel.text = "LANGUAGE_KOREAN".localized()
+        case .lithuanian:
+            generalLanguageValueLabel.text = "LANGUAGE_LITHUANIAN".localized()
+        case .dutch:
+            generalLanguageValueLabel.text = "LANGUAGE_DUTCH".localized()
+        case .polish:
+            generalLanguageValueLabel.text = "LANGUAGE_POLISH".localized()
+        case .portuguese:
+            generalLanguageValueLabel.text = "LANGUAGE_PORTUGUESE".localized()
+        case .chineseSimplified:
+            generalLanguageValueLabel.text = "LANGUAGE_CHINESE_SIMPLIFIED".localized()
+        }
+    }
     
     fileprivate final func _refreshData(){
-        _loadData = State.loadData
-        title = "SETTINGS".localized()
-        var serverText = ""
-        if let server = _loadData?.currentServer {
-            serverText = server.address
-        } else {
-            serverText = "NONE".localized()
-        }
-        
-        let accountText = ""
-//        if let account = _loadData?.currentWallet {
-//            accountText = account.login
-//        } else if _dataManager.getWallets().count == 0 {
-//            accountText = "NO_ACCOUNTS".localized()
+//        var serverText = ""
+//        if let server = _loadData?.currentServer {
+//            serverText = server.address
 //        } else {
-//            accountText = "NONE".localized()
+//            serverText = "NONE".localized()
 //        }
-        
-        var touchText = ""
-        
-        if (_loadData?.touchId ?? true) as Bool {
-            touchText = "ON".localized()
-        } else {
-            touchText = "OFF".localized()
-        }
-        
-        var updateInterval = ""
-        
-        switch Int(_loadData!.updateInterval!) {
-        case 0 :
-            updateInterval = "NEVER".localized()
-        case 90 :
-            updateInterval = "30 " + "MINUTES".localized()
-        case 180 :
-            updateInterval = "60 " + "MINUTES".localized()
-        case 360 :
-            updateInterval = "1 " + "HOURS".localized()
-        case 720 :
-            updateInterval = "2 " + "HOURS".localized()
-        case 1440 :
-            updateInterval = "4 " + "HOURS".localized()
-        case 2880 :
-            updateInterval = "8 " + "HOURS".localized()
-        case 4320 :
-            updateInterval = "12 " + "HOURS".localized()
-        case 8640 :
-            updateInterval = "24 " + "HOURS".localized()
-        default :
-            break
-        }
-        
-        _content = []
-        _content += [
-            [
-                ["GENERAL".localized()],
-                ["LANGUAGE".localized(), _loadData?.currentLanguage ?? "BASE".localized()],
-                ["ACCOUNT_PRIMATY".localized("Primary Account"), accountText],
-                ["INVOICE_MESSAGE_CONFIG".localized(), "SET_CONFIGURATION".localized()],
-                ["ABOUT".localized(), ""]
-            ],
-            [
-                ["SECURITY".localized()],
-                ["PASSWORD_CHANGE_CONFIG".localized() ,"CHANGE".localized()],
-                ["TOUCH_ID".localized() ,touchText]
-            ],
-            [
-                ["SERVER_SETTINGS".localized()],
-                ["SERVER".localized() ,serverText]
-            ],
-            [
-                ["NOTIFICATION".localized()],
-                ["UPDATE_INTERVAL".localized() ,updateInterval]
-            ]
-        ]
-        
-        tableView.reloadData()
-    }
-    
-    fileprivate final func _createPopUp(_ withId: String) {
-        if _popUp != nil {
-            _popUp!.view.removeFromSuperview()
-            _popUp!.removeFromParentViewController()
-            _popUp = nil
-        }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let popUpController :UIViewController =  storyboard.instantiateViewController(withIdentifier: withId) 
-        popUpController.view.frame = CGRect(x: 0, y: view.frame.height, width: popUpController.view.frame.width, height: popUpController.view.frame.height - view.frame.height)
-        popUpController.view.layer.opacity = 0
-//        popUpController.delegate = self
-        
-        _popUp = popUpController
-        self.view.addSubview(popUpController.view)
-        
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            popUpController.view.layer.opacity = 1
-            }, completion: nil)
-
+//        
+//        let accountText = ""
+////        if let account = _loadData?.currentWallet {
+////            accountText = account.login
+////        } else if _dataManager.getWallets().count == 0 {
+////            accountText = "NO_ACCOUNTS".localized()
+////        } else {
+////            accountText = "NONE".localized()
+////        }
+//        
+//        var touchText = ""
+//        
+//        if (_loadData?.touchId ?? true) as Bool {
+//            touchText = "ON".localized()
+//        } else {
+//            touchText = "OFF".localized()
+//        }
+//        
+//        var updateInterval = ""
+//        
+//        switch Int(_loadData!.updateInterval!) {
+//        case 0 :
+//            updateInterval = "NEVER".localized()
+//        case 90 :
+//            updateInterval = "30 " + "MINUTES".localized()
+//        case 180 :
+//            updateInterval = "60 " + "MINUTES".localized()
+//        case 360 :
+//            updateInterval = "1 " + "HOURS".localized()
+//        case 720 :
+//            updateInterval = "2 " + "HOURS".localized()
+//        case 1440 :
+//            updateInterval = "4 " + "HOURS".localized()
+//        case 2880 :
+//            updateInterval = "8 " + "HOURS".localized()
+//        case 4320 :
+//            updateInterval = "12 " + "HOURS".localized()
+//        case 8640 :
+//            updateInterval = "24 " + "HOURS".localized()
+//        default :
+//            break
+//        }
+//        
+//        _content = []
+//        _content += [
+//            [
+//                ["GENERAL".localized()],
+//                ["LANGUAGE".localized(), _loadData?.currentLanguage ?? "BASE".localized()],
+//                ["ACCOUNT_PRIMATY".localized("Primary Account"), accountText],
+//                ["INVOICE_MESSAGE_CONFIG".localized(), "SET_CONFIGURATION".localized()],
+//                ["ABOUT".localized(), ""]
+//            ],
+//            [
+//                ["SECURITY".localized()],
+//                ["PASSWORD_CHANGE_CONFIG".localized() ,"CHANGE".localized()],
+//                ["TOUCH_ID".localized() ,touchText]
+//            ],
+//            [
+//                ["SERVER_SETTINGS".localized()],
+//                ["SERVER".localized() ,serverText]
+//            ],
+//            [
+//                ["NOTIFICATION".localized()],
+//                ["UPDATE_INTERVAL".localized() ,updateInterval]
+//            ]
+//        ]
+//        
+//        tableView.reloadData()
     }
 }
