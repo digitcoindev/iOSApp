@@ -5,5 +5,6 @@ github "zaubara/SwiftyJSON" ~> 14.0
 github "Hearst-DD/ObjectMapper" ~> 2.0
 github "krzyzanowskim/CryptoSwift"
 github "JohnEstropia/CoreStore" "swift3_develop"
+github "marketplacer/keychain-swift" ~> 6.0
 github "Quick/Quick"
 github "Quick/Nimble"

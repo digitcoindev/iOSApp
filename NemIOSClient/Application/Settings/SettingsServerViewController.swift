@@ -6,246 +6,341 @@
 //
 
 import UIKit
+import SwiftyJSON
 
-class SettingsServerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ServerCellDelegate, APIManagerDelegate, AddCustomServerDelegate
-{
-    // MARK: - Variables
+/// The view controller that lets the user handle all available settings in correspondence with servers/NIS.
+class SettingsServerViewController: UIViewController {
+    
+    // MARK: - View Controller Properties
+
+    var servers = [Server]()
+    fileprivate var loadingIndexPath: IndexPath?
+    
+    // MARK: - View Controller Outlets
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addServer: UIButton!
-    
-//    private let _dataManager : CoreDataManager = CoreDataManager()
-    fileprivate let _apiManager :APIManager = APIManager()
-    fileprivate var _isEditing = false
-    fileprivate var _alertShown :Bool = false
-    fileprivate var _popUp :UIViewController? = nil
+    @IBOutlet weak var addServerButton: UIButton!
 
-    var servers : [Server] = []
-
-    // MARK: - Load Methods
+    // MARK: - View Controller Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        _apiManager.delegate = self
+        servers = SettingsManager.sharedInstance.servers()
         
-//        servers = _dataManager.getServers()
-        title = "SERVER".localized()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "EDIT".localized(), style: UIBarButtonItemStyle.plain, target: self, action: #selector(editButtonTouchUpInside(_:)))
-        
-        addServer.setTitle("  " + "ADD_SERVER".localized(), for: UIControlState())
-        
-        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 10)
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        updateViewControllerAppearance()
+        createEditButtonItemIfNeeded()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        State.currentVC = SegueToServerVC
-    }
-    
-    // MARK: - IBAction
-
-    @IBAction func addAccountTouchUpInside(_ sender: AnyObject) {
-        showServerPopUp()
-    }
-    
-    @IBAction func editButtonTouchUpInside(_ sender: AnyObject) {
-        if _popUp != nil { return }
-
-        _isEditing = !_isEditing
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        let title = _isEditing ? "DONE".localized() : "EDIT".localized()
-        tabBarController?.navigationItem.rightBarButtonItem!.title = title
-
-        for cell in self.tableView.visibleCells {
-            (cell as! ServerViewCell).inEditingState = _isEditing
-            (cell as! ServerViewCell).actionButton.isUserInteractionEnabled = _isEditing
-            (cell as! ServerViewCell).layoutCell(animated: true)
+        if (tableView.indexPathForSelectedRow != nil) {
+            let indexPath = tableView.indexPathForSelectedRow!
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
-    // MARK: - TableViewDelegate Methods
+    /// Needed for a smooth appearance of the alert view controller.
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    /// Needed for a smooth appearance of the alert view controller.
+    override var canResignFirstResponder: Bool {
+        return true
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
+        
+        navigationItem.title = "SERVER".localized()
+        addServerButton.setTitle("   " + "ADD_SERVER".localized(), for: UIControlState())
+    }
+    
+    /**
+        Checks if there are any servers to show and creates an edit button
+        item on the right of the navigation bar if that's the case.
+     */
+    fileprivate func createEditButtonItemIfNeeded() {
+        
+        if (servers.count > 0) {
+            navigationItem.rightBarButtonItem = editButtonItem
+        }
+    }
+    
+    /**
+        Shows an alert view controller with the provided alert message.
+     
+        - Parameter message: The message that should get shown.
+        - Parameter completion: An optional action that should get performed on completion.
+     */
+    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
+            completion?()
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    /**
+        Asks the user for confirmation of the deletion of a server and deletes
+        the server accordingly from both the table view and the database.
+     
+        - Parameter indexPath: The index path of the server that should get removed and deleted.
+     */
+    fileprivate func deleteServer(atIndexPath indexPath: IndexPath) {
+        
+        let server = servers[indexPath.row]
+        
+        let serverDeletionAlert = UIAlertController(title: "INFO".localized(), message: "DELETE_CONFIRMATION_MASSAGE_SERVERS".localized(), preferredStyle: .alert)
+        
+        serverDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
+        
+        serverDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { [unowned self] (action) in
+            
+            self.servers.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .bottom)
+            
+            SettingsManager.sharedInstance.delete(server: server)
+            self.tableView.reloadData()
+        }))
+        
+        present(serverDeletionAlert, animated: true, completion: nil)
+    }
+    
+    /**
+        Asks the user to update the server properties for an existing server and makes
+        the change accordingly.
+     
+        - Parameter indexPath: The index path of the server that should get updated.
+     */
+    fileprivate func updateServerProperties(forServerAtIndexPath indexPath: IndexPath) {
+        
+        let server = servers[indexPath.row]
+        
+        let serverPropertiesUpdaterAlert = UIAlertController(title: "CHANGE".localized(), message: "CHANGE_SERVER".localized(), preferredStyle: .alert)
+        
+        serverPropertiesUpdaterAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
+        
+        serverPropertiesUpdaterAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [unowned self] (action) in
+            
+            let protocolTextField = serverPropertiesUpdaterAlert.textFields![0] as UITextField
+            let addressTextField = serverPropertiesUpdaterAlert.textFields![1] as UITextField
+            let portTextField = serverPropertiesUpdaterAlert.textFields![2] as UITextField
+            
+            guard let newProtocolType = protocolTextField.text else { return }
+            guard let newAddress = addressTextField.text else { return }
+            guard let newPort = portTextField.text else { return }
+            
+            SettingsManager.sharedInstance.updateProperties(forServer: server, withNewProtocolType: newProtocolType, andNewAddress: newAddress, andNewPort: newPort, completion: { [weak self] (result) in
+                
+                self?.servers[indexPath.row].protocolType = newProtocolType
+                self?.servers[indexPath.row].address = newAddress
+                self?.servers[indexPath.row].port = newPort
+                
+                self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+        }))
+        
+        serverPropertiesUpdaterAlert.addTextField { (textField) in
+            textField.text = server.protocolType
+        }
+        
+        serverPropertiesUpdaterAlert.addTextField { (textField) in
+            textField.text = server.address
+        }
+        
+        serverPropertiesUpdaterAlert.addTextField { (textField) in
+            textField.text = server.port
+        }
+        
+        present(serverPropertiesUpdaterAlert, animated: true, completion: nil)
+    }
+    
+    /**
+        Tries to change the currently active server. If the server is reachable by a
+        heartbeat call the change will get performed.
+     
+        - Parameter indexPath: The index path of the new server.
+     */
+    fileprivate func changeActiveServer(withServerAtIndexPath indexPath: IndexPath) {
+        
+        guard loadingIndexPath == nil else { return }
+        
+        let server = servers[indexPath.row]
+        loadingIndexPath = indexPath
+        tableView.reloadRows(at: [indexPath], with: .none)
+        
+        getHeartbeatResponse(fromServer: server) { [weak self] (result) in
+            
+            switch result {
+            case .success:
+                
+                SettingsManager.sharedInstance.setActiveServer(server: server)
+                self?.loadingIndexPath = nil
+                self?.tableView.reloadData()
+                TimeManager.sharedInstance.synchronizeTime()
+                
+            case .failure:
+                
+                self?.loadingIndexPath = nil
+                self?.tableView.reloadData()
+                self?.showAlert(withMessage: "SERVER_UNAVAILABLE".localized())
+            }
+        }
+    }
+    
+    /**
+        Sends a heartbeat request to the selected server to see if the server is a valid NIS.
+     
+        - Parameter server: The server that should get checked.
+        
+        - Returns: The result of the operation.
+     */
+    fileprivate func getHeartbeatResponse(fromServer server: Server, completion: @escaping (_ result: Result) -> Void) {
+        
+        nisProvider.request(NIS.heartbeat(server: server)) { (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    DispatchQueue.main.async {
+                        
+                        return completion(.success)
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        return completion(.failure)
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                    return completion(.failure)
+                }
+            }
+        }
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    /**
+        Unwinds to the server view controller and reloads all
+        servers to show.
+     */
+    @IBAction func unwindToServerViewController(_ segue: UIStoryboardSegue) {
+        
+        servers = SettingsManager.sharedInstance.servers()
+        tableView.reloadData()
+    }
+}
+
+// MARK: - Table View Data Source
+
+extension SettingsServerViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return servers.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 74
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : ServerViewCell = self.tableView.dequeueReusableCell(withIdentifier: "serverCell") as! ServerViewCell
-        cell.delegate = self
         
-        let cellData  : Server = servers[(indexPath as NSIndexPath).row]
-        cell.serverName.text = "  " + cellData.protocolType + "://" + cellData.address + ":" + cellData.port
-        if servers[(indexPath as NSIndexPath).row] == State.currentServer {
-            cell.isActiveServer = true
-        }  else {
-            cell.isActiveServer = false
+        let server = servers[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsServerTableViewCell") as! SettingsServerTableViewCell
+        cell.title = server.fullURL()
+        
+        if server == SettingsManager.sharedInstance.activeServer() {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
         }
         
-        cell.inEditingState = _isEditing
-        cell.actionButton.isUserInteractionEnabled = _isEditing
-
-        cell.layoutCell(animated: false)
-//        let fileName = "server \(cellData.address).png"
-//        let fileService = FileService()
-//        if fileService.fileExist(fileName) {
-//            cell.flagImageView.image = UIImage(contentsOfFile: fileName.path())
-//        } else {
-//            cell.flagImageView.image = UIImage(named: "unknown_server_icon")
-//            if let url = NSURL(string: "http://api.hostip.info/flag.php?ip=\(cellData.address)") {
-//                _apiManager.downloadImage(url) { (image) -> Void in
-//                    
-//                    fileService.createFileWithName(fileName, data: UIImagePNGRepresentation(image)!, responce: { (state) -> Void in
-//                        if state == FileServiceResponceState.Successed {
-//                            self.tableView.reloadData()
-//                        }
-//                    })
-//                }
-//            }
-//        }
+        if let loadingIndexPath = loadingIndexPath {
+            if indexPath.row == loadingIndexPath.row {
+                cell.activityIndicator.startAnimating()
+                cell.activityIndicator.isHidden = false
+            }
+        } else {
+            cell.activityIndicator.isHidden = true
+            cell.activityIndicator.stopAnimating()
+        }
         
         return cell
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        switch editingStyle {
+        case .delete:
+            
+            if servers.count > 1 {
+                deleteServer(atIndexPath: indexPath)
+            }
+            
+        default:
+            return
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if servers.count > 1 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+}
+
+// MARK: - Table View Delegate
+
+extension SettingsServerViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !_isEditing {
-            if  State.currentServer != nil {
-                
-                var oldIndex = 0
-                
-                for i in 0  ..< servers.count {
-                    if servers[i] == State.currentServer! {
-                        oldIndex = i
-                    }
-                }
-                
-                let oldIndexPath = IndexPath(row: oldIndex, section: 0)
-                
-                if oldIndexPath != indexPath {
-                    let serverCell = tableView.cellForRow(at: oldIndexPath) as? ServerViewCell
-                    
-                    serverCell?.isActiveServer = false
-                }
-            }
-            
-            let selectedServer :Server = servers[(indexPath as NSIndexPath).row]
-            
-//            State.currentServer = selectedServer
-            
-            _apiManager.heartbeat(selectedServer)
+        
+        if tableView.isEditing {
+            updateServerProperties(forServerAtIndexPath: indexPath)
         } else {
-            let selectedServer :Server = servers[(indexPath as NSIndexPath).row]
-
-            showServerPopUp(selectedServer)
-        }
-    }
-    
-    fileprivate func showServerPopUp(_ server :Server? = nil)
-    {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let serverCustomVC :SettingsAddServerViewController =  storyboard.instantiateViewController(withIdentifier: "SettingsAddServerViewController") as! SettingsAddServerViewController
-        serverCustomVC.view.frame = CGRect(x: 0, y: view.frame.height, width: serverCustomVC.view.frame.width, height: serverCustomVC.view.frame.height - view.frame.height)
-        serverCustomVC.view.layer.opacity = 0
-//        serverCustomVC.delegate = self
-        
-        if server != nil {
-            serverCustomVC.newServer = server
-            serverCustomVC.protocolType.text = server!.protocolType
-            serverCustomVC.serverAddress.text = server!.address
-            serverCustomVC.serverPort.text = server!.port
-            serverCustomVC.saveBtn.setTitle("CHANGE_SERVER".localized(), for: UIControlState())
-        } else {
-            serverCustomVC.saveBtn.setTitle("ADD_SERVER".localized(), for: UIControlState())
+            changeActiveServer(withServerAtIndexPath: indexPath)
         }
         
-        _popUp = serverCustomVC
-        self.view.addSubview(serverCustomVC.view)
-        
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            serverCustomVC.view.layer.opacity = 1
-            }, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    //MARK: - ServerCell Delegate
-    
-    func deleteCell(_ cell :UITableViewCell) {       
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_SERVERS".localized(), (cell as! ServerViewCell).serverName.text!), preferredStyle: UIAlertControllerStyle.alert)
-        
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
-            let index :IndexPath = self.tableView.indexPath(for: cell)!
-            
-            if (index as NSIndexPath).row < self.servers.count {
-//                self._dataManager.deleteServer(server: self.servers[index.row])
-                self.servers.remove(at: (index as NSIndexPath).row)
-                
-                self.tableView.deleteRows(at: [index], with: UITableViewRowAnimation.left)
-            }
-            
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50.0
     }
     
-    //MARK: - AddCustomServerDelegate Methods
-    
-    func serverAdded(_ successfuly: Bool) {
-        if successfuly {
-//            servers = _dataManager.getServers()
-            tableView.reloadData()
-        }
-    }
-    
-    func popUpClosed(){
-        if _popUp != nil {
-            _popUp!.view.removeFromSuperview()
-            _popUp!.removeFromParentViewController()
-            _popUp = nil
-        }
-    }
-    
-    //MARK: - APIManagerDelegate Methods
-    
-    final func heartbeatResponceFromServer(_ server :Server ,successed :Bool) {
-        if successed {
-//            State.currentServer = server
-            _apiManager.timeSynchronize(server)
-            
-//            let loadData :LoadData = _dataManager.getLoadData()
-            
-//            loadData.currentServer = State.currentServer!
-//            _dataManager.commit()
-            
-            self.tableView.reloadData()
-        } else {
-//            State.currentServer = nil
-            if !_alertShown {
-                _alertShown = true
-                
-                let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: "SERVER_UNAVAILABLE".localized(), preferredStyle: UIAlertControllerStyle.alert)
-                
-                alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
-                    self._alertShown = false
-
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50.0
     }
 }

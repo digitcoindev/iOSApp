@@ -7,150 +7,159 @@
 
 import UIKit
 
-class SettingsChangePasswordViewController: UIViewController {
-    @IBOutlet weak var oldPassword: NEMTextField!
-    @IBOutlet weak var newPassword: NEMTextField!
-    @IBOutlet weak var repeatPassword: NEMTextField!
-
-    @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var scroll: UIScrollView!
+/// The view controller that lets the user change the current application password.
+class SettingsChangePasswordViewController: UITableViewController {
     
-//    let dataMeneger: CoreDataManager  = CoreDataManager()
-
+    // MARK: - View Controller Outlets
+    
+    @IBOutlet weak var currentPasswordTextField: UITextField!
+    @IBOutlet weak var newPasswordTextField: UITextField!
+    @IBOutlet weak var confirmNewPasswordTextField: UITextField!
+    
+    // MARK: - View Controller Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        oldPassword.placeholder = "  " + "OLD_PASSWORD_PLACEHOLDER".localized()
-        newPassword.placeholder = "  " + "PASSWORD_PLACEHOLDER".localized()
-        repeatPassword.placeholder = "  " + "REPEAT_PASSWORD_PLACEHOLDER".localized()
-        
-        saveBtn.setTitle("CHANGE".localized(), for: UIControlState())
-        
-        let center: NotificationCenter = NotificationCenter.default
-        
-        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        center.addObserver(self, selector: #selector(SettingsChangePasswordViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        contentView.layer.cornerRadius = 5
-        contentView.clipsToBounds = true
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        updateViewControllerAppearance()
     }
     
-    //MARK: - @IBAction
-    
-    @IBAction func closePopUp(_ sender: AnyObject) {        
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
-    }
-    
-    @IBAction func changePassword(_ sender: AnyObject) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if !Validate.stringNotEmpty(newPassword.text) || !Validate.stringNotEmpty(repeatPassword.text) || !Validate.stringNotEmpty(oldPassword.text){
-            _failedWithError("FIELDS_EMPTY_ERROR".localized())
-            return
-        }
-        
-        if !Validate.password(newPassword.text!) {
-            _failedWithError("PASSOWORD_LENGTH_ERROR".localized())
-            repeatPassword.text = ""
-            return
-        }
-        
-        if newPassword.text != repeatPassword.text {
-            _failedWithError("PASSOWORD_DIFERENCE_ERROR".localized())
-            repeatPassword.text = ""
-            return
-        }
-        
-        let salt :Data =  Data(bytes: State.loadData!.salt!.asByteArray())
-        let passwordHashOld :Data? = try! HashManager.generateAesKeyForString(oldPassword.text!, salt:salt as NSData, roundCount:2000)! as Data?
-        
-        if passwordHashOld == nil || passwordHashOld?.toHexadecimalString() != State.loadData?.password {
-            _failedWithError("WRONG_OLD_PASSWORD".localized())
-            oldPassword.text = ""
-            return
-        }
-        
-        let passwordHash = try? HashManager.generateAesKeyForString(newPassword.text!, salt:salt as NSData, roundCount:2000)!
-        
-        
-//        let loadData = dataMeneger.getLoadData()
-//        loadData.salt = salt.hexadecimalString()
-//        loadData.password = passwordHash?.hexadecimalString()
-//        
-//        for wallet in dataMeneger.getWallets() {
-//            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: passwordHashOld!.hexadecimalString())
-//            wallet.privateKey = HashManager.AES256Encrypt(privateKey!, key: loadData.password!)
-//        }
-//        
-//        dataMeneger.commit()
-        
-        self.view.removeFromSuperview()
-        self.removeFromParentViewController()
-    }
-    
-    @IBAction func changeField(_ sender: UITextField) {
-        switch sender {
-        case oldPassword:
-            newPassword.becomeFirstResponder()
+        switch indexPath.row {
+        case 0:
+            currentPasswordTextField.becomeFirstResponder()
             
-        case newPassword:
-            repeatPassword.becomeFirstResponder()
+        case 1:
+            newPasswordTextField.becomeFirstResponder()
             
-        default :
-            sender.endEditing(true)
+        case 2:
+            confirmNewPasswordTextField.becomeFirstResponder()
+            
+        default:
+            break
         }
     }
     
-    @IBAction func validateField(_ sender: UITextField){
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
         
-        if repeatPassword.text == newPassword.text {
-            repeatPassword.textColor = UIColor.green
-        } else {
-            repeatPassword.textColor = UIColor.red
-        }
-        
-        if Validate.password(newPassword.text!){
-            newPassword.textColor = UIColor.green
-        } else {
-            repeatPassword.textColor = UIColor.red
-            newPassword.textColor = UIColor.red
-        }
+        title = "PASSWORD_CHANGE_CONFIG".localized()
+        currentPasswordTextField.placeholder = "OLD_PASSWORD_PLACEHOLDER".localized()
+        newPasswordTextField.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        confirmNewPasswordTextField.placeholder = "REPEAT_PASSWORD_PLACEHOLDER".localized()
     }
     
-    //MARK: - Private Methods
-    
-    fileprivate func _failedWithError(_ text: String, completion :((Void) -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.alert)
+    /**
+        Shows an alert view controller with the provided alert message.
+     
+        - Parameter message: The message that should get shown.
+        - Parameter completion: An optional action that should get performed on completion.
+     */
+    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
             alert.dismiss(animated: true, completion: nil)
             completion?()
         }))
         
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - Keyboard Delegate
-    
-    final func keyboardWillShow(_ notification: Notification) {
-        let info:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
-        let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+    /// Validates and changes the new application password.
+    fileprivate func changeApplicationPassword() {
         
-        var keyboardHeight:CGFloat = keyboardSize.height
+        guard currentPasswordTextField.text != nil else {
+            showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        guard newPasswordTextField.text != nil else {
+            showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        guard confirmNewPasswordTextField.text != nil else {
+            showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        guard currentPasswordTextField.text! != "" && newPasswordTextField.text! != "" && confirmNewPasswordTextField.text! != "" else {
+            showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        guard newPasswordTextField.text!.characters.count >= 6 else {
+            showAlert(withMessage: "PASSOWORD_LENGTH_ERROR".localized())
+            confirmNewPasswordTextField.text = ""
+            return
+        }
+        guard newPasswordTextField.text! == confirmNewPasswordTextField.text! else {
+            showAlert(withMessage: "PASSOWORD_DIFERENCE_ERROR".localized())
+            confirmNewPasswordTextField.text = ""
+            return
+        }
+        guard currentPasswordTextField.text! == SettingsManager.sharedInstance.applicationPassword() else {
+            showAlert(withMessage: "WRONG_OLD_PASSWORD".localized())
+            currentPasswordTextField.text = ""
+            return
+        }
         
-        keyboardHeight -= self.view.frame.height - self.scroll.frame.height
+        let newApplicationPassword = newPasswordTextField.text!
         
-        scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight , 0)
-        scroll.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight + 30, 0)
+        let accounts = AccountManager.sharedInstance.accounts()
+        for account in accounts {
+            
+            let accountPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: account.privateKey)
+            let newEncryptedAccountPrivateKey = AccountManager.sharedInstance.encryptPrivateKey(accountPrivateKey, withApplicationPassword: newApplicationPassword)
+            AccountManager.sharedInstance.updatePrivateKey(forAccount: account, withNewPrivateKey: newEncryptedAccountPrivateKey)
+        }
+        
+        SettingsManager.sharedInstance.setApplicationPassword(applicationPassword: newApplicationPassword)
+        
+        navigationController?.popViewController(animated: true)
     }
     
-    func keyboardWillHide(_ notification: Notification) {
-        self.scroll.contentInset = UIEdgeInsets.zero
-        self.scroll.scrollIndicatorInsets = UIEdgeInsets.zero
+    // MARK: - View Controller Outlet Actions
+    
+    @IBAction func validateTextFieldInput(_ sender: UITextField) {
+                
+        guard newPasswordTextField.text != nil else { return }
+        guard confirmNewPasswordTextField.text != nil else { return }
+        
+        if confirmNewPasswordTextField.text == newPasswordTextField.text {
+            confirmNewPasswordTextField.textColor = UIColor.green
+        } else {
+            confirmNewPasswordTextField.textColor = UIColor.red
+        }
+        
+        if newPasswordTextField.text!.characters.count >= 6 {
+            newPasswordTextField.textColor = UIColor.green
+        } else {
+            confirmNewPasswordTextField.textColor = UIColor.red
+            newPasswordTextField.textColor = UIColor.red
+        }
+    }
+    
+    @IBAction func textFieldDidEndOnExit(_ sender: UITextField) {
+        
+        switch sender {
+        case currentPasswordTextField:
+            newPasswordTextField.becomeFirstResponder()
+            
+        case newPasswordTextField:
+            confirmNewPasswordTextField.becomeFirstResponder()
+            
+        case confirmNewPasswordTextField:
+            confirmNewPasswordTextField.endEditing(true)
+            
+        default:
+            break
+        }
+    }
+    
+    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+        
+        changeApplicationPassword()
     }
 }

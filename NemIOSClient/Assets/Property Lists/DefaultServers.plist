@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Server 1</key>
+	<array>
+		<string>http</string>
+		<string>37.187.70.29</string>
+		<string>7890</string>
+	</array>
+	<key>Server 2</key>
+	<array>
+		<string>http</string>
+		<string>23.228.67.85</string>
+		<string>7890</string>
+	</array>
+	<key>Server 3</key>
+	<array>
+		<string>http</string>
+		<string>192.3.61.243</string>
+		<string>7890</string>
+	</array>
+	<key>Server 4</key>
+	<array>
+		<string>http</string>
+		<string>104.128.226.60</string>
+		<string>7890</string>
+	</array>
+	<key>Server 5</key>
+	<array>
+		<string>http</string>
+		<string>50.3.87.123</string>
+		<string>7890</string>
+	</array>
+</dict>
+</plist>

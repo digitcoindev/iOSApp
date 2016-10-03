@@ -177,7 +177,7 @@ extension String
         }
     }
     
-    func localized(_ defaultValue :String? = nil) -> String {
-        return SettingsManager.sharedInstance.localizedSting(self, defaultValue: defaultValue) ?? self
+    func localized(_ defaultValue: String? = nil) -> String {
+        return NSLocalizedString(self, comment: defaultValue ?? self) ?? self
     }
 }

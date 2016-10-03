@@ -12,8 +12,6 @@ class SettingsViewController: UITableViewController {
     
     // MARK: - View Controller Outlets
     
-    @IBOutlet weak var generalLanguageHeadingLabel: UILabel!
-    @IBOutlet weak var generalLanguageValueLabel: UILabel!
     @IBOutlet weak var generalInvoiceMessageHeadingLabel: UILabel!
     @IBOutlet weak var generalAboutHeadingLabel: UILabel!
     @IBOutlet weak var securityChangePasswordHeadingLabel: UILabel!
@@ -68,13 +66,60 @@ class SettingsViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.section {
+        case 0:
+            
+            switch indexPath.row {
+            case 1:
+                
+                let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+                let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+
+                showAlert(withMessage: "\("VERSION".localized()) \(versionNumber) \("BUILD".localized()) \(buildNumber) BETA")
+                tableView.deselectRow(at: indexPath, animated: true)
+                
+            default:
+                break
+            }
+            
+        case 1:
+            
+            switch indexPath.row {
+            case 1:
+                
+                var authenticationTouchIDStatus = SettingsManager.sharedInstance.authenticationTouchIDStatus()
+                authenticationTouchIDStatus = !authenticationTouchIDStatus
+                
+                SettingsManager.sharedInstance.setAuthenticationTouchIDStatus(authenticationTouchIDStatus: authenticationTouchIDStatus)
+                
+                handleAuthenticationTouchIDSetting()
+                tableView.deselectRow(at: indexPath, animated: true)
+                
+            default:
+                break
+            }
+            
+        default:
+            break
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50.0
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50.0
+    }
+    
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
     fileprivate func updateViewControllerAppearance() {
         
         title = "SETTINGS".localized()
-        generalLanguageHeadingLabel.text = "LANGUAGE".localized()
         generalInvoiceMessageHeadingLabel.text = "INVOICE_MESSAGE_CONFIG".localized()
         generalAboutHeadingLabel.text = "ABOUT".localized()
         securityChangePasswordHeadingLabel.text = "PASSWORD_CHANGE_CONFIG".localized()
@@ -84,53 +129,47 @@ class SettingsViewController: UITableViewController {
     }
     
     /**
+        Shows an alert view controller with the provided alert message.
+     
+        - Parameter message: The message that should get shown.
+        - Parameter completion: An optional action that should get performed on completion.
+     */
+    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
+            completion?()
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    /**
         Handles displaying informations in the settings view controller.
         For example handles what gets displayed in all detail labels etc.
      */
     fileprivate func handleAllSettings() {
         
-        handleApplicationLanguageSetting()
+        handleAuthenticationTouchIDSetting()
+        handleActiveServerSetting()
     }
     
-    /// Displays the current set application language.
-    fileprivate func handleApplicationLanguageSetting() {
+    /// Displays the current touch id setting status.
+    fileprivate func handleAuthenticationTouchIDSetting() {
+
+        let authenticationTouchIDStatus = SettingsManager.sharedInstance.authenticationTouchIDStatus()
         
-        let applicationLanguage = SettingsManager.sharedInstance.applicationLanguage()
+        securityTouchIDValueLabel.text = authenticationTouchIDStatus ? "ON".localized() : "OFF".localized()
+    }
+    
+    /// Displays the currently active server.
+    fileprivate func handleActiveServerSetting() {
         
-        switch applicationLanguage {
-        case .automatic:
-            generalLanguageValueLabel.text = "BASE".localized()
-        case .german:
-            generalLanguageValueLabel.text = "LANGUAGE_GERMAN".localized()
-        case .english:
-            generalLanguageValueLabel.text = "LANGUAGE_ENGLISH".localized()
-        case .spanish:
-            generalLanguageValueLabel.text = "LANGUAGE_SPANISH".localized()
-        case .finnish:
-            generalLanguageValueLabel.text = "LANGUAGE_FINNISH".localized()
-        case .french:
-            generalLanguageValueLabel.text = "LANGUAGE_FRENCH".localized()
-        case .croatian:
-            generalLanguageValueLabel.text = "LANGUAGE_CROATIAN".localized()
-        case .indonesian:
-            generalLanguageValueLabel.text = "LANGUAGE_INDONESIAN".localized()
-        case .italian:
-            generalLanguageValueLabel.text = "LANGUAGE_ITALIAN".localized()
-        case .japanese:
-            generalLanguageValueLabel.text = "LANGUAGE_JAPANESE".localized()
-        case .korean:
-            generalLanguageValueLabel.text = "LANGUAGE_KOREAN".localized()
-        case .lithuanian:
-            generalLanguageValueLabel.text = "LANGUAGE_LITHUANIAN".localized()
-        case .dutch:
-            generalLanguageValueLabel.text = "LANGUAGE_DUTCH".localized()
-        case .polish:
-            generalLanguageValueLabel.text = "LANGUAGE_POLISH".localized()
-        case .portuguese:
-            generalLanguageValueLabel.text = "LANGUAGE_PORTUGUESE".localized()
-        case .chineseSimplified:
-            generalLanguageValueLabel.text = "LANGUAGE_CHINESE_SIMPLIFIED".localized()
-        }
+        let activeServer = SettingsManager.sharedInstance.activeServer()
+        
+        serverValueLabel.text = activeServer.address
     }
     
     fileprivate final func _refreshData(){

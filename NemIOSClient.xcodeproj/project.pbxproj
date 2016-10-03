@@ -9,7 +9,13 @@
 /* Begin PBXBuildFile section */
 		4F1159DC1D38FC5800E13EE0 /* NemIOSClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */; };
 		4F136CAF1D9A750D0042504C /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F136CAE1D9A750D0042504C /* SettingsManager.swift */; };
-		4F136CB11D9AA4870042504C /* SettingsOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F136CB01D9AA4870042504C /* SettingsOptionTableViewCell.swift */; };
+		4F15DCA41DA27B5C0042997C /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */; };
+		4F15DCA51DA27B5C0042997C /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4F15DCA71DA294400042997C /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCA61DA294400042997C /* ServerModel.swift */; };
+		4F15DCA91DA2A9E20042997C /* SettingsOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */; };
+		4F15DCAB1DA2AA0E0042997C /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCAA1DA2AA0E0042997C /* ActiveCell.swift */; };
+		4F15DCAF1DA2B3E10042997C /* DefaultServers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */; };
+		4F15DCB11DA2CED70042997C /* Server+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCB01DA2CED70042997C /* Server+Additions.swift */; };
 		4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24A1751D54E49300AC128A /* AccountExceptions.swift */; };
 		4F26197B1D97103100D891DD /* AccountData+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26197A1D97103000D891DD /* AccountData+Additions.swift */; };
 		4F26CDF11D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */; };
@@ -149,14 +155,9 @@
 		4F9F685E1D4C36A50086F98F /* HarvestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F685D1D4C36A50086F98F /* HarvestingViewController.swift */; };
 		4F9F68601D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F685F1D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift */; };
 		4F9F68621D4C36C70086F98F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68611D4C36C70086F98F /* SettingsViewController.swift */; };
-		4F9F68641D4C37680086F98F /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68631D4C37680086F98F /* MainViewCell.swift */; };
 		4F9F68661D4C376F0086F98F /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68651D4C376F0086F98F /* LocalizationManager.swift */; };
-		4F9F68681D4C37740086F98F /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68671D4C37740086F98F /* ProfileTableViewCell.swift */; };
-		4F9F686A1D4C377A0086F98F /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68691D4C377A0086F98F /* ActiveCell.swift */; };
-		4F9F686C1D4C37830086F98F /* ServerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F686B1D4C37830086F98F /* ServerViewCell.swift */; };
-		4F9F686E1D4C37A50086F98F /* SettingsLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F686D1D4C37A50086F98F /* SettingsLanguageViewController.swift */; };
-		4F9F68721D4C37B10086F98F /* SettingsInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68711D4C37B10086F98F /* SettingsInvoiceViewController.swift */; };
-		4F9F68741D4C37B50086F98F /* SettingsAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68731D4C37B50086F98F /* SettingsAboutViewController.swift */; };
+		4F9F686C1D4C37830086F98F /* SettingsServerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F686B1D4C37830086F98F /* SettingsServerTableViewCell.swift */; };
+		4F9F68721D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68711D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift */; };
 		4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */; };
 		4F9F68781D4C37BF0086F98F /* SettingsServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */; };
 		4F9F687A1D4C37C40086F98F /* SettingsAddServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */; };
@@ -185,6 +186,7 @@
 		4FC27A041D95297700421F00 /* BlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC27A031D95297600421F00 /* BlockModel.swift */; };
 		4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */; };
 		4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */; };
+		4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE02C121DA2E1180057740D /* ServerExceptions.swift */; };
 		4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */; };
 		4FFF8F041D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F021D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld */; };
 		4FFF8F061D523BD000B4BB9F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */; };
@@ -244,6 +246,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4F15DCA51DA27B5C0042997C /* KeychainSwift.framework in Embed Frameworks */,
 				4F9F67A91D48FE460086F98F /* Moya.framework in Embed Frameworks */,
 				4F3ACE971D61C6210056F234 /* ObjectMapper.framework in Embed Frameworks */,
 				4F9F67871D48F43D0086F98F /* CoreStore.framework in Embed Frameworks */,
@@ -286,7 +289,13 @@
 		4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientUITests.swift; sourceTree = "<group>"; };
 		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F136CAE1D9A750D0042504C /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsManager.swift; path = Application/Settings/SettingsManager.swift; sourceTree = "<group>"; };
-		4F136CB01D9AA4870042504C /* SettingsOptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsOptionTableViewCell.swift; path = Application/Settings/SettingsOptionTableViewCell.swift; sourceTree = "<group>"; };
+		4F15DCA21DA277850042997C /* NemIOSClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
+		4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = "<group>"; };
+		4F15DCA61DA294400042997C /* ServerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerModel.swift; path = Models/ServerModel.swift; sourceTree = "<group>"; };
+		4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsOptionTableViewCell.swift; path = Application/Settings/SettingsOptionTableViewCell.swift; sourceTree = "<group>"; };
+		4F15DCAA1DA2AA0E0042997C /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = Application/_TODO/ActiveCell.swift; sourceTree = "<group>"; };
+		4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultServers.plist; path = "Assets/Property Lists/DefaultServers.plist"; sourceTree = "<group>"; };
+		4F15DCB01DA2CED70042997C /* Server+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Server+Additions.swift"; path = "Common/Extensions/Server+Additions.swift"; sourceTree = "<group>"; };
 		4F24A1751D54E49300AC128A /* AccountExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExceptions.swift; path = Common/Exceptions/AccountExceptions.swift; sourceTree = "<group>"; };
 		4F26197A1D97103000D891DD /* AccountData+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AccountData+Additions.swift"; path = "Common/Extensions/AccountData+Additions.swift"; sourceTree = "<group>"; };
 		4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; path = Application/Account/AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; sourceTree = "<group>"; };
@@ -415,14 +424,9 @@
 		4F9F685D1D4C36A50086F98F /* HarvestingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestingViewController.swift; path = Application/Harvesting/HarvestingViewController.swift; sourceTree = "<group>"; };
 		4F9F685F1D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestingBlockTableViewCell.swift; path = Application/Harvesting/HarvestingBlockTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F68611D4C36C70086F98F /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = Application/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
-		4F9F68631D4C37680086F98F /* MainViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewCell.swift; path = Application/_TODO/MainViewCell.swift; sourceTree = "<group>"; };
 		4F9F68651D4C376F0086F98F /* LocalizationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalizationManager.swift; path = Application/_TODO/LocalizationManager.swift; sourceTree = "<group>"; };
-		4F9F68671D4C37740086F98F /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileTableViewCell.swift; path = Application/_TODO/ProfileTableViewCell.swift; sourceTree = "<group>"; };
-		4F9F68691D4C377A0086F98F /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = Application/_TODO/ActiveCell.swift; sourceTree = "<group>"; };
-		4F9F686B1D4C37830086F98F /* ServerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerViewCell.swift; path = Application/_TODO/ServerViewCell.swift; sourceTree = "<group>"; };
-		4F9F686D1D4C37A50086F98F /* SettingsLanguageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsLanguageViewController.swift; path = Application/Settings/SettingsLanguageViewController.swift; sourceTree = "<group>"; };
-		4F9F68711D4C37B10086F98F /* SettingsInvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsInvoiceViewController.swift; path = Application/Settings/SettingsInvoiceViewController.swift; sourceTree = "<group>"; };
-		4F9F68731D4C37B50086F98F /* SettingsAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAboutViewController.swift; path = Application/Settings/SettingsAboutViewController.swift; sourceTree = "<group>"; };
+		4F9F686B1D4C37830086F98F /* SettingsServerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsServerTableViewCell.swift; path = Application/_TODO/SettingsServerTableViewCell.swift; sourceTree = "<group>"; };
+		4F9F68711D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsInvoiceMessageViewController.swift; path = Application/Settings/SettingsInvoiceMessageViewController.swift; sourceTree = "<group>"; };
 		4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsChangePasswordViewController.swift; path = Application/Settings/SettingsChangePasswordViewController.swift; sourceTree = "<group>"; };
 		4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsServerViewController.swift; path = Application/Settings/SettingsServerViewController.swift; sourceTree = "<group>"; };
 		4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAddServerViewController.swift; path = Application/Settings/SettingsAddServerViewController.swift; sourceTree = "<group>"; };
@@ -453,6 +457,7 @@
 		4FC27A031D95297600421F00 /* BlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockModel.swift; path = Models/BlockModel.swift; sourceTree = "<group>"; };
 		4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceManager.swift; path = Application/Invoice/InvoiceManager.swift; sourceTree = "<group>"; };
 		4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceModel.swift; path = Models/InvoiceModel.swift; sourceTree = "<group>"; };
+		4FE02C121DA2E1180057740D /* ServerExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerExceptions.swift; path = Common/Exceptions/ServerExceptions.swift; sourceTree = "<group>"; };
 		4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountModel.swift; path = Models/AccountModel.swift; sourceTree = "<group>"; };
 		4FFF8F031D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClientTEMP.xcdatamodel; sourceTree = "<group>"; };
 		4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -533,6 +538,7 @@
 				4F45BF051D99E00E00E90618 /* ReactiveSwift.framework in Frameworks */,
 				4F9828111D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
 				4F9828131D3CEFBE00A3C8B2 /* CryptoSwift.framework in Frameworks */,
+				4F15DCA41DA27B5C0042997C /* KeychainSwift.framework in Frameworks */,
 				4F9828151D3CEFBE00A3C8B2 /* SwiftyJSON.framework in Frameworks */,
 				4F98280F1D3CEFBE00A3C8B2 /* Alamofire.framework in Frameworks */,
 			);
@@ -575,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				4F9F689D1D4C3A160086F98F /* Info.plist */,
+				4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */,
 			);
 			name = "Property Lists";
 			sourceTree = "<group>";
@@ -618,6 +625,7 @@
 				4F2C170B1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift */,
 				4F3ACEAE1D6451580056F234 /* Message+Additions.swift */,
 				4F26197A1D97103000D891DD /* AccountData+Additions.swift */,
+				4F15DCB01DA2CED70042997C /* Server+Additions.swift */,
 				4F9F67B31D4A00DF0086F98F /* _TODO */,
 			);
 			name = Extensions;
@@ -675,11 +683,8 @@
 		4F1339501D4205FB00AA126D /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F68631D4C37680086F98F /* MainViewCell.swift */,
+				4F15DCAA1DA2AA0E0042997C /* ActiveCell.swift */,
 				4F9F68651D4C376F0086F98F /* LocalizationManager.swift */,
-				4F9F68671D4C37740086F98F /* ProfileTableViewCell.swift */,
-				4F9F68691D4C377A0086F98F /* ActiveCell.swift */,
-				4F9F686B1D4C37830086F98F /* ServerViewCell.swift */,
 			);
 			name = _TODO;
 			sourceTree = "<group>";
@@ -689,6 +694,7 @@
 			children = (
 				4F24A1751D54E49300AC128A /* AccountExceptions.swift */,
 				4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */,
+				4FE02C121DA2E1180057740D /* ServerExceptions.swift */,
 			);
 			name = Exceptions;
 			sourceTree = "<group>";
@@ -798,14 +804,13 @@
 			children = (
 				4F136CAE1D9A750D0042504C /* SettingsManager.swift */,
 				4F9F68611D4C36C70086F98F /* SettingsViewController.swift */,
-				4F9F686D1D4C37A50086F98F /* SettingsLanguageViewController.swift */,
-				4F9F68711D4C37B10086F98F /* SettingsInvoiceViewController.swift */,
-				4F9F68731D4C37B50086F98F /* SettingsAboutViewController.swift */,
+				4F9F68711D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift */,
 				4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */,
 				4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */,
+				4F9F686B1D4C37830086F98F /* SettingsServerTableViewCell.swift */,
 				4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */,
 				4F9F687B1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift */,
-				4F136CB01D9AA4870042504C /* SettingsOptionTableViewCell.swift */,
+				4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */,
 				4F1339501D4205FB00AA126D /* _TODO */,
 			);
 			name = Settings;
@@ -1007,7 +1012,6 @@
 		DA3557F71A39D3B800AFA5FD = {
 			isa = PBXGroup;
 			children = (
-				4F45BF041D99E00E00E90618 /* ReactiveSwift.framework */,
 				DA3558021A39D3B900AFA5FD /* NemIOSClient */,
 				DA35581B1A39D3BC00AFA5FD /* NemIOSClientTests */,
 				4F1159DA1D38FC5800E13EE0 /* NemIOSClientUITests */,
@@ -1041,6 +1045,7 @@
 		DA3558031A39D3BA00AFA5FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4F15DCA21DA277850042997C /* NemIOSClient.entitlements */,
 				4F3ACE911D61C2EE0056F234 /* Response+ObjectMapper.swift */,
 				4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */,
 				DA194E051A431C690030C882 /* Cryptography */,
@@ -1114,6 +1119,7 @@
 				4F3ACEA61D636B6B0056F234 /* CorrespondentModel.swift */,
 				4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */,
 				4FC27A031D95297600421F00 /* BlockModel.swift */,
+				4F15DCA61DA294400042997C /* ServerModel.swift */,
 				4FFF8EFD1D51D74700B4BB9F /* _TODO */,
 			);
 			name = Models;
@@ -1142,6 +1148,8 @@
 		DA64A4D21A5A892D005833A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */,
+				4F45BF041D99E00E00E90618 /* ReactiveSwift.framework */,
 				4F3ACE951D61C6210056F234 /* ObjectMapper.framework */,
 				4F63E36B1D5E18CF00BCFFA4 /* Result.framework */,
 				4F9F67781D48EF4A0086F98F /* Nimble.framework */,
@@ -1251,6 +1259,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
 							};
@@ -1313,6 +1324,7 @@
 				4F9F685C1D4C368B0086F98F /* LaunchScreen.xib in Resources */,
 				4F9F68981D4C39DF0086F98F /* Images.xcassets in Resources */,
 				4F9F67F21D4C31300086F98F /* Main.storyboard in Resources */,
+				4F15DCAF1DA2B3E10042997C /* DefaultServers.plist in Resources */,
 				9809BE271B75008F0028D082 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1353,7 +1365,7 @@
 				4F9F682A1D4C35070086F98F /* TransactionOverviewViewController.swift in Sources */,
 				4F850F241D4C3DD40003E192 /* RIPEMD.swift in Sources */,
 				4F850F141D4C3BF00003E192 /* HashManager.swift in Sources */,
-				4F9F68721D4C37B10086F98F /* SettingsInvoiceViewController.swift in Sources */,
+				4F9F68721D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift in Sources */,
 				4F9F67EE1D4C31140086F98F /* NavigationController.swift in Sources */,
 				4F3ACE9F1D6217430056F234 /* MultisigSignatureTransactionModel.swift in Sources */,
 				4F3ACE941D61C31C0056F234 /* AccountDataModel.swift in Sources */,
@@ -1361,9 +1373,8 @@
 				4F3ACE9D1D6214060056F234 /* TransferTransactionModel.swift in Sources */,
 				4F850F171D4C3C930003E192 /* NSData+Base64.m in Sources */,
 				4F9F67BC1D4C2D0F0086F98F /* LoadData.swift in Sources */,
-				4F9F686C1D4C37830086F98F /* ServerViewCell.swift in Sources */,
+				4F9F686C1D4C37830086F98F /* SettingsServerTableViewCell.swift in Sources */,
 				4F9F68101D4C336C0086F98F /* AccountAdditionMenuButton.swift in Sources */,
-				4F9F68741D4C37B50086F98F /* SettingsAboutViewController.swift in Sources */,
 				4F9F682C1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift in Sources */,
 				4F9F67DC1D4C2F8A0086F98F /* AddCosignatoryVC.swift in Sources */,
 				4F9F67C41D4C2EC50086F98F /* NEMLabel.swift in Sources */,
@@ -1383,7 +1394,6 @@
 				DAF1382F1AB09EFB0069AC3A /* MessageGetMetaData.swift in Sources */,
 				4F3ACEB11D64F1FA0056F234 /* TransactionMetaDataModel.swift in Sources */,
 				4F9F68861D4C39220086F98F /* UIImage+Additions.swift in Sources */,
-				4F9F68641D4C37680086F98F /* MainViewCell.swift in Sources */,
 				DAC3A17E1B020A0F00AABB61 /* MultisigSignatureTransaction.swift in Sources */,
 				98BB95DC1BCCED5B002151F7 /* sha3.c in Sources */,
 				98BB95D51BCCED5B002151F7 /* fe.c in Sources */,
@@ -1405,7 +1415,6 @@
 				4F9F67BE1D4C2E890086F98F /* AbstactTableViewCell.swift in Sources */,
 				4F9F684E1D4C361F0086F98F /* MultisigAddCosignatoryViewController.swift in Sources */,
 				4F9F68481D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift in Sources */,
-				4F9F686A1D4C377A0086F98F /* ActiveCell.swift in Sources */,
 				4F9F680C1D4C33570086F98F /* AccountChangeNameViewController.swift in Sources */,
 				4F3ACEAF1D6451580056F234 /* Message+Additions.swift in Sources */,
 				4F9F67EA1D4C31080086F98F /* AppDelegate.swift in Sources */,
@@ -1429,6 +1438,7 @@
 				4FB442CB1D75E71A00A98BAC /* TransactionManager.swift in Sources */,
 				4F9F67D01D4C2F460086F98F /* KeyCell.swift in Sources */,
 				98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */,
+				4F15DCAB1DA2AA0E0042997C /* ActiveCell.swift in Sources */,
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
 				4F9F68401D4C35E90086F98F /* InvoiceCreationViewController.swift in Sources */,
 				4F9F68241D4C34E00086F98F /* AddressGenerator.swift in Sources */,
@@ -1438,7 +1448,6 @@
 				4F9F68941D4C39AB0086F98F /* String+Additions.swift in Sources */,
 				4F9F68501D4C36230086F98F /* MultisigAddCosignatoryTableViewCell.swift in Sources */,
 				4F9F67BA1D4C2D010086F98F /* Server.swift in Sources */,
-				4F136CB11D9AA4870042504C /* SettingsOptionTableViewCell.swift in Sources */,
 				4F2C170A1D67323100FF1F51 /* MultisigTransaction+Additions.swift in Sources */,
 				4F9F68561D4C36470086F98F /* AddressBookContactTableViewCell.swift in Sources */,
 				4F9F681E1D4C33AE0086F98F /* AccountChooserViewController.swift in Sources */,
@@ -1446,8 +1455,10 @@
 				4F9F68321D4C353D0086F98F /* TransactionMessageTableViewCell.swift in Sources */,
 				4F9F68281D4C34EC0086F98F /* WalletGenerator.swift in Sources */,
 				4F3ACEA71D636B6B0056F234 /* CorrespondentModel.swift in Sources */,
+				4F15DCB11DA2CED70042997C /* Server+Additions.swift in Sources */,
 				4F9F68841D4C39040086F98F /* NEMTextField.swift in Sources */,
 				4F9F67C01D4C2E9D0086F98F /* AbstractViewController.swift in Sources */,
+				4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */,
 				4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */,
 				4F3ACEA51D6341370056F234 /* MessageModel.swift in Sources */,
 				4F9F68441D4C35F20086F98F /* InvoiceScannerViewController.swift in Sources */,
@@ -1482,11 +1493,10 @@
 				4F9F68581D4C364D0086F98F /* AddressBookUpdateContactViewController.swift in Sources */,
 				4FA825CE1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift in Sources */,
 				4F9F68001D4C32FA0086F98F /* NotificationBaner.swift in Sources */,
+				4F15DCA91DA2A9E20042997C /* SettingsOptionTableViewCell.swift in Sources */,
 				4FC27A041D95297700421F00 /* BlockModel.swift in Sources */,
-				4F9F686E1D4C37A50086F98F /* SettingsLanguageViewController.swift in Sources */,
 				4F9F67C81D4C2F040086F98F /* FilterButton.swift in Sources */,
 				4F9F67CE1D4C2F260086F98F /* DashboardButtonBox.swift in Sources */,
-				4F9F68681D4C37740086F98F /* ProfileTableViewCell.swift in Sources */,
 				DA89F1171AD6AAD700105BB0 /* AggregateModificationTransaction.swift in Sources */,
 				4F9F67E21D4C2FAB0086F98F /* DashboardVC.swift in Sources */,
 				4FFF8F041D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld in Sources */,
@@ -1508,6 +1518,7 @@
 				4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */,
 				4F9F682E1D4C35160086F98F /* TransactionSendViewController.swift in Sources */,
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
+				4F15DCA71DA294400042997C /* ServerModel.swift in Sources */,
 				4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */,
 				4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */,
 				4F9F67C21D4C2EBA0086F98F /* ButtonDropDown.swift in Sources */,
@@ -1719,7 +1730,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = NemIOSClient/NemIOSClient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -1746,7 +1757,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = NemIOSClient/NemIOSClient.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;

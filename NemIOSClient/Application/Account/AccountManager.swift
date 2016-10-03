@@ -116,6 +116,24 @@ open class AccountManager {
     }
     
     /**
+        Updates the encrypted private key for an account after the application
+        password has changed.
+     
+        - Parameter account: The account for which the encrypted private key should get updated.
+        - Parameter privateKey: The new encrypted private key with which the existing one should get updated.
+     */
+    open func updatePrivateKey(forAccount account: Account, withNewPrivateKey privateKey: String) {
+        
+        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+            
+            let editableAccount = transaction.edit(account)!
+            editableAccount.privateKey = privateKey
+            
+            transaction.commit()
+        }
+    }
+    
+    /**
         Updates the saved title/name for an account in the database.
      
         - Parameter account: The existing account that should get updated.
@@ -270,6 +288,22 @@ open class AccountManager {
     }
     
     /**
+        Encrypts the provided private key with the application password.
+     
+        - Parameter privateKey: The private key that should get encrypted.
+        - Parameter applicationPassword: (optional) The application password with which the private key should get encrypted.
+     
+        - Returns: The encrypted private key as a string.
+     */
+    open func encryptPrivateKey(_ privateKey: String, withApplicationPassword applicationPassword: String? = nil) -> String {
+        
+        let defaultApplicationPassword = SettingsManager.sharedInstance.applicationPassword()
+        let encryptedPrivateKey = HashManager.AES256Encrypt(inputText: privateKey, key: applicationPassword != nil ? applicationPassword! : defaultApplicationPassword)
+        
+        return encryptedPrivateKey
+    }
+    
+    /**
         Decrypts the provided encrypted private key with the application password.
      
         - Parameter encryptedPrivateKey: The encrypted private key that should get decrypted.
@@ -278,8 +312,8 @@ open class AccountManager {
      */
     open func decryptPrivateKey(encryptedPrivateKey: String) -> String {
         
-        let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
-        let privateKey = HashManager.AES256Decrypt(inputText: encryptedPrivateKey, key: encryptedApplicationPassword)
+        let applicationPassword = SettingsManager.sharedInstance.applicationPassword()
+        let privateKey = HashManager.AES256Decrypt(inputText: encryptedPrivateKey, key: applicationPassword)
         
         return privateKey!
     }
@@ -331,20 +365,5 @@ open class AccountManager {
         let publicKey = Data(bytes: publicKeyBytes).toHexadecimalString()
         
         return publicKey.nemKeyNormalized()!
-    }
-    
-    /**
-        Encrypts the provided private key with the application password.
-        
-        - Parameter privateKey: The private key that should get encrypted.
-     
-        - Returns: The encrypted private key as a string.
-     */
-    fileprivate func encryptPrivateKey(_ privateKey: String) -> String {
-        
-        let encryptedApplicationPassword = "ebd7071cc325d111e12464f63712b8010552a1f29b5afa721fbfea34d37762bf"
-        let encryptedPrivateKey = HashManager.AES256Encrypt(inputText: privateKey, key: encryptedApplicationPassword)
-        
-        return encryptedPrivateKey
     }
 }

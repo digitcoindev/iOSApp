@@ -22,7 +22,7 @@ let nisProvider = MoyaProvider<NIS>(endpointClosure: endpointClosure)
 // MARK: - Networking Routes
 
 enum NIS {
-    case heartbeat
+    case heartbeat(server: Server)
     case synchronizeTime
     case accountData(accountAddress: String)
     case allTransactions(accountAddress: String)
@@ -33,10 +33,17 @@ enum NIS {
 
 extension NIS: TargetType {
     
-    var baseURL: URL { return URL(string: "http://37.187.70.29:7890")! }
+    var baseURL: URL {
+        switch self {
+        case .heartbeat(let server):
+            return URL(string: server.fullURL())!
+        default:
+            return URL(string: SettingsManager.sharedInstance.activeServer().fullURL())!
+        }
+    }
     var path: String {
         switch self {
-        case .heartbeat:
+        case .heartbeat(_):
             return "/heartbeat"
         case .synchronizeTime:
             return "/time-sync/network-time"
@@ -62,7 +69,7 @@ extension NIS: TargetType {
     }
     var parameters: [String: Any]? {
         switch self {
-        case .heartbeat:
+        case .heartbeat(_):
             return nil
         case .synchronizeTime:
             return nil

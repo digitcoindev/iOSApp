@@ -1,7 +1,7 @@
 import Foundation
 import CoreData
 
-class Server: NSManagedObject
+class _Server: NSManagedObject
 {
 
     @NSManaged var protocolType: String

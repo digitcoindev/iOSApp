@@ -57,27 +57,30 @@ class InvoiceCreationViewController: UIViewController {
 
         updateViewControllerAppearance()
         
+        let invoiceMessagePrefix = SettingsManager.sharedInstance.invoiceMessagePrefix()
+        let invoiceMessagePostfix = SettingsManager.sharedInstance.invoiceMessagePostfix()
+        let invoiceDefaultMessage = SettingsManager.sharedInstance.invoiceDefaultMessage()
+        
         invoiceAccountTitleTextField.text = account.title
-    
-//        var text = ""
-//        
-//        if Validate.stringNotEmpty(loadData?.invoicePrefix) {
-//            text = loadData!.invoicePrefix! + "/"
-//        }
-//        
-//        text = text + "\(_dataManager.getInvoice().count)"
-//        
-//        if Validate.stringNotEmpty(loadData?.invoicePostfix) {
-//            text = text + "/" + loadData!.invoicePostfix!
-//        }
-//        
-//        text = text + ": "
-//        
-//        if Validate.stringNotEmpty(loadData?.invoiceMessage) {
-//            text = text + loadData!.invoiceMessage!
-//        }
-//        
-//        invoiceMessageTextField.text = text
+        
+        var defaultInvoiceMessage = String()
+        if invoiceMessagePrefix != "" {
+            defaultInvoiceMessage += "\(invoiceMessagePrefix)/"
+        }
+        
+        defaultInvoiceMessage += "\(InvoiceManager.sharedInstance.invoices().count)"
+        
+        if invoiceMessagePostfix != "" {
+            defaultInvoiceMessage += "/\(invoiceMessagePostfix)"
+        }
+        
+        defaultInvoiceMessage += ": "
+        
+        if invoiceDefaultMessage != "" {
+            defaultInvoiceMessage += "\(invoiceDefaultMessage)"
+        }
+        
+        invoiceMessageTextField.text = defaultInvoiceMessage
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
