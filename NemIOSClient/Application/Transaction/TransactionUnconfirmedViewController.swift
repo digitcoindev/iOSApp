@@ -42,7 +42,7 @@
 //    }
 //    
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let transaction :_MultisigTransaction = unconfirmedTransactions[(indexPath as NSIndexPath).row] as! _MultisigTransaction
+//        let transaction :_MultisigTransaction = unconfirmedTransactions[indexPath.row] as! _MultisigTransaction
 //        
 //        switch (transaction.innerTransaction.type) {
 //        case transferTransaction:
@@ -58,7 +58,7 @@
 //    }
 //    
 //    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-//        let transaction :_MultisigTransaction = unconfirmedTransactions[(indexPath as NSIndexPath).row] as! _MultisigTransaction
+//        let transaction :_MultisigTransaction = unconfirmedTransactions[indexPath.row] as! _MultisigTransaction
 //        
 //        switch (transaction.innerTransaction.type) {
 //        case transferTransaction:
@@ -70,7 +70,7 @@
 //            cell.delegate = self
 //            cell.xem.text = "\(innerTransaction.amount / 1000000) XEM"
 //            
-//            cell.tag = (indexPath as NSIndexPath).row
+//            cell.tag = indexPath.row
 //            
 //            return cell
 //            
@@ -79,7 +79,7 @@
 //            let innerTrnsaction :AggregateModificationTransaction = transaction.innerTransaction as! AggregateModificationTransaction
 //            let cell : TransactionUnconfirmedTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "multisigAggregateModificationTransaction") as! TransactionUnconfirmedTableViewCell
 //            cell.delegate = self
-//            cell.tag = (indexPath as NSIndexPath).row
+//            cell.tag = indexPath.row
 //            cell.fromAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)
 //            cell.toAccount.text = AddressGenerator.generateAddress(innerTrnsaction.signer)
 //            

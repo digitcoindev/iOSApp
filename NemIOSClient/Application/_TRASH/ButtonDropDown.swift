@@ -56,13 +56,13 @@ class ButtonDropDown: UIButton  , UITableViewDelegate , UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : UITableViewCell = UITableViewCell()
         cell.textLabel!.lineBreakMode = NSLineBreakMode.byTruncatingMiddle
-        cell.textLabel!.text = content[(indexPath as NSIndexPath).row]
+        cell.textLabel!.text = content[indexPath.row]
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedRow = (indexPath as NSIndexPath).row
+        selectedRow = indexPath.row
         
         self.setTitle(content[selectedRow], for: UIControlState())
         self.setTitle(content[selectedRow], for: UIControlState.selected)

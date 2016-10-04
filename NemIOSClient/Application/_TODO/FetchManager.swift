@@ -25,7 +25,7 @@ class FetchManager: NSObject, APIManagerDelegate {
         _completionHandler = completionHandler
         
         if let language = State.loadData?.currentLanguage {
-            LocalizationManager.setLanguage(language)
+//            LocalizationManager.setLanguage(language)
         }
         
 //        let dataManager = CoreDataManager()

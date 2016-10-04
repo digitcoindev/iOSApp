@@ -37,6 +37,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - View Controller Properties
     
+    var recipientAddress: String?
+    var amount: Double?
+    var message: String?
     fileprivate var account: Account?
     fileprivate var accountData: AccountData?
     fileprivate var activeAccountData: AccountData?
@@ -81,6 +84,18 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         
         updateViewControllerAppearance()
         fetchAccountData(forAccount: account!)
+        
+        if recipientAddress != nil {
+            transactionRecipientTextField.text = recipientAddress
+        }
+        if amount != nil {
+            transactionAmountTextField.text = "\(amount!)"
+        }
+        if message != nil {
+            transactionMessageTextField.text = message
+        }
+        
+        calculateTransactionFee()
         
 //        setSuggestions()
     }

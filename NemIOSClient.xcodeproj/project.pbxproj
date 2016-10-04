@@ -13,7 +13,6 @@
 		4F15DCA51DA27B5C0042997C /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F15DCA71DA294400042997C /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCA61DA294400042997C /* ServerModel.swift */; };
 		4F15DCA91DA2A9E20042997C /* SettingsOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */; };
-		4F15DCAB1DA2AA0E0042997C /* ActiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCAA1DA2AA0E0042997C /* ActiveCell.swift */; };
 		4F15DCAF1DA2B3E10042997C /* DefaultServers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */; };
 		4F15DCB11DA2CED70042997C /* Server+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCB01DA2CED70042997C /* Server+Additions.swift */; };
 		4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24A1751D54E49300AC128A /* AccountExceptions.swift */; };
@@ -149,13 +148,12 @@
 		4F9F68521D4C363C0086F98F /* AddressBookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68511D4C363C0086F98F /* AddressBookManager.swift */; };
 		4F9F68541D4C36400086F98F /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68531D4C36400086F98F /* AddressBookViewController.swift */; };
 		4F9F68561D4C36470086F98F /* AddressBookContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */; };
-		4F9F68581D4C364D0086F98F /* AddressBookUpdateContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68571D4C364D0086F98F /* AddressBookUpdateContactViewController.swift */; };
+		4F9F68581D4C364D0086F98F /* AddressBookAddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68571D4C364D0086F98F /* AddressBookAddContactViewController.swift */; };
 		4F9F685A1D4C36520086F98F /* AddressBookMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68591D4C36520086F98F /* AddressBookMessageViewController.swift */; };
 		4F9F685C1D4C368B0086F98F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F685B1D4C368B0086F98F /* LaunchScreen.xib */; };
 		4F9F685E1D4C36A50086F98F /* HarvestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F685D1D4C36A50086F98F /* HarvestingViewController.swift */; };
 		4F9F68601D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F685F1D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift */; };
 		4F9F68621D4C36C70086F98F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68611D4C36C70086F98F /* SettingsViewController.swift */; };
-		4F9F68661D4C376F0086F98F /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68651D4C376F0086F98F /* LocalizationManager.swift */; };
 		4F9F686C1D4C37830086F98F /* SettingsServerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F686B1D4C37830086F98F /* SettingsServerTableViewCell.swift */; };
 		4F9F68721D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68711D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift */; };
 		4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */; };
@@ -293,7 +291,6 @@
 		4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = "<group>"; };
 		4F15DCA61DA294400042997C /* ServerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerModel.swift; path = Models/ServerModel.swift; sourceTree = "<group>"; };
 		4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsOptionTableViewCell.swift; path = Application/Settings/SettingsOptionTableViewCell.swift; sourceTree = "<group>"; };
-		4F15DCAA1DA2AA0E0042997C /* ActiveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveCell.swift; path = Application/_TODO/ActiveCell.swift; sourceTree = "<group>"; };
 		4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultServers.plist; path = "Assets/Property Lists/DefaultServers.plist"; sourceTree = "<group>"; };
 		4F15DCB01DA2CED70042997C /* Server+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Server+Additions.swift"; path = "Common/Extensions/Server+Additions.swift"; sourceTree = "<group>"; };
 		4F24A1751D54E49300AC128A /* AccountExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountExceptions.swift; path = Common/Exceptions/AccountExceptions.swift; sourceTree = "<group>"; };
@@ -418,13 +415,12 @@
 		4F9F68511D4C363C0086F98F /* AddressBookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookManager.swift; path = "Application/Address Book/AddressBookManager.swift"; sourceTree = "<group>"; };
 		4F9F68531D4C36400086F98F /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookViewController.swift; path = "Application/Address Book/AddressBookViewController.swift"; sourceTree = "<group>"; };
 		4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookContactTableViewCell.swift; path = "Application/Address Book/AddressBookContactTableViewCell.swift"; sourceTree = "<group>"; };
-		4F9F68571D4C364D0086F98F /* AddressBookUpdateContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookUpdateContactViewController.swift; path = "Application/Address Book/AddressBookUpdateContactViewController.swift"; sourceTree = "<group>"; };
+		4F9F68571D4C364D0086F98F /* AddressBookAddContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookAddContactViewController.swift; path = "Application/Address Book/AddressBookAddContactViewController.swift"; sourceTree = "<group>"; };
 		4F9F68591D4C36520086F98F /* AddressBookMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressBookMessageViewController.swift; path = "Application/Address Book/AddressBookMessageViewController.swift"; sourceTree = "<group>"; };
 		4F9F685B1D4C368B0086F98F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Application/Main/LaunchScreen.xib; sourceTree = "<group>"; };
 		4F9F685D1D4C36A50086F98F /* HarvestingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestingViewController.swift; path = Application/Harvesting/HarvestingViewController.swift; sourceTree = "<group>"; };
 		4F9F685F1D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarvestingBlockTableViewCell.swift; path = Application/Harvesting/HarvestingBlockTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F68611D4C36C70086F98F /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = Application/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
-		4F9F68651D4C376F0086F98F /* LocalizationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalizationManager.swift; path = Application/_TODO/LocalizationManager.swift; sourceTree = "<group>"; };
 		4F9F686B1D4C37830086F98F /* SettingsServerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsServerTableViewCell.swift; path = Application/_TODO/SettingsServerTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F68711D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsInvoiceMessageViewController.swift; path = Application/Settings/SettingsInvoiceMessageViewController.swift; sourceTree = "<group>"; };
 		4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsChangePasswordViewController.swift; path = Application/Settings/SettingsChangePasswordViewController.swift; sourceTree = "<group>"; };
@@ -680,15 +676,6 @@
 			name = _TRASH;
 			sourceTree = "<group>";
 		};
-		4F1339501D4205FB00AA126D /* _TODO */ = {
-			isa = PBXGroup;
-			children = (
-				4F15DCAA1DA2AA0E0042997C /* ActiveCell.swift */,
-				4F9F68651D4C376F0086F98F /* LocalizationManager.swift */,
-			);
-			name = _TODO;
-			sourceTree = "<group>";
-		};
 		4F24A1741D54E43C00AC128A /* Exceptions */ = {
 			isa = PBXGroup;
 			children = (
@@ -785,7 +772,7 @@
 				4F9F68511D4C363C0086F98F /* AddressBookManager.swift */,
 				4F9F68531D4C36400086F98F /* AddressBookViewController.swift */,
 				4F9F68551D4C36470086F98F /* AddressBookContactTableViewCell.swift */,
-				4F9F68571D4C364D0086F98F /* AddressBookUpdateContactViewController.swift */,
+				4F9F68571D4C364D0086F98F /* AddressBookAddContactViewController.swift */,
 			);
 			name = "Address Book";
 			sourceTree = "<group>";
@@ -811,7 +798,6 @@
 				4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */,
 				4F9F687B1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift */,
 				4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */,
-				4F1339501D4205FB00AA126D /* _TODO */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1431,14 +1417,12 @@
 				4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */,
 				DA3403981B21E4DB00D514C4 /* Invoice.swift in Sources */,
 				4F9F68961D4C39B60086F98F /* UISegmentedControlExtensions.swift in Sources */,
-				4F9F68661D4C376F0086F98F /* LocalizationManager.swift in Sources */,
 				98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */,
 				4F2C170C1D6734EA00FF1F51 /* MultisigSignatureTransaction+Additions.swift in Sources */,
 				4F9F68081D4C33490086F98F /* AccountListViewController.swift in Sources */,
 				4FB442CB1D75E71A00A98BAC /* TransactionManager.swift in Sources */,
 				4F9F67D01D4C2F460086F98F /* KeyCell.swift in Sources */,
 				98BB95D71BCCED5B002151F7 /* key_exchange.c in Sources */,
-				4F15DCAB1DA2AA0E0042997C /* ActiveCell.swift in Sources */,
 				9823A4D21B8339B400B532CC /* Correspondent.swift in Sources */,
 				4F9F68401D4C35E90086F98F /* InvoiceCreationViewController.swift in Sources */,
 				4F9F68241D4C34E00086F98F /* AddressGenerator.swift in Sources */,
@@ -1490,7 +1474,7 @@
 				4F9F687A1D4C37C40086F98F /* SettingsAddServerViewController.swift in Sources */,
 				4F9F68221D4C34D80086F98F /* Validate.swift in Sources */,
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
-				4F9F68581D4C364D0086F98F /* AddressBookUpdateContactViewController.swift in Sources */,
+				4F9F68581D4C364D0086F98F /* AddressBookAddContactViewController.swift in Sources */,
 				4FA825CE1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift in Sources */,
 				4F9F68001D4C32FA0086F98F /* NotificationBaner.swift in Sources */,
 				4F15DCA91DA2A9E20042997C /* SettingsOptionTableViewCell.swift in Sources */,

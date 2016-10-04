@@ -22,6 +22,7 @@ class AddressBookContactTableViewCell: UITableViewCell {
     // MARK: - Cell Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var accessoryImageView: UIImageView!
     
     // MARK: - Cell Lifecycle
 
@@ -37,6 +38,11 @@ class AddressBookContactTableViewCell: UITableViewCell {
     fileprivate func updateCell() {
         
         titleLabel.text = "\(contact.givenName) \(contact.familyName)"
+        
+        accessoryImageView.isHidden = true
+        for emailAddress in contact.emailAddresses where emailAddress.label == "NEM" {
+            accessoryImageView.isHidden = false
+        }
     }
     
     /// Updates the appearance of the table view cell.

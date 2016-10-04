@@ -96,7 +96,7 @@ class TransactionOverviewViewController: UIViewController {
                 let destinationViewController = segue.destination as! TransactionMessagesViewController
                 destinationViewController.account = account
                 destinationViewController.accountData = accountData
-                destinationViewController.correspondent = correspondents[(indexPath as NSIndexPath).row]
+                destinationViewController.correspondent = correspondents[indexPath.row]
             }
             
         default:
@@ -525,7 +525,7 @@ extension TransactionOverviewViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionOverviewCorrespondentTableViewCell") as! TransactionOverviewCorrespondentTableViewCell
         cell.account = account
-        cell.correspondent = correspondents[(indexPath as NSIndexPath).row]
+        cell.correspondent = correspondents[indexPath.row]
         
         return cell
     }

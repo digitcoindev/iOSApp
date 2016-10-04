@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreStore
+import Contacts
 
 /**
     The account manager singleton used to perform all kinds of actions
@@ -19,6 +20,9 @@ open class InvoiceManager {
     
     /// The singleton for the invoice manager.
     open static let sharedInstance = InvoiceManager()
+    
+    /// A contact that will get fetched from the address book add contact view controller when available.
+    open var contactToCreate: CNMutableContact?
 
     // MARK: - Public Manager Methods
 

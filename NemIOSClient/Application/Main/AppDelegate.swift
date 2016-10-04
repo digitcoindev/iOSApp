@@ -27,6 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             TimeManager.sharedInstance.synchronizeTime()
         }
         
+        if SettingsManager.sharedInstance.notificationUpdateInterval() == 0 {
+            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+        } else {
+            UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
+        }
+        
         NotificationManager.registerForNotification(application)
         
         return true

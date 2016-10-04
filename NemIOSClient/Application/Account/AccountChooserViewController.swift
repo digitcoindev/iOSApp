@@ -53,14 +53,14 @@ extension AccountChooserViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
-        cell.title = accounts![(indexPath as NSIndexPath).row].title ?? accounts![(indexPath as NSIndexPath).row].address.nemAddressNormalised()
+        cell.title = accounts![indexPath.row].title ?? accounts![indexPath.row].address.nemAddressNormalised()
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        delegate?.didChooseAccount(accounts![(indexPath as NSIndexPath).row])
+        delegate?.didChooseAccount(accounts![indexPath.row])
         
         view.removeFromSuperview()
         removeFromParentViewController()

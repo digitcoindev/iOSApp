@@ -54,11 +54,11 @@ class InvoiceScannerViewController: UIViewController {
         case "showTransactionSendViewController":
             
             let destinationViewController = segue.destination as! TransactionSendViewController
-            
-        case "showAddressBookUpdateContactViewController":
-            
-            let destinationViewController = segue.destination as! AddressBookUpdateContactViewController
-            
+            let invoiceJsonData = sender as! JSON
+            destinationViewController.recipientAddress = invoiceJsonData["addr"].stringValue
+            destinationViewController.amount = Double(invoiceJsonData["amount"].intValue / 1000000)
+            destinationViewController.message = invoiceJsonData["msg"].stringValue
+
         default:
             return
         }
@@ -105,7 +105,9 @@ class InvoiceScannerViewController: UIViewController {
         let contactAccountAddress = CNLabeledValue(label: "NEM", value: accountAddress as NSString)
         contact.emailAddresses = [contactAccountAddress]
         
-        performSegue(withIdentifier: "showAddressBookUpdateContactViewController", sender: contact)
+        InvoiceManager.sharedInstance.contactToCreate = contact
+        
+        performSegue(withIdentifier: "showAddressBookAddContactViewController", sender: nil)
     }
   
     func contactAdded(_ successfuly: Bool, sendTransaction :Bool) {

@@ -154,6 +154,7 @@ class SettingsViewController: UITableViewController {
         
         handleAuthenticationTouchIDSetting()
         handleActiveServerSetting()
+        handleNotificationIntervalSetting()
     }
     
     /// Displays the current touch id setting status.
@@ -169,83 +170,35 @@ class SettingsViewController: UITableViewController {
         
         let activeServer = SettingsManager.sharedInstance.activeServer()
         
-        serverValueLabel.text = activeServer.address
+        serverValueLabel.text = activeServer.address 
     }
     
-    fileprivate final func _refreshData(){
-//        var serverText = ""
-//        if let server = _loadData?.currentServer {
-//            serverText = server.address
-//        } else {
-//            serverText = "NONE".localized()
-//        }
-//        
-//        let accountText = ""
-////        if let account = _loadData?.currentWallet {
-////            accountText = account.login
-////        } else if _dataManager.getWallets().count == 0 {
-////            accountText = "NO_ACCOUNTS".localized()
-////        } else {
-////            accountText = "NONE".localized()
-////        }
-//        
-//        var touchText = ""
-//        
-//        if (_loadData?.touchId ?? true) as Bool {
-//            touchText = "ON".localized()
-//        } else {
-//            touchText = "OFF".localized()
-//        }
-//        
-//        var updateInterval = ""
-//        
-//        switch Int(_loadData!.updateInterval!) {
-//        case 0 :
-//            updateInterval = "NEVER".localized()
-//        case 90 :
-//            updateInterval = "30 " + "MINUTES".localized()
-//        case 180 :
-//            updateInterval = "60 " + "MINUTES".localized()
-//        case 360 :
-//            updateInterval = "1 " + "HOURS".localized()
-//        case 720 :
-//            updateInterval = "2 " + "HOURS".localized()
-//        case 1440 :
-//            updateInterval = "4 " + "HOURS".localized()
-//        case 2880 :
-//            updateInterval = "8 " + "HOURS".localized()
-//        case 4320 :
-//            updateInterval = "12 " + "HOURS".localized()
-//        case 8640 :
-//            updateInterval = "24 " + "HOURS".localized()
-//        default :
-//            break
-//        }
-//        
-//        _content = []
-//        _content += [
-//            [
-//                ["GENERAL".localized()],
-//                ["LANGUAGE".localized(), _loadData?.currentLanguage ?? "BASE".localized()],
-//                ["ACCOUNT_PRIMATY".localized("Primary Account"), accountText],
-//                ["INVOICE_MESSAGE_CONFIG".localized(), "SET_CONFIGURATION".localized()],
-//                ["ABOUT".localized(), ""]
-//            ],
-//            [
-//                ["SECURITY".localized()],
-//                ["PASSWORD_CHANGE_CONFIG".localized() ,"CHANGE".localized()],
-//                ["TOUCH_ID".localized() ,touchText]
-//            ],
-//            [
-//                ["SERVER_SETTINGS".localized()],
-//                ["SERVER".localized() ,serverText]
-//            ],
-//            [
-//                ["NOTIFICATION".localized()],
-//                ["UPDATE_INTERVAL".localized() ,updateInterval]
-//            ]
-//        ]
-//        
-//        tableView.reloadData()
+    /// Displays the currently set notification update interval.
+    fileprivate func handleNotificationIntervalSetting() {
+        
+        let notificationUpdateInterval = SettingsManager.sharedInstance.notificationUpdateInterval()
+        
+        switch notificationUpdateInterval {
+        case 0:
+            notificationUpdateIntervalValueLabel.text = "NEVER".localized()
+        case 90:
+            notificationUpdateIntervalValueLabel.text = "30 " + "MINUTES".localized()
+        case 180:
+            notificationUpdateIntervalValueLabel.text = "60 " + "MINUTES".localized()
+        case 360:
+            notificationUpdateIntervalValueLabel.text = "1 " + "HOURS".localized()
+        case 720:
+            notificationUpdateIntervalValueLabel.text = "2 " + "HOURS".localized()
+        case 1440:
+            notificationUpdateIntervalValueLabel.text = "4 " + "HOURS".localized()
+        case 2880:
+            notificationUpdateIntervalValueLabel.text = "8 " + "HOURS".localized()
+        case 4320:
+            notificationUpdateIntervalValueLabel.text = "12 " + "HOURS".localized()
+        case 8640:
+            notificationUpdateIntervalValueLabel.text = "24 " + "HOURS".localized()
+        default:
+            break
+        }
     }
 }

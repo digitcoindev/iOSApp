@@ -773,7 +773,7 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if (indexPath as NSIndexPath).row == transactions.count {
+        if indexPath.row == transactions.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionMessageGroupSeparatorTableViewCell")!
             return cell
         }
@@ -782,8 +782,8 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
 //        cell.detailDelegate = self
 //        cell.detailsIsShown = false
         
-        if (indexPath as NSIndexPath).row < transactions.count {
-            let transaction = transactions[(indexPath as NSIndexPath).row] as! TransferTransaction
+        if indexPath.row < transactions.count {
+            let transaction = transactions[indexPath.row] as! TransferTransaction
             if transaction.transferType == .incoming {
                 cell.cellType = .incoming
             } else {
@@ -792,7 +792,7 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
             cell.transaction = transaction
             
         } else {
-            let transaction = unconfirmedTransactions[(indexPath as NSIndexPath).row - transactions.count - 1] as! TransferTransaction
+            let transaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as! TransferTransaction
             cell.cellType = .processing
             cell.transaction = transaction
         }
@@ -802,11 +802,11 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if (indexPath as NSIndexPath).row == transactions.count {
+        if indexPath.row == transactions.count {
             return 60.0
         }
         
-        return rowHeight[(indexPath as NSIndexPath).row]
+        return rowHeight[indexPath.row]
     }
 }
 

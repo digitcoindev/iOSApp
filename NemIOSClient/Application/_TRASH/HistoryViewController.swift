@@ -80,7 +80,7 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
             let  cell = tableView.dequeueReusableCell(withIdentifier: "title") as! KeyCell
             
             let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: [UIRectCorner.topLeft, UIRectCorner.topRight], cornerRadii: CGSize(width: 10, height: 10))
@@ -95,7 +95,7 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            var timeStamp = Double(_modifications[(indexPath as NSIndexPath).section].timeStamp )
+            var timeStamp = Double(_modifications[indexPath.section].timeStamp )
             
             timeStamp += genesis_block_time
             
@@ -104,13 +104,13 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
             return cell
         }
         else {
-            let modification :AccountModification = _modifications[(indexPath as NSIndexPath).section].modifications[(indexPath as NSIndexPath).row - 1]
+            let modification :AccountModification = _modifications[indexPath.section].modifications[indexPath.row - 1]
             var cell :KeyCell? = nil
             if modification.modificationType == 1 {
                 cell = self.tableView.dequeueReusableCell(withIdentifier: "add") as? KeyCell
                 
                 cell!.key.text = ""
-                cell!.cellIndex = (indexPath as NSIndexPath).row
+                cell!.cellIndex = indexPath.row
                 
                 cell!.key.text = modification.publicKey
             }
@@ -118,12 +118,12 @@ class HistoryViewController: UIViewController , UITableViewDelegate, APIManagerD
                 cell = self.tableView.dequeueReusableCell(withIdentifier: "delete") as? KeyCell
                 
                 cell!.key.text = ""
-                cell!.cellIndex = (indexPath as NSIndexPath).row
+                cell!.cellIndex = indexPath.row
                 
                 cell!.key.text = modification.publicKey
             }
             
-            if (indexPath as NSIndexPath).row == _modifications[(indexPath as NSIndexPath).section].modifications.count && cell != nil {
+            if indexPath.row == _modifications[indexPath.section].modifications.count && cell != nil {
                 let maskPath :UIBezierPath = UIBezierPath(roundedRect: cell!.bounds, byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight], cornerRadii: CGSize(width: 10, height: 10))
                 let maskLayer :CAShapeLayer = CAShapeLayer()
                 maskLayer.frame = cell!.bounds

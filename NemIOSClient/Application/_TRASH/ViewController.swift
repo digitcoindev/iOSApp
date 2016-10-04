@@ -25,7 +25,7 @@ class ViewController: UIViewController
         }
 
         if let language = State.loadData?.currentLanguage {
-            LocalizationManager.setLanguage(language)
+//            LocalizationManager.setLanguage(language)
         }
 
         if let updateInterval = State.loadData?.updateInterval , Int(updateInterval) > 0 {

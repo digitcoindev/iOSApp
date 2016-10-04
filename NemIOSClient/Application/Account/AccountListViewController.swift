@@ -95,7 +95,7 @@ class AccountListViewController: UIViewController {
      */
     fileprivate func deleteAccount(atIndexPath indexPath: IndexPath) {
         
-        let account = accounts[(indexPath as NSIndexPath).row]
+        let account = accounts[indexPath.row]
         
         let accountDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), account.title), preferredStyle: .alert)
         
@@ -103,7 +103,7 @@ class AccountListViewController: UIViewController {
         
         accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { [unowned self] (action) in
             
-            self.accounts.remove(at: (indexPath as NSIndexPath).row)
+            self.accounts.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
             
             AccountManager.sharedInstance.delete(account: account)
@@ -140,7 +140,7 @@ class AccountListViewController: UIViewController {
      */
     fileprivate func changeTitle(forAccountAtIndexPath indexPath: IndexPath) {
         
-        let account = accounts[(indexPath as NSIndexPath).row]
+        let account = accounts[indexPath.row]
         
         let accountTitleChangerAlert = UIAlertController(title: "CHANGE".localized(), message: "INPUT_NEW_ACCOUNT_NAME".localized(), preferredStyle: .alert)
         
@@ -151,10 +151,10 @@ class AccountListViewController: UIViewController {
             let titleTextField = accountTitleChangerAlert.textFields![0] as UITextField
             if let newTitle = titleTextField.text {
                 
-                self.accounts[(indexPath as NSIndexPath).row].title = newTitle
+                self.accounts[indexPath.row].title = newTitle
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 
-                AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[(indexPath as NSIndexPath).row], withNewTitle: newTitle)
+                AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[indexPath.row], withNewTitle: newTitle)
             }
         }))
         
@@ -193,7 +193,7 @@ extension AccountListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
-        cell.title = accounts[(indexPath as NSIndexPath).row].title
+        cell.title = accounts[indexPath.row].title
         
         return cell
     }

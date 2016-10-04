@@ -104,9 +104,9 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "standart")!
         
-        var resultSuggestion = _suggestions[(indexPath as NSIndexPath).row].value
-        if _suggestions[(indexPath as NSIndexPath).row].value != _suggestions[(indexPath as NSIndexPath).row].key {
-            resultSuggestion = _suggestions[(indexPath as NSIndexPath).row].key + " " + "(\(_suggestions[(indexPath as NSIndexPath).row].value))"
+        var resultSuggestion = _suggestions[indexPath.row].value
+        if _suggestions[indexPath.row].value != _suggestions[indexPath.row].key {
+            resultSuggestion = _suggestions[indexPath.row].key + " " + "(\(_suggestions[indexPath.row].value))"
         }
         
         cell.textLabel?.text = resultSuggestion
@@ -114,7 +114,7 @@ class NEMTextField: UITextField, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.text = _suggestions[(indexPath as NSIndexPath).row].value
+        self.text = _suggestions[indexPath.row].value
         updateSuggestions(self)
     }
 }

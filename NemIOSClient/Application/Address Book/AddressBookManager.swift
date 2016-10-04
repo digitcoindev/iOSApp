@@ -36,7 +36,7 @@ open class AddressBookManager {
         
         DispatchQueue.global(qos: .userInitiated).async {
             
-            self.requestAccess { (accessGranted) -> Void in
+            self.requestAccess { [unowned self] (accessGranted) -> Void in
                 if accessGranted {
                     
                     let containerIdentifier = self.contactStore.defaultContainerIdentifier()
@@ -45,6 +45,7 @@ open class AddressBookManager {
                     
                     do {
                         contacts = try self.contactStore.unifiedContacts(matching: predicate, keysToFetch: keysToFetch as [CNKeyDescriptor])
+                        contacts = self.sortContacts(contacts: contacts)
                         
                     } catch let error as NSError {
                         
@@ -113,6 +114,133 @@ open class AddressBookManager {
         }
     }
     
+    /**
+        Updates the properties of a contact.
+     
+        - Parameter contact: The existing contact that should get updated.
+        - Parameter firstName: The new first name of the contact that should get updated.
+        - Parameter lastName: The new last name of the contact that should get updated.
+        - Parameter accountAddress: The new account address of the contact that should get updated.
+     */
+    open func updateProperties(ofContact contact: CNContact, withNewFirstName firstName: String, andNewLastName lastName: String, andNewAccountAddress accountAddress: String, completion: @escaping (_ result: Result) -> Void) {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            self.requestAccess { (accessGranted) -> Void in
+                if accessGranted {
+                    
+                    let accountAddressSanitized = accountAddress.replacingOccurrences(of: "-", with: "")
+                    
+                    let mutableContact = contact.mutableCopy() as! CNMutableContact
+                    mutableContact.givenName = firstName
+                    mutableContact.familyName = lastName
+                    
+                    var contactEmailAddresses = [CNLabeledValue<NSString>]()
+                    var isAccountAddress = false
+                    for emailAddress in mutableContact.emailAddresses {
+                        let newEmailAddress = CNLabeledValue<NSString>(label: emailAddress.label, value: (emailAddress.label == "NEM") ? accountAddressSanitized as NSString : emailAddress.value)
+                        contactEmailAddresses.append(newEmailAddress)
+                        
+                        if (newEmailAddress.label == "NEM") {
+                            isAccountAddress = true
+                        }
+                    }
+                    
+                    if isAccountAddress == false {
+                        let newEmailAddress = CNLabeledValue(label: "NEM", value: accountAddressSanitized as NSString)
+                        contactEmailAddresses.append(newEmailAddress)
+                    }
+                    
+                    mutableContact.emailAddresses = contactEmailAddresses
+                    
+                    let saveRequest = CNSaveRequest()
+                    saveRequest.update(mutableContact)
+                    
+                    do {
+                        try self.contactStore.execute(saveRequest)
+                        
+                        DispatchQueue.main.async {
+                            return completion(.success)
+                        }
+                        
+                    } catch let error as NSError {
+                        
+                        DispatchQueue.main.async {
+                            print(error)
+                            return completion(.failure)
+                        }
+                    }
+                    
+                } else {
+                    
+                    DispatchQueue.main.async {
+                        return completion(.failure)
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+        Deletes the provided contact from the address book.
+     
+        - Parameter contact: The contact that should get deleted form the address book.
+     */
+    open func deleteContact(contact: CNContact, completion: @escaping (_ result: Result) -> Void) {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            self.requestAccess { (accessGranted) -> Void in
+                if accessGranted {
+                    
+                    let saveRequest = CNSaveRequest()
+                    saveRequest.delete(contact.mutableCopy() as! CNMutableContact)
+                    
+                    do {
+                        try self.contactStore.execute(saveRequest)
+                        
+                        DispatchQueue.main.async {
+                            return completion(.success)
+                        }
+                        
+                    } catch let error as NSError {
+                        
+                        DispatchQueue.main.async {
+                            print(error)
+                            return completion(.failure)
+                        }
+                    }
+                    
+                } else {
+                    
+                    DispatchQueue.main.async {
+                        return completion(.failure)
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+        Fetches the account address from the contacts email addresses if
+        possible.
+     
+        - Parameter contact: The contact for which the account address should get fetched.
+     
+        - Returns: The account address as a string.
+     */
+    open func fetchAccountAddress(fromContact contact: CNContact) -> String {
+        
+        var contactAccountAddress = String()
+        
+        print(contact.emailAddresses)
+        for emailAddress in contact.emailAddresses where emailAddress.label == "NEM" {
+            contactAccountAddress = emailAddress.value as String
+        }
+        
+        return contactAccountAddress
+    }
+    
     // MARK: - Private Manager Methods
     
     /**
@@ -140,84 +268,38 @@ open class AddressBookManager {
             completion(false)
         }
     }
+    
+    /**
+        Sorts provided contacts. Contacts with an account address are
+        at the top.
+     
+        - Parameter contacts: The contacts that should get sorted.
+     
+        - Returns: The sorted contacts array.
+     */
+    fileprivate func sortContacts(contacts: [CNContact]) -> [CNContact] {
+        
+        var sortedContacts = [CNContact]()
+        var nemContacts = [CNContact]()
+        var otherContacts = [CNContact]()
+        
+        for contact in contacts {
+            var hasAccountAddress = false
+            
+            for email in contact.emailAddresses where email.label == "NEM" {
+                hasAccountAddress = true
+            }
+            
+            if hasAccountAddress {
+                nemContacts.append(contact)
+            } else {
+                otherContacts.append(contact)
+            }
+        }
+        
+        sortedContacts += nemContacts
+        sortedContacts += otherContacts
+        
+        return sortedContacts
+    }
 }
-    
-    
-    
-    
-    
-
-
-
-//    //MARK: - Controllers
-
-//    
-//    final class func updateContact(contact :CNMutableContact, responce: (CNMutableContact? -> Void)?)
-//    {
-//        let state = _actionWithAccess({ () -> Void in
-//            
-//            let saveRequest = CNSaveRequest()
-//            saveRequest.updateContact(contact)
-//            do {
-//                try contactStore.executeSaveRequest(saveRequest)
-//            } catch let error as NSError {
-//                print(error)
-//                responce?(nil)
-//                return
-//            }
-//            
-//            responce?(contact)
-//        })
-//        
-//        if !(state ?? true) {
-//            responce?(nil)
-//        }
-//    }
-//    
-//    
-//    final class func deleteContact(contact :CNContact, responce: (Void -> Void)?) {
-//        let state = _actionWithAccess({ () -> Void in
-//            let saveRequest = CNSaveRequest()
-//            saveRequest.deleteContact(contact.mutableCopy() as! CNMutableContact)
-//            do {
-//                try contactStore.executeSaveRequest(saveRequest)
-//            } catch let error as NSError {
-//                print(error)
-//                responce?()
-//                return
-//            }
-//            responce?()
-//        })
-//        
-//        if !(state ?? true) {
-//            responce?()
-//        }
-//    }
-//
-//    
-//    final private class func _sort(contacts :[CNContact])
-//    {
-//        var nemContacts:[CNContact] = []
-//        var simpleContacts:[CNContact] = []
-//        
-//        for contact in contacts {
-//            let emails: [CNLabeledValue] = contact.emailAddresses
-//            
-//            var isConnectedNEMAddress = false
-//            
-//            for email in emails {
-//                if email.label == "NEM" {
-//                    isConnectedNEMAddress = true
-//                }
-//            }
-//            
-//            if isConnectedNEMAddress {
-//                nemContacts.append(contact)
-//            } else {
-//                simpleContacts.append(contact)
-//            }
-//        }
-//        
-//        Store.simpleContacts = simpleContacts
-//        Store.nemContacts = nemContacts
-//    }

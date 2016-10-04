@@ -340,4 +340,28 @@ open class SettingsManager {
         
         return activeServer!
     }
+    
+    /**
+        Sets the notification update interval.
+     
+        - Parameter notificationUpdateInterval: The update interval that should get set as active.
+     */
+    open func setNotificationUpdateInterval(notificationUpdateInterval: Int) {
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(notificationUpdateInterval, forKey: "notificationUpdateInterval")
+    }
+    
+    /**
+        Fetches and returns the notification update interval.
+     
+        - Returns: The currently set notification update interval.
+     */
+    open func notificationUpdateInterval() -> Int {
+        
+        let userDefaults = UserDefaults.standard
+        let notificationUpdateInterval = userDefaults.integer(forKey: "notificationUpdateInterval")
+        
+        return notificationUpdateInterval
+    }
 }
