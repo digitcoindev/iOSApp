@@ -20,6 +20,9 @@ open class MultisigAggregateModificationTransaction: Transaction {
     /// The type of the transaction.
     open var type = TransactionType.multisigAggregateModificationTransaction
     
+    /// Additional information about the transaction.
+    open var metaData: TransactionMetaData?
+    
     /// The version of the transaction.
     open var version: Int!
     
@@ -58,6 +61,14 @@ open class MultisigAggregateModificationTransaction: Transaction {
     
     required public init?(jsonData: JSON) {
         
+        metaData = try? jsonData["meta"].mapObject(TransactionMetaData.self)
+        version = jsonData["transaction"]["version"].intValue
+        timeStamp = jsonData["transaction"]["timeStamp"].intValue
+        fee = jsonData["transaction"]["fee"].intValue
+        deadline = jsonData["transaction"]["deadline"].intValue
+        signature = jsonData["transaction"]["signature"].stringValue
+        signer = jsonData["transaction"]["signer"].stringValue
+        modifications = try! jsonData["transaction"]["modifications"].mapArray(MultisigCosignatoryModification.self)
     }
     
     // MARK: - Model Helper Methods

@@ -52,7 +52,6 @@ public struct Message: SwiftyJSONMappable {
             switch type {
             case .unencrypted:
                 if payload!.first == UInt8(0xfe) {
-                    print("HMMMM")
                     var bytes = self.payload!
                     bytes.removeFirst()
                     return String(bytes: bytes, encoding: String.Encoding.utf8)

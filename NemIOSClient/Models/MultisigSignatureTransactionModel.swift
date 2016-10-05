@@ -38,10 +38,33 @@ open class MultisigSignatureTransaction: Transaction {
     /// The public key of the account that created the transaction.
     open var signer: String!
     
+    /// The length of the hash of the corresponding multisig transaction.
+    open var hashObjectLength = 36
+    
+    /// The length of the transaction hash.
+    open var hashLength = 32
+    
+    /// The length of the address of the corresponding multisig account.
+    open var multisigAccountLength = 40
+    
+    /// The hash of the inner transaction of the corresponding multisig transaction.
+    open var otherHash: String!
+    
     /// The address of the corresponding multisig account.
-    var otherAccount: String!
+    open var otherAccount: String!
     
     // MARK: - Model Lifecycle
+    
+    required public init?(version: Int, timeStamp: Int, fee: Int, deadline: Int, signer: String, otherHash: String, otherAccount: String) {
+        
+        self.version = version
+        self.timeStamp = timeStamp
+        self.fee = fee
+        self.deadline = deadline
+        self.signer = signer
+        self.otherHash = otherHash
+        self.otherAccount = otherAccount
+    }
     
     required public init?(jsonData: JSON) {
         
@@ -50,6 +73,7 @@ open class MultisigSignatureTransaction: Transaction {
         deadline = jsonData["deadline"].intValue
         signature = jsonData["signature"].stringValue
         signer = jsonData["signer"].stringValue
+        otherHash = jsonData["otherHash"].stringValue
         otherAccount = jsonData["otherAccount"].stringValue
     }
 }

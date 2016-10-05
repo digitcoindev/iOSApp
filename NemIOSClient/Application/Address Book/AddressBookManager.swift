@@ -233,7 +233,6 @@ open class AddressBookManager {
         
         var contactAccountAddress = String()
         
-        print(contact.emailAddresses)
         for emailAddress in contact.emailAddresses where emailAddress.label == "NEM" {
             contactAccountAddress = emailAddress.value as String
         }

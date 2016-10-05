@@ -57,6 +57,9 @@ open class NotificationManager {
 
     open func performFetch(_ completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
+        // TODO:
+        scheduleLocalNotificationAfter("", body: "STARTED BACKGROUND FETCH", interval: 1, userInfo: nil)
+        
         self.completionHandler = completionHandler
     
         let servers = SettingsManager.sharedInstance.servers()
@@ -102,8 +105,17 @@ open class NotificationManager {
                 var newTransactionsCount = 0
                 
                 for transaction in transactions {
-                    if (transaction as! TransferTransaction).metaData?.hash == account.latestTransactionHash {
-                        break
+                    if transaction.type == TransactionType.transferTransaction {
+                        
+                        if (transaction as! TransferTransaction).metaData?.hash == account.latestTransactionHash {
+                            break
+                        }
+                        
+                    } else if transaction.type == TransactionType.multisigAggregateModificationTransaction {
+                        
+                        if (transaction as! MultisigAggregateModificationTransaction).metaData?.hash == account.latestTransactionHash {
+                            break
+                        }
                     }
                     
                     newTransactionsCount += 1
@@ -201,12 +213,18 @@ open class NotificationManager {
                             
                         case TransactionType.multisigTransaction.rawValue:
                             
+                            let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
+                            
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
                             case TransactionType.transferTransaction.rawValue:
                                 
-                                let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
                                 allTransactions.append(transferTransaction)
+                                
+                            case TransactionType.multisigAggregateModificationTransaction.rawValue:
+                                
+                                let multisigAggregateModificationTransaction = multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction
+                                allTransactions.append(multisigAggregateModificationTransaction)
                                 
                             default:
                                 break

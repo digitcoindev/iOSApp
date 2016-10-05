@@ -12,6 +12,13 @@ extension String
         return self.data(using: String.Encoding.utf8)!
     }
     
+    func accountTitle() -> String {
+        
+        let accountTitle = AccountManager.sharedInstance.titleForAccount(withAddress: self)
+        
+        return accountTitle ?? self
+    }
+    
 //    func dataFromHexadecimalString() -> Data? {
 //        let trimmedString = self.trimmingCharacters(in: CharacterSet(charactersIn: "<> ")).replacingOccurrences(of: " ", with: "")
 //        

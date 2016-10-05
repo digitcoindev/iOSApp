@@ -70,6 +70,12 @@ open class TransactionManager {
             
             transactionByteArray += transactionDependentPartByteArray
             
+        case .multisigSignatureTransaction:
+            
+            transactionDependentPartByteArray = generateMultisigSignatureTransactionPart(forTransaction: transaction as! MultisigSignatureTransaction)
+            
+            transactionByteArray += transactionDependentPartByteArray
+            
         case .multisigTransaction:
             
             let transferTransactionCommonPartByteArray = generateCommonTransactionPart(forTransaction: (transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)
@@ -335,6 +341,33 @@ open class TransactionManager {
             
             transactionDependentPartByteArray += transactionMessageFieldLengthByteArray
         }
+        
+        return transactionDependentPartByteArray
+    }
+    
+    /**
+        Generates the transaction dependent part of the transaction data byte
+        array for a multisig signature transaction.
+     
+        - Parameter transaction: The multisig signature transaction for which the transaction dependent part of the transaction data byte array should get generated.
+     
+        - Returns: The transaction dependent part of the transaction data byte array for a multisig signature transaction.
+     */
+    fileprivate func generateMultisigSignatureTransactionPart(forTransaction transaction: MultisigSignatureTransaction) -> [UInt8] {
+        
+        var transactionDependentPartByteArray = [UInt8]()
+        
+        let transactionHashObjectLengthByteArray = String(transaction.hashObjectLength, radix: 16).asByteArrayEndian(4)
+        let transactionHashLengthByteArray = String(transaction.hashLength, radix: 16).asByteArrayEndian(4)
+        let transactionHashByteArray = transaction.otherHash.asByteArray()
+        let transactionMultisigAccountLengthByteArray = String(transaction.multisigAccountLength, radix: 16).asByteArrayEndian(4)
+        let transactionMultisigAccountAddressByteArray = transaction.otherAccount.asByteArray()
+        
+        transactionDependentPartByteArray += transactionHashObjectLengthByteArray
+        transactionDependentPartByteArray += transactionHashLengthByteArray
+        transactionDependentPartByteArray += transactionHashByteArray
+        transactionDependentPartByteArray += transactionMultisigAccountLengthByteArray
+        transactionDependentPartByteArray += transactionMultisigAccountAddressByteArray
         
         return transactionDependentPartByteArray
     }

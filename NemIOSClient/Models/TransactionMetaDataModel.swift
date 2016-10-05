@@ -26,12 +26,16 @@ public struct TransactionMetaData: SwiftyJSONMappable {
     /// The height of the block in which the transaction was included.
     public var height: Int?
     
+    /// The transaction hash of the multisig transaction.
+    public var data: String?
+    
     // MARK: - Model Lifecycle
     
     public init?(jsonData: JSON) {
         
         id = jsonData["id"].int
         height = jsonData["height"].int
+        data = jsonData["data"].string
         
         if jsonData["innerHash"]["data"].string == nil {
             hash = jsonData["hash"]["data"].stringValue

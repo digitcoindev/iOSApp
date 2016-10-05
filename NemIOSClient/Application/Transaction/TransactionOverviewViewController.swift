@@ -400,11 +400,14 @@ class TransactionOverviewViewController: UIViewController {
                                 if transferTransaction.recipient == account.address || transferTransaction.signer == account.publicKey {
                                     foundSignature = true
                                 }
-                                
+
                             default:
                                 
-                                foundSignature = true
-                                break
+                                if multisigTransaction.innerTransaction.type != TransactionType.multisigAggregateModificationTransaction  {
+                                    
+                                    foundSignature = true
+                                    break
+                                }
                             }
                             
                             if multisigTransaction.signer == account.publicKey {
@@ -426,7 +429,7 @@ class TransactionOverviewViewController: UIViewController {
                     DispatchQueue.main.async {
                         
                         self?.transactions += unconfirmedTransactions
-
+                        
                         self?.transactionOverviewDispatchGroup.leave()
                         
                         if self != nil {
@@ -442,6 +445,7 @@ class TransactionOverviewViewController: UIViewController {
                                 
                                 let alertShowUnsignedTransactionsAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.default, handler: { (action) in
                                     
+                                    self?.showSignTransactionsAlert = false
                                     self?.performSegue(withIdentifier: "showTransactionUnconfirmedViewController", sender: nil)
                                 })
                                 alert.addAction(alertShowUnsignedTransactionsAction)

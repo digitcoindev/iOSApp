@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 /// The type of modification.
 public enum ModificationType: Int {
@@ -18,7 +19,7 @@ public enum ModificationType: Int {
     Visit the [documentation](http://bob.nem.ninja/docs/#multisigCosignatoryModification)
     for more information.
  */
-public struct MultisigCosignatoryModification {
+public struct MultisigCosignatoryModification: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
@@ -34,5 +35,11 @@ public struct MultisigCosignatoryModification {
         
         self.modificationType = modificationType
         self.cosignatoryAccount = cosignatoryAccount
+    }
+    
+    public init?(jsonData: JSON) {
+        
+        modificationType = ModificationType(rawValue: jsonData["modificationType"].intValue)
+        cosignatoryAccount = jsonData["cosignatoryAccount"].stringValue
     }
 }

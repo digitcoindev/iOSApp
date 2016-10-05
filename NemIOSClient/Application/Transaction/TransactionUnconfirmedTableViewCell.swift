@@ -7,54 +7,90 @@
 
 import UIKit
 
-class TransactionUnconfirmedTableViewCell: UITableViewCell
-{
-    @IBOutlet weak var fromAccount: UILabel!
-    @IBOutlet weak var toAccount: UILabel!
-    @IBOutlet weak var message: UILabel!
-    @IBOutlet weak var xem: UILabel!
-    @IBOutlet weak var confirm: UIButton!
-    @IBOutlet weak var showChanges: UIButton?
+/// The table view cell that represents an unconfirmed multisig transaction.
+class TransactionUnconfirmedTableViewCell: UITableViewCell {
     
+    // MARK: - Cell Properties
     
-    @IBOutlet weak var fromLabel: UILabel!
-    @IBOutlet weak var toLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel?
+    var transferTransaction: TransferTransaction? {
+        didSet {
+            updateCellTransferTransaction()
+        }
+    }
+    var multisigAggregateModificationTransaction: MultisigAggregateModificationTransaction? {
+        didSet {
+            updateCellMultisigAggregateModificationTransaction()
+        }
+    }
+    weak var delegate: TransactionUnconfirmedViewController? = nil
     
-//    weak var delegate :TransactionUnconfirmedViewController? = nil
+    // MARK: - Cell Outlets
+    
+    @IBOutlet weak var senderHeadingLabel: UILabel!
+    @IBOutlet weak var senderValueLabel: UILabel!
+    @IBOutlet weak var recipientHeadingLabel: UILabel!
+    @IBOutlet weak var recipientValueLabel: UILabel!
+    @IBOutlet weak var messageHeadingLabel: UILabel?
+    @IBOutlet weak var messageValueLabel: UILabel?
+    @IBOutlet weak var amountValueLabel: UILabel?
+    @IBOutlet weak var confirmationButton: UIButton!
+    @IBOutlet weak var showChangesButton: UIButton?
+    
+    // MARK: - Cell Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        fromLabel.text = "FROM".localized() + ":"
-        toLabel.text = "TO".localized() + ":"
-        confirm.setTitle("CONFIRM".localized(), for: UIControlState())
-        showChanges?.setTitle("SHOW_CHANGES".localized(), for: UIControlState())
-        
-        fromAccount.text = ""
-        toAccount.text = ""
-        if message != nil {
-            messageLabel?.text = "MESSAGE".localized() + ":"
-            message.text = ""
-            xem.text = "0 XEM"
-        }
-        
-        confirm.layer.cornerRadius = 5
-        showChanges?.layer.cornerRadius = 5
-        
-        self.layer.cornerRadius = 10
-    }
-
-    @IBAction func confirmTouchUpInside(_ sender: AnyObject) {
-//        self.delegate?.confirmTransactionAtIndex(self.tag)
-    }
-    @IBAction func showTouchUpInside(_ sender: AnyObject) {
-//        self.delegate?.showTransactionAtIndex(self.tag)
+        updateCellAppearance()
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
+    // MARK: - Cell Helper Methods
+    
+    /// Updates the table view cell with the provided title.
+    fileprivate func updateCellTransferTransaction() {
+        
+        senderValueLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction!.signer).accountTitle()
+        recipientValueLabel.text = transferTransaction!.recipient.accountTitle()
+        messageValueLabel!.text = transferTransaction!.message?.message ?? String()
+        amountValueLabel!.text = "\(transferTransaction!.amount / 1000000) XEM"
+    }
+    
+    /// Updates the table view cell with the provided title.
+    fileprivate func updateCellMultisigAggregateModificationTransaction() {
+        
+        senderValueLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigAggregateModificationTransaction!.signer).accountTitle()
+        recipientValueLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigAggregateModificationTransaction!.signer).accountTitle()
+    }
+    
+    /// Updates the appearance of the table view cell.
+    fileprivate func updateCellAppearance() {
+        
+        senderHeadingLabel.text = "\("FROM".localized()):"
+        recipientHeadingLabel.text = "\("TO".localized()):"
+        confirmationButton.setTitle("CONFIRM".localized(), for: UIControlState())
+        showChangesButton?.setTitle("SHOW_CHANGES".localized(), for: UIControlState())
+        
+        senderValueLabel.text = ""
+        recipientValueLabel.text = ""
+        messageHeadingLabel?.text = "\("MESSAGE".localized()):"
+        messageValueLabel?.text = ""
+        amountValueLabel?.text = "0 XEM"
+        
+        confirmationButton.layer.cornerRadius = 5
+        showChangesButton?.layer.cornerRadius = 5
+        layer.cornerRadius = 10
+        preservesSuperviewLayoutMargins = false
+        separatorInset = UIEdgeInsets.zero
+        layoutMargins = UIEdgeInsets.zero
     }
 
+    @IBAction func confirmTransaction(_ sender: UIButton) {
+        
+        delegate?.confirmTransaction(atIndex: tag)
+    }
+
+    @IBAction func showChanges(_ sender: UIButton) {
+        
+        delegate?.showChanges(forTransactionAtIndex: tag)
+    }
 }

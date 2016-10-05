@@ -72,8 +72,13 @@ open class MultisigTransaction: Transaction {
         switch jsonData["transaction"]["otherTrans"]["type"].intValue {
         case TransactionType.transferTransaction.rawValue:
             
-            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"])}".data(using: String.Encoding.utf8)!).mapObject(TransferTransaction.self) 
+            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"].rawString()!)}".data(using: String.Encoding.utf8)!).mapObject(TransferTransaction.self)
             (innerTransaction as! TransferTransaction).metaData = metaData
+            
+        case TransactionType.multisigAggregateModificationTransaction.rawValue:
+            
+            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"].rawString()!)}".data(using: String.Encoding.utf8)!).mapObject(MultisigAggregateModificationTransaction.self)
+            (innerTransaction as! MultisigAggregateModificationTransaction).metaData = metaData
             
         default:
             break

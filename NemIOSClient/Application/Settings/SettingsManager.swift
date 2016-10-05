@@ -231,7 +231,6 @@ open class SettingsManager {
             var servers = self.servers()
             
             for (index, serverObj) in servers.enumerated() where server.address == serverObj.address {
-                print(index)
                 servers.remove(at: index)
             }
             
