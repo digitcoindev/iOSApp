@@ -27,4 +27,7 @@ open class Account: NSManagedObject {
     
     /// The position of the account in the accounts list.
     @NSManaged var position: Int
+    
+    /// The hash of the latest transaction for the account.
+    @NSManaged var latestTransactionHash: String
 }

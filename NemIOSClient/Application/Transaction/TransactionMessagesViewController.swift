@@ -270,7 +270,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.allTransactions(accountAddress: account.address)) { [weak self] (result) in
+        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):

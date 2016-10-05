@@ -21,11 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NetworkActivityIndicatorManager.shared.isEnabled = true
         
-        SettingsManager.sharedInstance.createDefaultServers { (result) in
-            print("done")
-            
-            TimeManager.sharedInstance.synchronizeTime()
-        }
+//        SettingsManager.sharedInstance.createDefaultServers { (result) in
+//            print("done")
+//            
+//            TimeManager.sharedInstance.synchronizeTime()
+//        }
         
         if SettingsManager.sharedInstance.notificationUpdateInterval() == 0 {
             UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
         }
         
-        NotificationManager.registerForNotification(application)
+        NotificationManager.sharedInstance.registerForNotifications(application)
         
         return true
     }
@@ -62,10 +62,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        NotificationManager.didReceiveLocalNotificaton(notification)
+        
+        NotificationManager.sharedInstance.didReceiveLocalNotificaton(notification)
     }
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        FetchManager().update(completionHandler)
+        
+        NotificationManager.sharedInstance.performFetch(completionHandler)
     }
 }

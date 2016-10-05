@@ -41,6 +41,7 @@ class TransactionOverviewViewController: UIViewController {
     fileprivate var accountData: AccountData?
     fileprivate var transactions = [Transaction]()
     fileprivate var correspondents = [Correspondent]()
+    fileprivate var showSignTransactionsAlert = true
     
     fileprivate var refreshTimer: Timer? = nil
     fileprivate let transactionOverviewDispatchGroup = DispatchGroup()
@@ -281,7 +282,7 @@ class TransactionOverviewViewController: UIViewController {
         
         transactionOverviewDispatchGroup.enter()
         
-        nisProvider.request(NIS.allTransactions(accountAddress: account.address)) { [weak self] (result) in
+        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -321,6 +322,11 @@ class TransactionOverviewViewController: UIViewController {
                     DispatchQueue.main.async {
 
                         self?.transactions += allTransactions
+                        
+                        if allTransactions.count > 0 {
+                            
+                            AccountManager.sharedInstance.updateLatestTransactionHash(forAccount: account, withLatestTransactionHash: (allTransactions.first as! TransferTransaction).metaData!.hash!)
+                        }
 
                         self?.transactionOverviewDispatchGroup.leave()
                     }
@@ -360,6 +366,8 @@ class TransactionOverviewViewController: UIViewController {
         
         nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address)) { [weak self] (result) in
             
+            var needToSign = false
+            
             switch result {
             case let .success(response):
                 
@@ -379,15 +387,35 @@ class TransactionOverviewViewController: UIViewController {
                             
                         case TransactionType.multisigTransaction.rawValue:
                             
+                            var foundSignature = false
+                            
+                            let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
+                            
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
                             case TransactionType.transferTransaction.rawValue:
                                 
-                                let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
                                 unconfirmedTransactions.append(transferTransaction)
                                 
+                                if transferTransaction.recipient == account.address || transferTransaction.signer == account.publicKey {
+                                    foundSignature = true
+                                }
+                                
                             default:
+                                
+                                foundSignature = true
                                 break
+                            }
+                            
+                            if multisigTransaction.signer == account.publicKey {
+                                foundSignature = true
+                            }
+                            for signature in multisigTransaction.signatures! where signature.signer == account.publicKey {
+                                foundSignature = true
+                            }
+                            
+                            if foundSignature == false {
+                                needToSign = true
                             }
                             
                         default:
@@ -400,6 +428,27 @@ class TransactionOverviewViewController: UIViewController {
                         self?.transactions += unconfirmedTransactions
 
                         self?.transactionOverviewDispatchGroup.leave()
+                        
+                        if self != nil {
+                            if needToSign && self!.showSignTransactionsAlert {
+                                
+                                let alert = UIAlertController(title: "INFO".localized(), message: "UNCONFIRMED_TRANSACTIONS_DETECTED".localized(), preferredStyle: UIAlertControllerStyle.alert)
+                                
+                                let alertCancelAction = UIAlertAction(title: "REMIND_LATER".localized(), style: UIAlertActionStyle.default, handler: { (action) in
+                                    
+                                    self?.showSignTransactionsAlert = false
+                                })
+                                alert.addAction(alertCancelAction)
+                                
+                                let alertShowUnsignedTransactionsAction = UIAlertAction(title: "SHOW_TRANSACTIONS".localized(), style: UIAlertActionStyle.default, handler: { (action) in
+                                    
+                                    self?.performSegue(withIdentifier: "showTransactionUnconfirmedViewController", sender: nil)
+                                })
+                                alert.addAction(alertShowUnsignedTransactionsAction)
+                                
+                                self?.present(alert, animated: true, completion: nil)
+                            }
+                        }
                     }
                     
                 } catch {

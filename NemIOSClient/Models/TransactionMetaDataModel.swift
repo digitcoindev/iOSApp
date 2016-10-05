@@ -20,6 +20,9 @@ public struct TransactionMetaData: SwiftyJSONMappable {
     /// The id of the transaction.
     public var id: Int?
     
+    /// The hash of the transaction.
+    public var hash: String?
+    
     /// The height of the block in which the transaction was included.
     public var height: Int?
     
@@ -29,5 +32,11 @@ public struct TransactionMetaData: SwiftyJSONMappable {
         
         id = jsonData["id"].int
         height = jsonData["height"].int
+        
+        if jsonData["innerHash"]["data"].string == nil {
+            hash = jsonData["hash"]["data"].stringValue
+        } else {
+            hash = jsonData["innerHash"]["data"].stringValue
+        }
     }
 }

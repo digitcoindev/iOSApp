@@ -106,7 +106,6 @@
 		4F9F67F01D4C311C0086F98F /* MoreMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */; };
 		4F9F67F21D4C31300086F98F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F67F11D4C31300086F98F /* Main.storyboard */; };
 		4F9F67F41D4C32480086F98F /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67F31D4C32480086F98F /* State.swift */; };
-		4F9F68001D4C32FA0086F98F /* NotificationBaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67FF1D4C32FA0086F98F /* NotificationBaner.swift */; };
 		4F9F68021D4C33000086F98F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68011D4C33000086F98F /* NotificationManager.swift */; };
 		4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68031D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift */; };
 		4F9F68061D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68051D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift */; };
@@ -373,7 +372,6 @@
 		4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMenuViewController.swift; path = Application/Main/MoreMenuViewController.swift; sourceTree = "<group>"; };
 		4F9F67F11D4C31300086F98F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Application/Main/Main.storyboard; sourceTree = "<group>"; };
 		4F9F67F31D4C32480086F98F /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Application/_TODO/State.swift; sourceTree = "<group>"; };
-		4F9F67FF1D4C32FA0086F98F /* NotificationBaner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationBaner.swift; path = Application/_TODO/NotificationBaner.swift; sourceTree = "<group>"; };
 		4F9F68011D4C33000086F98F /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationManager.swift; path = Application/_TODO/NotificationManager.swift; sourceTree = "<group>"; };
 		4F9F68031D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticationPasswordCreationViewController.swift; path = Application/Authentication/AuthenticationPasswordCreationViewController.swift; sourceTree = "<group>"; };
 		4F9F68051D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticationPasswordValidationViewController.swift; path = Application/Authentication/AuthenticationPasswordValidationViewController.swift; sourceTree = "<group>"; };
@@ -805,18 +803,9 @@
 		4F9828181D3CF48600A3C8B2 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F67681D47B4F40086F98F /* _TODO */,
-			);
-			name = Notification;
-			sourceTree = "<group>";
-		};
-		4F9F67681D47B4F40086F98F /* _TODO */ = {
-			isa = PBXGroup;
-			children = (
-				4F9F67FF1D4C32FA0086F98F /* NotificationBaner.swift */,
 				4F9F68011D4C33000086F98F /* NotificationManager.swift */,
 			);
-			name = _TODO;
+			name = Notification;
 			sourceTree = "<group>";
 		};
 		4F9F67AB1D4910A20086F98F /* Supporting Files */ = {
@@ -1476,7 +1465,6 @@
 				DADDA24F1B21D1B500F3F5F5 /* Structs.swift in Sources */,
 				4F9F68581D4C364D0086F98F /* AddressBookAddContactViewController.swift in Sources */,
 				4FA825CE1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift in Sources */,
-				4F9F68001D4C32FA0086F98F /* NotificationBaner.swift in Sources */,
 				4F15DCA91DA2A9E20042997C /* SettingsOptionTableViewCell.swift in Sources */,
 				4FC27A041D95297700421F00 /* BlockModel.swift in Sources */,
 				4F9F67C81D4C2F040086F98F /* FilterButton.swift in Sources */,

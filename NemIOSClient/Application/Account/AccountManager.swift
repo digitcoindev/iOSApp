@@ -134,6 +134,23 @@ open class AccountManager {
     }
     
     /**
+        Updates the latest transaction hash for an account.
+     
+        - Parameter account: The account for which the latest transaction hash should get updated.
+        - Parameter latestTransactionHash: The latest transaction hash with which the existing one should get updated.
+     */
+    open func updateLatestTransactionHash(forAccount account: Account, withLatestTransactionHash latestTransactionHash: String) {
+        
+        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+            
+            let editableAccount = transaction.edit(account)!
+            editableAccount.latestTransactionHash = latestTransactionHash
+            
+            transaction.commit()
+        }
+    }
+    
+    /**
         Updates the saved title/name for an account in the database.
      
         - Parameter account: The existing account that should get updated.

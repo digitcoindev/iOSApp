@@ -51,7 +51,7 @@ class FetchManager: NSObject, APIManagerDelegate {
 
     final func accountTransfersAllResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
         guard let data = data else {
-            NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_RESPONCE_FROM_SERVER".localized(), interval: 1, userInfo: nil)
+//            NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_RESPONCE_FROM_SERVER".localized(), interval: 1, userInfo: nil)
             _completionHandler?(.failed)
             FetchManager._updatesStarted = false
             return
@@ -110,7 +110,7 @@ class FetchManager: NSObject, APIManagerDelegate {
             let message = String(format: text, transactions.count, login)
 
             
-            NotificationManager.sheduleLocalNotificationAfter("NEM", body: message, interval: 1, userInfo: nil)
+//            NotificationManager.sheduleLocalNotificationAfter("NEM", body: message, interval: 1, userInfo: nil)
             _account?.lastTransactionHash = data.first!.hashString
 //            _dataManager.commit()
         }
@@ -132,7 +132,7 @@ class FetchManager: NSObject, APIManagerDelegate {
         }
         
         guard let server = _server else {
-            NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_PRIMARY_SERVER".localized(), interval: 1, userInfo: nil)
+//            NotificationManager.sheduleLocalNotificationAfter("NEM", body: "NO_PRIMARY_SERVER".localized(), interval: 1, userInfo: nil)
             _completionHandler?(.failed)
             FetchManager._updatesStarted = false
             return
