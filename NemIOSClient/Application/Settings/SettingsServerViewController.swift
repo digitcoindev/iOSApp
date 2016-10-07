@@ -57,7 +57,9 @@ class SettingsServerViewController: UIViewController {
     fileprivate func updateViewControllerAppearance() {
         
         navigationItem.title = "SERVER".localized()
-        addServerButton.setTitle("   " + "ADD_SERVER".localized(), for: UIControlState())
+        addServerButton.setTitle("ADD_SERVER".localized(), for: UIControlState())
+        addServerButton.setImage(#imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
+        addServerButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
     }
     
     /**
@@ -99,7 +101,7 @@ class SettingsServerViewController: UIViewController {
         
         let server = servers[indexPath.row]
         
-        let serverDeletionAlert = UIAlertController(title: "INFO".localized(), message: "DELETE_CONFIRMATION_MASSAGE_SERVERS".localized(), preferredStyle: .alert)
+        let serverDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_SERVERS".localized(), server.address), preferredStyle: .alert)
         
         serverDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
         

@@ -50,6 +50,9 @@ class SettingsAddServerViewController: UITableViewController {
         protocolTypeTextField.placeholder = "http"
         addressTextField.placeholder = "10.10.100.1"
         portTextField.placeholder = "7890"
+        
+        protocolTypeTextField.text = "http"
+        portTextField.text = "7890"
     }
     
     /**

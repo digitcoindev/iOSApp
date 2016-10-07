@@ -184,6 +184,7 @@
 		4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */; };
 		4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */; };
 		4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE02C121DA2E1180057740D /* ServerExceptions.swift */; };
+		4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */; };
 		4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */; };
 		4FFF8F041D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F021D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodeld */; };
 		4FFF8F061D523BD000B4BB9F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */; };
@@ -452,6 +453,7 @@
 		4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceManager.swift; path = Application/Invoice/InvoiceManager.swift; sourceTree = "<group>"; };
 		4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceModel.swift; path = Models/InvoiceModel.swift; sourceTree = "<group>"; };
 		4FE02C121DA2E1180057740D /* ServerExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerExceptions.swift; path = Common/Exceptions/ServerExceptions.swift; sourceTree = "<group>"; };
+		4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIApplication+Additions.swift"; path = "Common/Extensions/UIApplication+Additions.swift"; sourceTree = "<group>"; };
 		4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountModel.swift; path = Models/AccountModel.swift; sourceTree = "<group>"; };
 		4FFF8F031D51FCDE00B4BB9F /* NemIOSClientTEMP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClientTEMP.xcdatamodel; sourceTree = "<group>"; };
 		4FFF8F051D523BD000B4BB9F /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -621,6 +623,7 @@
 				4F26197A1D97103000D891DD /* AccountData+Additions.swift */,
 				4F15DCB01DA2CED70042997C /* Server+Additions.swift */,
 				4F9F67B31D4A00DF0086F98F /* _TODO */,
+				4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1477,6 +1480,7 @@
 				4F9F68621D4C36C70086F98F /* SettingsViewController.swift in Sources */,
 				4F9F67D21D4C2F4E0086F98F /* ImportAccountCell.swift in Sources */,
 				4F9F685E1D4C36A50086F98F /* HarvestingViewController.swift in Sources */,
+				4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */,
 				4F9F67C61D4C2EF80086F98F /* MessageUILabel.swift in Sources */,
 				4F9F67F01D4C311C0086F98F /* MoreMenuViewController.swift in Sources */,
 				4F850F221D4C3DD00003E192 /* NSData+HexString.swift in Sources */,

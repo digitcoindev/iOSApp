@@ -7,118 +7,126 @@
 
 import UIKit
 
+/// The view controller that lets the user set/create the application password.
 class AuthenticationPasswordCreationViewController: UIViewController {
     
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var repeatPassword: UITextField!
-    @IBOutlet weak var confirm: UIButton!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var passwordTitle: UILabel!
+    // MARK: - View Controller Outlets
     
-//    let dataMeneger: CoreDataManager  = CoreDataManager()
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var passwordHeadingLabel: UILabel!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var confirmationButton: UIButton!
+
+    // MARK: - View Controller Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        passwordTitle.text = "CREATE_PASSWORD".localized()
-        password.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
-        repeatPassword.placeholder = "   " + "REPEAT_PASSWORD_PLACEHOLDER".localized()
-        confirm.setTitle("CONFIRM".localized(), for: UIControlState())
+        updateViewControllerAppearance()
+        
+        if SettingsManager.sharedInstance.defaultServerStatus() == false {
+            SettingsManager.sharedInstance.createDefaultServers { (result) in
+                TimeManager.sharedInstance.synchronizeTime()
+            }
+        }
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
+        
+        passwordHeadingLabel.text = "CREATE_PASSWORD".localized()
+        passwordTextField.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        confirmPasswordTextField.placeholder = "REPEAT_PASSWORD_PLACEHOLDER".localized()
+        confirmationButton.setTitle("CONFIRM".localized(), for: UIControlState())
         
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        State.currentVC = SegueToCreatePassword
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    // MARK: - IBAction
-    
-    @IBAction func submitPassword(_ sender: AnyObject) {
-        sender.endEditing(true)
-        if !Validate.stringNotEmpty(password.text) || !Validate.stringNotEmpty(repeatPassword.text) {
-            _failedWithError("FIELDS_EMPTY_ERROR".localized())
-            return
-        }
+    /**
+        Shows an alert view controller with the provided alert message.
+     
+        - Parameter message: The message that should get shown.
+        - Parameter completion: An optional action that should get performed on completion.
+     */
+    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
         
-        if !Validate.password(password.text!) {
-            _failedWithError("PASSOWORD_LENGTH_ERROR".localized())
-            repeatPassword.text = ""
-            return
-        }
-        
-        if password.text != repeatPassword.text {
-            _failedWithError("PASSOWORD_DIFERENCE_ERROR".localized())
-            repeatPassword.text = ""
-            return
-        }
-        
-        let salt :Data =  (Data() as NSData).generateRandomIV(32)
-        let passwordHash :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:salt as NSData, roundCount:2000)! as Data?
-        
-//        let loadData = dataMeneger.getLoadData()
-//        loadData.salt = salt.hexadecimalString()
-//        loadData.password = passwordHash?.hexadecimalString()
-//        dataMeneger.commit()
-        
-//        if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-//            (self.delegate as! MainVCDelegate).pageSelected(SegueToAddAccountVC)
-//        }
-    }
-    
-    @IBAction func validateField(_ sender: UITextField){
-        
-        if repeatPassword.text == password.text {
-            repeatPassword.textColor = UIColor.green
-        } else {
-            repeatPassword.textColor = UIColor.red
-        }
-        
-        if Validate.password(password.text!){
-            password.textColor = UIColor.green
-        } else {
-            repeatPassword.textColor = UIColor.red
-            password.textColor = UIColor.red
-        }
-    }
-    
-    @IBAction func hideKeyBoard(_ sender: AnyObject) {
-        (sender as! UITextField).becomeFirstResponder()
-    }
-    
-    // MARK: - Private Methods
-    
-    fileprivate func _validateFromDatabase() {
-        
-        guard let salt = State.loadData?.salt else {return}
-        guard let saltData :Data = Data.fromHexString(salt) else {return}
-        guard let passwordValue = State.loadData?.password else {return}
-        
-        let passwordData :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:saltData as NSData, roundCount:2000)! as Data?
-        
-        if passwordData?.toHexString() == passwordValue {
-            
-//            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-//                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
-//            }
-        }
-    }
-    
-    fileprivate func _failedWithError(_ text: String, completion :((Void) -> Void)? = nil) {
-        let alert :UIAlertController = UIAlertController(title: "INFO".localized(), message: text, preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
             alert.dismiss(animated: true, completion: nil)
             completion?()
         }))
         
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    @IBAction func confirm(_ sender: UIButton) {
+        
+        sender.endEditing(true)
+        
+        guard let password = passwordTextField.text else {
+            showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        guard let confirmationPassword = confirmPasswordTextField.text else {
+            showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        guard password != "" && confirmationPassword != "" else {
+            showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
+            return
+        }
+        guard password.characters.count >= 6 else {
+            showAlert(withMessage: "PASSOWORD_LENGTH_ERROR".localized())
+            return
+        }
+        guard password == confirmationPassword else {
+            showAlert(withMessage: "PASSOWORD_DIFERENCE_ERROR".localized())
+            return
+        }
+        
+        SettingsManager.sharedInstance.setApplicationPassword(applicationPassword: password)
+        
+        TimeManager.sharedInstance.synchronizeTime()
+        
+        if SettingsManager.sharedInstance.notificationUpdateInterval() == 0 {
+            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+        } else {
+            UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
+        }
+        
+        NotificationManager.sharedInstance.registerForNotifications(UIApplication.shared)
+        
+        performSegue(withIdentifier: "showRootNavigationController", sender: nil)
+    }
+    
+    @IBAction func validateTextField(_ sender: UITextField) {
+        
+        guard passwordTextField.text != nil else { return }
+        guard confirmPasswordTextField.text != nil else { return }
+        
+        if confirmPasswordTextField.text == passwordTextField.text {
+            confirmPasswordTextField.textColor = UIColor.green
+        } else {
+            confirmPasswordTextField.textColor = UIColor.red
+        }
+        
+        if passwordTextField.text!.characters.count >= 6 {
+            passwordTextField.textColor = UIColor.green
+        } else {
+            confirmPasswordTextField.textColor = UIColor.red
+            passwordTextField.textColor = UIColor.red
+        }
+    }
+
+    @IBAction func hideKeyboard(_ sender: UITextField) {
+        
+        sender.resignFirstResponder()
     }
 }

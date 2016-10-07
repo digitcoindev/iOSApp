@@ -73,7 +73,9 @@ class AccountListViewController: UIViewController {
     fileprivate func updateViewControllerAppearance() {
         
         navigationItem.title = "ACCOUNTS".localized()
-        addAccountButton.setTitle("   " + "ADD_ACCOUNT".localized(), for: UIControlState())
+        addAccountButton.setTitle("ADD_ACCOUNT".localized(), for: UIControlState())
+        addAccountButton.setImage(#imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
+        addAccountButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
     }
     
     /**

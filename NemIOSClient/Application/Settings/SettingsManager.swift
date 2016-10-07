@@ -23,13 +23,68 @@ open class SettingsManager {
     // MARK: - Public Manager Methods
     
     /**
+        Sets the setup status for the application.
+     
+        - Parameter setupDone: Bool whether the setup was completed successfully or not.
+     */
+    open func setSetupStatus(setupDone: Bool) {
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(setupDone, forKey: "setupStatus")
+    }
+    
+    /**
+        Gets and returns the setup status.
+     
+        - Returns: Bool indicating whether the setup was already completed or not.
+     */
+    open func setupStatus() -> Bool {
+        
+        let userDefaults = UserDefaults.standard
+        let setupStatus = userDefaults.bool(forKey: "setupStatus") 
+        
+        return setupStatus
+    }
+    
+    /**
+        Sets the setup default servers status for the application.
+     
+        - Parameter createdDefaultServers: Bool whether the default server were created successfully or not.
+     */
+    open func setDefaultServerStatus(createdDefaultServers: Bool) {
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(createdDefaultServers, forKey: "defaultServerStatus")
+    }
+    
+    /**
+        Gets and returns the default server status.
+     
+        - Returns: Bool indicating whether the default server were already successfully created or not.
+     */
+    open func defaultServerStatus() -> Bool {
+        
+        let userDefaults = UserDefaults.standard
+        let defaultServerStatus = userDefaults.bool(forKey: "defaultServerStatus")
+        
+        return defaultServerStatus
+    }
+    
+    /**
         Sets the authentication password for the application.
      
         - Parameter applicationPassword: The authentication password that should get set for the application.
      */
     open func setApplicationPassword(applicationPassword: String) {
         
-        keychain.set(applicationPassword, forKey: "applicationPassword")
+        let salt = authenticationSalt()
+        let saltData = salt != nil ? NSData(bytes: salt!.asByteArray(), length: salt!.asByteArray().count) : NSData().generateRandomIV(32) as NSData
+        let passwordHash = try! HashManager.generateAesKeyForString(applicationPassword, salt: saltData, roundCount: 2000)!
+        
+        setAuthenticationSalt(authenticationSalt: saltData.hexadecimalString())
+        setSetupStatus(setupDone: true)
+        
+        keychain.set(passwordHash.hexadecimalString(), forKey: "applicationPassword")
     }
     
     /**
@@ -42,6 +97,28 @@ open class SettingsManager {
         let applicationPassword = keychain.get("applicationPassword") ?? String()
         
         return applicationPassword
+    }
+    
+    /**
+        Sets the authentication salt for the application.
+     
+        - Parameter authenticationSalt: The authentication salt that should get set for the application.
+     */
+    open func setAuthenticationSalt(authenticationSalt: String) {
+        
+        keychain.set(authenticationSalt, forKey: "authenticationSalt")
+    }
+    
+    /**
+        Gets and returns the currently set authentication salt.
+     
+        - Returns: The current authentication salt of the application.
+     */
+    open func authenticationSalt() -> String? {
+        
+        let authenticationSalt = keychain.get("authenticationSalt")
+        
+        return authenticationSalt
     }
     
     /**
@@ -210,6 +287,7 @@ open class SettingsManager {
                 case .success( _):
                     
                     self.setActiveServer(server: self.servers().first!)
+                    self.setDefaultServerStatus(createdDefaultServers: true)
                     
                     return completion(.success)
                     

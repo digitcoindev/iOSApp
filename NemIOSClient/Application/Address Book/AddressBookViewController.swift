@@ -85,8 +85,10 @@ class AddressBookViewController: UIViewController, UITextFieldDelegate {
     fileprivate func updateViewControllerAppearanceOnViewDidLoad() {
         
         tabBarController?.title = "ADDRESS_BOOK".localized()
-        addContactButton.setTitle("  " + "ADD_CONTACT".localized(), for: UIControlState())
         searchTextField.placeholder = "SEARCH_CONTACTS".localized()
+        addContactButton.setTitle("ADD_CONTACT".localized(), for: UIControlState())
+        addContactButton.setImage(#imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
+        addContactButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
     }
     
     /// Updates the appearance (coloring, titles) of the view controller on view will appear.

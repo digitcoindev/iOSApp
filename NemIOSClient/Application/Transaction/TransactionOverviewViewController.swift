@@ -125,9 +125,14 @@ class TransactionOverviewViewController: UIViewController {
         
         let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(segueToTransactionSendViewController))
         rightBarButtonItem.tintColor = UIColor.white
-        rightBarButtonItem.isEnabled = false
         
         tabBarController?.navigationItem.rightBarButtonItem = rightBarButtonItem
+        
+        if accountData != nil {
+            updateBarButtonItemStatus(withAccountData: accountData!)
+        } else {
+            self.tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = false
+        }
     }
     
     /// Segues to the transaction send view controller.

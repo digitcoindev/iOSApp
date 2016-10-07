@@ -21,19 +21,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NetworkActivityIndicatorManager.shared.isEnabled = true
         
-//        SettingsManager.sharedInstance.createDefaultServers { (result) in
-//            print("done")
-//            
-//            TimeManager.sharedInstance.synchronizeTime()
-//        }
-        
-        if SettingsManager.sharedInstance.notificationUpdateInterval() == 0 {
-            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+        if SettingsManager.sharedInstance.setupStatus() == false {
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                
+            let rootViewController = mainStoryboard.instantiateViewController(withIdentifier: "AuthenticationPasswordCreationViewController")
+            if (appDelegate.window != nil) {
+                appDelegate.window!.rootViewController = rootViewController
+            }
+            
         } else {
-            UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
+            
+            TimeManager.sharedInstance.synchronizeTime()
+            
+            if SettingsManager.sharedInstance.notificationUpdateInterval() == 0 {
+                UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+            } else {
+                UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
+            }
+            
+            NotificationManager.sharedInstance.registerForNotifications(application)
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let authenticationPasswordValidationViewController = mainStoryboard.instantiateViewController(withIdentifier: "AuthenticationPasswordValidationViewController") as! AuthenticationPasswordValidationViewController
+            
+            if appDelegate.window != nil {
+                appDelegate.window!.rootViewController = authenticationPasswordValidationViewController
+                appDelegate.window!.makeKeyAndVisible()
+            }
         }
-        
-        NotificationManager.sharedInstance.registerForNotifications(application)
         
         return true
     }
@@ -42,23 +61,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         TimeManager.sharedInstance.synchronizeTime()
         
-        //        if State.currentVC == SegueToPasswordValidation {return}
-        //
-        //        var root = UIApplication.sharedApplication().windows.first?.rootViewController
-        //
-        //        for ;; {
-        //            if root!.presentedViewController != nil {
-        //                root = root!.presentedViewController as! AbstractViewController
-        //            } else {
-        //                break
-        //            }
-        //        }
-        //
-        //        State.nextVC = State.currentVC ?? SegueToLoginVC
-        //
-        //        if root != nil  {
-        //            root?.performSegueWithIdentifier(SegueToPasswordValidation, sender: self)
-        //        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if SettingsManager.sharedInstance.setupStatus() == true {
+            
+            let authenticationPasswordValidationViewController = mainStoryboard.instantiateViewController(withIdentifier: "AuthenticationPasswordValidationViewController") as! AuthenticationPasswordValidationViewController
+            
+            if appDelegate.window != nil {
+                if let rootViewController = UIApplication.topViewController() {
+                    if rootViewController is AuthenticationPasswordValidationViewController {
+                        
+                        appDelegate.window!.rootViewController = authenticationPasswordValidationViewController
+                        
+                    } else {
+                        
+                        rootViewController.present(authenticationPasswordValidationViewController, animated: false, completion: nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        
+        if let rootViewController = UIApplication.topViewController() {
+            if rootViewController is AuthenticationPasswordValidationViewController {
+                
+                rootViewController.dismiss(animated: false, completion: nil)
+            }
+        }
     }
     
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {

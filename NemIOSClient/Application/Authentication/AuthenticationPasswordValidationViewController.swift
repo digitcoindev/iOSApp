@@ -8,47 +8,37 @@
 import UIKit
 import LocalAuthentication
 
-class AuthenticationPasswordValidationViewController: UIViewController
-{
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var confirm: UIButton!
+/// The view controller that lets the user authenticate.
+class AuthenticationPasswordValidationViewController: UIViewController {
+    
+    // MARK: - View Controller Properties
+    
+    fileprivate var shouldAskForTouchID = false
+    
+    // MARK: - View Controller Outlets
+    
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var passwordTitle: UILabel!
+    @IBOutlet weak var passwordHeadingLabel: UILabel!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var confirmationButton: UIButton!
     
-//    let dataMeneger: CoreDataManager  = CoreDataManager()
-    
-    fileprivate var _showTouchId = true
-    
-    // MARK: - Load Methods
+    // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        State.currentVC = SegueToPasswordValidation
+        updateViewControllerAppearance()
         
-        passwordTitle.text = "ENTET_PASSWORD".localized()
-        password.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
-
-        confirm.setTitle("CONFIRM".localized(), for: UIControlState())
-        
-        containerView.layer.cornerRadius = 5
-        containerView.clipsToBounds = true
+        passwordTextField.becomeFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         super.viewDidAppear(animated)
         
-        _showTouchId = true
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        
+        shouldAskForTouchID = true
         applicationDidBecomeActive(nil)
-    }
-    
-    func applicationDidBecomeActive(_ notification: Notification?) {
-        if State.importAccountData == nil && (State.loadData?.touchId ?? true) as Bool && _showTouchId{
-            _showTouchId = false
-            authenticateUser()
-        }
     }
     
     override func  viewDidDisappear(_ animated: Bool) {
@@ -57,126 +47,120 @@ class AuthenticationPasswordValidationViewController: UIViewController
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    // MARK: - IBAction
-
-    @IBAction func editingDidBegin(_ sender: AnyObject) {
-        password.textColor = UIColor.black
-    }
-    
-    @IBAction func passwordValidation(_ sender: AnyObject) {
-        password.endEditing(true)
-
-        if State.importAccountData != nil {
-            _validateFromImport()
-            return
+    func applicationDidBecomeActive(_ notification: Notification?) {
+        
+        if SettingsManager.sharedInstance.authenticationTouchIDStatus() == true && shouldAskForTouchID {
+            shouldAskForTouchID = false
+            handleTouchIDAuthentication()
         }
-        
-        _validateFromDatabase()
     }
     
-    @IBAction func hideKeyBoard(_ sender: AnyObject) {
-        (sender as! UITextField).becomeFirstResponder()
-    }
-    // MARK: - Private Methods
+    // MARK: - View Controller Helper Methods
     
-    fileprivate func _validateFromImport() {
+    /// Updates the appearance (coloring, titles) of the view controller.
+    fileprivate func updateViewControllerAppearance() {
         
-        let success = State.importAccountData?(password.text!) ?? false
-        if success {
-            State.importAccountData = nil
+        passwordHeadingLabel.text = "ENTET_PASSWORD".localized()
+        passwordTextField.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        confirmationButton.setTitle("CONFIRM".localized(), for: UIControlState())
+        
+        containerView.layer.cornerRadius = 5
+        containerView.clipsToBounds = true
+    }
+    
+    /// Handles authentication via password.
+    fileprivate func handlePasswordAuthentication() {
+        
+        guard passwordTextField.text != nil else { return }
+        let salt = SettingsManager.sharedInstance.authenticationSalt()
+        let saltData = NSData.fromHexString(salt!)
+        let encryptedPassword = SettingsManager.sharedInstance.applicationPassword()
+        
+        let passwordData: NSData? = try! HashManager.generateAesKeyForString(passwordTextField.text!, salt: saltData, roundCount: 2000)!
+        
+        if passwordData?.toHexString() == encryptedPassword {
             
-                performSegue(withIdentifier: "unwindToAccountMainViewController", sender: nil)
-
-        }  else {
-            password.textColor = UIColor.red
-        }
-    }
-        
-    fileprivate func _validateFromDatabase() {
-        
-        guard let salt = State.loadData?.salt else {return}
-        guard let saltData :Data = Data.fromHexString(salt) else {return}
-        guard let passwordValue = State.loadData?.password else {return}
-        
-        let passwordData :Data? = try! HashManager.generateAesKeyForString(password.text!, salt:saltData as NSData, roundCount:2000)! as Data?
-        
-        if passwordData?.toHexString() == passwordValue {
-//            if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-//                (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
-//            } else {
-//                self.dismissViewControllerAnimated(true, completion: nil)
-//            }
-            self.dismiss(animated: true, completion: nil)
+            authenticationSuccessful()
+            
         } else {
-            password.textColor = UIColor.red
+            
+            passwordTextField.textColor = UIColor.red
         }
     }
     
-    // MARK: - Touch Id
-    
-    func authenticateUser() {
+    /// Handles the whole touch id authentication process.
+    fileprivate func handleTouchIDAuthentication() {
         
-        let context = LAContext()
-        context.maxBiometryFailures = 10
+        let localAuthenticationContext = LAContext()
         var error: NSError?
-        let reasonString = "Authentication is needed to access messages."
         
-        context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error)
-        context.localizedFallbackTitle = ""
-        
-        [context .evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString, reply: { (success: Bool, evalPolicyError: NSError?) -> Void in
-            self._showTouchId = false
-
-            if success {
-                DispatchQueue.main.async(execute: { () -> Void in
-//                    if self.delegate != nil && self.delegate!.respondsToSelector(#selector(MainVCDelegate.pageSelected(_:))) {
-//                        (self.delegate as! MainVCDelegate).pageSelected(State.nextVC)
-//                    } else {
-//                        self.dismissViewControllerAnimated(true, completion: nil)
-//                    }
-                    self.dismiss(animated: true, completion: nil)
-                })
-            } else {
-
-                print(evalPolicyError!.localizedDescription)
+        if (localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
+            localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: NSLocalizedString("Authorize by fingerprint", comment: "")) {
+                [weak self] (success: Bool, _) -> Void in
                 
-                switch evalPolicyError!.code {
+                DispatchQueue.main.async {
                     
-                case LAError.Code.systemCancel.rawValue:
-                    self._showTouchId = true
-                    print("Authentication was cancelled by the system")
-                    
-                case LAError.Code.userCancel.rawValue:
-                    print("Authentication was cancelled by the user")
-                    
-                case LAError.Code.userFallback.rawValue:
-                    self._showTouchId = true
-                    print("User selected to enter custom password")
-                default:
-                    print("Authentication failed")
+                    if success {
+                        
+                        self?.authenticationSuccessful()
+                        
+                    } else {
+                        
+                        if let error = error {
+                            if error.code == LAError.touchIDNotEnrolled.rawValue {
+                                
+                                let alertController = UIAlertController(title: "Touch ID isn't configured", message: "You first have to configure Touch ID in the device settings", preferredStyle: .alert)
+                                
+                                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                
+                                self?.present(alertController, animated: true, completion: nil)
+                                
+                            } else {
+                                
+                                print("user provided touch id wasn't correct: \(error), \(error.userInfo), \(error.code)")
+                            }
+                            
+                        } else {
+                            
+                            print("no authentication error code provided by local authentication despite failure")
+                        }
+                    }
                 }
             }
             
-        } as! (Bool, Error?) -> Void)]
-        if error != nil
-        {
-            switch error!.code{
-                
-            case LAError.Code.touchIDNotEnrolled.rawValue:
-                print("TouchID is not enrolled")
-                
-            case LAError.Code.passcodeNotSet.rawValue:
-                print("A passcode has not been set")
-                
-            default:
-                print("TouchID not available")
-            }
+        } else {
             
-            print(error!.localizedDescription)
+            print("touch id isn't available: \(error), \(error!.userInfo)")
         }
+    }
+    
+    /// Makes the transition to the application after successful authentication.
+    fileprivate func authenticationSuccessful() {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        if let rootViewController = appDelegate.window?.rootViewController {
+            if (rootViewController == self) {
+                
+                self.performSegue(withIdentifier: "showRootNavigationController", sender: nil)
+                
+            } else {
+                
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    // MARK: - View Controller Outlet Actions
+
+    @IBAction func editingDidBegin(_ sender: UITextField) {
+        
+        passwordTextField.textColor = UIColor.black
+    }
+    
+    @IBAction func confirm(_ sender: UIButton) {
+        
+        passwordTextField.endEditing(true)
+        handlePasswordAuthentication()
     }
 }

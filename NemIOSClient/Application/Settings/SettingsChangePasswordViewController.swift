@@ -99,7 +99,14 @@ class SettingsChangePasswordViewController: UITableViewController {
             confirmNewPasswordTextField.text = ""
             return
         }
-        guard currentPasswordTextField.text! == SettingsManager.sharedInstance.applicationPassword() else {
+        
+        let salt = SettingsManager.sharedInstance.authenticationSalt()
+        let saltData = NSData.fromHexString(salt!)
+        let encryptedPassword = SettingsManager.sharedInstance.applicationPassword()
+        
+        let passwordData: NSData? = try! HashManager.generateAesKeyForString(currentPasswordTextField.text!, salt: saltData, roundCount: 2000)!
+        
+        guard passwordData?.toHexString() == encryptedPassword else {
             showAlert(withMessage: "WRONG_OLD_PASSWORD".localized())
             currentPasswordTextField.text = ""
             return

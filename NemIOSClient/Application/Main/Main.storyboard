@@ -131,8 +131,9 @@
                                     <constraint firstAttribute="height" constant="54" id="rUI-7p-W3l"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="  Add Account" image="add_key_icon">
+                                <inset key="titleEdgeInsets" minX="18" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="13" minY="13" maxX="13" maxY="13"/>
+                                <state key="normal" title="  Add Account" image="Add">
                                     <color key="titleColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -145,7 +146,7 @@
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" showsReorderControl="YES" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AccountTableViewCell" id="E0F-J9-mGU" customClass="AccountTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AccountTableViewCell" id="E0F-J9-mGU" customClass="AccountTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="E0F-J9-mGU" id="yF8-hl-Ich">
@@ -189,7 +190,8 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Accounts" id="UG7-Ka-vVA">
-                        <barButtonItem key="leftBarButtonItem" image="configuration_icon" id="Rre-Fs-ZZ8">
+                        <barButtonItem key="leftBarButtonItem" image="Settings" id="Rre-Fs-ZZ8">
+                            <inset key="imageInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="TSU-dO-82y" kind="presentation" identifier="showSettingsViewController" id="Va2-wY-nhj"/>
@@ -964,7 +966,7 @@
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="0Ma-oc-JiL" secondAttribute="centerX" id="aLD-oH-8gu"/>
-                            <constraint firstAttribute="centerY" secondItem="0Ma-oc-JiL" secondAttribute="centerY" constant="-40" id="khp-cd-J1M"/>
+                            <constraint firstAttribute="centerY" secondItem="0Ma-oc-JiL" secondAttribute="centerY" id="khp-cd-J1M"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dBr-mZ-D9Q">
@@ -1442,8 +1444,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
-                                                    <action selector="editingDidBegin:" destination="EY9-DV-SIG" eventType="editingDidBegin" id="9gG-7J-dIY"/>
-                                                    <action selector="hideKeyBoard:" destination="EY9-DV-SIG" eventType="editingDidEndOnExit" id="AbS-Ye-rsu"/>
+                                                    <action selector="editingDidBegin:" destination="EY9-DV-SIG" eventType="editingDidBegin" id="bd1-uG-0G1"/>
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gkW-lU-hOD">
@@ -1457,7 +1458,7 @@
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="passwordValidation:" destination="EY9-DV-SIG" eventType="touchUpInside" id="0go-8M-WUr"/>
+                                                    <action selector="confirm:" destination="EY9-DV-SIG" eventType="touchUpInside" id="OOV-GA-4Yd"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1495,12 +1496,12 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="confirm" destination="gkW-lU-hOD" id="tDL-r0-n6A"/>
+                        <outlet property="confirmationButton" destination="gkW-lU-hOD" id="fv7-z4-K1Y"/>
                         <outlet property="containerView" destination="I4B-x0-ZRW" id="SgQ-4V-F7o"/>
-                        <outlet property="contentView" destination="xr8-nu-l0o" id="cHW-Bt-tx1"/>
-                        <outlet property="password" destination="oUk-mN-FNJ" id="q5C-Cr-hia"/>
-                        <outlet property="passwordTitle" destination="r5Y-eE-3AI" id="fHO-uk-099"/>
+                        <outlet property="passwordHeadingLabel" destination="r5Y-eE-3AI" id="bdD-VM-hFb"/>
+                        <outlet property="passwordTextField" destination="oUk-mN-FNJ" id="JzL-hY-zTO"/>
                         <segue destination="q3r-rG-oqN" kind="unwind" identifier="unwindToAccountMainViewController" unwindAction="unwindToMenu:" id="RZR-El-hDo"/>
+                        <segue destination="Ydb-yw-KoU" kind="presentation" identifier="showRootNavigationController" id="mvO-E7-NF4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6FB-KR-Ydq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1856,8 +1857,9 @@
                                     <constraint firstAttribute="height" constant="54" id="qxm-bV-6Gb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="  Add Contact" image="add_key_icon">
+                                <inset key="titleEdgeInsets" minX="18" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="13" minY="13" maxX="13" maxY="13"/>
+                                <state key="normal" title="  Add Contact" image="Add">
                                     <color key="titleColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -2113,8 +2115,8 @@
                                 <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TransactionMessageGroupSeparatorTableViewCell" rowHeight="55" id="dG1-j2-dJe">
-                                        <rect key="frame" x="0.0" y="22" width="1000" height="55"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TransactionMessageGroupSeparatorTableViewCell" rowHeight="55" id="dG1-j2-dJe">
+                                        <rect key="frame" x="0.0" y="22" width="375" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dG1-j2-dJe" id="CkB-CP-UUz">
                                             <frame key="frameInset" width="375" height="54"/>
@@ -2147,8 +2149,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TransactionMessageTableViewCell" id="XBD-1x-iFF" customClass="TransactionMessageTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="77" width="1000" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TransactionMessageTableViewCell" id="XBD-1x-iFF" customClass="TransactionMessageTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="77" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XBD-1x-iFF" id="sFB-cv-uTh">
                                             <frame key="frameInset" width="375" height="43"/>
@@ -2285,6 +2287,7 @@
                             <constraint firstItem="QHD-IQ-rvV" firstAttribute="top" secondItem="q4c-e1-XbY" secondAttribute="bottom" id="DaW-K6-Zv5"/>
                             <constraint firstItem="QHD-IQ-rvV" firstAttribute="leading" secondItem="6WE-Sb-vmj" secondAttribute="leading" id="EAF-GX-bdP"/>
                             <constraint firstItem="lcF-ff-6fm" firstAttribute="top" secondItem="ccX-0P-mO0" secondAttribute="bottom" id="FAe-nZ-hzz"/>
+                            <constraint firstItem="t6E-mE-Sec" firstAttribute="top" secondItem="xhP-EB-cRK" secondAttribute="bottom" id="K6Y-Gy-3yO"/>
                             <constraint firstAttribute="trailing" secondItem="q4c-e1-XbY" secondAttribute="trailing" id="PJW-m7-k90"/>
                             <constraint firstItem="t6E-mE-Sec" firstAttribute="top" secondItem="QHD-IQ-rvV" secondAttribute="bottom" id="SJL-Eo-9yb" customClass="KeyboardLayoutConstraint" customModule="NemIOSClient" customModuleProvider="target"/>
                             <constraint firstAttribute="trailing" secondItem="QHD-IQ-rvV" secondAttribute="trailing" id="e4a-DK-blA"/>
@@ -2297,6 +2300,8 @@
                     <connections>
                         <outlet property="infoHeaderLabel" destination="DYw-sj-Qdx" id="bnJ-cT-KR0"/>
                         <outlet property="tableView" destination="xhP-EB-cRK" id="NWo-P0-pgM"/>
+                        <outlet property="tableViewBottomLayoutConstraint" destination="K6Y-Gy-3yO" id="Efe-ZD-By8"/>
+                        <outlet property="tableViewSendBarBottomConstraint" destination="004-ra-AeW" id="lip-bM-GY2"/>
                         <outlet property="transactionAccountChooserButton" destination="Grx-C6-eUd" id="aWc-SJ-coD"/>
                         <outlet property="transactionAmountContainerView" destination="oZO-31-gyg" id="Ttf-N7-NSK"/>
                         <outlet property="transactionAmountTextField" destination="Xba-kU-RXg" id="Y4E-2r-BSP"/>
@@ -2328,7 +2333,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AccountTableViewCell" id="hMS-2z-PuM" customClass="AccountTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AccountTableViewCell" id="hMS-2z-PuM" customClass="AccountTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hMS-2z-PuM" id="x35-BK-STk">
@@ -2710,8 +2715,9 @@
                                     <constraint firstAttribute="height" constant="54" id="59G-pC-f05"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="  Add Server" image="add_key_icon">
+                                <inset key="titleEdgeInsets" minX="18" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="13" minY="13" maxX="13" maxY="13"/>
+                                <state key="normal" title="  Add Server" image="Add">
                                     <color key="titleColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -3230,7 +3236,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qeM-Jm-mCf" id="Car-Lo-Adq">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYj-BP-xIq">
@@ -3255,7 +3261,7 @@
                                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TAw-rj-B3J" id="L3X-Dm-m6R">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Hl-0p-Pc8">
@@ -3280,7 +3286,7 @@
                                         <rect key="frame" x="0.0" y="88" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XPl-4Z-izh" id="cLu-4C-aOb">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibL-TU-lIa">
@@ -3309,7 +3315,7 @@
                             <outlet property="delegate" destination="Bo9-3a-jQX" id="7KC-jt-trW"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="More" selectedImage="more_active" id="r5d-Ba-PQJ"/>
+                    <tabBarItem key="tabBarItem" title="More" image="more_active" id="r5d-Ba-PQJ"/>
                     <connections>
                         <outlet property="menuExportingHeadingLabel" destination="ibL-TU-lIa" id="riq-Gg-q3K"/>
                         <outlet property="menuHarvestingHeadingLabel" destination="5Hl-0p-Pc8" id="Q6E-ia-IEd"/>
@@ -4246,7 +4252,7 @@
                             <constraint firstItem="Scb-h9-y3Z" firstAttribute="top" secondItem="tpl-fC-vNC" secondAttribute="bottom" id="yrQ-Un-zbf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="qr_passive" id="Hto-0h-fvN"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="QR" id="Hto-0h-fvN"/>
                     <navigationItem key="navigationItem" id="Hfk-Dz-SDG"/>
                     <connections>
                         <outlet property="createInvoiceContainerView" destination="qTE-aa-rtb" id="Re9-ac-e8u"/>
@@ -4459,8 +4465,8 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
-                                                    <action selector="hideKeyBoard:" destination="SYo-Zz-lR0" eventType="editingDidEndOnExit" id="GIb-Ue-nxG"/>
-                                                    <action selector="validateField:" destination="SYo-Zz-lR0" eventType="editingChanged" id="CWt-dF-Phv"/>
+                                                    <action selector="hideKeyboard:" destination="SYo-Zz-lR0" eventType="editingDidEndOnExit" id="ESg-jm-W91"/>
+                                                    <action selector="validateTextField:" destination="SYo-Zz-lR0" eventType="editingChanged" id="nZP-Ua-tw3"/>
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCO-Zg-VU8">
@@ -4474,7 +4480,7 @@
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="submitPassword:" destination="SYo-Zz-lR0" eventType="touchUpInside" id="jI4-X6-fY3"/>
+                                                    <action selector="confirm:" destination="SYo-Zz-lR0" eventType="touchUpInside" id="u4S-3J-Gfz"/>
                                                 </connections>
                                             </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   repeat password" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PyY-qC-XBH">
@@ -4486,8 +4492,8 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
-                                                    <action selector="hideKeyBoard:" destination="SYo-Zz-lR0" eventType="editingDidEndOnExit" id="1Xr-Wq-LAe"/>
-                                                    <action selector="validateField:" destination="SYo-Zz-lR0" eventType="editingChanged" id="GIz-6h-Z1r"/>
+                                                    <action selector="hideKeyboard:" destination="SYo-Zz-lR0" eventType="editingDidEndOnExit" id="2hx-h6-tbm"/>
+                                                    <action selector="validateTextField:" destination="SYo-Zz-lR0" eventType="editingChanged" id="3KO-R7-T6x"/>
                                                 </connections>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6q-4b-Zj8">
@@ -4536,12 +4542,12 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="confirm" destination="cCO-Zg-VU8" id="YPq-UN-tSm"/>
+                        <outlet property="confirmPasswordTextField" destination="PyY-qC-XBH" id="WMF-zn-339"/>
+                        <outlet property="confirmationButton" destination="cCO-Zg-VU8" id="WFp-Zt-Xqh"/>
                         <outlet property="containerView" destination="Q5G-qK-dQs" id="zuY-Lw-dgw"/>
-                        <outlet property="contentView" destination="EiB-rC-pxq" id="2lx-uF-gQz"/>
-                        <outlet property="password" destination="hpM-wG-ip4" id="vKw-Uh-Bv1"/>
-                        <outlet property="passwordTitle" destination="Y23-xg-zjP" id="l8o-8n-bOd"/>
-                        <outlet property="repeatPassword" destination="PyY-qC-XBH" id="1Wc-Ja-9lf"/>
+                        <outlet property="passwordHeadingLabel" destination="Y23-xg-zjP" id="hUj-ev-4Lr"/>
+                        <outlet property="passwordTextField" destination="hpM-wG-ip4" id="9JR-Bc-VNl"/>
+                        <segue destination="Ydb-yw-KoU" kind="presentation" identifier="showRootNavigationController" id="fSS-ga-PuM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9BL-5R-KSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4769,12 +4775,14 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Add" width="44" height="44"/>
+        <image name="QR" width="50" height="50"/>
+        <image name="Settings" width="44" height="44"/>
         <image name="add_key_icon" width="37" height="37"/>
         <image name="adress_passive" width="44" height="43"/>
         <image name="arrow_down" width="10" height="10"/>
         <image name="arrow_left_white" width="30" height="52"/>
         <image name="close_pop_up" width="17" height="17"/>
-        <image name="configuration_icon" width="40" height="40"/>
         <image name="create_new" width="49" height="47"/>
         <image name="drop_down_arrow_2x" width="42" height="26"/>
         <image name="edit_account_icon" width="21" height="21"/>
@@ -4784,7 +4792,6 @@
         <image name="message" width="106" height="106"/>
         <image name="message_passive" width="53" height="37"/>
         <image name="more_active" width="44" height="8"/>
-        <image name="qr_passive" width="42" height="42"/>
         <image name="scan_qr" width="44" height="44"/>
         <image name="search_icon" width="34" height="34"/>
         <image name="show_icon" width="36" height="21"/>
@@ -4792,7 +4799,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="XB4-9L-SAu"/>
+        <segue reference="mvO-E7-NF4"/>
         <segue reference="KnU-2C-eQh"/>
-        <segue reference="1gq-V7-0tx"/>
+        <segue reference="Iy1-h5-Od4"/>
     </inferredMetricsTieBreakers>
 </document>

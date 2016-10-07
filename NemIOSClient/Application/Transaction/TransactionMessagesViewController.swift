@@ -50,6 +50,8 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     fileprivate let correspondentTransactionsDispatchGroup = DispatchGroup()
 
     // MARK: - View Controller Outlets
+    @IBOutlet weak var tableViewBottomLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableViewSendBarBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var infoHeaderLabel: UILabel!
@@ -104,6 +106,9 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     /// Updates the appearance (coloring, titles) of the view controller.
     fileprivate func updateViewControllerAppearance() {
         
+        tableViewBottomLayoutConstraint.isActive = false
+        tableViewSendBarBottomConstraint.isActive = true
+        
         title = correspondent!.name != nil ? correspondent!.name : correspondent!.accountAddress.nemAddressNormalised()
         transactionAmountTextField.placeholder = "AMOUNT".localized()
         transactionMessageTextField.placeholder = "MESSAGE".localized()
@@ -119,6 +124,11 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         if accountData!.cosignatories?.count > 0 {
             transactionSendBarView.isHidden = true
             transactionSendBarBorderView.isHidden = true
+            
+            print("should work..")
+            
+            tableViewBottomLayoutConstraint.isActive = true
+            tableViewSendBarBottomConstraint.isActive = false
         }
         
         if accountData!.cosignatoryOf?.count > 0 {
@@ -186,7 +196,6 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         calculateCellHeights()
         
         tableView.reloadData()
-        scrollToTableBottom()
     }
 
     /**

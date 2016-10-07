@@ -28,6 +28,11 @@ class AccountDetailTabBarController: UITabBarController {
     /// Updates the appearance (coloring, etc) of the tab bar controller.
     fileprivate func updateTabBarControllerAppearance() {
         
+        tabBar.items?[0].title = "MESSAGES".localized()
+        tabBar.items?[1].title = "ADDRESS_BOOK".localized()
+        tabBar.items?[2].title = "QR".localized()
+        tabBar.items?[3].title = "MORE".localized()
+        
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(white: 0.64, alpha: 1.0)], for: UIControlState())
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)], for: .selected)
         
