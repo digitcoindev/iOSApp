@@ -39,6 +39,7 @@ class MultisigViewController: UIViewController {
     fileprivate var addedCosignatories = [String]()
     fileprivate var removedCosignatories = [String]()
     fileprivate var accountChooserViewController: UIViewController?
+    fileprivate var minCosignatoriesUserPreference: Int?
     
     // MARK: - View Controller Outlets
 
@@ -416,7 +417,32 @@ class MultisigViewController: UIViewController {
         }
         
         // TODO:
-        let relativeChange = 0
+        var relativeChange = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories ?? 0
+
+        if let minCosignatoriesUserPreference = minCosignatoriesUserPreference {
+            
+            if minCosignatoriesUserPreference > relativeChange {
+                relativeChange = minCosignatoriesUserPreference - relativeChange
+            } else if minCosignatoriesUserPreference == relativeChange {
+                relativeChange = 0
+            } else {
+                relativeChange = minCosignatoriesUserPreference - relativeChange
+            }
+            
+            print("USER PREFERRED!: \(minCosignatoriesUserPreference) RELCHANGE: \(relativeChange)")
+            
+        } else {
+            
+            for addedCosignatory in addedCosignatories {
+                relativeChange += 1
+            }
+            for removedCosignatory in removedCosignatories {
+                relativeChange -= 1
+            }
+            
+            print("NO USER PREF: RELCHANGE:\(relativeChange)")
+            
+        }
         
         let transactionVersion = 2
         let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
@@ -436,6 +462,13 @@ class MultisigViewController: UIViewController {
         }
 
         announceTransaction(transaction!)
+    }
+    
+    @IBAction func minCosignatoriesChanged(_ sender: UITextField) {
+        
+        guard let minCosignatories = Int(sender.text!) else { return }
+        
+        minCosignatoriesUserPreference = minCosignatories
     }
     
     @IBAction func minCosigChaned(_ sender: UITextField) {
