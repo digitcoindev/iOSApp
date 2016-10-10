@@ -75,6 +75,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         
         self.navigationBar.delegate = self
         
+        transactionSendButton.isEnabled = false
         account = AccountManager.sharedInstance.activeAccount
         
         guard account != nil else {
@@ -187,6 +188,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
                         
                         self?.accountData = accountData
                         self?.updateForm(withAccountData: accountData)
+                        
+                        self?.transactionSendButton.isEnabled = true
                     }
                     
                 } catch {

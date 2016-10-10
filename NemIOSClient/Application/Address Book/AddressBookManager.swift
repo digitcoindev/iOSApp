@@ -123,7 +123,7 @@ open class AddressBookManager {
         - Parameter accountAddress: The new account address of the contact that should get updated.
      */
     open func updateProperties(ofContact contact: CNContact, withNewFirstName firstName: String, andNewLastName lastName: String, andNewAccountAddress accountAddress: String, completion: @escaping (_ result: Result) -> Void) {
-        
+                
         DispatchQueue.global(qos: .userInitiated).async {
             
             self.requestAccess { (accessGranted) -> Void in
@@ -139,6 +139,11 @@ open class AddressBookManager {
                     var isAccountAddress = false
                     for emailAddress in mutableContact.emailAddresses {
                         let newEmailAddress = CNLabeledValue<NSString>(label: emailAddress.label, value: (emailAddress.label == "NEM") ? accountAddressSanitized as NSString : emailAddress.value)
+                        
+                        if (emailAddress.label == "NEM" && accountAddressSanitized == "") {
+                            break
+                        }
+                        
                         contactEmailAddresses.append(newEmailAddress)
                         
                         if (newEmailAddress.label == "NEM") {
@@ -146,7 +151,7 @@ open class AddressBookManager {
                         }
                     }
                     
-                    if isAccountAddress == false {
+                    if isAccountAddress == false && accountAddressSanitized != "" {
                         let newEmailAddress = CNLabeledValue(label: "NEM", value: accountAddressSanitized as NSString)
                         contactEmailAddresses.append(newEmailAddress)
                     }

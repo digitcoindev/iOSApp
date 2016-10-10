@@ -75,7 +75,7 @@ open class TransferTransaction: Transaction {
     
     required public init?(jsonData: JSON) {
         
-        metaData = try? jsonData["meta"].mapObject(TransactionMetaData)
+        metaData = try? jsonData["meta"].mapObject(TransactionMetaData.self)
         version = jsonData["transaction"]["version"].intValue
         timeStamp = jsonData["transaction"]["timeStamp"].intValue
         amount = jsonData["transaction"]["amount"].doubleValue
@@ -85,9 +85,10 @@ open class TransferTransaction: Transaction {
         signature = jsonData["transaction"]["signature"].stringValue
         signer = jsonData["transaction"]["signer"].stringValue
         message = {
-            var messageObject = try! jsonData["transaction"]["message"].mapObject(Message)
+            var messageObject = try! jsonData["transaction"]["message"].mapObject(Message.self)
             if messageObject.payload != nil {
                 messageObject.signer = signer
+                messageObject.getMessageFromPayload()
                 return messageObject
             } else {
                 return nil

@@ -46,9 +46,15 @@ public struct Message: SwiftyJSONMappable {
 
         type = MessageType(rawValue: jsonData["type"].intValue) ?? MessageType.unencrypted
         payload = jsonData["payload"].string?.asByteArray()
+    }
+    
+    // MARK: - Model Helper Methods
+    
+    public mutating func getMessageFromPayload() {
+        
         message = {
             guard payload != nil else { return String() }
-
+            
             switch type {
             case .unencrypted:
                 if payload!.first == UInt8(0xfe) {
@@ -60,9 +66,11 @@ public struct Message: SwiftyJSONMappable {
                 }
                 
             case MessageType.encrypted:
-                guard signer != nil else { return String() }
-                let privateKey = HashManager.AES256Decrypt(inputText: State.currentWallet!.privateKey, key: State.loadData!.password!)
-                let decryptedMessage: String? = TransactionManager.sharedInstance.decryptMessage(self.payload!, recipientEncryptedPrivateKey: privateKey!, senderPublicKey: signer!)
+                
+                guard signer != nil else { return nil }
+                guard let activeAccount = AccountManager.sharedInstance.activeAccount else { return "couldn't decrypt message" }
+                
+                let decryptedMessage: String? = TransactionManager.sharedInstance.decryptMessage(self.payload!, recipientEncryptedPrivateKey: activeAccount.privateKey, senderPublicKey: signer!)
                 
                 return decryptedMessage
             }

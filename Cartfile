@@ -1,10 +1,10 @@
 github "Alamofire/Alamofire" ~> 4.0
 github "Alamofire/AlamofireNetworkActivityIndicator" ~> 2.0
 github "Moya/Moya" ~> 8.0
-github "zaubara/SwiftyJSON" ~> 14.0
+github "SwiftyJSON/SwiftyJSON" ~> 3.0
 github "Hearst-DD/ObjectMapper" ~> 2.0
 github "krzyzanowskim/CryptoSwift"
-github "JohnEstropia/CoreStore" "swift3_develop"
+github "JohnEstropia/CoreStore" "54be9d471c697f9c74ac90aaadb7a37e34aa90ed"
 github "marketplacer/keychain-swift" ~> 6.0
 github "Quick/Quick"
 github "Quick/Nimble"

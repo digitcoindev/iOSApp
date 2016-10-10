@@ -237,6 +237,8 @@ class TransactionOverviewViewController: UIViewController {
      */
     fileprivate func fetchAccountData(forAccount account: Account, updateStatusBarButton: Bool = true) {
 
+        transactionOverviewDispatchGroup.enter()
+        
         nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
@@ -256,6 +258,8 @@ class TransactionOverviewViewController: UIViewController {
                         self?.updateInfoHeaderLabel(withAccountData: accountData)
                         
                         self?.accountData = accountData
+                        
+                        self?.transactionOverviewDispatchGroup.leave()
                     }
                     
                 } catch {
@@ -263,6 +267,8 @@ class TransactionOverviewViewController: UIViewController {
                     DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
+                        
+                        self?.transactionOverviewDispatchGroup.leave()
                     }
                 }
                 
@@ -272,6 +278,8 @@ class TransactionOverviewViewController: UIViewController {
                     
                     print(error)
                     self?.updateInfoHeaderLabel(withAccountData: nil)
+                    
+                    self?.transactionOverviewDispatchGroup.leave()
                 }
             }
         }
@@ -513,6 +521,18 @@ class TransactionOverviewViewController: UIViewController {
                 }
                 
                 if correspondent != nil {
+                    
+                    // needed to decrypt messages where the current account was the sender.
+                    if transaction.message?.payload != nil {
+                        
+                        transaction.message!.signer = correspondent!.accountPublicKey
+                        transaction.message!.getMessageFromPayload()
+                        
+                        if transaction.message!.message == nil {
+                            transaction.message!.message = "ENCRYPTED_MESSAGE".localized()
+                        }
+                    }
+                    
                     if correspondents.contains(correspondent!) {
                         if let index = correspondents.index(of: correspondent!) {
                             if transaction.metaData?.id != nil {

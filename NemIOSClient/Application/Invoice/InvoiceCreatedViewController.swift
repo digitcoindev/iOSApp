@@ -107,23 +107,14 @@ class InvoiceCreatedViewController: UIViewController {
     
     @IBAction func shareInvoiceQRCodeImage(_ sender: UIButton) {
         
-        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //
-        //        let shareVC :ShareViewController =  storyboard.instantiateViewController(withIdentifier: "SharePopUp") as! ShareViewController
-        //        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
-        //        shareVC.view.layer.opacity = 0
-        //
-        //        shareVC.message = "INVOICE_HEADER".localized()
-        //        shareVC.images = [qrImageView.image!]
-        //        popup = shareVC
-        //
-        //        DispatchQueue.main.async(execute: { () -> Void in
-        //            self.view.addSubview(shareVC.view)
-        //
-        //            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-        //                shareVC.view.layer.opacity = 1
-        //                }, completion: nil)
-        //        })
+        if let qrCodeImage = invoiceQRCodeImageView.image {
+            
+            let message = "INVOICE_HEADER".localized()
+            
+            let shareActivityViewController = UIActivityViewController(activityItems: [message, qrCodeImage], applicationActivities: [])
+            
+            present(shareActivityViewController, animated: true)
+        }
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {

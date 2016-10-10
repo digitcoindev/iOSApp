@@ -86,6 +86,8 @@ class AccountListViewController: UIViewController {
         
         if (accounts.count > 0) {
             navigationItem.rightBarButtonItem = editButtonItem
+        } else {
+            navigationItem.rightBarButtonItem = nil
         }
     }
     
@@ -107,6 +109,7 @@ class AccountListViewController: UIViewController {
             
             self.accounts.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
+            self.createEditButtonItemIfNeeded()
             
             AccountManager.sharedInstance.delete(account: account)
         }))
@@ -177,6 +180,7 @@ class AccountListViewController: UIViewController {
         
         accounts = AccountManager.sharedInstance.accounts()
         tableView.reloadData()
+        createEditButtonItemIfNeeded()
     }
 }
 

@@ -61,6 +61,8 @@ class InvoiceViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0 :
             
+            NotificationCenter.default.post(name: Notification.Name("stopCaptureSession"), object: nil)
+            
             infoContainerView.isHidden = false
             createInvoiceContainerView.isHidden = true
             scanInvoiceContainerView.isHidden = true
@@ -69,6 +71,8 @@ class InvoiceViewController: UIViewController {
             
         case 1 :
             
+            NotificationCenter.default.post(name: Notification.Name("stopCaptureSession"), object: nil)
+            
             createInvoiceContainerView.isHidden = false
             infoContainerView.isHidden = true
             scanInvoiceContainerView.isHidden = true
@@ -76,6 +80,8 @@ class InvoiceViewController: UIViewController {
             tabBarController?.title = "NEW_INVOICE".localized()
             
         case 2 :
+            
+            NotificationCenter.default.post(name: Notification.Name("resumeCaptureSession"), object: nil)
             
             scanInvoiceContainerView.isHidden = false
             infoContainerView.isHidden = true

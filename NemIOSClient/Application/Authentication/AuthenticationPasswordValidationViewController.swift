@@ -19,6 +19,7 @@ class AuthenticationPasswordValidationViewController: UIViewController {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var passwordHeadingLabel: UILabel!
+    @IBOutlet weak var passwordContainerView: UIView!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmationButton: UIButton!
     
@@ -55,10 +56,22 @@ class AuthenticationPasswordValidationViewController: UIViewController {
         }
     }
     
+    /// Needed for a smooth appearance of the alert view controller.
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    /// Needed for a smooth appearance of the alert view controller.
+    override var canResignFirstResponder: Bool {
+        return true
+    }
+    
     // MARK: - View Controller Helper Methods
     
     /// Updates the appearance (coloring, titles) of the view controller.
     fileprivate func updateViewControllerAppearance() {
+        
+        view.layoutIfNeeded()
         
         passwordHeadingLabel.text = "ENTET_PASSWORD".localized()
         passwordTextField.placeholder = "PASSWORD_PLACEHOLDER".localized()
@@ -160,7 +173,11 @@ class AuthenticationPasswordValidationViewController: UIViewController {
     
     @IBAction func confirm(_ sender: UIButton) {
         
-        passwordTextField.endEditing(true)
+        handlePasswordAuthentication()
+    }
+    
+    @IBAction func didEndOnExit(_ sender: UITextField) {
+        
         handlePasswordAuthentication()
     }
 }

@@ -98,8 +98,6 @@
 		4F9F67E01D4C2FA20086F98F /* DashboardContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67DF1D4C2FA20086F98F /* DashboardContainer.swift */; };
 		4F9F67E21D4C2FAB0086F98F /* DashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E11D4C2FAB0086F98F /* DashboardVC.swift */; };
 		4F9F67E41D4C2FB30086F98F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E31D4C2FB30086F98F /* ViewController.swift */; };
-		4F9F67E61D4C30880086F98F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E51D4C30880086F98F /* ShareViewController.swift */; };
-		4F9F67E81D4C30900086F98F /* SocialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E71D4C30900086F98F /* SocialManager.swift */; };
 		4F9F67EA1D4C31080086F98F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67E91D4C31080086F98F /* AppDelegate.swift */; };
 		4F9F67EC1D4C310F0086F98F /* AccountDetailTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67EB1D4C310F0086F98F /* AccountDetailTabBarController.swift */; };
 		4F9F67EE1D4C31140086F98F /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67ED1D4C31140086F98F /* NavigationController.swift */; };
@@ -160,7 +158,6 @@
 		4F9F687A1D4C37C40086F98F /* SettingsAddServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */; };
 		4F9F687C1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F687B1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift */; };
 		4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */; };
-		4F9F68801D4C38760086F98F /* EditableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F687F1D4C38760086F98F /* EditableTableViewCell.swift */; };
 		4F9F68821D4C387B0086F98F /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68811D4C387B0086F98F /* DetailedTableViewCell.swift */; };
 		4F9F68841D4C39040086F98F /* NEMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68831D4C39040086F98F /* NEMTextField.swift */; };
 		4F9F68861D4C39220086F98F /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68851D4C39220086F98F /* UIImage+Additions.swift */; };
@@ -365,8 +362,6 @@
 		4F9F67DF1D4C2FA20086F98F /* DashboardContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardContainer.swift; path = Application/_TRASH/DashboardContainer.swift; sourceTree = "<group>"; };
 		4F9F67E11D4C2FAB0086F98F /* DashboardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashboardVC.swift; path = Application/_TRASH/DashboardVC.swift; sourceTree = "<group>"; };
 		4F9F67E31D4C2FB30086F98F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Application/_TRASH/ViewController.swift; sourceTree = "<group>"; };
-		4F9F67E51D4C30880086F98F /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Application/_TODO/ShareViewController.swift; sourceTree = "<group>"; };
-		4F9F67E71D4C30900086F98F /* SocialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialManager.swift; path = Application/_TODO/SocialManager.swift; sourceTree = "<group>"; };
 		4F9F67E91D4C31080086F98F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Application/Main/AppDelegate.swift; sourceTree = "<group>"; };
 		4F9F67EB1D4C310F0086F98F /* AccountDetailTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountDetailTabBarController.swift; path = Application/Main/AccountDetailTabBarController.swift; sourceTree = "<group>"; };
 		4F9F67ED1D4C31140086F98F /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = Application/Main/NavigationController.swift; sourceTree = "<group>"; };
@@ -427,7 +422,6 @@
 		4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsAddServerViewController.swift; path = Application/Settings/SettingsAddServerViewController.swift; sourceTree = "<group>"; };
 		4F9F687B1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsNotificationIntervalViewController.swift; path = Application/Settings/SettingsNotificationIntervalViewController.swift; sourceTree = "<group>"; };
 		4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRCodeScannerView.swift; path = Common/Views/QRCodeScannerView.swift; sourceTree = "<group>"; };
-		4F9F687F1D4C38760086F98F /* EditableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditableTableViewCell.swift; path = Application/_TODO/EditableTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F68811D4C387B0086F98F /* DetailedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedTableViewCell.swift; path = Application/_TODO/DetailedTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F68831D4C39040086F98F /* NEMTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NEMTextField.swift; path = Application/_TODO/NEMTextField.swift; sourceTree = "<group>"; };
 		4F9F68851D4C39220086F98F /* UIImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Additions.swift"; path = "Common/Extensions/UIImage+Additions.swift"; sourceTree = "<group>"; };
@@ -822,16 +816,7 @@
 		4F9F67AF1D4A00AB0086F98F /* _TODO */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F687F1D4C38760086F98F /* EditableTableViewCell.swift */,
 				4F9F68811D4C387B0086F98F /* DetailedTableViewCell.swift */,
-			);
-			name = _TODO;
-			sourceTree = "<group>";
-		};
-		4F9F67B11D4A00CA0086F98F /* _TODO */ = {
-			isa = PBXGroup;
-			children = (
-				4F9F68831D4C39040086F98F /* NEMTextField.swift */,
 			);
 			name = _TODO;
 			sourceTree = "<group>";
@@ -884,15 +869,6 @@
 			path = "Assets/Supporting Files/Crypto/Base64";
 			sourceTree = "<group>";
 		};
-		98BB95AE1BC7C3F3002151F7 /* Share */ = {
-			isa = PBXGroup;
-			children = (
-				4F9F67E71D4C30900086F98F /* SocialManager.swift */,
-				4F9F67E51D4C30880086F98F /* ShareViewController.swift */,
-			);
-			name = Share;
-			sourceTree = "<group>";
-		};
 		98BB95B31BCCED5B002151F7 /* ed25519 */ = {
 			isa = PBXGroup;
 			children = (
@@ -931,7 +907,7 @@
 		DA031ED71A9226E60021E98B /* Textfields */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F67B11D4A00CA0086F98F /* _TODO */,
+				4F9F68831D4C39040086F98F /* NEMTextField.swift */,
 			);
 			name = Textfields;
 			sourceTree = "<group>";
@@ -1052,7 +1028,6 @@
 			isa = PBXGroup;
 			children = (
 				4F13394E1D40EEF700AA126D /* _TRASH */,
-				DAD5AD8A1A52DC620093E3DB /* _TODO */,
 				DA35582D1A39D7FA00AFA5FD /* Main */,
 				4F9827FF1D3CD0AE00A3C8B2 /* Networking */,
 				4F9828181D3CF48600A3C8B2 /* Notification */,
@@ -1140,14 +1115,6 @@
 				4F98280A1D3CEB3500A3C8B2 /* SwiftyJSON.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DAD5AD8A1A52DC620093E3DB /* _TODO */ = {
-			isa = PBXGroup;
-			children = (
-				98BB95AE1BC7C3F3002151F7 /* Share */,
-			);
-			name = _TODO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1359,7 +1326,6 @@
 				DAF1382B1AB08F7E0069AC3A /* AccountGetMetaData.swift in Sources */,
 				4F3B428C1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift in Sources */,
 				4F2C17081D67312C00FF1F51 /* TransactionMetaData+Additions.swift in Sources */,
-				4F9F67E81D4C30900086F98F /* SocialManager.swift in Sources */,
 				4F63E36A1D5E03D100BCFFA4 /* NetworkingEndpoints.swift in Sources */,
 				4F3ACEA31D6218E10056F234 /* MultisigAggregateModificationTransactionModel.swift in Sources */,
 				98BB95D61BCCED5B002151F7 /* ge.c in Sources */,
@@ -1452,7 +1418,6 @@
 				DA89F1121AD6982100105BB0 /* TransferTransaction.swift in Sources */,
 				4F9F67E41D4C2FB30086F98F /* ViewController.swift in Sources */,
 				DAD21B9C1AFCD51F00F6B861 /* MultisigTransaction.swift in Sources */,
-				4F9F67E61D4C30880086F98F /* ShareViewController.swift in Sources */,
 				4F9F68381D4C356A0086F98F /* SignManager.swift in Sources */,
 				98BB95D91BCCED5B002151F7 /* keypair.c in Sources */,
 				4F850F281D4C3DE00003E192 /* UInt32+CircularShift.swift in Sources */,
@@ -1486,7 +1451,6 @@
 				4F850F221D4C3DD00003E192 /* NSData+HexString.swift in Sources */,
 				98BB95D31BCCED5B002151F7 /* readme.md in Sources */,
 				4F9F683C1D4C35DE0086F98F /* InvoiceViewController.swift in Sources */,
-				4F9F68801D4C38760086F98F /* EditableTableViewCell.swift in Sources */,
 				4F850F1B1D4C3D240003E192 /* Crypto.m in Sources */,
 				4F3ACE921D61C2EE0056F234 /* Response+ObjectMapper.swift in Sources */,
 				4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */,

@@ -46,7 +46,7 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
     fileprivate func updateViewControllerAppearance() {
         
         customNavigationItem.title = "ENTET_PASSWORD".localized()
-        passwordTextField.placeholder = "   " + "PASSWORD_PLACEHOLDER".localized()
+        passwordTextField.placeholder = "PASSWORD_PLACEHOLDER".localized()
         confirmationButton.setTitle("CONFIRM".localized(), for: UIControlState())
         
         containerView.layer.cornerRadius = 5

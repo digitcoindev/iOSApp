@@ -105,23 +105,9 @@ class InvoiceAccountInfoViewController: UIViewController {
     
     @IBAction func shareAccountAddress(_ sender: UIButton) {
         
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        
-//        let shareVC :ShareViewController =  storyboard.instantiateViewController(withIdentifier: "SharePopUp") as! ShareViewController
-//        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
-//        shareVC.view.layer.opacity = 0
-//        //        shareVC.delegate = self
-//        
-//        shareVC.message = userAddress.text
-//        popup = shareVC
-//        
-//        DispatchQueue.main.async(execute: { () -> Void in
-//            self.view.addSubview(shareVC.view)
-//            
-//            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-//                shareVC.view.layer.opacity = 1
-//                }, completion: nil)
-//        })
+        let shareActivityViewController = UIActivityViewController(activityItems: [account.address], applicationActivities: [])
+        
+        present(shareActivityViewController, animated: true)
     }
     
     @IBAction func saveAccountQRCodeImage(_ sender: UIButton) {
@@ -133,23 +119,14 @@ class InvoiceAccountInfoViewController: UIViewController {
     
     @IBAction func shareAccountQRCodeImage(_ sender: UIButton) {
         
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        
-//        let shareVC :ShareViewController =  storyboard.instantiateViewController(withIdentifier: "SharePopUp") as! ShareViewController
-//        shareVC.view.frame = CGRect(x: 0, y: 0, width: shareVC.view.frame.width, height: shareVC.view.frame.height)
-//        shareVC.view.layer.opacity = 0
-//        //        shareVC.delegate = self
-//        
-//        shareVC.message = (Validate.stringNotEmpty(userName.text) ? userName.text! : State.currentWallet!.login) + ": " + address
-//        shareVC.images = [qrImageView.image!]
-//        popup = shareVC
-//        
-//        DispatchQueue.main.async(execute: { () -> Void in
-//            self.view.addSubview(shareVC.view)
-//            
-//            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-//                shareVC.view.layer.opacity = 1
-//                }, completion: nil)
-//        })
+        guard let accountTitle = accountTitleTextField.text else { return }
+        if let qrCodeImage = accountQRCodeImageView.image {
+            
+            let message = "\(accountTitle != "" ? accountTitle : account.title): \(account.address)"
+            
+            let shareActivityViewController = UIActivityViewController(activityItems: [message, qrCodeImage], applicationActivities: [])
+            
+            present(shareActivityViewController, animated: true)
+        }
     }
 }

@@ -39,7 +39,7 @@ class MultisigAddCosignatoryViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        viewTopConstraint.constant = self.navigationBar.frame.height
+        viewTopConstraint.constant = self.navigationBar.frame.height + 50
     }
     
     // MARK: - View Controller Helper Methods
@@ -48,7 +48,7 @@ class MultisigAddCosignatoryViewController: UIViewController {
     fileprivate func updateViewControllerAppearance() {
         
         customNavigationItem.title = "ADD_COSIGNATORY".localized()
-        cosignatoryIdentifierTextField.placeholder = "   " + "INPUT_PUBLIC_KEY".localized()
+        cosignatoryIdentifierTextField.placeholder = "INPUT_PUBLIC_KEY".localized()
         addCosignatoryButton.setTitle("ADD_COSIGNATORY".localized(), for: UIControlState())
         
         contentView.layer.cornerRadius = 5

@@ -27,25 +27,18 @@ class InvoiceScannerViewController: UIViewController {
         super.viewDidLoad()
         
         qrCodeScannerView.delegate = self
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
-        if !isScanning {
-            isScanning = true
-            qrCodeScannerView.scanQRCode(qrCodeScannerView.frame.width , height: qrCodeScannerView.frame.height)
-        } else {
-            qrCodeScannerView.captureSession.startRunning()
-        }
+        view.layoutIfNeeded()
+        resumeScanning()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(resumeScanning), name: Notification.Name("resumeCaptureSession"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(stopScanning), name: Notification.Name("stopCaptureSession"), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if isScanning {
-            qrCodeScannerView.captureSession.stopRunning()
-        }
+        stopScanning()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,6 +55,10 @@ class InvoiceScannerViewController: UIViewController {
         default:
             return
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - View Controller Helper Methods
@@ -109,24 +106,28 @@ class InvoiceScannerViewController: UIViewController {
         
         performSegue(withIdentifier: "showAddressBookAddContactViewController", sender: nil)
     }
-  
-    func contactAdded(_ successfuly: Bool, sendTransaction :Bool) {
-        if successfuly {
-//            let navDelegate = (self.delegate as? InvoiceViewController)?.delegate as? MainVCDelegate
-//            if navDelegate != nil  {
-//                if sendTransaction {
-//                    let correspondent :Correspondent = Correspondent()
-//                    
-//                    for email in AddressBookViewController.newContact!.emailAddresses{
-//                        if email.label == "NEM" {
-//                            correspondent.address = (email.value as? String) ?? " "
-//                            correspondent.name = correspondent.address.nemName()
-//                        }
-//                    }
-//                    State.currentContact = correspondent
-//                }
-//                navDelegate!.pageSelected(sendTransaction ? SegueToSendTransaction : SegueToAddressBook)
-//            }
+    
+    /// Stops the capture session.
+    func stopScanning() {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            if self.isScanning {
+                self.qrCodeScannerView.captureSession.stopRunning()
+            }
+        }
+    }
+    
+    /// Resumes the capture session.
+    func resumeScanning() {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            if !self.isScanning {
+                self.isScanning = true
+                self.qrCodeScannerView.scanQRCode(self.qrCodeScannerView.frame.width , height: self.qrCodeScannerView.frame.height)
+            } else {
+                self.qrCodeScannerView.captureSession.startRunning()
+            }
         }
     }
 }
@@ -143,9 +144,6 @@ extension InvoiceScannerViewController: QRCodeScannerDelegate {
         }
         
         let captureResultJSON = JSON(data: encodedCaptureResult)
-        
-        // TODO:
-        print(captureResultJSON)
         
         do {
             try validate(captureResult: captureResultJSON)

@@ -112,14 +112,20 @@ class InvoiceCreationViewController: UIViewController {
     
     // MARK: - View Controller Outlet Actions
 
-    @IBAction func hideKeyboard(_ sender: AnyObject) {
+    @IBAction func didEndOnExit(_ sender: UITextField) {
         
-        if invoiceAccountTitleTextField.text == "" {
-            invoiceAccountTitleTextField.becomeFirstResponder()
-        } else if invoiceAmountTextField.text == "" {
+        switch sender {
+        case invoiceAccountTitleTextField:
             invoiceAmountTextField.becomeFirstResponder()
-        } else if invoiceMessageTextField.text == "" {
+            
+        case invoiceAmountTextField:
             invoiceMessageTextField.becomeFirstResponder()
+            
+        case invoiceMessageTextField:
+            invoiceMessageTextField.resignFirstResponder()
+            
+        default:
+            break
         }
     }
     

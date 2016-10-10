@@ -106,6 +106,20 @@ class AuthenticationPasswordCreationViewController: UIViewController {
         performSegue(withIdentifier: "showRootNavigationController", sender: nil)
     }
     
+    @IBAction func didEndOnExit(_ sender: UITextField) {
+        
+        switch sender {
+        case passwordTextField:
+            confirmPasswordTextField.becomeFirstResponder()
+            
+        case confirmPasswordTextField:
+            confirm(confirmationButton)
+            
+        default:
+            break
+        }
+    }
+    
     @IBAction func validateTextField(_ sender: UITextField) {
         
         guard passwordTextField.text != nil else { return }
@@ -123,10 +137,5 @@ class AuthenticationPasswordCreationViewController: UIViewController {
             confirmPasswordTextField.textColor = UIColor.red
             passwordTextField.textColor = UIColor.red
         }
-    }
-
-    @IBAction func hideKeyboard(_ sender: UITextField) {
-        
-        sender.resignFirstResponder()
     }
 }

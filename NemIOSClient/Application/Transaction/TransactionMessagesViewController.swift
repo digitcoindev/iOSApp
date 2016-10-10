@@ -45,13 +45,12 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     fileprivate var rowHeight = [CGFloat]()
     fileprivate var willEncrypt = false
     fileprivate var accountChooserViewController: UIViewController?
+    fileprivate var reloadingTableView = false
     
     fileprivate var refreshTimer: Timer? = nil
     fileprivate let correspondentTransactionsDispatchGroup = DispatchGroup()
 
     // MARK: - View Controller Outlets
-    @IBOutlet weak var tableViewBottomLayoutConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tableViewSendBarBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var infoHeaderLabel: UILabel!
@@ -61,9 +60,13 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     @IBOutlet weak var transactionSendButton: UIButton!
     @IBOutlet weak var transactionAccountChooserButton: UIButton!
     @IBOutlet weak var transactionAmountContainerView: UIView!
+    @IBOutlet weak var transactionMessageContainerView: UIView!
     @IBOutlet weak var transactionEncryptionButtonTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionSendBarView: UIView!
     @IBOutlet weak var transactionSendBarBorderView: UIView!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
 
     // MARK: - View Controller Lifecycle
     
@@ -79,13 +82,28 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
             return
         }
         if accountData != nil {
+            
             updateInfoHeaderLabel(withAccountData: accountData)
+            
+        } else {
+            
+            showLoadingView()
+            refreshCorrespondentTransactions(shouldUpdateViewControllerAppearance: true)
+            return
+        }
+        if correspondent!.accountPublicKey == nil {
+            
+            showLoadingView()
+            fetchPublicKey(forCorrespondentWithAddress: correspondent!.accountAddress)
+            
+        } else {
+            
+            showCorrespondentTransactions()
+            startRefreshing()
         }
         
         updateViewControllerAppearance()
         createBarButtonItem()
-        showCorrespondentTransactions()
-        startRefreshing()
         
         NotificationCenter.default.addObserver(self, selector: #selector(TransactionMessagesViewController.keyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
@@ -106,8 +124,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     /// Updates the appearance (coloring, titles) of the view controller.
     fileprivate func updateViewControllerAppearance() {
         
-        tableViewBottomLayoutConstraint.isActive = false
-        tableViewSendBarBottomConstraint.isActive = true
+        view.layoutIfNeeded()
         
         title = correspondent!.name != nil ? correspondent!.name : correspondent!.accountAddress.nemAddressNormalised()
         transactionAmountTextField.placeholder = "AMOUNT".localized()
@@ -119,21 +136,20 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         transactionSendButton.layer.cornerRadius = 5
         transactionAmountContainerView.layer.cornerRadius = 5
         transactionAmountContainerView.clipsToBounds = true
-        transactionMessageTextField.layer.cornerRadius = 5
+        transactionMessageContainerView.layer.cornerRadius = 5
+        transactionMessageContainerView.clipsToBounds = true
         
         if accountData!.cosignatories?.count > 0 {
             transactionSendBarView.isHidden = true
             transactionSendBarBorderView.isHidden = true
             
-            print("should work..")
-            
-            tableViewBottomLayoutConstraint.isActive = true
-            tableViewSendBarBottomConstraint.isActive = false
+            tableViewBottomConstraint.constant = 0
         }
         
         if accountData!.cosignatoryOf?.count > 0 {
             transactionAccountChooserButton.isHidden = false
-            transactionEncryptionButtonTrailingConstraint.constant = -(transactionAccountChooserButton.frame.width + 5)
+
+            transactionEncryptionButtonTrailingConstraint.constant = transactionAccountChooserButton.frame.width + 5 + 8
         }
     }
     
@@ -162,6 +178,23 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         infoHeaderText.append(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFont(ofSize: infoHeaderLabel.font.pointSize, weight: UIFontWeightRegular)]))
         
         infoHeaderLabel.attributedText = infoHeaderText
+    }
+    
+    /**
+        Shows the loading view above the table view which shows
+        an spinning activity indicator.
+     */
+    fileprivate func showLoadingView() {
+        
+        loadingActivityIndicator.startAnimating()
+        loadingView.isHidden = false
+    }
+    
+    /// Hides the loading view.
+    fileprivate func hideLoadingView() {
+        
+        loadingView.isHidden = true
+        loadingActivityIndicator.stopAnimating()
     }
     
     /// Scrolls to the table view bottom as soon as the keyboard appears.
@@ -196,6 +229,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         calculateCellHeights()
         
         tableView.reloadData()
+        hideLoadingView()
     }
 
     /**
@@ -203,9 +237,9 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         Fires off all necessary network calls to get the information needed.
         Use only this method to update the displayed information.
      */
-    func refreshCorrespondentTransactions() {
+    func refreshCorrespondentTransactions(shouldUpdateViewControllerAppearance: Bool = false) {
                 
-        fetchAccountData(forAccount: account!)
+        fetchAccountData(forAccount: account!, shouldUpdateViewControllerAppearance: shouldUpdateViewControllerAppearance)
         fetchAllTransactions(forAccount: account!)
         fetchUnconfirmedTransactions(forAccount: account!)
         
@@ -216,7 +250,14 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
             self.rowHeight = [CGFloat]()
             self.calculateCellHeights()
             
-            self.tableView.reloadData()
+            if self.reloadingTableView == false {
+                self.tableView.reloadData()
+            }
+            
+            if shouldUpdateViewControllerAppearance {
+                self.updateViewControllerAppearance()
+                self.hideLoadingView()
+            }
         }
     }
     
@@ -228,7 +269,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
      
         - Parameter account: The current account for which the account data should get fetched.
      */
-    fileprivate func fetchAccountData(forAccount account: Account) {
+    fileprivate func fetchAccountData(forAccount account: Account, shouldUpdateViewControllerAppearance: Bool = false) {
         
         nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
             
@@ -248,6 +289,54 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         }
                         
                         self?.accountData = accountData
+                        
+                        if shouldUpdateViewControllerAppearance {
+                            self?.updateInfoHeaderLabel(withAccountData: accountData)
+                        }
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                    self?.updateInfoHeaderLabel(withAccountData: nil)
+                }
+            }
+        }
+    }
+    
+    /**
+        Fetches the public key for the current correspondent from the active NIS.
+     
+        - Parameter accountAddress: The account address of the current correspondent for which the public key should get fetched.
+     */
+    fileprivate func fetchPublicKey(forCorrespondentWithAddress accountAddress: String) {
+        
+        nisProvider.request(NIS.accountData(accountAddress: accountAddress)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.correspondent?.accountPublicKey = accountData.publicKey
+                        self?.showCorrespondentTransactions()
+                        self?.startRefreshing()
                     }
                     
                 } catch {
@@ -446,11 +535,20 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         
                         self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_SUCCESS".localized())
                         
+                        self?.transactionAmountTextField.text = ""
+                        self?.transactionMessageTextField.text = ""
+                        self?.willEncrypt = false
+                        
                         if self != nil && transaction.type == .transferTransaction {
+                            
+                            self!.reloadingTableView = true
+                            
                             self!.unconfirmedTransactions.append(transaction)
                             self!.getCellHeights(forTransactions: [transaction], withViewWidth: self!.tableView.frame.width - 120)
                             self!.tableView.reloadData()
                             self!.scrollToTableBottom(false)
+                            
+                            self!.reloadingTableView = false
                         }
                     }
                     
@@ -480,6 +578,8 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
                 }
             }
+            
+            self?.transactionSendButton.isEnabled = true
         }
     }
     
@@ -499,6 +599,12 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
             case .transferTransaction:
                 
                 let transaction: TransferTransaction = transaction as! TransferTransaction
+                
+                // needed to decrypt messages where the current account was the sender.
+                if transaction.message?.payload != nil {
+                    transaction.message!.signer = correspondent?.accountPublicKey
+                    transaction.message!.getMessageFromPayload()
+                }
                 
                 if correspondent?.accountAddress != account?.address {
                     
@@ -659,10 +765,23 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         sender.backgroundColor = (willEncrypt) ? UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1) : UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
     }
     
-    @IBAction func amountTextFieldDidEndOnExit(_ sender: UITextField) {
+    @IBAction func didEndOnExit(_ sender: UITextField) {
         
-        if Double(sender.text!) == nil {
-            sender.text = "0"
+        switch sender {
+        case transactionAmountTextField:
+            
+            if Double(sender.text!) == nil {
+                sender.text = "0"
+            }
+            
+            transactionMessageTextField.becomeFirstResponder()
+            
+        case transactionMessageTextField:
+            
+            transactionMessageTextField.resignFirstResponder()
+            
+        default:
+            break
         }
     }
     
@@ -705,6 +824,8 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         guard transactionMessageTextField.text != nil else { return }
         if activeAccountData == nil { activeAccountData = accountData }
         
+        transactionSendButton.isEnabled = false
+        
         let transactionVersion = 1
         let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
         let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
@@ -745,7 +866,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         }
         
         transactionFee = TransactionManager.sharedInstance.calculateFee(forTransactionWithAmount: transactionAmount)
-        transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray)
+        transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray, isEncrypted: willEncrypt)
         
         let transactionMessage = Message(type: willEncrypt ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextField.text!)
         let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: Int(transactionFee * 1000000), recipient: transactionRecipient!, message: transactionMessage, deadline: transactionDeadline, signer: transactionSigner!)

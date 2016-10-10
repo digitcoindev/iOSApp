@@ -13,6 +13,7 @@ class MultisigAddCosignatoryTableViewCell: UITableViewCell {
     // MARK: - Cell Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
     
     // MARK: - Cell Lifecycle
     
@@ -28,6 +29,7 @@ class MultisigAddCosignatoryTableViewCell: UITableViewCell {
     fileprivate func updateCellAppearance() {
         
         titleLabel.text = "ADD_ADITIONAL_SIGNER".localized()
+        iconImageView.image = #imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1))
         
         preservesSuperviewLayoutMargins = false
         separatorInset = UIEdgeInsets.zero

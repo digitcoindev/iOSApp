@@ -324,7 +324,6 @@ extension AddressBookViewController: UITableViewDataSource, UITableViewDelegate 
         if tableView.isEditing || (tableView.cellForRow(at: indexPath) as! AddressBookContactTableViewCell).accessoryImageView.isHidden {
             
             updateContactProperties(forContactAtIndexPath: indexPath)
-            tableView.deselectRow(at: indexPath, animated: true)
             
         } else {
             
@@ -340,7 +339,7 @@ extension AddressBookViewController: UITableViewDataSource, UITableViewDelegate 
                 accountAddress = emailAddress.value as String
             }
             
-            let alert = UIAlertController(title: "\(contact.givenName) \(contact.familyName)", message: accountAddress, preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "\(contact.givenName) \(contact.familyName)", message: accountAddress.nemAddressNormalised(), preferredStyle: UIAlertControllerStyle.alert)
             
             alert.addAction(UIAlertAction(title: "SEND_MESSAGE".localized(), style: UIAlertActionStyle.default, handler: { [unowned self] (action) in
                 
@@ -355,5 +354,7 @@ extension AddressBookViewController: UITableViewDataSource, UITableViewDelegate 
             
             present(alert, animated: true, completion: nil)
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

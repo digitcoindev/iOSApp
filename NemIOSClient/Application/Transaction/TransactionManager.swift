@@ -130,12 +130,12 @@ open class TransactionManager {
      
         - Returns: The fee for the transaction as a double.
      */
-    open func calculateFee(forTransactionWithMessage transactionMessageByteArray: [UInt8]) -> Double {
+    open func calculateFee(forTransactionWithMessage transactionMessageByteArray: [UInt8], isEncrypted: Bool = false) -> Double {
         
         var transactionFee = 0.0
         
         if transactionMessageByteArray.count != 0 {
-            transactionFee = ceil(Double(transactionMessageByteArray.count) / 32)
+            transactionFee = ceil(Double(transactionMessageByteArray.count + (isEncrypted ? 48 : 0)) / 32)
         }
         
         return transactionFee
