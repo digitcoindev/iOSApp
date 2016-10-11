@@ -46,6 +46,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     fileprivate var willEncrypt = false
     fileprivate var accountChooserViewController: UIViewController?
     fileprivate var preparedTransaction: Transaction?
+    fileprivate var sendingTransaction = false
     
     // MARK: - View Controller Outlets
     
@@ -63,10 +64,10 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var transactionEncryptionButton: UIButton!
     @IBOutlet weak var transactionFeeHeadingLabel: UILabel!
     @IBOutlet weak var transactionFeeTextField: UITextField!
-    @IBOutlet weak var transactionSendButton: UIButton!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var transactionSendButton: UIBarButtonItem!
     
     // MARK: - View Controller Lifecycle
     
@@ -118,7 +119,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         transactionAmountHeadingLabel.text = "AMOUNT".localized() + ":"
         transactionMessageHeadingLabel.text = "MESSAGE".localized() + ":"
         transactionFeeHeadingLabel.text = "FEE".localized() + ":"
-        transactionSendButton.setTitle("SEND".localized(), for: UIControlState())
+        transactionSendButton.title = "SEND".localized()
         transactionRecipientTextField.placeholder = "ENTER_ADDRESS".localized()
         transactionAmountTextField.placeholder = "ENTER_AMOUNT".localized()
         transactionMessageTextField.placeholder = "EMPTY_MESSAGE".localized()
@@ -148,9 +149,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
      
         - Parameter accountData: The account data with which the form should get updated.
      */
-    fileprivate func updateForm(withAccountData accountData: AccountData) {
+    fileprivate func updateForm(withAccountData accountData: AccountData, forMultisigAccount: Bool = false) {
         
-        if accountData.cosignatoryOf.count > 0 {
+        if accountData.cosignatoryOf.count > 0 || forMultisigAccount == true {
             transactionAccountChooserButton.isHidden = false
             transactionSenderLabel.isHidden = true
             transactionAccountChooserButton.setTitle(accountData.title ?? accountData.address, for: UIControlState())
@@ -238,6 +239,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
                     DispatchQueue.main.async {
                         
                         print("Failure: \(response.statusCode)")
+                        
+                        self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
+                        self?.sendingTransaction = false
                     }
                 }
                 
@@ -246,6 +250,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
                 DispatchQueue.main.async {
                     
                     print(error)
+                    
+                    self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
+                    self?.sendingTransaction = false
                 }
             }
         }
@@ -273,6 +280,13 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
                     DispatchQueue.main.async {
                         
                         self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_SUCCESS".localized())
+                        
+                        self?.transactionAmountTextField.text = ""
+                        self?.transactionMessageTextField.text = ""
+                        self?.willEncrypt = false
+                        self?.transactionEncryptionButton.backgroundColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
+                        self?.transactionEncryptionButton.isEnabled = self?.activeAccountData?.address == self?.accountData?.address
+                        self?.calculateTransactionFee()
                     }
                     
                 } catch TransactionAnnounceValidation.failure(let errorMessage) {
@@ -300,6 +314,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
                     self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
                 }
             }
+            
+            self?.sendingTransaction = false
         }
     }
     
@@ -341,12 +357,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         transactionFee = TransactionManager.sharedInstance.calculateFee(forTransactionWithAmount: transactionAmount)
 
         let transactionMessageByteArray = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray()
-        var transactionMessageLength = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray().count
-        if willEncrypt && transactionMessageLength != 0 {
-            transactionMessageLength += 64
-        }
+        let transactionMessageLength = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray().count
         if transactionMessageLength != 0 {
-            transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray)
+            transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray, isEncrypted: willEncrypt)
         }
 
         let transactionFeeAttributedString = NSMutableAttributedString(string: "\("FEE".localized()): (\("MIN".localized()) ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)])
@@ -376,6 +389,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         
         if transactionMessageByteArray.count > 160 {
             showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
+            sendingTransaction = false
             return
         }
         
@@ -499,7 +513,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let accountChooserViewController = mainStoryboard.instantiateViewController(withIdentifier: "AccountChooserViewController") as! AccountChooserViewController
-            accountChooserViewController.view.frame = CGRect(x: view.frame.origin.x, y:  view.frame.origin.y, width: view.frame.width, height: view.frame.height)
+            accountChooserViewController.view.frame = CGRect(x: contentView.frame.origin.x, y: customScrollView.frame.origin.y + 60, width: contentView.frame.width, height: contentView.frame.height - 60)
             accountChooserViewController.view.layer.opacity = 0
             accountChooserViewController.delegate = self
             accountChooserViewController.accounts = accounts
@@ -520,6 +534,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             accountChooserViewController!.view.removeFromSuperview()
             accountChooserViewController!.removeFromParentViewController()
             accountChooserViewController = nil
+            
+            transactionSendButton.isEnabled = true
         }
     }
     
@@ -530,13 +546,17 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         calculateTransactionFee()
     }
     
-    @IBAction func createTransaction(_ sender: AnyObject) {
+    @IBAction func createTransaction(_ sender: UIBarButtonItem) {
+        
+        guard sendingTransaction == false else { return }
         
         guard transactionRecipientTextField.text != nil else { return }
         guard transactionAmountTextField.text != nil else { return }
         guard transactionMessageTextField.text != nil else { return }
         guard transactionFeeTextField.text != nil else { return }
         if activeAccountData == nil { activeAccountData = accountData }
+        
+        sendingTransaction = true
         
         let transactionVersion = 1
         let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
@@ -552,6 +572,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         
         if transactionAmount < 0.000001 && transactionAmount != 0 {
             transactionAmountTextField!.text = "0"
+            sendingTransaction = false
             return
         }
         if transactionFee < Double(transactionFeeTextField.text!) {
@@ -559,24 +580,29 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         }
         guard TransactionManager.sharedInstance.validateAccountAddress(transactionRecipient) else {
             showAlert(withMessage: "ACCOUNT_ADDRESS_INVALID".localized())
+            sendingTransaction = false
             return
         }
         guard (activeAccountData!.balance / 1000000) > transactionAmount else {
             showAlert(withMessage: "ACCOUNT_NOT_ENOUGHT_MONEY".localized())
+            sendingTransaction = false
             return
         }
         guard TransactionManager.sharedInstance.validateHexadecimalString(transactionMessageText) == true else {
             showAlert(withMessage: "NOT_A_HEX_STRING".localized())
+            sendingTransaction = false
             return
         }
         if willEncrypt {
             if transactionMessageByteArray.count > 112 {
                 showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
+                sendingTransaction = false
                 return
             }
         } else {
             if transactionMessageByteArray.count > 160 {
                 showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
+                sendingTransaction = false
                 return
             }
         }
@@ -642,6 +668,8 @@ extension TransactionSendViewController: AccountChooserDelegate {
             willEncrypt = false
             transactionEncryptionButton.backgroundColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
         }
+        
+        updateForm(withAccountData: accountData, forMultisigAccount: true)
     }
 }
 

@@ -2383,11 +2383,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gaz-3g-vhU">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gaz-3g-vhU">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AccountTableViewCell" id="hMS-2z-PuM" customClass="AccountTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AccountTableViewCell" id="hMS-2z-PuM" customClass="AccountTableViewCell" customModule="NemIOSClient" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="22" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hMS-2z-PuM" id="x35-BK-STk">
@@ -2590,26 +2590,6 @@
                                                     <constraint firstAttribute="height" constant="1" id="GkM-CJ-9T5"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8He-HP-bCV">
-                                                <color key="backgroundColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="137" id="eai-l4-vyq"/>
-                                                    <constraint firstAttribute="height" constant="30" id="xTX-UD-s2F"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="Send">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="createTransaction:" destination="0YH-3H-wH5" eventType="touchUpInside" id="X6m-Wp-3Pk"/>
-                                                </connections>
-                                            </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x0d-Kp-YsM" customClass="NEMTextField" customModule="NemIOSClient" customModuleProvider="target">
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -2637,7 +2617,7 @@
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="srH-Ej-Cg6" secondAttribute="trailing" constant="8" id="0G3-oN-xUS"/>
+                                            <constraint firstAttribute="trailing" secondItem="srH-Ej-Cg6" secondAttribute="trailing" constant="13" id="0G3-oN-xUS"/>
                                             <constraint firstAttribute="trailing" secondItem="RDS-0k-Aif" secondAttribute="trailing" constant="8" id="0y0-mQ-1DA"/>
                                             <constraint firstItem="HyY-Vq-TSW" firstAttribute="top" secondItem="4bS-nq-sch" secondAttribute="bottom" constant="12" id="1XY-Ua-7E6"/>
                                             <constraint firstItem="GBg-fw-SsV" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="43" id="2pC-Zb-IRF"/>
@@ -2652,7 +2632,6 @@
                                             <constraint firstItem="xgX-qm-xVn" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="19" id="J5h-XT-gtD"/>
                                             <constraint firstAttribute="trailing" secondItem="GBg-fw-SsV" secondAttribute="trailing" constant="23" id="JJ7-lW-kVp"/>
                                             <constraint firstItem="Aga-nW-6e3" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="43" id="K0S-bm-msD"/>
-                                            <constraint firstItem="8He-HP-bCV" firstAttribute="centerX" secondItem="UzV-KH-vh5" secondAttribute="centerX" id="Ka8-3g-jSU"/>
                                             <constraint firstItem="xgX-qm-xVn" firstAttribute="top" secondItem="GBg-fw-SsV" secondAttribute="bottom" constant="8" id="KuT-Zg-Cg7"/>
                                             <constraint firstAttribute="trailing" secondItem="x0d-Kp-YsM" secondAttribute="trailing" constant="23" id="MkS-Jb-5mc"/>
                                             <constraint firstItem="QeA-3i-9PJ" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="19" id="MpX-Jc-Rwn"/>
@@ -2682,7 +2661,6 @@
                                             <constraint firstItem="Aga-nW-6e3" firstAttribute="top" secondItem="ymY-id-WP8" secondAttribute="bottom" constant="12" id="tvb-bX-Rku"/>
                                             <constraint firstItem="KC2-78-FKp" firstAttribute="top" secondItem="HyY-Vq-TSW" secondAttribute="bottom" constant="8" id="uFk-qY-o5j"/>
                                             <constraint firstItem="KC2-78-FKp" firstAttribute="leading" secondItem="UzV-KH-vh5" secondAttribute="leading" constant="19" id="uHj-17-MYm"/>
-                                            <constraint firstItem="8He-HP-bCV" firstAttribute="top" secondItem="bVr-2d-iiI" secondAttribute="bottom" constant="8" id="x97-wB-wed"/>
                                             <constraint firstItem="x0d-Kp-YsM" firstAttribute="top" secondItem="4d9-7T-tPL" secondAttribute="bottom" constant="8" id="ziO-ra-Do4"/>
                                         </constraints>
                                     </view>
@@ -2714,6 +2692,11 @@
                                                 <action selector="cancel:" destination="0YH-3H-wH5" id="6rc-vK-Xn8"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Send" id="zUo-s6-TzD">
+                                            <connections>
+                                                <action selector="createTransaction:" destination="0YH-3H-wH5" id="UFO-KP-E94"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -2742,7 +2725,7 @@
                         <outlet property="transactionMessageTextField" destination="HyY-Vq-TSW" id="gt5-WQ-1hX"/>
                         <outlet property="transactionRecipientHeadingLabel" destination="4d9-7T-tPL" id="TVX-Hz-A2v"/>
                         <outlet property="transactionRecipientTextField" destination="x0d-Kp-YsM" id="uIf-1N-Uh3"/>
-                        <outlet property="transactionSendButton" destination="8He-HP-bCV" id="Mjn-Nb-O2N"/>
+                        <outlet property="transactionSendButton" destination="zUo-s6-TzD" id="Mii-YI-Dux"/>
                         <outlet property="transactionSenderHeadingLabel" destination="QeA-3i-9PJ" id="lh9-3L-y7s"/>
                         <outlet property="transactionSenderLabel" destination="RDS-0k-Aif" id="zWF-9J-DpH"/>
                         <outlet property="viewTopConstraint" destination="Y9I-5c-hee" id="jrL-m9-x0N"/>
@@ -3203,7 +3186,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qeM-Jm-mCf" id="Car-Lo-Adq">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYj-BP-xIq">
@@ -3228,7 +3211,7 @@
                                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TAw-rj-B3J" id="L3X-Dm-m6R">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Hl-0p-Pc8">
@@ -3253,7 +3236,7 @@
                                         <rect key="frame" x="0.0" y="88" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XPl-4Z-izh" id="cLu-4C-aOb">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibL-TU-lIa">

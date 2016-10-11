@@ -135,7 +135,7 @@ open class TransactionManager {
         var transactionFee = 0.0
         
         if transactionMessageByteArray.count != 0 {
-            transactionFee = ceil(Double(transactionMessageByteArray.count + (isEncrypted ? 48 : 0)) / 32)
+            transactionFee = ceil(Double(transactionMessageByteArray.count + (isEncrypted ? 64 : 0)) / 32)
         }
         
         return transactionFee
@@ -361,7 +361,7 @@ open class TransactionManager {
         let transactionHashLengthByteArray = String(transaction.hashLength, radix: 16).asByteArrayEndian(4)
         let transactionHashByteArray = transaction.otherHash.asByteArray()
         let transactionMultisigAccountLengthByteArray = String(transaction.multisigAccountLength, radix: 16).asByteArrayEndian(4)
-        let transactionMultisigAccountAddressByteArray = transaction.otherAccount.asByteArray()
+        let transactionMultisigAccountAddressByteArray = Array<UInt8>(transaction.otherAccount.utf8)
         
         transactionDependentPartByteArray += transactionHashObjectLengthByteArray
         transactionDependentPartByteArray += transactionHashLengthByteArray

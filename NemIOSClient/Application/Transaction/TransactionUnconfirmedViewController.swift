@@ -36,8 +36,6 @@ class TransactionUnconfirmedViewController: UIViewController {
             print("Critical: Account not available!")
             return
         }
-        
-        fetchUnconfirmedTransactions(forAccount: account!)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,9 +106,32 @@ class TransactionUnconfirmedViewController: UIViewController {
                             
                             let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                             
-                            if multisigTransaction.innerTransaction.type != TransactionType.transferTransaction && multisigTransaction.innerTransaction.type != TransactionType.multisigAggregateModificationTransaction {
+                            switch multisigTransaction.innerTransaction.type {
+                            case .transferTransaction:
+                                
+                                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                                
+                                if transferTransaction.recipient == account.address || transferTransaction.signer == account.publicKey {
+                                    foundSignature = true
+                                }
+                                
+                            case .multisigAggregateModificationTransaction:
+                                
+                                let multisigAggregateModificationTransaction = multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction
+                                
+                                for modification in multisigAggregateModificationTransaction.modifications where modification.cosignatoryAccount == account.publicKey {
+                                    foundSignature = true
+                                }
+                                
+                                if multisigAggregateModificationTransaction.signer == account.publicKey {
+                                    foundSignature = true
+                                }
+                                
+                            default:
                                 foundSignature = true
+                                break
                             }
+
                             if multisigTransaction.signer == account.publicKey {
                                 foundSignature = true
                             }
@@ -204,7 +225,7 @@ class TransactionUnconfirmedViewController: UIViewController {
             
             let transactionVersion = 1
             let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
-            let transactionFee = 6
+            let transactionFee = 6 * 1000000
             let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
             let transactionSigner = account!.publicKey
             let transactionHash = multisigTransaction.metaData!.data!
@@ -220,7 +241,7 @@ class TransactionUnconfirmedViewController: UIViewController {
             
             let transactionVersion = 1
             let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
-            let transactionFee = 6
+            let transactionFee = 6 * 1000000
             let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
             let transactionSigner = account!.publicKey
             let transactionHash = multisigTransaction.metaData!.data!

@@ -538,6 +538,8 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         self?.transactionAmountTextField.text = ""
                         self?.transactionMessageTextField.text = ""
                         self?.willEncrypt = false
+                        self?.transactionEncryptionButton.backgroundColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1)
+                        self?.transactionEncryptionButton.isEnabled = self?.activeAccountData?.address == self?.accountData?.address
                         
                         if self != nil && transaction.type == .transferTransaction {
                             
@@ -838,20 +840,24 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         if transactionAmount < 0.000001 && transactionAmount != 0 {
             transactionAmountTextField!.text = "0"
+            transactionSendButton.isEnabled = true
             return
         }
         guard (activeAccountData!.balance / 1000000) > transactionAmount else {
             showAlert(withMessage: "ACCOUNT_NOT_ENOUGHT_MONEY".localized())
+            transactionSendButton.isEnabled = true
             return
         }
         guard TransactionManager.sharedInstance.validateHexadecimalString(transactionMessageText) == true else {
             showAlert(withMessage: "NOT_A_HEX_STRING".localized())
+            transactionSendButton.isEnabled = true
             return
         }
         
         if willEncrypt {
             guard let recipientPublicKey = correspondent?.accountPublicKey else {
                 showAlert(withMessage: "NO_PUBLIC_KEY_FOR_ENC".localized())
+                transactionSendButton.isEnabled = true
                 return
             }
             
@@ -862,6 +868,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         if transactionMessageByteArray.count > 160 {
             showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
+            transactionSendButton.isEnabled = true
             return
         }
         

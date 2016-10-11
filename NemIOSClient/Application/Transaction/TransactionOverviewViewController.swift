@@ -413,14 +413,23 @@ class TransactionOverviewViewController: UIViewController {
                                 if transferTransaction.recipient == account.address || transferTransaction.signer == account.publicKey {
                                     foundSignature = true
                                 }
+                                
+                            case TransactionType.multisigAggregateModificationTransaction.rawValue:
+                                
+                                let multisigAggregateModificationTransaction = multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction
+                                
+                                for modification in multisigAggregateModificationTransaction.modifications where modification.cosignatoryAccount == account.publicKey {
+                                    foundSignature = true
+                                }
+                                
+                                if multisigAggregateModificationTransaction.signer == account.publicKey {
+                                    foundSignature = true
+                                }
 
                             default:
                                 
-                                if multisigTransaction.innerTransaction.type != TransactionType.multisigAggregateModificationTransaction  {
-                                    
-                                    foundSignature = true
-                                    break
-                                }
+                                foundSignature = true
+                                break
                             }
                             
                             if multisigTransaction.signer == account.publicKey {
