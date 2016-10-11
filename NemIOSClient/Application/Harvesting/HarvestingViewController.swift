@@ -26,7 +26,6 @@ class HarvestingViewController: UIViewController {
     @IBOutlet weak var accountBalanceLabel: UILabel!
     @IBOutlet weak var accountVestedBalanceLabel: UILabel!
     @IBOutlet weak var accountHarvestingStatusLabel: UILabel!
-    @IBOutlet weak var accountDelegatedKeyTextView: UITextView!
     @IBOutlet weak var accountHarvestedBlocksLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingView: UIView!
@@ -112,7 +111,8 @@ class HarvestingViewController: UIViewController {
                     try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
-                    let harvestedBlocks = try json.mapArray(Block.self)
+                    
+                    let harvestedBlocks = try json["data"].mapArray(Block.self)
                     
                     DispatchQueue.main.async {
                         
@@ -161,6 +161,7 @@ class HarvestingViewController: UIViewController {
                     try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
+                    
                     let accountData = try json.mapObject(AccountData.self)
                     
                     DispatchQueue.main.async {
@@ -195,22 +196,17 @@ class HarvestingViewController: UIViewController {
     /// Updates the info view with the fetched harvesting information.
     fileprivate func updateHarvestingInfoView() {
         
-        let importance = "\("POI".localized()): \(accountData!.importance.format(maximumFractionDigits: 2)) ‱"
+        let importance = "\("POI".localized()): \((accountData!.importance! * 10000).format(maximumFractionDigits: 2)) ‱"
         let balance = "\("BALANCE".localized()): \(accountData!.balance / 1000000) XEM"
         let vestedBalance = "\("VASTED_BALANCE".localized()): \(accountData!.vestedBalance / 1000000) XEM"
         let remoteStatus = "\("DELEGATED_HARVESTING".localized()): \(accountData!.remoteStatus == "ACTIVE" ? "UNLOCKED".localized() : "LOCKED".localized())"
         let harvestedBlocks = accountData!.harvestedBlocks > 0 ? String(format: "LAST_HARVESTED_BLOCK".localized(), accountData!.harvestedBlocks > 25 ? 25 : accountData!.harvestedBlocks) : "NO_HARVESTED_BLOCK".localized()
-        let privateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: account!.privateKey)
-        let delegatedKey = "\("DELEGATED_KEY".localized()): \(HashManager.SHA256Encrypt(privateKey.asByteArray()))"
-        
-        print(delegatedKey)
         
         accountImportanceLabel.text = importance
         accountBalanceLabel.text = balance
         accountVestedBalanceLabel.text = vestedBalance
         accountHarvestingStatusLabel.text = remoteStatus
         accountHarvestedBlocksLabel.text = harvestedBlocks
-        accountDelegatedKeyTextView.text = delegatedKey
         
         if accountData!.status == "LOCKED" {
             for constraint in harvestingInfoView.constraints {
@@ -218,7 +214,6 @@ class HarvestingViewController: UIViewController {
                     constraint.constant = 155
                 }
             }
-            self.accountDelegatedKeyTextView.isHidden = true
         }
         
         harvestingInfoView.isHidden = false

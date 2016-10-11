@@ -160,9 +160,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             transactionSenderLabel.text = accountData.title ?? accountData.address
         }
 
-        let amountAttributedString = NSMutableAttributedString(string: "\("AMOUNT".localized()) (\("BALANCE".localized()): ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17)])
-        amountAttributedString.append(NSMutableAttributedString(string: "\((accountData.balance / 1000000).format())", attributes: [NSForegroundColorAttributeName: UIColor(red: 51.0/255.0, green: 191.0/255.0, blue: 86.0/255.0, alpha: 1.0), NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
-        amountAttributedString.append(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
+        let amountAttributedString = NSMutableAttributedString(string: "\("AMOUNT".localized()) (\("BALANCE".localized()): ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)])
+        amountAttributedString.append(NSMutableAttributedString(string: "\((accountData.balance / 1000000).format())", attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
+        amountAttributedString.append(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]))
         transactionAmountHeadingLabel.attributedText = amountAttributedString
     }
     
@@ -349,11 +349,11 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray)
         }
 
-        let transactionFeeAttributedString = NSMutableAttributedString(string: "\("FEE".localized()): (\("MIN".localized()) ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17)])
+        let transactionFeeAttributedString = NSMutableAttributedString(string: "\("FEE".localized()): (\("MIN".localized()) ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)])
         transactionFeeAttributedString.append(NSMutableAttributedString(string: "\(Int(transactionFee))", attributes: [
-            NSForegroundColorAttributeName: UIColor(red: 51.0/255.0, green: 191.0/255.0, blue: 86.0/255.0, alpha: 1.0),
+            NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1),
             NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
-        transactionFeeAttributedString.append(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
+        transactionFeeAttributedString.append(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]))
         transactionFeeHeadingLabel.attributedText = transactionFeeAttributedString
         transactionFeeTextField.text = "\(Int(transactionFee))"
     }

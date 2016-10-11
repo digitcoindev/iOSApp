@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 /// The view controller that lets the user choose a password which will get used to encrypt the backup.
 class AccountExportPasswordViewController: UIViewController {
@@ -120,14 +121,12 @@ class AccountExportPasswordViewController: UIViewController {
         if passwordTextField.text != String() {
             let privateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: encryptedPrivateKey)
             let saltData = NSData(bytes: salt!.asByteArray(), length: salt!.asByteArray().count)
-            let passwordHash = try! HashManager.generateAesKeyForString(passwordTextField.text!, salt: saltData, roundCount:2000)
-            encryptedPrivateKey = HashManager.AES256Encrypt(inputText: privateKey, key: passwordHash!.toHexString())
+            let passwordHash = try! HashManager.generateAesKeyForString(passwordTextField.text!, salt: saltData, roundCount: 2000)
+            encryptedPrivateKey = HashManager.AES256Encrypt(inputText: privateKey, key: passwordHash!.hexadecimalString())
         }
         
-        let accountJsonDictionary = NSDictionary(objects: [accountTitle, salt, encryptedPrivateKey], forKeys: [QRKeys.Name.rawValue as NSCopying, QRKeys.Salt.rawValue as NSCopying, QRKeys.PrivateKey.rawValue as NSCopying])
-        let jsonDictionary = NSDictionary(objects: [QRType.accountData.rawValue, accountJsonDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue as NSCopying, QRKeys.Data.rawValue as NSCopying, QRKeys.Version.rawValue as NSCopying])
-        let jsonData = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions())
-        let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
+        let jsonData = JSON([QRKeys.DataType.rawValue: QRType.accountData.rawValue, QRKeys.Version.rawValue: QR_VERSION, QRKeys.Data.rawValue: [ QRKeys.Name.rawValue: accountTitle, QRKeys.Salt.rawValue: salt!, QRKeys.PrivateKey.rawValue: encryptedPrivateKey ]])
+        let jsonString = jsonData.rawString()
         
         performSegue(withIdentifier: "showAccountExportViewController", sender: jsonString)
     }

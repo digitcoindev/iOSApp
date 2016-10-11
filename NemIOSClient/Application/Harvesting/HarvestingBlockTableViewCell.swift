@@ -44,7 +44,7 @@ class HarvestingBlockTableViewCell: UITableViewCell {
         blockTimeStamp += genesis_block_time
 
         blockTimeStampLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: blockTimeStamp))
-        blockIDLabel.text = "\("BLOCK".localized()) #\(block!.id)"
+        blockIDLabel.text = "\("BLOCK".localized()) #\(block!.id!)"
         blockTotalFeeLabel.text = "\("FEE".localized()): \(block!.totalFee / 1000000)"
     }
     
