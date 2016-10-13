@@ -14,7 +14,7 @@ open class Invoice: NSManagedObject {
     // MARK: - Model Properties
     
     /// The id of the invoice.
-    @NSManaged var id: Int
+    @NSManaged var id: NSNumber
     
     /// The title of the recipient account.
     @NSManaged var accountTitle: String
@@ -23,7 +23,7 @@ open class Invoice: NSManagedObject {
     @NSManaged var accountAddress: String
     
     /// The invoice amount.
-    @NSManaged var amount: Int
+    @NSManaged var amount: NSNumber
     
     /// The invoice message.
     @NSManaged var message: String

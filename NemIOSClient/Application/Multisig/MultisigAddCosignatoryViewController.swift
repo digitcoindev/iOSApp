@@ -20,7 +20,6 @@ class MultisigAddCosignatoryViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var cosignatoryIdentifierTextField: AutoCompleteTextField!
     @IBOutlet weak var addCosignatoryButton: UIBarButtonItem!
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
@@ -37,12 +36,6 @@ class MultisigAddCosignatoryViewController: UIViewController {
         updateViewControllerAppearance()
         
         handleTextFieldInterfaces()
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        viewTopConstraint.constant = self.navigationBar.frame.height + 50
     }
     
     private func handleTextFieldInterfaces() {

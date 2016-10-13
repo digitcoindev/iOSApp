@@ -14,7 +14,7 @@ protocol DetailedTableViewCellDelegate: class
     func hideDetailsForCell(_ cell: DetailedTableViewCell)
 }
 
-class DetailedTableViewCell: AbstactTableViewCell {
+class DetailedTableViewCell: UITableViewCell {
     
     // MARK: internal variables
     
@@ -78,7 +78,7 @@ class DetailedTableViewCell: AbstactTableViewCell {
             _detailedView?.frame = CGRect(x: self.frame.width, y: 0, width: 40, height: self.frame.height)
         }
         
-        _contentView?.frame = CGRect(x: 0, y: 0, width: _detailedView!.frame.origin.x , height: self.frame.height)
+        contentView.frame = CGRect(x: 0, y: 0, width: _detailedView!.frame.origin.x , height: self.frame.height)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -46,6 +46,7 @@ class MoreMenuViewController: UITableViewController {
         menuExportingHeadingLabel.text = "EXPORT_ACCOUNT".localized()
         
         tabBarController?.navigationItem.rightBarButtonItem = nil
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     /// Updates the appearance (coloring, titles) of the view controller on view will appear.

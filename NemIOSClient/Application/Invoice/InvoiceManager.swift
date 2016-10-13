@@ -55,9 +55,9 @@ open class InvoiceManager {
             let invoice = transaction.create(Into(Invoice.self))
             invoice.accountTitle = accountTitle
             invoice.accountAddress = accountAddress
-            invoice.amount = amount
+            invoice.amount = amount as NSNumber
             invoice.message = message
-            invoice.id = self.idForNewInvoice()
+            invoice.id = self.idForNewInvoice() as NSNumber
             
             transaction.commit { (result) -> Void in
                 switch result {

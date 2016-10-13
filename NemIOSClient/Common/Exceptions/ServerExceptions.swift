@@ -7,9 +7,6 @@
 
 import Foundation
 
-/**
- 
- */
 public enum ServerAdditionValidation: Error {
     case serverAlreadyPresent(serverAddress: String)
 }

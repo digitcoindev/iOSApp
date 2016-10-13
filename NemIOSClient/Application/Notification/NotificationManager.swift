@@ -57,9 +57,6 @@ open class NotificationManager {
 
     open func performFetch(_ completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        // TODO:
-        scheduleLocalNotificationAfter("", body: "STARTED BACKGROUND FETCH", interval: 1, userInfo: nil)
-        
         self.completionHandler = completionHandler
     
         let servers = SettingsManager.sharedInstance.servers()

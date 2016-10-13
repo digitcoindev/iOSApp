@@ -7,9 +7,6 @@
 
 import Foundation
 
-/**
- 
- */
 public enum TransactionAnnounceValidation: Error {
     case failure(errorMessage: String)
 }

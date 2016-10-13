@@ -28,6 +28,8 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     /// The salt of the account that should get imported.
     fileprivate var accountSalt = String()
     
+    fileprivate var cameraNotAvailable = false
+    
     // MARK: - View Controller Outlets
 
     @IBOutlet weak var qrCodeScannerView: QRCodeScannerView!
@@ -44,6 +46,8 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        guard cameraNotAvailable == false else { return }
         
         if !isScanning {
             isScanning = true
@@ -137,6 +141,8 @@ extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDe
     }
     
     func failedDetectingQRCode(withError errorMessage: String) {
+        
+        cameraNotAvailable = true
         
         let qrCodeDetectionFailureAlert: UIAlertController = UIAlertController(title: "INFO".localized(), message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         

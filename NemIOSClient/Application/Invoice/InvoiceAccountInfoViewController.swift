@@ -61,6 +61,7 @@ class InvoiceAccountInfoViewController: UIViewController {
         shareAccountQRCodeButton.setTitle("SHARE_QR".localized(), for: UIControlState())
         copyAccountAddressButton.setTitle("COPY_ADDRESS".localized(), for: UIControlState())
         shareAccountAddressButton.setTitle("SHARE_ADDRESS".localized(), for: UIControlState())
+        editAccountTitleButton.setImage(#imageLiteral(resourceName: "edit_account_icon").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
     }
     
     /**

@@ -47,7 +47,7 @@ open class AccountManager {
      */
     open func create(account title: String, withPrivateKey privateKey: String? = nil, completion: @escaping (_ result: Result) -> Void) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { [unowned self] (transaction) -> Void in
             
             var privateKey = privateKey
             if privateKey == nil {
@@ -61,7 +61,7 @@ open class AccountManager {
             account.publicKey = self.generatePublicKey(forPrivateKey: privateKey!)
             account.privateKey = encryptedPrivateKey
             account.address = self.generateAddress(forPublicKey: account.publicKey)
-            account.position = self.positionForNewAccount()
+            account.position = self.positionForNewAccount() as NSNumber
             
             transaction.commit { (result) -> Void in
                 switch result {
@@ -84,7 +84,7 @@ open class AccountManager {
     open func delete(account: Account) {
         
         var accounts = self.accounts()
-        accounts.remove(at: account.position)
+        accounts.remove(at: Int(account.position))
         
         updatePosition(forAccounts: accounts)
         
@@ -108,7 +108,7 @@ open class AccountManager {
             
             for account in accounts {
                 let editableAccount = transaction.edit(account)!
-                editableAccount.position = accounts.index(of: account)!
+                editableAccount.position = accounts.index(of: account)! as NSNumber
             }
             
             transaction.commit()

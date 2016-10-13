@@ -18,6 +18,8 @@ class AccountListViewController: UIViewController {
     /// All accounts that will get listed in the table view.
     var accounts = [Account]()
     
+    fileprivate var refreshTimer: Timer? = nil
+    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -32,6 +34,7 @@ class AccountListViewController: UIViewController {
         
         updateViewControllerAppearance()
         createEditButtonItemIfNeeded()
+        startRefreshing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +93,24 @@ class AccountListViewController: UIViewController {
         } else {
             navigationItem.rightBarButtonItem = nil
         }
+    }
+    
+    /// Starts refreshing the network time in the defined interval.
+    fileprivate func startRefreshing() {
+        
+        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(updateInterval), target: self, selector: #selector(AccountListViewController.refreshNetworkTime), userInfo: nil, repeats: true)
+    }
+    
+    /// Stops refreshing the network time.
+    fileprivate func stopRefreshing() {
+        refreshTimer?.invalidate()
+        refreshTimer = nil
+    }
+    
+    /// Synchronizes the application time with the network time.
+    open func refreshNetworkTime() {
+        
+        TimeManager.sharedInstance.synchronizeTime()
     }
     
     /**

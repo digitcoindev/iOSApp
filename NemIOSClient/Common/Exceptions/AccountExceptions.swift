@@ -7,17 +7,11 @@
 
 import Foundation
 
-/**
- 
- */
 public enum Result: Error {
     case success
     case failure
 }
 
-/**
- 
- */
 public enum AccountImportValidation: Error {
     case valueMissing
     case versionNotMatching

@@ -36,6 +36,8 @@ class TransactionUnconfirmedViewController: UIViewController {
             print("Critical: Account not available!")
             return
         }
+        
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,13 +51,6 @@ class TransactionUnconfirmedViewController: UIViewController {
         }
         
         fetchUnconfirmedTransactions(forAccount: account!)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        viewTopConstraint.constant = self.navigationBar.frame.height
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     // MARK: - View Controller Helper Methods
@@ -346,27 +341,6 @@ class TransactionUnconfirmedViewController: UIViewController {
         default:
             throw TransactionAnnounceValidation.failure(errorMessage: responseMessage)
         }
-    }
-    
-    /**
- 
-     */
-    func prepareAnnounceResponceWithTransactions(_ data: [TransactionPostMetaData]?) {
-//        
-//        var message :String = ""
-//        if (data ?? []).isEmpty {
-//            message = "TRANSACTION_ANOUNCE_FAILED".localized()
-//        } else {
-//            message = "TRANSACTION_ANOUNCE_SUCCESS".localized()
-//            
-//            if unconfirmedTransactions.count == 1 {
-////                backButtonTouchUpInside(self)
-//            } else {
-//                _apiManager.accountGet(State.currentServer!, account_address: walletData.address)
-//            }
-//        }
-//        
-//        _showPopUp(message)
     }
     
     // MARK: - View Controller Outlet Actions

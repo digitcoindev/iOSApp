@@ -17,6 +17,8 @@ class InvoiceScannerViewController: UIViewController {
     /// Bool that indicates whether the QR code scanner view is already scanning.
     fileprivate var isScanning = false
     
+    fileprivate var cameraNotAvailable = false
+    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var qrCodeScannerView: QRCodeScannerView!
@@ -26,13 +28,18 @@ class InvoiceScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        qrCodeScannerView.delegate = self
-        
         view.layoutIfNeeded()
-        resumeScanning()
+        
+        qrCodeScannerView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(resumeScanning), name: Notification.Name("resumeCaptureSession"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(stopScanning), name: Notification.Name("stopCaptureSession"), object: nil)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        resumeScanning()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -120,6 +127,8 @@ class InvoiceScannerViewController: UIViewController {
     /// Resumes the capture session.
     func resumeScanning() {
         
+        guard cameraNotAvailable == false else { return }
+        
         DispatchQueue.global(qos: .userInitiated).async {
             
             if !self.isScanning {
@@ -180,10 +189,15 @@ extension InvoiceScannerViewController: QRCodeScannerDelegate {
     
     func failedDetectingQRCode(withError errorMessage: String) {
         
+        cameraNotAvailable = true
+        
         let qrCodeDetectionFailureAlert: UIAlertController = UIAlertController(title: "INFO".localized(), message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         
         qrCodeDetectionFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: nil))
         
-        present(qrCodeDetectionFailureAlert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            
+            self.present(qrCodeDetectionFailureAlert, animated: true, completion: nil)
+        }
     }
 }

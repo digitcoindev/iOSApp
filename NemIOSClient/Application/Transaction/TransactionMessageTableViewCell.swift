@@ -40,7 +40,7 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
         super.awakeFromNib()
         
         addSubview(transactionMessageTextView)
-        _contentView?.addSubview(transactionDateLabel)
+        contentView.addSubview(transactionDateLabel)
         _detailedView?.addSubview(infoTopLabel)
         _detailedView?.addSubview(infoCenterLabel)
         _detailedView?.addSubview(infoBottomLabel)
@@ -60,30 +60,30 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
         
         super.layoutSubviews()
         
-        transactionDateLabel.frame.size.width = _contentView!.frame.width
+        transactionDateLabel.frame.size.width = contentView.frame.width
         transactionDateLabel.sizeToFit()
-        transactionDateLabel.frame.size.width = _contentView!.frame.width - 20
+        transactionDateLabel.frame.size.width = contentView.frame.width - 20
         
         switch cellType! {
         case .incoming :
             transactionDateLabel.frame.origin.x = 20
-            transactionMessageTextView.frame.size.width = _contentView!.frame.size.width * 0.75
+            transactionMessageTextView.frame.size.width = contentView.frame.size.width * 0.75
             transactionMessageTextView.sizeToFit()
             transactionMessageTextView.frame.origin = CGPoint(x: 15, y: transactionDateLabel.frame.height + 5)
-            transactionMessageTextView.frame.size = CGSize(width: min(_contentView!.frame.size.width * 0.75, transactionMessageTextView.frame.size.width), height: transactionMessageTextView.frame.size.height)
+            transactionMessageTextView.frame.size = CGSize(width: min(contentView.frame.size.width * 0.75, transactionMessageTextView.frame.size.width), height: transactionMessageTextView.frame.size.height)
             
         case .outgoing :
             transactionDateLabel.frame.origin.x = 0
-            transactionMessageTextView.frame.size.width = _contentView!.frame.size.width * 0.75
+            transactionMessageTextView.frame.size.width = contentView.frame.size.width * 0.75
             transactionMessageTextView.sizeToFit()
-            transactionMessageTextView.frame.size = CGSize(width: min(_contentView!.frame.size.width * 0.75, transactionMessageTextView.frame.size.width), height: transactionMessageTextView.frame.size.height)
-            transactionMessageTextView.frame.origin = CGPoint(x: _contentView!.frame.size.width - transactionMessageTextView.frame.size.width - 15, y: transactionDateLabel.frame.height + 5)
+            transactionMessageTextView.frame.size = CGSize(width: min(contentView.frame.size.width * 0.75, transactionMessageTextView.frame.size.width), height: transactionMessageTextView.frame.size.height)
+            transactionMessageTextView.frame.origin = CGPoint(x: contentView.frame.size.width - transactionMessageTextView.frame.size.width - 15, y: transactionDateLabel.frame.height + 5)
 
         case .processing :
-            transactionDateLabel.frame.size.width = _contentView!.frame.width
-            transactionMessageTextView.frame.size.width = _contentView!.frame.size.width - CGFloat(30)
+            transactionDateLabel.frame.size.width = contentView.frame.width
+            transactionMessageTextView.frame.size.width = contentView.frame.size.width - CGFloat(30)
             transactionMessageTextView.sizeToFit()
-            transactionMessageTextView.frame.size.width = _contentView!.frame.size.width - CGFloat(30)
+            transactionMessageTextView.frame.size.width = contentView.frame.size.width - CGFloat(30)
             transactionMessageTextView.frame.origin = CGPoint(x: 15, y: transactionDateLabel.frame.height + 5)
         }
     }
