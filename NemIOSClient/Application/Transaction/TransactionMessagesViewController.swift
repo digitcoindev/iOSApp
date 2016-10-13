@@ -40,6 +40,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     var correspondent: Correspondent?
     var accountData: AccountData?
     fileprivate var activeAccountData: AccountData?
+    fileprivate var correspondentAccountData: AccountData?
     fileprivate var transactions = [Transaction]()
     fileprivate var unconfirmedTransactions = [Transaction]()
     fileprivate var rowHeight = [CGFloat]()
@@ -99,6 +100,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         } else {
             
             showCorrespondentTransactions()
+            fetchPublicKey(forCorrespondentWithAddress: correspondent!.accountAddress)
             startRefreshing()
         }
         
@@ -335,6 +337,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                     DispatchQueue.main.async {
                         
                         self?.correspondent?.accountPublicKey = accountData.publicKey
+                        self?.correspondentAccountData = accountData
                         self?.showCorrespondentTransactions()
                         self?.startRefreshing()
                     }
@@ -393,8 +396,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                             case TransactionType.transferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
-                                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
-                                allTransactions.append(transferTransaction)
+                                allTransactions.append(multisigTransaction)
                                 
                             default:
                                 break
@@ -470,8 +472,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                             case TransactionType.transferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
-                                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
-                                unconfirmedTransactions.append(transferTransaction)
+                                unconfirmedTransactions.append(multisigTransaction)
                                 
                             default:
                                 break
@@ -593,7 +594,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
      */
     fileprivate func getTransactionsForCorrespondent(fromTransactions transactions: inout [Transaction]) {
         
-        var correspondentTransactions: [Transaction] = [TransferTransaction]()
+        var correspondentTransactions: [Transaction] = [Transaction]()
         
         for transaction in transactions {
             
@@ -624,6 +625,36 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                         
                         transaction.transferType = .incoming
                         correspondentTransactions.append(transaction)
+                    }
+                }
+                
+            case .multisigTransaction:
+                
+                let multisigTransaction = transaction as! MultisigTransaction
+                let transaction: TransferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                
+                // needed to decrypt messages where the current account was the sender.
+                if transaction.message?.payload != nil {
+                    transaction.message!.signer = correspondent?.accountPublicKey
+                    transaction.message!.getMessageFromPayload()
+                }
+                
+                if correspondent?.accountAddress != account?.address {
+                    
+                    if AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer) == correspondent?.accountAddress && transaction.recipient == account!.address {
+                        transaction.transferType = .incoming
+                        correspondentTransactions.append(multisigTransaction)
+                    } else if transaction.recipient == correspondent?.accountAddress && transaction.signer == account!.publicKey {
+                        transaction.transferType = .outgoing
+                        correspondentTransactions.append(multisigTransaction)
+                    }
+                    
+                } else {
+                    
+                    if transaction.recipient == account?.address && transaction.recipient == AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer) {
+                        
+                        transaction.transferType = .incoming
+                        correspondentTransactions.append(multisigTransaction)
                     }
                 }
 
@@ -678,21 +709,36 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         for transaction in transactions {
             
-            let transferTransaction = transaction as! TransferTransaction
+            var multisigTransaction: MultisigTransaction?
+            var transferTransaction: TransferTransaction?
             
-            var message = transferTransaction.message?.message == String() || transferTransaction.message?.message == nil ? "" : transferTransaction.message?.message
+            switch transaction.type {
+            case .transferTransaction:
+                
+                transferTransaction = transaction as! TransferTransaction
+                
+            case .multisigTransaction:
+                
+                multisigTransaction = transaction as! MultisigTransaction
+                transferTransaction = multisigTransaction!.innerTransaction as! TransferTransaction
+                
+            default:
+                break
+            }
+            
+            var message = transferTransaction!.message?.message == String() || transferTransaction!.message?.message == nil ? "" : transferTransaction!.message?.message
             var amount = String()
             
-            if (transferTransaction.amount > 0) {
+            if (transferTransaction!.amount > 0) {
                 
                 var symbol = String()
-                if transferTransaction.transferType == .incoming {
+                if transferTransaction!.transferType == .incoming {
                     symbol = "+"
                 } else {
                     symbol = "-"
                 }
                 
-                amount = "\(symbol)\((transferTransaction.amount / 1000000).format()) XEM" 
+                amount = "\(symbol)\((transferTransaction!.amount / 1000000).format()) XEM"
                 
                 if message != "" {
                     amount = "\n" + amount
@@ -916,23 +962,99 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionMessageTableViewCell") as! TransactionMessageTableViewCell
-//        cell.detailDelegate = self
-//        cell.detailsIsShown = false
         
         if indexPath.row < transactions.count {
-            let transaction = transactions[indexPath.row] as! TransferTransaction
-            if transaction.transferType == .incoming {
+            
+            var multisigTransaction: MultisigTransaction?
+            var transaction: TransferTransaction?
+            
+            switch transactions[indexPath.row].type {
+            case .transferTransaction:
+                
+                transaction = transactions[indexPath.row] as! TransferTransaction
+                
+            case .multisigTransaction:
+                
+                multisigTransaction = transactions[indexPath.row] as! MultisigTransaction
+                transaction = multisigTransaction!.innerTransaction as! TransferTransaction
+                
+            default:
+                break
+            }
+            
+            if transaction!.transferType == .incoming {
                 cell.cellType = .incoming
             } else {
                 cell.cellType = .outgoing
             }
+            
             cell.transaction = transaction
             
+            let detailBlockHeight = NSMutableAttributedString(string: "\("BLOCK".localized()): ", attributes: nil)
+            detailBlockHeight.append(NSMutableAttributedString(string: "\(transaction!.metaData!.height!)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+            let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
+            detailFee.append(NSMutableAttributedString(string: "\((transaction!.fee / 1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+            
+            cell.setDetails(detailBlockHeight, centerInformation: detailFee, bottomInformation: nil)
+            
         } else {
-            let transaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as! TransferTransaction
+            
+            var multisigTransaction: MultisigTransaction?
+            var transaction: TransferTransaction?
+            
+            switch unconfirmedTransactions[indexPath.row - transactions.count - 1].type {
+            case .transferTransaction:
+                
+                transaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as! TransferTransaction
+                
+            case .multisigTransaction:
+                
+                multisigTransaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as! MultisigTransaction
+                transaction = multisigTransaction!.innerTransaction as! TransferTransaction
+                
+            default:
+                break
+            }
+            
             cell.cellType = .processing
             cell.transaction = transaction
+            
+            if multisigTransaction != nil {
+                if correspondentAccountData != nil {
+                    
+                    let minCosignatories = multisigTransaction!.innerTransaction.signer == accountData!.publicKey ? ((accountData!.minCosignatories == 0 || accountData!.minCosignatories == accountData!.cosignatories.count) ? accountData!.cosignatories.count : accountData!.minCosignatories) : ((correspondentAccountData!.minCosignatories == 0 || correspondentAccountData!.minCosignatories == correspondentAccountData!.cosignatories.count) ? correspondentAccountData!.cosignatories.count : correspondentAccountData!.minCosignatories)
+                    
+                    let detailCosignatoriesSigned = NSMutableAttributedString(string: "\(multisigTransaction!.signatures!.count + 1)", attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFont(ofSize: 10, weight: UIFontWeightBold)])
+                    detailCosignatoriesSigned.append(NSMutableAttributedString(string: " \("OF".localized())", attributes: nil))
+                    detailCosignatoriesSigned.append(NSMutableAttributedString(string: " \(multisigTransaction!.innerTransaction.signer == accountData!.publicKey ? accountData!.cosignatories.count : correspondentAccountData!.cosignatories.count) " , attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    detailCosignatoriesSigned.append(NSMutableAttributedString(string: "SIGNERS".localized(), attributes: nil))
+                    let detailMinCosignatories = NSMutableAttributedString(string: "\("MIN".localized()) ", attributes: nil)
+                    detailMinCosignatories.append(NSMutableAttributedString(string: "\(minCosignatories!)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    detailMinCosignatories.append(NSMutableAttributedString(string: " \("SIGNERS".localized())", attributes: nil))
+                    let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
+                    detailFee.append(NSMutableAttributedString(string: "\((transaction!.fee / 1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    
+                    cell.setDetails(detailCosignatoriesSigned, centerInformation: detailMinCosignatories, bottomInformation: detailFee)
+                    
+                } else {
+                    
+                    let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
+                    detailFee.append(NSMutableAttributedString(string: "\((transaction!.fee / 1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    
+                    cell.setDetails(nil, centerInformation: detailFee, bottomInformation: nil)
+                }
+                
+            } else {
+                
+                let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
+                detailFee.append(NSMutableAttributedString(string: "\((transaction!.fee / 1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                
+                cell.setDetails(nil, centerInformation: detailFee, bottomInformation: nil)
+            }
         }
+        
+        cell.detailDelegate = self
+        cell.detailsIsShown = false
         
         return cell
     }
@@ -944,6 +1066,19 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
         }
         
         return rowHeight[indexPath.row]
+    }
+}
+
+// MARK: - 
+
+extension TransactionMessagesViewController: DetailedTableViewCellDelegate {
+    
+    func showDetailsForCell(_ cell: DetailedTableViewCell) {
+        cell.detailsIsShown = true
+    }
+    
+    func hideDetailsForCell(_ cell: DetailedTableViewCell) {
+        cell.detailsIsShown = false
     }
 }
 

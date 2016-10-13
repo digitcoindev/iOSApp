@@ -13,12 +13,13 @@ class MultisigAddCosignatoryViewController: UIViewController {
     // MARK: - View Controller Properties
     
     var newCosignatoryPublicKey: String?
+    fileprivate var suggestions = [String: String]()
     
     // MARK: - View Controller Outlets
     
-    @IBOutlet weak var cosignatoryIdentifierTextField: NEMTextField!
-    @IBOutlet weak var addCosignatoryButton: UIButton!
-    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var cosignatoryIdentifierTextField: AutoCompleteTextField!
+    @IBOutlet weak var addCosignatoryButton: UIBarButtonItem!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
@@ -29,17 +30,32 @@ class MultisigAddCosignatoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.layoutIfNeeded()
+        
         self.navigationBar.delegate = self
         
         updateViewControllerAppearance()
         
-//        _setSuggestions()
+        handleTextFieldInterfaces()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         viewTopConstraint.constant = self.navigationBar.frame.height + 50
+    }
+    
+    private func handleTextFieldInterfaces() {
+        
+        cosignatoryIdentifierTextField.onTextChange = { [weak self] text in
+            if !text.isEmpty {
+                self?.setSuggestions()
+            }
+        }
+        
+        cosignatoryIdentifierTextField.onSelect = { [weak self] text, indexpath in
+            self?.cosignatoryIdentifierTextField.text = self?.suggestions[text]
+        }
     }
     
     // MARK: - View Controller Helper Methods
@@ -49,10 +65,9 @@ class MultisigAddCosignatoryViewController: UIViewController {
         
         customNavigationItem.title = "ADD_COSIGNATORY".localized()
         cosignatoryIdentifierTextField.placeholder = "INPUT_PUBLIC_KEY".localized()
-        addCosignatoryButton.setTitle("ADD_COSIGNATORY".localized(), for: UIControlState())
         
-        contentView.layer.cornerRadius = 5
-        contentView.clipsToBounds = true
+        cosignatoryIdentifierTextField.layer.cornerRadius = 5
+        cosignatoryIdentifierTextField.clipsToBounds = true
     }
     
     /**
@@ -73,112 +88,34 @@ class MultisigAddCosignatoryViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    fileprivate func _setSuggestions() {
-//        let suggestions :[NEMTextField.Suggestion] = []
-////        let dataManager = CoreDataManager()
-//        
-////        for wallet in dataManager.getWallets() {
-////            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
-////            let publicKey = KeyGenerator.generatePublicKey(privateKey!)
-////            let account_address = AddressGenerator.generateAddress(publicKey)
-////            
-////            var find = false
-////            
-////            for suggestion in suggestions {
-////                if suggestion.key == account_address {
-////                    find = true
-////                    break
-////                }
-////            }
-////            
-////            if !find {
-////                var sugest = NEMTextField.Suggestion()
-////                
-////                sugest.key = account_address
-////                sugest.value = publicKey
-////                suggestions.append(sugest)
-////                
-////                sugest.key = publicKey
-////                sugest.value = publicKey
-////                suggestions.append(sugest)
-////
-////            }
-////            
-////            find = false
-////            
-////            for suggestion in suggestions {
-////                if suggestion.key == wallet.login {
-////                    find = true
-////                    break
-////                }
-////            }
-////            
-////            if !find {
-////                var sugest = NEMTextField.Suggestion()
-////                
-////                sugest.key = wallet.login
-////                sugest.value = publicKey
-////                suggestions.append(sugest)
-////            }
-////        }
-//        
-////        if AddressBookManager.isAllowed ?? false {
-////            for contact in AddressBookManager.contacts {
-////                var name = ""
-////                if contact.givenName != "" {
-////                    name = contact.givenName
-////                }
-////                
-////                if contact.familyName != "" {
-////                    name += " " + contact.familyName
-////                }
-////                
-////                for email in contact.emailAddresses{
-////                    if email.label == "NEM" {
-////                        let account_address = email.value as? String ?? " "
-////                        
-////                        var find = false
-////                        
-////                        for suggestion in suggestions {
-////                            if suggestion.key == account_address {
-////                                find = true
-////                                break
-////                            }
-////                        }
-////                        if !find {
-////                            var sugest = NEMTextField.Suggestion()
-////                            sugest.key = account_address
-////                            sugest.value = account_address
-////                            suggestions.append(sugest)
-////                        }
-////                        
-////                        find = false
-////                        
-////                        for suggestion in suggestions {
-////                            if suggestion.key == name {
-////                                find = true
-////                                break
-////                            }
-////                        }
-////                        if !find {
-////                            var sugest = NEMTextField.Suggestion()
-////                            sugest.key = name
-////                            sugest.value = account_address
-////                            suggestions.append(sugest)
-////                        }
-////                    }
-////                }
-////            }
-////        }
-//        
-//        publicKey.suggestions = suggestions
-//        publicKey.tableViewMaxRows = 5
-//        publicKey.nemDelegate = self
+    /// Sets all suggestions for the cosignatory identifier text field.
+    fileprivate func setSuggestions() {
+        
+        guard cosignatoryIdentifierTextField.text != nil else { return }
+        
+        let searchText = cosignatoryIdentifierTextField.text!.lowercased()
+        var autoCompleteStrings = [String]()
+        
+        let accounts = AccountManager.sharedInstance.accounts()
+        for account in accounts {
+            suggestions[account.title] = account.publicKey
+        }
+        
+        let filteredSuggestions = suggestions.filter {
+            let fullName = "\($0.key) \($0.value)".lowercased()
+            return fullName.contains(searchText)
+        }
+        
+        for filteredSuggestion in filteredSuggestions {
+            autoCompleteStrings.append(filteredSuggestion.key)
+        }
+        
+        cosignatoryIdentifierTextField.autoCompleteStrings = autoCompleteStrings
     }
     
     // MARK: View Controller Outlet Actions
     
-    @IBAction func addCosignatoryButtonPressed(_ sender: UIButton) {
+    @IBAction func addCosignatoryButtonPressed(_ sender: UIBarButtonItem) {
         
         guard let cosignatoryIdentifier = cosignatoryIdentifierTextField.text else {
             showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
@@ -197,50 +134,15 @@ class MultisigAddCosignatoryViewController: UIViewController {
             performSegue(withIdentifier: "unwindToMultisigViewController", sender: nil)
             
         } else {
-            
-            if TransactionManager.sharedInstance.validateAccountAddress(cosignatoryIdentifier) == true {
                 
-                for suggestion in cosignatoryIdentifierTextField.suggestions {
-                    if suggestion.key == cosignatoryIdentifier {
-                        
-                        newCosignatoryPublicKey = suggestion.value
-                        performSegue(withIdentifier: "unwindToMultisigViewController", sender: nil)
-                    }
-                }
-                
-                showAlert(withMessage: "UNKNOWN_ACCOUNT_ADDRESS".localized())
-                cosignatoryIdentifierTextField.endEditing(true)
-                return
-                
-            } else {
-                
-                showAlert(withMessage: "UNKNOWN_TEXT".localized())
-                cosignatoryIdentifierTextField.endEditing(true)
-                return
-            }
-            
+            showAlert(withMessage: "UNKNOWN_TEXT".localized())
+            cosignatoryIdentifierTextField.endEditing(true)
+            return
         }
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK: - NEM Text Field Delegate
-
-extension MultisigAddCosignatoryViewController: NEMTextFieldDelegate {
-    
-    func newNemTexfieldSize(_ size: CGSize) {
-        for constraint in contentView.constraints {
-            if constraint.identifier == "containerHeight" {
-                constraint.constant = size.height + addCosignatoryButton.frame.height
-            }
-        }
-        
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.view.layoutIfNeeded()
-        })
     }
 }
 

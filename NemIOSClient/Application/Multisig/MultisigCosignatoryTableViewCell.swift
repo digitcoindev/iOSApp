@@ -40,7 +40,7 @@ class MultisigCosignatoryTableViewCell: UITableViewCell {
     /// Updates the table view cell with the provided account data.
     fileprivate func updateCellWithAccountData() {
         
-        titleLabel.text = cosignatoryAccountData!.title ?? cosignatoryAccountData!.address
+        titleLabel.text = cosignatoryAccountData!.title ?? cosignatoryAccountData!.address.accountTitle()
     }
     
     /// Updates the table view cell with the provided identifier.
@@ -48,11 +48,11 @@ class MultisigCosignatoryTableViewCell: UITableViewCell {
         
         if AccountManager.sharedInstance.validateKey(cosignatoryIdentifier!) == true {
             
-            titleLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: cosignatoryIdentifier!).nemAddressNormalised() 
+            titleLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: cosignatoryIdentifier!).nemAddressNormalised().accountTitle()
             
         } else if TransactionManager.sharedInstance.validateAccountAddress(cosignatoryIdentifier!) {
             
-            titleLabel.text = cosignatoryIdentifier!.nemAddressNormalised() 
+            titleLabel.text = cosignatoryIdentifier!.nemAddressNormalised().accountTitle()
         
         } else {
             

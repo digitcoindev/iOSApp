@@ -178,6 +178,8 @@ open class AccountManager {
      */
     open func titleForAccount(withAddress accountAddress: String) -> String? {
         
+        let accountAddress = accountAddress.replacingOccurrences(of: "-", with: "")
+        
         let accounts = self.accounts()
         
         for account in accounts where account.address == accountAddress {

@@ -29,6 +29,12 @@ public struct MultisigCosignatoryModification: SwiftyJSONMappable {
     /// The public key of the cosignatory account.
     public var cosignatoryAccount: String!
     
+    /// The length of the modificatoin structure.
+    public var modificationStructureLength = 40
+    
+    /// The length of the cosignatory public key.
+    public var cosignatoryPublicKeyLength = 32
+    
     // MARK: - Model Lifecycle
     
     public init?(modificationType: ModificationType, cosignatoryAccount: String) {

@@ -44,7 +44,6 @@ class MultisigViewController: UIViewController {
     // MARK: - View Controller Outlets
 
     @IBOutlet weak var multisigAccountChooserButton: AccountChooserButton!
-    @IBOutlet weak var minCosigField: NEMTextField!
     @IBOutlet weak var infoHeaderLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingView: UIView!
@@ -74,6 +73,8 @@ class MultisigViewController: UIViewController {
     fileprivate func updateViewControllerAppearance() {
         
         title = "MULTISIG".localized()
+        
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     /**
@@ -283,12 +284,14 @@ class MultisigViewController: UIViewController {
                 do {
                     try response.filterSuccessfulStatusCodes()
                     let responseJSON = JSON(data: response.data)
-                    print("--- \(responseJSON)")
+
                     try self?.validateAnnounceTransactionResult(responseJSON)
                     
                     DispatchQueue.main.async {
                         
                         self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_SUCCESS".localized())
+                        
+                        self?.minCosignatoriesUserPreference = nil
                     }
                     
                 } catch TransactionAnnounceValidation.failure(let errorMessage) {
@@ -417,26 +420,28 @@ class MultisigViewController: UIViewController {
         }
         
         // TODO:
-        var relativeChange = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories ?? 0
+        let originalMinCosignatories = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories ?? 0
+
+        var relativeChange = 0
 
         if let minCosignatoriesUserPreference = minCosignatoriesUserPreference {
             
-            if minCosignatoriesUserPreference > relativeChange {
-                relativeChange = minCosignatoriesUserPreference - relativeChange
-            } else if minCosignatoriesUserPreference == relativeChange {
+            if minCosignatoriesUserPreference > originalMinCosignatories {
+                relativeChange = minCosignatoriesUserPreference - originalMinCosignatories
+            } else if minCosignatoriesUserPreference == originalMinCosignatories {
                 relativeChange = 0
             } else {
-                relativeChange = minCosignatoriesUserPreference - relativeChange
+                relativeChange = minCosignatoriesUserPreference - originalMinCosignatories
             }
             
             print("USER PREFERRED!: \(minCosignatoriesUserPreference) RELCHANGE: \(relativeChange)")
             
         } else {
             
-            for addedCosignatory in addedCosignatories {
+            for _ in addedCosignatories {
                 relativeChange += 1
             }
-            for removedCosignatory in removedCosignatories {
+            for _ in removedCosignatories {
                 relativeChange -= 1
             }
             
@@ -446,12 +451,20 @@ class MultisigViewController: UIViewController {
         
         let transactionVersion = 2
         let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
-        let transactionFee = 10 + 6 * (addedCosignatories.count + removedCosignatories.count)
+        var transactionFee = 10 + 6 * (addedCosignatories.count + removedCosignatories.count)
         let transactionRelativeChange = relativeChange
         let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
-        let transactionSigner = activeAccountData!.publicKey
         
-        let transaction = MultisigAggregateModificationTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: transactionFee, relativeChange: transactionRelativeChange, deadline: transactionDeadline, signer: transactionSigner!)
+        if relativeChange != 0 {
+            transactionFee += 6
+        }
+        
+        var transactionSigner = activeAccountData!.publicKey
+        if activeAccountData!.cosignatories.count == 0 {
+            transactionSigner = account!.publicKey
+        }
+        
+        let transaction = MultisigAggregateModificationTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: transactionFee * 1000000, relativeChange: transactionRelativeChange, deadline: transactionDeadline, signer: transactionSigner!)
         
         for cosignatoryAccount in addedCosignatories {
             transaction!.addModification(.addCosignatory, cosignatoryAccount: cosignatoryAccount)
@@ -460,46 +473,51 @@ class MultisigViewController: UIViewController {
         for cosignatoryAccount in removedCosignatories {
             transaction!.addModification(.deleteCosignatory, cosignatoryAccount: cosignatoryAccount)
         }
+        
+        // Check if the transaction is a multisig transaction
+        if activeAccountData!.publicKey != account!.publicKey {
+            
+            let multisigTransaction = MultisigTransaction(version: 1, timeStamp: transactionTimeStamp, fee: Int(6 * 1000000), deadline: transactionDeadline, signer: account!.publicKey, innerTransaction: transaction!)
+            
+            announceTransaction(multisigTransaction!)
+            return
+        }
 
         announceTransaction(transaction!)
     }
     
     @IBAction func minCosignatoriesChanged(_ sender: UITextField) {
         
-        guard let minCosignatories = Int(sender.text!) else { return }
+        guard let minCosignatories = Int(sender.text!) else {
+            sender.text = ""
+            minCosignatoriesUserPreference = nil
+            tableView.reloadData()
+            return
+        }
         
-        minCosignatoriesUserPreference = minCosignatories
-    }
-    
-    @IBAction func minCosigChaned(_ sender: UITextField) {
-//        var isNormal = false
-//        print()
-//        if let value = Int(sender.text!) {
-//            if value >= minCosigValue && value <= maxCosigValue {
-//                isNormal = true
-//                self.minCosig = value
-//                sender.text = ""
-//                let currentValue = (_activeAccount!.minCosignatories == 0 || _activeAccount!.minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : _activeAccount!.minCosignatories!
-//
-//                if currentValue == value {
-//                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(value)")
-//                } else {
-//                    sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER_CHANGED".localized()), "\(value)")
-//                }
-//            }
-//        }
-//        
-//        if !isNormal {
-//            sender.text = ""
-//            self.minCosig = nil
-//            if let minCosignatories = _activeAccount!.minCosignatories {
-//                let currentValue = (minCosignatories == 0 || minCosignatories == _activeAccount!.cosignatories.count) ? _activeAccount!.cosignatories.count - _removeArray.count : minCosignatories
-//                
-//                sender.placeholder = String(format: ("   " + "MIN_COSIG_PLACEHOLDER".localized()), "\(currentValue)")
-//            }
-//        } else {
-//            self.tableView.reloadData()
-//        }
+        let originalMinCosignatories = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories ?? 0
+        
+        if activeAccountData!.cosignatories.count <= minCosignatories {
+            minCosignatoriesUserPreference = activeAccountData!.cosignatories.count
+        } else if minCosignatories < 0 {
+            minCosignatoriesUserPreference = originalMinCosignatories
+        } else {
+            minCosignatoriesUserPreference = minCosignatories
+        }
+        
+        if minCosignatoriesUserPreference == originalMinCosignatories {
+            sender.text = ""
+            minCosignatoriesUserPreference = nil
+            tableView.reloadData()
+            return
+        }
+        
+        print(minCosignatoriesUserPreference!)
+        
+        sender.text = ""
+        sender.placeholder = "\(String(format: "MIN_COSIG_PLACEHOLDER_CHANGED".localized(), "\(minCosignatoriesUserPreference!)"))"
+        
+        tableView.reloadData()
     }
 }
 
@@ -521,7 +539,7 @@ extension MultisigViewController: UITableViewDelegate, UITableViewDataSource {
                     
                 } else {
                     
-                    if addedCosignatories.count > 0 || removedCosignatories.count > 0 {
+                    if addedCosignatories.count > 0 || removedCosignatories.count > 0 || minCosignatoriesUserPreference != nil {
                         
                         return activeAccountData.cosignatories.count + addedCosignatories.count + 3
 
@@ -587,8 +605,10 @@ extension MultisigViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let minCosignatories = (activeAccountData!.minCosignatories == 0 || activeAccountData!.minCosignatories == activeAccountData!.cosignatories.count) ? activeAccountData!.cosignatories.count : activeAccountData!.minCosignatories
                     
-                    cell.textField.placeholder = String(format: ("MIN_COSIG_PLACEHOLDER".localized()), "\(minCosignatories!)")
-                                    
+                    if minCosignatoriesUserPreference == nil {
+                        cell.textField.placeholder = String(format: ("MIN_COSIG_PLACEHOLDER".localized()), "\(minCosignatories!)")
+                    }
+                    
                     return cell
                     
                 } else {

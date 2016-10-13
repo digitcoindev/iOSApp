@@ -70,6 +70,12 @@ open class TransactionManager {
             
             transactionByteArray += transactionDependentPartByteArray
             
+        case .multisigAggregateModificationTransaction:
+            
+            transactionDependentPartByteArray = generateMultisigAggregateModificationTransactionPart(forTransaction: transaction as! MultisigAggregateModificationTransaction)
+            
+            transactionByteArray += transactionDependentPartByteArray
+            
         case .multisigSignatureTransaction:
             
             transactionDependentPartByteArray = generateMultisigSignatureTransactionPart(forTransaction: transaction as! MultisigSignatureTransaction)
@@ -78,14 +84,34 @@ open class TransactionManager {
             
         case .multisigTransaction:
             
-            let transferTransactionCommonPartByteArray = generateCommonTransactionPart(forTransaction: (transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)
-            transactionDependentPartByteArray = generateTransferTransactionPart(forTransaction: (transaction as! MultisigTransaction).innerTransaction as! TransferTransaction)
+            let multisigTransaction = transaction as! MultisigTransaction
             
-            let innerTransactionLengthByteArray: [UInt8] = String(Int64(transferTransactionCommonPartByteArray.count + transactionDependentPartByteArray.count), radix: 16).asByteArrayEndian(4)
-            
-            transactionByteArray += innerTransactionLengthByteArray
-            transactionByteArray += transferTransactionCommonPartByteArray
-            transactionByteArray += transactionDependentPartByteArray
+            switch multisigTransaction.innerTransaction.type {
+            case .transferTransaction:
+                
+                let transferTransactionCommonPartByteArray = generateCommonTransactionPart(forTransaction: multisigTransaction.innerTransaction as! TransferTransaction)
+                transactionDependentPartByteArray = generateTransferTransactionPart(forTransaction: multisigTransaction.innerTransaction as! TransferTransaction)
+                
+                let innerTransactionLengthByteArray: [UInt8] = String(Int64(transferTransactionCommonPartByteArray.count + transactionDependentPartByteArray.count), radix: 16).asByteArrayEndian(4)
+                
+                transactionByteArray += innerTransactionLengthByteArray
+                transactionByteArray += transferTransactionCommonPartByteArray
+                transactionByteArray += transactionDependentPartByteArray
+                
+            case .multisigAggregateModificationTransaction:
+                
+                let multisigAggregateModificationTransactionCommonPartByteArray = generateCommonTransactionPart(forTransaction: multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction)
+                transactionDependentPartByteArray = generateMultisigAggregateModificationTransactionPart(forTransaction: multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction)
+                
+                let innerTransactionLengthByteArray: [UInt8] = String(Int64(multisigAggregateModificationTransactionCommonPartByteArray.count + transactionDependentPartByteArray.count), radix: 16).asByteArrayEndian(4)
+                
+                transactionByteArray += innerTransactionLengthByteArray
+                transactionByteArray += multisigAggregateModificationTransactionCommonPartByteArray
+                transactionByteArray += transactionDependentPartByteArray
+                
+            default:
+                break
+            }
             
         default:
             break
@@ -340,6 +366,61 @@ open class TransactionManager {
             transactionMessageFieldLengthByteArray = [0, 0, 0, 0]
             
             transactionDependentPartByteArray += transactionMessageFieldLengthByteArray
+        }
+        
+        return transactionDependentPartByteArray
+    }
+    
+    /**
+        Generates the transaction dependent part of the transaction data byte
+        array for a multisig aggregate modification transaction.
+     
+        - Parameter transaction: The multisig aggregate modification transaction for which the transaction dependent part of the transaction data byte array should get generated.
+     
+        - Returns: The transaction dependent part of the transaction data byte array for a multisig aggregate modification transaction.
+     */
+    fileprivate func generateMultisigAggregateModificationTransactionPart(forTransaction transaction: MultisigAggregateModificationTransaction) -> [UInt8] {
+        
+        var transactionDependentPartByteArray = [UInt8]()
+        
+        let transactionCosignatoryModificationCountByteArray = String(transaction.modifications.count, radix: 16).asByteArrayEndian(4)
+        
+        transactionDependentPartByteArray += transactionCosignatoryModificationCountByteArray
+        
+        for modification in transaction.modifications {
+            
+            let transactionModificationStructureLengthByteArray = String(modification.modificationStructureLength, radix: 16).asByteArrayEndian(4)
+            let transactionModificationTypeByteArray = String(modification.modificationType.rawValue, radix: 16).asByteArrayEndian(4)
+            let transactionCosignatoryPublicKeyLengthByteArray = String(modification.cosignatoryPublicKeyLength, radix: 16).asByteArrayEndian(4)
+            let transactionCosignatoryPublicKeyByteArray = modification.cosignatoryAccount.asByteArray()
+            
+            transactionDependentPartByteArray += transactionModificationStructureLengthByteArray
+            transactionDependentPartByteArray += transactionModificationTypeByteArray
+            transactionDependentPartByteArray += transactionCosignatoryPublicKeyLengthByteArray
+            transactionDependentPartByteArray += transactionCosignatoryPublicKeyByteArray
+        }
+        
+        if transaction.relativeChange == 0 {
+            
+            let transactionRelativeChangeLengthByteArray = String(0, radix: 16).asByteArrayEndian(4)
+            
+            transactionDependentPartByteArray += transactionRelativeChangeLengthByteArray
+            
+        } else if transaction.relativeChange > 0 {
+            
+            let transactionRelativeChangeLengthByteArray = String(4, radix: 16).asByteArrayEndian(4)
+            let transactionRelativeChangeByteArray = String(transaction.relativeChange, radix: 16).asByteArrayEndian(4)
+            
+            transactionDependentPartByteArray += transactionRelativeChangeLengthByteArray
+            transactionDependentPartByteArray += transactionRelativeChangeByteArray
+            
+        } else {
+            
+            let transactionRelativeChangeLengthByteArray = String(4, radix: 16).asByteArrayEndian(4)
+            let transactionRelativeChangeByteArray = [UInt8(256 + transaction.relativeChange), 255, 255, 255]
+            
+            transactionDependentPartByteArray += transactionRelativeChangeLengthByteArray
+            transactionDependentPartByteArray += transactionRelativeChangeByteArray
         }
         
         return transactionDependentPartByteArray

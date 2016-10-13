@@ -55,6 +55,7 @@ class TransactionUnconfirmedViewController: UIViewController {
         super.viewWillLayoutSubviews()
         
         viewTopConstraint.constant = self.navigationBar.frame.height
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     // MARK: - View Controller Helper Methods

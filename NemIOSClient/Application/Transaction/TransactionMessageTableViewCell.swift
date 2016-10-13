@@ -33,10 +33,6 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     fileprivate let infoBottomLabel = UILabel()
     fileprivate let incomingColor = UIColor(red: 229.0/255.0, green: 229.0/255.0, blue: 234.0/255.0, alpha: 1)
     fileprivate let outgoingColor = UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)
-    fileprivate let topInset: CGFloat = 2.0
-    fileprivate let bottomInset: CGFloat = 2.0
-    fileprivate let leftInset: CGFloat = 5.0
-    fileprivate let rightInset: CGFloat = 5.0
     
     // MARK: - Cell Lifecycle
     
@@ -188,7 +184,7 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     }
     
     /// Updates the details labels with the provided details.
-    fileprivate func setDetails(_ topInformation: NSAttributedString, centerInformation: NSAttributedString, bottomInformation: NSAttributedString) {
+    open func setDetails(_ topInformation: NSAttributedString?, centerInformation: NSAttributedString?, bottomInformation: NSAttributedString?) {
         infoTopLabel.attributedText = topInformation
         infoCenterLabel.attributedText = centerInformation
         infoBottomLabel.attributedText = bottomInformation

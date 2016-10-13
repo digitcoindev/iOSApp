@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Contacts
 import SwiftyJSON
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -47,6 +48,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     fileprivate var accountChooserViewController: UIViewController?
     fileprivate var preparedTransaction: Transaction?
     fileprivate var sendingTransaction = false
+    fileprivate var suggestions = [String: String]()
+    fileprivate var contacts = [CNContact]()
     
     // MARK: - View Controller Outlets
     
@@ -56,7 +59,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var transactionSenderHeadingLabel: UILabel!
     @IBOutlet weak var transactionSenderLabel: UILabel!
     @IBOutlet weak var transactionRecipientHeadingLabel: UILabel!
-    @IBOutlet weak var transactionRecipientTextField: NEMTextField!
+    @IBOutlet weak var transactionRecipientTextField: AutoCompleteTextField!
     @IBOutlet weak var transactionAmountHeadingLabel: UILabel!
     @IBOutlet weak var transactionAmountTextField: UITextField!
     @IBOutlet weak var transactionMessageHeadingLabel: UILabel!
@@ -98,14 +101,27 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         }
         
         calculateTransactionFee()
-        
-//        setSuggestions()
+        handleTextFieldInterfaces()
+        fetchContacts()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         viewTopConstraint.constant = self.navigationBar.frame.height
+    }
+    
+    private func handleTextFieldInterfaces() {
+        
+        transactionRecipientTextField.onTextChange = { [weak self] text in
+            if !text.isEmpty {
+                self?.setSuggestions()
+            }
+        }
+        
+        transactionRecipientTextField.onSelect = { [weak self] text, indexpath in
+            self?.transactionRecipientTextField.text = self?.suggestions[text]
+        }
     }
     
     // MARK: - View Controller Helper Methods
@@ -124,6 +140,13 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         transactionAmountTextField.placeholder = "ENTER_AMOUNT".localized()
         transactionMessageTextField.placeholder = "EMPTY_MESSAGE".localized()
         transactionFeeTextField.placeholder = "ENTER_FEE".localized()
+        
+        transactionRecipientTextField.autoCompleteTextFont = UIFont.systemFont(ofSize: 14)
+        transactionRecipientTextField.autoCompleteCellHeight = 35.0
+        transactionRecipientTextField.maximumAutoCompleteCount = 20
+        transactionRecipientTextField.hidesWhenSelected = true
+        transactionRecipientTextField.hidesWhenEmpty = true
+        transactionRecipientTextField.enableAttributedText = false
     }
     
     /**
@@ -409,97 +432,56 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         announceTransaction((preparedTransaction as! TransferTransaction))
     }
     
-    final func setSuggestions() {
-        let suggestions :[NEMTextField.Suggestion] = []
+    /// Fetches all contacts and reloads the table view with the fetched content.
+    fileprivate func fetchContacts() {
         
-        //        let dataManager = CoreDataManager()
-        //        for wallet in dataManager.getWallets() {
-        //            let privateKey = HashManager.AES256Decrypt(wallet.privateKey, key: State.loadData!.password!)
-        //            let account_address = AddressGenerator.generateAddressFromPrivateKey(privateKey!)
-        //
-        //            var find = false
-        //
-        //            for suggestion in suggestions {
-        //                if suggestion.key == account_address {
-        //                    find = true
-        //                    break
-        //                }
-        //            }
-        //            if !find {
-        //                var sugest = NEMTextField.Suggestion()
-        //                sugest.key = account_address
-        //                sugest.value = account_address
-        //                suggestions.append(sugest)
-        //            }
-        //
-        //            find = false
-        //
-        //            for suggestion in suggestions {
-        //                if suggestion.key == wallet.login {
-        //                    find = true
-        //                    break
-        //                }
-        //            }
-        //            if !find {
-        //                var sugest = NEMTextField.Suggestion()
-        //                sugest.key = wallet.login
-        //                sugest.value = account_address
-        //                suggestions.append(sugest)
-        //            }
-        //        }
+        AddressBookManager.sharedInstance.contacts { [weak self] (contacts) in
+            self?.contacts = contacts
+        }
+    }
+    
+    /// Filters all contacts with an account address from the contacts.
+    open func filterContacts() -> [String: String] {
         
-        // TODO: Disable whole address book don't handle public keys
+        var filteredContacts = [String: String]()
         
-        //        if AddressBookManager.isAllowed ?? false {
-        //            for contact in AddressBookManager.contacts {
-        //                var name = ""
-        //                if contact.givenName != "" {
-        //                    name = contact.givenName
-        //                }
-        //
-        //                if contact.familyName != "" {
-        //                    name += " " + contact.familyName
-        //                }
-        //
-        //                for email in contact.emailAddresses{
-        //                    if email.label == "NEM" {
-        //                        let account_address = email.value as? String ?? " "
-        //
-        //                        var find = false
-        //
-        //                        for suggestion in suggestions {
-        //                            if suggestion.key == account_address {
-        //                                find = true
-        //                                break
-        //                            }
-        //                        }
-        //                        if !find {
-        //                            var sugest = NEMTextField.Suggestion()
-        //                            sugest.key = account_address
-        //                            sugest.value = account_address
-        //                            suggestions.append(sugest)
-        //                        }
-        //
-        //                        find = false
-        //
-        //                        for suggestion in suggestions {
-        //                            if suggestion.key == name {
-        //                                find = true
-        //                                break
-        //                            }
-        //                        }
-        //                        if !find {
-        //                            var sugest = NEMTextField.Suggestion()
-        //                            sugest.key = name
-        //                            sugest.value = account_address
-        //                            suggestions.append(sugest)
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
+        for contact in contacts {
+            for emailAddress in contact.emailAddresses where emailAddress.label == "NEM" {
+                filteredContacts["\(contact.givenName) \(contact.familyName)"] = emailAddress.value as String
+            }
+        }
         
-//        toAddressTextField.suggestions = suggestions
+        return filteredContacts
+    }
+    
+    /// Sets all suggestions for the recipient text field.
+    fileprivate func setSuggestions() {
+        
+        guard transactionRecipientTextField.text != nil else { return }
+        
+        let searchText = transactionRecipientTextField.text!.lowercased()
+        var autoCompleteStrings = [String]()
+        
+        let accounts = AccountManager.sharedInstance.accounts()
+        for account in accounts {
+            suggestions[account.title] = account.address
+        }
+        
+        let contacts = filterContacts()
+        for contact in contacts {
+            suggestions[contact.key] = contact.value
+        }
+        
+        let filteredSuggestions = suggestions.filter {
+            let fullName = "\($0.key) \($0.value)".lowercased()
+            return fullName.contains(searchText)
+        }
+        
+        for filteredSuggestion in filteredSuggestions {
+            autoCompleteStrings.append(filteredSuggestion.key)
+        }
+
+        transactionRecipientTextField.autoCompleteStrings = autoCompleteStrings
     }
     
     // MARK: - View Controller Outlet Actions
@@ -638,7 +620,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         calculateTransactionFee()
     }
     
-    @IBAction func endTyping(_ sender: NEMTextField) {
+    @IBAction func endTyping(_ sender: AutoCompleteTextField) {
         
         calculateTransactionFee()
         sender.becomeFirstResponder()

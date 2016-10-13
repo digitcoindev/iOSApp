@@ -60,6 +60,7 @@ class SettingsServerViewController: UIViewController {
         addServerButton.setTitle("ADD_SERVER".localized(), for: UIControlState())
         addServerButton.setImage(#imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
         addServerButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     /**
