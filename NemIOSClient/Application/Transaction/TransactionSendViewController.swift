@@ -89,7 +89,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         
         updateViewControllerAppearance()
         fetchAccountData(forAccount: account!)
-        
+                
         if recipientAddress != nil {
             transactionRecipientTextField.text = recipientAddress
         }
@@ -207,7 +207,11 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
                     try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
-                    let accountData = try json.mapObject(AccountData.self)
+                    var accountData = try json.mapObject(AccountData.self)
+                    
+                    if accountData.publicKey == "" {
+                        accountData.publicKey = account.publicKey
+                    }
                     
                     DispatchQueue.main.async {
                         
