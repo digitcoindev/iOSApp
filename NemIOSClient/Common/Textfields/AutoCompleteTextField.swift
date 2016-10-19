@@ -30,7 +30,7 @@ public class AutoCompleteTextField:UITextField {
     public var autoCompleteTextColor = UIColor.black
     
     /// Used to set the height of cell for each suggestions
-    public var autoCompleteCellHeight:CGFloat = 44.0
+    public var autoCompleteCellHeight:CGFloat = 50.0
     
     /// The maximum visible suggestion
     public var maximumAutoCompleteCount = 3
@@ -48,12 +48,8 @@ public class AutoCompleteTextField:UITextField {
     public var hidesWhenSelected = true
     
     /// Hides autocomplete tableview when the textfield is empty
-    public var hidesWhenEmpty:Bool?{
-        didSet{
-            assert(hidesWhenEmpty != nil, "hideWhenEmpty cannot be set to nil")
-            autoCompleteTableView?.isHidden = hidesWhenEmpty!
-        }
-    }
+    public var hidesWhenEmpty = true
+    
     /// The table view height
     public var autoCompleteTableHeight:CGFloat?{
         didSet{
@@ -61,8 +57,10 @@ public class AutoCompleteTextField:UITextField {
         }
     }
     /// The strings to be shown on as suggestions, setting the value of this automatically reload the tableview
-    public var autoCompleteStrings:[String]?{
-        didSet{ reload() }
+    public var autoCompleteStrings:[String]? {
+        didSet{
+            reload()
+        }
     }
     
     
@@ -91,7 +89,7 @@ public class AutoCompleteTextField:UITextField {
 //    
     private func commonInit(){
         hidesWhenEmpty = true
-        autoCompleteAttributes = [NSForegroundColorAttributeName:UIColor.black]
+        autoCompleteAttributes = [NSForegroundColorAttributeName: UIColor.black]
         autoCompleteAttributes![NSFontAttributeName] = UIFont.boldSystemFont(ofSize: 12)
         self.clearButtonMode = .always
         self.addTarget(self, action: #selector(AutoCompleteTextField.textFieldDidChange), for: .editingChanged)
@@ -99,16 +97,19 @@ public class AutoCompleteTextField:UITextField {
     }
     
     private func setupAutocompleteTable(view:UIView){
+        
         self.superview?.layoutIfNeeded()
         self.layoutIfNeeded()
-        let tableView = UITableView(frame: CGRect(x: self.frame.origin.x, y: self.frame.origin.y + self.frame.height + 10, width: 300, height: 100.0))
+        let tableView = UITableView(frame: CGRect(x: 0, y: self.frame.origin.y + self.frame.height, width: self.frame.width, height: 150.0))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = autoCompleteCellHeight
-        tableView.isHidden = hidesWhenEmpty ?? true
+        tableView.isHidden = hidesWhenEmpty
+        tableView.backgroundColor = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         view.addSubview(tableView)
         autoCompleteTableView = tableView
-        autoCompleteTableHeight = 100.0
+        autoCompleteTableView?.backgroundColor = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        autoCompleteTableHeight = 150.0
     }
     
     private func redrawTable(){
@@ -121,6 +122,7 @@ public class AutoCompleteTextField:UITextField {
     
     //MARK: - Private Methods
     private func reload(){
+        
         if enableAttributedText{
             let attrs = [NSForegroundColorAttributeName:autoCompleteTextColor, NSFontAttributeName:autoCompleteTextFont] as [String : Any]
     
@@ -138,6 +140,14 @@ public class AutoCompleteTextField:UITextField {
                 }
             }
         }
+        
+        if autoCompleteStrings == nil {
+            
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.autoCompleteTableView?.isHidden = true
+            })
+        }
+        
         autoCompleteTableView?.reloadData()
     }
     
@@ -147,9 +157,10 @@ public class AutoCompleteTextField:UITextField {
         }
         
         onTextChange(text!)
+        
         if text!.isEmpty{ autoCompleteStrings = nil }
         DispatchQueue.main.async(execute: { () -> Void in
-            self.autoCompleteTableView?.isHidden =  self.hidesWhenEmpty! ? self.text!.isEmpty : false
+            self.autoCompleteTableView?.isHidden = self.hidesWhenEmpty ? self.text!.isEmpty : false
         })
     }
     
@@ -162,14 +173,22 @@ public class AutoCompleteTextField:UITextField {
 extension AutoCompleteTextField: UITableViewDataSource, UITableViewDelegate {
   
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if autoCompleteStrings?.count == 0 {
+            tableView.isHidden = true
+        }
+        
         return autoCompleteStrings != nil ? (autoCompleteStrings!.count > maximumAutoCompleteCount ? maximumAutoCompleteCount : autoCompleteStrings!.count) : 0
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "autocompleteCellIdentifier"
         var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
+        cell?.backgroundColor = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        
         if cell == nil{
             cell = UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
+            cell?.backgroundColor = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
         }
         
         if enableAttributedText{
@@ -211,6 +230,6 @@ extension AutoCompleteTextField: UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return autoCompleteCellHeight
+        return 50.0
     }
 }

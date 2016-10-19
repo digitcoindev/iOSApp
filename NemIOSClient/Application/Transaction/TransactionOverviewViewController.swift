@@ -381,7 +381,7 @@ class TransactionOverviewViewController: UIViewController {
         
         transactionOverviewDispatchGroup.enter()
         
-        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address)) { [weak self] (result) in
+        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             var needToSign = false
             

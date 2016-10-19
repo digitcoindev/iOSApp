@@ -486,7 +486,12 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             autoCompleteStrings.append(filteredSuggestion.key)
         }
 
-        transactionRecipientTextField.autoCompleteStrings = autoCompleteStrings
+        if autoCompleteStrings.count == 0 {
+            transactionRecipientTextField.autoCompleteTableView?.isHidden = true
+            transactionRecipientTextField.autoCompleteStrings = nil
+        } else {
+            transactionRecipientTextField.autoCompleteStrings = autoCompleteStrings
+        }
     }
     
     // MARK: - View Controller Outlet Actions

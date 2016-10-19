@@ -58,7 +58,7 @@ open class NotificationManager {
     open func performFetch(_ completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         self.completionHandler = completionHandler
-    
+        
         let servers = SettingsManager.sharedInstance.servers()
         
         for server in servers {
@@ -126,6 +126,69 @@ open class NotificationManager {
                 
                 self.transactionsDispatchGroup.leave()
             })
+            
+            fetchUnconfirmedTransactions(forAccount: account, completion: { [unowned self] (result, unconfirmedTransactions) in
+                
+                var unsignedTransactionsCount = 0
+                
+                for transaction in unconfirmedTransactions {
+                    
+                    switch transaction.type {
+                    case .multisigTransaction:
+                        
+                        var foundSignature = false
+                        
+                        let multisigTransaction = transaction as! MultisigTransaction
+                        
+                        switch multisigTransaction.innerTransaction.type {
+                        case TransactionType.transferTransaction:
+                            
+                            let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                            
+                            if transferTransaction.recipient == account.address || transferTransaction.signer == account.publicKey {
+                                foundSignature = true
+                            }
+                            
+                        case TransactionType.multisigAggregateModificationTransaction:
+                            
+                            let multisigAggregateModificationTransaction = multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction
+                            
+                            for modification in multisigAggregateModificationTransaction.modifications where modification.cosignatoryAccount == account.publicKey {
+                                foundSignature = true
+                            }
+                            
+                            if multisigAggregateModificationTransaction.signer == account.publicKey {
+                                foundSignature = true
+                            }
+                            
+                        default:
+                            
+                            foundSignature = true
+                            break
+                        }
+                        
+                        if multisigTransaction.signer == account.publicKey {
+                            foundSignature = true
+                        }
+                        for signature in multisigTransaction.signatures! where signature.signer == account.publicKey {
+                            foundSignature = true
+                        }
+                        
+                        if foundSignature == false {
+                            unsignedTransactionsCount += 1
+                        }
+                        
+                    default:
+                        break
+                    }
+                }
+                
+                if unsignedTransactionsCount > 0 {
+                    self.scheduleLocalNotificationAfter("", body: "\(account.title): \("UNCONFIRMED_TRANSACTIONS_DETECTED".localized())", interval: 1, userInfo: nil)
+                }
+                
+                self.transactionsDispatchGroup.leave()
+            })
         }
         
         transactionsDispatchGroup.notify(queue: .main) {
@@ -189,7 +252,7 @@ open class NotificationManager {
         
         transactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: nil)) { (result) in
+        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: self.server)) { (result) in
             
             switch result {
             case let .success(response):
@@ -226,6 +289,67 @@ open class NotificationManager {
                             default:
                                 break
                             }
+                            
+                        default:
+                            break
+                        }
+                    }
+                    
+                    DispatchQueue.main.async {
+                        
+                        return completion(.success, allTransactions)
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        
+                        return completion(.failure, [Transaction]())
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                    
+                    return completion(.failure, [Transaction]())
+                }
+            }
+        }
+    }
+    
+    /**
+        Fetches all unconfirmed transactions for the current account from the active NIS.
+     
+        - Parameter account: The current account for which the unconfirmed transactions should get fetched.
+     */
+    fileprivate func fetchUnconfirmedTransactions(forAccount account: Account, completion: @escaping (_ result: Result, _ unconfirmedTransactions: [Transaction]) -> Void) {
+        
+        transactionsDispatchGroup.enter()
+        
+        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address, server: self.server)) { (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    var allTransactions = [Transaction]()
+                    
+                    for (_, subJson) in json["data"] {
+                        
+                        switch subJson["transaction"]["type"].intValue {
+                        case TransactionType.multisigTransaction.rawValue:
+                            
+                            let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
+                            
+                            allTransactions.append(multisigTransaction)
                             
                         default:
                             break
