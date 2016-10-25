@@ -121,7 +121,11 @@ open class NotificationManager {
                 if newTransactionsCount > 0 {
                     self.scheduleLocalNotificationAfter("", body: String(format: "NOTIFICATION_MESSAGE".localized(), newTransactionsCount, account.title), interval: 1, userInfo: nil)
                     
-                    AccountManager.sharedInstance.updateLatestTransactionHash(forAccount: account, withLatestTransactionHash: (transactions.first as! TransferTransaction).metaData!.hash!)
+                    let firstTransaction = transactions.first as! TransferTransaction
+                    
+                    if firstTransaction.metaData != nil && firstTransaction.metaData?.hash != nil {
+                        AccountManager.sharedInstance.updateLatestTransactionHash(forAccount: account, withLatestTransactionHash: firstTransaction.metaData!.hash!)
+                    }
                 }
                 
                 self.transactionsDispatchGroup.leave()

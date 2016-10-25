@@ -74,6 +74,8 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.layoutIfNeeded()
+        
         guard account != nil else {
             print("Fatal error: Account nil")
             return
@@ -867,6 +869,8 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
             accountChooserViewController!.view.removeFromSuperview()
             accountChooserViewController!.removeFromParentViewController()
             accountChooserViewController = nil
+            
+            transactionSendButton.isEnabled = true
         }
     }
     
@@ -1073,7 +1077,7 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
     }
 }
 
-// MARK: - 
+// MARK: - Detail Delegate
 
 extension TransactionMessagesViewController: DetailedTableViewCellDelegate {
     

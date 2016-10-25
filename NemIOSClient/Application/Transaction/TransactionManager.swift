@@ -161,7 +161,7 @@ open class TransactionManager {
         var transactionFee = 0.0
         
         if transactionMessageByteArray.count != 0 {
-            transactionFee = ceil(Double(transactionMessageByteArray.count + (isEncrypted ? 64 : 0)) / 32)
+            transactionFee = floor(Double(transactionMessageByteArray.count + (isEncrypted ? 64 : 0)) / 32) + 1
         }
         
         return transactionFee

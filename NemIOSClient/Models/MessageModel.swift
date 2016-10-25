@@ -31,8 +31,6 @@ public struct Message: SwiftyJSONMappable {
     // The public key of the account that created the transaction.
     public var signer: String?
     
-    public var encryptedPrivateKey: String?
-    
     // MARK: - Model Lifecycle
     
     public init?(type: MessageType, payload: [UInt8], message: String?) {
