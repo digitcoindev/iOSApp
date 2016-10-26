@@ -1,6 +1,6 @@
 github "Alamofire/Alamofire" ~> 4.0
 github "Alamofire/AlamofireNetworkActivityIndicator" ~> 2.0
-github "Moya/Moya" ~> 8.0
+github "thomasoehri/Moya" "a7ca46fdb4b30d942b40add0f6cbc5e7a9cd49fd"
 github "SwiftyJSON/SwiftyJSON" ~> 3.0
 github "Hearst-DD/ObjectMapper" ~> 2.0
 github "krzyzanowskim/CryptoSwift"

@@ -12,9 +12,9 @@ import Moya
 
 let endpointClosure = { (target: NIS) -> Endpoint<NIS> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding)
+    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding, httpHeaderFields: target.headers)
 
-    return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
+    return endpoint
 }
 
 let nisProvider = MoyaProvider<NIS>(endpointClosure: endpointClosure)
@@ -74,9 +74,10 @@ extension NIS: TargetType {
     var method: Moya.Method {
         switch self {
         case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
-            return .GET
+            return .get
+        
         case .announceTransaction:
-            return .POST
+            return .post
         }
     }
     var parameters: [String: Any]? {
