@@ -74,5 +74,11 @@
 		<string>alice7.nem.ninja</string>
 		<string>7890</string>
 	</array>
+	<key>Server 13</key>
+	<array>
+		<string>https</string>
+		<string>public.nemchina.com</string>
+		<string>7891</string>
+	</array>
 </dict>
 </plist>

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F0B5EF91DAFCA7200E182C3 /* NemIOSClient.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EF71DAFCA7200E182C3 /* NemIOSClient.xcdatamodeld */; };
+		4F0B5EF91DAFCA7200E182C3 /* NEMWallet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EF71DAFCA7200E182C3 /* NEMWallet.xcdatamodeld */; };
 		4F0B5EFB1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EFA1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift */; };
 		4F0B5EFD1DAFD38500E182C3 /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EFC1DAFD38500E182C3 /* DetailedTableViewCell.swift */; };
 		4F0B5EFF1DAFD3EE00E182C3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EFE1DAFD3EE00E182C3 /* NotificationManager.swift */; };
@@ -225,7 +225,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F0B5EF81DAFCA7200E182C3 /* NemIOSClient.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NemIOSClient.xcdatamodel; sourceTree = "<group>"; };
+		4F0B5EF81DAFCA7200E182C3 /* NEMWallet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NEMWallet.xcdatamodel; sourceTree = "<group>"; };
 		4F0B5EFA1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsServerTableViewCell.swift; path = Application/Settings/SettingsServerTableViewCell.swift; sourceTree = "<group>"; };
 		4F0B5EFC1DAFD38500E182C3 /* DetailedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailedTableViewCell.swift; path = Common/Cells/DetailedTableViewCell.swift; sourceTree = "<group>"; };
 		4F0B5EFE1DAFD3EE00E182C3 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationManager.swift; path = Application/Notification/NotificationManager.swift; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 		4F0B5F0A1DAFD4D700E182C3 /* NemIOSClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NemIOSClient.entitlements; path = "Assets/Supporting Files/NemIOSClient.entitlements"; sourceTree = "<group>"; };
 		4F0B5F0B1DAFD4EB00E182C3 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseManager.swift; path = Assets/Databases/DatabaseManager.swift; sourceTree = "<group>"; };
 		4F0B5F0D1DAFD50700E182C3 /* MultisigSignatureTransaction+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MultisigSignatureTransaction+Additions.swift"; path = "Common/Extensions/MultisigSignatureTransaction+Additions.swift"; sourceTree = "<group>"; };
-		4F1159D91D38FC5700E13EE0 /* NemIOSClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NemIOSClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F1159D91D38FC5700E13EE0 /* NEMWalletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NEMWalletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientUITests.swift; sourceTree = "<group>"; };
 		4F1159DD1D38FC5800E13EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F136CAE1D9A750D0042504C /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsManager.swift; path = Application/Settings/SettingsManager.swift; sourceTree = "<group>"; };
@@ -390,8 +390,8 @@
 		98BB95CC1BCCED5B002151F7 /* verify.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = verify.c; sourceTree = "<group>"; };
 		98BB95E01BCCEDB6002151F7 /* generator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generator.c; sourceTree = "<group>"; };
 		98F01CC41C2D6E5C0018081B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DA3558001A39D3B900AFA5FD /* NemIOSClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NemIOSClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA3558181A39D3BC00AFA5FD /* NemIOSClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NemIOSClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA3558001A39D3B900AFA5FD /* NEMWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NEMWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA3558181A39D3BC00AFA5FD /* NEMWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NEMWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA35581D1A39D3BC00AFA5FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA35581E1A39D3BC00AFA5FD /* NemIOSClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NemIOSClientTests.swift; sourceTree = "<group>"; };
 		DADDA24C1B21D17800F3F5F5 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Models/Constants.swift; sourceTree = "<group>"; };
@@ -447,13 +447,13 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
-		4F1159DA1D38FC5800E13EE0 /* NemIOSClientUITests */ = {
+		4F1159DA1D38FC5800E13EE0 /* NEMWalletUITests */ = {
 			isa = PBXGroup;
 			children = (
 				4F1159DB1D38FC5800E13EE0 /* NemIOSClientUITests.swift */,
 				4F9F67AB1D4910A20086F98F /* Supporting Files */,
 			);
-			path = NemIOSClientUITests;
+			path = NEMWalletUITests;
 			sourceTree = "<group>";
 		};
 		4F1159E31D38FDDB00E13EE0 /* Property Lists */ = {
@@ -485,7 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				4F0B5F0B1DAFD4EB00E182C3 /* DatabaseManager.swift */,
-				4F0B5EF71DAFCA7200E182C3 /* NemIOSClient.xcdatamodeld */,
+				4F0B5EF71DAFCA7200E182C3 /* NEMWallet.xcdatamodeld */,
 			);
 			name = Databases;
 			sourceTree = "<group>";
@@ -769,9 +769,9 @@
 		DA3557F71A39D3B800AFA5FD = {
 			isa = PBXGroup;
 			children = (
-				DA3558021A39D3B900AFA5FD /* NemIOSClient */,
-				DA35581B1A39D3BC00AFA5FD /* NemIOSClientTests */,
-				4F1159DA1D38FC5800E13EE0 /* NemIOSClientUITests */,
+				DA3558021A39D3B900AFA5FD /* NEMWallet */,
+				DA35581B1A39D3BC00AFA5FD /* NEMWalletTests */,
+				4F1159DA1D38FC5800E13EE0 /* NEMWalletUITests */,
 				DA64A4D21A5A892D005833A4 /* Frameworks */,
 				DA3558011A39D3B900AFA5FD /* Products */,
 			);
@@ -781,14 +781,14 @@
 		DA3558011A39D3B900AFA5FD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA3558001A39D3B900AFA5FD /* NemIOSClient.app */,
-				DA3558181A39D3BC00AFA5FD /* NemIOSClientTests.xctest */,
-				4F1159D91D38FC5700E13EE0 /* NemIOSClientUITests.xctest */,
+				DA3558001A39D3B900AFA5FD /* NEMWallet.app */,
+				DA3558181A39D3BC00AFA5FD /* NEMWalletTests.xctest */,
+				4F1159D91D38FC5700E13EE0 /* NEMWalletUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DA3558021A39D3B900AFA5FD /* NemIOSClient */ = {
+		DA3558021A39D3B900AFA5FD /* NEMWallet */ = {
 			isa = PBXGroup;
 			children = (
 				DA35583B1A3ADFD200AFA5FD /* Models */,
@@ -796,7 +796,7 @@
 				4F1159D41D38FC1300E13EE0 /* Common */,
 				DA4369CF1A6411B800868BAD /* Assets */,
 			);
-			path = NemIOSClient;
+			path = NEMWallet;
 			sourceTree = "<group>";
 		};
 		DA3558031A39D3BA00AFA5FD /* Supporting Files */ = {
@@ -810,13 +810,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DA35581B1A39D3BC00AFA5FD /* NemIOSClientTests */ = {
+		DA35581B1A39D3BC00AFA5FD /* NEMWalletTests */ = {
 			isa = PBXGroup;
 			children = (
 				DA35581E1A39D3BC00AFA5FD /* NemIOSClientTests.swift */,
 				DA35581C1A39D3BC00AFA5FD /* Supporting Files */,
 			);
-			path = NemIOSClientTests;
+			path = NEMWalletTests;
 			sourceTree = "<group>";
 		};
 		DA35581C1A39D3BC00AFA5FD /* Supporting Files */ = {
@@ -922,9 +922,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4F1159D81D38FC5700E13EE0 /* NemIOSClientUITests */ = {
+		4F1159D81D38FC5700E13EE0 /* NEMWalletUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4F1159E01D38FC5800E13EE0 /* Build configuration list for PBXNativeTarget "NemIOSClientUITests" */;
+			buildConfigurationList = 4F1159E01D38FC5800E13EE0 /* Build configuration list for PBXNativeTarget "NEMWalletUITests" */;
 			buildPhases = (
 				4F1159D51D38FC5700E13EE0 /* Sources */,
 				4F1159D61D38FC5700E13EE0 /* Frameworks */,
@@ -936,14 +936,14 @@
 			dependencies = (
 				4F1159DF1D38FC5800E13EE0 /* PBXTargetDependency */,
 			);
-			name = NemIOSClientUITests;
+			name = NEMWalletUITests;
 			productName = NemIOSClientUITests;
-			productReference = 4F1159D91D38FC5700E13EE0 /* NemIOSClientUITests.xctest */;
+			productReference = 4F1159D91D38FC5700E13EE0 /* NEMWalletUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		DA3557FF1A39D3B900AFA5FD /* NemIOSClient */ = {
+		DA3557FF1A39D3B900AFA5FD /* NEMWallet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA3558221A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NemIOSClient" */;
+			buildConfigurationList = DA3558221A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NEMWallet" */;
 			buildPhases = (
 				DA3557FC1A39D3B900AFA5FD /* Sources */,
 				DA3557FD1A39D3B900AFA5FD /* Frameworks */,
@@ -955,14 +955,14 @@
 			);
 			dependencies = (
 			);
-			name = NemIOSClient;
+			name = NEMWallet;
 			productName = NemIOSClient;
-			productReference = DA3558001A39D3B900AFA5FD /* NemIOSClient.app */;
+			productReference = DA3558001A39D3B900AFA5FD /* NEMWallet.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DA3558171A39D3BC00AFA5FD /* NemIOSClientTests */ = {
+		DA3558171A39D3BC00AFA5FD /* NEMWalletTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA3558251A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NemIOSClientTests" */;
+			buildConfigurationList = DA3558251A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NEMWalletTests" */;
 			buildPhases = (
 				DA3558141A39D3BC00AFA5FD /* Sources */,
 				DA3558151A39D3BC00AFA5FD /* Frameworks */,
@@ -974,9 +974,9 @@
 			dependencies = (
 				DA35581A1A39D3BC00AFA5FD /* PBXTargetDependency */,
 			);
-			name = NemIOSClientTests;
+			name = NEMWalletTests;
 			productName = NemIOSClientTests;
-			productReference = DA3558181A39D3BC00AFA5FD /* NemIOSClientTests.xctest */;
+			productReference = DA3558181A39D3BC00AFA5FD /* NEMWalletTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1023,7 +1023,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DA3557FB1A39D3B900AFA5FD /* Build configuration list for PBXProject "NemIOSClient" */;
+			buildConfigurationList = DA3557FB1A39D3B900AFA5FD /* Build configuration list for PBXProject "NEMWallet" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1050,9 +1050,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DA3557FF1A39D3B900AFA5FD /* NemIOSClient */,
-				DA3558171A39D3BC00AFA5FD /* NemIOSClientTests */,
-				4F1159D81D38FC5700E13EE0 /* NemIOSClientUITests */,
+				DA3557FF1A39D3B900AFA5FD /* NEMWallet */,
+				DA3558171A39D3BC00AFA5FD /* NEMWalletTests */,
+				4F1159D81D38FC5700E13EE0 /* NEMWalletUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1198,7 +1198,7 @@
 				4F0B5F091DAFD4A900E182C3 /* AutoCompleteTextField.swift in Sources */,
 				98BB95D91BCCED5B002151F7 /* keypair.c in Sources */,
 				4F850F281D4C3DE00003E192 /* UInt32+CircularShift.swift in Sources */,
-				4F0B5EF91DAFCA7200E182C3 /* NemIOSClient.xcdatamodeld in Sources */,
+				4F0B5EF91DAFCA7200E182C3 /* NEMWallet.xcdatamodeld in Sources */,
 				4F850F201D4C3D7E0003E192 /* Base32.swift in Sources */,
 				4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */,
 				4F9F68201D4C33B80086F98F /* AccountChooserButton.swift in Sources */,
@@ -1250,12 +1250,12 @@
 /* Begin PBXTargetDependency section */
 		4F1159DF1D38FC5800E13EE0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA3557FF1A39D3B900AFA5FD /* NemIOSClient */;
+			target = DA3557FF1A39D3B900AFA5FD /* NEMWallet */;
 			targetProxy = 4F1159DE1D38FC5800E13EE0 /* PBXContainerItemProxy */;
 		};
 		DA35581A1A39D3BC00AFA5FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA3557FF1A39D3B900AFA5FD /* NemIOSClient */;
+			target = DA3557FF1A39D3B900AFA5FD /* NEMWallet */;
 			targetProxy = DA3558191A39D3BC00AFA5FD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1435,7 +1435,7 @@
 				ALTERNATE_OWNER = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "NemIOSClient/Assets/Supporting Files/NemIOSClient.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "NEMWallet/Assets/Supporting Files/NemIOSClient.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -1444,14 +1444,14 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/NemIOSClient/Assets/Property Lists/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/NEMWallet/Assets/Property Lists/Info.plist";
 				INSTALL_OWNER = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClient;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMWallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "NEMWallet/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1464,7 +1464,7 @@
 				ALTERNATE_OWNER = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "NemIOSClient/Assets/Supporting Files/NemIOSClient.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "NEMWallet/Assets/Supporting Files/NemIOSClient.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -1473,14 +1473,14 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/NemIOSClient/Assets/Property Lists/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/NEMWallet/Assets/Property Lists/Info.plist";
 				INSTALL_OWNER = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMClient;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.NEMWallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "NemIOSClient/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "NEMWallet/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1508,7 +1508,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NemIOSClient.app/NemIOSClient";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NEMWallet.app/NEMWallet";
 			};
 			name = Debug;
 		};
@@ -1529,14 +1529,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NemIOSClient.app/NemIOSClient";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NEMWallet.app/NEMWallet";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4F1159E01D38FC5800E13EE0 /* Build configuration list for PBXNativeTarget "NemIOSClientUITests" */ = {
+		4F1159E01D38FC5800E13EE0 /* Build configuration list for PBXNativeTarget "NEMWalletUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F1159E11D38FC5800E13EE0 /* Debug */,
@@ -1545,7 +1545,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA3557FB1A39D3B900AFA5FD /* Build configuration list for PBXProject "NemIOSClient" */ = {
+		DA3557FB1A39D3B900AFA5FD /* Build configuration list for PBXProject "NEMWallet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA3558201A39D3BC00AFA5FD /* Debug */,
@@ -1554,7 +1554,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA3558221A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NemIOSClient" */ = {
+		DA3558221A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NEMWallet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA3558231A39D3BC00AFA5FD /* Debug */,
@@ -1563,7 +1563,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA3558251A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NemIOSClientTests" */ = {
+		DA3558251A39D3BC00AFA5FD /* Build configuration list for PBXNativeTarget "NEMWalletTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA3558261A39D3BC00AFA5FD /* Debug */,
@@ -1575,14 +1575,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		4F0B5EF71DAFCA7200E182C3 /* NemIOSClient.xcdatamodeld */ = {
+		4F0B5EF71DAFCA7200E182C3 /* NEMWallet.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				4F0B5EF81DAFCA7200E182C3 /* NemIOSClient.xcdatamodel */,
+				4F0B5EF81DAFCA7200E182C3 /* NEMWallet.xcdatamodel */,
 			);
-			currentVersion = 4F0B5EF81DAFCA7200E182C3 /* NemIOSClient.xcdatamodel */;
-			name = NemIOSClient.xcdatamodeld;
-			path = Assets/Databases/NemIOSClient.xcdatamodeld;
+			currentVersion = 4F0B5EF81DAFCA7200E182C3 /* NEMWallet.xcdatamodel */;
+			name = NEMWallet.xcdatamodeld;
+			path = Assets/Databases/NEMWallet.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -21,7 +21,7 @@ open class DatabaseManager: NSObject {
     open static let sharedInstance = DatabaseManager()
     
     /// The data stack that manages all available stores.
-    open let dataStack = DataStack(modelName: "NemIOSClient")
+    open let dataStack = DataStack(modelName: "NEMWallet")
     
     // MARK: - Manager Lifecycle
     
@@ -37,7 +37,7 @@ open class DatabaseManager: NSObject {
         
         try! dataStack.addStorageAndWait(
             SQLiteStore(
-                fileName: "NemIOSClient.sqlite",
+                fileName: "NEMWallet.sqlite",
                 localStorageOptions: .recreateStoreOnModelMismatch
             )
         )

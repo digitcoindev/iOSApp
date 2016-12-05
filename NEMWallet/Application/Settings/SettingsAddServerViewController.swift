@@ -97,7 +97,7 @@ class SettingsAddServerViewController: UITableViewController {
             showAlert(withMessage: NSLocalizedString("FIELDS_EMPTY_ERROR", comment: "Description"))
             return
         }
-        guard protocolTypeTextField.text!.lowercased() == "http" else {
+        guard protocolTypeTextField.text!.lowercased() == "http" || protocolTypeTextField.text!.lowercased() == "https" else {
             showAlert(withMessage: NSLocalizedString("SERVER_PROTOCOL_NOT_AVAILABLE", comment: "Description"))
             return
         }
