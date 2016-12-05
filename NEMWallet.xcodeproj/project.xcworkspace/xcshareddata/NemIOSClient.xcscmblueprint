@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D7461413BDC53D413A9F467A4C6AB0F6C4A464D3",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D7461413BDC53D413A9F467A4C6AB0F6C4A464D3" : 0,
+    "F83161CB638E9D80840ACBBE2803AF0AC6406A42" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E9E78733-067E-492D-AECA-CAA645908B19",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D7461413BDC53D413A9F467A4C6AB0F6C4A464D3" : "NEM%20Wallet\/",
+    "F83161CB638E9D80840ACBBE2803AF0AC6406A42" : "iosnemclient"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "NemIOSClient",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "NemIOSClient.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/thomasoehri\/nem-wallet-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D7461413BDC53D413A9F467A4C6AB0F6C4A464D3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/neweconomymovement\/iosnemclient.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F83161CB638E9D80840ACBBE2803AF0AC6406A42"
+    }
+  ]
+}
