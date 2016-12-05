@@ -5,31 +5,73 @@
 	<key>Server 1</key>
 	<array>
 		<string>http</string>
-		<string>37.187.70.29</string>
+		<string>62.75.171.41</string>
 		<string>7890</string>
 	</array>
 	<key>Server 2</key>
 	<array>
 		<string>http</string>
-		<string>23.228.67.85</string>
+		<string>san.nem.ninja</string>
 		<string>7890</string>
 	</array>
 	<key>Server 3</key>
 	<array>
 		<string>http</string>
-		<string>192.3.61.243</string>
+		<string>go.nem.ninja</string>
 		<string>7890</string>
 	</array>
 	<key>Server 4</key>
 	<array>
 		<string>http</string>
-		<string>104.128.226.60</string>
+		<string>hachi.nem.ninja</string>
 		<string>7890</string>
 	</array>
 	<key>Server 5</key>
 	<array>
 		<string>http</string>
-		<string>50.3.87.123</string>
+		<string>jusan.nem.ninja</string>
+		<string>7890</string>
+	</array>
+	<key>Server 6</key>
+	<array>
+		<string>http</string>
+		<string>nijuichi.nem.ninja</string>
+		<string>7890</string>
+	</array>
+	<key>Server 7</key>
+	<array>
+		<string>http</string>
+		<string>alice2.nem.ninja</string>
+		<string>7890</string>
+	</array>
+	<key>Server 8</key>
+	<array>
+		<string>http</string>
+		<string>alice3.nem.ninja</string>
+		<string>7890</string>
+	</array>
+	<key>Server 9</key>
+	<array>
+		<string>http</string>
+		<string>alice4.nem.ninja</string>
+		<string>7890</string>
+	</array>
+	<key>Server 10</key>
+	<array>
+		<string>http</string>
+		<string>alice5.nem.ninja</string>
+		<string>7890</string>
+	</array>
+	<key>Server 11</key>
+	<array>
+		<string>http</string>
+		<string>alice6.nem.ninja</string>
+		<string>7890</string>
+	</array>
+	<key>Server 12</key>
+	<array>
+		<string>http</string>
+		<string>alice7.nem.ninja</string>
 		<string>7890</string>
 	</array>
 </dict>

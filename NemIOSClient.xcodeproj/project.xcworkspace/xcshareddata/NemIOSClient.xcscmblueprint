@@ -9,7 +9,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E9E78733-067E-492D-AECA-CAA645908B19",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "D7461413BDC53D413A9F467A4C6AB0F6C4A464D3" : "nem-wallet-ios\/",
+    "D7461413BDC53D413A9F467A4C6AB0F6C4A464D3" : "NEM%20Wallet\/",
     "F83161CB638E9D80840ACBBE2803AF0AC6406A42" : "iosnemclient"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "NemIOSClient",
