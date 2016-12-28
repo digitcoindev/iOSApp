@@ -87,7 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let rootViewController = UIApplication.topViewController() {
             if rootViewController is AuthenticationPasswordValidationViewController {
-                
+                rootViewController.dismiss(animated: false, completion: nil)
+            } else if rootViewController is UIAlertController {
                 rootViewController.dismiss(animated: false, completion: nil)
             }
         }
