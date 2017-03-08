@@ -586,13 +586,13 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             return
         }
         if willEncrypt {
-            if transactionMessageByteArray.count > 112 {
+            if transactionMessageByteArray.count > 976 {
                 showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
                 sendingTransaction = false
                 return
             }
         } else {
-            if transactionMessageByteArray.count > 160 {
+            if transactionMessageByteArray.count > 1024 {
                 showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
                 sendingTransaction = false
                 return

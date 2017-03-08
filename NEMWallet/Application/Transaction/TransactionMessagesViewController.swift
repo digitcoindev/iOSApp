@@ -920,7 +920,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
             transactionMessageByteArray = transactionEncryptedMessageByteArray
         }
         
-        if transactionMessageByteArray.count > 160 {
+        if transactionMessageByteArray.count > 1024 {
             showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
             transactionSendButton.isEnabled = true
             return
