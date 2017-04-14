@@ -12,7 +12,7 @@ import Moya
 
 let endpointClosure = { (target: NIS) -> Endpoint<NIS> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-    let endpoint: Endpoint<NIS> = Endpoint<NIS>(URL: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding, httpHeaderFields: target.headers)
+    let endpoint: Endpoint<NIS> = Endpoint<NIS>(url: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding, httpHeaderFields: target.headers)
 
     return endpoint
 }
