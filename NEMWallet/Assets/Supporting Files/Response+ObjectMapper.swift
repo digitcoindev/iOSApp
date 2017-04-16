@@ -21,7 +21,7 @@ public extension JSON {
     public func mapObject<T: SwiftyJSONMappable>(_ type:T.Type) throws -> T {
         
         guard let mappedObject = T(jsonData: self) else {
-            throw Moya.Error.jsonMapping(Response(statusCode: 200, data: Data()))
+            throw Moya.MoyaError.jsonMapping(Response(statusCode: 200, data: Data()))
         }
         
         return mappedObject
