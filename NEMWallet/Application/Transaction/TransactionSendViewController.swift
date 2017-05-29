@@ -600,10 +600,26 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         }
         
         let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: Int(transactionFee * 1000000), recipient: transactionRecipient, message: nil, deadline: transactionDeadline, signer: transactionSigner!)
+
+        let alert = UIAlertController(title: "INFO".localized(), message: "Are you sure you want to send this transaction to \(transactionRecipient.nemAddressNormalised())?", preferredStyle: UIAlertControllerStyle.alert)
         
-        preparedTransaction = transaction
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.destructive, handler: { [weak self] (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
+            
+            if self != nil {
+                
+                self!.preparedTransaction = transaction
+                
+                self?.fetchAccountData(forAccountWithAddress: transactionRecipient)
+            }
+        }))
         
-        fetchAccountData(forAccountWithAddress: transactionRecipient)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] (action) in
+            self?.sendingTransaction = false
+            return
+        }))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {

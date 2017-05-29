@@ -932,16 +932,32 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         let transactionMessage = Message(type: willEncrypt ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextField.text!)
         let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: Int(transactionFee * 1000000), recipient: transactionRecipient!, message: transactionMessage, deadline: transactionDeadline, signer: transactionSigner!)
         
-        // Check if the transaction is a multisig transaction
-        if activeAccountData!.publicKey != account!.publicKey {
-            
-            let multisigTransaction = MultisigTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Int(6 * 1000000), deadline: transactionDeadline, signer: account!.publicKey, innerTransaction: transaction!)
-            
-            announceTransaction(multisigTransaction!)
-            return
-        }
+        let alert = UIAlertController(title: "INFO".localized(), message: "Are you sure you want to send this transaction to \(transactionRecipient!.nemAddressNormalised())?", preferredStyle: UIAlertControllerStyle.alert)
         
-        announceTransaction(transaction!)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.destructive, handler: { [weak self] (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
+            
+            if self != nil {
+                
+                // Check if the transaction is a multisig transaction
+                if self!.activeAccountData!.publicKey != self!.account!.publicKey {
+                    
+                    let multisigTransaction = MultisigTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Int(6 * 1000000), deadline: transactionDeadline, signer: self!.account!.publicKey, innerTransaction: transaction!)
+                    
+                    self?.announceTransaction(multisigTransaction!)
+                    return
+                }
+                
+                self?.announceTransaction(transaction!)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] (action) in
+            self?.transactionSendButton.isEnabled = true
+            return
+        }))
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
