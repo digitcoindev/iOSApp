@@ -1,0 +1,17 @@
+// MARK: - Languages
+
+"LANGUAGE_ENGLISH" = "English";
+"LANGUAGE_INDONESIAN" = "Indonesian";
+"LANGUAGE_JAPANESE" = "日本語";
+"LANGUAGE_LITHUANIAN" = "Lietuvių";
+"LANGUAGE_CHINESE_SIMPLIFIED" = "Chinese (Simplified)";
+"LANGUAGE_DUTCH" = "Nederlands";
+"LANGUAGE_PORTUGUESE" = "Português";
+"LANGUAGE_CROATIAN" = "Magyar";
+"LANGUAGE_FRENCH" = "Français";
+"LANGUAGE_POLISH" = "Polski";
+"LANGUAGE_FINNISH" = "Suomi";
+"LANGUAGE_SPANISH" = "Español";
+"LANGUAGE_GERMAN" = "Deutsch";
+"LANGUAGE_KOREAN" = "Korean";
+"LANGUAGE_ITALIAN" = "Italian";

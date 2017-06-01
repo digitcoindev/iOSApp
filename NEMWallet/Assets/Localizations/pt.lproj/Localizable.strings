@@ -1,0 +1,266 @@
+// MARK: - Languages
+
+"LANGUAGE_ENGLISH" = "English";
+"LANGUAGE_INDONESIAN" = "Indonesian";
+"LANGUAGE_JAPANESE" = "日本語";
+"LANGUAGE_LITHUANIAN" = "Lietuvių";
+"LANGUAGE_CHINESE_SIMPLIFIED" = "Chinese (Simplified)";
+"LANGUAGE_DUTCH" = "Nederlands";
+"LANGUAGE_PORTUGUESE" = "Português";
+"LANGUAGE_CROATIAN" = "Magyar";
+"LANGUAGE_FRENCH" = "Français";
+"LANGUAGE_POLISH" = "Polski";
+"LANGUAGE_FINNISH" = "Suomi";
+"LANGUAGE_SPANISH" = "Español";
+"LANGUAGE_GERMAN" = "Deutsch";
+"LANGUAGE_KOREAN" = "Korean";
+"LANGUAGE_ITALIAN" = "Italian";
+
+// MARK: - A
+
+"ACCOUNT_PRIMATY" = "Conta principal";
+"ADD_ACCOUNT" = "Adicionar conta";
+"ADD_SERVER" = "Adicionar servidor";
+"ACCOUNT_NAME" = "Nome da conta";
+"ACCOUNT_NAME_PLACEHOLDER" = "Nome da conta";
+"ADDRESS_BOOK" = "Livro de contatos";
+"ADD_CONTACT" = "Adicionar contato";
+"ADDRESS" = "Endereço";
+"AMOUNT" = "Quantidade";
+"ACCOUNTS" = "Contas";
+"ACCOUNT_NOT_ENOUGHT_MONEY" = "Fundos insuficientes";
+"ACCOUNT" = "Conta";
+"ADD" = "Adicionar";
+"ADD_COSIGNATORY" = "Adicionar Consignatário";
+"ADD_ADITIONAL_SIGNER" = "Adicionar Consignatário adicional";
+"ACCOUNT_HISTORY" = "Histórico da conta";
+"ABOUT" = "Sobre";
+
+// MARK: - B
+
+"BASE" = "Padrão";
+"BLOCK" = "Bloco";
+"BALANCE" = "Balanço";
+"BUILD" = "Versão";
+
+// MARK: - C
+
+"CHANGE" = "Mudar";
+"CREATE_NEW" = "Criar nova";
+"CREATE_NEW_ACCCOUNT" = "Criar nova conta";
+"CREATE_PASSWORD" = "Criar senha";
+"CHANGE_SERVER" = "Modificar servidor";
+"CHANGE_CONTACT" = "Modificar contato";
+"COPY" = "Copiar";
+"COULD_NOT_DECRYPT" = "Não foi possível descriptografar!";
+"CONFIRM" = "Confirmar";
+"COPY_ADDRESS" = "Copiar endereço";
+"CREATE" = "Criar";
+"CANCEL" = "Cancelar";
+"CONTACTS_IS_UNAVAILABLE" = "Os contatos não estão disponíveis.\nPara permitir a utilização dos contatos, por favor, vá em: \nOpções -> Privacidade -> Contatos.";
+"COPIED" = "Copiado";
+
+// MARK: - D
+
+"DONE" = "Feito!";
+"DELETE" = "Deletar";
+"DELETE_CONFIRMATION_MASSAGE_ADDRESSBOOK" = "Você tem certeza que quer deletar %@ de seus contatos?"; // %@ will be replaced by contact name
+"DELETE_CONFIRMATION_MASSAGE_ACCOUNTS" = "Você tem certeza que quer deletar %@ de suas contas?"; // %@ will be replaced by account name
+"DELETE_CONFIRMATION_MASSAGE_SERVERS" = "Você tem certeza que quer deletar %@ de sua lista de servidores?"; // %@ will be replaced by server address
+"DELEGATED_HARVESTING" = "Colheita delegada";
+"DELEGATED_KEY" = "Chave Delegada";
+
+// MARK: - E
+
+"EDIT" = "Editar";
+"ENTET_PASSWORD" = "Entre com a senha";
+"ENTET_PASSWORD_EXPORT" = "Entre uma nova senha ou pressione Confirmar para usar o padrão da aplicação";
+"ENCRYPTED_MESSAGE" = "Mensagem criptografada";
+"EMPTY_MESSAGE" = "Mensagem vazia";
+"ENTER_MESSAGE" = "Entre a mensagem aqui";
+"ENTER_NAME" = "Entre um nome";
+"ENTER_ADDRESS" = "Entre com o endereço:";
+"ENTER_AMOUNT" = "Entre a quantidade";
+"ENTER_FEE" = "Entre com a taxa";
+"EXPORT_ACCOUNT" = "Exportar conta";
+
+// MARK: - F
+
+"FIELDS_EMPTY_ERROR" = "Preencha todos os campos";
+"FIRST_NAME" = "Primeiro nome";
+"FEE" = "Taxa";
+"FROM" = "De:";
+"FIELDS_EMPTY_ERROR" = "Preencha todos os campos";
+"FAILURE_MULTISIG_ACCOUNT_CANNOT_BE_COSIGNER" = "Conta multiconsignatário não pode ser consignatária dela mesmo.";
+
+// MARK: - G
+
+"GENERAL" = "Geral";
+
+// MARK: - H
+
+"HARVEST_DETAILS" = "Detalhes da colheita";
+"HOURS_SHORT" = "h";
+"HOURS" = "Horas";
+"HIDE_PRIVATE_KEY" = "Esconder a chave privada";
+
+// MARK: - I
+
+"INVOICE" = "Fatura";
+"INVOICE_MESSAGE_CONFIG" = "Mensagem da Fatura";
+"IMPORT_KEY" = "Importar chave";
+"IMPORT_FROM_KEY" = "Entrar com a chave privada";
+"INFO" = "Informação";
+"INVOICE_HEADER" = "Por favor, escaneie este QR para realizar o pagamento";
+"INVOICE_DATA" = "Dados da fatura";
+"INPUT_NEW_ACCOUNT_NAME" = "entre com o nome da conta";
+"INPUT_PUBLIC_KEY" = "Entre o endereço";
+
+// MARK: - L
+
+"LANGUAGE" = "Linguagem";
+"LAST_NAME" = "Ultimo nome";
+"LOST_CONNECTION" = "Conexão perdida";
+"LOCKED" = "Bloqueado";
+"LAST_HARVESTED_BLOCK" = "Últimos %d bloco(s) colheitado(s)"; // %d will be replaced by the blocks count
+
+// MARK: - M
+
+"MORE" = "Mais";
+"MAP" = "Mapa";
+"MESSAGES" = "Painel";
+"MESSAGE" = "Mensagem";
+"MIN" = "Min";
+"MINUTES" = "Minutos";
+"MESSAGE_LENGTH" = "A mensagem é muito longa";
+"MY_ADDRESS" = "Meu endereço";
+"MY_NAME" = "Meu nome";
+"MY_INFO" = "Minhas informações";
+"MULTISIG" = "Multiconsignatário";
+"MULTISIG_REMOVE_COUNT_ERROR" = "Você só pode remover um consignatário por transação.";
+"MULTISIG_COSIGNATORIES_COUNT_ERROR" = "Muitos consignatários!";
+"MULTISIG_CHANGES_CONFIRMATION" = "Por gentileza confirme: Te custará %@ XEM, e modificando a quantidade mínima de consignatários, será cobrado mais 6 XEM extras."; // %@ will be replaced by the transaction fee
+"MINUTES_SHORT" = "min";
+"MIN_COSIG_PLACEHOLDER" = "Mínima quantidade de consignatários modificada para: %@"; // %@ will be replaced by min csig value
+"MIN_COSIG_PLACEHOLDER_CHANGED" = "Mínima quantidade de consignatários modificada para: %@"; // %@ will be replaced by min cosig value
+
+// MARK: - N
+
+"NONE" = "Nenhuma";
+"NO_ACCOUNTS" = "Sem contas";
+"NOTIFICATION" = "Notificação";
+"NAME" = "Nome";
+"NO_INTERNET_CONNECTION" = "Sem conexão com a internet";
+"NOT_A_HEX_STRING" = "Uma mensagem Hexa só pode conter caracteres hexadecimais.";
+"NO_PUBLIC_KEY_FOR_ENC" = "A chave pública dessa conta não é conhecida.\nMensagens ciptografadas não são possíveis até realizar uma transação.";
+"NEW" = "Novo";
+"NEVER" = "Nunca";
+"NEW_TRANSACTION" = "Nova transação";
+"NOT_ENOUGHT_MONEY" = "Fundos insuficientes";
+"NEW_INVOICE" = "Nova fatura";
+"NO_HARVESTED_BLOCK" = "Sem blocos colheitados";
+"NO_PUBLICKEY" = "Sem chave pública";
+"NO" = "Não";
+"NO_FACEBOOK_ACCOUNT" = "Por favor, adicione conta do Facebook nas opções.";
+"NO_TWITTER_ACCOUNT" = "Por favor, adicione conta do Twitter nas opções.";
+"NO_MAIL_ACCOUNT" = "Por favor, adicione uma conta de e-mail no seu cliente de emails.";
+"NO_RESPONCE_FROM_SERVER" = "Sem resposta do servidor";
+"NO_PRIMARY_SERVER" = "Sem servidor primário!";
+"NO_NOTIFICATIONS" = "Sem novas transações para %@"; // %@ will be replaced by the account name
+"NOTIFICATION_MESSAGE" = "%d nova(s) transação(ões) para a conta %@"; // %@ will be replaced by the account name , %d will be replaced by the transactions count
+
+// MARK: - O
+
+"ON" = "Ligado"; // context is Touch ID setting (On/Off)
+"OK" = "OK";
+"OF" = "De"; // example usage is: 5 "of" 10 signatures
+"OFF" = "Desligado"; // context is Touch ID setting (On/Off)
+"OLD_PASSWORD_PLACEHOLDER" = "Entre a senha anterior";
+
+// MARK: - P
+
+"PASSWORD" = "Senha";
+"PASSWORD_CHANGE_CONFIG" = "Modificar senha";
+"PASSWORD_PLACEHOLDER" = "Senha";
+"PASSWORD_PLACEHOLDER_EXPORT" = "Senha atual da aplicação";
+"PASSOWORD_DIFERENCE_ERROR" = "As senhas não são iguais";
+"PASSOWORD_LENGTH_ERROR" = "Sua senha deve ter, no mínimo, 6 caracteres de comprimento.";
+"PRIVATE_KEY" = "Chave privada";
+"PUBLIC_KEY" = "Chave pública";
+"PRIVATE_KEY_ERROR_1." = "Chave privada inválida.\nPor favor, verifique-a.";
+"PREFIX" = "Prefixo";
+"POSTFIX" = "Pósfixo";
+"POI" = "POI";
+"PRIMARY_ACCOUNT" = "Conta principal";
+"PRIVATE_KEY_SECURITY_WARNING_PART_ONE" = "É essencial entender que a chave privada é a informação mais importante e sensível de sua conta.\n\nQualquer um que tenha conhecimento de sua chave privada, tem";
+"PRIVATE_KEY_SECURITY_WARNING_PART_TWO" = "controle total sobre fundos associados e investimentos nessa conta.";
+"PRIVATE_KEY_SECURITY_WARNING_PART_THREE" = "\n\nPara poder restaurar sua conta, a chave provada é a única forma. Logo nunca a perca e também";
+"PRIVATE_KEY_SECURITY_WARNING_PART_FOUR" = "mantenha ela SECRETA.";
+
+// MARK: - Q
+
+"QR" = "QR";
+
+// MARK: - R
+
+"REPEAT_PASSWORD" = "Repita a senha";
+"REPEAT_PASSWORD_PLACEHOLDER" = "Repita a senha";
+"REMIND_LATER" = "Me lembre mais tarde";
+"RESET" = "Resetar";
+
+// MARK: - S
+
+"SETTINGS" = "Configurações";
+"SET_CONFIGURATION" = "";
+"SECURITY" = "Segurança";
+"SERVER_SETTINGS" = "Opções dos servidores";
+"SERVER" = "Servidor";
+"SCAN_QR" = "Escanear QR";
+"SCAN_QR_CODE" = "Escanear código QR";
+"SERVER_UNAVAILABLE" = "O servidor está inativo. Por favor, tente mais tarde ou verifique seu servidor.";
+"SHOW_TRANSACTIONS" = "Mostrar transações";
+"SEND" = "Enviar";
+"SIGNERS" = "Consignatários";
+"SHARE_QR" = "compartilhar QR";
+"SHARE_ADDRESS" = "Compartilhar Endereço";
+"SAVE" = "Salvar";
+"SAVE_CHANGES" = "Salvar modificações";
+"SOCIAL_NEM_HEADER" = "Cliente NEM para iOS";
+"SEND_MESSAGE" = "Enviar mensagem";
+"SHOW_CHANGES" = "Mostrar modificações";
+"SHOW_PRIVATE_KEY" = "Mostrar chave privada";
+"SWITCH_ACCOUNT" = "Trocar a conta";
+"SAVE_QR" = "Salvar QR";
+
+// MARK: - T
+
+"TOUCH_ID" = "ID de toque";
+"TRANSACTION_ANOUNCE_SUCCESS" = "Transação enviada!";
+"TRANSACTION_ANOUNCE_FAILED" = "Transação negada.\nTente de novo mais tarde, ou verifique a conexão com o servidor.";
+"TO" = "Para";
+
+// MARK: - U
+
+"UPDATE_INTERVAL" = "Intervalo de atualização";
+"UNCONFIRMED_TRANSACTIONS_DETECTED" = "Você tem transações que precisam serem assinadas!";
+"UNLOCKED" = "Desbloqueado";
+
+// MARK: - V
+
+"VALIDATION" = "Validação";
+"VASTED_BALANCE" = "Balanço investido";
+"VIDATION_ACCOUNT_EXIST" = "A conta com essa chave privada existe com o nome: %@"; // %@ will be replaced by account name
+"VALIDAATION_MESSAGE_LEANGTH" = "A mensagem é muito longa";
+"VIEW_PRIVATE_KEY" = "Ver a chave privada";
+"VERSION" = "Versão";
+
+// MARK: - Y
+
+"YOUR_POSITION" = "Você está aqui";
+"YOUR_NAME" = "Seu nome";
+
+// MARK: - W
+
+"WARNING" = "Atenção:";
+"WRONG_QR_VERSION" = "Versão errada de QR code";
+"WRONG_OLD_PASSWORD" = "Senha errada";
