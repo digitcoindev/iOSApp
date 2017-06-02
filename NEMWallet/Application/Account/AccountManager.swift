@@ -62,7 +62,7 @@ open class AccountManager {
             account.privateKey = encryptedPrivateKey
             account.address = self.generateAddress(forPublicKey: account.publicKey)
             account.position = self.positionForNewAccount() as NSNumber
-            
+                                    
             transaction.commit { (result) -> Void in
                 switch result {
                 case .success( _):

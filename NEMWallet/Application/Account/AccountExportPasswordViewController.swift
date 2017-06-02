@@ -23,10 +23,10 @@ class AccountExportPasswordViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var defaultPasswordDescriptionLabel: UILabel!
     @IBOutlet weak var defaultPasswordSwitch: UISwitch!
-    @IBOutlet weak var confirmationButton: UIButton!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var customNavigationItem: UINavigationItem!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var confirmationButton: UIButton!
 
     // MARK: - View Controller Lifecycle
     

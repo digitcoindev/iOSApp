@@ -13,7 +13,7 @@ import UIKit
  */
 class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
     
-    // MARK: - View Controller Properties
+    // MARK: - View Controller Outlets
 
     @IBOutlet weak var accountTitleTextField: UITextField!
     @IBOutlet weak var createAccountButton: UIButton!
@@ -67,9 +67,17 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
             try validate(enteredInformation: title)
             
             AccountManager.sharedInstance.create(account: title, completion: { [unowned self] (result) in
+                                
                 switch result {
                 case .success:
-                    self.performSegue(withIdentifier: "unwindToAccountListViewController", sender: nil)
+                    
+                    let alert = UIAlertController(title: "Warning", message: "The account was successfully created. Don't forget to backup your private key! Select your account on the dashboard, go to 'more' -> 'export account'", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { [unowned self] (action) -> Void in
+                        self.performSegue(withIdentifier: "unwindToAccountListViewController", sender: nil)
+                    }))
+                    
+                    self.present(alert, animated: true, completion: nil)
                     
                 case .failure:
                     let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
