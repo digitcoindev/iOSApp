@@ -15,8 +15,8 @@ class AccountExportViewController: UIViewController {
     
     // MARK: - View Controller Properties
     
-    var accountJsonString: String!
-    fileprivate var account: Account?
+    public var accountJsonString: String!
+    private var account: Account?
     
     // MARK: - View Controller Outlets
     
@@ -39,12 +39,12 @@ class AccountExportViewController: UIViewController {
         self.navigationBar.delegate = self
         
         account = AccountManager.sharedInstance.activeAccount
-        
+                
         guard account != nil else {
             print("Critical: Account not available!")
             return
         }
-        
+                
         updateViewControllerAppearance()
         generateQRCode(forAccount: accountJsonString)
         
