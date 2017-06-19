@@ -270,7 +270,7 @@ open class SettingsManager {
         DatabaseManager.sharedInstance.dataStack.beginAsynchronous { [unowned self] (transaction) -> Void in
             
             let mainBundle = Bundle.main
-            let resourcePath = mainBundle.path(forResource: "DefaultServers", ofType: "plist")!
+            let resourcePath = network == testNetwork ? mainBundle.path(forResource: "TestnetDefaultServers", ofType: "plist")! : mainBundle.path(forResource: "DefaultServers", ofType: "plist")!
             
             let defaultServers = NSDictionary(contentsOfFile: resourcePath)! as! [String: [String]]
             
