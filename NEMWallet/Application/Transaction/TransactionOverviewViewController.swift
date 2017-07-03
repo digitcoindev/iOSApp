@@ -239,7 +239,7 @@ class TransactionOverviewViewController: UIViewController {
 
         transactionOverviewDispatchGroup.enter()
         
-        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -299,7 +299,7 @@ class TransactionOverviewViewController: UIViewController {
         
         transactionOverviewDispatchGroup.enter()
         
-        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -381,7 +381,7 @@ class TransactionOverviewViewController: UIViewController {
         
         transactionOverviewDispatchGroup.enter()
         
-        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             var needToSign = false
             

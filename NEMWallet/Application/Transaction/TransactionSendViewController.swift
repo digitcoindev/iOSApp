@@ -198,7 +198,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
      */
     fileprivate func fetchAccountData(forAccount account: Account) {
         
-        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -246,7 +246,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
      */
     fileprivate func fetchAccountData(forAccountWithAddress accountAddress: String) {
         
-        nisProvider.request(NIS.accountData(accountAddress: accountAddress)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: accountAddress)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -295,7 +295,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         
         let requestAnnounce = TransactionManager.sharedInstance.signTransaction(transaction, account: account!)
         
-        nisProvider.request(NIS.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
+        NEMProvider.request(NEM.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
             
             switch result {
             case let .success(response):

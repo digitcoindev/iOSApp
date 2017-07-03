@@ -214,7 +214,7 @@ open class NotificationManager {
         
         heartbeatDispatchGroup.enter()
         
-        nisProvider.request(NIS.heartbeat(server: server)) { (result) in
+        NEMProvider.request(NEM.heartbeat(server: server)) { (result) in
             
             switch result {
             case let .success(response):
@@ -256,7 +256,7 @@ open class NotificationManager {
         
         transactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: self.server)) { (result) in
+        NEMProvider.request(NEM.allTransactions(accountAddress: account.address, server: self.server)) { (result) in
             
             switch result {
             case let .success(response):
@@ -335,7 +335,7 @@ open class NotificationManager {
         
         transactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address, server: self.server)) { (result) in
+        NEMProvider.request(NEM.unconfirmedTransactions(accountAddress: account.address, server: self.server)) { (result) in
             
             switch result {
             case let .success(response):

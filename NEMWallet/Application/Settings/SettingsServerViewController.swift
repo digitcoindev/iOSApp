@@ -209,7 +209,7 @@ class SettingsServerViewController: UIViewController {
      */
     fileprivate func getHeartbeatResponse(fromServer server: Server, completion: @escaping (_ result: Result) -> Void) {
         
-        nisProvider.request(NIS.heartbeat(server: server)) { (result) in
+        NEMProvider.request(NEM.heartbeat(server: server)) { (result) in
             
             switch result {
             case let .success(response):

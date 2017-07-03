@@ -153,7 +153,7 @@ class MultisigViewController: UIViewController {
      */
     fileprivate func fetchAccountData(forAccount account: Account) {
         
-        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -216,7 +216,7 @@ class MultisigViewController: UIViewController {
         addedCosignatories = [String]()
         removedCosignatories = [String]()
         
-        nisProvider.request(NIS.accountData(accountAddress: accountData.address)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: accountData.address)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -277,7 +277,7 @@ class MultisigViewController: UIViewController {
         
         let requestAnnounce = TransactionManager.sharedInstance.signTransaction(transaction, account: account!)
         
-        nisProvider.request(NIS.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
+        NEMProvider.request(NEM.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
             
             switch result {
             case let .success(response):

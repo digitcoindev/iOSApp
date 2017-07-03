@@ -41,7 +41,7 @@ open class TimeManager {
     /// Synchronizes the application time with the NEM network time.
     open func synchronizeTime() {
         
-        nisProvider.request(NIS.synchronizeTime) { [unowned self] (result) in
+        NEMProvider.request(NEM.synchronizeTime) { [unowned self] (result) in
             
             switch result {
             case let .success(response):

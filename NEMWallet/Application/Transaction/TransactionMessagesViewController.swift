@@ -275,7 +275,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
      */
     fileprivate func fetchAccountData(forAccount account: Account, shouldUpdateViewControllerAppearance: Bool = false) {
         
-        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -329,7 +329,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
      */
     fileprivate func fetchPublicKey(forCorrespondentWithAddress accountAddress: String) {
         
-        nisProvider.request(NIS.accountData(accountAddress: accountAddress)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: accountAddress)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -377,7 +377,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -453,7 +453,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -528,7 +528,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         let requestAnnounce = TransactionManager.sharedInstance.signTransaction(transaction, account: account!)
         
-        nisProvider.request(NIS.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
+        NEMProvider.request(NEM.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
