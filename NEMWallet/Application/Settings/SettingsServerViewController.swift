@@ -271,7 +271,7 @@ extension SettingsServerViewController: UITableViewDataSource {
         
         let server = servers[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsServerTableViewCell") as! SettingsServerTableViewCell
-        cell.title = server.fullURL()
+        cell.title = server.fullURL().absoluteString
         
         if server == SettingsManager.sharedInstance.activeServer() {
             cell.accessoryType = .checkmark

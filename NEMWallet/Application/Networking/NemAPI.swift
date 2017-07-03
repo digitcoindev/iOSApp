@@ -33,15 +33,15 @@ extension NEM: TargetType {
     var baseURL: URL {
         switch self {
         case .heartbeat(let server):
-            return URL(string: server.fullURL())!
+            return server.fullURL()
         case .allTransactions(_, let server), .unconfirmedTransactions(_, let server):
             if server != nil {
-                return URL(string: server!.fullURL())!
+                return server!.fullURL()
             } else {
-                return URL(string: SettingsManager.sharedInstance.activeServer().fullURL())!
+                return SettingsManager.sharedInstance.activeServer().fullURL()
             }
         default:
-            return URL(string: SettingsManager.sharedInstance.activeServer().fullURL())!
+            return SettingsManager.sharedInstance.activeServer().fullURL()
         }
     }
     var path: String {
