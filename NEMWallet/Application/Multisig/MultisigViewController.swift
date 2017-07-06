@@ -73,7 +73,7 @@ class MultisigViewController: UIViewController {
     fileprivate func updateViewControllerAppearance() {
         
         title = "MULTISIG".localized()
-        multisigAccountChooserButton.setImage(#imageLiteral(resourceName: "drop_down_arrow_2x").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
+        multisigAccountChooserButton.setImage(#imageLiteral(resourceName: "DropDown").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
         
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }

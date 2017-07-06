@@ -140,7 +140,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         transactionAmountTextField.placeholder = "ENTER_AMOUNT".localized()
         transactionMessageTextField.placeholder = "EMPTY_MESSAGE".localized()
         transactionFeeTextField.placeholder = "ENTER_FEE".localized()
-        transactionAccountChooserButton.setImage(#imageLiteral(resourceName: "drop_down_arrow_2x").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
+        transactionAccountChooserButton.setImage(#imageLiteral(resourceName: "DropDown").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
         
         transactionRecipientTextField.autoCompleteTextFont = UIFont.systemFont(ofSize: 14)
         transactionRecipientTextField.autoCompleteCellHeight = 35.0

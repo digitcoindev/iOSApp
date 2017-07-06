@@ -869,7 +869,7 @@
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTx-fC-3pq" customClass="AccountChooserButton" customModule="NEMWallet" customModuleProvider="target">
                                         <rect key="frame" x="13" y="11" width="349" height="28"/>
                                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="drop_down_arrow_2x">
+                                        <state key="normal" image="DropDown">
                                             <color key="titleColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -955,7 +955,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" title="Import Key" image="improt_key">
+                                        <state key="normal" title="Import Key" image="ImportPrivateKey">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -971,7 +971,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" title="Scan QR" image="scan_qr">
+                                        <state key="normal" title="Scan QR" image="ImportQR">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -987,7 +987,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" title="Create New" image="create_new">
+                                        <state key="normal" title="Create New" image="Create">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -1929,7 +1929,7 @@
                             <constraint firstItem="QyD-ON-UhU" firstAttribute="top" secondItem="Crn-8V-Vpr" secondAttribute="bottom" id="uOT-E4-erh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="message_passive" id="vp8-hG-DVr"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="Dashboard" id="vp8-hG-DVr"/>
                     <connections>
                         <outlet property="infoHeaderLabel" destination="836-Wa-UbO" id="VG1-6m-LL2"/>
                         <outlet property="loadingActivityIndicator" destination="YAr-jM-JGn" id="5PQ-e2-pim"/>
@@ -1984,7 +1984,7 @@
                                             <constraint firstAttribute="height" constant="38" id="LQN-z6-cu5"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                        <state key="normal" image="search_icon">
+                                        <state key="normal" image="Search">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
@@ -2029,7 +2029,7 @@
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo _active" translatesAutoresizingMaskIntoConstraints="NO" id="hYh-Di-K1P">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NEMContact" translatesAutoresizingMaskIntoConstraints="NO" id="hYh-Di-K1P">
                                                     <rect key="frame" x="332" y="7" width="30" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -2073,7 +2073,7 @@
                             <constraint firstItem="BdQ-EL-0ZK" firstAttribute="top" secondItem="K9E-Bm-Zm0" secondAttribute="bottom" id="yuY-in-64P"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="adress_passive" id="Vlz-sc-5KS"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="AddressBook" id="Vlz-sc-5KS"/>
                     <connections>
                         <outlet property="addContactButton" destination="kSy-7h-tAy" id="dLW-v6-e0m"/>
                         <outlet property="searchContainer" destination="D4a-Pp-98o" id="CTR-jR-dzT"/>
@@ -2309,7 +2309,7 @@
                                                     <constraint firstAttribute="width" constant="36" id="dy1-0N-NvJ"/>
                                                 </constraints>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <state key="normal" image="enc"/>
+                                                <state key="normal" image="Encrypt"/>
                                                 <connections>
                                                     <action selector="toggleEncryptionSetting:" destination="rte-MK-XjK" eventType="touchUpInside" id="62r-uw-0Qf"/>
                                                 </connections>
@@ -2626,7 +2626,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="adP-U4-sr0"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <state key="normal" title="Choose account" image="drop_down_arrow_2x">
+                                                <state key="normal" title="Choose account" image="DropDown">
                                                     <color key="titleColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -2748,7 +2748,7 @@
                                                     <constraint firstAttribute="width" constant="36" id="xLX-2e-Myu"/>
                                                 </constraints>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <state key="normal" image="enc"/>
+                                                <state key="normal" image="Encrypt"/>
                                                 <connections>
                                                     <action selector="toggleEncryptionSetting:" destination="0YH-3H-wH5" eventType="touchUpInside" id="ZUN-1V-zWz"/>
                                                 </connections>
@@ -3183,7 +3183,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="View private key" image="show_icon">
+                                <state key="normal" title="View private key" image="Show">
                                     <color key="titleColor" red="0.94901960784313721" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -3427,7 +3427,7 @@
                             <outlet property="delegate" destination="Bo9-3a-jQX" id="7KC-jt-trW"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="More" image="more_active" id="r5d-Ba-PQJ"/>
+                    <tabBarItem key="tabBarItem" title="More" image="More" id="r5d-Ba-PQJ"/>
                     <connections>
                         <outlet property="menuExportingHeadingLabel" destination="ibL-TU-lIa" id="riq-Gg-q3K"/>
                         <outlet property="menuHarvestingHeadingLabel" destination="5Hl-0p-Pc8" id="Q6E-ia-IEd"/>
@@ -3619,7 +3619,7 @@
                                     <constraint firstAttribute="height" constant="32" id="7I3-rk-VzU"/>
                                     <constraint firstAttribute="width" constant="45" id="s7p-aC-e8V"/>
                                 </constraints>
-                                <state key="normal" image="edit_account_icon"/>
+                                <state key="normal" image="Edit"/>
                                 <connections>
                                     <action selector="editAccountTitleButtonPressed:" destination="aWR-AQ-Kd2" eventType="touchUpInside" id="a93-na-D0b"/>
                                 </connections>
@@ -4439,7 +4439,7 @@
                             <constraint firstItem="Scb-h9-y3Z" firstAttribute="top" secondItem="tpl-fC-vNC" secondAttribute="bottom" id="yrQ-Un-zbf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="scan_qr" id="Hto-0h-fvN"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="ImportQR" id="Hto-0h-fvN"/>
                     <navigationItem key="navigationItem" id="Hfk-Dz-SDG"/>
                     <connections>
                         <outlet property="createInvoiceContainerView" destination="qTE-aa-rtb" id="Re9-ac-e8u"/>
@@ -4910,26 +4910,26 @@
     </scenes>
     <resources>
         <image name="Add" width="44" height="44"/>
+        <image name="AddressBook" width="33" height="32"/>
+        <image name="Create" width="49" height="47"/>
+        <image name="Dashboard" width="39" height="27"/>
+        <image name="DropDown" width="42" height="26"/>
+        <image name="Edit" width="21" height="21"/>
+        <image name="Encrypt" width="26" height="24"/>
+        <image name="ImportPrivateKey" width="50" height="50"/>
+        <image name="ImportQR" width="28" height="28"/>
+        <image name="More" width="22" height="4"/>
+        <image name="NEMContact" width="586" height="568"/>
+        <image name="Search" width="34" height="34"/>
         <image name="Settings" width="44" height="44"/>
-        <image name="adress_passive" width="33" height="32"/>
+        <image name="Show" width="36" height="21"/>
         <image name="arrow_down" width="10" height="10"/>
         <image name="arrow_left_white" width="30" height="52"/>
-        <image name="create_new" width="49" height="47"/>
-        <image name="drop_down_arrow_2x" width="42" height="26"/>
-        <image name="edit_account_icon" width="21" height="21"/>
-        <image name="enc" width="26" height="24"/>
-        <image name="improt_key" width="50" height="50"/>
-        <image name="logo _active" width="586" height="568"/>
-        <image name="message_passive" width="39" height="27"/>
-        <image name="more_active" width="22" height="4"/>
-        <image name="scan_qr" width="28" height="28"/>
-        <image name="search_icon" width="34" height="34"/>
-        <image name="show_icon" width="36" height="21"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fSS-ga-PuM"/>
+        <segue reference="KnU-2C-eQh"/>
         <segue reference="XB4-9L-SAu"/>
         <segue reference="Iy1-h5-Od4"/>
-        <segue reference="KnU-2C-eQh"/>
     </inferredMetricsTieBreakers>
 </document>

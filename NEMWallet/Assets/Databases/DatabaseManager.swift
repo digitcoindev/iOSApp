@@ -11,7 +11,7 @@ import CoreStore
 /**
     The database manager singleton used to interact with the core data database.
     This manager is utilizing the CoreStore framework.
-    Use only this manager to interact with the database.
+    Only use this manager to interact with the database.
  */
 open class DatabaseManager: NSObject {
     
