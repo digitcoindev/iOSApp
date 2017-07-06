@@ -14,7 +14,7 @@ import SwiftyJSON
     valid transactions to the NEM network. Use the timeStamp property to get
     the synchronized, valid timestamp.
  */
-open class TimeManager {
+class TimeManager {
     
     // MARK: - Manager Properties
     

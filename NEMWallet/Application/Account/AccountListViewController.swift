@@ -8,16 +8,17 @@
 import UIKit
 
 /**
-    The account list view controller that shows a list with all available
-    accounts which lets the user choose an account to further inspect.
+    The account list view controller lists all available accounts
+    and lets the user choose an account to further inspect.
  */
 class AccountListViewController: UIViewController {
     
     // MARK: - View Controller Properties
     
-    /// All accounts that will get listed in the table view.
+    /// All accounts that are stored on the device, which will get listed in the table view.
     var accounts = [Account]()
     
+    /// This timer is used to keep the application time synchronized with the network time.
     fileprivate var refreshTimer: Timer? = nil
     
     // MARK: - View Controller Outlets
@@ -46,16 +47,6 @@ class AccountListViewController: UIViewController {
         }
     }
     
-    /// Needed for a smooth appearance of the alert view controller.
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
-    /// Needed for a smooth appearance of the alert view controller.
-    override var canResignFirstResponder: Bool {
-        return true
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segue.identifier! {
@@ -68,6 +59,16 @@ class AccountListViewController: UIViewController {
         default:
             return
         }
+    }
+    
+    /// Needed for a smooth appearance of the alert view controller.
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    /// Needed for a smooth appearance of the alert view controller.
+    override var canResignFirstResponder: Bool {
+        return true
     }
     
     // MARK: - View Controller Helper Methods
@@ -206,9 +207,9 @@ class AccountListViewController: UIViewController {
     }
 }
 
-// MARK: - Table View Data Source
+// MARK: - Table View Delegate
 
-extension AccountListViewController: UITableViewDataSource {
+extension AccountListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -226,9 +227,14 @@ extension AccountListViewController: UITableViewDataSource {
         return cell
     }
     
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        tableView.setEditing(editing, animated: animated)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if tableView.isEditing {
+            changeTitle(forAccountAtIndexPath: indexPath)
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            performSegue(withIdentifier: "showAccountDetailTabBarController", sender: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -248,26 +254,16 @@ extension AccountListViewController: UITableViewDataSource {
         moveAccount(fromPosition: sourceIndexPath, toPosition: destinationIndexPath)
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+    }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
-    }
-}
-
-// MARK: - Table View Delegate
-
-extension AccountListViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if tableView.isEditing {
-            changeTitle(forAccountAtIndexPath: indexPath)
-            tableView.deselectRow(at: indexPath, animated: true)
-        } else {
-            performSegue(withIdentifier: "showAccountDetailTabBarController", sender: nil)
-        }
     }
 }
