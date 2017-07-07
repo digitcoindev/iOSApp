@@ -72,11 +72,11 @@ class InvoiceAccountInfoViewController: UIViewController {
     fileprivate func generateQRCode(forAccount account: Account) {
         
         let accountDictionary: [String: String] = [
-            QRKeys.Address.rawValue: account.address,
-            QRKeys.Name.rawValue: accountTitleTextField.text != "" ? accountTitleTextField.text! : account.title
+            QRKeys.address.rawValue: account.address,
+            QRKeys.name.rawValue: accountTitleTextField.text != "" ? accountTitleTextField.text! : account.title
         ]
         
-        let jsonDictionary = NSDictionary(objects: [QRType.userData.rawValue, accountDictionary, QR_VERSION], forKeys: [QRKeys.DataType.rawValue as NSCopying, QRKeys.Data.rawValue as NSCopying, QRKeys.Version.rawValue as NSCopying])
+        let jsonDictionary = NSDictionary(objects: [QRType.userData.rawValue, accountDictionary, Constants.qrVersion], forKeys: [QRKeys.dataType.rawValue as NSCopying, QRKeys.data.rawValue as NSCopying, QRKeys.version.rawValue as NSCopying])
         
         let jsonData = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
         

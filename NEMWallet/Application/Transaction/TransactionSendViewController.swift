@@ -557,7 +557,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         let transactionRecipient = transactionRecipientTextField.text!.replacingOccurrences(of: "-", with: "")
         let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8) ?? String()
         let transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
-        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
+        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + Constants.transactionDeadline)
         let transactionSigner = activeAccountData!.publicKey
         
         calculateTransactionFee()

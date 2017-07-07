@@ -454,7 +454,7 @@ class MultisigViewController: UIViewController {
         let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
         var transactionFee = 0.5
         let transactionRelativeChange = relativeChange
-        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
+        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + Constants.transactionDeadline)
                 
         var transactionSigner = activeAccountData!.publicKey
         if activeAccountData!.cosignatories.count == 0 {

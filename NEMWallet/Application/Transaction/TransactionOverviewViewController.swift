@@ -196,7 +196,7 @@ class TransactionOverviewViewController: UIViewController {
     /// Starts refreshing the transaction overview in the defined interval.
     fileprivate func startRefreshing() {
         
-        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionOverview), userInfo: nil, repeats: true)
+        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(Constants.updateInterval), target: self, selector: #selector(TransactionOverviewViewController.refreshTransactionOverview), userInfo: nil, repeats: true)
     }
     
     /// Stops refreshing the transaction overview.

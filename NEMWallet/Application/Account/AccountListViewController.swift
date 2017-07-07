@@ -99,7 +99,7 @@ class AccountListViewController: UIViewController {
     /// Starts refreshing the network time in the defined interval.
     fileprivate func startRefreshing() {
         
-        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(updateInterval), target: self, selector: #selector(AccountListViewController.refreshNetworkTime), userInfo: nil, repeats: true)
+        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(Constants.updateInterval), target: self, selector: #selector(AccountListViewController.refreshNetworkTime), userInfo: nil, repeats: true)
     }
     
     /// Stops refreshing the network time.

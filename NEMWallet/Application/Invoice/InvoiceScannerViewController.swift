@@ -85,8 +85,8 @@ class InvoiceScannerViewController: UIViewController {
     fileprivate func validate(captureResult: JSON) throws -> Bool {
         
         guard captureResult != nil else { throw AccountImportValidation.valueMissing }
-        guard captureResult[QRKeys.Version.rawValue].intValue == QR_VERSION else { throw AccountImportValidation.versionNotMatching }
-        guard captureResult[QRKeys.DataType.rawValue].intValue == QRType.userData.rawValue || captureResult[QRKeys.DataType.rawValue].intValue == QRType.invoice.rawValue else { throw AccountImportValidation.dataTypeNotMatching }
+        guard captureResult[QRKeys.version.rawValue].intValue == Constants.qrVersion else { throw AccountImportValidation.versionNotMatching }
+        guard captureResult[QRKeys.dataType.rawValue].intValue == QRType.userData.rawValue || captureResult[QRKeys.dataType.rawValue].intValue == QRType.invoice.rawValue else { throw AccountImportValidation.dataTypeNotMatching }
         
         return true
     }
@@ -99,9 +99,9 @@ class InvoiceScannerViewController: UIViewController {
      */
     fileprivate func addContact(withJsonData jsonData: JSON) {
         
-        let firstName = jsonData[QRKeys.Name.rawValue].stringValue
+        let firstName = jsonData[QRKeys.name.rawValue].stringValue
         let lastName = jsonData["surname"].stringValue
-        let accountAddress = jsonData[QRKeys.Address.rawValue].stringValue
+        let accountAddress = jsonData[QRKeys.address.rawValue].stringValue
         
         let contact = CNMutableContact()
         contact.givenName = firstName
@@ -157,17 +157,17 @@ extension InvoiceScannerViewController: QRCodeScannerDelegate {
         do {
             let _ = try validate(captureResult: captureResultJSON)
             
-            switch captureResultJSON[QRKeys.DataType.rawValue].intValue {
+            switch captureResultJSON[QRKeys.dataType.rawValue].intValue {
             case QRType.userData.rawValue:
                 
                 print("scanned contact")
-                let contactJsonData = captureResultJSON[QRKeys.Data.rawValue]
+                let contactJsonData = captureResultJSON[QRKeys.data.rawValue]
                 addContact(withJsonData: contactJsonData)
                 
             case QRType.invoice.rawValue:
                 
                 print("scanned invoice")
-                let invoiceJsonData = captureResultJSON[QRKeys.Data.rawValue]
+                let invoiceJsonData = captureResultJSON[QRKeys.data.rawValue]
                 performSegue(withIdentifier: "showTransactionSendViewController", sender: invoiceJsonData)
                 
             default:

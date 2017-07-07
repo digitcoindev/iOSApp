@@ -77,7 +77,7 @@ class SettingsViewController: UITableViewController {
                 let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
                 let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
 
-                showAlert(withMessage: "\(network == testNetwork ? "Testnet " : "")\("VERSION".localized()) \(versionNumber) \("BUILD".localized()) \(buildNumber)")
+                showAlert(withMessage: "\(Constants.activeNetwork == Constants.testNetwork ? "Testnet " : "")\("VERSION".localized()) \(versionNumber) \("BUILD".localized()) \(buildNumber)")
                 tableView.deselectRow(at: indexPath, animated: true)
                 
             default:

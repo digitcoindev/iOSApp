@@ -272,7 +272,7 @@ open class AccountManager {
         let stepTwoRIPEMD160Buffer = stepTwoRIPEMD160Text.asByteArray()
         
         var version = Array<UInt8>()
-        version.append(network)
+        version.append(Constants.activeNetwork)
         
         var stepThreeVersionPrefixedRipemd160Buffer = version + stepTwoRIPEMD160Buffer
         var checksumHash: Array<UInt8> = Array(repeating: 0, count: 64)
