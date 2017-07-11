@@ -31,9 +31,17 @@ open class NotificationManager {
     
     // MARK: - Public Manager Methods
     
-    open func registerForNotifications(_ application: UIApplication) {
+    open func registerForNotifications() {
         
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        let application = UIApplication.shared
+        
+        if SettingsManager.sharedInstance.notificationUpdateInterval() == 0 {
+            application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+        } else {
+            application.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
+        }
+        
+        application.applicationIconBadgeNumber = 0
         
         let userNotificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
         application.registerUserNotificationSettings(userNotificationSettings)

@@ -518,8 +518,7 @@
 				4F0B5F0B1DAFD4EB00E182C3 /* DatabaseManager.swift */,
 				4F0B5EF71DAFCA7200E182C3 /* NEMWallet.xcdatamodeld */,
 			);
-			name = Database;
-			path = Databases;
+			path = Database;
 			sourceTree = "<group>";
 		};
 		4F1159E91D38FF8C00E13EE0 /* Extensions */ = {
@@ -880,9 +879,9 @@
 			isa = PBXGroup;
 			children = (
 				4F9F67E91D4C31080086F98F /* AppDelegate.swift */,
+				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
 				4F9F67ED1D4C31140086F98F /* NavigationController.swift */,
 				4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */,
-				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
 				4F9F67F11D4C31300086F98F /* Main.storyboard */,
 				4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */,
 			);

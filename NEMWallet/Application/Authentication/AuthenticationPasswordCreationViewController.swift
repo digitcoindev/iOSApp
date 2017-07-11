@@ -101,7 +101,7 @@ class AuthenticationPasswordCreationViewController: UIViewController {
             UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
         }
         
-        NotificationManager.sharedInstance.registerForNotifications(UIApplication.shared)
+        NotificationManager.sharedInstance.registerForNotifications()
         
         performSegue(withIdentifier: "showRootNavigationController", sender: nil)
     }

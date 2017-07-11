@@ -9,18 +9,46 @@ import Foundation
 import CoreStore
 import KeychainSwift
 
-/// The manager responsible for all tasks regarding application settings.
-open class SettingsManager {
+/**
+    The manager responsible for all tasks regarding application settings.
+    Use the singleton 'sharedInstace' of this manager to perform all kinds of tasks regarding application settings.
+ */
+final class SettingsManager {
     
     // MARK: - Manager Properties
     
-    /// The singleton for the settings manager.
-    open static let sharedInstance = SettingsManager()
+    /** 
+        The singleton for the settings manager. 
+        Only use this singelton to interact with the settings manager.
+     */
+    static let sharedInstance = SettingsManager()
     
-    /// The keychain object to access the keychain.
-    fileprivate let keychain = KeychainSwift()
+    /**
+        The keychain object used to access the keychain.
+        This leverages the dependency 'KeychainSwift'.
+     */
+    private let keychain = KeychainSwift()
+    
+    // MARK: - Manager Lifecycle
+    
+    private init() {} // Prevents others from creating own instances of this manager and not using the singleton.
     
     // MARK: - Public Manager Methods
+    
+    /**
+        The current status of the application setup.
+        The application setup is a process the user has to complete on first launch of the application, where
+        he is able to choose an application password and more.
+     
+        - Returns: A bool indicating whether the application setup was already completed or not.
+     */
+    public func setupIsCompleted() -> Bool {
+        
+        let userDefaults = UserDefaults.standard
+        let setupIsCompleted = userDefaults.bool(forKey: "setupStatus")
+        
+        return setupIsCompleted
+    }
     
     /**
         Sets the setup status for the application.
@@ -31,19 +59,6 @@ open class SettingsManager {
         
         let userDefaults = UserDefaults.standard
         userDefaults.set(setupDone, forKey: "setupStatus")
-    }
-    
-    /**
-        Gets and returns the setup status.
-     
-        - Returns: Bool indicating whether the setup was already completed or not.
-     */
-    open func setupStatus() -> Bool {
-        
-        let userDefaults = UserDefaults.standard
-        let setupStatus = userDefaults.bool(forKey: "setupStatus") 
-        
-        return setupStatus
     }
     
     /**
