@@ -220,9 +220,9 @@ class TransactionUnconfirmedViewController: UIViewController {
             let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
             
             let transactionVersion = 1
-            let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
+            let transactionTimeStamp = Int(TimeManager.sharedInstance.currentNetworkTime)
             let transactionFee = Int(0.15 * 1000000)
-            let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + Constants.transactionDeadline)
+            let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
             let transactionSigner = account!.publicKey
             let transactionHash = multisigTransaction.metaData!.data!
             let transactionMultisigAccountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer)
@@ -236,9 +236,9 @@ class TransactionUnconfirmedViewController: UIViewController {
             let multisigAggregateModificationTransaction = multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction
             
             let transactionVersion = 1
-            let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
+            let transactionTimeStamp = Int(TimeManager.sharedInstance.currentNetworkTime)
             let transactionFee = Int(0.15 * 1000000)
-            let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + Constants.transactionDeadline)
+            let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
             let transactionSigner = account!.publicKey
             let transactionHash = multisigTransaction.metaData!.data!
             let transactionMultisigAccountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigAggregateModificationTransaction.signer)

@@ -9,39 +9,56 @@ import Foundation
 import SwiftyJSON
 
 /**
-    The time manager that synchronizes the application time with the time 
-    of the NEM network. Those timestamps have to match in order to announce
-    valid transactions to the NEM network. Use the timeStamp property to get
-    the synchronized, valid timestamp.
+    The time manager that synchronizes the application time with the time of the NEM network. 
+    Those timestamps have to match in order to announce valid transactions to the NEM network. 
+    Use the property 'currentNetworkTime' to get the synchronized, valid NEM network time.
  */
-class TimeManager {
+final class TimeManager {
     
     // MARK: - Manager Properties
     
     /// The singleton for the time manager.
-    open static let sharedInstance = TimeManager()
+    static let sharedInstance = TimeManager()
     
-    /// The current timestamp, synchronized with the NEM network.
-    open var timeStamp: Double {
+    /**
+        The current NEM network time.
+        Calculates the current network time by adding the elapsed time since fetching the network
+        time to the then fetched network time.
+     */
+    public var currentNetworkTime: Double {
         get {
-            return nisTime + Date().timeIntervalSince(localTime)
+            return networkTimestamp + Date().timeIntervalSince(localTimestamp)
         }
     }
     
-    /// The time of the NEM network.
-    fileprivate var nisTime = 0.0 {
+    /**
+        Stores the timestamp of the NEM network when synchronizing the time.
+        This property will be used to calculate the current network time.
+        Don't use this property directly as this is only a static timestamp that doesn't reflect 
+        the current network time.
+     */
+    private var networkTimestamp = 0.0 {
         didSet {
-            localTime = Date()
+            localTimestamp = Date()
         }
     }
     
-    /// The local time of the device.
-    fileprivate var localTime = Date()
+    /**
+        Captures the timestamp for the local device, when the network time gets fetched.
+        This property will be used to calculate the current network time.
+        Don't use this property directly as this is only a static timestamp that doesn't reflect
+        the current network time.
+     */
+    private var localTimestamp = Date()
+    
+    // MARK: - Manager Lifecycle
+    
+    private init() {} // Prevents others from creating own instances of this manager and not using the singleton.
     
     // MARK: - Manager Methods
     
     /// Synchronizes the application time with the NEM network time.
-    open func synchronizeTime() {
+    public func synchronizeTime() {
         
         NEMProvider.request(NEM.synchronizeTime) { [unowned self] (result) in
             
@@ -52,12 +69,11 @@ class TimeManager {
                     let _ = try response.filterSuccessfulStatusCodes()
                     let responseJSON = JSON(data: response.data)
                     
-                    self.nisTime = responseJSON["receiveTimeStamp"].doubleValue / 1000
+                    self.networkTimestamp = responseJSON["receiveTimeStamp"].doubleValue / 1000
                     
                 } catch {
                     
                     DispatchQueue.main.async {
-                        
                         print("Failure: \(response.statusCode)")
                     }
                 }
@@ -65,7 +81,6 @@ class TimeManager {
             case let .failure(error):
                 
                 DispatchQueue.main.async {
-                    
                     print(error)
                 }
             }

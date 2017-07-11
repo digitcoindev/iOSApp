@@ -883,13 +883,13 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         transactionSendButton.isEnabled = false
         
         let transactionVersion = 1
-        let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
+        let transactionTimeStamp = Int(TimeManager.sharedInstance.currentNetworkTime)
         let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
         var transactionFee = 0.0
         let transactionRecipient = correspondent!.accountAddress
         let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8) ?? String()
         var transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
-        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + Constants.transactionDeadline)
+        let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
         let transactionSigner = activeAccountData!.publicKey
         
         if transactionAmount < 0.000001 && transactionAmount != 0 {
