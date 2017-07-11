@@ -5,7 +5,10 @@
 //  Copyright (c) 2017 NEM
 //
 
-/// Holds all constants of the application.
+/**
+    Holds all constants of the application.
+    Change these values to tweak the application.
+ */
 struct Constants {
     
     // MARK: - Network Version
