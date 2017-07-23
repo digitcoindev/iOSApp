@@ -45,8 +45,8 @@ final class NotificationManager {
         let userNotificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
         
         application.registerUserNotificationSettings(userNotificationSettings)
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         clearApplicationIconBadge()
-        applyBackgroundFetchInterval()
     }
     
     /**
@@ -106,21 +106,6 @@ final class NotificationManager {
         localNotification.alertBody = body
         
         application.scheduleLocalNotification(localNotification)
-    }
-    
-    /**
-        Applies the user defined update interval for notifications to the application.
-        The application background-fetches new transactions in the defined interval and posts a local notification accordingly.
-     */
-    private func applyBackgroundFetchInterval() {
-        
-        let application = UIApplication.shared
-        
-        if SettingsManager.sharedInstance.notificationUpdateInterval() == 0 {
-            application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
-        } else {
-            application.setMinimumBackgroundFetchInterval(TimeInterval(SettingsManager.sharedInstance.notificationUpdateInterval()))
-        }
     }
     
     /**
