@@ -39,18 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         TimeManager.sharedInstance.synchronizeTime()
         presentAuthenticationViewController()
+        NotificationManager.sharedInstance.clearApplicationIconBadge()
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         dismissModalViewsIfNecessary()
     }
     
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        NotificationManager.sharedInstance.didReceiveLocalNotificaton(notification)
-    }
-    
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        NotificationManager.sharedInstance.performFetch(completionHandler)
+        NotificationManager.sharedInstance.notifyAboutNewTransactions(withCompletionHandler: completionHandler)
     }
     
     // MARK: - Application Helper Methods
