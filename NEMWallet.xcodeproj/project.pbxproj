@@ -457,7 +457,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4F1159D41D38FC1300E13EE0 /* Common */ = {
+		4F1159D41D38FC1300E13EE0 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				4F483E011F167B3A008C3C91 /* Controllers */,
@@ -467,7 +467,8 @@
 				4F1159E91D38FF8C00E13EE0 /* Extensions */,
 				4F24A1741D54E43C00AC128A /* Exceptions */,
 			);
-			path = Common;
+			name = Shared;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		4F1159DA1D38FC5800E13EE0 /* NEMWalletUITests */ = {
@@ -832,7 +833,7 @@
 			children = (
 				DA35583B1A3ADFD200AFA5FD /* Models */,
 				DA35582C1A39D76200AFA5FD /* Application */,
-				4F1159D41D38FC1300E13EE0 /* Common */,
+				4F1159D41D38FC1300E13EE0 /* Shared */,
 				DA4369CF1A6411B800868BAD /* Assets */,
 			);
 			path = NEMWallet;
