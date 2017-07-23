@@ -1441,7 +1441,7 @@
         <!--Password-->
         <scene sceneID="pwb-LT-zO9">
             <objects>
-                <viewController storyboardIdentifier="AuthenticationPasswordValidationViewController" title="Password" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EY9-DV-SIG" customClass="AuthenticationPasswordValidationViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthenticationViewController" title="Password" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EY9-DV-SIG" customClass="AuthenticationViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PUW-VR-qKs"/>
                         <viewControllerLayoutGuide type="bottom" id="dEJ-x5-enl"/>
@@ -4832,7 +4832,7 @@
         <image name="arrow_left_white" width="30" height="52"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fSS-ga-PuM"/>
+        <segue reference="mvO-E7-NF4"/>
         <segue reference="XB4-9L-SAu"/>
         <segue reference="Iy1-h5-Od4"/>
         <segue reference="oIs-42-LtM"/>

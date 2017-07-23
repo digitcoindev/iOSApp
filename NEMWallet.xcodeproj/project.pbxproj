@@ -98,7 +98,7 @@
 		4F9F67F01D4C311C0086F98F /* MoreMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */; };
 		4F9F67F21D4C31300086F98F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F9F67F11D4C31300086F98F /* Main.storyboard */; };
 		4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68031D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift */; };
-		4F9F68061D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68051D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift */; };
+		4F9F68061D4C33240086F98F /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68051D4C33240086F98F /* AuthenticationViewController.swift */; };
 		4F9F68081D4C33490086F98F /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68071D4C33490086F98F /* AccountListViewController.swift */; };
 		4F9F680A1D4C33510086F98F /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */; };
 		4F9F680E1D4C33630086F98F /* AccountAdditionMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */; };
@@ -138,7 +138,6 @@
 		4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */; };
 		4F9F68781D4C37BF0086F98F /* SettingsServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */; };
 		4F9F687A1D4C37C40086F98F /* SettingsAddServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */; };
-		4F9F687C1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F687B1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift */; };
 		4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */; };
 		4F9F68861D4C39220086F98F /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68851D4C39220086F98F /* UIImage+Additions.swift */; };
 		4FA5B5821D81B86F00B1F907 /* TransactionExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */; };
@@ -318,7 +317,7 @@
 		4F9F67EF1D4C311C0086F98F /* MoreMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreMenuViewController.swift; sourceTree = "<group>"; };
 		4F9F67F11D4C31300086F98F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4F9F68031D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationPasswordCreationViewController.swift; sourceTree = "<group>"; };
-		4F9F68051D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationPasswordValidationViewController.swift; sourceTree = "<group>"; };
+		4F9F68051D4C33240086F98F /* AuthenticationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		4F9F68071D4C33490086F98F /* AccountListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListViewController.swift; sourceTree = "<group>"; };
 		4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountAdditionMenuViewController.swift; sourceTree = "<group>"; };
@@ -358,7 +357,6 @@
 		4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsChangePasswordViewController.swift; sourceTree = "<group>"; };
 		4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsServerViewController.swift; sourceTree = "<group>"; };
 		4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsAddServerViewController.swift; sourceTree = "<group>"; };
-		4F9F687B1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsNotificationIntervalViewController.swift; sourceTree = "<group>"; };
 		4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
 		4F9F68851D4C39220086F98F /* UIImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		4F9F689D1D4C3A160086F98F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -467,7 +465,6 @@
 				4F1159E91D38FF8C00E13EE0 /* Extensions */,
 				4F24A1741D54E43C00AC128A /* Exceptions */,
 			);
-			name = Shared;
 			path = Shared;
 			sourceTree = "<group>";
 		};
@@ -567,7 +564,7 @@
 		4F9827FE1D3CCFE900A3C8B2 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F68051D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift */,
+				4F9F68051D4C33240086F98F /* AuthenticationViewController.swift */,
 				4F9F68031D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift */,
 			);
 			path = Authentication;
@@ -674,7 +671,6 @@
 				4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */,
 				4F0B5EFA1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift */,
 				4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */,
-				4F9F687B1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift */,
 				4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */,
 			);
 			path = Settings;
@@ -1180,7 +1176,6 @@
 				4F0B5EFD1DAFD38500E182C3 /* DetailedTableViewCell.swift in Sources */,
 				4F3ACE9F1D6217430056F234 /* MultisigSignatureTransactionModel.swift in Sources */,
 				4F3ACE941D61C31C0056F234 /* AccountDataModel.swift in Sources */,
-				4F9F687C1D4C37C80086F98F /* SettingsNotificationIntervalViewController.swift in Sources */,
 				4F3ACE9D1D6214060056F234 /* TransferTransactionModel.swift in Sources */,
 				4F850F171D4C3C930003E192 /* NSData+Base64.m in Sources */,
 				4F9F68101D4C336C0086F98F /* AccountAdditionMenuButton.swift in Sources */,
@@ -1259,7 +1254,7 @@
 				4FA825CE1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift in Sources */,
 				4F15DCA91DA2A9E20042997C /* SettingsOptionTableViewCell.swift in Sources */,
 				4FC27A041D95297700421F00 /* BlockModel.swift in Sources */,
-				4F9F68061D4C33240086F98F /* AuthenticationPasswordValidationViewController.swift in Sources */,
+				4F9F68061D4C33240086F98F /* AuthenticationViewController.swift in Sources */,
 				4F9F68621D4C36C70086F98F /* SettingsViewController.swift in Sources */,
 				4F9F685E1D4C36A50086F98F /* HarvestingViewController.swift in Sources */,
 				4F0B5EFB1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift in Sources */,

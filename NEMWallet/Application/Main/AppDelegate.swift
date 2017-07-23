@@ -71,20 +71,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let authenticationPasswordValidationViewController = mainStoryboard.instantiateViewController(withIdentifier: "AuthenticationPasswordValidationViewController") as! AuthenticationPasswordValidationViewController
+        let authenticationViewController = mainStoryboard.instantiateViewController(withIdentifier: "AuthenticationViewController") as! AuthenticationViewController
         
         if SettingsManager.sharedInstance.setupIsCompleted() && appDelegate.window != nil {
             if onLaunch {
                 
-                appDelegate.window!.rootViewController = authenticationPasswordValidationViewController
+                appDelegate.window!.rootViewController = authenticationViewController
                 appDelegate.window!.makeKeyAndVisible()
                 
             } else {
                 
                 if let topViewController = UIApplication.topViewController() {
-                    if !(topViewController is AuthenticationPasswordValidationViewController) {
+                    if !(topViewController is AuthenticationViewController) {
                         
-                        topViewController.present(authenticationPasswordValidationViewController, animated: false, completion: nil)
+                        topViewController.present(authenticationViewController, animated: false, completion: nil)
                     }
                 }
             }
