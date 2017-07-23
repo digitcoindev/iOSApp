@@ -29,6 +29,9 @@ final class SettingsManager {
      */
     private let keychain = KeychainSwift()
     
+    /// The user defaults object used to access the user defaults store.
+    private let userDefaults = UserDefaults.standard
+    
     // MARK: - Manager Lifecycle
     
     private init() {} // Prevents others from creating own instances of this manager and not using the singleton.
@@ -44,10 +47,35 @@ final class SettingsManager {
      */
     public func setupIsCompleted() -> Bool {
         
-        let userDefaults = UserDefaults.standard
         let setupIsCompleted = userDefaults.bool(forKey: "setupStatus")
         
         return setupIsCompleted
+    }
+    
+    /**
+        The current status of the Touch ID authentication setting.
+        The user is able to activate authentication via Touch ID in the settings.
+     
+        - Returns: True if authentication via Touch ID is activated and false if not.
+     */
+    public func touchIDAuthenticationIsActivated() -> Bool {
+        
+        let touchIDAuthenticationIsActivated = userDefaults.bool(forKey: "authenticationTouchIDStatus")
+        
+        return touchIDAuthenticationIsActivated
+    }
+    
+    /**
+        The authentication salt.
+        All private keys get encrypted using the application password and this salt.
+     
+        - Returns: The current authentication salt of the application.
+     */
+    open func authenticationSalt() -> String? {
+        
+        let authenticationSalt = keychain.get("authenticationSalt")
+        
+        return authenticationSalt
     }
     
     /**
@@ -122,18 +150,6 @@ final class SettingsManager {
     open func setAuthenticationSalt(authenticationSalt: String) {
         
         keychain.set(authenticationSalt, forKey: "authenticationSalt")
-    }
-    
-    /**
-        Gets and returns the currently set authentication salt.
-     
-        - Returns: The current authentication salt of the application.
-     */
-    open func authenticationSalt() -> String? {
-        
-        let authenticationSalt = keychain.get("authenticationSalt")
-        
-        return authenticationSalt
     }
     
     /**
@@ -217,19 +233,6 @@ final class SettingsManager {
         
         let userDefaults = UserDefaults.standard
         userDefaults.set(authenticationTouchIDStatus, forKey: "authenticationTouchIDStatus")
-    }
-    
-    /**
-        Gets and returns the authentication touch id status.
-     
-        - Returns: The status of the authentication touch id setting as a boolean.
-     */
-    open func authenticationTouchIDStatus() -> Bool {
-        
-        let userDefaults = UserDefaults.standard
-        let authenticationTouchIDStatus = userDefaults.bool(forKey: "authenticationTouchIDStatus")
-        
-        return authenticationTouchIDStatus
     }
     
     /**

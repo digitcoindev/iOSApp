@@ -85,7 +85,7 @@ class SettingsViewController: UITableViewController {
             switch indexPath.row {
             case 1:
                 
-                var authenticationTouchIDStatus = SettingsManager.sharedInstance.authenticationTouchIDStatus()
+                var authenticationTouchIDStatus = SettingsManager.sharedInstance.touchIDAuthenticationIsActivated()
                 authenticationTouchIDStatus = !authenticationTouchIDStatus
                 
                 SettingsManager.sharedInstance.setAuthenticationTouchIDStatus(authenticationTouchIDStatus: authenticationTouchIDStatus)
@@ -154,7 +154,7 @@ class SettingsViewController: UITableViewController {
     /// Displays the current touch id setting status.
     fileprivate func handleAuthenticationTouchIDSetting() {
 
-        let authenticationTouchIDStatus = SettingsManager.sharedInstance.authenticationTouchIDStatus()
+        let authenticationTouchIDStatus = SettingsManager.sharedInstance.touchIDAuthenticationIsActivated()
         
         securityTouchIDValueLabel.text = authenticationTouchIDStatus ? "ON".localized() : "OFF".localized()
     }
