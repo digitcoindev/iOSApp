@@ -419,12 +419,6 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             transactionMessageByteArray = transactionEncryptedMessageByteArray
         }
         
-        if transactionMessageByteArray.count > 160 {
-            showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
-            sendingTransaction = false
-            return
-        }
-        
         let transactionMessage = Message(type: willEncrypt ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextField.text!)
         
         (preparedTransaction as! TransferTransaction).message = transactionMessage
