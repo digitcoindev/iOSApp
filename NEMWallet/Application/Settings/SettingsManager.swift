@@ -258,24 +258,22 @@ final class SettingsManager {
      */
     open func create(server address: String, withProtocolType protocolType: String, andPort port: String, completion: @escaping (_ result: Result) -> Void) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            let server = transaction.create(Into(Server.self))
-            server.address = address
-            server.protocolType = protocolType
-            server.port = port
-            server.isDefault = false
-            
-            transaction.commit { (result) -> Void in
-                switch result {
-                case .success( _):
-                    return completion(.success)
-                    
-                case .failure( _):
-                    return completion(.failure)
-                }
+                let server = transaction.create(Into(Server.self))
+                server.address = address
+                server.protocolType = protocolType
+                server.port = port
+                server.isDefault = false
+            },
+            success: {
+                return completion(.success)
+            },
+            failure: { (error) in
+                return completion(.failure)
             }
-        }
+        )
     }
     
     /**
@@ -285,35 +283,32 @@ final class SettingsManager {
      */
     open func createDefaultServers(completion: @escaping (_ result: Result) -> Void) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { [unowned self] (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            let mainBundle = Bundle.main
-            let resourcePath = Constants.activeNetwork == Constants.testNetwork ? mainBundle.path(forResource: "TestnetDefaultServers", ofType: "plist")! : mainBundle.path(forResource: "DefaultServers", ofType: "plist")!
-            
-            let defaultServers = NSDictionary(contentsOfFile: resourcePath)! as! [String: [String]]
-            
-            for (_, defaultServer) in defaultServers {
-                let server = transaction.create(Into(Server.self))
-                server.protocolType = defaultServer[0]
-                server.address = defaultServer[1]
-                server.port = defaultServer[2]
-                server.isDefault = true
-            }
-            
-            transaction.commit { [unowned self] (result) -> Void in
-                switch result {
-                case .success( _):
-                    
-                    self.setActiveServer(server: self.servers().first!)
-                    self.setDefaultServerStatus(createdDefaultServers: true)
-                    
-                    return completion(.success)
-                    
-                case .failure( _):
-                    return completion(.failure)
+                let mainBundle = Bundle.main
+                let resourcePath = Constants.activeNetwork == Constants.testNetwork ? mainBundle.path(forResource: "TestnetDefaultServers", ofType: "plist")! : mainBundle.path(forResource: "DefaultServers", ofType: "plist")!
+                
+                let defaultServers = NSDictionary(contentsOfFile: resourcePath)! as! [String: [String]]
+                
+                for (_, defaultServer) in defaultServers {
+                    let server = transaction.create(Into(Server.self))
+                    server.protocolType = defaultServer[0]
+                    server.address = defaultServer[1]
+                    server.port = defaultServer[2]
+                    server.isDefault = true
                 }
+            },
+            success: {
+                
+                self.setActiveServer(server: self.servers().first!)
+                self.setDefaultServerStatus(createdDefaultServers: true)
+                return completion(.success)
+            },
+            failure: { (error) in
+                return completion(.failure)
             }
-        }
+        )
     }
     
     /**
@@ -333,12 +328,13 @@ final class SettingsManager {
             self.setActiveServer(server: servers.first!)
         }
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            transaction.delete(server)
-            
-            transaction.commit()
-        }
+                transaction.delete(server)
+            },
+            completion: { _ in }
+        )
     }
     
     /**
@@ -351,27 +347,25 @@ final class SettingsManager {
      */
     open func updateProperties(forServer server: Server, withNewProtocolType protocolType: String, andNewAddress address: String, andNewPort port: String, completion: @escaping (_ result: Result) -> Void) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { [unowned self] (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            let editableServer = transaction.edit(server)!
-            editableServer.protocolType = protocolType
-            editableServer.address = address
-            editableServer.port = port
-            
-            if server.address != address && server == self.activeServer() {
-                self.setActiveServer(serverAddress: address)
-            }
-            
-            transaction.commit { (result) -> Void in
-                switch result {
-                case .success( _):
-                    return completion(.success)
-                    
-                case .failure( _):
-                    return completion(.failure)
+                let editableServer = transaction.edit(server)!
+                editableServer.protocolType = protocolType
+                editableServer.address = address
+                editableServer.port = port
+                
+                if server.address != address && server == self.activeServer() {
+                    self.setActiveServer(serverAddress: address)
                 }
+            },
+            success: {
+                return completion(.success)
+            },
+            failure: { (error) in
+                return completion(.failure)
             }
-        }
+        )
     }
     
     /**

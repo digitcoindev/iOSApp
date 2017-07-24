@@ -21,7 +21,7 @@ open class DatabaseManager: NSObject {
     open static let sharedInstance = DatabaseManager()
     
     /// The data stack that manages all available stores.
-    open let dataStack = DataStack(modelName: "NEMWallet")
+    open let dataStack = DataStack(xcodeModelName: "NEMWallet")
     
     // MARK: - Manager Lifecycle
     

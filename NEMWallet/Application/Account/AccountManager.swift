@@ -45,34 +45,35 @@ open class AccountManager {
      
         - Returns: The result of the operation - success or failure.
      */
-    open func create(account title: String, withPrivateKey privateKey: String? = nil, completion: @escaping (_ result: Result) -> Void) {
+    public func create(account title: String, withPrivateKey privateKey: String? = nil, completion: @escaping (_ result: Result, _ account: Account?) -> Void) {
+
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { [unowned self] (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Account in
             
-            var privateKey = privateKey
-            if privateKey == nil {
-                privateKey = self.generatePrivateKey()
-            }
-            
-            let encryptedPrivateKey = self.encryptPrivateKey(privateKey!)
-            
-            let account = transaction.create(Into(Account.self))
-            account.title = title
-            account.publicKey = self.generatePublicKey(forPrivateKey: privateKey!)
-            account.privateKey = encryptedPrivateKey
-            account.address = self.generateAddress(forPublicKey: account.publicKey)
-            account.position = self.positionForNewAccount() as NSNumber
-                                    
-            transaction.commit { (result) -> Void in
-                switch result {
-                case .success( _):
-                    return completion(.success)
-                    
-                case .failure( _):
-                    return completion(.failure)
+                var privateKey = privateKey
+                if privateKey == nil {
+                    privateKey = self.generatePrivateKey()
                 }
+                
+                let account = transaction.create(Into(Account.self))
+                account.title = title
+                account.publicKey = self.generatePublicKey(forPrivateKey: privateKey!)
+                account.privateKey = self.encryptPrivateKey(privateKey!)
+                account.address = self.generateAddress(forPublicKey: account.publicKey)
+                account.position = self.positionForNewAccount() as NSNumber
+                
+                return account
+            },
+            success: { (accountTransaction) in
+                
+                let account = DatabaseManager.sharedInstance.dataStack.fetchExisting(accountTransaction)!
+                return completion(.success, account)
+            },
+            failure: { (error) in
+                return completion(.failure, nil)
             }
-        }
+        )
     }
     
     /**
@@ -88,12 +89,13 @@ open class AccountManager {
         
         updatePosition(forAccounts: accounts)
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            transaction.delete(account)
-            
-            transaction.commit()
-        }
+                transaction.delete(account)
+            },
+            completion: { _ in }
+        )
     }
     
     /**
@@ -104,15 +106,16 @@ open class AccountManager {
      */
     open func updatePosition(forAccounts accounts: [Account]) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            for account in accounts {
-                let editableAccount = transaction.edit(account)!
-                editableAccount.position = accounts.index(of: account)! as NSNumber
-            }
-            
-            transaction.commit()
-        }
+                for account in accounts {
+                    let editableAccount = transaction.edit(account)!
+                    editableAccount.position = accounts.index(of: account)! as NSNumber
+                }
+            },
+            completion: { _ in }
+        )
     }
     
     /**
@@ -124,13 +127,14 @@ open class AccountManager {
      */
     open func updatePrivateKey(forAccount account: Account, withNewPrivateKey privateKey: String) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            let editableAccount = transaction.edit(account)!
-            editableAccount.privateKey = privateKey
-            
-            transaction.commit()
-        }
+                let editableAccount = transaction.edit(account)!
+                editableAccount.privateKey = privateKey
+            },
+            completion: { _ in }
+        )
     }
     
     /**
@@ -141,13 +145,14 @@ open class AccountManager {
      */
     open func updateLatestTransactionHash(forAccount account: Account, withLatestTransactionHash latestTransactionHash: String) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            let editableAccount = transaction.edit(account)!
-            editableAccount.latestTransactionHash = latestTransactionHash
-            
-            transaction.commit()
-        }
+                let editableAccount = transaction.edit(account)!
+                editableAccount.latestTransactionHash = latestTransactionHash
+            },
+            completion: { _ in }
+        )
     }
     
     /**
@@ -158,13 +163,14 @@ open class AccountManager {
      */
     open func updateTitle(forAccount account: Account, withNewTitle title: String) {
         
-        DatabaseManager.sharedInstance.dataStack.beginAsynchronous { (transaction) -> Void in
+        DatabaseManager.sharedInstance.dataStack.perform(
+            asynchronous: { (transaction) -> Void in
             
-            let editableAccount = transaction.edit(account)!
-            editableAccount.title = title
-            
-            transaction.commit()
-        }
+                let editableAccount = transaction.edit(account)!
+                editableAccount.title = title
+            },
+            completion: { _ in }
+        )
     }
     
     /**
