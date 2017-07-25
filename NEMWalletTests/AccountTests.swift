@@ -104,5 +104,45 @@ class AccountTests: QuickSpec {
                 }
             }
         }
+        
+        describe("account deletion") {
+            
+            context("when deleting an account") {
+                
+                var accounts: [Account]!
+                var deletedAccount: Account!
+                
+                beforeSuite {
+                    
+                    accounts = AccountManager.sharedInstance.accounts()
+                    deletedAccount = accounts[Int(arc4random_uniform(UInt32(accounts.count)) + UInt32(0))]
+                    
+                    waitUntil { done in
+                        AccountManager.sharedInstance.delete(account: deletedAccount, completion: { (result) in
+                            accounts = AccountManager.sharedInstance.accounts()
+                            done()
+                        })
+                    }
+                }
+                
+                it("deletes the account from the device") {
+                    expect(accounts).notTo(contain(deletedAccount))
+                }
+                
+                it("updates the position of all remaining accounts") {
+                    
+                    let maxPosition = accounts.max { a, b in Int(a.position) < Int(b.position) }
+                    var positionIncrement = 0
+                    
+                    for account in accounts {
+                        if Int(account.position) == positionIncrement && positionIncrement < (accounts.count - 1)  {
+                            positionIncrement += 1
+                        }
+                    }
+                    
+                    expect(positionIncrement).to(equal(Int(maxPosition!.position)))
+                }
+            }
+        }
     }
 }
