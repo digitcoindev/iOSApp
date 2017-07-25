@@ -134,7 +134,7 @@ class AccountListViewController: UIViewController {
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
             self.createEditButtonItemIfNeeded()
             
-            AccountManager.sharedInstance.delete(account: account)
+            AccountManager.sharedInstance.delete(account: account, completion: { _ in })
         }))
         
         present(accountDeletionAlert, animated: true, completion: nil)
@@ -157,7 +157,7 @@ class AccountListViewController: UIViewController {
         accounts.remove(at: (sourceIndexPath as NSIndexPath).row)
         accounts.insert(moveableAccount, at: (destinationIndexPath as NSIndexPath).row)
         
-        AccountManager.sharedInstance.updatePosition(forAccounts: accounts)
+        AccountManager.sharedInstance.updatePosition(forAccounts: accounts, completion: { _ in })
     }
     
     /**

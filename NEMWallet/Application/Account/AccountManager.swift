@@ -30,38 +30,34 @@ final class AccountManager {
     // MARK: - Public Manager Methods
     
     /**
-        Fetches all stored accounts from the database.
+        All accounts that are stored on the device.
      
-        - Returns: An array of accounts ordered by position (ascending).
+        - Returns: An array of accounts ordered by the user defined position (ascending).
      */
     public func accounts() -> [Account] {
         
         let accounts = DatabaseManager.sharedInstance.dataStack.fetchAll(From(Account.self), OrderBy(.ascending("position"))) ?? []
-        
         return accounts
     }
     
     /**
-        Creates a new account object and stores that object in the database.
+        Creates a new account and stores it on the device.
+        You can later fetch stored accounts with the 'accounts' method.
      
         - Parameter title: The title/name of the new account.
+        - Parameter privateKey: The private key of the account (optional). If no private key is provided, a new one will be generated.
      
-        - Returns: The result of the operation - success or failure.
+        - Returns: The result of the operation - success or failure as well as the newly created account.
      */
-    public func create(account title: String, withPrivateKey privateKey: String? = nil, completion: @escaping (_ result: Result, _ account: Account?) -> Void) {
+    public func create(account title: String, withPrivateKey privateKey: String? = AccountManager.sharedInstance.generatePrivateKey(), completion: @escaping (_ result: Result, _ account: Account?) -> Void) {
 
         
         DatabaseManager.sharedInstance.dataStack.perform(
             asynchronous: { (transaction) -> Account in
-            
-                var privateKey = privateKey
-                if privateKey == nil {
-                    privateKey = self.generatePrivateKey()
-                }
                 
                 let account = transaction.create(Into(Account.self))
                 account.title = title
-                account.publicKey = self.generatePublicKey(forPrivateKey: privateKey!)
+                account.publicKey = self.generatePublicKey(fromPrivateKey: privateKey!)
                 account.privateKey = self.encryptPrivateKey(privateKey!)
                 account.address = self.generateAddress(forPublicKey: account.publicKey)
                 account.position = self.positionForNewAccount() as NSNumber
@@ -80,24 +76,30 @@ final class AccountManager {
     }
     
     /**
-        Deletes the provided account object from the database and updates the
-        position of all other accounts accordingly.
+        Deletes the provided account from the device.
         
-        - Parameter account: The account object that should get deleted.
+        - Parameter account: The account that should get deleted.
+     
+        - Returns: The result of the operation.
      */
-    public func delete(account: Account) {
+    public func delete(account: Account, completion: @escaping (_ result: Result) -> Void) {
         
         var accounts = self.accounts()
         accounts.remove(at: Int(account.position))
-        
-        updatePosition(forAccounts: accounts)
         
         DatabaseManager.sharedInstance.dataStack.perform(
             asynchronous: { (transaction) -> Void in
             
                 transaction.delete(account)
             },
-            completion: { _ in }
+            success: {
+                
+                /// Update the position of all other accounts accordingly.
+                self.updatePosition(forAccounts: accounts, completion: { (result) in return completion(.success) })
+            },
+            failure: { (error) in
+                return completion(.failure)
+            }
         )
     }
     
@@ -107,7 +109,7 @@ final class AccountManager {
      
         - Parameter accounts: An array of all accounts in their state after the move (with their new indexPath).
      */
-    public func updatePosition(forAccounts accounts: [Account]) {
+    public func updatePosition(forAccounts accounts: [Account], completion: @escaping (_ result: Result) -> Void) {
         
         DatabaseManager.sharedInstance.dataStack.perform(
             asynchronous: { (transaction) -> Void in
@@ -117,7 +119,12 @@ final class AccountManager {
                     editableAccount.position = accounts.index(of: account)! as NSNumber
                 }
             },
-            completion: { _ in }
+            success: {
+                return completion(.success)
+            },
+            failure: { (error) in
+                return completion(.failure)
+            }
         )
     }
     
@@ -311,7 +318,7 @@ final class AccountManager {
      */
     public func generateAddress(forPrivateKey privateKey: String) -> String {
         
-        let publicKey = generatePublicKey(forPrivateKey: privateKey)
+        let publicKey = generatePublicKey(fromPrivateKey: privateKey)
         return generateAddress(forPublicKey: publicKey)
     }
     
@@ -378,13 +385,13 @@ final class AccountManager {
     }
     
     /**
-        Generates the public key for the provided private key.
+        Generates the public key from the provided private key.
      
         - Parameter privateKey: The private key for which the public key should get generated.
      
-        - Returns: The generated public key as a string.
+        - Returns: The generated public key as a hex string.
      */
-    private func generatePublicKey(forPrivateKey privateKey: String) -> String {
+    private func generatePublicKey(fromPrivateKey privateKey: String) -> String {
         
         var publicKeyBytes: Array<UInt8> = Array(repeating: 0, count: 32)
         var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(privateKey.asByteArray().count)
