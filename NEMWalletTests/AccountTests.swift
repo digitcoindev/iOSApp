@@ -107,41 +107,65 @@ class AccountTests: QuickSpec {
         
         describe("account deletion") {
             
-            context("when deleting an account") {
+            var accounts: [Account]!
+            var deletedAccount: Account!
+            
+            beforeSuite {
+                
+                accounts = AccountManager.sharedInstance.accounts()
+                deletedAccount = accounts[Int(arc4random_uniform(UInt32(accounts.count)) + UInt32(0))]
+                
+                waitUntil { done in
+                    AccountManager.sharedInstance.delete(account: deletedAccount, completion: { (result) in
+                        accounts = AccountManager.sharedInstance.accounts()
+                        done()
+                    })
+                }
+            }
+            
+            it("deletes the account from the device") {
+                expect(accounts).notTo(contain(deletedAccount))
+            }
+            
+            it("updates the position of all remaining accounts") {
+                
+                let maxPosition = accounts.max { a, b in Int(a.position) < Int(b.position) }
+                var positionIncrement = 0
+                
+                for account in accounts {
+                    if Int(account.position) == positionIncrement && positionIncrement < (accounts.count - 1)  {
+                        positionIncrement += 1
+                    }
+                }
+                
+                expect(positionIncrement).to(equal(Int(maxPosition!.position)))
+            }
+        }
+        
+        describe("account position move") {
+            
+            it("saves the position move") {
                 
                 var accounts: [Account]!
-                var deletedAccount: Account!
+                accounts = AccountManager.sharedInstance.accounts()
                 
-                beforeSuite {
+                var movedAccounts = accounts!
+                let movedAccount = movedAccounts[Int(arc4random_uniform(UInt32(movedAccounts.count)) + UInt32(0))]
+                let movedAccountIndexBefore = movedAccounts.index(of: movedAccount)!
+                let movedAccountIndexAfter = Int(arc4random_uniform(UInt32(accounts.count)) + UInt32(0))
+                
+                movedAccounts.remove(at: movedAccountIndexBefore)
+                movedAccounts.insert(movedAccount, at: movedAccountIndexAfter)
+                
+                waitUntil { done in
                     
-                    accounts = AccountManager.sharedInstance.accounts()
-                    deletedAccount = accounts[Int(arc4random_uniform(UInt32(accounts.count)) + UInt32(0))]
-                    
-                    waitUntil { done in
-                        AccountManager.sharedInstance.delete(account: deletedAccount, completion: { (result) in
-                            accounts = AccountManager.sharedInstance.accounts()
-                            done()
-                        })
-                    }
+                    AccountManager.sharedInstance.updatePosition(ofAccounts: movedAccounts, completion: { (result) in
+                        accounts = AccountManager.sharedInstance.accounts()
+                        done()
+                    })
                 }
                 
-                it("deletes the account from the device") {
-                    expect(accounts).notTo(contain(deletedAccount))
-                }
-                
-                it("updates the position of all remaining accounts") {
-                    
-                    let maxPosition = accounts.max { a, b in Int(a.position) < Int(b.position) }
-                    var positionIncrement = 0
-                    
-                    for account in accounts {
-                        if Int(account.position) == positionIncrement && positionIncrement < (accounts.count - 1)  {
-                            positionIncrement += 1
-                        }
-                    }
-                    
-                    expect(positionIncrement).to(equal(Int(maxPosition!.position)))
-                }
+                expect(accounts.index(of: movedAccount)).to(equal(movedAccountIndexAfter))
             }
         }
     }
