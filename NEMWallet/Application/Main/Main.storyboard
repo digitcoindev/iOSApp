@@ -113,7 +113,7 @@
                         <outlet property="contentView" destination="KZ4-Jg-l4J" id="BGI-0x-gEm"/>
                         <outlet property="createAccountButton" destination="Kfl-7c-kdl" id="R8s-ec-kad"/>
                         <outlet property="scrollView" destination="IBn-QE-n0w" id="EK9-ce-UaT"/>
-                        <segue destination="3uA-82-ZY4" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="A74-Ol-OIx"/>
+                        <segue destination="3uA-82-ZY4" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="A74-Ol-OIx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O45-KD-rb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -124,7 +124,7 @@
         <!--Accounts-->
         <scene sceneID="jxn-DR-hqx">
             <objects>
-                <viewController storyboardIdentifier="AccountListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fuL-dy-CgF" customClass="AccountListViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WalletOverviewViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fuL-dy-CgF" customClass="WalletOverviewViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yZW-PF-4BR"/>
                         <viewControllerLayoutGuide type="bottom" id="Sdp-hS-RvE"/>
@@ -394,7 +394,7 @@
                     <navigationItem key="navigationItem" id="7tq-se-Yqx">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="lBL-q6-t2d">
                             <connections>
-                                <segue destination="EvM-tt-a0G" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="Bc7-LT-1L5"/>
+                                <segue destination="EvM-tt-a0G" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="Bc7-LT-1L5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1149,7 +1149,7 @@
                         <outlet property="addAccountButton" destination="boI-Qr-JAY" id="GQJ-Tu-8kM"/>
                         <outlet property="contentView" destination="4Qi-u2-fCh" id="aZC-Dq-6YN"/>
                         <outlet property="scrollView" destination="o5W-Ta-fJi" id="JwM-GR-Mw0"/>
-                        <segue destination="tqC-86-auS" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="gwE-Jk-SZF"/>
+                        <segue destination="tqC-86-auS" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="gwE-Jk-SZF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JkU-Ng-CkL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4730,7 +4730,7 @@
                         <outlet property="customNavigationItem" destination="DRO-cT-GqN" id="U5J-Ac-TzY"/>
                         <outlet property="navigationBar" destination="PmR-XG-AuR" id="Xww-gv-3ce"/>
                         <outlet property="passwordTextField" destination="sJ7-sV-jyi" id="mxl-Hl-vIU"/>
-                        <segue destination="xYd-aw-Q8y" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="znU-Cu-0zC"/>
+                        <segue destination="xYd-aw-Q8y" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="znU-Cu-0zC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4iT-pB-blb" userLabel="First Responder" sceneMemberID="firstResponder"/>

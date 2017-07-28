@@ -99,7 +99,7 @@ class AccountAdditionMenuPasswordValidationViewController: UIViewController {
                 
                 switch result {
                 case .success:
-                    self.performSegue(withIdentifier: "unwindToAccountListViewController", sender: nil)
+                    self.performSegue(withIdentifier: "unwindToWalletOverviewViewController", sender: nil)
                     
                 case .failure:
                     let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
