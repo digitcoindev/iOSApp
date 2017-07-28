@@ -2,24 +2,24 @@
 //  WalletOverviewViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import UIKit
 
 /**
-    The account list view controller lists all available accounts
-    and lets the user choose an account to further inspect.
+    The wallet overview gives the user an overview about his whole wallet.
+    It lists all his accounts and gives the ability to add new accounts to the wallet.
  */
-class WalletOverviewViewController: UIViewController {
+final class WalletOverviewViewController: UIViewController {
     
     // MARK: - View Controller Properties
     
     /// All accounts that are stored on the device, which will get listed in the table view.
-    var accounts = [Account]()
+    fileprivate var accounts = [Account]()
     
     /// This timer is used to keep the application time synchronized with the network time.
-    fileprivate var refreshTimer: Timer? = nil
+    private var networkTimeRefreshTimer: Timer?
     
     // MARK: - View Controller Outlets
     
@@ -32,16 +32,14 @@ class WalletOverviewViewController: UIViewController {
         super.viewDidLoad()
         
         accounts = AccountManager.sharedInstance.accounts()
-        
         updateViewControllerAppearance()
-        createEditButtonItemIfNeeded()
-        startRefreshing()
+        startRefreshingNetworkTime()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if (tableView.indexPathForSelectedRow != nil) {
+        if tableView.indexPathForSelectedRow != nil {
             let indexPath = tableView.indexPathForSelectedRow!
             tableView.deselectRow(at: indexPath, animated: true)
         }
@@ -73,107 +71,57 @@ class WalletOverviewViewController: UIViewController {
     
     // MARK: - View Controller Helper Methods
     
-    /// Updates the appearance (coloring, titles) of the view controller.
-    fileprivate func updateViewControllerAppearance() {
-        
-        navigationItem.title = "ACCOUNTS".localized()
-        addAccountButton.setTitle("ADD_ACCOUNT".localized(), for: UIControlState())
-        addAccountButton.setImage(#imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
-        addAccountButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
-    }
-    
     /**
-        Checks if there are any accounts to show and creates an edit button
-        item on the right of the navigation bar if that's the case.
-     */
-    fileprivate func createEditButtonItemIfNeeded() {
-        
-        if (accounts.count > 0) {
-            navigationItem.rightBarButtonItem = editButtonItem
-        } else {
-            navigationItem.rightBarButtonItem = nil
-        }
-    }
-    
-    /// Starts refreshing the network time in the defined interval.
-    fileprivate func startRefreshing() {
-        
-        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(Constants.updateInterval), target: self, selector: #selector(WalletOverviewViewController.refreshNetworkTime), userInfo: nil, repeats: true)
-    }
-    
-    /// Stops refreshing the network time.
-    fileprivate func stopRefreshing() {
-        refreshTimer?.invalidate()
-        refreshTimer = nil
-    }
-    
-    /// Synchronizes the application time with the network time.
-    open func refreshNetworkTime() {
-        
-        TimeManager.sharedInstance.synchronizeTime()
-    }
-    
-    /**
-        Asks the user for confirmation of the deletion of an account and deletes 
-        the account accordingly from both the table view and the database.
+        Shows a confirmation alert for the account deletion and deletes the account if the user confirms the deletion
+        or cancels the action if not.
      
-        - Parameter indexPath: The index path of the account that should get removed and deleted.
+        - Parameter indexPath: The index path of the account in the accounts array, that should get deleted.
      */
     fileprivate func deleteAccount(atIndexPath indexPath: IndexPath) {
         
-        let account = accounts[indexPath.row]
+        let accountToDelete = accounts[indexPath.row]
         
-        let accountDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), account.title), preferredStyle: .alert)
-        
+        let accountDeletionAlert = UIAlertController(title: "INFO".localized(), message: String(format: "DELETE_CONFIRMATION_MASSAGE_ACCOUNTS".localized(), accountToDelete.title), preferredStyle: .alert)
         accountDeletionAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
-        
         accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { [unowned self] (action) in
             
             self.accounts.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
             self.createEditButtonItemIfNeeded()
-            
-            AccountManager.sharedInstance.delete(account: account, completion: { _ in })
+            AccountManager.sharedInstance.delete(account: accountToDelete, completion: { _ in })
         }))
         
         present(accountDeletionAlert, animated: true, completion: nil)
     }
     
     /**
-        Moves an account from its previous position in the array to the new position
-        and saves that change in the database.
+        Moves an account from its previous position in the array to the new position and saves that change in the database.
      
-        - Parameter sourceIndexPath: The previous index path of the account (before the move).
-        - Parameter destinationIndexPath: The new index path of the account (after the move)
+        - Parameter sourceIndexPath: The previous index path of the account in the accounts array (before the move).
+        - Parameter destinationIndexPath: The new index path of the account in the accounts array (after the move)
      */
     fileprivate func moveAccount(fromPosition sourceIndexPath: IndexPath, toPosition destinationIndexPath: IndexPath) {
         
-        if sourceIndexPath == destinationIndexPath {
-            return
-        }
+        if sourceIndexPath == destinationIndexPath { return }
         
-        let moveableAccount = accounts[(sourceIndexPath as NSIndexPath).row]
-        accounts.remove(at: (sourceIndexPath as NSIndexPath).row)
-        accounts.insert(moveableAccount, at: (destinationIndexPath as NSIndexPath).row)
+        let accountToMove = accounts[sourceIndexPath.row]
+        accounts.remove(at: sourceIndexPath.row)
+        accounts.insert(accountToMove, at: destinationIndexPath.row)
         
         AccountManager.sharedInstance.updatePosition(ofAccounts: accounts, completion: { _ in })
     }
     
     /**
-        Asks the user to change the title for an existing account and makes
-        the change accordingly.
+        Asks the user to change the title for an account and makes the change accordingly.
      
-        - Parameter indexPath: The index path of the account that should get updated.
+        - Parameter indexPath: The index path of the account in the accounts array for which the title should get updated.
      */
     fileprivate func changeTitle(forAccountAtIndexPath indexPath: IndexPath) {
         
         let account = accounts[indexPath.row]
         
         let accountTitleChangerAlert = UIAlertController(title: "CHANGE".localized(), message: "INPUT_NEW_ACCOUNT_NAME".localized(), preferredStyle: .alert)
-        
         accountTitleChangerAlert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
-        
         accountTitleChangerAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [unowned self] (action) in
             
             let titleTextField = accountTitleChangerAlert.textFields![0] as UITextField
@@ -181,7 +129,6 @@ class WalletOverviewViewController: UIViewController {
                 
                 self.accounts[indexPath.row].title = newTitle
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                
                 AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[indexPath.row], withNewTitle: newTitle)
             }
         }))
@@ -193,12 +140,51 @@ class WalletOverviewViewController: UIViewController {
         present(accountTitleChangerAlert, animated: true, completion: nil)
     }
     
-    // MARK: - View Controller Outlet Actions
+    /// Updates the appearance (coloring, titles) of the view controller.
+    private func updateViewControllerAppearance() {
+        
+        navigationItem.title = "ACCOUNTS".localized()
+        addAccountButton.setTitle("ADD_ACCOUNT".localized(), for: UIControlState())
+        addAccountButton.setImage(#imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
+        addAccountButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        createEditButtonItemIfNeeded()
+    }
     
     /**
-        Unwinds to the account list view controller and reloads all
-        accounts to show.
+        Checks if there are any accounts to show and creates an edit button item on the right of the 
+        navigation bar if that's the case.
      */
+    private func createEditButtonItemIfNeeded() {
+        
+        if (accounts.count > 0) {
+            navigationItem.rightBarButtonItem = editButtonItem
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
+    /// Starts refreshing the network time in a defined interval.
+    private func startRefreshingNetworkTime() {
+        
+        networkTimeRefreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(Constants.updateInterval), target: self, selector: #selector(WalletOverviewViewController.refreshNetworkTime), userInfo: nil, repeats: true)
+    }
+    
+    /// Stops refreshing the network time.
+    private func stopRefreshingNetworkTime() {
+        
+        networkTimeRefreshTimer?.invalidate()
+        networkTimeRefreshTimer = nil
+    }
+    
+    /// Synchronizes the application time with the network time.
+    internal func refreshNetworkTime() {
+        TimeManager.sharedInstance.synchronizeTime()
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    /// Unwinds to the wallet overview view controller and reloads all accounts to show.
     @IBAction func unwindToWalletOverviewViewController(_ segue: UIStoryboardSegue) {
         
         accounts = AccountManager.sharedInstance.accounts()
@@ -241,7 +227,6 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         
         switch editingStyle {
         case .delete:
-            
             deleteAccount(atIndexPath: indexPath)
             
         default:
@@ -250,7 +235,6 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
         moveAccount(fromPosition: sourceIndexPath, toPosition: destinationIndexPath)
     }
     
