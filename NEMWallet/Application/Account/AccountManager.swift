@@ -95,7 +95,7 @@ final class AccountManager {
             success: {
                 
                 /// Update the position of all other accounts accordingly.
-                self.updatePosition(forAccounts: accounts, completion: { (result) in return completion(.success) })
+                self.updatePosition(ofAccounts: accounts, completion: { (result) in return completion(.success) })
             },
             failure: { (error) in
                 return completion(.failure)
@@ -104,12 +104,14 @@ final class AccountManager {
     }
     
     /**
-        Stores an account move from the account list in the database by updating 
-        the position for all accounts.
+        Updates the position of all accounts in the account list.
+        Account positions will get updated in the database according to the positions of the accounts in the provided 'accounts' array.
      
-        - Parameter accounts: An array of all accounts in their state after the move (with their new indexPath).
+        - Parameter accounts: An array containing all accounts where their new position in the account list is already represented.
+     
+        - Returns: The result of the operation.
      */
-    public func updatePosition(forAccounts accounts: [Account], completion: @escaping (_ result: Result) -> Void) {
+    public func updatePosition(ofAccounts accounts: [Account], completion: @escaping (_ result: Result) -> Void) {
         
         DatabaseManager.sharedInstance.dataStack.perform(
             asynchronous: { (transaction) -> Void in

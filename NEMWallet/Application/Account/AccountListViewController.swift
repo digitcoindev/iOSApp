@@ -157,7 +157,7 @@ class AccountListViewController: UIViewController {
         accounts.remove(at: (sourceIndexPath as NSIndexPath).row)
         accounts.insert(moveableAccount, at: (destinationIndexPath as NSIndexPath).row)
         
-        AccountManager.sharedInstance.updatePosition(forAccounts: accounts, completion: { _ in })
+        AccountManager.sharedInstance.updatePosition(ofAccounts: accounts, completion: { _ in })
     }
     
     /**
