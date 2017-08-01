@@ -2676,6 +2676,7 @@
                                                 <connections>
                                                     <action selector="textFieldEditingEnd:" destination="0YH-3H-wH5" eventType="editingDidEnd" id="f08-lS-8Je"/>
                                                     <action selector="textFieldReturnKeyToched:" destination="0YH-3H-wH5" eventType="editingDidEndOnExit" id="W40-ct-U2F"/>
+                                                    <action selector="userDefinedFee:" destination="0YH-3H-wH5" eventType="editingChanged" id="uIp-s2-nc5"/>
                                                 </connections>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVr-2d-iiI" userLabel="Separator">

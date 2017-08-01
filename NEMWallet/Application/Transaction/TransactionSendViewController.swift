@@ -40,6 +40,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     
     var recipientAddress: String?
     var amount: Double?
+    var userSetFee: Double?
     var message: String?
     fileprivate var account: Account?
     fileprivate var accountData: AccountData?
@@ -80,6 +81,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         self.navigationBar.delegate = self
         
         transactionSendButton.isEnabled = false
+        transactionFeeTextField.isEnabled = network == testNetwork ? true : false
         account = AccountManager.sharedInstance.activeAccount
         
         guard account != nil else {
@@ -373,7 +375,6 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     fileprivate func calculateTransactionFee() {
         
         var transactionAmountString = transactionAmountTextField.text!.replacingOccurrences(of: " ", with: "")
-        transactionAmountString = transactionAmountString.replacingOccurrences(of: ",", with: "")
         var transactionAmount = Double(transactionAmountString) ?? 0.0
 
         if transactionAmount < 0.000001 && transactionAmount != 0 {
@@ -396,7 +397,10 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
         transactionFeeAttributedString.append(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]))
         transactionFeeHeadingLabel.attributedText = transactionFeeAttributedString
-        transactionFeeTextField.text = "\(transactionFee)"
+        
+        if userSetFee == nil || network == mainNetwork {
+            transactionFeeTextField.text = "\(transactionFee)"
+        }
     }
     
     /**
@@ -413,12 +417,6 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             var transactionEncryptedMessageByteArray: [UInt8] = Array(repeating: 0, count: 32)
             transactionEncryptedMessageByteArray = TransactionManager.sharedInstance.encryptMessage(transactionMessageByteArray, senderEncryptedPrivateKey: account!.privateKey, recipientPublicKey: recipientPublicKey)
             transactionMessageByteArray = transactionEncryptedMessageByteArray
-        }
-        
-        if transactionMessageByteArray.count > 160 {
-            showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
-            sendingTransaction = false
-            return
         }
         
         let transactionMessage = Message(type: willEncrypt ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextField.text!)
@@ -624,6 +622,13 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         calculateTransactionFee()
+    }
+    
+    @IBAction func userDefinedFee(_ sender: UITextField) {
+        
+        if network == testNetwork {
+            userSetFee = Double(transactionFeeTextField.text!) ?? nil
+        }
     }
     
     @IBAction func textFieldReturnKeyToched(_ sender: UITextField) {
