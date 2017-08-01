@@ -40,6 +40,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     
     var recipientAddress: String?
     var amount: Double?
+    var userSetFee: Double?
     var message: String?
     fileprivate var account: Account?
     fileprivate var accountData: AccountData?
@@ -80,6 +81,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         self.navigationBar.delegate = self
         
         transactionSendButton.isEnabled = false
+        transactionFeeTextField.isEnabled = network == testNetwork ? true : false
         account = AccountManager.sharedInstance.activeAccount
         
         guard account != nil else {
@@ -204,7 +206,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
                     var accountData = try json.mapObject(AccountData.self)
@@ -252,7 +254,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
                     let accountData = try json.mapObject(AccountData.self)
@@ -301,7 +303,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     let responseJSON = JSON(data: response.data)
                     try self?.validateAnnounceTransactionResult(responseJSON)
                     
@@ -373,7 +375,6 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     fileprivate func calculateTransactionFee() {
         
         var transactionAmountString = transactionAmountTextField.text!.replacingOccurrences(of: " ", with: "")
-        transactionAmountString = transactionAmountString.replacingOccurrences(of: ",", with: "")
         var transactionAmount = Double(transactionAmountString) ?? 0.0
 
         if transactionAmount < 0.000001 && transactionAmount != 0 {
@@ -391,12 +392,15 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         }
 
         let transactionFeeAttributedString = NSMutableAttributedString(string: "\("FEE".localized()): (\("MIN".localized()) ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)])
-        transactionFeeAttributedString.append(NSMutableAttributedString(string: "\(Int(transactionFee))", attributes: [
+        transactionFeeAttributedString.append(NSMutableAttributedString(string: "\(transactionFee)", attributes: [
             NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1),
             NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
         transactionFeeAttributedString.append(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]))
         transactionFeeHeadingLabel.attributedText = transactionFeeAttributedString
-        transactionFeeTextField.text = "\(Int(transactionFee))"
+        
+        if userSetFee == nil || network == mainNetwork {
+            transactionFeeTextField.text = "\(transactionFee)"
+        }
     }
     
     /**
@@ -415,12 +419,6 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             transactionMessageByteArray = transactionEncryptedMessageByteArray
         }
         
-        if transactionMessageByteArray.count > 160 {
-            showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
-            sendingTransaction = false
-            return
-        }
-        
         let transactionMessage = Message(type: willEncrypt ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextField.text!)
         
         (preparedTransaction as! TransferTransaction).message = transactionMessage
@@ -428,7 +426,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         // Check if the transaction is a multisig transaction
         if activeAccountData!.publicKey != account!.publicKey {
             
-            let multisigTransaction = MultisigTransaction(version: (preparedTransaction as! TransferTransaction).version, timeStamp: (preparedTransaction as! TransferTransaction).timeStamp, fee: Int(6 * 1000000), deadline: (preparedTransaction as! TransferTransaction).deadline, signer: account!.publicKey, innerTransaction: (preparedTransaction as! TransferTransaction))
+            let multisigTransaction = MultisigTransaction(version: (preparedTransaction as! TransferTransaction).version, timeStamp: (preparedTransaction as! TransferTransaction).timeStamp, fee: Int(0.15 * 1000000), deadline: (preparedTransaction as! TransferTransaction).deadline, signer: account!.publicKey, innerTransaction: (preparedTransaction as! TransferTransaction))
             
             announceTransaction(multisigTransaction!)
             return
@@ -624,6 +622,13 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         calculateTransactionFee()
+    }
+    
+    @IBAction func userDefinedFee(_ sender: UITextField) {
+        
+        if network == testNetwork {
+            userSetFee = Double(transactionFeeTextField.text!) ?? nil
+        }
     }
     
     @IBAction func textFieldReturnKeyToched(_ sender: UITextField) {

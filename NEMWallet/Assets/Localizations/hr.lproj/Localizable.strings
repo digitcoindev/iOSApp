@@ -26,6 +26,7 @@
 "ADDRESS_BOOK" = "Adresar";
 "ADD_CONTACT" = "Dodaj kontakt";
 "ADDRESS" = "Adresa";
+"ADDRESS_COPIED" = "Address copied.";
 "AMOUNT" = "Iznos";
 "ACCOUNTS" = "Računi";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Nedovoljan saldo";
@@ -59,6 +60,7 @@
 "CANCEL" = "Poništi";
 "CONTACTS_IS_UNAVAILABLE" = "Kontakti su nedostupni.\nZa dopuštanje kontakata molim vas idite na \nPostavke -> Privatnost -> Kontakti.";
 "COPIED" = "Kopirano";
+"CANNOT_ACCESS_CONTACTS" = "Couldn't access contacts, please allow access to contacts.";
 
 // MARK: - D
 
@@ -200,6 +202,7 @@
 // MARK: - Q
 
 "QR" = "QR";
+"QR_SAVED" = "QR code is saved.";
 
 // MARK: - R
 

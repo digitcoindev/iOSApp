@@ -26,6 +26,7 @@
 "ADDRESS_BOOK" = "Osoitekirja";
 "ADD_CONTACT" = "Lisää kontakti";
 "ADDRESS" = "Osoite ";
+"ADDRESS_COPIED" = "Address copied.";
 "AMOUNT" = "Summa";
 "ACCOUNTS" = "Tilit";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Tilin kate ylitetty";
@@ -59,6 +60,7 @@
 "CANCEL" = "Peruuta";
 "CONTACTS_IS_UNAVAILABLE" = "Yhteystiedot ei käytössä.\nOta yhteystiedot käyttöön \nAsetukset -> Yksityisyys -> Yhteystiedot.";
 "COPIED" = "Kopioitu";
+"CANNOT_ACCESS_CONTACTS" = "Couldn't access contacts, please allow access to contacts.";
 
 // MARK: - D
 
@@ -200,6 +202,7 @@
 // MARK: - Q
 
 "QR" = "QR";
+"QR_SAVED" = "QR code is saved.";
 
 // MARK: - R
 

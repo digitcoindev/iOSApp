@@ -139,11 +139,11 @@ open class TransactionManager {
         var transactionFee = 0.0
         
         if transactionAmount < 20000 {
-            transactionFee = 1.0
+            transactionFee = 0.05
         } else if transactionAmount >= 250000.0 {
-            transactionFee = 25.0
+            transactionFee = 1.25
         } else {
-            transactionFee = floor(transactionAmount / 10000)
+            transactionFee = 0.05 * floor(transactionAmount / 10000)
         }
         
         return transactionFee
@@ -161,7 +161,7 @@ open class TransactionManager {
         var transactionFee = 0.0
         
         if transactionMessageByteArray.count != 0 {
-            transactionFee = floor(Double(transactionMessageByteArray.count + (isEncrypted ? 64 : 0)) / 32) + 1
+            transactionFee = 0.05 * (floor(Double(transactionMessageByteArray.count + (isEncrypted ? 64 : 0)) / 32) + 1)
         }
         
         return transactionFee

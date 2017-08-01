@@ -14,7 +14,7 @@ let waitTime :Double = 21600
 
 let updateInterval :TimeInterval = 30
  
-let QR_VERSION = 2
+let QR_VERSION = network == testNetwork ? 1 : 2
 
 enum QRKeys: String {
     case Address = "addr"

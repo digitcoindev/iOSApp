@@ -26,6 +26,7 @@
 "ADDRESS_BOOK" = "Address Book";
 "ADD_CONTACT" = "Add Contact";
 "ADDRESS" = "Address";
+"ADDRESS_COPIED" = "Address copied.";
 "AMOUNT" = "Amount";
 "ACCOUNTS" = "Accounts";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Insufficient Funds";
@@ -59,6 +60,7 @@
 "CANCEL" = "Cancel";
 "CONTACTS_IS_UNAVAILABLE" = "Contacts are unavailable.\nTo allow contacts please go to \nSettings -> Privacy -> Contacts.";
 "COPIED" = "Copied";
+"CANNOT_ACCESS_CONTACTS" = "Couldn't access contacts, please allow access to contacts.";
 
 // MARK: - D
 
@@ -200,6 +202,7 @@
 // MARK: - Q
 
 "QR" = "QR";
+"QR_SAVED" = "QR code is saved.";
 
 // MARK: - R
 

@@ -26,6 +26,7 @@
 "ADDRESS_BOOK" = "Carnet d'adresses";
 "ADD_CONTACT" = "Ajouter contact";
 "ADDRESS" = "Adresses";
+"ADDRESS_COPIED" = "Address copied.";
 "AMOUNT" = "Montant";
 "ACCOUNTS" = "Comptes";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Fonds insuffisants";
@@ -59,6 +60,7 @@
 "CANCEL" = "Annuler";
 "CONTACTS_IS_UNAVAILABLE" = "Les contacts ne sont pas disponibles \nPour autoriser les contacts, aller à \nParamètres -> Confidentialité -> Contacts.";
 "COPIED" = "Copié";
+"CANNOT_ACCESS_CONTACTS" = "Couldn't access contacts, please allow access to contacts.";
 
 // MARK: - D
 
@@ -200,6 +202,7 @@
 // MARK: - Q
 
 "QR" = "QR";
+"QR_SAVED" = "QR code is saved.";
 
 // MARK: - R
 

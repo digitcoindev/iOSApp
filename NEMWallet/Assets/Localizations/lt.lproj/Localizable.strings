@@ -26,6 +26,7 @@
 "ADDRESS_BOOK" = "Adresų knyga";
 "ADD_CONTACT" = "Pridėti kontaktą";
 "ADDRESS" = "Adresas";
+"ADDRESS_COPIED" = "Address copied.";
 "AMOUNT" = "Suma";
 "ACCOUNTS" = "Sąskaitos";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Nepakanka lėšų";
@@ -59,6 +60,7 @@
 "CANCEL" = "Nutraukti";
 "CONTACTS_IS_UNAVAILABLE" = "Kontaktai negalimi.\nTam, kad leisti naudoti kontaktus, eikite į \nNustatymai -> Privatumas -> Kontaktai.";
 "COPIED" = "Nukopijuota";
+"CANNOT_ACCESS_CONTACTS" = "Couldn't access contacts, please allow access to contacts.";
 
 // MARK: - D
 
@@ -200,6 +202,7 @@
 // MARK: - Q
 
 "QR" = "QR";
+"QR_SAVED" = "QR code is saved.";
 
 // MARK: - R
 

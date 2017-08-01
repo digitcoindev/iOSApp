@@ -26,6 +26,7 @@
 "ADDRESS_BOOK" = "Rubrica";
 "ADD_CONTACT" = "Aggiungi contatto";
 "ADDRESS" = "Indirizzo";
+"ADDRESS_COPIED" = "Address copied.";
 "AMOUNT" = "Importo";
 "ACCOUNTS" = "Account";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Fondi insufficienti";
@@ -59,6 +60,7 @@
 "CANCEL" = "Annulla";
 "CONTACTS_IS_UNAVAILABLE" = "Rubrica disabilitata.\nPer abilitare la rubrica vai su \nImpostazioni -> Privacy -> Rubrica.";
 "COPIED" = "Copiato";
+"CANNOT_ACCESS_CONTACTS" = "Couldn't access contacts, please allow access to contacts.";
 
 // MARK: - D
 
@@ -200,6 +202,7 @@
 // MARK: - Q
 
 "QR" = "QR";
+"QR_SAVED" = "QR code is saved.";
 
 // MARK: - R
 

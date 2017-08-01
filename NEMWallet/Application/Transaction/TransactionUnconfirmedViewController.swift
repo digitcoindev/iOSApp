@@ -88,7 +88,7 @@ class TransactionUnconfirmedViewController: UIViewController {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
                     var unconfirmedTransactions = [Transaction]()
@@ -221,7 +221,7 @@ class TransactionUnconfirmedViewController: UIViewController {
             
             let transactionVersion = 1
             let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
-            let transactionFee = 6 * 1000000
+            let transactionFee = Int(0.15 * 1000000)
             let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
             let transactionSigner = account!.publicKey
             let transactionHash = multisigTransaction.metaData!.data!
@@ -237,7 +237,7 @@ class TransactionUnconfirmedViewController: UIViewController {
             
             let transactionVersion = 1
             let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
-            let transactionFee = 6 * 1000000
+            let transactionFee = Int(0.15 * 1000000)
             let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
             let transactionSigner = account!.publicKey
             let transactionHash = multisigTransaction.metaData!.data!
@@ -267,7 +267,7 @@ class TransactionUnconfirmedViewController: UIViewController {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     let responseJSON = JSON(data: response.data)
                     try self?.validateAnnounceTransactionResult(responseJSON)
                     

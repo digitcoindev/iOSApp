@@ -113,6 +113,8 @@ class AccountExportViewController: UIViewController {
         guard exportQRCodeImageView.image != nil else { return }
         
         UIImageWriteToSavedPhotosAlbum(exportQRCodeImageView.image!, nil, nil, nil)
+        
+        showAlertSaved()
     }
     
     @IBAction func shareExportQRCodeImage(_ sender: UIButton) {

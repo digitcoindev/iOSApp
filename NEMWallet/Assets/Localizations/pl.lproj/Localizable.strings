@@ -26,6 +26,7 @@
 "ADDRESS_BOOK" = "Książka Adresowa";
 "ADD_CONTACT" = "Dodaj Kontakt";
 "ADDRESS" = "Adres";
+"ADDRESS_COPIED" = "Address copied.";
 "AMOUNT" = "Ilość";
 "ACCOUNTS" = "Konta";
 "ACCOUNT_NOT_ENOUGHT_MONEY" = "Niewystarczające Środki";
@@ -59,6 +60,7 @@
 "CANCEL" = "Anuluj";
 "CONTACTS_IS_UNAVAILABLE" = "Kontakty są niedostępne.\nAby udostępnić kontakty, proszę przejść do \nUstawienia -> Prywatność -> Kontakty.";
 "COPIED" = "Skopiowano";
+"CANNOT_ACCESS_CONTACTS" = "Couldn't access contacts, please allow access to contacts.";
 
 // MARK: - D
 
@@ -200,6 +202,7 @@
 // MARK: - Q
 
 "QR" = "Kod QR";
+"QR_SAVED" = "QR code is saved.";
 
 // MARK: - R
 

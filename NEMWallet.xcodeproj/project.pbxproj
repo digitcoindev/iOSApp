@@ -139,12 +139,14 @@
 		4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */; };
 		4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */; };
 		4FC27A041D95297700421F00 /* BlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC27A031D95297600421F00 /* BlockModel.swift */; };
+		4FC80C291EF80A270042EA06 /* TestnetDefaultServers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */; };
 		4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */; };
 		4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */; };
 		4FDEEC1F1E132D6100B7D93E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */; };
 		4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE02C121DA2E1180057740D /* ServerExceptions.swift */; };
 		4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */; };
 		4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */; };
+		64F22B8D1EE67B9700780900 /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F22B8C1EE67B9700780900 /* UIViewController+Additions.swift */; };
 		9809BE271B75008F0028D082 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9809BE291B75008F0028D082 /* Localizable.strings */; };
 		98BB95D31BCCED5B002151F7 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95B91BCCED5B002151F7 /* readme.md */; };
 		98BB95D41BCCED5B002151F7 /* add_scalar.c in Sources */ = {isa = PBXBuildFile; fileRef = 98BB95BB1BCCED5B002151F7 /* add_scalar.c */; };
@@ -349,12 +351,14 @@
 		4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestAnnounceModel.swift; sourceTree = "<group>"; };
 		4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array<UInt8>+Additions.swift"; sourceTree = "<group>"; };
 		4FC27A031D95297600421F00 /* BlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockModel.swift; sourceTree = "<group>"; };
+		4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestnetDefaultServers.plist; sourceTree = "<group>"; };
 		4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceManager.swift; sourceTree = "<group>"; };
 		4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceModel.swift; sourceTree = "<group>"; };
 		4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FE02C121DA2E1180057740D /* ServerExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerExceptions.swift; sourceTree = "<group>"; };
 		4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Additions.swift"; sourceTree = "<group>"; };
 		4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
+		64F22B8C1EE67B9700780900 /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		98019A4E1CAC1E4400C61638 /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		98019A4F1CAC270E00C61638 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98019A501CAC28CB00C61638 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -461,6 +465,7 @@
 			children = (
 				4F9F689D1D4C3A160086F98F /* Info.plist */,
 				4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */,
+				4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */,
 			);
 			path = "Property Lists";
 			sourceTree = "<group>";
@@ -508,6 +513,7 @@
 				4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */,
 				4F0B5F021DAFD41000E182C3 /* Double+Additions.swift */,
 				4F0B5F041DAFD41800E182C3 /* NSData+Additions.swift */,
+				64F22B8C1EE67B9700780900 /* UIViewController+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1006,7 +1012,7 @@
 								enabled = 1;
 							};
 							com.apple.Keychain = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -1068,6 +1074,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FDEEC1F1E132D6100B7D93E /* LaunchScreen.storyboard in Resources */,
+				4FC80C291EF80A270042EA06 /* TestnetDefaultServers.plist in Resources */,
 				4F9F68981D4C39DF0086F98F /* Images.xcassets in Resources */,
 				4F9F67F21D4C31300086F98F /* Main.storyboard in Resources */,
 				4F15DCAF1DA2B3E10042997C /* DefaultServers.plist in Resources */,
@@ -1181,6 +1188,7 @@
 				4F9F68561D4C36470086F98F /* AddressBookContactTableViewCell.swift in Sources */,
 				4F9F681E1D4C33AE0086F98F /* AccountChooserViewController.swift in Sources */,
 				4F9F68321D4C353D0086F98F /* TransactionMessageTableViewCell.swift in Sources */,
+				64F22B8D1EE67B9700780900 /* UIViewController+Additions.swift in Sources */,
 				4F3ACEA71D636B6B0056F234 /* CorrespondentModel.swift in Sources */,
 				4F15DCB11DA2CED70042997C /* Server+Additions.swift in Sources */,
 				4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */,
@@ -1435,7 +1443,6 @@
 				ALTERNATE_OWNER = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "NEMWallet/Assets/Supporting Files/NemIOSClient.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = PNXDDDXH4F;
@@ -1465,7 +1472,6 @@
 				ALTERNATE_OWNER = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "NEMWallet/Assets/Supporting Files/NemIOSClient.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = PNXDDDXH4F;

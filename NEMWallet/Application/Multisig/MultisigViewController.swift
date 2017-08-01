@@ -159,7 +159,7 @@ class MultisigViewController: UIViewController {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
                     let accountData = try json.mapObject(AccountData.self)
@@ -222,7 +222,7 @@ class MultisigViewController: UIViewController {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
                     let accountData = try json.mapObject(AccountData.self)
@@ -283,7 +283,7 @@ class MultisigViewController: UIViewController {
             case let .success(response):
                 
                 do {
-                    try response.filterSuccessfulStatusCodes()
+                    let _ = try response.filterSuccessfulStatusCodes()
                     let responseJSON = JSON(data: response.data)
 
                     try self?.validateAnnounceTransactionResult(responseJSON)
@@ -452,20 +452,16 @@ class MultisigViewController: UIViewController {
         
         let transactionVersion = 2
         let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
-        var transactionFee = 10 + 6 * (addedCosignatories.count + removedCosignatories.count)
+        var transactionFee = 0.5
         let transactionRelativeChange = relativeChange
         let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
-        
-        if relativeChange != 0 {
-            transactionFee += 6
-        }
-        
+                
         var transactionSigner = activeAccountData!.publicKey
         if activeAccountData!.cosignatories.count == 0 {
             transactionSigner = account!.publicKey
         }
         
-        let transaction = MultisigAggregateModificationTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: transactionFee * 1000000, relativeChange: transactionRelativeChange, deadline: transactionDeadline, signer: transactionSigner!)
+        let transaction = MultisigAggregateModificationTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Int(transactionFee * 1000000), relativeChange: transactionRelativeChange, deadline: transactionDeadline, signer: transactionSigner!)
         
         for cosignatoryAccount in addedCosignatories {
             transaction!.addModification(.addCosignatory, cosignatoryAccount: cosignatoryAccount)
@@ -478,7 +474,7 @@ class MultisigViewController: UIViewController {
         // Check if the transaction is a multisig transaction
         if activeAccountData!.publicKey != account!.publicKey {
             
-            let multisigTransaction = MultisigTransaction(version: 1, timeStamp: transactionTimeStamp, fee: Int(6 * 1000000), deadline: transactionDeadline, signer: account!.publicKey, innerTransaction: transaction!)
+            let multisigTransaction = MultisigTransaction(version: 1, timeStamp: transactionTimeStamp, fee: Int(0.15 * 1000000), deadline: transactionDeadline, signer: account!.publicKey, innerTransaction: transaction!)
             
             announceTransaction(multisigTransaction!)
             return
