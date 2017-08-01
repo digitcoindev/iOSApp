@@ -209,7 +209,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     /// Starts refreshing the transaction overview in the defined interval.
     fileprivate func startRefreshing() {
         
-        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(updateInterval), target: self, selector: #selector(TransactionMessagesViewController.refreshCorrespondentTransactions), userInfo: nil, repeats: true)
+        refreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(Constants.updateInterval), target: self, selector: #selector(TransactionMessagesViewController.refreshCorrespondentTransactions), userInfo: nil, repeats: true)
     }
     
     /// Stops refreshing the transaction overview.
@@ -275,7 +275,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
      */
     fileprivate func fetchAccountData(forAccount account: Account, shouldUpdateViewControllerAppearance: Bool = false) {
         
-        nisProvider.request(NIS.accountData(accountAddress: account.address)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: account.address)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -329,7 +329,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
      */
     fileprivate func fetchPublicKey(forCorrespondentWithAddress accountAddress: String) {
         
-        nisProvider.request(NIS.accountData(accountAddress: accountAddress)) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: accountAddress)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -377,7 +377,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -453,7 +453,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        nisProvider.request(NIS.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -528,7 +528,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         let requestAnnounce = TransactionManager.sharedInstance.signTransaction(transaction, account: account!)
         
-        nisProvider.request(NIS.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
+        NEMProvider.request(NEM.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -883,13 +883,13 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         transactionSendButton.isEnabled = false
         
         let transactionVersion = 1
-        let transactionTimeStamp = Int(TimeManager.sharedInstance.timeStamp)
+        let transactionTimeStamp = Int(TimeManager.sharedInstance.currentNetworkTime)
         let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
         var transactionFee = 0.0
         let transactionRecipient = correspondent!.accountAddress
         let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8) ?? String()
         var transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
-        let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
+        let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
         let transactionSigner = activeAccountData!.publicKey
         
         if transactionAmount < 0.000001 && transactionAmount != 0 {

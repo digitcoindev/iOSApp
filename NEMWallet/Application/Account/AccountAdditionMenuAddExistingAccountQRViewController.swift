@@ -95,11 +95,11 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     fileprivate func validate(captureResult: JSON) throws -> Bool {
         
         guard captureResult != nil else { throw AccountImportValidation.valueMissing }
-        guard captureResult[QRKeys.Version.rawValue].intValue == QR_VERSION else { throw AccountImportValidation.versionNotMatching }
-        guard captureResult[QRKeys.DataType.rawValue].intValue == QRType.accountData.rawValue else { throw AccountImportValidation.dataTypeNotMatching }
-        guard captureResult["data"][QRKeys.Name.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
-        guard captureResult["data"][QRKeys.PrivateKey.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
-        guard captureResult["data"][QRKeys.Salt.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult[QRKeys.version.rawValue].intValue == Constants.qrVersion else { throw AccountImportValidation.versionNotMatching }
+        guard captureResult[QRKeys.dataType.rawValue].intValue == QRType.accountData.rawValue else { throw AccountImportValidation.dataTypeNotMatching }
+        guard captureResult["data"][QRKeys.name.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult["data"][QRKeys.privateKey.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult["data"][QRKeys.salt.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
         
         return true
     }
@@ -133,9 +133,9 @@ extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDe
             return
         }
         
-        self.accountTitle = captureResultJSON["data"][QRKeys.Name.rawValue].string!
-        self.accountEncryptedPrivateKey = captureResultJSON["data"][QRKeys.PrivateKey.rawValue].string!
-        self.accountSalt = captureResultJSON["data"][QRKeys.Salt.rawValue].string!
+        self.accountTitle = captureResultJSON["data"][QRKeys.name.rawValue].string!
+        self.accountEncryptedPrivateKey = captureResultJSON["data"][QRKeys.privateKey.rawValue].string!
+        self.accountSalt = captureResultJSON["data"][QRKeys.salt.rawValue].string!
         
         performSegue(withIdentifier: "showAccountAdditionMenuPasswordValidationViewController", sender: nil)
     }

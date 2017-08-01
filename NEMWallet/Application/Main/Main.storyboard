@@ -113,7 +113,7 @@
                         <outlet property="contentView" destination="KZ4-Jg-l4J" id="BGI-0x-gEm"/>
                         <outlet property="createAccountButton" destination="Kfl-7c-kdl" id="R8s-ec-kad"/>
                         <outlet property="scrollView" destination="IBn-QE-n0w" id="EK9-ce-UaT"/>
-                        <segue destination="3uA-82-ZY4" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="A74-Ol-OIx"/>
+                        <segue destination="3uA-82-ZY4" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="A74-Ol-OIx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O45-KD-rb7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -124,7 +124,7 @@
         <!--Accounts-->
         <scene sceneID="jxn-DR-hqx">
             <objects>
-                <viewController storyboardIdentifier="AccountListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fuL-dy-CgF" customClass="AccountListViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WalletOverviewViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fuL-dy-CgF" customClass="WalletOverviewViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yZW-PF-4BR"/>
                         <viewControllerLayoutGuide type="bottom" id="Sdp-hS-RvE"/>
@@ -384,46 +384,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Notification" id="ypb-bW-CdW">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="alP-1W-Mc7">
-                                        <rect key="frame" x="0.0" y="443.5" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="alP-1W-Mc7" id="aRs-Pr-AnI">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update Interval" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5x2-Nr-Hvu">
-                                                    <rect key="frame" x="16" y="11" width="111" height="21.5"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="30 Minutes" textAlignment="right" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qJf-CA-atO">
-                                                    <rect key="frame" x="132" y="11" width="202" height="21.5"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="qJf-CA-atO" secondAttribute="bottom" constant="3" id="5mz-BP-1oh"/>
-                                                <constraint firstItem="5x2-Nr-Hvu" firstAttribute="leading" secondItem="aRs-Pr-AnI" secondAttribute="leadingMargin" constant="8" id="6x0-QU-y3e"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="5x2-Nr-Hvu" secondAttribute="bottom" constant="3" id="FBc-JN-9Wy"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="qJf-CA-atO" secondAttribute="trailing" id="Mn4-gB-Cz2"/>
-                                                <constraint firstItem="qJf-CA-atO" firstAttribute="leading" secondItem="5x2-Nr-Hvu" secondAttribute="trailing" constant="5" id="R7I-wO-YEe"/>
-                                                <constraint firstItem="qJf-CA-atO" firstAttribute="top" secondItem="aRs-Pr-AnI" secondAttribute="topMargin" constant="3" id="c7F-Ce-xWe"/>
-                                                <constraint firstItem="5x2-Nr-Hvu" firstAttribute="top" secondItem="aRs-Pr-AnI" secondAttribute="topMargin" constant="3" id="uAL-iC-5cO"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="VxB-8o-AQu" kind="show" id="Pbq-fa-8H5"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="Z86-ZM-rpn" id="l43-uX-tyN"/>
@@ -434,7 +394,7 @@
                     <navigationItem key="navigationItem" id="7tq-se-Yqx">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="lBL-q6-t2d">
                             <connections>
-                                <segue destination="EvM-tt-a0G" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="Bc7-LT-1L5"/>
+                                <segue destination="EvM-tt-a0G" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="Bc7-LT-1L5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -442,8 +402,6 @@
                     <connections>
                         <outlet property="generalAboutHeadingLabel" destination="qJB-ea-XoN" id="xln-0V-GMQ"/>
                         <outlet property="generalInvoiceMessageHeadingLabel" destination="GU3-Zy-7xa" id="ju7-if-ft0"/>
-                        <outlet property="notificationUpdateIntervalHeadingLabel" destination="5x2-Nr-Hvu" id="GNi-FL-8u6"/>
-                        <outlet property="notificationUpdateIntervalValueLabel" destination="qJf-CA-atO" id="Vii-bD-1mq"/>
                         <outlet property="securityChangePasswordHeadingLabel" destination="j9C-Xc-7SG" id="O0H-ox-0HW"/>
                         <outlet property="securityTouchIDHeadingLabel" destination="w6e-6L-Ajf" id="g8l-Ns-jy2"/>
                         <outlet property="securityTouchIDValueLabel" destination="sbW-IH-Btf" id="8tH-Fi-TrI"/>
@@ -869,7 +827,7 @@
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTx-fC-3pq" customClass="AccountChooserButton" customModule="NEMWallet" customModuleProvider="target">
                                         <rect key="frame" x="13" y="11" width="349" height="28"/>
                                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="drop_down_arrow_2x">
+                                        <state key="normal" image="DropDown">
                                             <color key="titleColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -955,7 +913,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" title="Import Key" image="improt_key">
+                                        <state key="normal" title="Import Key" image="ImportPrivateKey">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -971,7 +929,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" title="Scan QR" image="scan_qr">
+                                        <state key="normal" title="Scan QR" image="ImportQR">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -987,7 +945,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
-                                        <state key="normal" title="Create New" image="create_new">
+                                        <state key="normal" title="Create New" image="Create">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -1191,7 +1149,7 @@
                         <outlet property="addAccountButton" destination="boI-Qr-JAY" id="GQJ-Tu-8kM"/>
                         <outlet property="contentView" destination="4Qi-u2-fCh" id="aZC-Dq-6YN"/>
                         <outlet property="scrollView" destination="o5W-Ta-fJi" id="JwM-GR-Mw0"/>
-                        <segue destination="tqC-86-auS" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="gwE-Jk-SZF"/>
+                        <segue destination="tqC-86-auS" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="gwE-Jk-SZF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JkU-Ng-CkL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1483,7 +1441,7 @@
         <!--Password-->
         <scene sceneID="pwb-LT-zO9">
             <objects>
-                <viewController storyboardIdentifier="AuthenticationPasswordValidationViewController" title="Password" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EY9-DV-SIG" customClass="AuthenticationPasswordValidationViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthenticationViewController" title="Password" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EY9-DV-SIG" customClass="AuthenticationViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PUW-VR-qKs"/>
                         <viewControllerLayoutGuide type="bottom" id="dEJ-x5-enl"/>
@@ -1929,7 +1887,7 @@
                             <constraint firstItem="QyD-ON-UhU" firstAttribute="top" secondItem="Crn-8V-Vpr" secondAttribute="bottom" id="uOT-E4-erh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="message_passive" id="vp8-hG-DVr"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="Dashboard" id="vp8-hG-DVr"/>
                     <connections>
                         <outlet property="infoHeaderLabel" destination="836-Wa-UbO" id="VG1-6m-LL2"/>
                         <outlet property="loadingActivityIndicator" destination="YAr-jM-JGn" id="5PQ-e2-pim"/>
@@ -1984,7 +1942,7 @@
                                             <constraint firstAttribute="height" constant="38" id="LQN-z6-cu5"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                        <state key="normal" image="search_icon">
+                                        <state key="normal" image="Search">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
@@ -2029,7 +1987,7 @@
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo _active" translatesAutoresizingMaskIntoConstraints="NO" id="hYh-Di-K1P">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NEMContact" translatesAutoresizingMaskIntoConstraints="NO" id="hYh-Di-K1P">
                                                     <rect key="frame" x="332" y="7" width="30" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -2073,7 +2031,7 @@
                             <constraint firstItem="BdQ-EL-0ZK" firstAttribute="top" secondItem="K9E-Bm-Zm0" secondAttribute="bottom" id="yuY-in-64P"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="adress_passive" id="Vlz-sc-5KS"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="AddressBook" id="Vlz-sc-5KS"/>
                     <connections>
                         <outlet property="addContactButton" destination="kSy-7h-tAy" id="dLW-v6-e0m"/>
                         <outlet property="searchContainer" destination="D4a-Pp-98o" id="CTR-jR-dzT"/>
@@ -2309,7 +2267,7 @@
                                                     <constraint firstAttribute="width" constant="36" id="dy1-0N-NvJ"/>
                                                 </constraints>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <state key="normal" image="enc"/>
+                                                <state key="normal" image="Encrypt"/>
                                                 <connections>
                                                     <action selector="toggleEncryptionSetting:" destination="rte-MK-XjK" eventType="touchUpInside" id="62r-uw-0Qf"/>
                                                 </connections>
@@ -2626,7 +2584,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="adP-U4-sr0"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <state key="normal" title="Choose account" image="drop_down_arrow_2x">
+                                                <state key="normal" title="Choose account" image="DropDown">
                                                     <color key="titleColor" red="0.35294117650000001" green="0.70196078429999997" blue="0.90980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -2748,7 +2706,7 @@
                                                     <constraint firstAttribute="width" constant="36" id="xLX-2e-Myu"/>
                                                 </constraints>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <state key="normal" image="enc"/>
+                                                <state key="normal" image="Encrypt"/>
                                                 <connections>
                                                     <action selector="toggleEncryptionSetting:" destination="0YH-3H-wH5" eventType="touchUpInside" id="ZUN-1V-zWz"/>
                                                 </connections>
@@ -2885,7 +2843,7 @@
                         <viewControllerLayoutGuide type="bottom" id="TEu-wV-EFL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jOK-jY-yGx">
-                        <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Nf-6g-iCM">
@@ -2906,7 +2864,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xrv-pU-ohe">
-                                <rect key="frame" x="0.0" y="54" width="375" height="500"/>
+                                <rect key="frame" x="0.0" y="54" width="375" height="505"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsServerTableViewCell" id="Bnb-zm-gjS" customClass="SettingsServerTableViewCell" customModule="NEMWallet" customModuleProvider="target">
@@ -3093,59 +3051,6 @@
             </objects>
             <point key="canvasLocation" x="1350" y="6636"/>
         </scene>
-        <!--Title-->
-        <scene sceneID="y3S-EE-inr">
-            <objects>
-                <tableViewController storyboardIdentifier="SettingsNotificationIntervalViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VxB-8o-AQu" customClass="SettingsNotificationIntervalViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="oQM-xw-n9w">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsOptionTableViewCell" id="4cp-VW-09x" customClass="SettingsOptionTableViewCell" customModule="NEMWallet" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4cp-VW-09x" id="xaE-c3-XeE">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSv-sd-bPh">
-                                            <rect key="frame" x="16" y="11" width="343" height="21.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="aSv-sd-bPh" secondAttribute="trailing" constant="8" id="9sa-b5-37Z"/>
-                                        <constraint firstItem="aSv-sd-bPh" firstAttribute="leading" secondItem="xaE-c3-XeE" secondAttribute="leadingMargin" constant="8" id="Eae-ae-bHE"/>
-                                        <constraint firstItem="aSv-sd-bPh" firstAttribute="top" secondItem="xaE-c3-XeE" secondAttribute="topMargin" constant="3" id="tZd-W7-6a6"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="aSv-sd-bPh" secondAttribute="bottom" constant="3" id="yTX-Wg-DNT"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="titleLabel" destination="aSv-sd-bPh" id="raM-jh-jU5"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="VxB-8o-AQu" id="ffL-H6-yS6"/>
-                            <outlet property="delegate" destination="VxB-8o-AQu" id="Bfl-R2-9KO"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="r7V-dG-dsG">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="u44-Rn-8cs">
-                            <connections>
-                                <action selector="done:" destination="VxB-8o-AQu" id="MpJ-gi-Usj"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="U7Z-UC-qFf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2094" y="6636"/>
-        </scene>
         <!--Account Export View Controller-->
         <scene sceneID="2NN-gA-fGp">
             <objects>
@@ -3183,7 +3088,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="View private key" image="show_icon">
+                                <state key="normal" title="View private key" image="Show">
                                     <color key="titleColor" red="0.94901960784313721" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -3427,7 +3332,7 @@
                             <outlet property="delegate" destination="Bo9-3a-jQX" id="7KC-jt-trW"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="More" image="more_active" id="r5d-Ba-PQJ"/>
+                    <tabBarItem key="tabBarItem" title="More" image="More" id="r5d-Ba-PQJ"/>
                     <connections>
                         <outlet property="menuExportingHeadingLabel" destination="ibL-TU-lIa" id="riq-Gg-q3K"/>
                         <outlet property="menuHarvestingHeadingLabel" destination="5Hl-0p-Pc8" id="Q6E-ia-IEd"/>
@@ -3619,7 +3524,7 @@
                                     <constraint firstAttribute="height" constant="32" id="7I3-rk-VzU"/>
                                     <constraint firstAttribute="width" constant="45" id="s7p-aC-e8V"/>
                                 </constraints>
-                                <state key="normal" image="edit_account_icon"/>
+                                <state key="normal" image="Edit"/>
                                 <connections>
                                     <action selector="editAccountTitleButtonPressed:" destination="aWR-AQ-Kd2" eventType="touchUpInside" id="a93-na-D0b"/>
                                 </connections>
@@ -4439,7 +4344,7 @@
                             <constraint firstItem="Scb-h9-y3Z" firstAttribute="top" secondItem="tpl-fC-vNC" secondAttribute="bottom" id="yrQ-Un-zbf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="scan_qr" id="Hto-0h-fvN"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="ImportQR" id="Hto-0h-fvN"/>
                     <navigationItem key="navigationItem" id="Hfk-Dz-SDG"/>
                     <connections>
                         <outlet property="createInvoiceContainerView" destination="qTE-aa-rtb" id="Re9-ac-e8u"/>
@@ -4825,7 +4730,7 @@
                         <outlet property="customNavigationItem" destination="DRO-cT-GqN" id="U5J-Ac-TzY"/>
                         <outlet property="navigationBar" destination="PmR-XG-AuR" id="Xww-gv-3ce"/>
                         <outlet property="passwordTextField" destination="sJ7-sV-jyi" id="mxl-Hl-vIU"/>
-                        <segue destination="xYd-aw-Q8y" kind="unwind" identifier="unwindToAccountListViewController" unwindAction="unwindToAccountListViewController:" id="znU-Cu-0zC"/>
+                        <segue destination="xYd-aw-Q8y" kind="unwind" identifier="unwindToWalletOverviewViewController" unwindAction="unwindToWalletOverviewViewController:" id="znU-Cu-0zC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4iT-pB-blb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4910,26 +4815,26 @@
     </scenes>
     <resources>
         <image name="Add" width="44" height="44"/>
+        <image name="AddressBook" width="33" height="32"/>
+        <image name="Create" width="49" height="47"/>
+        <image name="Dashboard" width="39" height="27"/>
+        <image name="DropDown" width="42" height="26"/>
+        <image name="Edit" width="21" height="21"/>
+        <image name="Encrypt" width="26" height="24"/>
+        <image name="ImportPrivateKey" width="50" height="50"/>
+        <image name="ImportQR" width="28" height="28"/>
+        <image name="More" width="22" height="4"/>
+        <image name="NEMContact" width="586" height="568"/>
+        <image name="Search" width="34" height="34"/>
         <image name="Settings" width="44" height="44"/>
-        <image name="adress_passive" width="33" height="32"/>
+        <image name="Show" width="36" height="21"/>
         <image name="arrow_down" width="10" height="10"/>
         <image name="arrow_left_white" width="30" height="52"/>
-        <image name="create_new" width="49" height="47"/>
-        <image name="drop_down_arrow_2x" width="42" height="26"/>
-        <image name="edit_account_icon" width="21" height="21"/>
-        <image name="enc" width="26" height="24"/>
-        <image name="improt_key" width="50" height="50"/>
-        <image name="logo _active" width="586" height="568"/>
-        <image name="message_passive" width="39" height="27"/>
-        <image name="more_active" width="22" height="4"/>
-        <image name="scan_qr" width="28" height="28"/>
-        <image name="search_icon" width="34" height="34"/>
-        <image name="show_icon" width="36" height="21"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fSS-ga-PuM"/>
+        <segue reference="mvO-E7-NF4"/>
         <segue reference="XB4-9L-SAu"/>
         <segue reference="Iy1-h5-Od4"/>
-        <segue reference="KnU-2C-eQh"/>
+        <segue reference="oIs-42-LtM"/>
     </inferredMetricsTieBreakers>
 </document>
