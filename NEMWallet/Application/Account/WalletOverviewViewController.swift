@@ -8,8 +8,8 @@
 import UIKit
 
 /**
-    The wallet overview gives the user an overview about his whole wallet.
-    It lists all his accounts and gives the ability to add new accounts to the wallet.
+    The wallet overview gives the user an overview about his holdings.
+    It lists all his accounts and their balances and gives the ability to add new accounts to the wallet.
  */
 final class WalletOverviewViewController: UIViewController {
     
@@ -24,7 +24,6 @@ final class WalletOverviewViewController: UIViewController {
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var addAccountButton: UIButton!
     
     // MARK: - View Controller Lifecycle
     
@@ -144,9 +143,6 @@ final class WalletOverviewViewController: UIViewController {
     private func updateViewControllerAppearance() {
         
         navigationItem.title = "ACCOUNTS".localized()
-        addAccountButton.setTitle("ADD_ACCOUNT".localized(), for: UIControlState())
-        addAccountButton.setImage(#imageLiteral(resourceName: "Add").imageWithColor(UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)), for: UIControlState())
-        addAccountButton.imageView!.contentMode = UIViewContentMode.scaleAspectFit
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         createEditButtonItemIfNeeded()
     }
@@ -193,9 +189,9 @@ final class WalletOverviewViewController: UIViewController {
     }
 }
 
-// MARK: - Table View Delegate
-
 extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    // MARK: - Table View Delegate
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -241,6 +237,14 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 130.0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
