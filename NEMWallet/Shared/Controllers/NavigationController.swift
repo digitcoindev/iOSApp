@@ -2,35 +2,29 @@
 //  NavigationController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import UIKit
 
-/**
-    Creates a navigation controller with the NEM specific
-    appearance.
- */
-class NavigationController: UINavigationController {
+/// A navigation controller with the NEM specific appearance.
+final class NavigationController: UINavigationController {
 
     // MARK: - Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        updateControllerAppearance()
+        updateAppearance()
     }
     
     // MARK: - Controller Helper Methods
     
-    /// Updates the appearance (coloring, titles) of the controller.
-    fileprivate func updateControllerAppearance() {
+    /// Updates the appearance of the controller.
+    fileprivate func updateAppearance() {
         
         navigationBar.isTranslucent = false
-        navigationBar.barTintColor = UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1)
+        navigationBar.barTintColor = UIColor.white
         navigationBar.tintColor = UIColor.white
-        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationBar.shadowImage = UIImage()
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
     }
 }
