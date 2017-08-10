@@ -51,14 +51,26 @@ final class TimeManager {
      */
     private var localTimestamp = Date()
     
+    /// The timer used to keep the application time synchronized with the network time.
+    private var networkTimeRefreshTimer: Timer?
+    
     // MARK: - Manager Lifecycle
     
-    private init() {} // Prevents others from creating own instances of this manager and not using the singleton.
+    // Prevents others from creating own instances of this manager and not using the singleton.
+    private init() {
+        startRefreshingNetworkTime()
+    }
+    
+    deinit {
+        stopRefreshingNetworkTime()
+    }
     
     // MARK: - Manager Methods
     
     /// Synchronizes the application time with the NEM network time.
-    public func synchronizeTime() {
+    @objc public func synchronizeTime() {
+        
+        print("REFRESH NETWORK TIME")
         
         NEMProvider.request(NEM.synchronizeTime) { [unowned self] (result) in
             
@@ -85,5 +97,18 @@ final class TimeManager {
                 }
             }
         }
+    }
+    
+    /// Starts refreshing the network time in a defined interval.
+    private func startRefreshingNetworkTime() {
+        
+        networkTimeRefreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(Constants.updateInterval), target: self, selector: #selector(synchronizeTime), userInfo: nil, repeats: true)
+    }
+    
+    /// Stops refreshing the network time.
+    private func stopRefreshingNetworkTime() {
+        
+        networkTimeRefreshTimer?.invalidate()
+        networkTimeRefreshTimer = nil
     }
 }

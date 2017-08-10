@@ -28,9 +28,6 @@ final class WalletOverviewViewController: UIViewController {
     /// The latest market info, used to display fiat account balances.
     fileprivate var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
     
-    /// The timer used to keep the application time synchronized with the network time.
-    private var networkTimeRefreshTimer: Timer?
-    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -47,7 +44,6 @@ final class WalletOverviewViewController: UIViewController {
         reloadWalletOverview()
         updateAccountDetails()
         fetchMarketInfo()
-        startRefreshingNetworkTime()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -251,20 +247,6 @@ final class WalletOverviewViewController: UIViewController {
         present(accountTitleChangerAlert, animated: true, completion: nil)
     }
     
-    /// Starts refreshing the network time in a defined interval.
-    private func startRefreshingNetworkTime() {
-        
-        networkTimeRefreshTimer = Timer.scheduledTimer(timeInterval: TimeInterval(Constants.updateInterval), target: self, selector: #selector(WalletOverviewViewController.refreshNetworkTime), userInfo: nil, repeats: true)
-    }
-    
-    /// Stops refreshing the network time.
-    private func stopRefreshingNetworkTime() {
-        
-        networkTimeRefreshTimer?.invalidate()
-        networkTimeRefreshTimer = nil
-    }
-    
-    
     /// Fetches all accounts that are stored on the device.
     private func fetchAccounts() {
         accounts = AccountManager.sharedInstance.accounts()
@@ -344,11 +326,6 @@ final class WalletOverviewViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    /// Synchronizes the application time with the network time.
-    internal func refreshNetworkTime() {
-        TimeManager.sharedInstance.synchronizeTime()
     }
     
     /// Updates the appearance of the view controller.
