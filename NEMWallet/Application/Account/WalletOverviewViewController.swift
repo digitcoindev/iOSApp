@@ -9,8 +9,8 @@ import UIKit
 import SwiftyJSON
 
 /**
-    The wallet overview gives the user an overview about his holdings.
-    It lists all his accounts and the corresponding balances and gives the ability to add new accounts to the wallet.
+    The wallet overview gives the user an overview of his holdings.
+    It lists all accounts and their corresponding balances and gives the user the ability to add new accounts to the wallet.
  */
 final class WalletOverviewViewController: UIViewController {
     
@@ -19,16 +19,16 @@ final class WalletOverviewViewController: UIViewController {
     /// All accounts that are stored on the device, which will get listed in the table view.
     fileprivate var accounts = [Account]()
     
-    ///
+    /// Fetched account data for all accounts, used to display account balances.
     fileprivate var accountData = [String: AccountData]()
     
-    ///
+    /// The number of owned assets for every account.
     fileprivate var accountAssets = [String: Int]()
     
-    ///
+    /// The latest market info, used to display fiat account balances.
     fileprivate var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
     
-    /// This timer is used to keep the application time synchronized with the network time.
+    /// The timer used to keep the application time synchronized with the network time.
     private var networkTimeRefreshTimer: Timer?
     
     // MARK: - View Controller Outlets
@@ -450,7 +450,6 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        
         tableView.setEditing(editing, animated: animated)
     }
     
