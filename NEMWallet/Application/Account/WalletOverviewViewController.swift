@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 /**
     The wallet overview gives the user an overview about his holdings.
-    It lists all his accounts and their balances and gives the ability to add new accounts to the wallet.
+    It lists all his accounts and the corresponding balances and gives the ability to add new accounts to the wallet.
  */
 final class WalletOverviewViewController: UIViewController {
     
@@ -18,29 +19,42 @@ final class WalletOverviewViewController: UIViewController {
     /// All accounts that are stored on the device, which will get listed in the table view.
     fileprivate var accounts = [Account]()
     
+    ///
+    fileprivate var accountData = [String: AccountData]()
+    
+    ///
+    fileprivate var accountAssets = [String: Int]()
+    
+    ///
+    fileprivate var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
+    
     /// This timer is used to keep the application time synchronized with the network time.
     private var networkTimeRefreshTimer: Timer?
     
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addAccountButton: UIBarButtonItem!
+    @IBOutlet weak var totalAccountBalanceLabel: UILabel!
+    @IBOutlet weak var totalFiatBalanceLabel: UILabel!
     
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        accounts = AccountManager.sharedInstance.accounts()
-        updateViewControllerAppearance()
+        updateAppearance()
+        reloadWalletOverview()
+        updateAccountDetails()
+        fetchMarketInfo()
         startRefreshingNetworkTime()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if tableView.indexPathForSelectedRow != nil {
-            let indexPath = tableView.indexPathForSelectedRow!
-            tableView.deselectRow(at: indexPath, animated: true)
+        if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
         }
     }
     
@@ -58,20 +72,118 @@ final class WalletOverviewViewController: UIViewController {
         }
     }
     
-    /// Needed for a smooth appearance of the alert view controller.
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
-    /// Needed for a smooth appearance of the alert view controller.
-    override var canResignFirstResponder: Bool {
-        return true
-    }
-    
     // MARK: - View Controller Helper Methods
     
+    ///
+    private func reloadWalletOverview() {
+        
+        fetchAccounts()
+        updateBalanceSummary()
+        createEditButtonItemIfNeeded()
+        tableView.reloadData()
+    }
+    
+    ///
+    private func updateAccountDetails() {
+        
+        for account in accounts {
+            fetchAccountBalance(forAccount: account)
+            fetchOwnedAssets(forAccount: account)
+        }
+    }
+    
     /**
-        Shows a confirmation alert for the account deletion and deletes the account if the user confirms the deletion
+     
+     */
+    private func fetchMarketInfo() {
+        
+        MarketInfoProvider.request(MarketInfo.xemPrice) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let xemPrice = json["BTC_XEM"]["highestBid"].doubleValue
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.marketInfo.xemPrice = xemPrice
+                        self?.reloadWalletOverview()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
+        }
+        
+        MarketInfoProvider.request(MarketInfo.btcPrice) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let btcPrice = json["USD"]["last"].doubleValue
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.marketInfo.btcPrice = btcPrice
+                        self?.reloadWalletOverview()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    ///
+    private func updateBalanceSummary() {
+        
+        var totalAccountBalance = 0.0
+        var totalFiatBalance = 0.0
+        
+        for account in accounts {
+            let accountBalance = accountData[account.address]?.balance ?? 0
+            totalAccountBalance += accountBalance
+            totalFiatBalance += (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance)
+        }
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.numberStyle = .currency
+        
+        totalAccountBalanceLabel.text = "\(totalAccountBalance.format()) XEM"
+        totalFiatBalanceLabel.text = numberFormatter.string(from: totalFiatBalance as NSNumber)
+    }
+    
+    /**
+        Shows a confirmation alert for the account deletion and deletes the account if the user confirms the deletion,
         or cancels the action if not.
      
         - Parameter indexPath: The index path of the account in the accounts array, that should get deleted.
@@ -139,27 +251,6 @@ final class WalletOverviewViewController: UIViewController {
         present(accountTitleChangerAlert, animated: true, completion: nil)
     }
     
-    /// Updates the appearance (coloring, titles) of the view controller.
-    private func updateViewControllerAppearance() {
-        
-        navigationItem.title = "ACCOUNTS".localized()
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
-        createEditButtonItemIfNeeded()
-    }
-    
-    /**
-        Checks if there are any accounts to show and creates an edit button item on the right of the 
-        navigation bar if that's the case.
-     */
-    private func createEditButtonItemIfNeeded() {
-        
-        if (accounts.count > 0) {
-            navigationItem.rightBarButtonItem = editButtonItem
-        } else {
-            navigationItem.rightBarButtonItem = nil
-        }
-    }
-    
     /// Starts refreshing the network time in a defined interval.
     private func startRefreshingNetworkTime() {
         
@@ -173,19 +264,117 @@ final class WalletOverviewViewController: UIViewController {
         networkTimeRefreshTimer = nil
     }
     
+    
+    /// Fetches all accounts that are stored on the device.
+    private func fetchAccounts() {
+        accounts = AccountManager.sharedInstance.accounts()
+    }
+    
+    /**
+     
+     */
+    private func fetchAccountBalance(forAccount account: Account) {
+        
+        NEMProvider.request(NEM.accountData(accountAddress: account.address)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.accountData[account.address] = accountData
+                        self?.reloadWalletOverview()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    /**
+     
+     */
+    private func fetchOwnedAssets(forAccount account: Account) {
+        
+        NEMProvider.request(NEM.ownedMosaics(accountAddress: account.address)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let ownedMosaics = json.count
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.accountAssets[account.address] = ownedMosaics
+                        self?.reloadWalletOverview()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
+        }
+    }
+    
     /// Synchronizes the application time with the network time.
     internal func refreshNetworkTime() {
         TimeManager.sharedInstance.synchronizeTime()
+    }
+    
+    /// Updates the appearance of the view controller.
+    private func updateAppearance() {
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
+    
+    /**
+        Checks if there are any accounts to show and creates an edit button item on the right of the
+        navigation bar if that's the case.
+     */
+    private func createEditButtonItemIfNeeded() {
+                
+        if (accounts.count > 0) {
+            navigationItem.setRightBarButtonItems([addAccountButton, editButtonItem], animated: true)
+        } else {
+            navigationItem.setRightBarButtonItems([addAccountButton], animated: true)
+        }
     }
     
     // MARK: - View Controller Outlet Actions
     
     /// Unwinds to the wallet overview view controller and reloads all accounts to show.
     @IBAction func unwindToWalletOverviewViewController(_ segue: UIStoryboardSegue) {
-        
-        accounts = AccountManager.sharedInstance.accounts()
-        tableView.reloadData()
-        createEditButtonItemIfNeeded()
+        reloadWalletOverview()
+        updateAccountDetails()
     }
 }
 
@@ -203,10 +392,27 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
-        cell.title = accounts[indexPath.row].title
+        let account = accounts[indexPath.row]
+        let accountBalance = accountData[account.address]?.balance ?? 0
+        let accountAssets = self.accountAssets[account.address] ?? 0
         
-        return cell
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.numberStyle = .currency
+        
+        let accountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
+        accountTableViewCell.accountTitleLabel.text = account.title
+        accountTableViewCell.accountBalanceLabel.text = "\(accountBalance.format()) XEM"
+        accountTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance) as NSNumber)
+        
+        if accountAssets != 0 {
+            accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
+        } else {
+            accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
+            accountTableViewCell.hideAccountAssetsLabel()
+        }
+        
+        return accountTableViewCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -234,17 +440,18 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         moveAccount(fromPosition: sourceIndexPath, toPosition: destinationIndexPath)
     }
     
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        tableView.setEditing(editing, animated: animated)
-    }
-    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130.0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        tableView.setEditing(editing, animated: animated)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

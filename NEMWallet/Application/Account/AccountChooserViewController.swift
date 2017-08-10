@@ -53,7 +53,7 @@ extension AccountChooserViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
-        cell.title = accounts![indexPath.row].title ?? accounts![indexPath.row].address.nemAddressNormalised()
+        cell.accountTitleLabel.text = accounts![indexPath.row].title ?? accounts![indexPath.row].address.nemAddressNormalised()
         
         return cell
     }

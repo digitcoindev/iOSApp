@@ -2,51 +2,29 @@
 //  AccountTableViewCell.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import UIKit
 
 /// The table view cell that represents an account.
-class AccountTableViewCell: UITableViewCell {
-    
-    // MARK: - Cell Properties
-    
-    /**
-        The account title that will get shown as the
-        title label of the table view cell.
-     */
-    var title: String? {
-        didSet {
-            updateCell()
-        }
-    }
+final class AccountTableViewCell: UITableViewCell {
     
     // MARK: - Cell Outlets
     
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    // MARK: - Cell Lifecycle
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        updateCellAppearance()
-    }
+    @IBOutlet weak var accountTitleLabel: UILabel!
+    @IBOutlet weak var accountBalanceLabel: UILabel!
+    @IBOutlet weak var accountFiatBalanceLabel: UILabel!
+    @IBOutlet weak var accountAssetsLabel: UILabel!
+    @IBOutlet weak var accountAssetsLabelHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var accountFiatBalanceLabelBottomConstraint: NSLayoutConstraint!
     
     // MARK: - Cell Helper Methods
     
-    /// Updates the table view cell with the provided title.
-    fileprivate func updateCell() {
+    ///
+    public func hideAccountAssetsLabel() {
         
-        titleLabel.text = title ?? String()
-    }
-    
-    /// Updates the appearance of the table view cell.
-    fileprivate func updateCellAppearance() {
-        
-        preservesSuperviewLayoutMargins = false
-        separatorInset = UIEdgeInsets.zero
-        layoutMargins = UIEdgeInsets.zero
+        accountAssetsLabelHeightConstraint.isActive = true
+        accountFiatBalanceLabelBottomConstraint.constant = 0
     }
 }
