@@ -21,6 +21,13 @@ final class AccountTableViewCell: UITableViewCell {
     
     // MARK: - Cell Helper Methods
     
+    /// Shows the account assets summary. Call when the account owns assets.
+    public func showAccountAssetsSummary() {
+        
+        accountAssetsLabelHeightConstraint.isActive = false
+        accountFiatBalanceLabelBottomConstraint.constant = 10
+    }
+    
     /// Hides the account assets summary. Call when the account doesn't own any assets.
     public func hideAccountAssetsSummary() {
         

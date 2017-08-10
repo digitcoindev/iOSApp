@@ -309,7 +309,7 @@ final class WalletOverviewViewController: UIViewController {
                     let _ = try response.filterSuccessfulStatusCodes()
                     
                     let json = JSON(data: response.data)
-                    let ownedMosaics = json.count
+                    let ownedMosaics = json["data"].count - 1
                     
                     DispatchQueue.main.async {
                         
@@ -388,7 +388,8 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         accountTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance) as NSNumber)
         
         if accountAssets != 0 {
-            accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
+            accountTableViewCell.accountAssetsLabel.text = accountAssets == 1 ? "\(accountAssets) other asset" : "\(accountAssets) other assets"
+            accountTableViewCell.showAccountAssetsSummary()
         } else {
             accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
             accountTableViewCell.hideAccountAssetsSummary()
