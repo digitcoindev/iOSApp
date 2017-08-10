@@ -5,6 +5,8 @@
 //  Copyright (c) 2017 NEM
 //
 
+import UIKit
+
 /**
     Holds all constants of the application.
     Change these values to tweak the application.
@@ -47,4 +49,9 @@ struct Constants {
         Testnet QR codes are of version 1, mainnet QR codes of version 2.
      */
     static let qrVersion = activeNetwork == testNetwork ? 1 : 2
+    
+    // MARK: - Coloring
+    
+    /// NEMs main color - light blue.
+    static let nemBlue = UIColor(red: 43/255, green: 182/255, blue: 237/255, alpha: 1.0)
 }
