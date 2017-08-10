@@ -56,7 +56,7 @@ public struct AccountData: SwiftyJSONMappable {
         if jsonData["meta"] == nil {
             address = jsonData["address"].stringValue
             publicKey = jsonData["publicKey"].stringValue
-            balance = jsonData["balance"].doubleValue
+            balance = jsonData["balance"].doubleValue / 1000000
             vestedBalance = jsonData["vestedBalance"].doubleValue
             importance = jsonData["importance"].doubleValue
             harvestedBlocks = jsonData["harvestedBlocks"].intValue
@@ -68,7 +68,7 @@ public struct AccountData: SwiftyJSONMappable {
         } else {
             address = jsonData["account"]["address"].stringValue
             publicKey = jsonData["account"]["publicKey"].stringValue
-            balance = jsonData["account"]["balance"].doubleValue
+            balance = jsonData["account"]["balance"].doubleValue / 1000000
             vestedBalance = jsonData["account"]["vestedBalance"].doubleValue
             importance = jsonData["account"]["importance"].doubleValue
             harvestedBlocks = jsonData["account"]["harvestedBlocks"].intValue
