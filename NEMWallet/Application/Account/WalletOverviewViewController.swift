@@ -70,7 +70,7 @@ final class WalletOverviewViewController: UIViewController {
     
     // MARK: - View Controller Helper Methods
     
-    ///
+    /// Reloads the wallet overview with the newest data.
     private func reloadWalletOverview() {
         
         fetchAccounts()
@@ -79,7 +79,7 @@ final class WalletOverviewViewController: UIViewController {
         tableView.reloadData()
     }
     
-    ///
+    /// Updates the account details that are needed to show the balance and owned assets for every account.
     private func updateAccountDetails() {
         
         for account in accounts {
@@ -88,9 +88,7 @@ final class WalletOverviewViewController: UIViewController {
         }
     }
     
-    /**
-     
-     */
+    /// Fetches the latest market info, used to calculate the fiat balance for every account.
     private func fetchMarketInfo() {
         
         MarketInfoProvider.request(MarketInfo.xemPrice) { [weak self] (result) in
@@ -158,7 +156,10 @@ final class WalletOverviewViewController: UIViewController {
         }
     }
     
-    ///
+    /**
+        Updates the balance summary bar on top of the wallet overview with the current total 
+        XEM and fiat balance for the wallet.
+     */
     private func updateBalanceSummary() {
         
         var totalAccountBalance = 0.0
@@ -253,7 +254,9 @@ final class WalletOverviewViewController: UIViewController {
     }
     
     /**
+        Fetches the balance of the provided account.
      
+        - Parameter account: The account, for which the balance should get fetched.
      */
     private func fetchAccountBalance(forAccount account: Account) {
         
@@ -291,7 +294,9 @@ final class WalletOverviewViewController: UIViewController {
     }
     
     /**
+        Fetches the number of assets the provided account owns.
      
+        - Parameter account: The account, for which the number of owned assets should get fetched.
      */
     private func fetchOwnedAssets(forAccount account: Account) {
         
@@ -348,7 +353,7 @@ final class WalletOverviewViewController: UIViewController {
     
     // MARK: - View Controller Outlet Actions
     
-    /// Unwinds to the wallet overview view controller and reloads all accounts to show.
+    /// Unwinds to the wallet overview view controller and reloads the wallet overview.
     @IBAction func unwindToWalletOverviewViewController(_ segue: UIStoryboardSegue) {
         reloadWalletOverview()
         updateAccountDetails()

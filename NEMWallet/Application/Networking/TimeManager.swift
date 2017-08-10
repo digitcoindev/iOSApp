@@ -70,8 +70,6 @@ final class TimeManager {
     /// Synchronizes the application time with the NEM network time.
     @objc public func synchronizeTime() {
         
-        print("REFRESH NETWORK TIME")
-        
         NEMProvider.request(NEM.synchronizeTime) { [unowned self] (result) in
             
             switch result {
