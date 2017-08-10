@@ -58,7 +58,7 @@ final class WalletOverviewViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segue.identifier! {
-        case "showAccountDetailTabBarController":
+        case "showAccountDashboardViewController":
             
             if let indexPath = tableView.indexPathForSelectedRow {
                 AccountManager.sharedInstance.activeAccount = accounts[indexPath.row]
@@ -405,7 +405,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
             changeTitle(forAccountAtIndexPath: indexPath)
             tableView.deselectRow(at: indexPath, animated: true)
         } else {
-            performSegue(withIdentifier: "showAccountDetailTabBarController", sender: nil)
+            performSegue(withIdentifier: "showAccountDashboardViewController", sender: nil)
         }
     }
     
