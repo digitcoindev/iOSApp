@@ -21,8 +21,8 @@ final class AccountTableViewCell: UITableViewCell {
     
     // MARK: - Cell Helper Methods
     
-    ///
-    public func hideAccountAssetsLabel() {
+    /// Hides the account assets summary. Call when the account doesn't own any assets.
+    public func hideAccountAssetsSummary() {
         
         accountAssetsLabelHeightConstraint.isActive = true
         accountFiatBalanceLabelBottomConstraint.constant = 0

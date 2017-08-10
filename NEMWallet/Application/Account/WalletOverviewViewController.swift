@@ -391,7 +391,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
             accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
         } else {
             accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
-            accountTableViewCell.hideAccountAssetsLabel()
+            accountTableViewCell.hideAccountAssetsSummary()
         }
         
         return accountTableViewCell
