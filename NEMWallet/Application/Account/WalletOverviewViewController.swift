@@ -42,12 +42,13 @@ final class WalletOverviewViewController: UIViewController {
         
         updateAppearance()
         reloadWalletOverview()
-        updateAccountDetails()
-        fetchMarketInfo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        updateAccountDetails()
+        fetchMarketInfo()
         
         if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
