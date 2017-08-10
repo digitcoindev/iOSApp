@@ -26,6 +26,7 @@ enum NEM {
     case heartbeat(server: Server)
     case synchronizeTime
     case accountData(accountAddress: String)
+    case ownedMosaics(accountAddress: String)
     case allTransactions(accountAddress: String, server: Server?)
     case unconfirmedTransactions(accountAddress: String, server: Server?)
     case announceTransaction(requestAnnounce: RequestAnnounce)
@@ -56,6 +57,8 @@ extension NEM: TargetType {
             return "/time-sync/network-time"
         case .accountData(_):
             return "/account/get"
+        case .ownedMosaics(_):
+            return "/account/mosaic/owned"
         case .allTransactions(_, _):
             return "/account/transfers/all"
         case .unconfirmedTransactions(_, _):
@@ -76,7 +79,7 @@ extension NEM: TargetType {
     }
     var parameters: [String: Any]? {
         switch self {
-        case .accountData(let accountAddress), .allTransactions(let accountAddress, _), .unconfirmedTransactions(let accountAddress, _):
+        case .accountData(let accountAddress), .ownedMosaics(let accountAddress), .allTransactions(let accountAddress, _), .unconfirmedTransactions(let accountAddress, _):
             return ["address": accountAddress as AnyObject]
         case .announceTransaction(let requestAnnounce):
             return ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject]
@@ -99,7 +102,7 @@ extension NEM: TargetType {
         case .announceTransaction:
             return ["Content-Type": "application/json"]
         default:
-            return [String: String]()
+            return [:]
         }
     }
     var task: Task {
