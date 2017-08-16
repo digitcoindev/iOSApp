@@ -304,7 +304,7 @@ final class NotificationManager {
         
         fetchNewTransactionsDispatchGroup.enter()
         
-        NEMProvider.request(NEM.allTransactions(accountAddress: account.address, server: self.respondingServer)) { (result) in
+        NEMProvider.request(NEM.transactions(accountAddress: account.address, server: self.respondingServer)) { (result) in
             
             switch result {
             case let .success(response):
