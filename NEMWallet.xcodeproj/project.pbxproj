@@ -14,7 +14,6 @@
 		4F0B5F011DAFD40700E182C3 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5F001DAFD40700E182C3 /* String+Additions.swift */; };
 		4F0B5F031DAFD41000E182C3 /* Double+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5F021DAFD41000E182C3 /* Double+Additions.swift */; };
 		4F0B5F051DAFD41800E182C3 /* NSData+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5F041DAFD41800E182C3 /* NSData+Additions.swift */; };
-		4F0B5F071DAFD44D00E182C3 /* AccountDetailTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5F061DAFD44D00E182C3 /* AccountDetailTabBarController.swift */; };
 		4F0B5F091DAFD4A900E182C3 /* AutoCompleteTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5F081DAFD4A900E182C3 /* AutoCompleteTextField.swift */; };
 		4F0B5F0C1DAFD4EB00E182C3 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5F0B1DAFD4EB00E182C3 /* DatabaseManager.swift */; };
 		4F0B5F0E1DAFD50700E182C3 /* MultisigSignatureTransaction+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5F0D1DAFD50700E182C3 /* MultisigSignatureTransaction+Additions.swift */; };
@@ -105,8 +104,8 @@
 		4F9F681A1D4C339F0086F98F /* AccountExportPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */; };
 		4F9F681E1D4C33AE0086F98F /* AccountChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F681D1D4C33AE0086F98F /* AccountChooserViewController.swift */; };
 		4F9F68201D4C33B80086F98F /* AccountChooserButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */; };
-		4F9F682A1D4C35070086F98F /* TransactionOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68291D4C35070086F98F /* TransactionOverviewViewController.swift */; };
-		4F9F682C1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F682B1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift */; };
+		4F9F682A1D4C35070086F98F /* AccountDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68291D4C35070086F98F /* AccountDashboardViewController.swift */; };
+		4F9F682C1D4C350E0086F98F /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F682B1D4C350E0086F98F /* TransactionTableViewCell.swift */; };
 		4F9F682E1D4C35160086F98F /* TransactionSendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F682D1D4C35160086F98F /* TransactionSendViewController.swift */; };
 		4F9F68301D4C351D0086F98F /* TransactionMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F682F1D4C351D0086F98F /* TransactionMessagesViewController.swift */; };
 		4F9F68321D4C353D0086F98F /* TransactionMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68311D4C353D0086F98F /* TransactionMessageTableViewCell.swift */; };
@@ -144,6 +143,7 @@
 		4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */; };
 		4FC27A041D95297700421F00 /* BlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC27A031D95297600421F00 /* BlockModel.swift */; };
 		4FC80C291EF80A270042EA06 /* TestnetDefaultServers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */; };
+		4FCBF1601F44B0FA00BE5284 /* Date+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCBF15F1F44B0FA00BE5284 /* Date+Additions.swift */; };
 		4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */; };
 		4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */; };
 		4FDEEC1F1E132D6100B7D93E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */; };
@@ -220,7 +220,6 @@
 		4F0B5F001DAFD40700E182C3 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		4F0B5F021DAFD41000E182C3 /* Double+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Additions.swift"; sourceTree = "<group>"; };
 		4F0B5F041DAFD41800E182C3 /* NSData+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+Additions.swift"; sourceTree = "<group>"; };
-		4F0B5F061DAFD44D00E182C3 /* AccountDetailTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDetailTabBarController.swift; sourceTree = "<group>"; };
 		4F0B5F081DAFD4A900E182C3 /* AutoCompleteTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCompleteTextField.swift; sourceTree = "<group>"; };
 		4F0B5F0A1DAFD4D700E182C3 /* NemIOSClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NemIOSClient.entitlements; sourceTree = "<group>"; };
 		4F0B5F0B1DAFD4EB00E182C3 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -306,8 +305,8 @@
 		4F9F68191D4C339F0086F98F /* AccountExportPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountExportPasswordViewController.swift; sourceTree = "<group>"; };
 		4F9F681D1D4C33AE0086F98F /* AccountChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountChooserViewController.swift; sourceTree = "<group>"; };
 		4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountChooserButton.swift; sourceTree = "<group>"; };
-		4F9F68291D4C35070086F98F /* TransactionOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionOverviewViewController.swift; sourceTree = "<group>"; };
-		4F9F682B1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionOverviewCorrespondentTableViewCell.swift; sourceTree = "<group>"; };
+		4F9F68291D4C35070086F98F /* AccountDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDashboardViewController.swift; sourceTree = "<group>"; };
+		4F9F682B1D4C350E0086F98F /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 		4F9F682D1D4C35160086F98F /* TransactionSendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionSendViewController.swift; sourceTree = "<group>"; };
 		4F9F682F1D4C351D0086F98F /* TransactionMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionMessagesViewController.swift; sourceTree = "<group>"; };
 		4F9F68311D4C353D0086F98F /* TransactionMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionMessageTableViewCell.swift; sourceTree = "<group>"; };
@@ -346,6 +345,7 @@
 		4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array<UInt8>+Additions.swift"; sourceTree = "<group>"; };
 		4FC27A031D95297600421F00 /* BlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockModel.swift; sourceTree = "<group>"; };
 		4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestnetDefaultServers.plist; sourceTree = "<group>"; };
+		4FCBF15F1F44B0FA00BE5284 /* Date+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Additions.swift"; sourceTree = "<group>"; };
 		4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceManager.swift; sourceTree = "<group>"; };
 		4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceModel.swift; sourceTree = "<group>"; };
 		4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -481,6 +481,7 @@
 		4F1159E91D38FF8C00E13EE0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				4FCBF15F1F44B0FA00BE5284 /* Date+Additions.swift */,
 				4F0B5F001DAFD40700E182C3 /* String+Additions.swift */,
 				4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */,
 				4F9F68851D4C39220086F98F /* UIImage+Additions.swift */,
@@ -552,7 +553,7 @@
 			children = (
 				4F675F321D50A00800F1BDD5 /* AccountManager.swift */,
 				4F9F68071D4C33490086F98F /* WalletOverviewViewController.swift */,
-				4F0B5F061DAFD44D00E182C3 /* AccountDetailTabBarController.swift */,
+				4F9F68291D4C35070086F98F /* AccountDashboardViewController.swift */,
 				4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */,
 				4F9F680F1D4C336C0086F98F /* AccountAdditionMenuButton.swift */,
 				4F9F68111D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift */,
@@ -572,8 +573,7 @@
 			isa = PBXGroup;
 			children = (
 				4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */,
-				4F9F68291D4C35070086F98F /* TransactionOverviewViewController.swift */,
-				4F9F682B1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift */,
+				4F9F682B1D4C350E0086F98F /* TransactionTableViewCell.swift */,
 				4F9F682D1D4C35160086F98F /* TransactionSendViewController.swift */,
 				4F9F682F1D4C351D0086F98F /* TransactionMessagesViewController.swift */,
 				4F9F68311D4C353D0086F98F /* TransactionMessageTableViewCell.swift */,
@@ -1077,7 +1077,7 @@
 				4F9F68161D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift in Sources */,
 				4F9F68601D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift in Sources */,
 				4F9F68341D4C35430086F98F /* TransactionUnconfirmedViewController.swift in Sources */,
-				4F9F682A1D4C35070086F98F /* TransactionOverviewViewController.swift in Sources */,
+				4F9F682A1D4C35070086F98F /* AccountDashboardViewController.swift in Sources */,
 				4F850F241D4C3DD40003E192 /* RIPEMD.swift in Sources */,
 				4F850F141D4C3BF00003E192 /* HashManager.swift in Sources */,
 				4F9F68721D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift in Sources */,
@@ -1088,7 +1088,7 @@
 				4F3ACE9D1D6214060056F234 /* TransferTransactionModel.swift in Sources */,
 				4F850F171D4C3C930003E192 /* NSData+Base64.m in Sources */,
 				4F9F68101D4C336C0086F98F /* AccountAdditionMenuButton.swift in Sources */,
-				4F9F682C1D4C350E0086F98F /* TransactionOverviewCorrespondentTableViewCell.swift in Sources */,
+				4F9F682C1D4C350E0086F98F /* TransactionTableViewCell.swift in Sources */,
 				4F3B428C1D59CF100067E3D3 /* AccountAdditionMenuPasswordValidationViewController.swift in Sources */,
 				4F2C17081D67312C00FF1F51 /* TransactionMetaData+Additions.swift in Sources */,
 				4F63E36A1D5E03D100BCFFA4 /* NemAPI.swift in Sources */,
@@ -1143,7 +1143,6 @@
 				4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */,
 				4F3ACEA51D6341370056F234 /* MessageModel.swift in Sources */,
 				4F9F68441D4C35F20086F98F /* InvoiceScannerViewController.swift in Sources */,
-				4F0B5F071DAFD44D00E182C3 /* AccountDetailTabBarController.swift in Sources */,
 				4F9F68181D4C33900086F98F /* AccountExportViewController.swift in Sources */,
 				4F9F68461D4C36040086F98F /* MultisigViewController.swift in Sources */,
 				4F136CAF1D9A750D0042504C /* SettingsManager.swift in Sources */,
@@ -1179,6 +1178,7 @@
 				4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */,
 				4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */,
 				4F0B5F031DAFD41000E182C3 /* Double+Additions.swift in Sources */,
+				4FCBF1601F44B0FA00BE5284 /* Date+Additions.swift in Sources */,
 				4F9F682E1D4C35160086F98F /* TransactionSendViewController.swift in Sources */,
 				4F0B5F0E1DAFD50700E182C3 /* MultisigSignatureTransaction+Additions.swift in Sources */,
 				4F86A0A21F0FB5A200132F8C /* QRModel.swift in Sources */,
