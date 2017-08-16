@@ -451,7 +451,7 @@ class MultisigViewController: UIViewController {
         }
         
         let transactionVersion = 2
-        let transactionTimeStamp = Int(TimeManager.sharedInstance.currentNetworkTime)
+        let transactionTimeStamp = Date(timeIntervalSince1970: TimeManager.sharedInstance.currentNetworkTime)
         var transactionFee = 0.5
         let transactionRelativeChange = relativeChange
         let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)

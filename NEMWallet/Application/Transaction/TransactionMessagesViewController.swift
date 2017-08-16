@@ -377,7 +377,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        NEMProvider.request(NEM.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.transactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -883,7 +883,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         transactionSendButton.isEnabled = false
         
         let transactionVersion = 1
-        let transactionTimeStamp = Int(TimeManager.sharedInstance.currentNetworkTime)
+        let transactionTimeStamp = Date(timeIntervalSince1970: TimeManager.sharedInstance.currentNetworkTime)
         let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
         var transactionFee = 0.0
         let transactionRecipient = correspondent!.accountAddress

@@ -33,7 +33,7 @@ open class TransferTransaction: Transaction {
     open var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    open var timeStamp: Int!
+    open var timeStamp: Date!
     
     /// The amount of micro NEM that is transferred from sender to recipient.
     open var amount: Double!
@@ -61,7 +61,7 @@ open class TransferTransaction: Transaction {
     
     // MARK: - Model Lifecycle
     
-    required public init?(version: Int, timeStamp: Int, amount: Double, fee: Int, recipient: String, message: Message?, deadline: Int, signer: String) {
+    required public init?(version: Int, timeStamp: Date, amount: Double, fee: Int, recipient: String, message: Message?, deadline: Int, signer: String) {
         
         self.version = version
         self.timeStamp = timeStamp
@@ -77,7 +77,7 @@ open class TransferTransaction: Transaction {
         
         metaData = try? jsonData["meta"].mapObject(TransactionMetaData.self)
         version = jsonData["transaction"]["version"].intValue
-        timeStamp = jsonData["transaction"]["timeStamp"].intValue
+        timeStamp = Date(timeIntervalSince1970: jsonData["transaction"]["timeStamp"].doubleValue + Constants.genesisBlockTime)
         amount = jsonData["transaction"]["amount"].doubleValue
         fee = jsonData["transaction"]["fee"].intValue
         recipient = jsonData["transaction"]["recipient"].stringValue

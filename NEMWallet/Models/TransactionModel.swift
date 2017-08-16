@@ -29,7 +29,7 @@ public protocol Transaction: SwiftyJSONMappable {
     var version: Int! { get set }
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    var timeStamp: Int! { get set }
+    var timeStamp: Date! { get set }
     
     /// The fee for the transaction.
     var fee: Int! { get set }

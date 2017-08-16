@@ -305,7 +305,7 @@ open class TransactionManager {
         
         transactionTypeByteArray = String(Int64(transaction.type.rawValue), radix: 16).asByteArrayEndian(4)
         transactionVersionByteArray = [UInt8(transaction.version), 0, 0, Constants.activeNetwork]
-        transactionTimeStampByteArray = String(Int64(transaction.timeStamp), radix: 16).asByteArrayEndian(4)
+        transactionTimeStampByteArray = String(Int64(transaction.timeStamp.timeIntervalSince1970), radix: 16).asByteArrayEndian(4)
         transactionSignerByteArray = transaction.signer.asByteArray()
         transactionFeeByteArray = String(transaction.fee, radix: 16).asByteArrayEndian(8)
         transactionDeadlineByteArray = String(Int64(transaction.deadline), radix: 16).asByteArrayEndian(4)

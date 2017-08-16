@@ -549,7 +549,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         sendingTransaction = true
         
         let transactionVersion = 1
-        let transactionTimeStamp = Int(TimeManager.sharedInstance.currentNetworkTime)
+        let transactionTimeStamp = Date(timeIntervalSince1970: TimeManager.sharedInstance.currentNetworkTime)
         let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
         var transactionFee = Double(transactionFeeTextField.text!) ?? 0.0
         let transactionRecipient = transactionRecipientTextField.text!.replacingOccurrences(of: "-", with: "")

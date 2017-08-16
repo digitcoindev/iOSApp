@@ -140,7 +140,7 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
         var date = String()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm dd.MM.yy"
-        let timeStamp = Double(transaction.timeStamp)
+        let timeStamp = Double(transaction.timeStamp.timeIntervalSince1970)
         date = dateFormatter.string(from: Date(timeIntervalSince1970: Constants.genesisBlockTime + timeStamp))
         
         setMessage(messageAttributedString)

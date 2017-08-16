@@ -24,7 +24,7 @@ open class MultisigSignatureTransaction: Transaction {
     open var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    open var timeStamp: Int!
+    open var timeStamp: Date!
     
     /// The fee for the transaction.
     open var fee: Int!
@@ -55,7 +55,7 @@ open class MultisigSignatureTransaction: Transaction {
     
     // MARK: - Model Lifecycle
     
-    required public init?(version: Int, timeStamp: Int, fee: Int, deadline: Int, signer: String, otherHash: String, otherAccount: String) {
+    required public init?(version: Int, timeStamp: Date, fee: Int, deadline: Int, signer: String, otherHash: String, otherAccount: String) {
         
         self.version = version
         self.timeStamp = timeStamp
@@ -68,7 +68,7 @@ open class MultisigSignatureTransaction: Transaction {
     
     required public init?(jsonData: JSON) {
         
-        timeStamp = jsonData["timeStamp"].intValue
+        timeStamp = Date(timeIntervalSince1970: jsonData["timeStamp"].doubleValue + Constants.genesisBlockTime)
         fee = jsonData["fee"].intValue
         deadline = jsonData["deadline"].intValue
         signature = jsonData["signature"].stringValue
