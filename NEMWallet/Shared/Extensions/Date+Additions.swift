@@ -18,4 +18,13 @@ extension Date {
         
         return dateFormatter.string(from: self)
     }
+    
+    ///
+    func sectionTitle() -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        
+        return dateFormatter.string(from: self)
+    }
 }

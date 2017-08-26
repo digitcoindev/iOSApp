@@ -7,7 +7,7 @@
 
 import UIKit
 
-///
+/// A table view cell representing a transaction on the account dashboard.
 final class TransactionTableViewCell: UITableViewCell {
     
     // MARK: - Cell Outlets
