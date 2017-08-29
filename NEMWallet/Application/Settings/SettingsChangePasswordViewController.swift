@@ -120,7 +120,8 @@ class SettingsChangePasswordViewController: UITableViewController {
         for account in accounts {
             
             let accountPrivateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: account.privateKey)
-            let newEncryptedAccountPrivateKey = AccountManager.sharedInstance.encryptPrivateKey(accountPrivateKey, withApplicationPassword: newPasswordHash.hexadecimalString())
+//            let newEncryptedAccountPrivateKey = AccountManager.sharedInstance.encryptPrivateKey(accountPrivateKey, withApplicationPassword: newPasswordHash.hexadecimalString())
+            let newEncryptedAccountPrivateKey = AccountManager.sharedInstance.encryptPrivateKey(accountPrivateKey, withApplicationPassword: newApplicationPassword)
             AccountManager.sharedInstance.updatePrivateKey(forAccount: account, withNewPrivateKey: newEncryptedAccountPrivateKey)
         }
         

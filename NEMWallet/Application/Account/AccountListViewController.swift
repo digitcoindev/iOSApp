@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CryptoSwift
+import KeychainSwift
 
 /**
     The account list view controller that shows a list with all available
@@ -31,6 +33,90 @@ class AccountListViewController: UIViewController {
         super.viewDidLoad()
         
         accounts = AccountManager.sharedInstance.accounts()
+        
+        
+        let encryptedPrivateKey = accounts[0].privateKey
+        let privateKey = "0c2fddad5a6a8eeed238c66ff17dc42f60f63b771528983ee5114a47bb610d44"
+        let applicationPassword = SettingsManager.sharedInstance.applicationPassword()
+        let randomSalt = SettingsManager.sharedInstance.authenticationSalt()
+        print("\n\(accounts[0].title) -> Private Key \(privateKey)")
+        print("Encrypted Private Key: \(encryptedPrivateKey)")
+        print("Application Password: \(applicationPassword)")
+        print("Random Salt: \(randomSalt)")
+        
+        // Correct Encrypting
+        
+        let messageBytes = privateKey.asByteArray()
+        var messageData = NSData(bytes: messageBytes, length: messageBytes.count)
+        let ivData = NSData().generateRandomIV(16)
+        messageData = messageData.aesEncrypt(key: applicationPassword.asByteArray(), iv: ivData!.bytes)!
+        let reconstructedEncryptedPrivateKey = ivData!.bytes.toHexString() + messageData.toHexString()
+        
+        print("\nReconstructed Encrypted Private Key: \(reconstructedEncryptedPrivateKey) - \(reconstructedEncryptedPrivateKey.asByteArray().count)")
+        
+        // Correct Decrypting
+        
+        let inputBytes = reconstructedEncryptedPrivateKey.asByteArray()
+        let customizedIV =  Array(inputBytes[0..<16])
+        let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
+        var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
+        data = data!.aesDecrypt(key: applicationPassword.asByteArray(), iv: customizedIV)
+        let reconstructedDecryptedPrivateKey = data!.toHexString()
+        
+        print("Reconstructed Decrypted Private Key: \(reconstructedDecryptedPrivateKey) - \(reconstructedDecryptedPrivateKey.asByteArray().count)")
+        
+        // Faulty Encrypting
+        
+//        var okey = Array("hallo".utf8)
+        var okey = "12312a".asByteArray()
+        var key = "12312a".asByteArray()
+        
+        let keychain = KeychainSwift()
+        keychain.set("12312a", forKey: "applicationPassword")
+        let _applicationPassword = keychain.get("applicationPassword") ?? String()
+        print(_applicationPassword)
+        
+        print("\n -- OKEY: \(okey.toHexString()) - \(okey.count)")
+        
+        let fmessageBytes = privateKey.asByteArray()
+        var fmessageData = NSData(bytes: fmessageBytes, length: fmessageBytes.count)
+        let fivData = NSData().generateRandomIV(16)
+        fmessageData = fmessageData.aesEncrypt(key: okey, iv: fivData!.bytes)!
+//        fmessageData = fmessageData.aesEncrypt(key: Array("hallotesthallotesthallotest".utf8), iv: fivData!.bytes)!
+        let freconstructedEncryptedPrivateKey = fivData!.bytes.toHexString() + fmessageData.toHexString()
+        
+        print("\nFaulty Reconstructed Encrypted Private Key: \(freconstructedEncryptedPrivateKey) - \(freconstructedEncryptedPrivateKey.asByteArray().count)")
+        
+        // Faulty Decrypting
+        
+//        let fapplicationPasswordHash = try! HashManager.generateAesKeyForString("123123", salt: newSaltData, roundCount: 2000)!
+        
+        let finputBytes = freconstructedEncryptedPrivateKey.asByteArray()
+        let fcustomizedIV =  Array(finputBytes[0..<16])
+        let fencryptedBytes = Array(finputBytes[16..<finputBytes.count])
+        var fdata :NSData? = NSData(bytes: fencryptedBytes, length: fencryptedBytes.count)
+        fdata = fdata!.aesDecrypt(key: key, iv: fcustomizedIV)
+        let freconstructedDecryptedPrivateKey = fdata!.toHexString()
+        
+        print("Faulty Reconstructed Decrypted Private Key: \(freconstructedDecryptedPrivateKey) - \(freconstructedDecryptedPrivateKey.asByteArray().count)")
+        
+        // Another Decrypting Try
+        
+        do {
+            let aes = try AES(key: key, iv: fcustomizedIV, blockMode: .CBC, padding: PKCS7())
+//            let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap", ) // aes128
+            let ciphertext = try aes.decrypt(fencryptedBytes).toHexString()
+            
+            print("Another Faulty Reconstructed Decrypted Private Key: \(ciphertext) - \(ciphertext.asByteArray().count)")
+            
+            let aes1 = try AES(key: okey, iv: fcustomizedIV, blockMode: .CBC, padding: PKCS7())
+            //            let aes = try AES(key: "passwordpassword", iv: "drowssapdrowssap", ) // aes128
+            let ciphertext1 = try aes1.decrypt(fencryptedBytes).toHexString()
+            
+            print("Another Faulty Reconstructed Decrypted Private Key: \(ciphertext1) - \(ciphertext1.asByteArray().count)")
+            
+        } catch { }
+
         
         updateViewControllerAppearance()
         createEditButtonItemIfNeeded()
