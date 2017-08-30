@@ -28,12 +28,16 @@ final class WalletOverviewViewController: UIViewController {
     /// The latest market info, used to display fiat account balances.
     fileprivate var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
     
+    ///
+    fileprivate var totalBalance = 0.0
+    
+    ///
+    fileprivate var totalFiatBalance = 0.0
+    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addAccountButton: UIBarButtonItem!
-    @IBOutlet weak var totalAccountBalanceLabel: UILabel!
-    @IBOutlet weak var totalFiatBalanceLabel: UILabel!
     
     // MARK: - View Controller Lifecycle
     
@@ -75,7 +79,7 @@ final class WalletOverviewViewController: UIViewController {
     private func reloadWalletOverview() {
         
         fetchAccounts()
-        updateBalanceSummary()
+        fetchTotalBalance()
         createEditButtonItemIfNeeded()
         tableView.reloadData()
     }
@@ -161,23 +165,19 @@ final class WalletOverviewViewController: UIViewController {
         Updates the balance summary bar on top of the wallet overview with the current total 
         XEM and fiat balance for the wallet.
      */
-    private func updateBalanceSummary() {
+    private func fetchTotalBalance() {
         
-        var totalAccountBalance = 0.0
+        var totalBalance = 0.0
         var totalFiatBalance = 0.0
         
         for account in accounts {
             let accountBalance = accountData[account.address]?.balance ?? 0
-            totalAccountBalance += accountBalance
+            totalBalance += accountBalance
             totalFiatBalance += (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance)
         }
         
-        let numberFormatter = NumberFormatter()
-        numberFormatter.locale = Locale(identifier: "en_US")
-        numberFormatter.numberStyle = .currency
-        
-        totalAccountBalanceLabel.text = "\(totalAccountBalance.format()) XEM"
-        totalFiatBalanceLabel.text = numberFormatter.string(from: totalFiatBalance as NSNumber)
+        self.totalBalance = totalBalance
+        self.totalFiatBalance = totalFiatBalance
     }
     
     /**
@@ -370,42 +370,74 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return accounts.count
+        return accounts.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let account = accounts[indexPath.row]
-        let accountBalance = accountData[account.address]?.balance ?? 0
-        let accountAssets = self.accountAssets[account.address] ?? 0
-        
-        let numberFormatter = NumberFormatter()
-        numberFormatter.locale = Locale(identifier: "en_US")
-        numberFormatter.numberStyle = .currency
-        
-        let accountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
-        accountTableViewCell.accountTitleLabel.text = account.title
-        accountTableViewCell.accountBalanceLabel.text = "\(accountBalance.format()) XEM"
-        accountTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance) as NSNumber)
-        
-        if accountAssets != 0 {
-            accountTableViewCell.accountAssetsLabel.text = accountAssets == 1 ? "\(accountAssets) other asset" : "\(accountAssets) other assets"
-            accountTableViewCell.showAccountAssetsSummary()
-        } else {
-            accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
+        if indexPath.row == 0 {
+            
+            let numberFormatter = NumberFormatter()
+            numberFormatter.locale = Locale(identifier: "en_US")
+            numberFormatter.numberStyle = .currency
+            
+            let accountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
+            accountTableViewCell.backgroundColor = Constants.nemLightBlue
+            accountTableViewCell.contentView.backgroundColor = UIColor.clear
+            accountTableViewCell.accountTitleLabel.text = "Total Balance"
+            accountTableViewCell.accountTitleLabel.backgroundColor = UIColor.clear
+            accountTableViewCell.accountTitleLabel.font = UIFont.systemFont(ofSize: 21, weight: UIFontWeightBold)
+            accountTableViewCell.accountBalanceLabel.text = "\(totalBalance.format()) XEM"
+            accountTableViewCell.accountBalanceLabel.backgroundColor = UIColor.clear
+            accountTableViewCell.accountBalanceLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
+            accountTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: totalFiatBalance as NSNumber)
+            accountTableViewCell.accountFiatBalanceLabel.backgroundColor = UIColor.clear
+            accountTableViewCell.accountFiatBalanceLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
             accountTableViewCell.hideAccountAssetsSummary()
+            accountTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            accountTableViewCell.accountTitleLabelTopConstraint.constant = 15
+            accountTableViewCell.accountBalanceLabelTopConstraint.constant = 15
+            accountTableViewCell.accountFiatBalanceLabelBottomConstraint.constant = 15
+            accountTableViewCell.accountAssetsLabelBottomConstraint.constant = 0
+            
+            return accountTableViewCell
+            
+        } else {
+            
+            let account = accounts[indexPath.row - 1]
+            let accountBalance = accountData[account.address]?.balance ?? 0
+            let accountAssets = self.accountAssets[account.address] ?? 0
+            
+            let numberFormatter = NumberFormatter()
+            numberFormatter.locale = Locale(identifier: "en_US")
+            numberFormatter.numberStyle = .currency
+            
+            let accountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
+            accountTableViewCell.accountTitleLabel.text = account.title
+            accountTableViewCell.accountBalanceLabel.text = "\(accountBalance.format()) XEM"
+            accountTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance) as NSNumber)
+            
+            if accountAssets != 0 {
+                accountTableViewCell.accountAssetsLabel.text = accountAssets == 1 ? "\(accountAssets) other asset" : "\(accountAssets) other assets"
+                accountTableViewCell.showAccountAssetsSummary()
+            } else {
+                accountTableViewCell.accountAssetsLabel.text = "\(accountAssets) other assets"
+                accountTableViewCell.hideAccountAssetsSummary()
+            }
+            
+            return accountTableViewCell
         }
-        
-        return accountTableViewCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.isEditing {
-            changeTitle(forAccountAtIndexPath: indexPath)
-            tableView.deselectRow(at: indexPath, animated: true)
-        } else {
-            performSegue(withIdentifier: "showAccountDashboardViewController", sender: nil)
+        if indexPath.row != 0 {
+            if tableView.isEditing {
+                changeTitle(forAccountAtIndexPath: indexPath)
+                tableView.deselectRow(at: indexPath, animated: true)
+            } else {
+                performSegue(withIdentifier: "showAccountDashboardViewController", sender: nil)
+            }
         }
     }
     
@@ -446,7 +478,12 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        
+        if indexPath.row == 0 {
+            return false
+        } else {
+            return true
+        }
     }
 
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
