@@ -22,8 +22,13 @@ final class NavigationController: UINavigationController {
     /// Updates the appearance of the controller.
     fileprivate func updateAppearance() {
         
+        if #available(iOS 11.0, *) {
+            navigationBar.prefersLargeTitles = true
+        }
+        
         navigationBar.isTranslucent = false
         navigationBar.barTintColor = UIColor.white
+        navigationBar.backgroundColor = UIColor.white
         navigationBar.tintColor = Constants.nemBlue
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
     }

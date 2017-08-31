@@ -28,15 +28,15 @@ final class WalletOverviewViewController: UIViewController {
     /// The latest market info, used to display fiat account balances.
     fileprivate var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
     
-    ///
+    /// The total XEM balance of all accounts.
     fileprivate var totalBalance = 0.0
     
-    ///
+    /// The total fiat balance of all accounts.
     fileprivate var totalFiatBalance = 0.0
     
     // MARK: - View Controller Outlets
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var accountsTableView: UITableView!
     @IBOutlet weak var addAccountButton: UIBarButtonItem!
     
     // MARK: - View Controller Lifecycle
@@ -54,8 +54,8 @@ final class WalletOverviewViewController: UIViewController {
         updateAccountDetails()
         fetchMarketInfo()
         
-        if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        if let indexPathForSelectedRow = accountsTableView.indexPathForSelectedRow {
+            accountsTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
         }
     }
     
@@ -64,7 +64,7 @@ final class WalletOverviewViewController: UIViewController {
         switch segue.identifier! {
         case "showAccountDashboardViewController":
             
-            if let indexPath = tableView.indexPathForSelectedRow {
+            if let indexPath = accountsTableView.indexPathForSelectedRow {
                 AccountManager.sharedInstance.activeAccount = accounts[indexPath.row]
             }
             
@@ -81,7 +81,7 @@ final class WalletOverviewViewController: UIViewController {
         fetchAccounts()
         fetchTotalBalance()
         createEditButtonItemIfNeeded()
-        tableView.reloadData()
+        accountsTableView.reloadData()
     }
     
     /// Updates the account details that are needed to show the balance and owned assets for every account.
@@ -90,74 +90,6 @@ final class WalletOverviewViewController: UIViewController {
         for account in accounts {
             fetchAccountBalance(forAccount: account)
             fetchOwnedAssets(forAccount: account)
-        }
-    }
-    
-    /// Fetches the latest market info, used to calculate the fiat balance for every account.
-    private func fetchMarketInfo() {
-        
-        MarketInfoProvider.request(MarketInfo.xemPrice) { [weak self] (result) in
-            
-            switch result {
-            case let .success(response):
-                
-                do {
-                    let _ = try response.filterSuccessfulStatusCodes()
-                    
-                    let json = JSON(data: response.data)
-                    let xemPrice = json["BTC_XEM"]["highestBid"].doubleValue
-                    
-                    DispatchQueue.main.async {
-                        
-                        self?.marketInfo.xemPrice = xemPrice
-                        self?.reloadWalletOverview()
-                    }
-                    
-                } catch {
-                    
-                    DispatchQueue.main.async {
-                        print("Failure: \(response.statusCode)")
-                    }
-                }
-                
-            case let .failure(error):
-                
-                DispatchQueue.main.async {
-                    print(error)
-                }
-            }
-        }
-        
-        MarketInfoProvider.request(MarketInfo.btcPrice) { [weak self] (result) in
-            
-            switch result {
-            case let .success(response):
-                
-                do {
-                    let _ = try response.filterSuccessfulStatusCodes()
-                    
-                    let json = JSON(data: response.data)
-                    let btcPrice = json["USD"]["last"].doubleValue
-                    
-                    DispatchQueue.main.async {
-                        
-                        self?.marketInfo.btcPrice = btcPrice
-                        self?.reloadWalletOverview()
-                    }
-                    
-                } catch {
-                    
-                    DispatchQueue.main.async {
-                        print("Failure: \(response.statusCode)")
-                    }
-                }
-                
-            case let .failure(error):
-                
-                DispatchQueue.main.async {
-                    print(error)
-                }
-            }
         }
     }
     
@@ -195,7 +127,7 @@ final class WalletOverviewViewController: UIViewController {
         accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { [unowned self] (action) in
             
             self.accounts.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .bottom)
+            self.accountsTableView.deleteRows(at: [indexPath], with: .bottom)
             self.createEditButtonItemIfNeeded()
             AccountManager.sharedInstance.delete(account: accountToDelete, completion: { _ in })
         }))
@@ -237,7 +169,7 @@ final class WalletOverviewViewController: UIViewController {
             if let newTitle = titleTextField.text {
                 
                 self.accounts[indexPath.row].title = newTitle
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                self.accountsTableView.reloadRows(at: [indexPath], with: .automatic)
                 AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[indexPath.row], withNewTitle: newTitle)
             }
         }))
@@ -334,9 +266,77 @@ final class WalletOverviewViewController: UIViewController {
         }
     }
     
+    /// Fetches the latest market info, used to calculate the fiat balance for every account.
+    private func fetchMarketInfo() {
+        
+        MarketInfoProvider.request(MarketInfo.xemPrice) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let xemPrice = json["BTC_XEM"]["highestBid"].doubleValue
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.marketInfo.xemPrice = xemPrice
+                        self?.reloadWalletOverview()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
+        }
+        
+        MarketInfoProvider.request(MarketInfo.btcPrice) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let btcPrice = json["USD"]["last"].doubleValue
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.marketInfo.btcPrice = btcPrice
+                        self?.reloadWalletOverview()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
+        }
+    }
+    
     /// Updates the appearance of the view controller.
     private func updateAppearance() {
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        accountsTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     /**
@@ -366,51 +366,38 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     // MARK: - Table View Delegate
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return accounts.count + 1
+        
+        if section == 0 {
+            return 1
+        } else {
+            return accounts.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.numberStyle = .currency
+        
+        if indexPath.section == 0 {
             
-            let numberFormatter = NumberFormatter()
-            numberFormatter.locale = Locale(identifier: "en_US")
-            numberFormatter.numberStyle = .currency
+            let balanceSummaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BalanceSummaryTableViewCell") as! BalanceSummaryTableViewCell
+            balanceSummaryTableViewCell.totalBalanceLabel.text = "\(totalBalance.format()) XEM"
+            balanceSummaryTableViewCell.totalFiatBalanceLabel.text = numberFormatter.string(from: totalFiatBalance as NSNumber)
+            balanceSummaryTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             
-            let accountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
-            accountTableViewCell.backgroundColor = Constants.nemLightBlue
-            accountTableViewCell.contentView.backgroundColor = UIColor.clear
-            accountTableViewCell.accountTitleLabel.text = "Total Balance"
-            accountTableViewCell.accountTitleLabel.backgroundColor = UIColor.clear
-            accountTableViewCell.accountTitleLabel.font = UIFont.systemFont(ofSize: 21, weight: UIFontWeightBold)
-            accountTableViewCell.accountBalanceLabel.text = "\(totalBalance.format()) XEM"
-            accountTableViewCell.accountBalanceLabel.backgroundColor = UIColor.clear
-            accountTableViewCell.accountBalanceLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
-            accountTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: totalFiatBalance as NSNumber)
-            accountTableViewCell.accountFiatBalanceLabel.backgroundColor = UIColor.clear
-            accountTableViewCell.accountFiatBalanceLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
-            accountTableViewCell.hideAccountAssetsSummary()
-            accountTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            accountTableViewCell.accountTitleLabelTopConstraint.constant = 15
-            accountTableViewCell.accountBalanceLabelTopConstraint.constant = 15
-            accountTableViewCell.accountFiatBalanceLabelBottomConstraint.constant = 15
-            accountTableViewCell.accountAssetsLabelBottomConstraint.constant = 0
-            
-            return accountTableViewCell
+            return balanceSummaryTableViewCell
             
         } else {
             
-            let account = accounts[indexPath.row - 1]
+            let account = accounts[indexPath.row]
             let accountBalance = accountData[account.address]?.balance ?? 0
             let accountAssets = self.accountAssets[account.address] ?? 0
-            
-            let numberFormatter = NumberFormatter()
-            numberFormatter.locale = Locale(identifier: "en_US")
-            numberFormatter.numberStyle = .currency
             
             let accountTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountTableViewCell") as! AccountTableViewCell
             accountTableViewCell.accountTitleLabel.text = account.title
@@ -431,7 +418,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row != 0 {
+        if indexPath.section != 0 {
             if tableView.isEditing {
                 changeTitle(forAccountAtIndexPath: indexPath)
                 tableView.deselectRow(at: indexPath, animated: true)
@@ -439,14 +426,6 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
                 performSegue(withIdentifier: "showAccountDashboardViewController", sender: nil)
             }
         }
-    }
-    
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        
-        if tableView.isEditing {
-            return .delete
-        }
-        return .none
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -464,29 +443,51 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         moveAccount(fromPosition: sourceIndexPath, toPosition: destinationIndexPath)
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        if indexPath.section == 0 {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        
+        if indexPath.section == 0 {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        
+        if sourceIndexPath.section != proposedDestinationIndexPath.section {
+            return sourceIndexPath
+        } else {
+            return proposedDestinationIndexPath
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        
+        if tableView.isEditing {
+            return .delete
+        }
+        return .none
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        accountsTableView.setEditing(editing, animated: animated)
+    }
+    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130.0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
-    }
-    
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        tableView.setEditing(editing, animated: animated)
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        
-        if indexPath.row == 0 {
-            return false
-        } else {
-            return true
-        }
-    }
-
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
     }
 }

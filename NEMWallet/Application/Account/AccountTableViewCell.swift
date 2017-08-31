@@ -17,10 +17,7 @@ final class AccountTableViewCell: UITableViewCell {
     @IBOutlet weak var accountFiatBalanceLabel: UILabel!
     @IBOutlet weak var accountAssetsLabel: UILabel!
     @IBOutlet weak var accountAssetsLabelHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var accountAssetsLabelBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var accountFiatBalanceLabelBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var accountTitleLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var accountBalanceLabelTopConstraint: NSLayoutConstraint!
     
     // MARK: - Cell Helper Methods
     
