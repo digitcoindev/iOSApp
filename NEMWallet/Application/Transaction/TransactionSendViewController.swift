@@ -81,7 +81,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         self.navigationBar.delegate = self
         
         transactionSendButton.isEnabled = false
-        transactionFeeTextField.isEnabled = network == testNetwork ? true : false
+        transactionFeeTextField.isEnabled = Constants.activeNetwork == Constants.testNetwork ? true : false
         account = AccountManager.sharedInstance.activeAccount
         
         guard account != nil else {
@@ -398,7 +398,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         transactionFeeAttributedString.append(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]))
         transactionFeeHeadingLabel.attributedText = transactionFeeAttributedString
         
-        if userSetFee == nil || network == mainNetwork {
+        if userSetFee == nil || Constants.activeNetwork == Constants.mainNetwork {
             transactionFeeTextField.text = "\(transactionFee)"
         }
     }
@@ -626,7 +626,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func userDefinedFee(_ sender: UITextField) {
         
-        if network == testNetwork {
+        if Constants.activeNetwork == Constants.testNetwork {
             userSetFee = Double(transactionFeeTextField.text!) ?? nil
         }
     }

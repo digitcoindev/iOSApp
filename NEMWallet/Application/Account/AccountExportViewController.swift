@@ -78,7 +78,7 @@ class AccountExportViewController: UIViewController {
     fileprivate func generateQRCode(forAccount accountJsonString: String) {
         
         let qrCodeScannerView = QRCodeScannerView()
-        exportQRCodeImageView.image = qrCodeScannerView.createQRCodeImage(fromCaptureResult: accountJsonString)
+//        exportQRCodeImageView.image = qrCodeScannerView.createQRCodeImage(fromCaptureResult: accountJsonString)
     }
     
     // MARK: - View Controller Outlet Actions

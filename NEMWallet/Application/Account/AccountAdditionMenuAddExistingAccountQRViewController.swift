@@ -41,7 +41,7 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
     
         updateViewControllerAppearance()
         
-        qrCodeScannerView.delegate = self
+//        qrCodeScannerView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,12 +49,12 @@ class AccountAdditionMenuAddExistingAccountQRViewController: UIViewController {
         
         guard cameraNotAvailable == false else { return }
         
-        if !isScanning {
-            isScanning = true
-            qrCodeScannerView.scanQRCode(qrCodeScannerView.frame.width , height: qrCodeScannerView.frame.height)
-        } else {
-            qrCodeScannerView.captureSession.startRunning()
-        }
+//        if !isScanning {
+//            isScanning = true
+//            qrCodeScannerView.scanQRCode(qrCodeScannerView.frame.width , height: qrCodeScannerView.frame.height)
+//        } else {
+//            qrCodeScannerView.captureSession.startRunning()
+//        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -111,33 +111,33 @@ extension AccountAdditionMenuAddExistingAccountQRViewController: QRCodeScannerDe
     
     func detectedQRCode(withCaptureResult captureResult: String) {
         
-        guard let encodedCaptureResult = captureResult.data(using: String.Encoding.utf8) else {
-            qrCodeScannerView.captureSession.startRunning()
-            return
-        }
-                
-        let captureResultJSON = JSON(data: encodedCaptureResult)
-        
-        do {
-            let _ = try validate(captureResult: captureResultJSON)
-            
-        } catch AccountImportValidation.versionNotMatching {
-            
-            failedDetectingQRCode(withError: "WRONG_QR_VERSION".localized())
-            qrCodeScannerView.captureSession.startRunning()
-            return
-            
-        } catch {
-            
-            qrCodeScannerView.captureSession.startRunning()
-            return
-        }
-        
-        self.accountTitle = captureResultJSON["data"][QRKeys.name.rawValue].string!
-        self.accountEncryptedPrivateKey = captureResultJSON["data"][QRKeys.privateKey.rawValue].string!
-        self.accountSalt = captureResultJSON["data"][QRKeys.salt.rawValue].string!
-        
-        performSegue(withIdentifier: "showAccountAdditionMenuPasswordValidationViewController", sender: nil)
+//        guard let encodedCaptureResult = captureResult.data(using: String.Encoding.utf8) else {
+//            qrCodeScannerView.captureSession.startRunning()
+//            return
+//        }
+//                
+//        let captureResultJSON = JSON(data: encodedCaptureResult)
+//        
+//        do {
+//            let _ = try validate(captureResult: captureResultJSON)
+//            
+//        } catch AccountImportValidation.versionNotMatching {
+//            
+//            failedDetectingQRCode(withError: "WRONG_QR_VERSION".localized())
+//            qrCodeScannerView.captureSession.startRunning()
+//            return
+//            
+//        } catch {
+//            
+//            qrCodeScannerView.captureSession.startRunning()
+//            return
+//        }
+//        
+//        self.accountTitle = captureResultJSON["data"][QRKeys.name.rawValue].string!
+//        self.accountEncryptedPrivateKey = captureResultJSON["data"][QRKeys.privateKey.rawValue].string!
+//        self.accountSalt = captureResultJSON["data"][QRKeys.salt.rawValue].string!
+//        
+//        performSegue(withIdentifier: "showAccountAdditionMenuPasswordValidationViewController", sender: nil)
     }
     
     func failedDetectingQRCode(withError errorMessage: String) {
