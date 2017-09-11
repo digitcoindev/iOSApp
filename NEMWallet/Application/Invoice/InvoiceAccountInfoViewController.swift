@@ -80,8 +80,7 @@ class InvoiceAccountInfoViewController: UIViewController {
         
         let jsonData = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
         
-        let qrCodeScannerView = QRCodeScannerView()
-//        accountQRCodeImageView.image = qrCodeScannerView.createQRCodeImage(fromCaptureResult: String(data: jsonData, encoding: String.Encoding.utf8)!)
+        accountQRCodeImageView.image = String(data: jsonData, encoding: String.Encoding.utf8)!.createQRCodeImage()
     }
     
     // MARK: - View Controller Outlet Actions

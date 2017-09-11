@@ -9,7 +9,7 @@ import Quick
 import Nimble
 @testable import NEMWallet
 
-class AccountTests: QuickSpec {
+final class AccountTests: QuickSpec {
     override func spec() {
         
         describe("account creation") {
