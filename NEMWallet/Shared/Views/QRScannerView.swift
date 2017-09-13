@@ -1,5 +1,5 @@
 //
-//  QRCodeScannerView.swift
+//  QRScannerView.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2017 NEM
@@ -8,12 +8,8 @@
 import UIKit
 import AVFoundation
 
-/**
-    The view that is able to scan and detect a QR code and show a camera preview in the process. 
-    Once the view detected a QR code it will show the detected qr code as an image instead of
-    showing the camera preview.
- */
-final class QRCodeScannerView: UIView {
+/// This view shows a camera preview and lets the user scan a QR code.
+final class QRScannerView: UIView {
     
     // MARK: - View Properties
     

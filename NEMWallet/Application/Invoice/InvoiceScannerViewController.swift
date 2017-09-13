@@ -30,7 +30,7 @@ final class InvoiceScannerViewController: UIViewController {
     
     // MARK: - View Controller Outlets
     
-    @IBOutlet weak var qrCodeScannerView: QRCodeScannerView!
+    @IBOutlet weak var qrCodeScannerView: QRScannerView!
     
     // MARK: - View Controller Lifecycle
     
@@ -76,7 +76,7 @@ final class InvoiceScannerViewController: UIViewController {
             case .notAuthorized:
                 
                 DispatchQueue.main.async { [unowned self] in
-                    let alertController = UIAlertController(title: "AVCam", message: "AVCam doesn't have permission to use the camera, please change privacy settings", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Warning", message: "NEM Wallet doesn't have permission to use the camera, please change privacy settings", preferredStyle: .alert)
                     alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
                     alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { _ in
                         if #available(iOS 10.0, *) {
@@ -90,7 +90,7 @@ final class InvoiceScannerViewController: UIViewController {
             case .configurationFailed:
                 
                 DispatchQueue.main.async { [unowned self] in
-                    let alertController = UIAlertController(title: "AVCam", message: "Alert message when something goes wrong during capture session configuration", preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Error", message: "Something went wrong when accessing the device camera", preferredStyle: .alert)
                     alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
                     
                     self.present(alertController, animated: true, completion: nil)
