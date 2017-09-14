@@ -2,7 +2,7 @@
 //  MultisigTransactionModel.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import Foundation
@@ -10,46 +10,45 @@ import SwiftyJSON
 
 /**
     Represents a multisig transaction on the NEM blockchain.
-    Visit the [documentation](http://bob.nem.ninja/docs/#multisigTransaction)
-    for more information.
+    Visit the [documentation](http://bob.nem.ninja/docs/#multisigTransaction) for more information.
  */
-open class MultisigTransaction: Transaction {
+final class MultisigTransaction: Transaction {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
-    open var type = TransactionType.multisigTransaction
+    var type = TransactionType.multisigTransaction
     
     /// Additional information about the transaction.
-    open var metaData: TransactionMetaData?
+    var metaData: TransactionMetaData?
     
     /// The version of the transaction.
-    open var version: Int!
+    var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    open var timeStamp: Date!
+    var timeStamp: Date!
     
     /// The fee for the transaction.
-    open var fee: Int!
+    var fee: Double!
     
     /// The deadline of the transaction.
-    open var deadline: Int!
+    var deadline: Int!
     
     /// The transaction signature.
-    open var signature: String!
+    var signature: String!
     
     /// The array of MulsigSignatureTransaction objects.
-    open var signatures: [MultisigSignatureTransaction]?
+    var signatures: [MultisigSignatureTransaction]?
     
     /// The public key of the account that created the transaction.
-    open var signer: String!
+    var signer: String!
     
     /// The inner transaction of the multisig transaction.
-    open var innerTransaction: Transaction!
+    var innerTransaction: Transaction!
     
     // MARK: - Model Lifecycle
     
-    required public init?(version: Int, timeStamp: Date, fee: Int, deadline: Int, signer: String, innerTransaction: Transaction) {
+    required init?(version: Int, timeStamp: Date, fee: Double, deadline: Int, signer: String, innerTransaction: Transaction) {
         
         self.version = version
         self.timeStamp = timeStamp
@@ -59,11 +58,11 @@ open class MultisigTransaction: Transaction {
         self.innerTransaction = innerTransaction
     }
     
-    required public init?(jsonData: JSON) {
+    required init?(jsonData: JSON) {
         
         metaData = try! jsonData["meta"].mapObject(TransactionMetaData.self)
         timeStamp = Date(timeIntervalSince1970: jsonData["transaction"]["timeStamp"].doubleValue + Constants.genesisBlockTime)
-        fee = jsonData["transaction"]["fee"].intValue
+        fee = jsonData["transaction"]["fee"].doubleValue / 1000000
         deadline = jsonData["transaction"]["deadline"].intValue
         signature = jsonData["transaction"]["signature"].stringValue
         signatures = try! jsonData["transaction"]["signatures"].mapArray(MultisigSignatureTransaction.self)

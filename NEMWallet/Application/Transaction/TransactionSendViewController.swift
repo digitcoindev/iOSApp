@@ -426,7 +426,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         // Check if the transaction is a multisig transaction
         if activeAccountData!.publicKey != account!.publicKey {
             
-            let multisigTransaction = MultisigTransaction(version: (preparedTransaction as! TransferTransaction).version, timeStamp: (preparedTransaction as! TransferTransaction).timeStamp, fee: Int(0.15 * 1000000), deadline: (preparedTransaction as! TransferTransaction).deadline, signer: account!.publicKey, innerTransaction: (preparedTransaction as! TransferTransaction))
+            let multisigTransaction = MultisigTransaction(version: (preparedTransaction as! TransferTransaction).version, timeStamp: (preparedTransaction as! TransferTransaction).timeStamp, fee: 0.15 * 1000000, deadline: (preparedTransaction as! TransferTransaction).deadline, signer: account!.publicKey, innerTransaction: (preparedTransaction as! TransferTransaction))
             
             announceTransaction(multisigTransaction!)
             return

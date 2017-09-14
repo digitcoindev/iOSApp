@@ -11,7 +11,7 @@ import Foundation
 
 extension MultisigSignatureTransaction: Equatable { }
 
-public func == (lhs: MultisigSignatureTransaction, rhs: MultisigSignatureTransaction) -> Bool {
+func == (lhs: MultisigSignatureTransaction, rhs: MultisigSignatureTransaction) -> Bool {
     return lhs.type == rhs.type &&
         lhs.timeStamp == rhs.timeStamp &&
         lhs.fee == rhs.fee &&

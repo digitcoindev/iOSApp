@@ -2,84 +2,83 @@
 //  TransferTransactionModel.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import Foundation
 import SwiftyJSON
 
-/// The different transfer types for a transfer transaction.
-public enum TransferType {
-    case incoming
-    case outgoing
-}
-
 /** 
     Represents a transfer transaction on the NEM blockchain.
-    Visit the [documentation](http://bob.nem.ninja/docs/#transferTransaction)
-    for more information.
+    Visit the [documentation](http://bob.nem.ninja/docs/#transferTransaction) for more information.
  */
-open class TransferTransaction: Transaction {
+final class TransferTransaction: Transaction {
     
     // MARK: - Model Properties
     
+    /// The different transfer types for a transfer transaction.
+    enum TransferType {
+        case incoming
+        case outgoing
+    }
+    
     /// The type of the transaction.
-    open var type = TransactionType.transferTransaction
+    var type = TransactionType.transferTransaction
     
     /// Additional information about the transaction.
-    open var metaData: TransactionMetaData?
+    var metaData: TransactionMetaData?
     
     /// The version of the transaction.
-    open var version: Int!
+    var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    open var timeStamp: Date!
+    var timeStamp: Date!
     
-    /// The amount of micro NEM that is transferred from sender to recipient.
-    open var amount: Double!
+    /// The amount of XEM that is transferred from sender to recipient.
+    var amount: Double!
     
     /// The fee for the transaction.
-    open var fee: Int!
+    var fee: Double!
     
     /// The transfer type of the transaction.
-    open var transferType: TransferType?
+    var transferType: TransferType?
     
     /// The address of the recipient.
-    open var recipient: String!
+    var recipient: String!
     
     /// The message of the transaction.
-    open var message: Message?
+    var message: Message?
     
     /// The deadline of the transaction.
-    open var deadline: Int!
+    var deadline: Int!
     
     /// The transaction signature.
-    open var signature: String!
+    var signature: String!
     
     /// The public key of the account that created the transaction.
-    open var signer: String!
+    var signer: String!
     
     // MARK: - Model Lifecycle
     
-    required public init?(version: Int, timeStamp: Date, amount: Double, fee: Int, recipient: String, message: Message?, deadline: Int, signer: String) {
+    required init?(version: Int, timeStamp: Date, amount: Double, fee: Int, recipient: String, message: Message?, deadline: Int, signer: String) {
         
         self.version = version
         self.timeStamp = timeStamp
         self.amount = amount
-        self.fee = fee
+        self.fee = Double(fee)
         self.recipient = recipient
         self.message = message
         self.deadline = deadline
         self.signer = signer
     }
     
-    required public init?(jsonData: JSON) {
+    required init?(jsonData: JSON) {
         
         metaData = try? jsonData["meta"].mapObject(TransactionMetaData.self)
         version = jsonData["transaction"]["version"].intValue
         timeStamp = Date(timeIntervalSince1970: jsonData["transaction"]["timeStamp"].doubleValue + Constants.genesisBlockTime)
-        amount = jsonData["transaction"]["amount"].doubleValue
-        fee = jsonData["transaction"]["fee"].intValue
+        amount = jsonData["transaction"]["amount"].doubleValue / 1000000
+        fee = jsonData["transaction"]["fee"].doubleValue / 1000000
         recipient = jsonData["transaction"]["recipient"].stringValue
         deadline = jsonData["transaction"]["deadline"].intValue
         signature = jsonData["transaction"]["signature"].stringValue

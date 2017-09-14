@@ -2,14 +2,14 @@
 //  TransactionModel.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import Foundation
 import SwiftyJSON
 
 /// All available transaction types on the NEM blockchain.
-public enum TransactionType: Int {
+enum TransactionType: Int {
     case transferTransaction = 257
     case importanceTransferTransaction = 2049
     case multisigTransaction = 4100
@@ -18,7 +18,7 @@ public enum TransactionType: Int {
 }
 
 /// Represents a transaction on the NEM blockchain.
-public protocol Transaction: SwiftyJSONMappable {
+protocol Transaction: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
@@ -32,7 +32,7 @@ public protocol Transaction: SwiftyJSONMappable {
     var timeStamp: Date! { get set }
     
     /// The fee for the transaction.
-    var fee: Int! { get set }
+    var fee: Double! { get set }
     
     /// The deadline of the transaction.
     var deadline: Int! { get set }

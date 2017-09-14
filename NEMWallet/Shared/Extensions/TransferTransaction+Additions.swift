@@ -11,7 +11,7 @@ import Foundation
 
 extension TransferTransaction: Equatable { }
 
-public func == (lhs: TransferTransaction, rhs: TransferTransaction) -> Bool {
+func == (lhs: TransferTransaction, rhs: TransferTransaction) -> Bool {
     return lhs.type == rhs.type &&
     lhs.timeStamp == rhs.timeStamp &&
     lhs.metaData == rhs.metaData &&

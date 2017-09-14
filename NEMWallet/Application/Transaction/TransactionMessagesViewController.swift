@@ -377,7 +377,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        NEMProvider.request(NEM.transactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.unconfirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -942,7 +942,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                 // Check if the transaction is a multisig transaction
                 if self!.activeAccountData!.publicKey != self!.account!.publicKey {
                     
-                    let multisigTransaction = MultisigTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Int(0.15 * 1000000), deadline: transactionDeadline, signer: self!.account!.publicKey, innerTransaction: transaction!)
+                    let multisigTransaction = MultisigTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: 0.15 * 1000000, deadline: transactionDeadline, signer: self!.account!.publicKey, innerTransaction: transaction!)
                     
                     self?.announceTransaction(multisigTransaction!)
                     return

@@ -22,11 +22,11 @@ open class Correspondent {
     open var accountPublicKey: String?
     
     /// All transactions in conjunction with the correspondent.
-    open var transactions = [Transaction]()
+    var transactions = [Transaction]()
     
     /// All unconfirmed transactions in conjunction with the correspondent.
-    open var unconfirmedTransactions = [Transaction]()
+    var unconfirmedTransactions = [Transaction]()
     
     /// The most recently performed transfer transaction.
-    open var mostRecentTransaction: Transaction!
+    var mostRecentTransaction: Transaction!
 }

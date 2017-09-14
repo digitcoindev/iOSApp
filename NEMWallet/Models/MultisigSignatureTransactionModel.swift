@@ -2,7 +2,7 @@
 //  MultisigSignatureTransactionModel.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import Foundation
@@ -10,52 +10,51 @@ import SwiftyJSON
 
 /**
     Represents a multisig signature transaction on the NEM blockchain.
-    Visit the [documentation](http://bob.nem.ninja/docs/#multisigSignatureTransaction)
-    for more information.
+    Visit the [documentation](http://bob.nem.ninja/docs/#multisigSignatureTransaction) for more information.
  */
-open class MultisigSignatureTransaction: Transaction {
+final class MultisigSignatureTransaction: Transaction {
     
     // MARK: - Model Properties
     
     /// The type of the transaction.
-    open var type = TransactionType.multisigSignatureTransaction
+    var type = TransactionType.multisigSignatureTransaction
     
     /// The version of the transaction.
-    open var version: Int!
+    var version: Int!
     
     /// The number of seconds elapsed since the creation of the nemesis block.
-    open var timeStamp: Date!
+    var timeStamp: Date!
     
     /// The fee for the transaction.
-    open var fee: Int!
+    var fee: Double!
     
     /// The deadline of the transaction.
-    open var deadline: Int!
+    var deadline: Int!
     
     /// The transaction signature.
-    open var signature: String!
+    var signature: String!
     
     /// The public key of the account that created the transaction.
-    open var signer: String!
+    var signer: String!
     
     /// The length of the hash of the corresponding multisig transaction.
-    open var hashObjectLength = 36
+    var hashObjectLength = 36
     
     /// The length of the transaction hash.
-    open var hashLength = 32
+    var hashLength = 32
     
     /// The length of the address of the corresponding multisig account.
-    open var multisigAccountLength = 40
+    var multisigAccountLength = 40
     
     /// The hash of the inner transaction of the corresponding multisig transaction.
-    open var otherHash: String!
+    var otherHash: String!
     
     /// The address of the corresponding multisig account.
-    open var otherAccount: String!
+    var otherAccount: String!
     
     // MARK: - Model Lifecycle
     
-    required public init?(version: Int, timeStamp: Date, fee: Int, deadline: Int, signer: String, otherHash: String, otherAccount: String) {
+    required init?(version: Int, timeStamp: Date, fee: Double, deadline: Int, signer: String, otherHash: String, otherAccount: String) {
         
         self.version = version
         self.timeStamp = timeStamp
@@ -66,10 +65,10 @@ open class MultisigSignatureTransaction: Transaction {
         self.otherAccount = otherAccount
     }
     
-    required public init?(jsonData: JSON) {
+    required init?(jsonData: JSON) {
         
         timeStamp = Date(timeIntervalSince1970: jsonData["timeStamp"].doubleValue + Constants.genesisBlockTime)
-        fee = jsonData["fee"].intValue
+        fee = jsonData["fee"].doubleValue / 1000000
         deadline = jsonData["deadline"].intValue
         signature = jsonData["signature"].stringValue
         signer = jsonData["signer"].stringValue
