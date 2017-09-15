@@ -226,10 +226,17 @@ extension AccountDashboardViewController: UITableViewDelegate, UITableViewDataSo
         }
         
         let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
-        transactionTableViewCell.transactionCorrespondentLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer)
-        transactionTableViewCell.transactionAmountLabel.text = transaction.amount.format()
+        transactionTableViewCell.transactionCorrespondentLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer).nemAddressNormalised()
         transactionTableViewCell.transactionMessageLabel.text = transaction.message?.message ?? ""
         transactionTableViewCell.transactionDateLabel.text = transaction.timeStamp.format()
+        
+        if transaction.transferType == .incoming {
+            transactionTableViewCell.transactionAmountLabel.text = "+\(transaction.amount.format()) XEM"
+            transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
+        } else if transaction.transferType == .outgoing {
+            transactionTableViewCell.transactionAmountLabel.text = "-\(transaction.amount.format()) XEM"
+            transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+        }
         
         return transactionTableViewCell
     }

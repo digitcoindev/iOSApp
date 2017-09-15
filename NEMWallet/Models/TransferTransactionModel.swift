@@ -41,7 +41,7 @@ final class TransferTransaction: Transaction {
     var fee: Double!
     
     /// The transfer type of the transaction.
-    var transferType: TransferType?
+    var transferType: TransferType!
     
     /// The address of the recipient.
     var recipient: String!
@@ -91,6 +91,13 @@ final class TransferTransaction: Transaction {
                 return messageObject
             } else {
                 return nil
+            }
+        }()
+        transferType = {
+            if signer == AccountManager.sharedInstance.activeAccount?.publicKey {
+                return .outgoing
+            } else {
+                return .incoming
             }
         }()
     }
