@@ -65,7 +65,12 @@ final class WalletOverviewViewController: UIViewController {
         case "showAccountDashboardViewController":
             
             if let indexPath = accountsTableView.indexPathForSelectedRow {
-                AccountManager.sharedInstance.activeAccount = accounts[indexPath.row]
+                let account = accounts[indexPath.row]
+                let accountBalance = accountData[account.address]?.balance ?? 0
+                let destinationViewController = segue.destination as! AccountDashboardViewController
+                destinationViewController.accountBalance = accountBalance
+                destinationViewController.accountFiatBalance = (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance)
+                AccountManager.sharedInstance.activeAccount = account
             }
             
         default:

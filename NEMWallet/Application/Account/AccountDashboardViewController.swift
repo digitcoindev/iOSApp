@@ -25,12 +25,21 @@ final class AccountDashboardViewController: UIViewController {
     ///
     fileprivate var transactionSections = [String]()
     
+    ///
+    public var accountBalance = Double()
+    
+    ///
+    public var accountFiatBalance = Double()
+    
     var account: Account?
     fileprivate var accountData: AccountData?
     
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var transactionsTableView: UITableView!
+    @IBOutlet weak var accountTitleLabel: UILabel!
+    @IBOutlet weak var accountBalanceLabel: UILabel!
+    @IBOutlet weak var accountFiatBalanceLabel: UILabel!
     
     // MARK: - View Controller Lifecycle
     
@@ -50,7 +59,21 @@ final class AccountDashboardViewController: UIViewController {
     
     /// Reloads the account dashboard with the newest data.
     private func reloadAccountDashboard() {
+        
+        updateAccountInfoHeader()
         transactionsTableView.reloadData()
+    }
+    
+    ///
+    private func updateAccountInfoHeader() {
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.numberStyle = .currency
+        
+        accountTitleLabel.text = account?.title ?? ""
+        accountBalanceLabel.text = "\(accountBalance.format()) XEM"
+        accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
     }
     
     /// Fetches the last 25 transactions for the current account.

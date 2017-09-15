@@ -52,6 +52,8 @@ struct Constants {
     
     // MARK: - Coloring
     
-    static let nemBlue = UIColor(red: 43/255, green: 182/255, blue: 237/255, alpha: 1.0)
-    static let nemLightBlue = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 0.1)
+    static let nemBlueColor = UIColor(red: 43/255, green: 182/255, blue: 237/255, alpha: 1.0)
+    static let nemLightBlueColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 0.1)
+    static let incomingColor = UIColor(red: 0/255, green: 188/255, blue: 0/255, alpha: 1.0)
+    static let outgoingColor = UIColor(red: 203/255, green: 0/255, blue: 0/255, alpha: 1.0)
 }
