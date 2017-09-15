@@ -37,9 +37,6 @@ final class AccountDashboardViewController: UIViewController {
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var transactionsTableView: UITableView!
-    @IBOutlet weak var accountTitleLabel: UILabel!
-    @IBOutlet weak var accountBalanceLabel: UILabel!
-    @IBOutlet weak var accountFiatBalanceLabel: UILabel!
     
     // MARK: - View Controller Lifecycle
     
@@ -59,21 +56,7 @@ final class AccountDashboardViewController: UIViewController {
     
     /// Reloads the account dashboard with the newest data.
     private func reloadAccountDashboard() {
-        
-        updateAccountInfoHeader()
         transactionsTableView.reloadData()
-    }
-    
-    ///
-    private func updateAccountInfoHeader() {
-        
-        let numberFormatter = NumberFormatter()
-        numberFormatter.locale = Locale(identifier: "en_US")
-        numberFormatter.numberStyle = .currency
-        
-        accountTitleLabel.text = account?.title ?? ""
-        accountBalanceLabel.text = "\(accountBalance.format()) XEM"
-        accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
     }
     
     /// Fetches the last 25 transactions for the current account.
@@ -224,52 +207,76 @@ extension AccountDashboardViewController: UITableViewDelegate, UITableViewDataSo
     func numberOfSections(in tableView: UITableView) -> Int {
         
         if unconfirmedTransactions.count > 0 {
-            return transactionSections.count + 1
+            return transactionSections.count + 2
         } else {
-            return transactionSections.count
+            return transactionSections.count + 1
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if unconfirmedTransactions.count > 0 && section == 0 {
+        if section == 0 {
+            return 1
+        } else if unconfirmedTransactions.count > 0 && section == 1 {
             return unconfirmedTransactions.count
         } else {
-            return confirmedTransactionsBySection[transactionSections[unconfirmedTransactions.count > 0 ? section - 1 : section]]?.count ?? 0
+            return confirmedTransactionsBySection[transactionSections[unconfirmedTransactions.count > 0 ? section - 2 : section - 1]]?.count ?? 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let transaction: TransferTransaction!
-        if unconfirmedTransactions.count > 0 && indexPath.section == 0 {
-            transaction = unconfirmedTransactions[indexPath.row] as! TransferTransaction
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.numberStyle = .currency
+        
+        if indexPath.section == 0 {
+            
+            let accountSummaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountSummaryTableViewCell") as! AccountSummaryTableViewCell
+            accountSummaryTableViewCell.accountTitleLabel.text = account?.title ?? ""
+            accountSummaryTableViewCell.accountBalanceLabel.text = "\(accountBalance.format()) XEM"
+            accountSummaryTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
+            accountSummaryTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            
+            return accountSummaryTableViewCell
+            
         } else {
-            transaction = confirmedTransactionsBySection[transactionSections[unconfirmedTransactions.count > 0 ? indexPath.section - 1 : indexPath.section]]?[indexPath.row] as! TransferTransaction
+            
+            let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+            
+            let transaction: TransferTransaction!
+            if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                transaction = unconfirmedTransactions[indexPath.row] as! TransferTransaction
+                transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+            } else {
+                transaction = confirmedTransactionsBySection[transactionSections[unconfirmedTransactions.count > 0 ? indexPath.section - 2 : indexPath.section - 1]]?[indexPath.row] as! TransferTransaction
+                transactionTableViewCell.backgroundColor = UIColor.white
+            }
+            
+            transactionTableViewCell.transactionCorrespondentLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer).nemAddressNormalised()
+            transactionTableViewCell.transactionMessageLabel.text = transaction.message?.message ?? ""
+            transactionTableViewCell.transactionDateLabel.text = transaction.timeStamp.format()
+            
+            if transaction.transferType == .incoming {
+                transactionTableViewCell.transactionAmountLabel.text = "+\(transaction.amount.format()) XEM"
+                transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
+            } else if transaction.transferType == .outgoing {
+                transactionTableViewCell.transactionAmountLabel.text = "-\(transaction.amount.format()) XEM"
+                transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+            }
+            
+            return transactionTableViewCell
         }
-        
-        let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
-        transactionTableViewCell.transactionCorrespondentLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer).nemAddressNormalised()
-        transactionTableViewCell.transactionMessageLabel.text = transaction.message?.message ?? ""
-        transactionTableViewCell.transactionDateLabel.text = transaction.timeStamp.format()
-        
-        if transaction.transferType == .incoming {
-            transactionTableViewCell.transactionAmountLabel.text = "+\(transaction.amount.format()) XEM"
-            transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
-        } else if transaction.transferType == .outgoing {
-            transactionTableViewCell.transactionAmountLabel.text = "-\(transaction.amount.format()) XEM"
-            transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
-        }
-        
-        return transactionTableViewCell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if unconfirmedTransactions.count > 0 && section == 0 {
+        if section == 0 {
+            return ""
+        } else if unconfirmedTransactions.count > 0 && section == 1 {
             return "Unconfirmed Transactions"
         } else {
-            return transactionSections[unconfirmedTransactions.count > 0 ? section - 1 : section]
+            return transactionSections[unconfirmedTransactions.count > 0 ? section - 2 : section - 1]
         }
     }
 }

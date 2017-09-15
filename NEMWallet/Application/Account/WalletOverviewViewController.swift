@@ -391,12 +391,12 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         
         if indexPath.section == 0 {
             
-            let balanceSummaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: "BalanceSummaryTableViewCell") as! BalanceSummaryTableViewCell
-            balanceSummaryTableViewCell.totalBalanceLabel.text = "\(totalBalance.format()) XEM"
-            balanceSummaryTableViewCell.totalFiatBalanceLabel.text = numberFormatter.string(from: totalFiatBalance as NSNumber)
-            balanceSummaryTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            let accountSummaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountSummaryTableViewCell") as! AccountSummaryTableViewCell
+            accountSummaryTableViewCell.accountBalanceLabel.text = "\(totalBalance.format()) XEM"
+            accountSummaryTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: totalFiatBalance as NSNumber)
+            accountSummaryTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             
-            return balanceSummaryTableViewCell
+            return accountSummaryTableViewCell
             
         } else {
             
