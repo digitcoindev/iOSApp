@@ -135,7 +135,7 @@
 		4F9F687A1D4C37C40086F98F /* SettingsAddServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */; };
 		4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */; };
 		4F9F68861D4C39220086F98F /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68851D4C39220086F98F /* UIImage+Additions.swift */; };
-		4FA486041F586E68007A3CC3 /* BalanceSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA486031F586E68007A3CC3 /* BalanceSummaryTableViewCell.swift */; };
+		4FA486041F586E68007A3CC3 /* AccountSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA486031F586E68007A3CC3 /* AccountSummaryTableViewCell.swift */; };
 		4FA5B5821D81B86F00B1F907 /* TransactionExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */; };
 		4FA825CE1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA825CD1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift */; };
 		4FA92FC71D7093A800C9477B /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */; };
@@ -145,6 +145,7 @@
 		4FC27A041D95297700421F00 /* BlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC27A031D95297600421F00 /* BlockModel.swift */; };
 		4FC80C291EF80A270042EA06 /* TestnetDefaultServers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */; };
 		4FCBF1601F44B0FA00BE5284 /* Date+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCBF15F1F44B0FA00BE5284 /* Date+Additions.swift */; };
+		4FD383C91F6C2276004EB26E /* AccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD383C81F6C2276004EB26E /* AccountDetailsViewController.swift */; };
 		4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */; };
 		4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */; };
 		4FDEEC1F1E132D6100B7D93E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */; };
@@ -338,7 +339,7 @@
 		4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
 		4F9F68851D4C39220086F98F /* UIImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		4F9F689D1D4C3A160086F98F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4FA486031F586E68007A3CC3 /* BalanceSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceSummaryTableViewCell.swift; sourceTree = "<group>"; };
+		4FA486031F586E68007A3CC3 /* AccountSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionExceptions.swift; sourceTree = "<group>"; };
 		4FA825CD1D9995E10095C97C /* MultisigCosignatoryModificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultisigCosignatoryModificationModel.swift; sourceTree = "<group>"; };
 		4FA92FC61D7093A800C9477B /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
@@ -348,6 +349,7 @@
 		4FC27A031D95297600421F00 /* BlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockModel.swift; sourceTree = "<group>"; };
 		4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestnetDefaultServers.plist; sourceTree = "<group>"; };
 		4FCBF15F1F44B0FA00BE5284 /* Date+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Additions.swift"; sourceTree = "<group>"; };
+		4FD383C81F6C2276004EB26E /* AccountDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewController.swift; sourceTree = "<group>"; };
 		4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceManager.swift; sourceTree = "<group>"; };
 		4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceModel.swift; sourceTree = "<group>"; };
 		4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 				4F675F321D50A00800F1BDD5 /* AccountManager.swift */,
 				4F9F68071D4C33490086F98F /* WalletOverviewViewController.swift */,
 				4F9F68291D4C35070086F98F /* AccountDashboardViewController.swift */,
+				4FD383C81F6C2276004EB26E /* AccountDetailsViewController.swift */,
 				4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */,
 				4F9F680F1D4C336C0086F98F /* AccountAdditionMenuButton.swift */,
 				4F9F68111D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift */,
@@ -567,7 +570,7 @@
 				4F9F681D1D4C33AE0086F98F /* AccountChooserViewController.swift */,
 				4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */,
 				4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */,
-				4FA486031F586E68007A3CC3 /* BalanceSummaryTableViewCell.swift */,
+				4FA486031F586E68007A3CC3 /* AccountSummaryTableViewCell.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1141,7 +1144,7 @@
 				4F9F68321D4C353D0086F98F /* TransactionMessageTableViewCell.swift in Sources */,
 				64F22B8D1EE67B9700780900 /* UIViewController+Additions.swift in Sources */,
 				4F3ACEA71D636B6B0056F234 /* CorrespondentModel.swift in Sources */,
-				4FA486041F586E68007A3CC3 /* BalanceSummaryTableViewCell.swift in Sources */,
+				4FA486041F586E68007A3CC3 /* AccountSummaryTableViewCell.swift in Sources */,
 				4F15DCB11DA2CED70042997C /* Server+Additions.swift in Sources */,
 				4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */,
 				4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */,
@@ -1170,6 +1173,7 @@
 				4F9F68621D4C36C70086F98F /* SettingsViewController.swift in Sources */,
 				4F9F685E1D4C36A50086F98F /* HarvestingViewController.swift in Sources */,
 				4F0B5EFB1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift in Sources */,
+				4FD383C91F6C2276004EB26E /* AccountDetailsViewController.swift in Sources */,
 				4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */,
 				4FE44B541F3B754100BA8BD1 /* MarketInfoAPI.swift in Sources */,
 				4F0B5EFF1DAFD3EE00E182C3 /* NotificationManager.swift in Sources */,
