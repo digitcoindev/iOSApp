@@ -64,6 +64,7 @@
 		4F850F241D4C3DD40003E192 /* RIPEMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F231D4C3DD40003E192 /* RIPEMD.swift */; };
 		4F850F261D4C3DD90003E192 /* RIPEMD+Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F251D4C3DD90003E192 /* RIPEMD+Block.swift */; };
 		4F850F281D4C3DE00003E192 /* UInt32+CircularShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F271D4C3DE00003E192 /* UInt32+CircularShift.swift */; };
+		4F8AC6C81F753994009A1656 /* RecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8AC6C71F753994009A1656 /* RecoveryViewController.swift */; };
 		4F98280F1D3CEFBE00A3C8B2 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */; };
 		4F9828101D3CEFBE00A3C8B2 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F9828111D3CEFBE00A3C8B2 /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */; };
@@ -286,6 +287,8 @@
 		4F850F231D4C3DD40003E192 /* RIPEMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RIPEMD.swift; sourceTree = "<group>"; };
 		4F850F251D4C3DD90003E192 /* RIPEMD+Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RIPEMD+Block.swift"; sourceTree = "<group>"; };
 		4F850F271D4C3DE00003E192 /* UInt32+CircularShift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt32+CircularShift.swift"; sourceTree = "<group>"; };
+		4F8AC6C71F753994009A1656 /* RecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryViewController.swift; sourceTree = "<group>"; };
+		4F8AC6C91F75623B009A1656 /* NEMWallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NEMWallet.entitlements; sourceTree = "<group>"; };
 		4F9828071D3CEB3400A3C8B2 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		4F9828081D3CEB3400A3C8B2 /* AlamofireNetworkActivityIndicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityIndicator.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityIndicator.framework; sourceTree = "<group>"; };
 		4F9828091D3CEB3400A3C8B2 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
@@ -795,6 +798,7 @@
 		DA3558021A39D3B900AFA5FD /* NEMWallet */ = {
 			isa = PBXGroup;
 			children = (
+				4F8AC6C91F75623B009A1656 /* NEMWallet.entitlements */,
 				DA35583B1A3ADFD200AFA5FD /* Models */,
 				DA35582C1A39D76200AFA5FD /* Application */,
 				4F1159D41D38FC1300E13EE0 /* Common */,
@@ -858,6 +862,7 @@
 				DADDA24C1B21D17800F3F5F5 /* Constants.swift */,
 				4F9F67F11D4C31300086F98F /* Main.storyboard */,
 				4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */,
+				4F8AC6C71F753994009A1656 /* RecoveryViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1012,7 +1017,7 @@
 								enabled = 1;
 							};
 							com.apple.Keychain = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -1204,6 +1209,7 @@
 				4F0B5F091DAFD4A900E182C3 /* AutoCompleteTextField.swift in Sources */,
 				98BB95D91BCCED5B002151F7 /* keypair.c in Sources */,
 				4F850F281D4C3DE00003E192 /* UInt32+CircularShift.swift in Sources */,
+				4F8AC6C81F753994009A1656 /* RecoveryViewController.swift in Sources */,
 				4F0B5EF91DAFCA7200E182C3 /* NEMWallet.xcdatamodeld in Sources */,
 				4F850F201D4C3D7E0003E192 /* Base32.swift in Sources */,
 				4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */,
@@ -1443,6 +1449,7 @@
 				ALTERNATE_OWNER = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NEMWallet/NEMWallet.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = PNXDDDXH4F;
@@ -1456,7 +1463,7 @@
 				INSTALL_OWNER = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.nem.TestnetWallet;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.Wallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NEMWallet/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
@@ -1472,6 +1479,7 @@
 				ALTERNATE_OWNER = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NEMWallet/NEMWallet.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = PNXDDDXH4F;
@@ -1485,7 +1493,7 @@
 				INSTALL_OWNER = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.nem.TestnetWallet;
+				PRODUCT_BUNDLE_IDENTIFIER = io.nem.Wallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "NEMWallet/Assets/Supporting Files/NemIOSClient-Bridging-Header.h";
