@@ -12,7 +12,7 @@ import SwiftyJSON
      The account dashboard gives the user an overview of an account.
      It shows all confirmed as well as unconfirmed transactions.
  */
-final class AccountDashboardViewController: UIViewController {
+final class AccountDashboardViewController: UITableViewController {
     
     // MARK: - View Controller Properties
 
@@ -34,10 +34,6 @@ final class AccountDashboardViewController: UIViewController {
     var account: Account?
     fileprivate var accountData: AccountData?
     
-    // MARK: - View Controller Outlets
-    
-    @IBOutlet weak var transactionsTableView: UITableView!
-    
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -45,8 +41,12 @@ final class AccountDashboardViewController: UIViewController {
         
         account = AccountManager.sharedInstance.activeAccount
         
-        transactionsTableView.estimatedRowHeight = 110.0
-        transactionsTableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 110.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .always
+        }
         
         fetchConfirmedTransactions()
         fetchUnconfirmedTransactions()
@@ -56,7 +56,7 @@ final class AccountDashboardViewController: UIViewController {
     
     /// Reloads the account dashboard with the newest data.
     private func reloadAccountDashboard() {
-        transactionsTableView.reloadData()
+        tableView.reloadData()
     }
     
     /// Fetches the last 25 transactions for the current account.
@@ -200,11 +200,11 @@ final class AccountDashboardViewController: UIViewController {
     }
 }
 
-extension AccountDashboardViewController: UITableViewDelegate, UITableViewDataSource {
+extension AccountDashboardViewController {
     
     // MARK: - Table View Delegate
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         
         if unconfirmedTransactions.count > 0 {
             return transactionSections.count + 2
@@ -213,7 +213,7 @@ extension AccountDashboardViewController: UITableViewDelegate, UITableViewDataSo
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
             return 1
@@ -224,7 +224,7 @@ extension AccountDashboardViewController: UITableViewDelegate, UITableViewDataSo
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.locale = Locale(identifier: "en_US")
@@ -269,7 +269,7 @@ extension AccountDashboardViewController: UITableViewDelegate, UITableViewDataSo
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if section == 0 {
             return ""

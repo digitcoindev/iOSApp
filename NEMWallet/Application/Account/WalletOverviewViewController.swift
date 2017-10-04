@@ -12,7 +12,7 @@ import SwiftyJSON
     The wallet overview gives the user an overview of his holdings.
     It lists all accounts and their corresponding balances and gives the user the ability to add new accounts to the wallet.
  */
-final class WalletOverviewViewController: UIViewController {
+final class WalletOverviewViewController: UITableViewController {
     
     // MARK: - View Controller Properties
     
@@ -36,7 +36,6 @@ final class WalletOverviewViewController: UIViewController {
     
     // MARK: - View Controller Outlets
     
-    @IBOutlet weak var accountsTableView: UITableView!
     @IBOutlet weak var addAccountButton: UIBarButtonItem!
     
     // MARK: - View Controller Lifecycle
@@ -54,8 +53,8 @@ final class WalletOverviewViewController: UIViewController {
         updateAccountDetails()
         fetchMarketInfo()
         
-        if let indexPathForSelectedRow = accountsTableView.indexPathForSelectedRow {
-            accountsTableView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPathForSelectedRow, animated: true)
         }
     }
     
@@ -64,7 +63,7 @@ final class WalletOverviewViewController: UIViewController {
         switch segue.identifier! {
         case "showAccountDashboardViewController":
             
-            if let indexPath = accountsTableView.indexPathForSelectedRow {
+            if let indexPath = tableView.indexPathForSelectedRow {
                 let account = accounts[indexPath.row]
                 let accountBalance = accountData[account.address]?.balance ?? 0
                 let destinationViewController = segue.destination as! AccountDashboardViewController
@@ -86,7 +85,7 @@ final class WalletOverviewViewController: UIViewController {
         fetchAccounts()
         fetchTotalBalance()
         createEditButtonItemIfNeeded()
-        accountsTableView.reloadData()
+        tableView.reloadData()
     }
     
     /// Updates the account details that are needed to show the balance and owned assets for every account.
@@ -132,7 +131,7 @@ final class WalletOverviewViewController: UIViewController {
         accountDeletionAlert.addAction(UIAlertAction(title: "OK".localized(), style: .destructive, handler: { [unowned self] (action) in
             
             self.accounts.remove(at: indexPath.row)
-            self.accountsTableView.deleteRows(at: [indexPath], with: .bottom)
+            self.tableView.deleteRows(at: [indexPath], with: .bottom)
             self.createEditButtonItemIfNeeded()
             AccountManager.sharedInstance.delete(account: accountToDelete, completion: { _ in })
         }))
@@ -174,7 +173,7 @@ final class WalletOverviewViewController: UIViewController {
             if let newTitle = titleTextField.text {
                 
                 self.accounts[indexPath.row].title = newTitle
-                self.accountsTableView.reloadRows(at: [indexPath], with: .automatic)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 AccountManager.sharedInstance.updateTitle(forAccount: self.accounts[indexPath.row], withNewTitle: newTitle)
             }
         }))
@@ -341,7 +340,12 @@ final class WalletOverviewViewController: UIViewController {
     
     /// Updates the appearance of the view controller.
     private func updateAppearance() {
-        accountsTableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .always
+        }
     }
     
     /**
@@ -366,15 +370,15 @@ final class WalletOverviewViewController: UIViewController {
     }
 }
 
-extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSource {
+extension WalletOverviewViewController {
     
     // MARK: - Table View Delegate
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
             return 1
@@ -383,7 +387,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.locale = Locale(identifier: "en_US")
@@ -421,7 +425,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section != 0 {
             if tableView.isEditing {
@@ -433,7 +437,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         switch editingStyle {
         case .delete:
@@ -444,11 +448,11 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         moveAccount(fromPosition: sourceIndexPath, toPosition: destinationIndexPath)
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
         if indexPath.section == 0 {
             return false
@@ -457,7 +461,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         
         if indexPath.section == 0 {
             return false
@@ -466,7 +470,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+    override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         
         if sourceIndexPath.section != proposedDestinationIndexPath.section {
             return sourceIndexPath
@@ -475,7 +479,7 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         
         if tableView.isEditing {
             return .delete
@@ -485,14 +489,14 @@ extension WalletOverviewViewController: UITableViewDelegate, UITableViewDataSour
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        accountsTableView.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130.0
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 }
