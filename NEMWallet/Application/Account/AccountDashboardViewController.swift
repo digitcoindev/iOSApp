@@ -31,8 +31,11 @@ final class AccountDashboardViewController: UITableViewController {
     ///
     public var accountFiatBalance = Double()
     
-    var account: Account?
-    fileprivate var accountData: AccountData?
+    ///
+    public var accountAssets = Int()
+    
+    ///
+    fileprivate var account: Account?
     
     // MARK: - View Controller Lifecycle
     
@@ -50,6 +53,21 @@ final class AccountDashboardViewController: UITableViewController {
         
         fetchConfirmedTransactions()
         fetchUnconfirmedTransactions()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segue.identifier! {
+        case "showAccountDetailsViewController":
+            
+            let destinationViewController = segue.destination as! AccountDetailsViewController
+            destinationViewController.account = account
+            destinationViewController.accountBalance = accountBalance
+            destinationViewController.accountFiatBalance = accountFiatBalance
+            
+        default:
+            return
+        }
     }
     
     // MARK: - View Controller Helper Methods
@@ -216,7 +234,11 @@ extension AccountDashboardViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return 1
+            if accountAssets != 0 {
+                return 2
+            } else {
+                return 1
+            }
         } else if unconfirmedTransactions.count > 0 && section == 1 {
             return unconfirmedTransactions.count
         } else {
@@ -231,14 +253,23 @@ extension AccountDashboardViewController {
         numberFormatter.numberStyle = .currency
         
         if indexPath.section == 0 {
-            
-            let accountSummaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountSummaryTableViewCell") as! AccountSummaryTableViewCell
-            accountSummaryTableViewCell.accountTitleLabel.text = account?.title ?? ""
-            accountSummaryTableViewCell.accountBalanceLabel.text = "\(accountBalance.format()) XEM"
-            accountSummaryTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
-            accountSummaryTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            
-            return accountSummaryTableViewCell
+            if indexPath.row == 0 {
+                
+                let accountSummaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountSummaryTableViewCell") as! AccountSummaryTableViewCell
+                accountSummaryTableViewCell.accountTitleLabel.text = account?.title ?? ""
+                accountSummaryTableViewCell.accountBalanceLabel.text = "\(accountBalance.format()) XEM"
+                accountSummaryTableViewCell.accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
+                
+                return accountSummaryTableViewCell
+                
+            } else {
+                
+                let accountAssetsSummaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AccountAssetsSummaryTableViewCell") as! AccountAssetsSummaryTableViewCell
+                accountAssetsSummaryTableViewCell.assetsLabel.text = "\(accountAssets) other assets"
+                accountAssetsSummaryTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+                
+                return accountAssetsSummaryTableViewCell
+            }
             
         } else {
             

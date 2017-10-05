@@ -23,7 +23,7 @@ struct Constants {
         - mainNetwork
         - testNetwork
      */
-    static let activeNetwork = mainNetwork
+    static let activeNetwork = testNetwork
 
     static let testNetwork: UInt8 = 152
     static let mainNetwork: UInt8 = 104

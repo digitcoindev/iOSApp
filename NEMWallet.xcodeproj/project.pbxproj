@@ -147,6 +147,7 @@
 		4FD383C91F6C2276004EB26E /* AccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD383C81F6C2276004EB26E /* AccountDetailsViewController.swift */; };
 		4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */; };
 		4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */; };
+		4FDA1B921F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA1B911F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift */; };
 		4FDEEC1F1E132D6100B7D93E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */; };
 		4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE02C121DA2E1180057740D /* ServerExceptions.swift */; };
 		4FE44B541F3B754100BA8BD1 /* MarketInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */; };
@@ -350,6 +351,7 @@
 		4FD383C81F6C2276004EB26E /* AccountDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailsViewController.swift; sourceTree = "<group>"; };
 		4FD95DC01D931EBD00FB1924 /* InvoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceManager.swift; sourceTree = "<group>"; };
 		4FD95DC21D93D8D300FB1924 /* InvoiceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceModel.swift; sourceTree = "<group>"; };
+		4FDA1B911F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountAssetsSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FE02C121DA2E1180057740D /* ServerExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerExceptions.swift; sourceTree = "<group>"; };
 		4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketInfoAPI.swift; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 				4F9F681F1D4C33B80086F98F /* AccountChooserButton.swift */,
 				4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */,
 				4FA486031F586E68007A3CC3 /* AccountSummaryTableViewCell.swift */,
+				4FDA1B911F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1161,6 +1164,7 @@
 				4F9F68621D4C36C70086F98F /* SettingsViewController.swift in Sources */,
 				4F9F685E1D4C36A50086F98F /* HarvestingViewController.swift in Sources */,
 				4F0B5EFB1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift in Sources */,
+				4FDA1B921F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift in Sources */,
 				4FD383C91F6C2276004EB26E /* AccountDetailsViewController.swift in Sources */,
 				4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */,
 				4FE44B541F3B754100BA8BD1 /* MarketInfoAPI.swift in Sources */,
