@@ -69,6 +69,25 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.accountFiatBalance = accountFiatBalance
             destinationViewController.accountData = accountData
             
+        case "showTransactionDetailsViewController":
+            
+            if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
+                
+                var transaction: Transaction!
+                if unconfirmedTransactions.count > 0 && indexPathForSelectedRow.section == 1 {
+                    transaction = unconfirmedTransactions[indexPathForSelectedRow.row]
+                } else {
+                    let section = transactionSections[unconfirmedTransactions.count > 0 ? indexPathForSelectedRow.section - 2 : indexPathForSelectedRow.section - 1]
+                    transaction = confirmedTransactionsBySection[section]![indexPathForSelectedRow.row]
+                }
+                
+                let destinationViewController = segue.destination as! TransactionDetailsViewController
+                destinationViewController.account = account
+                destinationViewController.accountBalance = accountBalance
+                destinationViewController.accountFiatBalance = accountFiatBalance
+                destinationViewController.transaction = transaction
+            }
+            
         default:
             return
         }

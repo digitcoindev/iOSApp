@@ -27,8 +27,6 @@ final class AccountDetailsViewController: UIViewController {
     @IBOutlet weak var accountImportanceScoreLabel: UILabel!
     @IBOutlet weak var accountVestedBalanceLabel: UILabel!
     @IBOutlet weak var accountPublicKeyLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var createBackupButton: UIButton!
     @IBOutlet weak var shareAccountDetailsButton: UIButton!
     
