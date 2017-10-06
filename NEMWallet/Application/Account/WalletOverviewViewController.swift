@@ -70,6 +70,7 @@ final class WalletOverviewViewController: UITableViewController {
                 destinationViewController.accountBalance = accountBalance
                 destinationViewController.accountFiatBalance = (marketInfo.xemPrice * marketInfo.btcPrice * accountBalance)
                 destinationViewController.accountAssets = accountAssets[account.address] ?? 0
+                destinationViewController.accountData = accountData[account.address]
                 AccountManager.sharedInstance.activeAccount = account
             }
             

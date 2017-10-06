@@ -35,6 +35,9 @@ final class AccountDashboardViewController: UITableViewController {
     public var accountAssets = Int()
     
     ///
+    public var accountData: AccountData?
+    
+    ///
     fileprivate var account: Account?
     
     // MARK: - View Controller Lifecycle
@@ -64,6 +67,7 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.account = account
             destinationViewController.accountBalance = accountBalance
             destinationViewController.accountFiatBalance = accountFiatBalance
+            destinationViewController.accountData = accountData
             
         default:
             return
@@ -113,15 +117,14 @@ final class AccountDashboardViewController: UITableViewController {
                             case TransactionType.transferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
-                                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
-                                let sectionTitle = transferTransaction.timeStamp.sectionTitle()
+                                let sectionTitle = multisigTransaction.timeStamp.sectionTitle()
                                 
                                 if confirmedTransactionsBySection[sectionTitle] == nil {
                                     confirmedTransactionsBySection[sectionTitle] = [Transaction]()
                                     transactionSections.append(sectionTitle)
                                 }
                                 
-                                confirmedTransactionsBySection[sectionTitle]?.append(transferTransaction)
+                                confirmedTransactionsBySection[sectionTitle]?.append(multisigTransaction)
                                 
                             default:
                                 break
@@ -183,8 +186,7 @@ final class AccountDashboardViewController: UITableViewController {
                             case TransactionType.transferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
-                                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
-                                unconfirmedTransactions.append(transferTransaction)
+                                unconfirmedTransactions.append(multisigTransaction)
                                 
                             default:
                                 break
@@ -273,30 +275,79 @@ extension AccountDashboardViewController {
             
         } else {
             
-            let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
-            
-            let transaction: TransferTransaction!
+            let transaction: Transaction!
             if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
-                transaction = unconfirmedTransactions[indexPath.row] as! TransferTransaction
-                transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                transaction = unconfirmedTransactions[indexPath.row]
             } else {
-                transaction = confirmedTransactionsBySection[transactionSections[unconfirmedTransactions.count > 0 ? indexPath.section - 2 : indexPath.section - 1]]?[indexPath.row] as! TransferTransaction
-                transactionTableViewCell.backgroundColor = UIColor.white
+                let section = transactionSections[unconfirmedTransactions.count > 0 ? indexPath.section - 2 : indexPath.section - 1]
+                transaction = confirmedTransactionsBySection[section]![indexPath.row]
             }
             
-            transactionTableViewCell.transactionCorrespondentLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transaction.signer).nemAddressNormalised()
-            transactionTableViewCell.transactionMessageLabel.text = transaction.message?.message ?? ""
-            transactionTableViewCell.transactionDateLabel.text = transaction.timeStamp.format()
-            
-            if transaction.transferType == .incoming {
-                transactionTableViewCell.transactionAmountLabel.text = "+\(transaction.amount.format()) XEM"
-                transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
-            } else if transaction.transferType == .outgoing {
-                transactionTableViewCell.transactionAmountLabel.text = "-\(transaction.amount.format()) XEM"
-                transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+            switch transaction.type {
+            case TransactionType.transferTransaction:
+                
+                let transferTransaction = transaction as! TransferTransaction
+                
+                let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                transactionTableViewCell.transactionMessageLabel.text = transferTransaction.message?.message ?? ""
+                transactionTableViewCell.transactionDateLabel.text = transferTransaction.timeStamp.format()
+                
+                if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                    transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                } else {
+                    transactionTableViewCell.backgroundColor = UIColor.white
+                }
+                
+                if transferTransaction.transferType == .incoming {
+                    transactionTableViewCell.transactionCorrespondentLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
+                    transactionTableViewCell.transactionAmountLabel.text = "+\(transferTransaction.amount.format()) XEM"
+                    transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
+                } else if transferTransaction.transferType == .outgoing {
+                    transactionTableViewCell.transactionCorrespondentLabel.text = transferTransaction.recipient.nemAddressNormalised()
+                    transactionTableViewCell.transactionAmountLabel.text = "-\(transferTransaction.amount.format()) XEM"
+                    transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                }
+                
+                return transactionTableViewCell
+                
+            case TransactionType.multisigTransaction:
+                
+                let multisigTransaction = transaction as! MultisigTransaction
+                
+                switch multisigTransaction.innerTransaction.type {
+                case TransactionType.transferTransaction:
+
+                    let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+
+                    let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                    transactionTableViewCell.transactionMessageLabel.text = transferTransaction.message?.message ?? ""
+                    transactionTableViewCell.transactionDateLabel.text = transferTransaction.timeStamp.format()
+                    
+                    if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                        transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                    } else {
+                        transactionTableViewCell.backgroundColor = UIColor.white
+                    }
+                    
+                    if transferTransaction.transferType == .incoming {
+                        transactionTableViewCell.transactionCorrespondentLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
+                        transactionTableViewCell.transactionAmountLabel.text = "+\(transferTransaction.amount.format()) XEM"
+                        transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
+                    } else if transferTransaction.transferType == .outgoing {
+                        transactionTableViewCell.transactionCorrespondentLabel.text = transferTransaction.recipient.nemAddressNormalised()
+                        transactionTableViewCell.transactionAmountLabel.text = "-\(transferTransaction.amount.format()) XEM"
+                        transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                    }
+                    
+                    return transactionTableViewCell
+                    
+                default:
+                    return UITableViewCell()
+                }
+                
+            default:
+                return UITableViewCell()
             }
-            
-            return transactionTableViewCell
         }
     }
     

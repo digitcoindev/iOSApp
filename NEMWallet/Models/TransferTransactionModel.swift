@@ -94,10 +94,10 @@ final class TransferTransaction: Transaction {
             }
         }()
         transferType = {
-            if signer == AccountManager.sharedInstance.activeAccount?.publicKey {
-                return .outgoing
-            } else {
+            if recipient == AccountManager.sharedInstance.activeAccount?.address {
                 return .incoming
+            } else {
+                return .outgoing
             }
         }()
     }
