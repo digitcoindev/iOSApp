@@ -1939,7 +1939,9 @@
                         <outlet property="accountTitleLabel" destination="C5d-HU-N7E" id="cXq-lb-Sv5"/>
                         <outlet property="accountVestedBalanceLabel" destination="yMD-n0-2Ne" id="nA9-D8-fob"/>
                         <outlet property="contentView" destination="Rf1-sk-yFU" id="ZMt-sK-RxM"/>
+                        <outlet property="createBackupButton" destination="gOr-aF-8v0" id="eo3-yG-oWM"/>
                         <outlet property="scrollView" destination="1Xw-m9-0Vv" id="wPe-Kw-3R0"/>
+                        <outlet property="shareAccountDetailsButton" destination="JVt-kG-fGs" id="Zdu-lG-dbe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tf5-ck-TQo" userLabel="First Responder" sceneMemberID="firstResponder"/>

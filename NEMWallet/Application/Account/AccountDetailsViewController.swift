@@ -15,6 +15,7 @@ final class AccountDetailsViewController: UIViewController {
     public var account: Account?
     public var accountBalance = Double()
     public var accountFiatBalance = Double()
+    public var accountData: AccountData?
     
     // MARK: - View Controller Outlets
 
@@ -27,6 +28,8 @@ final class AccountDetailsViewController: UIViewController {
     @IBOutlet weak var accountPublicKeyLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var createBackupButton: UIButton!
+    @IBOutlet weak var shareAccountDetailsButton: UIButton!
     
     // MARK: - View Controller Lifecycle
 
@@ -45,8 +48,17 @@ final class AccountDetailsViewController: UIViewController {
         accountBalanceLabel.text = "\(accountBalance.format()) XEM"
         accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
         accountAddressLabel.text = account?.address.nemAddressNormalised() ?? ""
-        accountImportanceScoreLabel.text = ""
-        accountVestedBalanceLabel.text = ""
         accountPublicKeyLabel.text = account?.publicKey.nemKeyNormalized() ?? ""
+        
+        if accountData?.importance != nil && accountData?.vestedBalance != nil {
+            accountImportanceScoreLabel.text = "\((accountData!.importance! * 10000).format(maximumFractionDigits: 2)) ‱"
+            accountVestedBalanceLabel.text = "\(accountData!.vestedBalance.format()) XEM"
+        } else {
+            accountImportanceScoreLabel.text = ""
+            accountVestedBalanceLabel.text = ""
+        }
+        
+        createBackupButton.layer.cornerRadius = 10.0
+        shareAccountDetailsButton.layer.cornerRadius = 10.0
     }
 }
