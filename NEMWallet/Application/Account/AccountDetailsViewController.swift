@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 ///
 final class AccountDetailsViewController: UIViewController {
@@ -36,14 +37,23 @@ final class AccountDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .never
-        }
-                
+        updateAppearance()
+        reloadAccountDetails()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        fetchAccountData()
+    }
+    
+    // MARK: - View Controller Helper Methods
+    
+    /// Reloads all account details with the newest data.
+    private func reloadAccountDetails() {
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.locale = Locale(identifier: "en_US")
         numberFormatter.numberStyle = .currency
-
+        
         accountTitleLabel.text = account?.title ?? ""
         accountBalanceLabel.text = "\(accountBalance.format()) XEM"
         accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
@@ -56,6 +66,52 @@ final class AccountDetailsViewController: UIViewController {
         } else {
             accountImportanceScoreLabel.text = ""
             accountVestedBalanceLabel.text = ""
+        }
+    }
+    
+    /// Fetches the importance score and vested balance for the account.
+    private func fetchAccountData() {
+        
+        guard account != nil else { return }
+        
+        NEMProvider.request(NEM.accountData(accountAddress: account!.address)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.accountData = accountData
+                        self?.reloadAccountDetails()
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    /// Updates the appearance of the view controller.
+    private func updateAppearance() {
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
         }
         
         createBackupButton.layer.cornerRadius = 10.0
