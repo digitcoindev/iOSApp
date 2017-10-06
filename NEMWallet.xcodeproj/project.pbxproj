@@ -150,6 +150,7 @@
 		4FDA1B921F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA1B911F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift */; };
 		4FDEEC1F1E132D6100B7D93E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */; };
 		4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE02C121DA2E1180057740D /* ServerExceptions.swift */; };
+		4FE3B0DB1F87D51F00783347 /* TransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE3B0DA1F87D51F00783347 /* TransactionDetailsViewController.swift */; };
 		4FE44B541F3B754100BA8BD1 /* MarketInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */; };
 		4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */; };
 		4FFF8F011D51D7E600B4BB9F /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */; };
@@ -354,6 +355,7 @@
 		4FDA1B911F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountAssetsSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FE02C121DA2E1180057740D /* ServerExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerExceptions.swift; sourceTree = "<group>"; };
+		4FE3B0DA1F87D51F00783347 /* TransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketInfoAPI.swift; sourceTree = "<group>"; };
 		4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Additions.swift"; sourceTree = "<group>"; };
 		4FFF8F001D51D7E600B4BB9F /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
@@ -571,6 +573,7 @@
 			isa = PBXGroup;
 			children = (
 				4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */,
+				4FE3B0DA1F87D51F00783347 /* TransactionDetailsViewController.swift */,
 				4F9F682B1D4C350E0086F98F /* TransactionTableViewCell.swift */,
 				4F9F682D1D4C35160086F98F /* TransactionSendViewController.swift */,
 				4F9F682F1D4C351D0086F98F /* TransactionMessagesViewController.swift */,
@@ -1187,6 +1190,7 @@
 				4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */,
 				4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */,
 				4F850F1D1D4C3D550003E192 /* keccak.c in Sources */,
+				4FE3B0DB1F87D51F00783347 /* TransactionDetailsViewController.swift in Sources */,
 				4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */,
 				98BB95DD1BCCED5B002151F7 /* sign.c in Sources */,
 				4F9F68781D4C37BF0086F98F /* SettingsServerViewController.swift in Sources */,
