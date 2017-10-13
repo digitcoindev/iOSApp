@@ -24,6 +24,7 @@ final class TransactionDetailsViewController: UIViewController {
     @IBOutlet weak var accountFiatBalanceLabel: UILabel!
     @IBOutlet weak var transactionTypeLabel: UILabel!
     @IBOutlet weak var transactionDateLabel: UILabel!
+    @IBOutlet weak var signerLabel: UILabel!
     @IBOutlet weak var transactionSignerLabel: UILabel!
     @IBOutlet weak var transactionRecipientLabel: UILabel!
     @IBOutlet weak var transactionAmountLabel: UILabel!
@@ -97,6 +98,7 @@ final class TransactionDetailsViewController: UIViewController {
                 
                 let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
                 
+                signerLabel.text = "From Multisig Account"
                 transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Multisig Transaction" : "Outgoing Multisig Transaction"
                 transactionDateLabel.text = transferTransaction.timeStamp.format()
                 transactionSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
