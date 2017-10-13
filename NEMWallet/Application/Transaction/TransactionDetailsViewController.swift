@@ -30,7 +30,6 @@ final class TransactionDetailsViewController: UIViewController {
     @IBOutlet weak var transactionAmountLabel: UILabel!
     @IBOutlet weak var transactionFeeLabel: UILabel!
     @IBOutlet weak var transactionMessageLabel: UILabel!
-    @IBOutlet weak var transactionMessageEncryptedSwitch: UISwitch!
     @IBOutlet weak var transactionBlockHeightLabel: UILabel!
     @IBOutlet weak var transactionHashLabel: UILabel!
     @IBOutlet weak var createResponseTransactionButton: UIButton!
@@ -85,7 +84,6 @@ final class TransactionDetailsViewController: UIViewController {
             
             transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
             transactionMessageLabel.text = transferTransaction.message?.message ?? ""
-            transactionMessageEncryptedSwitch.isOn = transferTransaction.message?.type == .encrypted
             transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : ""
             transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "")"
             
@@ -114,7 +112,6 @@ final class TransactionDetailsViewController: UIViewController {
                 
                 transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
                 transactionMessageLabel.text = transferTransaction.message?.message ?? ""
-                transactionMessageEncryptedSwitch.isOn = transferTransaction.message?.type == .encrypted
                 transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : ""
                 transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "")"
                 
