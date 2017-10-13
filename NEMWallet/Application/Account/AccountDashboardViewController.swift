@@ -71,7 +71,7 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.accountFiatBalance = accountFiatBalance
             destinationViewController.accountData = accountData
             
-        case "showTransactionDetailsViewController":
+        case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController":
             
             if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
                 
@@ -83,7 +83,12 @@ final class AccountDashboardViewController: UITableViewController {
                     transaction = confirmedTransactionsBySection[section]![indexPathForSelectedRow.row]
                 }
                 
-                let destinationViewController = segue.destination as! TransactionDetailsViewController
+                let destinationViewController: UIViewController!
+                if segue.identifier == "showTransferTransactionDetailsViewController" {
+                    destinationViewController = segue.destination as! TransferTransactionDetailsViewController
+                } else if segue.identifier == "showMultisigTransferTransactionDetailsViewController" {
+                    destinationViewController = segue.destination as! MultisigTransferTransactionDetailsViewController
+                }
                 destinationViewController.account = account
                 destinationViewController.accountBalance = accountBalance
                 destinationViewController.accountFiatBalance = accountFiatBalance
@@ -373,6 +378,36 @@ extension AccountDashboardViewController {
             default:
                 return UITableViewCell()
             }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let transaction: Transaction!
+        if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+            transaction = unconfirmedTransactions[indexPath.row]
+        } else {
+            let section = transactionSections[unconfirmedTransactions.count > 0 ? indexPath.section - 2 : indexPath.section - 1]
+            transaction = confirmedTransactionsBySection[section]![indexPath.row]
+        }
+        
+        switch transaction.type {
+        case .transferTransaction:
+            performSegue(withIdentifier: "showTransferTransactionDetailsViewController", sender: nil)
+            
+        case .multisigTransaction:
+            
+            let multisigTransaction = transaction as! MultisigTransaction
+            
+            switch multisigTransaction.innerTransaction.type {
+            case .transferTransaction:
+                performSegue(withIdentifier: "showMultisigTransferTransactionDetailsViewController", sender: nil)
+            default:
+                break
+            }
+            
+        default:
+            break
         }
     }
     
