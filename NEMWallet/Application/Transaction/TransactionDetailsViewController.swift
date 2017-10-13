@@ -41,12 +41,18 @@ final class TransactionDetailsViewController: UIViewController {
         
         updateAppearance()
         reloadTransactionDetails()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTransactionDetails), name: Constants.transactionDataChangedNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - View Controller Helper Methods
     
     /// Reloads all transaction details with the newest data.
-    private func reloadTransactionDetails() {
+    internal func reloadTransactionDetails() {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.locale = Locale(identifier: "en_US")
@@ -59,7 +65,7 @@ final class TransactionDetailsViewController: UIViewController {
         guard transaction != nil else { return }
         
         switch transaction!.type {
-        case TransactionType.transferTransaction:
+        case .transferTransaction:
             
             let transferTransaction = transaction as! TransferTransaction
             
@@ -81,6 +87,39 @@ final class TransactionDetailsViewController: UIViewController {
             transactionMessageEncryptedSwitch.isOn = transferTransaction.message?.type == .encrypted
             transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : ""
             transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "")"
+            
+        case .multisigTransaction:
+            
+            let multisigTransaction = transaction as! MultisigTransaction
+            
+            switch multisigTransaction.innerTransaction.type {
+            case .transferTransaction:
+                
+                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                
+                transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Multisig Transaction" : "Outgoing Multisig Transaction"
+                transactionDateLabel.text = transferTransaction.timeStamp.format()
+                transactionSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
+                transactionRecipientLabel.text = transferTransaction.recipient.nemAddressNormalised()
+                
+                if transferTransaction.transferType == .incoming {
+                    transactionAmountLabel.text = "+\(transferTransaction.amount.format()) XEM"
+                    transactionAmountLabel.textColor = Constants.incomingColor
+                } else if transferTransaction.transferType == .outgoing {
+                    transactionAmountLabel.text = "-\(transferTransaction.amount.format()) XEM"
+                    transactionAmountLabel.textColor = Constants.outgoingColor
+                }
+                
+                transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
+                transactionMessageLabel.text = transferTransaction.message?.message ?? ""
+                transactionMessageEncryptedSwitch.isOn = transferTransaction.message?.type == .encrypted
+                transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : ""
+                transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "")"
+                
+            default:
+                break
+            }
+            
             
         default:
             break

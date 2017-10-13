@@ -56,6 +56,8 @@ final class AccountDashboardViewController: UITableViewController {
         
         fetchConfirmedTransactions()
         fetchUnconfirmedTransactions()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadAccountDashboard), name: Constants.transactionDataChangedNotification, object: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -93,10 +95,14 @@ final class AccountDashboardViewController: UITableViewController {
         }
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - View Controller Helper Methods
     
     /// Reloads the account dashboard with the newest data.
-    private func reloadAccountDashboard() {
+    internal func reloadAccountDashboard() {
         tableView.reloadData()
     }
     

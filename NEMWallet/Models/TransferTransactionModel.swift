@@ -86,9 +86,14 @@ final class TransferTransaction: Transaction {
         message = {
             var messageObject = try! jsonData["transaction"]["message"].mapObject(Message.self)
             if messageObject.payload != nil {
-                messageObject.signer = signer
-                messageObject.getMessageFromPayload()
-                return messageObject
+                if signer == AccountManager.sharedInstance.activeAccount?.publicKey {
+                    fetchPublicKey(forCorrespondentWithAddress: recipient)
+                    return messageObject
+                } else {
+                    messageObject.signer = signer
+                    messageObject.getMessageFromPayload()
+                    return messageObject
+                }
             } else {
                 return nil
             }
@@ -100,5 +105,53 @@ final class TransferTransaction: Transaction {
                 return .outgoing
             }
         }()
+    }
+    
+    // MARK: - Model Helper Methods
+    
+    /**
+         Fetches the public key for the transaction correspondent.
+         This is needed to decrypt encrypted outgoing messages.
+     
+         - Parameter accountAddress: The account address of the correspondent for which the public key should get fetched.
+     */
+    private func fetchPublicKey(forCorrespondentWithAddress accountAddress: String) {
+        
+        NEMProvider.request(NEM.accountData(accountAddress: accountAddress)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        if self?.message?.payload != nil {
+                            self!.message!.signer = accountData.publicKey
+                            self!.message!.getMessageFromPayload()
+                            NotificationCenter.default.post(name: Constants.transactionDataChangedNotification, object: nil)
+                        }
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                }
+            }
+        }
     }
 }
