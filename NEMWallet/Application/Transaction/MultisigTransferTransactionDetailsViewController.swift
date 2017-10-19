@@ -15,13 +15,14 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     public var account: Account?
     public var accountBalance = Double()
     public var accountFiatBalance = Double()
-    public var transaction: Transaction?
+    public var multisigTransaction: MultisigTransaction?
     
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var accountTitleLabel: UILabel!
     @IBOutlet weak var accountBalanceLabel: UILabel!
     @IBOutlet weak var accountFiatBalanceLabel: UILabel!
+    @IBOutlet weak var informationLabel: UILabel!
     @IBOutlet weak var transactionTypeLabel: UILabel!
     @IBOutlet weak var transactionDateLabel: UILabel!
     @IBOutlet weak var signerLabel: UILabel!
@@ -32,7 +33,11 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     @IBOutlet weak var transactionMessageLabel: UILabel!
     @IBOutlet weak var transactionBlockHeightLabel: UILabel!
     @IBOutlet weak var transactionHashLabel: UILabel!
-    @IBOutlet weak var createResponseTransactionButton: UIButton!
+    @IBOutlet weak var multisigTransactionHashLabel: UILabel!
+    @IBOutlet weak var multisigTransactionSignaturesLabel: UILabel!
+    @IBOutlet weak var multisigSignaturesTableView: UITableView!
+    @IBOutlet weak var signMultisigTransactionButton: UIButton!
+    @IBOutlet weak var multisigSignaturesTableViewHeightConstraint: NSLayoutConstraint!
     
     // MARK: - View Controller Lifecycle
     
@@ -41,12 +46,10 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
         
         updateAppearance()
         reloadTransactionDetails()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTransactionDetails), name: Constants.transactionDataChangedNotification, object: nil)
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    override func viewDidLayoutSubviews() {
+        multisigSignaturesTableViewHeightConstraint.constant = multisigSignaturesTableView.contentSize.height
     }
     
     // MARK: - View Controller Helper Methods
@@ -62,43 +65,19 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
         accountBalanceLabel.text = "\(accountBalance.format()) XEM"
         accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
         
-        guard transaction != nil else { return }
+        guard multisigTransaction != nil else { return }
         
-        switch transaction!.type {
-        case .transferTransaction:
-            
-            let transferTransaction = transaction as! TransferTransaction
-            
-            transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Transaction" : "Outgoing Transaction"
-            transactionDateLabel.text = transferTransaction.timeStamp.format()
-            transactionSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
-            transactionRecipientLabel.text = transferTransaction.recipient.nemAddressNormalised()
-            
-            if transferTransaction.transferType == .incoming {
-                transactionAmountLabel.text = "+\(transferTransaction.amount.format()) XEM"
-                transactionAmountLabel.textColor = Constants.incomingColor
-            } else if transferTransaction.transferType == .outgoing {
-                transactionAmountLabel.text = "-\(transferTransaction.amount.format()) XEM"
-                transactionAmountLabel.textColor = Constants.outgoingColor
-            }
-            
-            transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
-            transactionMessageLabel.text = transferTransaction.message?.message ?? ""
-            transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : ""
-            transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "")"
-            
+        switch multisigTransaction!.type {
         case .multisigTransaction:
             
-            let multisigTransaction = transaction as! MultisigTransaction
-            
-            switch multisigTransaction.innerTransaction.type {
+            switch multisigTransaction!.innerTransaction.type {
             case .transferTransaction:
                 
-                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                let transferTransaction = multisigTransaction!.innerTransaction as! TransferTransaction
                 
-                signerLabel.text = "From Multisig Account"
                 transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Multisig Transaction" : "Outgoing Multisig Transaction"
                 transactionDateLabel.text = transferTransaction.timeStamp.format()
+                signerLabel.text = "From Multisig Account"
                 transactionSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
                 transactionRecipientLabel.text = transferTransaction.recipient.nemAddressNormalised()
                 
@@ -114,6 +93,7 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
                 transactionMessageLabel.text = transferTransaction.message?.message ?? ""
                 transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : ""
                 transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "")"
+                multisigTransactionHashLabel.text = "\(multisigTransaction?.metaData?.multisigHash ?? "")"
                 
             default:
                 break
@@ -132,6 +112,36 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
             navigationItem.largeTitleDisplayMode = .never
         }
         
-        createResponseTransactionButton.layer.cornerRadius = 10.0
+        signMultisigTransactionButton.layer.cornerRadius = 10.0
+    }
+}
+
+extension MultisigTransferTransactionDetailsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    // MARK: - Table View Delegate
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return multisigTransaction?.signatures?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if let multisigSignatureTransaction = multisigTransaction?.signatures![indexPath.row] {
+            
+            let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
+            multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigSignatureTransaction.signer).nemAddressNormalised()
+            multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
+            multisigSignatureTableViewCell.signatureDetailLabel.text = ""
+            multisigSignatureTableViewCell.signatureDateLabel.text = multisigSignatureTransaction.timeStamp.format()
+            
+            return multisigSignatureTableViewCell
+            
+        } else {
+            return UITableViewCell()
+        }
     }
 }

@@ -83,16 +83,20 @@ final class AccountDashboardViewController: UITableViewController {
                     transaction = confirmedTransactionsBySection[section]![indexPathForSelectedRow.row]
                 }
                 
-                let destinationViewController: UIViewController!
                 if segue.identifier == "showTransferTransactionDetailsViewController" {
-                    destinationViewController = segue.destination as! TransferTransactionDetailsViewController
+                    let destinationViewController = segue.destination as! TransferTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.accountBalance = accountBalance
+                    destinationViewController.accountFiatBalance = accountFiatBalance
+                    destinationViewController.transferTransaction = transaction as? TransferTransaction
+                    
                 } else if segue.identifier == "showMultisigTransferTransactionDetailsViewController" {
-                    destinationViewController = segue.destination as! MultisigTransferTransactionDetailsViewController
+                    let destinationViewController = segue.destination as! MultisigTransferTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.accountBalance = accountBalance
+                    destinationViewController.accountFiatBalance = accountFiatBalance
+                    destinationViewController.multisigTransaction = transaction as? MultisigTransaction
                 }
-                destinationViewController.account = account
-                destinationViewController.accountBalance = accountBalance
-                destinationViewController.accountFiatBalance = accountFiatBalance
-                destinationViewController.transaction = transaction
             }
             
         default:
@@ -384,7 +388,9 @@ extension AccountDashboardViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let transaction: Transaction!
-        if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+        if indexPath.section == 0 {
+            return
+        } else if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
             transaction = unconfirmedTransactions[indexPath.row]
         } else {
             let section = transactionSections[unconfirmedTransactions.count > 0 ? indexPath.section - 2 : indexPath.section - 1]

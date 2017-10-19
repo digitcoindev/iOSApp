@@ -5243,7 +5243,6 @@
                         <outlet property="accountFiatBalanceLabel" destination="E2m-kv-MeY" id="zQX-3C-3kG"/>
                         <outlet property="accountTitleLabel" destination="218-KO-lOI" id="DpR-Wd-S6y"/>
                         <outlet property="createResponseTransactionButton" destination="pI6-z9-Z4b" id="ooM-6H-X0x"/>
-                        <outlet property="signerLabel" destination="dNy-QJ-g9a" id="5zF-ro-Q6B"/>
                         <outlet property="transactionAmountLabel" destination="ozh-UQ-YNa" id="mGk-kg-ApX"/>
                         <outlet property="transactionBlockHeightLabel" destination="0L6-pC-Btz" id="yQM-0g-mgA"/>
                         <outlet property="transactionDateLabel" destination="nVH-ud-lKw" id="7lR-r6-pYc"/>
@@ -5464,21 +5463,21 @@
                                                 </constraints>
                                                 <viewLayoutGuide key="safeArea" id="ct8-iy-L7d"/>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Signatures" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iF-t3-yGZ">
-                                                <rect key="frame" x="20" y="798" width="335" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="251" text="Signatures" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iF-t3-yGZ">
+                                                <rect key="frame" x="20" y="798" width="94" height="21"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gub-3w-t3I">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gub-3w-t3I">
                                                 <rect key="frame" x="0.0" y="834" width="375" height="130"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="130" id="1Ne-eS-G8d"/>
                                                 </constraints>
                                                 <prototypes>
-                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MultisigSignatureTableViewCell" rowHeight="130" id="YMi-YN-VXc" customClass="MultisigSignatureTableViewCell">
+                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MultisigSignatureTableViewCell" rowHeight="130" id="YMi-YN-VXc" customClass="MultisigSignatureTableViewCell" customModule="NEMWallet" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="28" width="375" height="130"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YMi-YN-VXc" id="QcN-ai-Xfh">
@@ -5561,6 +5560,13 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="n of n" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9lr-Cm-RL8">
+                                                <rect key="frame" x="124" y="798" width="231" height="21"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                <color key="textColor" red="0.66274509800000003" green="0.1333333333" blue="0.090196078430000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -5578,13 +5584,16 @@
                                             <constraint firstAttribute="trailing" secondItem="tfT-0g-8Q3" secondAttribute="trailing" id="8Ms-94-IbE"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="EDN-3i-Qeh" secondAttribute="trailing" constant="12" id="9km-qZ-v0z"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="KhU-C6-3dZ" secondAttribute="trailing" constant="12" id="ANo-8l-Dvu"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="9lr-Cm-RL8" secondAttribute="trailing" constant="12" id="Agz-8W-lLh"/>
                                             <constraint firstItem="jW3-dk-4fZ" firstAttribute="leading" secondItem="0Pu-H4-eRd" secondAttribute="leadingMargin" constant="12" id="BZh-VU-TQ4"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="neM-aq-cmq" secondAttribute="trailing" constant="12" id="Bmv-Kt-Hl8"/>
                                             <constraint firstItem="uTe-wb-NWe" firstAttribute="top" secondItem="vl7-Rc-s8i" secondAttribute="bottom" constant="20" id="BoY-Sc-lJH"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="jW3-dk-4fZ" secondAttribute="trailing" constant="12" id="CEo-qr-P4i"/>
+                                            <constraint firstItem="9lr-Cm-RL8" firstAttribute="top" secondItem="lgb-cj-OZm" secondAttribute="bottom" constant="30" id="DvX-Yc-vmJ"/>
                                             <constraint firstItem="xM0-Ja-kKj" firstAttribute="leading" secondItem="0Pu-H4-eRd" secondAttribute="leadingMargin" constant="12" id="Fvc-A4-94N"/>
                                             <constraint firstItem="5iF-t3-yGZ" firstAttribute="top" secondItem="lgb-cj-OZm" secondAttribute="bottom" constant="30" id="G7Y-lL-aPl"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="E5G-33-FVa" secondAttribute="trailing" constant="12" id="GAf-eW-88l"/>
+                                            <constraint firstItem="gub-3w-t3I" firstAttribute="top" secondItem="9lr-Cm-RL8" secondAttribute="bottom" constant="15" id="GlO-cw-Ppw"/>
                                             <constraint firstItem="Nd1-2z-U7u" firstAttribute="leading" secondItem="0Pu-H4-eRd" secondAttribute="leadingMargin" constant="12" id="Gti-wf-GNG"/>
                                             <constraint firstItem="gub-3w-t3I" firstAttribute="leading" secondItem="0Pu-H4-eRd" secondAttribute="leading" id="Hsc-xQ-Ldp"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="z8n-aS-lmx" secondAttribute="trailing" constant="12" id="IPV-Pq-iMT"/>
@@ -5610,6 +5619,7 @@
                                             <constraint firstItem="yMB-Yx-0p2" firstAttribute="top" secondItem="Nd1-2z-U7u" secondAttribute="bottom" constant="20" id="V85-0v-bNk"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="wbU-ig-k5a" secondAttribute="trailing" constant="12" id="WAf-3l-gfL"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="yMB-Yx-0p2" secondAttribute="trailing" constant="12" id="YJl-Lq-Ys6"/>
+                                            <constraint firstItem="9lr-Cm-RL8" firstAttribute="leading" secondItem="5iF-t3-yGZ" secondAttribute="trailing" constant="10" id="aGE-b8-ZFA"/>
                                             <constraint firstItem="0PO-yZ-Cei" firstAttribute="top" secondItem="iWr-8o-DLX" secondAttribute="bottom" constant="8" id="aVP-Ar-7mg"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="6My-HR-KWF" secondAttribute="trailing" constant="12" id="abr-gf-kTT"/>
                                             <constraint firstItem="RIe-ZP-s7T" firstAttribute="leading" secondItem="0Pu-H4-eRd" secondAttribute="leadingMargin" constant="12" id="bGe-US-Vvk"/>
@@ -5636,7 +5646,6 @@
                                             <constraint firstItem="ddX-xI-uiE" firstAttribute="leading" secondItem="0Pu-H4-eRd" secondAttribute="leadingMargin" constant="12" id="pKg-si-16f"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="0PO-yZ-Cei" secondAttribute="trailing" constant="12" id="puV-Ae-HlX"/>
                                             <constraint firstItem="wbU-ig-k5a" firstAttribute="leading" secondItem="0Pu-H4-eRd" secondAttribute="leadingMargin" constant="12" id="rmM-df-GSc"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="5iF-t3-yGZ" secondAttribute="trailing" constant="12" id="tsf-ta-3EQ"/>
                                             <constraint firstItem="vl7-Rc-s8i" firstAttribute="top" secondItem="E5G-33-FVa" secondAttribute="bottom" constant="8" id="uKH-8h-7wx"/>
                                             <constraint firstItem="Nd1-2z-U7u" firstAttribute="trailing" secondItem="6ep-PN-dz5" secondAttribute="trailing" id="w1U-Zy-ILA"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="hi5-Pi-tXE" secondAttribute="trailing" constant="12" id="wYn-AL-Zv8"/>
@@ -5667,6 +5676,27 @@
                         <viewLayoutGuide key="safeArea" id="JWe-0K-NfF"/>
                     </view>
                     <size key="freeformSize" width="375" height="1200"/>
+                    <connections>
+                        <outlet property="accountBalanceLabel" destination="NkC-5P-ghj" id="X2J-ie-sdh"/>
+                        <outlet property="accountFiatBalanceLabel" destination="AXX-B3-6B3" id="KDm-mU-O5y"/>
+                        <outlet property="accountTitleLabel" destination="pxJ-12-aYi" id="MM2-9t-Z4Q"/>
+                        <outlet property="informationLabel" destination="xM0-Ja-kKj" id="wny-ce-xL7"/>
+                        <outlet property="multisigSignaturesTableView" destination="gub-3w-t3I" id="xiQ-To-NFJ"/>
+                        <outlet property="multisigSignaturesTableViewHeightConstraint" destination="1Ne-eS-G8d" id="SMc-kq-mBI"/>
+                        <outlet property="multisigTransactionHashLabel" destination="KhU-C6-3dZ" id="QW3-T5-X9Q"/>
+                        <outlet property="multisigTransactionSignaturesLabel" destination="9lr-Cm-RL8" id="mk6-N8-0Ac"/>
+                        <outlet property="signMultisigTransactionButton" destination="neM-aq-cmq" id="VaN-bF-Z5W"/>
+                        <outlet property="signerLabel" destination="E5G-33-FVa" id="W7F-Vt-1XZ"/>
+                        <outlet property="transactionAmountLabel" destination="Nd1-2z-U7u" id="hoN-G6-Qjq"/>
+                        <outlet property="transactionBlockHeightLabel" destination="sp9-fn-UST" id="MQu-m1-niK"/>
+                        <outlet property="transactionDateLabel" destination="0PO-yZ-Cei" id="oQK-2h-ZoP"/>
+                        <outlet property="transactionFeeLabel" destination="79M-pe-oxj" id="aZX-iR-aVw"/>
+                        <outlet property="transactionHashLabel" destination="jW3-dk-4fZ" id="Orz-Xo-Q7E"/>
+                        <outlet property="transactionMessageLabel" destination="0yq-Tn-WpV" id="HaR-dy-TBN"/>
+                        <outlet property="transactionRecipientLabel" destination="z8n-aS-lmx" id="Z8i-Dd-Dyz"/>
+                        <outlet property="transactionSignerLabel" destination="vl7-Rc-s8i" id="60M-DG-rlN"/>
+                        <outlet property="transactionTypeLabel" destination="iWr-8o-DLX" id="rX6-Si-Ekh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gEo-3V-1YA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -15,7 +15,7 @@ final class TransferTransactionDetailsViewController: UIViewController {
     public var account: Account?
     public var accountBalance = Double()
     public var accountFiatBalance = Double()
-    public var transaction: Transaction?
+    public var transferTransaction: TransferTransaction?
 
     // MARK: - View Controller Outlets
     
@@ -24,7 +24,6 @@ final class TransferTransactionDetailsViewController: UIViewController {
     @IBOutlet weak var accountFiatBalanceLabel: UILabel!
     @IBOutlet weak var transactionTypeLabel: UILabel!
     @IBOutlet weak var transactionDateLabel: UILabel!
-    @IBOutlet weak var signerLabel: UILabel!
     @IBOutlet weak var transactionSignerLabel: UILabel!
     @IBOutlet weak var transactionRecipientLabel: UILabel!
     @IBOutlet weak var transactionAmountLabel: UILabel!
@@ -62,42 +61,11 @@ final class TransferTransactionDetailsViewController: UIViewController {
         accountBalanceLabel.text = "\(accountBalance.format()) XEM"
         accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
         
-        guard transaction != nil else { return }
-        
-        switch transaction!.type {
-        case .transferTransaction:
-            
-            let transferTransaction = transaction as! TransferTransaction
-            
-            transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Transaction" : "Outgoing Transaction"
-            transactionDateLabel.text = transferTransaction.timeStamp.format()
-            transactionSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
-            transactionRecipientLabel.text = transferTransaction.recipient.nemAddressNormalised()
-            
-            if transferTransaction.transferType == .incoming {
-                transactionAmountLabel.text = "+\(transferTransaction.amount.format()) XEM"
-                transactionAmountLabel.textColor = Constants.incomingColor
-            } else if transferTransaction.transferType == .outgoing {
-                transactionAmountLabel.text = "-\(transferTransaction.amount.format()) XEM"
-                transactionAmountLabel.textColor = Constants.outgoingColor
-            }
-            
-            transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
-            transactionMessageLabel.text = transferTransaction.message?.message ?? ""
-            transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : ""
-            transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "")"
-            
-        case .multisigTransaction:
-            
-            let multisigTransaction = transaction as! MultisigTransaction
-            
-            switch multisigTransaction.innerTransaction.type {
+        if let transferTransaction = transferTransaction {
+            switch transferTransaction.type {
             case .transferTransaction:
                 
-                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
-                
-                signerLabel.text = "From Multisig Account"
-                transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Multisig Transaction" : "Outgoing Multisig Transaction"
+                transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Transaction" : "Outgoing Transaction"
                 transactionDateLabel.text = transferTransaction.timeStamp.format()
                 transactionSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
                 transactionRecipientLabel.text = transferTransaction.recipient.nemAddressNormalised()
@@ -118,10 +86,6 @@ final class TransferTransactionDetailsViewController: UIViewController {
             default:
                 break
             }
-            
-            
-        default:
-            break
         }
     }
     
