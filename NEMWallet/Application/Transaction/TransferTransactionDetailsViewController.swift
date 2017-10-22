@@ -13,15 +13,10 @@ final class TransferTransactionDetailsViewController: UIViewController {
     // MARK: - View Controller Properties
     
     public var account: Account?
-    public var accountBalance = Double()
-    public var accountFiatBalance = Double()
     public var transferTransaction: TransferTransaction?
 
     // MARK: - View Controller Outlets
     
-    @IBOutlet weak var accountTitleLabel: UILabel!
-    @IBOutlet weak var accountBalanceLabel: UILabel!
-    @IBOutlet weak var accountFiatBalanceLabel: UILabel!
     @IBOutlet weak var transactionTypeLabel: UILabel!
     @IBOutlet weak var transactionDateLabel: UILabel!
     @IBOutlet weak var transactionSignerLabel: UILabel!
@@ -56,10 +51,6 @@ final class TransferTransactionDetailsViewController: UIViewController {
         let numberFormatter = NumberFormatter()
         numberFormatter.locale = Locale(identifier: "en_US")
         numberFormatter.numberStyle = .currency
-        
-        accountTitleLabel.text = account?.title ?? ""
-        accountBalanceLabel.text = "\(accountBalance.format()) XEM"
-        accountFiatBalanceLabel.text = numberFormatter.string(from: accountFiatBalance as NSNumber)
         
         if let transferTransaction = transferTransaction {
             switch transferTransaction.type {

@@ -36,7 +36,9 @@ public struct TransactionMetaData: SwiftyJSONMappable {
         id = jsonData["id"].int
         height = jsonData["height"].int
         
-        if jsonData["innerHash"]["data"].string == nil {
+        if jsonData["data"].string != nil {
+            hash = jsonData["data"].stringValue
+        } else if jsonData["innerHash"]["data"].string == nil {
             hash = jsonData["hash"]["data"].stringValue
         } else {
             hash = jsonData["innerHash"]["data"].stringValue

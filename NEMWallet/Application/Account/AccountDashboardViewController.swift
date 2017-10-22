@@ -86,15 +86,11 @@ final class AccountDashboardViewController: UITableViewController {
                 if segue.identifier == "showTransferTransactionDetailsViewController" {
                     let destinationViewController = segue.destination as! TransferTransactionDetailsViewController
                     destinationViewController.account = account
-                    destinationViewController.accountBalance = accountBalance
-                    destinationViewController.accountFiatBalance = accountFiatBalance
                     destinationViewController.transferTransaction = transaction as? TransferTransaction
                     
                 } else if segue.identifier == "showMultisigTransferTransactionDetailsViewController" {
                     let destinationViewController = segue.destination as! MultisigTransferTransactionDetailsViewController
                     destinationViewController.account = account
-                    destinationViewController.accountBalance = accountBalance
-                    destinationViewController.accountFiatBalance = accountFiatBalance
                     destinationViewController.multisigTransaction = transaction as? MultisigTransaction
                 }
             }
