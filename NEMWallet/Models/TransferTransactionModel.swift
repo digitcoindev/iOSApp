@@ -60,12 +60,12 @@ final class TransferTransaction: Transaction {
     
     // MARK: - Model Lifecycle
     
-    required init?(version: Int, timeStamp: Date, amount: Double, fee: Int, recipient: String, message: Message?, deadline: Int, signer: String) {
+    required init?(version: Int, timeStamp: Date, amount: Double, fee: Double, recipient: String, message: Message?, deadline: Int, signer: String) {
         
         self.version = version
         self.timeStamp = timeStamp
         self.amount = amount
-        self.fee = Double(fee)
+        self.fee = fee
         self.recipient = recipient
         self.message = message
         self.deadline = deadline

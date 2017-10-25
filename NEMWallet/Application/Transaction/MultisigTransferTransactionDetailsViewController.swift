@@ -94,7 +94,7 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
                 }
                 
                 transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
-                transactionMessageLabel.text = transferTransaction.message?.message ?? ""
+                transactionMessageLabel.text = transferTransaction.message?.message ?? "-"
                 transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : "Unconfirmed"
                 transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "-")"
                 multisigTransactionHashLabel.text = "\(multisigTransaction?.metaData?.multisigHash ?? "-")"
@@ -239,6 +239,10 @@ extension MultisigTransferTransactionDetailsViewController: UITableViewDelegate,
             multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
             multisigSignatureTableViewCell.signatureDetailLabel.text = ""
             multisigSignatureTableViewCell.signatureDateLabel.text = multisigSignatureTransaction.timeStamp.format()
+            
+            if indexPath.row == multisigTransaction!.signatures?.count {
+                multisigSignatureTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            }
             
             return multisigSignatureTableViewCell
             

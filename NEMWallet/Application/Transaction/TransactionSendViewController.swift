@@ -597,7 +597,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             }
         }
         
-        let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: Int(transactionFee * 1000000), recipient: transactionRecipient, message: nil, deadline: transactionDeadline, signer: transactionSigner!)
+        let transaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount * 1000000, fee: transactionFee * 1000000, recipient: transactionRecipient, message: nil, deadline: transactionDeadline, signer: transactionSigner!)
 
         let alert = UIAlertController(title: "INFO".localized(), message: "Are you sure you want to send this transaction to \(transactionRecipient.nemAddressNormalised())?", preferredStyle: UIAlertControllerStyle.alert)
         

@@ -95,6 +95,13 @@ final class AccountDashboardViewController: UITableViewController {
                 }
             }
             
+        case "showSendViewController":
+            
+            let destinationViewController = segue.destination as! SendViewController
+            destinationViewController.account = account
+            destinationViewController.accountBalance = accountBalance
+            destinationViewController.accountFiatBalance = accountFiatBalance
+            
         default:
             return
         }

@@ -58,8 +58,10 @@ struct Constants {
     static let nemLightOrangeColor = UIColor(red: 255/255, green: 163/255, blue: 0/255, alpha: 0.1)
     static let incomingColor = UIColor(red: 0/255, green: 188/255, blue: 0/255, alpha: 1.0)
     static let outgoingColor = UIColor(red: 203/255, green: 0/255, blue: 0/255, alpha: 1.0)
+    static let grayColor = UIColor(red: 150/255, green: 152/255, blue: 154/255, alpha: 1.0)
     
     // MARK: - Notification Identifiers
     
     static let transactionDataChangedNotification = NSNotification.Name(rawValue: "transactionDataChanged")
+    static let hideKeyboardNotification = NSNotification.Name(rawValue: "hideKeyboard")
 }
