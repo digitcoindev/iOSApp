@@ -27,6 +27,7 @@
 		4F15DCAF1DA2B3E10042997C /* DefaultServers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */; };
 		4F15DCB11DA2CED70042997C /* Server+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCB01DA2CED70042997C /* Server+Additions.swift */; };
 		4F1E80AA1DAE40F100C354D9 /* MultisigAggregateModificationTransaction+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1E80A91DAE40F100C354D9 /* MultisigAggregateModificationTransaction+Additions.swift */; };
+		4F20F8B31FA5713A00666700 /* CreateInvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F20F8B21FA5713A00666700 /* CreateInvoiceViewController.swift */; };
 		4F24A1761D54E49300AC128A /* AccountExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24A1751D54E49300AC128A /* AccountExceptions.swift */; };
 		4F26197B1D97103100D891DD /* AccountData+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26197A1D97103000D891DD /* AccountData+Additions.swift */; };
 		4F26CDF11D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */; };
@@ -145,6 +146,8 @@
 		4FB442CB1D75E71A00A98BAC /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */; };
 		4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */; };
 		4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */; };
+		4FC1EA011FA339DA00E7617D /* MultisigAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1EA001FA339DA00E7617D /* MultisigAccountTableViewCell.swift */; };
+		4FC1EA031FA370D700E7617D /* VerifyTransferTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1EA021FA370D700E7617D /* VerifyTransferTransactionViewController.swift */; };
 		4FC27A041D95297700421F00 /* BlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC27A031D95297600421F00 /* BlockModel.swift */; };
 		4FC80C291EF80A270042EA06 /* TestnetDefaultServers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */; };
 		4FCBF1601F44B0FA00BE5284 /* Date+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCBF15F1F44B0FA00BE5284 /* Date+Additions.swift */; };
@@ -240,6 +243,7 @@
 		4F15DCAE1DA2B3E10042997C /* DefaultServers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultServers.plist; sourceTree = "<group>"; };
 		4F15DCB01DA2CED70042997C /* Server+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Server+Additions.swift"; sourceTree = "<group>"; };
 		4F1E80A91DAE40F100C354D9 /* MultisigAggregateModificationTransaction+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MultisigAggregateModificationTransaction+Additions.swift"; sourceTree = "<group>"; };
+		4F20F8B21FA5713A00666700 /* CreateInvoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateInvoiceViewController.swift; sourceTree = "<group>"; };
 		4F24A1751D54E49300AC128A /* AccountExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountExceptions.swift; sourceTree = "<group>"; };
 		4F26197A1D97103000D891DD /* AccountData+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AccountData+Additions.swift"; sourceTree = "<group>"; };
 		4F26CDF01D4C45660090B98B /* AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountAdditionMenuAddExistingAccountPrivateKeyViewController.swift; sourceTree = "<group>"; };
@@ -354,6 +358,8 @@
 		4FB442CA1D75E71A00A98BAC /* TransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
 		4FB442CC1D801D5C00A98BAC /* RequestAnnounceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestAnnounceModel.swift; sourceTree = "<group>"; };
 		4FB442CE1D80269000A98BAC /* Array<UInt8>+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array<UInt8>+Additions.swift"; sourceTree = "<group>"; };
+		4FC1EA001FA339DA00E7617D /* MultisigAccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultisigAccountTableViewCell.swift; sourceTree = "<group>"; };
+		4FC1EA021FA370D700E7617D /* VerifyTransferTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyTransferTransactionViewController.swift; sourceTree = "<group>"; };
 		4FC27A031D95297600421F00 /* BlockModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockModel.swift; sourceTree = "<group>"; };
 		4FC80C281EF80A270042EA06 /* TestnetDefaultServers.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TestnetDefaultServers.plist; sourceTree = "<group>"; };
 		4FCBF15F1F44B0FA00BE5284 /* Date+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Additions.swift"; sourceTree = "<group>"; };
@@ -585,6 +591,9 @@
 				4F0FFE2B1F9104BB00120E67 /* MultisigTransferTransactionDetailsViewController.swift */,
 				4F495A891F9D6CEA0031B8D1 /* SendViewController.swift */,
 				4F495A8B1F9EAC0B0031B8D1 /* CreateTransactionViewController.swift */,
+				4FC1EA021FA370D700E7617D /* VerifyTransferTransactionViewController.swift */,
+				4F20F8B21FA5713A00666700 /* CreateInvoiceViewController.swift */,
+				4FC1EA001FA339DA00E7617D /* MultisigAccountTableViewCell.swift */,
 				4F9F682B1D4C350E0086F98F /* TransactionTableViewCell.swift */,
 				4F0FFE2D1F910D9000120E67 /* MultisigSignatureTableViewCell.swift */,
 				4F9F682D1D4C35160086F98F /* TransactionSendViewController.swift */,
@@ -1167,6 +1176,7 @@
 				4F0B5F091DAFD4A900E182C3 /* AutoCompleteTextField.swift in Sources */,
 				98BB95D91BCCED5B002151F7 /* keypair.c in Sources */,
 				4F850F281D4C3DE00003E192 /* UInt32+CircularShift.swift in Sources */,
+				4F20F8B31FA5713A00666700 /* CreateInvoiceViewController.swift in Sources */,
 				4F0B5EF91DAFCA7200E182C3 /* NEMWallet.xcdatamodeld in Sources */,
 				4F850F201D4C3D7E0003E192 /* Base32.swift in Sources */,
 				4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */,
@@ -1203,11 +1213,13 @@
 				4F86A0A21F0FB5A200132F8C /* QRModel.swift in Sources */,
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
 				4F15DCA71DA294400042997C /* ServerModel.swift in Sources */,
+				4FC1EA011FA339DA00E7617D /* MultisigAccountTableViewCell.swift in Sources */,
 				4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */,
 				4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */,
 				4F850F1D1D4C3D550003E192 /* keccak.c in Sources */,
 				4FE3B0DB1F87D51F00783347 /* TransferTransactionDetailsViewController.swift in Sources */,
 				4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */,
+				4FC1EA031FA370D700E7617D /* VerifyTransferTransactionViewController.swift in Sources */,
 				98BB95DD1BCCED5B002151F7 /* sign.c in Sources */,
 				4F9F68781D4C37BF0086F98F /* SettingsServerViewController.swift in Sources */,
 			);

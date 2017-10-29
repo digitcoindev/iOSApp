@@ -16,6 +16,9 @@ final class SendViewController: UIViewController {
     public var accountBalance = Double()
     public var accountFiatBalance = Double()
     
+    /// The latest market info, used to display fiat account balances.
+    public var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
+    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var createTransactionView: UIView!
@@ -35,8 +38,12 @@ final class SendViewController: UIViewController {
             
             let destinationViewController = segue.destination as! CreateTransactionViewController
             destinationViewController.account = account
-            destinationViewController.accountBalance = accountBalance
-            destinationViewController.accountFiatBalance = accountFiatBalance
+            destinationViewController.marketInfo = marketInfo
+            
+        case "showCreateInvoiceViewController":
+            
+            let destinationViewController = segue.destination as! CreateInvoiceViewController
+            destinationViewController.account = account
             
         default:
             return
@@ -51,11 +58,13 @@ final class SendViewController: UIViewController {
         
         switch sender.selectedSegmentIndex {
         case 0:
+            title = "Create Transaction"
             createTransactionView.isHidden = false
             createInvoiceView.isHidden = true
             break
             
         case 1:
+            title = "Create Invoice"
             createTransactionView.isHidden = true
             createInvoiceView.isHidden = false
             break

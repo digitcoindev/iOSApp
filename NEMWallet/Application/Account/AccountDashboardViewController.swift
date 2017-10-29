@@ -40,6 +40,9 @@ final class AccountDashboardViewController: UITableViewController {
     ///
     fileprivate var account: Account?
     
+    /// The latest market info, used to display fiat account balances.
+    public var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
+    
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -101,6 +104,7 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.account = account
             destinationViewController.accountBalance = accountBalance
             destinationViewController.accountFiatBalance = accountFiatBalance
+            destinationViewController.marketInfo = marketInfo
             
         default:
             return
@@ -254,6 +258,12 @@ final class AccountDashboardViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    @IBAction func unwindToAccountDashboardViewController(_ sender: UIStoryboardSegue) {
+        return
     }
 }
 
