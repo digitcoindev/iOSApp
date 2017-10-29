@@ -62,7 +62,14 @@ final class VerifyTransferTransactionViewController: UIViewController {
             transferTransaction = transaction as! TransferTransaction
         }
         
-        accountTitleLabel.text = account?.title ?? ""
+        if activeAccountData?.address == account?.address {
+            accountTitleLabel.text = account?.title ?? ""
+            accountTitleLabel.lineBreakMode = .byTruncatingTail
+        } else {
+            accountTitleLabel.text = activeAccountData?.address.nemAddressNormalised() ?? ""
+            accountTitleLabel.lineBreakMode = .byTruncatingMiddle
+        }
+        
         accountBalanceLabel.text = "\(activeAccountData?.balance.format() ?? "0") XEM"
         accountBalanceChangeLabel.text = "-\(transferTransaction.amount + transferTransaction.fee) XEM"
         informationLabel.text = "Verify that all transaction details are correct and proceed by sending the transaction"

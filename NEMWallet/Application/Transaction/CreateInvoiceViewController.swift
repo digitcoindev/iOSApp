@@ -14,6 +14,7 @@ final class CreateInvoiceViewController: UIViewController, UITextViewDelegate {
     
     public var account: Account?
     private var invoiceMessagePlaceholderLabel: UILabel!
+    private var invoice: NewInvoice?
     
     // MARK: - View Controller Outlets
     
@@ -31,6 +32,7 @@ final class CreateInvoiceViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         invoiceRecipientTextField.text = account?.title ?? ""
+        informationLabel.text = "You can create an invoice in the form of a QR code which you can then share with someone to scan"
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -47,6 +49,20 @@ final class CreateInvoiceViewController: UIViewController, UITextViewDelegate {
         invoiceMessagePlaceholderLabel.frame.origin = CGPoint(x: 5, y: 8)
         invoiceMessagePlaceholderLabel.textColor = UIColor(red: 199/255, green: 199/255, blue: 205/255, alpha: 1.0)
         invoiceMessagePlaceholderLabel.isHidden = !invoiceMessageTextView.text.isEmpty
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segue.identifier! {
+        case "showInvoiceViewController":
+            
+            let destinationViewController = segue.destination as! InvoiceViewController
+            destinationViewController.account = account
+            destinationViewController.invoice = invoice
+            
+        default:
+            return
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -102,6 +118,15 @@ final class CreateInvoiceViewController: UIViewController, UITextViewDelegate {
             
             return
         }
+        
+        let invoice = NewInvoice(recipient: invoiceRecipient, amount: invoiceAmount, message: invoiceMessage)
+        self.invoice = invoice
+        
+        performSegue(withIdentifier: "showInvoiceViewController", sender: nil)
+    }
+    
+    @IBAction func unwindToCreateInvoiceViewController(_ sender: UIStoryboardSegue) {
+        return
     }
     
     // MARK: - View Controller Helper Methods

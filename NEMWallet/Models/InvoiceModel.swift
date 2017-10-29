@@ -8,6 +8,25 @@
 import Foundation
 import CoreData
 
+///
+final class NewInvoice {
+    
+    // MARK: - Model Properties
+    
+    var recipient: String!
+    var amount: Double!
+    var message: String!
+    
+    // MARK: - Model Lifecycle
+    
+    required init?(recipient: String, amount: Double, message: String) {
+        
+        self.recipient = recipient
+        self.amount = amount
+        self.message = message
+    }
+}
+
 /// Represents an invoice object.
 open class Invoice: NSManagedObject {
     
