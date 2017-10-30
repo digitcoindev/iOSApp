@@ -20,6 +20,7 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
     private var transactionMessagePlaceholderLabel: UILabel!
     fileprivate var multisigAccounts = [AccountData]()
     private var transaction: Transaction?
+    private var recipientPublicKey: String?
     
     /// The latest market info, used to display fiat account balances.
     public var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
@@ -31,14 +32,13 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
     @IBOutlet weak var accountBalanceLabel: UILabel!
     @IBOutlet weak var accountFiatBalanceLabel: UILabel!
     @IBOutlet weak var multisigAccountsTableView: UITableView!
-    @IBOutlet weak var multisigAccountsTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var multisigAccountsMenuOverlayView: UIView!
     @IBOutlet weak var transactionRecipientTextField: UITextField!
     @IBOutlet weak var transactionAmountTextField: UITextField!
     @IBOutlet weak var transactionFeeLabel: UILabel!
     @IBOutlet weak var transactionMessageTextView: UITextView!
     @IBOutlet weak var transactionMessageCharsLabel: UILabel!
     @IBOutlet weak var transactionMessageEncryptedSwitch: UISwitch!
+    @IBOutlet weak var transactionMessageEncryptedImageView: UIImageView!
     @IBOutlet weak var verifyTransactionButton: UIButton!
     
     // MARK: - View Controller Lifecycle
@@ -167,6 +167,51 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
                         self?.multisigAccounts += accountData.cosignatoryOf ?? []
                         self?.multisigAccountsTableView.reloadData()
                         self?.updateAccountSummary()
+                        
+                        if self?.transactionMessageEncryptedSwitch.isOn == false {
+                            self?.verifyTransactionButton.isEnabled = true
+                        }
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    /**
+         Fetches the account data (balance, cosignatories, etc.) for the account from the active NIS.
+     
+         - Parameter accountAddress: The address of the account for which the account data should get fetched.
+     */
+    fileprivate func fetchAccountData(forAccountWithAddress accountAddress: String) {
+        
+        NEMProvider.request(NEM.accountData(accountAddress: accountAddress)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    
+                    let json = JSON(data: response.data)
+                    let accountData = try json.mapObject(AccountData.self)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.recipientPublicKey = accountData.publicKey
                         self?.verifyTransactionButton.isEnabled = true
                     }
                     
@@ -280,7 +325,7 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
         let transactionAmount = Double(transactionAmountTextField.text!) ?? 0.0
         let transactionRecipient = transactionRecipientTextField.text!.replacingOccurrences(of: "-", with: "")
         let transactionMessageText = transactionMessageTextView.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8) ?? String()
-        let transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
+        var transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
         let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
         let transactionSigner = activeAccountData!.publicKey
         
@@ -306,6 +351,10 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
             sender.isEnabled = true
             return
         }
+        guard recipientPublicKey != nil else {
+            showAlert(withMessage: "Message Encryption failed. Try sending again.")
+            return
+        }
         if encryptMessage {
             if transactionMessageByteArray.count > 976 {
                 showAlert(withMessage: "VALIDAATION_MESSAGE_LEANGTH".localized())
@@ -320,52 +369,60 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
             }
         }
         
-//        if willEncrypt {
-//            var transactionEncryptedMessageByteArray: [UInt8] = Array(repeating: 0, count: 32)
-//            transactionEncryptedMessageByteArray = TransactionManager.sharedInstance.encryptMessage(transactionMessageByteArray, senderEncryptedPrivateKey: account!.privateKey, recipientPublicKey: recipientPublicKey)
-//            transactionMessageByteArray = transactionEncryptedMessageByteArray
-//        }
+        if encryptMessage {
+            var transactionEncryptedMessageByteArray: [UInt8] = Array(repeating: 0, count: 32)
+            transactionEncryptedMessageByteArray = TransactionManager.sharedInstance.encryptMessage(transactionMessageByteArray, senderEncryptedPrivateKey: account!.privateKey, recipientPublicKey: recipientPublicKey!)
+            transactionMessageByteArray = transactionEncryptedMessageByteArray
+        }
         
         let transferTransaction = TransferTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, amount: transactionAmount, fee: transactionFee, recipient: transactionRecipient, message: nil, deadline: transactionDeadline, signer: transactionSigner!)
         
-        if !encryptMessage {
-            let transactionMessage = Message(type: encryptMessage ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextView.text!)
-            transferTransaction?.message = transactionMessage
+        let transactionMessage = Message(type: encryptMessage ? MessageType.encrypted : MessageType.unencrypted, payload: transactionMessageByteArray, message: transactionMessageTextView.text!)
+        transferTransaction?.message = transactionMessage
+        
+        // Check if the transaction is a multisig transaction
+        if activeAccountData!.publicKey != account!.publicKey {
             
-            // Check if the transaction is a multisig transaction
-            if activeAccountData!.publicKey != account!.publicKey {
-                
-                let multisigTransaction = MultisigTransaction(version: transferTransaction!.version, timeStamp: transferTransaction!.timeStamp, fee: 0.15, deadline: transferTransaction!.deadline, signer: account!.publicKey, innerTransaction: transferTransaction!)
-                transaction = multisigTransaction
-                
-            } else {
-                
-                transaction = transferTransaction
-            }
+            let multisigTransaction = MultisigTransaction(version: transferTransaction!.version, timeStamp: transferTransaction!.timeStamp, fee: 0.15, deadline: transferTransaction!.deadline, signer: account!.publicKey, innerTransaction: transferTransaction!)
+            transaction = multisigTransaction
             
-            verifyTransactionButton.isEnabled = true
-            performSegue(withIdentifier: "showVerifyTransactionViewController", sender: nil)
+        } else {
+            
+            transaction = transferTransaction
         }
+        
+        verifyTransactionButton.isEnabled = true
+        performSegue(withIdentifier: "showVerifyTransactionViewController", sender: nil)
     }
     
     @IBAction func showMultisigAccountsMenu(_ sender: UITapGestureRecognizer) {
         
         guard activeAccountData != nil else { return }
         
-        if multisigAccountsTableViewHeightConstraint.constant == 0 {
+        if multisigAccountsTableView.isHidden == true {
             hideKeyboard()
-            multisigAccountsTableViewHeightConstraint.constant = multisigAccountsTableView.contentSize.height
-            multisigAccountsMenuOverlayView.isHidden = false
+            multisigAccountsTableView.isHidden = false
             verifyTransactionButton.isEnabled = false
         } else {
-            multisigAccountsTableViewHeightConstraint.constant = 0
-            multisigAccountsMenuOverlayView.isHidden = true
+            multisigAccountsTableView.isHidden = true
             verifyTransactionButton.isEnabled = true
         }
     }
     
     @IBAction func messageEncryptionToggled(_ sender: UISwitch) {
         calculateTransactionFee()
+        
+        if transactionMessageEncryptedSwitch.isOn && recipientPublicKey == nil {
+            verifyTransactionButton.isEnabled = false
+        } else if accountData != nil {
+            verifyTransactionButton.isEnabled = true
+        }
+        
+        if transactionMessageEncryptedSwitch.isOn {
+            transactionMessageEncryptedImageView.isHidden = false
+        } else {
+            transactionMessageEncryptedImageView.isHidden = true
+        }
     }
 
     @IBAction func transactionDetailsChanged(_ sender: UITextField) {
@@ -382,6 +439,13 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
         default:
             return
         }
+    }
+    
+    @IBAction func transactionRecipientChanged(_ sender: UITextField) {
+        
+        let transactionRecipient = transactionRecipientTextField.text!.replacingOccurrences(of: "-", with: "")
+        
+        fetchAccountData(forAccountWithAddress: transactionRecipient)
     }
     
     @IBAction func unwindToCreateTransactionViewController(_ sender: UIStoryboardSegue) {
@@ -440,7 +504,6 @@ extension CreateTransactionViewController: UITableViewDelegate, UITableViewDataS
         transactionMessageEncryptedSwitch.isOn = false
         
         multisigAccountsTableView.reloadData()
-        multisigAccountsTableViewHeightConstraint.constant = 0
-        multisigAccountsMenuOverlayView.isHidden = true
+        multisigAccountsTableView.isHidden = true
     }
 }

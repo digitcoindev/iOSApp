@@ -128,7 +128,7 @@ class AccountExportViewController: UIViewController {
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "unwindToMoreMenuViewController", sender: nil)
+        performSegue(withIdentifier: "unwindToAccountDetailsViewController", sender: nil)
     }
 }
 

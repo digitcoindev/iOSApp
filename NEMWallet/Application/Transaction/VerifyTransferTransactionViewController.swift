@@ -29,6 +29,7 @@ final class VerifyTransferTransactionViewController: UIViewController {
     @IBOutlet weak var transactionAmountLabel: UILabel!
     @IBOutlet weak var transactionFeeLabel: UILabel!
     @IBOutlet weak var transactionMessageLabel: UILabel!
+    @IBOutlet weak var transactionMessageEncryptedImageView: UIImageView!
     @IBOutlet weak var sendTransactionButton: UIButton!
     @IBOutlet weak var editTransactionButton: UIButton!
     
@@ -68,6 +69,12 @@ final class VerifyTransferTransactionViewController: UIViewController {
         } else {
             accountTitleLabel.text = activeAccountData?.address.nemAddressNormalised() ?? ""
             accountTitleLabel.lineBreakMode = .byTruncatingMiddle
+        }
+        
+        if transferTransaction.message?.type == .encrypted {
+            transactionMessageEncryptedImageView.isHidden = false
+        } else {
+            transactionMessageEncryptedImageView.isHidden = true
         }
         
         accountBalanceLabel.text = "\(activeAccountData?.balance.format() ?? "0") XEM"

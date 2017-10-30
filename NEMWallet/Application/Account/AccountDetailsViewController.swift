@@ -28,7 +28,6 @@ final class AccountDetailsViewController: UIViewController {
     @IBOutlet weak var accountVestedBalanceLabel: UILabel!
     @IBOutlet weak var accountPublicKeyLabel: UILabel!
     @IBOutlet weak var createBackupButton: UIButton!
-    @IBOutlet weak var shareAccountDetailsButton: UIButton!
     
     // MARK: - View Controller Lifecycle
 
@@ -113,6 +112,19 @@ final class AccountDetailsViewController: UIViewController {
         }
         
         createBackupButton.layer.cornerRadius = 10.0
-        shareAccountDetailsButton.layer.cornerRadius = 10.0
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    @IBAction func copyAccountAddress(_ sender: UITapGestureRecognizer) {
+        
+        let pasteBoard: UIPasteboard = UIPasteboard.general
+        pasteBoard.string = account!.address.nemAddressNormalised()
+        
+        showAlertCopied()
+    }
+    
+    @IBAction func unwindToAccountDetailsViewController(_ sender: UIStoryboardSegue) {
+        return
     }
 }

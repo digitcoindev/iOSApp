@@ -43,6 +43,10 @@ final class AccountDashboardViewController: UITableViewController {
     /// The latest market info, used to display fiat account balances.
     public var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
     
+    // MARK: - View Controller Outlets
+    
+    @IBOutlet weak var createTransactionButton: UIBarButtonItem!
+    
     // MARK: - View Controller Lifecycle
     
     override func viewDidLoad() {
@@ -55,6 +59,12 @@ final class AccountDashboardViewController: UITableViewController {
         
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .always
+        }
+        
+        if accountData?.cosignatories?.count ?? 0 > 0 {
+            createTransactionButton.isEnabled = false
+        } else {
+            createTransactionButton.isEnabled = true
         }
         
         fetchConfirmedTransactions()

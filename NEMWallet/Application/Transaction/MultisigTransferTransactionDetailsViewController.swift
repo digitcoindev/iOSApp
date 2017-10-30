@@ -195,6 +195,107 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
         }
     }
     
+    /**
+         Signs and announces a new transaction to the NIS.
+     
+         - Parameter transaction: The transaction object that should get signed and announced.
+     */
+    fileprivate func announceTransaction(_ transaction: Transaction) {
+        
+        let requestAnnounce = TransactionManager.sharedInstance.signTransaction(transaction, account: account!)
+        
+        NEMProvider.request(NEM.announceTransaction(requestAnnounce: requestAnnounce)) { [weak self] (result) in
+            
+            switch result {
+            case let .success(response):
+                
+                do {
+                    let _ = try response.filterSuccessfulStatusCodes()
+                    let responseJSON = JSON(data: response.data)
+                    try self?.validateAnnounceTransactionResult(responseJSON)
+                    
+                    DispatchQueue.main.async {
+                        
+                        self?.actionsView.isHidden = true
+                        self?.multisigSignaturesTableViewBottomToSuperviewConstraint.isActive = true
+                        
+                        let alert = UIAlertController(title: "INFO".localized(), message: "TRANSACTION_ANOUNCE_SUCCESS".localized(), preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+                            alert.dismiss(animated: true, completion: nil)
+                        }))
+                        
+                        self?.present(alert, animated: true, completion: nil)
+                    }
+                    
+                } catch TransactionAnnounceValidation.failure(let errorMessage) {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        self?.showAlert(withMessage: errorMessage)
+                    }
+                    
+                } catch {
+                    
+                    DispatchQueue.main.async {
+                        
+                        print("Failure: \(response.statusCode)")
+                        self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
+                    }
+                }
+                
+            case let .failure(error):
+                
+                DispatchQueue.main.async {
+                    
+                    print(error)
+                    self?.showAlert(withMessage: "TRANSACTION_ANOUNCE_FAILED".localized())
+                }
+            }
+        }
+    }
+    
+    /**
+         Validates the response (announce transaction result object) of the NIS
+         regarding the announcement of the transaction.
+     
+         - Parameter responseJSON: The response of the NIS JSON formatted.
+     
+         - Throws:
+         - TransactionAnnounceValidation.Failure if the announcement of the transaction wasn't successful.
+     */
+    fileprivate func validateAnnounceTransactionResult(_ responseJSON: JSON) throws {
+        
+        guard let responseCode = responseJSON["code"].int else { throw TransactionAnnounceValidation.failure(errorMessage: "TRANSACTION_ANOUNCE_FAILED".localized()) }
+        let responseMessage = responseJSON["message"].stringValue
+        
+        switch responseCode {
+        case 1:
+            return
+        default:
+            throw TransactionAnnounceValidation.failure(errorMessage: responseMessage)
+        }
+    }
+    
+    /**
+         Shows an alert view controller with the provided alert message.
+     
+         - Parameter message: The message that should get shown.
+         - Parameter completion: An optional action that should get performed on completion.
+     */
+    fileprivate func showAlert(withMessage message: String, completion: (() -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            alert.dismiss(animated: true, completion: nil)
+            completion?()
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     /// Updates the appearance of the view controller.
     private func updateAppearance() {
         
@@ -203,6 +304,50 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
         }
         
         signMultisigTransactionButton.layer.cornerRadius = 10.0
+    }
+    
+    // MARK: - View Controller Outlet Actions
+    
+    @IBAction func signMultisigTransaction(_ sender: UIButton) {
+        
+        if let multisigTransaction = multisigTransaction {
+            switch multisigTransaction.innerTransaction.type {
+            case .transferTransaction:
+                
+                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                
+                let transactionVersion = 1
+                let transactionTimeStamp = Date(timeIntervalSince1970: TimeManager.sharedInstance.currentNetworkTime)
+                let transactionFee = 0.15
+                let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
+                let transactionSigner = account!.publicKey
+                let transactionHash = multisigTransaction.metaData!.hash!
+                let transactionMultisigAccountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer)
+                
+                let multisigSignatureTransaction = MultisigSignatureTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Double(transactionFee), deadline: transactionDeadline, signer: transactionSigner, otherHash: transactionHash, otherAccount: transactionMultisigAccountAddress)
+                
+                announceTransaction(multisigSignatureTransaction!)
+                
+            case .multisigAggregateModificationTransaction:
+                
+                let multisigAggregateModificationTransaction = multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction
+                
+                let transactionVersion = 1
+                let transactionTimeStamp = Date(timeIntervalSince1970: TimeManager.sharedInstance.currentNetworkTime)
+                let transactionFee = 0.15
+                let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
+                let transactionSigner = account!.publicKey
+                let transactionHash = multisigTransaction.metaData!.hash!
+                let transactionMultisigAccountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigAggregateModificationTransaction.signer)
+                
+                let multisigSignatureTransaction = MultisigSignatureTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Double(transactionFee), deadline: transactionDeadline, signer: transactionSigner, otherHash: transactionHash, otherAccount: transactionMultisigAccountAddress)
+                
+                announceTransaction(multisigSignatureTransaction!)
+                
+            default :
+                break
+            }
+        }
     }
 }
 

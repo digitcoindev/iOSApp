@@ -24,9 +24,9 @@ final class TransferTransactionDetailsViewController: UIViewController {
     @IBOutlet weak var transactionAmountLabel: UILabel!
     @IBOutlet weak var transactionFeeLabel: UILabel!
     @IBOutlet weak var transactionMessageLabel: UILabel!
+    @IBOutlet weak var transactionMessageEncryptedImageView: UIImageView!
     @IBOutlet weak var transactionBlockHeightLabel: UILabel!
     @IBOutlet weak var transactionHashLabel: UILabel!
-    @IBOutlet weak var createResponseTransactionButton: UIButton!
     
     // MARK: - View Controller Lifecycle
     
@@ -69,6 +69,12 @@ final class TransferTransactionDetailsViewController: UIViewController {
                     transactionAmountLabel.textColor = Constants.outgoingColor
                 }
                 
+                if transferTransaction.message?.type == .encrypted {
+                    transactionMessageEncryptedImageView.isHidden = false
+                } else {
+                    transactionMessageEncryptedImageView.isHidden = true
+                }
+                
                 transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
                 transactionMessageLabel.text = transferTransaction.message?.message ?? "-"
                 transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : "-"
@@ -86,7 +92,5 @@ final class TransferTransactionDetailsViewController: UIViewController {
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
-        
-        createResponseTransactionButton.layer.cornerRadius = 10.0
     }
 }
