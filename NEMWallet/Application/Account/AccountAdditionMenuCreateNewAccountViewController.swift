@@ -119,7 +119,7 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
     }
     
     /// Makes the scroll view scrollable as soon as the keyboard shows.
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         
         let info: NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
         let keyboardSize = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
@@ -131,7 +131,7 @@ class AccountAdditionMenuCreateNewAccountViewController: UIViewController {
     }
     
     /// Resets the scroll view as soon as the keyboard hides.
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         scrollView.contentInset = UIEdgeInsets.zero
         scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
     }

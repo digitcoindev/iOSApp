@@ -58,7 +58,7 @@ class SettingsChangePasswordViewController: UITableViewController {
         - Parameter message: The message that should get shown.
         - Parameter completion: An optional action that should get performed on completion.
      */
-    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
+    fileprivate func showAlert(withMessage message: String, completion: (() -> Void)? = nil) {
         
         let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
@@ -106,7 +106,7 @@ class SettingsChangePasswordViewController: UITableViewController {
         
         let passwordData: NSData? = try! HashManager.generateAesKeyForString(currentPasswordTextField.text!, salt: saltData, roundCount: 2000)!
         
-        guard passwordData?.toHexString() == encryptedPassword else {
+        guard passwordData?.hexadecimalString() == encryptedPassword else {
             showAlert(withMessage: "WRONG_OLD_PASSWORD".localized())
             currentPasswordTextField.text = ""
             return

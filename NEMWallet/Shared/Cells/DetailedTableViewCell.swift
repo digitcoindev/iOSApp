@@ -87,14 +87,14 @@ class DetailedTableViewCell: UITableViewCell {
     
     // MARK: GestureRecogniser Methods
     
-    func handleSwipeGesturesLeft(_ sender: UISwipeGestureRecognizer)
+    @objc func handleSwipeGesturesLeft(_ sender: UISwipeGestureRecognizer)
     {
         if !detailsIsShown {
             self.detailDelegate?.showDetailsForCell(self)
         }
     }
     
-    func handleSwipeGesturesRight(_ sender: UISwipeGestureRecognizer)
+    @objc func handleSwipeGesturesRight(_ sender: UISwipeGestureRecognizer)
     {
         if detailsIsShown {
             self.detailDelegate?.hideDetailsForCell(self)

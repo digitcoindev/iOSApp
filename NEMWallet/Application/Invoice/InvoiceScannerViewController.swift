@@ -115,7 +115,7 @@ class InvoiceScannerViewController: UIViewController {
     }
     
     /// Stops the capture session.
-    func stopScanning() {
+    @objc func stopScanning() {
         
         DispatchQueue.global(qos: .userInitiated).async {
             if self.isScanning {
@@ -125,7 +125,7 @@ class InvoiceScannerViewController: UIViewController {
     }
     
     /// Resumes the capture session.
-    func resumeScanning() {
+    @objc func resumeScanning() {
         
         guard cameraNotAvailable == false else { return }
         

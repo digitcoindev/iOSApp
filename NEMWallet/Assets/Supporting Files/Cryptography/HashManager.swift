@@ -11,7 +11,7 @@ class HashManager: NSObject
         let ivData = NSData().generateRandomIV(16)
         messageData = messageData.aesEncrypt(key: key.asByteArray(), iv: ivData!.bytes)!
         
-        return ivData!.bytes.toHexString() + messageData.toHexString()
+        return ivData!.bytes.toHexString() + messageData.hexadecimalString()
     }
     
     final class func AES256Decrypt(inputText :String ,key :String) -> String? {
@@ -21,7 +21,7 @@ class HashManager: NSObject
         var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
         data = data!.aesDecrypt(key: key.asByteArray(), iv: customizedIV)
         
-        return data!.toHexString()
+        return data!.hexadecimalString()
     }
     
     final class func SHA256Encrypt(_ data :[UInt8])->String {
@@ -30,13 +30,9 @@ class HashManager: NSObject
         let len :Int32 = Int32(inBuffer.count)
         SHA256_hash(&outBuffer, &inBuffer, len)
         
-        let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: String.Encoding.utf8.rawValue) as! String
+        let hash :String = NSString(bytes: outBuffer, length: outBuffer.count, encoding: String.Encoding.utf8.rawValue)! as String
         
         return hash
-    }
-    
-    final func RIPEMD160Encrypt(_ inputText: String)->String {
-        return RIPEMD.asciiDigest(inputText) as String
     }
     
     final class func generateAesKeyForString(_ string: String, salt: NSData, roundCount: Int?) throws -> NSData? {

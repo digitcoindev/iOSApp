@@ -16,7 +16,7 @@ import Moya
  */
 let MarketInfoProvider = MoyaProvider<MarketInfo>(endpointClosure: { (target: MarketInfo) -> Endpoint<MarketInfo> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-    let endpoint: Endpoint<MarketInfo> = Endpoint<MarketInfo>(url: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding, httpHeaderFields: target.headers)
+    let endpoint: Endpoint<MarketInfo> = Endpoint<MarketInfo>(url: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, task: target.task, httpHeaderFields: target.headers)
     return endpoint
 })
 
@@ -50,28 +50,19 @@ extension MarketInfo: TargetType {
             return .get
         }
     }
-    var parameters: [String: Any]? {
+    var task: Task {
         switch self {
         case .xemPrice:
-            return ["command": "returnTicker"]
+            return .requestParameters(parameters: ["command": "returnTicker"], encoding: URLEncoding.default)
         default:
-            return [:]
+            return .requestPlain
         }
     }
-    var parameterEncoding: Moya.ParameterEncoding {
-        switch self {
-        default:
-            return URLEncoding.default
-        }
-    }
-    var headers: [String: String] {
+    var headers: [String: String]? {
         switch self {
         default:
             return [:]
         }
-    }
-    var task: Task {
-        return .request
     }
     var sampleData: Data {
         switch self {

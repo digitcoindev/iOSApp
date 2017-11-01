@@ -133,8 +133,8 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
             amount = "\n" + amount
         }
         
-        let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSForegroundColorAttributeName: textColor, NSFontAttributeName: UIFont.systemFont(ofSize: 13, weight: UIFontWeightRegular)])
-        let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSForegroundColorAttributeName: textColor,NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)])
+        let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSAttributedStringKey.foregroundColor: textColor, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.regular)])
+        let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSAttributedStringKey.foregroundColor: textColor,NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)])
         messageAttributedString.append(amountAttributedString)
         
         var date = String()
@@ -153,7 +153,7 @@ class TransactionMessageTableViewCell: DetailedTableViewCell {
     fileprivate func updateCellAppearance() {
         
         transactionDateLabel.numberOfLines = 1
-        transactionDateLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFontWeightRegular)
+        transactionDateLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.regular)
         
         transactionMessageTextView.isScrollEnabled = false
         transactionMessageTextView.layer.cornerRadius = 5

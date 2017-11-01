@@ -43,7 +43,7 @@ final class CreateInvoiceViewController: UIViewController, UITextViewDelegate {
         
         invoiceMessagePlaceholderLabel = UILabel()
         invoiceMessagePlaceholderLabel.text = "Enter the message the invoice should contain"
-        invoiceMessagePlaceholderLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightSemibold)
+        invoiceMessagePlaceholderLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.semibold)
         invoiceMessagePlaceholderLabel.sizeToFit()
         invoiceMessageTextView.addSubview(invoiceMessagePlaceholderLabel)
         invoiceMessagePlaceholderLabel.frame.origin = CGPoint(x: 5, y: 8)
@@ -148,7 +148,7 @@ final class CreateInvoiceViewController: UIViewController, UITextViewDelegate {
     }
     
     ///
-    public func hideKeyboard() {
+    @objc public func hideKeyboard() {
         
         invoiceRecipientTextField.resignFirstResponder()
         invoiceAmountTextField.resignFirstResponder()

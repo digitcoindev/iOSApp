@@ -46,7 +46,7 @@ final class TransferTransactionDetailsViewController: UIViewController {
     // MARK: - View Controller Helper Methods
     
     /// Reloads all transaction details with the newest data.
-    internal func reloadTransactionDetails() {
+    @objc internal func reloadTransactionDetails() {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.locale = Locale(identifier: "en_US")

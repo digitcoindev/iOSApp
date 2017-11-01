@@ -158,7 +158,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         - Parameter message: The message that should get shown.
         - Parameter completion: An optional action that should get performed on completion.
      */
-    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
+    fileprivate func showAlert(withMessage message: String, completion: (() -> Void)? = nil) {
         
         let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
@@ -187,9 +187,9 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             transactionSenderLabel.text = accountData.title ?? accountData.address
         }
 
-        let amountAttributedString = NSMutableAttributedString(string: "\("AMOUNT".localized()) (\("BALANCE".localized()): ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)])
-        amountAttributedString.append(NSMutableAttributedString(string: "\((accountData.balance / 1000000).format())", attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
-        amountAttributedString.append(NSMutableAttributedString(string: " XEM):", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]))
+        let amountAttributedString = NSMutableAttributedString(string: "\("AMOUNT".localized()) (\("BALANCE".localized()): ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.light)])
+        amountAttributedString.append(NSMutableAttributedString(string: "\((accountData.balance / 1000000).format())", attributes: [NSAttributedStringKey.foregroundColor: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)]))
+        amountAttributedString.append(NSMutableAttributedString(string: " XEM):", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.light)]))
         transactionAmountHeadingLabel.attributedText = amountAttributedString
     }
     
@@ -391,11 +391,11 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
             transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray, isEncrypted: willEncrypt)
         }
 
-        let transactionFeeAttributedString = NSMutableAttributedString(string: "\("FEE".localized()): (\("MIN".localized()) ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)])
+        let transactionFeeAttributedString = NSMutableAttributedString(string: "\("FEE".localized()): (\("MIN".localized()) ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.light)])
         transactionFeeAttributedString.append(NSMutableAttributedString(string: "\(transactionFee)", attributes: [
-            NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1),
-            NSFontAttributeName: UIFont.systemFont(ofSize: 17)]))
-        transactionFeeAttributedString.append(NSMutableAttributedString(string: " XEM)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]))
+            NSAttributedStringKey.foregroundColor: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1),
+            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)]))
+        transactionFeeAttributedString.append(NSMutableAttributedString(string: " XEM)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.light)]))
         transactionFeeHeadingLabel.attributedText = transactionFeeAttributedString
         
         if userSetFee == nil || Constants.activeNetwork == Constants.mainNetwork {

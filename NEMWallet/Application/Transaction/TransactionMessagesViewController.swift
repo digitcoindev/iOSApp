@@ -172,14 +172,14 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     fileprivate func updateInfoHeaderLabel(withAccountData accountData: AccountData?) {
         
         guard accountData != nil else {
-            infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSForegroundColorAttributeName : UIColor.red])
+            infoHeaderLabel.attributedText = NSMutableAttributedString(string: "LOST_CONNECTION".localized(), attributes: [NSAttributedStringKey.foregroundColor : UIColor.red])
             return
         }
         
         let accountTitle = accountData!.title != nil ? accountData!.title! : accountData!.address.nemAddressNormalised()
         let infoHeaderText = NSMutableAttributedString(string: "\(accountTitle) ·")
         let infoHeaderTextBalance = " \((accountData!.balance / 1000000).format()) XEM"
-        infoHeaderText.append(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFont(ofSize: infoHeaderLabel.font.pointSize, weight: UIFontWeightRegular)]))
+        infoHeaderText.append(NSMutableAttributedString(string: infoHeaderTextBalance, attributes: [NSAttributedStringKey.foregroundColor: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSAttributedStringKey.font: UIFont.systemFont(ofSize: infoHeaderLabel.font.pointSize, weight: UIFont.Weight.regular)]))
         
         infoHeaderLabel.attributedText = infoHeaderText
     }
@@ -202,7 +202,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     }
     
     /// Scrolls to the table view bottom as soon as the keyboard appears.
-    func keyboardWillShowNotification(_ notification: Notification) {
+    @objc func keyboardWillShowNotification(_ notification: Notification) {
         scrollToTableBottom(true)
     }
     
@@ -241,7 +241,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         Fires off all necessary network calls to get the information needed.
         Use only this method to update the displayed information.
      */
-    func refreshCorrespondentTransactions(shouldUpdateViewControllerAppearance: Bool = false) {
+    @objc func refreshCorrespondentTransactions(shouldUpdateViewControllerAppearance: Bool = false) {
                 
         fetchAccountData(forAccount: account!, shouldUpdateViewControllerAppearance: shouldUpdateViewControllerAppearance)
         fetchAllTransactions(forAccount: account!)
@@ -757,8 +757,8 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
                 }
             }
             
-            let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13, weight: UIFontWeightRegular)])
-            let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightRegular)])
+            let messageAttributedString = NSMutableAttributedString(string: message!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.regular)])
+            let amountAttributedString = NSMutableAttributedString(string: amount, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.regular)])
             messageAttributedString.append(amountAttributedString)
             
             let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
@@ -785,7 +785,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
     }
     
     /// Copies the correspondent address to the pasteboard.
-    func copyCorrespondentAddress(_ sender: AnyObject) {
+    @objc func copyCorrespondentAddress(_ sender: AnyObject) {
         
         guard correspondent != nil else { return }
         
@@ -799,7 +799,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         - Parameter message: The message that should get shown.
         - Parameter completion: An optional action that should get performed on completion.
      */
-    fileprivate func showAlert(withMessage message: String, completion: ((Void) -> Void)? = nil) {
+    fileprivate func showAlert(withMessage message: String, completion: (() -> Void)? = nil) {
         
         let alert = UIAlertController(title: "INFO".localized(), message: message, preferredStyle: UIAlertControllerStyle.alert)
         
@@ -1015,9 +1015,9 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
             cell.transaction = transaction
             
             let detailBlockHeight = NSMutableAttributedString(string: "\("BLOCK".localized()): ", attributes: nil)
-            detailBlockHeight.append(NSMutableAttributedString(string: "\(transaction!.metaData!.height!)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+            detailBlockHeight.append(NSMutableAttributedString(string: "\(transaction!.metaData!.height!)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]))
             let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
-            detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+            detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]))
             
             cell.setDetails(detailBlockHeight, centerInformation: detailFee, bottomInformation: nil)
             
@@ -1029,11 +1029,11 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
             switch unconfirmedTransactions[indexPath.row - transactions.count - 1].type {
             case .transferTransaction:
                 
-                transaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as! TransferTransaction
+                transaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as? TransferTransaction
                 
             case .multisigTransaction:
                 
-                multisigTransaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as! MultisigTransaction
+                multisigTransaction = unconfirmedTransactions[indexPath.row - transactions.count - 1] as? MultisigTransaction
                 transaction = multisigTransaction!.innerTransaction as! TransferTransaction
                 
             default:
@@ -1048,22 +1048,22 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
                     
                     let minCosignatories = multisigTransaction!.innerTransaction.signer == accountData!.publicKey ? ((accountData!.minCosignatories == 0 || accountData!.minCosignatories == accountData!.cosignatories.count) ? accountData!.cosignatories.count : accountData!.minCosignatories) : ((correspondentAccountData!.minCosignatories == 0 || correspondentAccountData!.minCosignatories == correspondentAccountData!.cosignatories.count) ? correspondentAccountData!.cosignatories.count : correspondentAccountData!.minCosignatories)
                     
-                    let detailCosignatoriesSigned = NSMutableAttributedString(string: "\(multisigTransaction!.signatures!.count + 1)", attributes: [NSForegroundColorAttributeName: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSFontAttributeName: UIFont.systemFont(ofSize: 10, weight: UIFontWeightBold)])
+                    let detailCosignatoriesSigned = NSMutableAttributedString(string: "\(multisigTransaction!.signatures!.count + 1)", attributes: [NSAttributedStringKey.foregroundColor: UIColor(red: 90.0/255.0, green: 179.0/255.0, blue: 232.0/255.0, alpha: 1), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.bold)])
                     detailCosignatoriesSigned.append(NSMutableAttributedString(string: " \("OF".localized())", attributes: nil))
-                    detailCosignatoriesSigned.append(NSMutableAttributedString(string: " \(multisigTransaction!.innerTransaction.signer == accountData!.publicKey ? accountData!.cosignatories.count : correspondentAccountData!.cosignatories.count) " , attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    detailCosignatoriesSigned.append(NSMutableAttributedString(string: " \(multisigTransaction!.innerTransaction.signer == accountData!.publicKey ? accountData!.cosignatories.count : correspondentAccountData!.cosignatories.count) " , attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]))
                     detailCosignatoriesSigned.append(NSMutableAttributedString(string: "SIGNERS".localized(), attributes: nil))
                     let detailMinCosignatories = NSMutableAttributedString(string: "\("MIN".localized()) ", attributes: nil)
-                    detailMinCosignatories.append(NSMutableAttributedString(string: "\(minCosignatories!)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    detailMinCosignatories.append(NSMutableAttributedString(string: "\(minCosignatories!)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]))
                     detailMinCosignatories.append(NSMutableAttributedString(string: " \("SIGNERS".localized())", attributes: nil))
                     let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
-                    detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]))
                     
                     cell.setDetails(detailCosignatoriesSigned, centerInformation: detailMinCosignatories, bottomInformation: detailFee)
                     
                 } else {
                     
                     let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
-                    detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                    detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]))
                     
                     cell.setDetails(nil, centerInformation: detailFee, bottomInformation: nil)
                 }
@@ -1071,7 +1071,7 @@ extension TransactionMessagesViewController: UITableViewDataSource, UITableViewD
             } else {
                 
                 let detailFee = NSMutableAttributedString(string: "\("FEE".localized()): ", attributes: nil)
-                detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)]))
+                detailFee.append(NSMutableAttributedString(string: "\(Double(transaction!.fee) / Double(1000000))", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]))
                 
                 cell.setDetails(nil, centerInformation: detailFee, bottomInformation: nil)
             }

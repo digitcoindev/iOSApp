@@ -89,8 +89,8 @@ public class AutoCompleteTextField:UITextField {
 //    
     private func commonInit(){
         hidesWhenEmpty = true
-        autoCompleteAttributes = [NSForegroundColorAttributeName: UIColor.black]
-        autoCompleteAttributes![NSFontAttributeName] = UIFont.boldSystemFont(ofSize: 12)
+        autoCompleteAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.black]
+//        autoCompleteAttributes![NSFontAttributeName] = UIFont.boldSystemFont(ofSize: 12)
         self.clearButtonMode = .always
         self.addTarget(self, action: #selector(AutoCompleteTextField.textFieldDidChange), for: .editingChanged)
         self.addTarget(self, action: #selector(AutoCompleteTextField.textFieldDidEndEditing), for: .editingDidEnd)
@@ -124,7 +124,7 @@ public class AutoCompleteTextField:UITextField {
     private func reload(){
         
         if enableAttributedText{
-            let attrs = [NSForegroundColorAttributeName:autoCompleteTextColor, NSFontAttributeName:autoCompleteTextFont] as [String : Any]
+            let attrs = [NSAttributedStringKey.foregroundColor.rawValue:autoCompleteTextColor, NSAttributedStringKey.font:autoCompleteTextFont] as! [String : Any]
     
             if attributedAutoCompleteStrings.count > 0 {
                 attributedAutoCompleteStrings.removeAll(keepingCapacity: false)
@@ -134,9 +134,9 @@ public class AutoCompleteTextField:UITextField {
                 for i in 0..<autoCompleteStrings.count{
                     let str = autoCompleteStrings[i] as NSString
                     let range = str.range(of: text!, options: .caseInsensitive)
-                    let attString = NSMutableAttributedString(string: autoCompleteStrings[i], attributes: attrs)
-                    attString.addAttributes(autoCompleteAttributes, range: range)
-                    attributedAutoCompleteStrings.append(attString)
+//                    let attString = NSMutableAttributedString(string: autoCompleteStrings[i], attributes: attrs)
+//                    attString.addAttributes(autoCompleteAttributes, range: range)
+//                    attributedAutoCompleteStrings.append(attString)
                 }
             }
         }
@@ -151,7 +151,7 @@ public class AutoCompleteTextField:UITextField {
         autoCompleteTableView?.reloadData()
     }
     
-    func textFieldDidChange(){
+    @objc func textFieldDidChange(){
         guard let _ = text else {
             return
         }
@@ -164,7 +164,7 @@ public class AutoCompleteTextField:UITextField {
         })
     }
     
-    func textFieldDidEndEditing() {
+    @objc func textFieldDidEndEditing() {
         autoCompleteTableView?.isHidden = true
     }
 }

@@ -29,7 +29,7 @@ class QRCodeScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     
     var captureSession :AVCaptureSession = AVCaptureSession()
     let capturePreviewLayer = AVCaptureVideoPreviewLayer()
-    let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+    let device = AVCaptureDevice.default(for: AVMediaType.video)
     var captureResult = String()
 
     // MARK: - View Helper Methods
@@ -50,7 +50,7 @@ class QRCodeScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-        let captureInput = try? AVCaptureDeviceInput(device: device)
+        let captureInput = try? AVCaptureDeviceInput(device: device!)
         let captureOutput = AVCaptureMetadataOutput()
         
         guard captureInput != nil else {
@@ -59,14 +59,14 @@ class QRCodeScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-        captureSession.addInput(captureInput)
+        captureSession.addInput(captureInput!)
         captureOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
         captureSession.addOutput(captureOutput)
-        captureOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+        captureOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         
         let bounds: CGRect = CGRect(x: width / 2, y: height / 2, width: width, height: height)
         capturePreviewLayer.session = captureSession
-        capturePreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        capturePreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         capturePreviewLayer.bounds = bounds
         capturePreviewLayer.position = bounds.origin
         layer.addSublayer(capturePreviewLayer)
@@ -81,9 +81,9 @@ class QRCodeScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         
         for item in metadataObjects {
-            if let metadataObject = item as? AVMetadataMachineReadableCodeObject , metadataObject.type == AVMetadataObjectTypeQRCode {
+            if let metadataObject = item as? AVMetadataMachineReadableCodeObject , metadataObject.type == AVMetadataObject.ObjectType.qr {
                 
-                captureResult = metadataObject.stringValue
+                captureResult = metadataObject.stringValue!
                 captureSession.stopRunning()
                 
                 delegate?.detectedQRCode(withCaptureResult: captureResult)

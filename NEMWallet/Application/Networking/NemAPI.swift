@@ -16,7 +16,7 @@ import Moya
  */
 let NEMProvider = MoyaProvider<NEM>(endpointClosure: { (target: NEM) -> Endpoint<NEM> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-    let endpoint: Endpoint<NEM> = Endpoint<NEM>(url: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding, httpHeaderFields: target.headers)
+    let endpoint: Endpoint<NEM> = Endpoint<NEM>(url: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, task: target.task, httpHeaderFields: target.headers)
     return endpoint
 })
 
@@ -77,36 +77,25 @@ extension NEM: TargetType {
             return .get
         }
     }
-    var parameters: [String: Any]? {
+    var task: Task {
         switch self {
         case .accountData(let accountAddress), .ownedMosaics(let accountAddress), .confirmedTransactions(let accountAddress, _), .unconfirmedTransactions(let accountAddress, _):
-            return ["address": accountAddress as AnyObject]
+            return .requestParameters(parameters: ["address": accountAddress as AnyObject], encoding: URLEncoding.default)
         case .announceTransaction(let requestAnnounce):
-            return ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject]
+            return .requestParameters(parameters: ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject], encoding: JSONEncoding.default)
         case .harvestInfoData(let accountAddress):
-            return ["address": accountAddress as AnyObject]
+            return .requestParameters(parameters: ["address": accountAddress as AnyObject], encoding: URLEncoding.default)
         default:
-            return nil
+            return .requestPlain
         }
     }
-    var parameterEncoding: Moya.ParameterEncoding {
-        switch self {
-        case .announceTransaction:
-            return JSONEncoding.default
-        default:
-            return URLEncoding.default
-        }
-    }
-    var headers: [String: String] {
+    var headers: [String: String]? {
         switch self {
         case .announceTransaction:
             return ["Content-Type": "application/json"]
         default:
             return [:]
         }
-    }
-    var task: Task {
-        return .request
     }
     var sampleData: Data {
         switch self {

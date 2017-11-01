@@ -128,7 +128,7 @@ final class AccountDashboardViewController: UITableViewController {
     // MARK: - View Controller Helper Methods
     
     /// Reloads the account dashboard with the newest data.
-    internal func reloadAccountDashboard() {
+    @objc internal func reloadAccountDashboard() {
         tableView.reloadData()
     }
     

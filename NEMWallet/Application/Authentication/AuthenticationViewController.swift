@@ -81,7 +81,7 @@ final class AuthenticationViewController: UIViewController {
         
         let passwordData: NSData? = try! HashManager.generateAesKeyForString(passwordTextField.text!, salt: saltData, roundCount: 2000)!
         
-        if passwordData?.toHexString() == encryptedPassword {
+        if passwordData?.hexadecimalString() == encryptedPassword {
             authenticationSuccessful()
         } else {
             passwordTextField.textColor = UIColor.red

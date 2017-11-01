@@ -117,7 +117,7 @@ class AddressBookViewController: UIViewController, UITextFieldDelegate {
         - Parameter message: The message that should get shown.
         - Parameter completion: An optional action that should get performed on completion.
      */
-    fileprivate func showAlert(withMessage message: String, andTitle title: String? = "INFO".localized(), completion: ((Void) -> Void)? = nil) {
+    fileprivate func showAlert(withMessage message: String, andTitle title: String? = "INFO".localized(), completion: (() -> Void)? = nil) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         

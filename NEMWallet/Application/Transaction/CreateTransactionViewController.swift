@@ -65,7 +65,7 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
         
         transactionMessagePlaceholderLabel = UILabel()
         transactionMessagePlaceholderLabel.text = "Enter the message you’d like to send"
-        transactionMessagePlaceholderLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightSemibold)
+        transactionMessagePlaceholderLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.semibold)
         transactionMessagePlaceholderLabel.sizeToFit()
         transactionMessageTextView.addSubview(transactionMessagePlaceholderLabel)
         transactionMessagePlaceholderLabel.frame.origin = CGPoint(x: 5, y: 8)
@@ -291,7 +291,7 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
     }
     
     ///
-    public func hideKeyboard() {
+    @objc public func hideKeyboard() {
         
         transactionRecipientTextField.resignFirstResponder()
         transactionAmountTextField.resignFirstResponder()

@@ -42,7 +42,7 @@ open class KeyboardLayoutConstraint: NSLayoutConstraint {
     
     // MARK: Notification
     
-    func keyboardWillShowNotification(_ notification: Notification) {
+    @objc func keyboardWillShowNotification(_ notification: Notification) {
         if let userInfo = (notification as NSNotification).userInfo {
             if let frameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue {
                 let frame = frameValue.cgRectValue
@@ -73,7 +73,7 @@ open class KeyboardLayoutConstraint: NSLayoutConstraint {
         
     }
     
-    func keyboardWillHideNotification(_ notification: Notification) {
+    @objc func keyboardWillHideNotification(_ notification: Notification) {
         keyboardVisibleHeight = 0
         self.updateConstant()
         

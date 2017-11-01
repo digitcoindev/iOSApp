@@ -42,18 +42,18 @@ class InvoiceCreatedViewController: UIViewController {
         
         generateQRCode(forInvoice: invoice)
         
-        let invoiceAccountTitleHeading = NSMutableAttributedString(string: "\("NAME".localized()): ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)])
-        let invoiceAccountTitle = NSMutableAttributedString(string: invoice.accountTitle, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)])
+        let invoiceAccountTitleHeading = NSMutableAttributedString(string: "\("NAME".localized()): ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
+        let invoiceAccountTitle = NSMutableAttributedString(string: invoice.accountTitle, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
         invoiceAccountTitleHeading.append(invoiceAccountTitle)
         invoiceAccountTitleLabel.attributedText = invoiceAccountTitleHeading
         
-        let invoiceAmountHeading = NSMutableAttributedString(string: "\("AMOUNT".localized()): ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)])
-        let invoiceAmount = NSMutableAttributedString(string: "\((Double(invoice.amount) / 1000000).format()) XEM" , attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)])
+        let invoiceAmountHeading = NSMutableAttributedString(string: "\("AMOUNT".localized()): ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
+        let invoiceAmount = NSMutableAttributedString(string: "\((Double(truncating: invoice.amount) / 1000000).format()) XEM" , attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
         invoiceAmountHeading.append(invoiceAmount)
         invoiceAmountLabel.attributedText = invoiceAmountHeading
         
-        let invoiceMessageHeading = NSMutableAttributedString(string: "\("MESSAGE".localized()): ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13)])
-        let invoiceMessage = NSMutableAttributedString(string: invoice.message, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)])
+        let invoiceMessageHeading = NSMutableAttributedString(string: "\("MESSAGE".localized()): ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
+        let invoiceMessage = NSMutableAttributedString(string: invoice.message, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
         invoiceMessageHeading.append(invoiceMessage)
         invoiceMessageLabel.attributedText = invoiceMessageHeading
     }
