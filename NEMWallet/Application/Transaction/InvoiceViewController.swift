@@ -64,8 +64,7 @@ final class InvoiceViewController: UIViewController {
         
         let jsonData = try! JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
         
-        let qrCodeScannerView = QRCodeScannerView()
-        invoiceQRCodeImageView.image = qrCodeScannerView.createQRCodeImage(fromCaptureResult: String(data: jsonData, encoding: String.Encoding.utf8)!)
+        invoiceQRCodeImageView.image = String(data: jsonData, encoding: String.Encoding.utf8)!.createQRCodeImage()
     }
     
     /// Updates the appearance of the view controller.

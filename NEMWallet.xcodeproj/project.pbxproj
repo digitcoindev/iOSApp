@@ -68,6 +68,12 @@
 		4F7E1ECA1FAA3E8C000F1339 /* RIPEMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1EC61FAA3E8C000F1339 /* RIPEMD.swift */; };
 		4F7E1ECB1FAA3E8C000F1339 /* NSData+HexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1EC71FAA3E8C000F1339 /* NSData+HexString.swift */; };
 		4F7E1ECC1FAA3E8C000F1339 /* RIPEMD+Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1EC81FAA3E8C000F1339 /* RIPEMD+Block.swift */; };
+		4F7E1ECE1FABBA93000F1339 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1ECD1FABBA93000F1339 /* AddAccountViewController.swift */; };
+		4F7E1ED01FABD731000F1339 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1ECF1FABD731000F1339 /* CreateAccountViewController.swift */; };
+		4F7E1ED21FABDD97000F1339 /* ImportAccountByQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1ED11FABDD97000F1339 /* ImportAccountByQRViewController.swift */; };
+		4F7E1ED41FABE025000F1339 /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1ED31FABE025000F1339 /* QRScannerView.swift */; };
+		4F7E1ED61FABE08B000F1339 /* CIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1ED51FABE08B000F1339 /* CIImage+Additions.swift */; };
+		4F7E1ED81FABFCBD000F1339 /* ImportAccountByPKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7E1ED71FABFCBD000F1339 /* ImportAccountByPKViewController.swift */; };
 		4F850F141D4C3BF00003E192 /* HashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F131D4C3BF00003E192 /* HashManager.swift */; };
 		4F850F171D4C3C930003E192 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F161D4C3C930003E192 /* NSData+Base64.m */; };
 		4F850F1B1D4C3D240003E192 /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F850F1A1D4C3D240003E192 /* Crypto.m */; };
@@ -137,7 +143,6 @@
 		4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */; };
 		4F9F68781D4C37BF0086F98F /* SettingsServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */; };
 		4F9F687A1D4C37C40086F98F /* SettingsAddServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */; };
-		4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */; };
 		4F9F68861D4C39220086F98F /* UIImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9F68851D4C39220086F98F /* UIImage+Additions.swift */; };
 		4FA486041F586E68007A3CC3 /* AccountSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA486031F586E68007A3CC3 /* AccountSummaryTableViewCell.swift */; };
 		4FA5B5821D81B86F00B1F907 /* TransactionExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5B5811D81B86F00B1F907 /* TransactionExceptions.swift */; };
@@ -279,6 +284,12 @@
 		4F7E1EC61FAA3E8C000F1339 /* RIPEMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RIPEMD.swift; sourceTree = "<group>"; };
 		4F7E1EC71FAA3E8C000F1339 /* NSData+HexString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+HexString.swift"; sourceTree = "<group>"; };
 		4F7E1EC81FAA3E8C000F1339 /* RIPEMD+Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RIPEMD+Block.swift"; sourceTree = "<group>"; };
+		4F7E1ECD1FABBA93000F1339 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
+		4F7E1ECF1FABD731000F1339 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		4F7E1ED11FABDD97000F1339 /* ImportAccountByQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportAccountByQRViewController.swift; sourceTree = "<group>"; };
+		4F7E1ED31FABE025000F1339 /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
+		4F7E1ED51FABE08B000F1339 /* CIImage+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+Additions.swift"; sourceTree = "<group>"; };
+		4F7E1ED71FABFCBD000F1339 /* ImportAccountByPKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportAccountByPKViewController.swift; sourceTree = "<group>"; };
 		4F850F131D4C3BF00003E192 /* HashManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashManager.swift; sourceTree = "<group>"; };
 		4F850F151D4C3C8F0003E192 /* NSData+Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		4F850F161D4C3C930003E192 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
@@ -348,7 +359,6 @@
 		4F9F68751D4C37B90086F98F /* SettingsChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsChangePasswordViewController.swift; sourceTree = "<group>"; };
 		4F9F68771D4C37BF0086F98F /* SettingsServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsServerViewController.swift; sourceTree = "<group>"; };
 		4F9F68791D4C37C40086F98F /* SettingsAddServerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsAddServerViewController.swift; sourceTree = "<group>"; };
-		4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
 		4F9F68851D4C39220086F98F /* UIImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Additions.swift"; sourceTree = "<group>"; };
 		4F9F689D1D4C3A160086F98F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FA486031F586E68007A3CC3 /* AccountSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSummaryTableViewCell.swift; sourceTree = "<group>"; };
@@ -517,6 +527,7 @@
 				4F0B5F021DAFD41000E182C3 /* Double+Additions.swift */,
 				4F0B5F041DAFD41800E182C3 /* NSData+Additions.swift */,
 				64F22B8C1EE67B9700780900 /* UIViewController+Additions.swift */,
+				4F7E1ED51FABE08B000F1339 /* CIImage+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -578,6 +589,10 @@
 				4F9F68071D4C33490086F98F /* WalletOverviewViewController.swift */,
 				4F9F68291D4C35070086F98F /* AccountDashboardViewController.swift */,
 				4FD383C81F6C2276004EB26E /* AccountDetailsViewController.swift */,
+				4F7E1ECD1FABBA93000F1339 /* AddAccountViewController.swift */,
+				4F7E1ECF1FABD731000F1339 /* CreateAccountViewController.swift */,
+				4F7E1ED11FABDD97000F1339 /* ImportAccountByQRViewController.swift */,
+				4F7E1ED71FABFCBD000F1339 /* ImportAccountByPKViewController.swift */,
 				4F9F680D1D4C33630086F98F /* AccountAdditionMenuViewController.swift */,
 				4F9F680F1D4C336C0086F98F /* AccountAdditionMenuButton.swift */,
 				4F9F68111D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift */,
@@ -689,7 +704,7 @@
 		4F9F67B41D4A02730086F98F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4F9F687D1D4C38280086F98F /* QRCodeScannerView.swift */,
+				4F7E1ED31FABE025000F1339 /* QRScannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1101,6 +1116,7 @@
 				4F9F68161D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift in Sources */,
 				4F9F68601D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift in Sources */,
 				4F9F68341D4C35430086F98F /* TransactionUnconfirmedViewController.swift in Sources */,
+				4F7E1ED21FABDD97000F1339 /* ImportAccountByQRViewController.swift in Sources */,
 				4F9F682A1D4C35070086F98F /* AccountDashboardViewController.swift in Sources */,
 				4F850F141D4C3BF00003E192 /* HashManager.swift in Sources */,
 				4F9F68721D4C37B10086F98F /* SettingsInvoiceMessageViewController.swift in Sources */,
@@ -1140,7 +1156,9 @@
 				4F0FFE2E1F910D9000120E67 /* MultisigSignatureTableViewCell.swift in Sources */,
 				4F9F68481D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift in Sources */,
 				4F3ACEAF1D6451580056F234 /* Message+Additions.swift in Sources */,
+				4F7E1ED41FABE025000F1339 /* QRScannerView.swift in Sources */,
 				4F9F67EA1D4C31080086F98F /* AppDelegate.swift in Sources */,
+				4F7E1ED01FABD731000F1339 /* CreateAccountViewController.swift in Sources */,
 				4F3ACE991D620B100056F234 /* TransactionModel.swift in Sources */,
 				4F9F683E1D4C35E30086F98F /* InvoiceAccountInfoViewController.swift in Sources */,
 				4F9F68361D4C35480086F98F /* TransactionUnconfirmedTableViewCell.swift in Sources */,
@@ -1174,6 +1192,7 @@
 				4F9F68181D4C33900086F98F /* AccountExportViewController.swift in Sources */,
 				4F9F68461D4C36040086F98F /* MultisigViewController.swift in Sources */,
 				4F136CAF1D9A750D0042504C /* SettingsManager.swift in Sources */,
+				4F7E1ECE1FABBA93000F1339 /* AddAccountViewController.swift in Sources */,
 				4F9F68121D4C33760086F98F /* AccountAdditionMenuCreateNewAccountViewController.swift in Sources */,
 				98BB95DA1BCCED5B002151F7 /* sc.c in Sources */,
 				4F0B5F091DAFD4A900E182C3 /* AutoCompleteTextField.swift in Sources */,
@@ -1208,6 +1227,7 @@
 				4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */,
 				4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */,
 				4F0B5F031DAFD41000E182C3 /* Double+Additions.swift in Sources */,
+				4F7E1ED61FABE08B000F1339 /* CIImage+Additions.swift in Sources */,
 				4FCBF1601F44B0FA00BE5284 /* Date+Additions.swift in Sources */,
 				4F9F682E1D4C35160086F98F /* TransactionSendViewController.swift in Sources */,
 				4F0B5F0E1DAFD50700E182C3 /* MultisigSignatureTransaction+Additions.swift in Sources */,
@@ -1215,12 +1235,12 @@
 				DADDA24D1B21D17800F3F5F5 /* Constants.swift in Sources */,
 				4F15DCA71DA294400042997C /* ServerModel.swift in Sources */,
 				4FC1EA011FA339DA00E7617D /* MultisigAccountTableViewCell.swift in Sources */,
-				4F9F687E1D4C38280086F98F /* QRCodeScannerView.swift in Sources */,
 				4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */,
 				4F850F1D1D4C3D550003E192 /* keccak.c in Sources */,
 				4FE3B0DB1F87D51F00783347 /* TransferTransactionDetailsViewController.swift in Sources */,
 				4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */,
 				4FC1EA031FA370D700E7617D /* VerifyTransferTransactionViewController.swift in Sources */,
+				4F7E1ED81FABFCBD000F1339 /* ImportAccountByPKViewController.swift in Sources */,
 				98BB95DD1BCCED5B002151F7 /* sign.c in Sources */,
 				4F9F68781D4C37BF0086F98F /* SettingsServerViewController.swift in Sources */,
 			);

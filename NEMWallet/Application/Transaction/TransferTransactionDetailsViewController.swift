@@ -78,7 +78,7 @@ final class TransferTransactionDetailsViewController: UIViewController {
                 transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
                 transactionMessageLabel.text = transferTransaction.message?.message ?? "-"
                 transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : "-"
-                transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "-")"
+                transactionHashLabel.text = transferTransaction.metaData?.hash != "" ? "\(transferTransaction.metaData?.hash ?? "-")" : "-"
                 
             default:
                 break

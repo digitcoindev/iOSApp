@@ -117,4 +117,36 @@ extension String {
     func localized(_ defaultValue: String? = nil) -> String {
         return NSLocalizedString(self, comment: defaultValue ?? self) 
     }
+    
+    /**
+        Creates an image from the captured QR code.
+     
+        - Parameter captureResult: The capture result from the scanned QR code that should get turned into an image.
+     
+        - Returns: The scanned QR code as an image.
+     */
+    func createQRCodeImage() -> UIImage {
+        
+        let qrCodeCIImage: CIImage = self.createQRCodeCIImage()
+        let qrCodeUIImage: UIImage = qrCodeCIImage.createNonInterpolatedUIImage(scale: 10)
+        
+        return UIImage(cgImage: qrCodeUIImage.cgImage!, scale: 1.0, orientation: .downMirrored)
+    }
+    
+    /**
+        Creates a CI image from the captured QR code.
+     
+        - Parameter captureResult: The capture result from the scanned QR code that should get turned into a CI image.
+     
+        - Returns: The scanned QR code as a CI image.
+     */
+    func createQRCodeCIImage() -> CIImage {
+        
+        let stringData: Data = (self as NSString).data(using: String.Encoding.utf8.rawValue)!
+        let qrCodeFilter: CIFilter = CIFilter(name: "CIQRCodeGenerator")!
+        qrCodeFilter.setValue(stringData, forKey: "inputMessage")
+        qrCodeFilter.setValue("M", forKey: "inputCorrectionLevel")
+        
+        return qrCodeFilter.outputImage!
+    }
 }

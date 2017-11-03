@@ -1,17 +1,19 @@
 //
-//  InvoiceScannerViewController.swift
+//  ImportAccountByQRViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
-//  Copyright (c) 2016 NEM
+//  Copyright (c) 2017 NEM
 //
 
 import UIKit
 import AVFoundation
 import SwiftyJSON
-import Contacts
 
-/// The view controller that lets the user scan an invoice.
-final class InvoiceScannerViewController: UIViewController {
+/**
+    The account addition view controller that lets the user add an existing
+    account through scanning the qr code for the account.
+ */
+final class ImportAccountByQRViewController: UIViewController {
     
     // MARK: - View Controller Properties
     
@@ -28,16 +30,30 @@ final class InvoiceScannerViewController: UIViewController {
     private var videoDeviceInput: AVCaptureDeviceInput!
     private var metaDataOutput = AVCaptureMetadataOutput()
     
+    /// The title of the account that should get imported.
+    fileprivate var accountTitle = String()
+    
+    /// The encrypted private key of the account that should get imported.
+    fileprivate var accountEncryptedPrivateKey = String()
+    
+    /// The salt of the account that should get imported.
+    fileprivate var accountSalt = String()
+    
+    fileprivate var accountPrivateKey = String()
+    
     // MARK: - View Controller Outlets
     
-    @IBOutlet weak var qrCodeScannerView: QRScannerView!
+    @IBOutlet weak var informationLabel: UILabel!
+    @IBOutlet weak var qrScannerView: QRScannerView!
     
     // MARK: - View Controller Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        informationLabel.text = "Import an existing account by scanning the QR code that was generated when you created a backup of your account"
         
-        qrCodeScannerView.session = session
+        qrScannerView.session = session
         
         switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
         case .authorized:
@@ -112,22 +128,6 @@ final class InvoiceScannerViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        switch segue.identifier! {
-        case "showTransactionSendViewController":
-            
-            let destinationViewController = segue.destination as! TransactionSendViewController
-            let invoiceJsonData = sender as! JSON
-            destinationViewController.recipientAddress = invoiceJsonData["addr"].stringValue
-            destinationViewController.amount = Double(invoiceJsonData["amount"].intValue) / Double(1000000)
-            destinationViewController.message = invoiceJsonData["msg"].stringValue
-            
-        default:
-            return
-        }
-    }
-    
     // MARK: - View Controller Helper Methods
     
     ///
@@ -151,8 +151,8 @@ final class InvoiceScannerViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     let initialVideoOrientation: AVCaptureVideoOrientation = .portrait
-                    self.qrCodeScannerView.videoPreviewLayer.connection?.videoOrientation = initialVideoOrientation
-                    self.qrCodeScannerView.videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                    self.qrScannerView.videoPreviewLayer.connection?.videoOrientation = initialVideoOrientation
+                    self.qrScannerView.videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
                 }
             } else {
                 print("Could not add video device input to the session")
@@ -212,55 +212,139 @@ final class InvoiceScannerViewController: UIViewController {
     }
     
     /**
-     Validates the capture result of the QR code scan.
+        Validates the capture result of the QR code scan.
      
-     - Parameter captureResult: The capture result of the QR code scan a JSON array/dictionary.
+        - Parameter captureResult: The capture result of the QR code scan a JSON array/dictionary.
      
-     - Throws:
-     - AccountImportValidation.ValueMissing if the capture result is missing a value.
-     - AccountImportValidation.VersionNotMatching if the version value of the captured QR code doesn't match with the currently supported version by the application.
-     - AccountImportValidation.DataTypeNotMatching if the data type value of the captured QR code doesn't match with the account data type supported by this view controller.
+        - Throws:
+        - AccountImportValidation.ValueMissing if the capture result is missing a value.
+        - AccountImportValidation.VersionNotMatching if the version value of the captured QR code doesn't match with the currently supported version by the application.
+        - AccountImportValidation.DataTypeNotMatching if the data type value of the captured QR code doesn't match with the account data type supported by this view controller.
      
-     - Returns: A bool indicating that the validation was successful.
+        - Returns: A bool indicating that the validation was successful.
      */
     fileprivate func validate(captureResult: JSON) throws -> Bool {
         
         guard captureResult != nil else { throw AccountImportValidation.valueMissing }
         guard captureResult[QRKeys.version.rawValue].intValue == Constants.qrVersion else { throw AccountImportValidation.versionNotMatching }
-        guard captureResult[QRKeys.dataType.rawValue].intValue == QRType.userData.rawValue || captureResult[QRKeys.dataType.rawValue].intValue == QRType.invoice.rawValue else { throw AccountImportValidation.dataTypeNotMatching }
+        guard captureResult[QRKeys.dataType.rawValue].intValue == QRType.accountData.rawValue else { throw AccountImportValidation.dataTypeNotMatching }
+        guard captureResult["data"][QRKeys.name.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult["data"][QRKeys.privateKey.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
+        guard captureResult["data"][QRKeys.salt.rawValue].string != nil else { throw AccountImportValidation.valueMissing }
         
         return true
     }
     
+    ///
+    fileprivate func requestBackupPassword() {
+    
+        let passwordAlert = UIAlertController(title: "ENTET_PASSWORD".localized(), message: "", preferredStyle: .alert)
+        passwordAlert.addTextField { (textField: UITextField) -> Void in
+            textField.placeholder = "PASSWORD_PLACEHOLDER".localized()
+        }
+        passwordAlert.addAction(UIAlertAction(title: "Verify", style: .default, handler: { [weak self] (action) in
+            
+            let password = passwordAlert.textFields?.first?.text ?? ""
+            self?.verifyPassword(password: password)
+        }))
+        passwordAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(passwordAlert, animated: true, completion: nil)
+    }
+    
+    ///
+    fileprivate func verifyPassword(password: String) {
+        
+        do {
+            let _ = try validatePassword(password: password)
+            
+            AccountManager.sharedInstance.create(account: accountTitle, withPrivateKey: accountPrivateKey, completion: { [unowned self] (result, _) in
+                
+                switch result {
+                case .success:
+                    
+                    let accountCreationSuccessfulAlert = UIAlertController(title: "Success", message: "The account was successfully imported!", preferredStyle: .alert)
+                    
+                    accountCreationSuccessfulAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { (action) in
+                        self.performSegue(withIdentifier: "unwindToWalletOverviewViewController", sender: nil)
+                    }))
+                    
+                    self.present(accountCreationSuccessfulAlert, animated: true, completion: nil)
+                    
+                case .failure:
+                    let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
+                    
+                    accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
+                    
+                    self.present(accountCreationFailureAlert, animated: true, completion: nil)
+                }
+            })
+            
+        } catch AccountImportValidation.accountAlreadyPresent(let existingAccountTitle) {
+            
+            let accountAlreadyPresentAlert = UIAlertController(title: "VALIDATION".localized(), message: String(format: "VIDATION_ACCOUNT_EXIST".localized(), arguments:[existingAccountTitle]), preferredStyle: .alert)
+            
+            accountAlreadyPresentAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
+            
+            self.present(accountAlreadyPresentAlert, animated: true, completion: nil)
+            
+        } catch AccountImportValidation.wrongPasswordProvided {
+            
+            let verificationFailureAlert = UIAlertController(title: "Error", message: "Wrong password provided", preferredStyle: .alert)
+            
+            verificationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
+            
+            present(verificationFailureAlert, animated: true, completion: nil)
+            
+        } catch {
+            
+            let accountCreationFailureAlert = UIAlertController(title: "Error", message: "Couldn't create account", preferredStyle: .alert)
+            
+            accountCreationFailureAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
+            
+            present(accountCreationFailureAlert, animated: true, completion: nil)
+        }
+    }
+    
     /**
-     Shows the add contact view controller with the received
-     contact information already filled in.
+        Verifies that the entered password is valid and therefore
+        able to decrypt the imported and encrypted private key.
      
-     - Parameter jsonData: The contact information as a JSON array.
+        - Throws:
+        - AccountImportValidation.NoPasswordProvided if no password was provided.
+        - AccountImportValidation.WrongPasswordProvided if the provided password is invalid.
+        - AccountImportValidation.AccountAlreadyPresent if an account with the same private key already is present in the application.
+        - AccountImportValidation.Other if generating a hash failed.
+     
+        - Returns: A bool indicating that the verification was successful.
      */
-    fileprivate func addContact(withJsonData jsonData: JSON) {
+    fileprivate func validatePassword(password: String) throws -> Bool {
         
-        let firstName = jsonData[QRKeys.name.rawValue].stringValue
-        let lastName = jsonData["surname"].stringValue
-        let accountAddress = jsonData[QRKeys.address.rawValue].stringValue
+        guard password != "" else { throw AccountImportValidation.noPasswordProvided }
         
-        let contact = CNMutableContact()
-        contact.givenName = firstName
-        contact.familyName = lastName
-        let contactAccountAddress = CNLabeledValue(label: "NEM", value: accountAddress as NSString)
-        contact.emailAddresses = [contactAccountAddress]
+        let accountSaltBytes = accountSalt.asByteArray()
+        let accountSaltData = NSData(bytes: accountSaltBytes, length: accountSaltBytes.count)
         
-        InvoiceManager.sharedInstance.contactToCreate = contact
+        guard let passwordHash = try? HashManager.generateAesKeyForString(password, salt: accountSaltData, roundCount:2000) else { throw AccountImportValidation.other }
+        guard let accountPrivateKey = HashManager.AES256Decrypt(inputText: accountEncryptedPrivateKey, key: passwordHash!.hexadecimalString())?.nemKeyNormalized() else { throw AccountImportValidation.wrongPasswordProvided }
         
-        performSegue(withIdentifier: "showAddressBookAddContactViewController", sender: nil)
+        do {
+            let _ = try AccountManager.sharedInstance.validateAccountExistence(forAccountWithPrivateKey: accountPrivateKey)
+            self.accountPrivateKey = accountPrivateKey
+            
+            return true
+            
+        } catch AccountImportValidation.accountAlreadyPresent(let existingAccountTitle) {
+            throw AccountImportValidation.accountAlreadyPresent(accountTitle: existingAccountTitle)
+        }
     }
 }
 
-extension InvoiceScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
+extension ImportAccountByQRViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     // MARK: - Capture Output Delegate
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         
         for item in metadataObjects {
             if let metadataObject = item as? AVMetadataMachineReadableCodeObject , metadataObject.type == AVMetadataObject.ObjectType.qr {
@@ -274,22 +358,11 @@ extension InvoiceScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                 do {
                     let _ = try validate(captureResult: captureResultJSON)
                     
-                    switch captureResultJSON[QRKeys.dataType.rawValue].intValue {
-                    case QRType.userData.rawValue:
-                        
-                        print("scanned contact")
-                        let contactJsonData = captureResultJSON[QRKeys.data.rawValue]
-                        addContact(withJsonData: contactJsonData)
-                        
-                    case QRType.invoice.rawValue:
-                        
-                        print("scanned invoice")
-                        let invoiceJsonData = captureResultJSON[QRKeys.data.rawValue]
-                        performSegue(withIdentifier: "showTransactionSendViewController", sender: invoiceJsonData)
-                        
-                    default:
-                        throw AccountImportValidation.versionNotMatching
-                    }
+                    self.accountTitle = captureResultJSON["data"][QRKeys.name.rawValue].string!
+                    self.accountEncryptedPrivateKey = captureResultJSON["data"][QRKeys.privateKey.rawValue].string!
+                    self.accountSalt = captureResultJSON["data"][QRKeys.salt.rawValue].string!
+                    
+                    requestBackupPassword()
                     
                 } catch AccountImportValidation.versionNotMatching {
                     
@@ -302,7 +375,6 @@ extension InvoiceScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                     return
                     
                 } catch {
-                    
                     return
                 }
             }
