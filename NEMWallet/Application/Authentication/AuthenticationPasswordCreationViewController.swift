@@ -82,7 +82,7 @@ class AuthenticationPasswordCreationViewController: UIViewController {
             showAlert(withMessage: "FIELDS_EMPTY_ERROR".localized())
             return
         }
-        guard password.characters.count >= 6 else {
+        guard password.count >= 6 else {
             showAlert(withMessage: "PASSOWORD_LENGTH_ERROR".localized())
             return
         }
@@ -124,7 +124,7 @@ class AuthenticationPasswordCreationViewController: UIViewController {
             confirmPasswordTextField.textColor = UIColor.red
         }
         
-        if passwordTextField.text!.characters.count >= 6 {
+        if passwordTextField.text!.count >= 6 {
             passwordTextField.textColor = UIColor.green
         } else {
             confirmPasswordTextField.textColor = UIColor.red

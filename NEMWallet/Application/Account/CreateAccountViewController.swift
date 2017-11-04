@@ -10,6 +10,10 @@ import UIKit
 ///
 final class CreateAccountViewController: UIViewController {
     
+    // MARK: - View Controller Properties
+    
+    private var account: Account?
+    
     // MARK: - View Controller Outlets
     
     @IBOutlet weak var informationLabel: UILabel!
@@ -46,6 +50,21 @@ final class CreateAccountViewController: UIViewController {
         scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segue.identifier! {
+        case "showCreateBackupViewController":
+            
+            let navigationController = segue.destination as! UINavigationController
+            if let destinationViewController = navigationController.topViewController as? CreateBackupViewController {
+                destinationViewController.account = account
+            }
+            
+        default:
+            break
+        }
+    }
+    
     // MARK: - View Controller Outlet Actions
     
     @IBAction func createAccount(_ sender: UIButton) {
@@ -74,18 +93,13 @@ final class CreateAccountViewController: UIViewController {
         do {
             let _ = try validate(enteredInformation: title)
             
-            AccountManager.sharedInstance.create(account: title, completion: { [unowned self] (result, _) in
+            AccountManager.sharedInstance.create(account: title, completion: { [unowned self] (result, account) in
                 
                 switch result {
                 case .success:
                     
-                    let alert = UIAlertController(title: "Warning", message: "The account was successfully created. Don't forget to backup your private key! Select your account on the dashboard, go to 'more' -> 'export account'", preferredStyle: UIAlertControllerStyle.alert)
-                    
-                    alert.addAction(UIAlertAction(title: "OK".localized(), style: UIAlertActionStyle.default, handler: { [unowned self] (action) -> Void in
-                        self.performSegue(withIdentifier: "unwindToWalletOverviewViewController", sender: nil)
-                    }))
-                    
-                    self.present(alert, animated: true, completion: nil)
+                    self.account = account
+                    self.performSegue(withIdentifier: "showCreateBackupViewController", sender: nil)
                     
                 case .failure:
                     

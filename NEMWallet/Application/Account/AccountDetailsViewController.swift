@@ -42,6 +42,22 @@ final class AccountDetailsViewController: UIViewController {
         fetchAccountData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segue.identifier! {
+        case "showCreateBackupViewController":
+            
+            let navigationController = segue.destination as! UINavigationController
+            if let destinationViewController = navigationController.topViewController as? CreateBackupViewController {
+                destinationViewController.account = account
+                destinationViewController.allowCancelling = true
+            }
+            
+        default:
+            break
+        }
+    }
+    
     // MARK: - View Controller Helper Methods
     
     /// Reloads all account details with the newest data.

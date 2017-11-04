@@ -85,7 +85,7 @@ final class AccountManager {
     public func delete(account: Account, completion: @escaping (_ result: Result) -> Void) {
         
         var accounts = self.accounts()
-        accounts.remove(at: Int(account.position))
+        accounts.remove(at: Int(truncating: account.position))
         
         DatabaseManager.sharedInstance.dataStack.perform(
             asynchronous: { (transaction) -> Void in

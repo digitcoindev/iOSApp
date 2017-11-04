@@ -18,6 +18,7 @@ public enum AccountImportValidation: Error {
     case dataTypeNotMatching
     case noPasswordProvided
     case wrongPasswordProvided
+    case wrongBackupProvided
     case accountAlreadyPresent(accountTitle: String)
     case invalidPrivateKey
     case other
