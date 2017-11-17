@@ -113,7 +113,7 @@ class SettingsChangePasswordViewController: UITableViewController {
         }
         
         let newApplicationPassword = newPasswordTextField.text!
-        let newSaltData = salt != nil ? NSData(bytes: salt!.asByteArray(), length: salt!.asByteArray().count) : NSData().generateRandomIV(32) as NSData
+        let newSaltData = salt != nil ? NSData(bytes: try! salt!.asByteArray(), length: try! salt!.asByteArray().count) : NSData().generateRandomIV(32) as NSData
         let newPasswordHash = try! HashManager.generateAesKeyForString(newApplicationPassword, salt: newSaltData, roundCount: 2000)!
         
         let accounts = AccountManager.sharedInstance.accounts()

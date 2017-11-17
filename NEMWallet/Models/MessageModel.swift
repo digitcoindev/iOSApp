@@ -43,7 +43,7 @@ public struct Message: SwiftyJSONMappable {
     public init?(jsonData: JSON) {
 
         type = MessageType(rawValue: jsonData["type"].intValue) ?? MessageType.unencrypted
-        payload = jsonData["payload"].string?.asByteArray()
+        payload = try! jsonData["payload"].string?.asByteArray()
     }
     
     // MARK: - Model Helper Methods

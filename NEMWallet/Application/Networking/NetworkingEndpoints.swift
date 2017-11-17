@@ -12,7 +12,7 @@ import Moya
 
 let endpointClosure = { (target: NIS) -> Endpoint<NIS> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
-    let endpoint: Endpoint<NIS> = Endpoint<NIS>(url: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, parameters: target.parameters, parameterEncoding: target.parameterEncoding, httpHeaderFields: target.headers)
+    let endpoint: Endpoint<NIS> = Endpoint<NIS>(url: url, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, task: target.task, httpHeaderFields: target.headers)
 
     return endpoint
 }
@@ -80,42 +80,23 @@ extension NIS: TargetType {
             return .post
         }
     }
-    var parameters: [String: Any]? {
+    var task: Task {
         switch self {
-        case .heartbeat(_):
-            return nil
-        case .synchronizeTime:
-            return nil
-        case .accountData(let accountAddress):
-            return ["address": accountAddress as AnyObject]
-        case .allTransactions(let accountAddress, _):
-            return ["address": accountAddress as AnyObject]
-        case .unconfirmedTransactions(let accountAddress, _):
-            return ["address": accountAddress as AnyObject]
+        case .accountData(let accountAddress), .allTransactions(let accountAddress, _), .unconfirmedTransactions(let accountAddress, _), .harvestInfoData(let accountAddress):
+            return .requestParameters(parameters: ["address": accountAddress as AnyObject], encoding: URLEncoding.default)
         case .announceTransaction(let requestAnnounce):
-            return ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject]
-        case .harvestInfoData(let accountAddress):
-            return ["address": accountAddress as AnyObject]
+            return .requestParameters(parameters: ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject], encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
         }
     }
-    var parameterEncoding: Moya.ParameterEncoding {
-        switch self {
-        case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
-            return URLEncoding.default
-        case .announceTransaction:
-            return JSONEncoding.default
-        }
-    }
-    var headers: [String: String] {
+    var headers: [String: String]? {
         switch self {
         case .heartbeat, .synchronizeTime, .accountData, .allTransactions, .unconfirmedTransactions, .harvestInfoData:
             return [String: String]()
         case .announceTransaction:
             return ["Content-Type": "application/json"]
         }
-    }
-    var task: Task {
-        return .request
     }
     var sampleData: Data {
         switch self {

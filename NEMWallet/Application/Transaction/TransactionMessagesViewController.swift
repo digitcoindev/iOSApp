@@ -888,7 +888,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         var transactionFee = 0.0
         let transactionRecipient = correspondent!.accountAddress
         let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8) ?? String()
-        var transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
+        var transactionMessageByteArray: [UInt8] = try! transactionMessageText.asByteArray()
         let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
         let transactionSigner = activeAccountData!.publicKey
         

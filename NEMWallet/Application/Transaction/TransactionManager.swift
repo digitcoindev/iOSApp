@@ -186,7 +186,7 @@ open class TransactionManager {
         
         var sharedSecretByteArray: [UInt8] = Array(repeating: 0, count: 32)
         var senderPrivateKeyByteArray: Array<UInt8> = senderPrivateKey.asByteArrayEndian(32)
-        var recipientPublicKeyByteArray: Array<UInt8> = recipientPublicKey.asByteArray()
+        var recipientPublicKeyByteArray: Array<UInt8> = try! recipientPublicKey.asByteArray()
         
         ed25519_key_exchange_nem(&sharedSecretByteArray, &recipientPublicKeyByteArray, &senderPrivateKeyByteArray, &saltByteArray)
         
@@ -222,7 +222,7 @@ open class TransactionManager {
         let encByteArray: Array<UInt8> = Array(encryptedMessageByteArray[48..<encryptedMessageByteArray.count])
         
         var recipientPrivateKeyByteArray: Array<UInt8> = recipientPrivateKey.asByteArrayEndian(32)
-        var senderPublicKeyByteArray: Array<UInt8> = senderPublicKey.asByteArray()
+        var senderPublicKeyByteArray: Array<UInt8> = try! senderPublicKey.asByteArray()
         var sharedSecretByteArray: Array<UInt8> = Array(repeating: 0, count: 32)
         
         ed25519_key_exchange_nem(&sharedSecretByteArray, &senderPublicKeyByteArray, &recipientPrivateKeyByteArray, &saltByteArray)
@@ -306,7 +306,7 @@ open class TransactionManager {
         transactionTypeByteArray = String(Int64(transaction.type.rawValue), radix: 16).asByteArrayEndian(4)
         transactionVersionByteArray = [UInt8(transaction.version), 0, 0, network]
         transactionTimeStampByteArray = String(Int64(transaction.timeStamp), radix: 16).asByteArrayEndian(4)
-        transactionSignerByteArray = transaction.signer.asByteArray()
+        transactionSignerByteArray = try! transaction.signer.asByteArray()
         transactionFeeByteArray = String(transaction.fee, radix: 16).asByteArrayEndian(8)
         transactionDeadlineByteArray = String(Int64(transaction.deadline), radix: 16).asByteArrayEndian(4)
         
@@ -392,7 +392,7 @@ open class TransactionManager {
             let transactionModificationStructureLengthByteArray = String(modification.modificationStructureLength, radix: 16).asByteArrayEndian(4)
             let transactionModificationTypeByteArray = String(modification.modificationType.rawValue, radix: 16).asByteArrayEndian(4)
             let transactionCosignatoryPublicKeyLengthByteArray = String(modification.cosignatoryPublicKeyLength, radix: 16).asByteArrayEndian(4)
-            let transactionCosignatoryPublicKeyByteArray = modification.cosignatoryAccount.asByteArray()
+            let transactionCosignatoryPublicKeyByteArray = try! modification.cosignatoryAccount.asByteArray()
             
             transactionDependentPartByteArray += transactionModificationStructureLengthByteArray
             transactionDependentPartByteArray += transactionModificationTypeByteArray
@@ -440,7 +440,7 @@ open class TransactionManager {
         
         let transactionHashObjectLengthByteArray = String(transaction.hashObjectLength, radix: 16).asByteArrayEndian(4)
         let transactionHashLengthByteArray = String(transaction.hashLength, radix: 16).asByteArrayEndian(4)
-        let transactionHashByteArray = transaction.otherHash.asByteArray()
+        let transactionHashByteArray = try! transaction.otherHash.asByteArray()
         let transactionMultisigAccountLengthByteArray = String(transaction.multisigAccountLength, radix: 16).asByteArrayEndian(4)
         let transactionMultisigAccountAddressByteArray = Array<UInt8>(transaction.otherAccount.utf8)
         

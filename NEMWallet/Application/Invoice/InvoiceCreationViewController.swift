@@ -147,7 +147,7 @@ class InvoiceCreationViewController: UIViewController {
         if invoiceAccountTitle == "" {
             return
         }
-        if invoiceMessage.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 255 {
+        if try! invoiceMessage.hexadecimalStringUsingEncoding(String.Encoding.utf8)?.asByteArray().count > 255 {
             
             let messageLengthAlert = UIAlertController(title: "INFO".localized(), message: "MESSAGE_LENGTH".localized(), preferredStyle: UIAlertControllerStyle.alert)
             

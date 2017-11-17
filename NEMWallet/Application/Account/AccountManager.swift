@@ -262,14 +262,14 @@ open class AccountManager {
      */
     open func generateAddress(forPublicKey publicKey: String) -> String {
         
-        var inBuffer = publicKey.asByteArray()
+        var inBuffer = try! publicKey.asByteArray()
         var stepOneSHA256: Array<UInt8> = Array(repeating: 0, count: 64)
         
         SHA256_hash(&stepOneSHA256, &inBuffer, 32)
         
         let stepOneSHA256Text = NSString(bytes: stepOneSHA256, length: stepOneSHA256.count, encoding: String.Encoding.utf8.rawValue) as! String
         let stepTwoRIPEMD160Text = RIPEMD.hexStringDigest(stepOneSHA256Text) as String
-        let stepTwoRIPEMD160Buffer = stepTwoRIPEMD160Text.asByteArray()
+        let stepTwoRIPEMD160Buffer = try! stepTwoRIPEMD160Text.asByteArray()
         
         var version = Array<UInt8>()
         version.append(network)
@@ -280,7 +280,7 @@ open class AccountManager {
         SHA256_hash(&checksumHash, &stepThreeVersionPrefixedRipemd160Buffer, 21)
         
         let checksumText = NSString(bytes: checksumHash, length: checksumHash.count, encoding: String.Encoding.utf8.rawValue) as! String
-        var checksumBuffer = checksumText.asByteArray()
+        var checksumBuffer = try! checksumText.asByteArray()
         var checksum = Array<UInt8>()
         checksum.append(checksumBuffer[0])
         checksum.append(checksumBuffer[1])
@@ -378,7 +378,7 @@ open class AccountManager {
     fileprivate func generatePublicKey(forPrivateKey privateKey: String) -> String {
         
         var publicKeyBytes: Array<UInt8> = Array(repeating: 0, count: 32)
-        var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(privateKey.asByteArray().count)
+        var privateKeyBytes: Array<UInt8> = privateKey.asByteArrayEndian(try! privateKey.asByteArray().count)
         createPublicKey(&publicKeyBytes, &privateKeyBytes)
         
         let publicKey = Data(bytes: publicKeyBytes).toHexadecimalString()

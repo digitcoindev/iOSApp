@@ -120,7 +120,7 @@ class AccountExportPasswordViewController: UIViewController {
         
         if passwordTextField.text != String() {
             let privateKey = AccountManager.sharedInstance.decryptPrivateKey(encryptedPrivateKey: encryptedPrivateKey)
-            let saltData = NSData(bytes: salt!.asByteArray(), length: salt!.asByteArray().count)
+            let saltData = NSData(bytes: try! salt!.asByteArray(), length: try! salt!.asByteArray().count)
             let passwordHash = try! HashManager.generateAesKeyForString(passwordTextField.text!, salt: saltData, roundCount: 2000)
             encryptedPrivateKey = HashManager.AES256Encrypt(inputText: privateKey, key: passwordHash!.hexadecimalString())
         }

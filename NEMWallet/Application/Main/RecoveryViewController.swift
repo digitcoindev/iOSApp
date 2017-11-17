@@ -47,17 +47,28 @@ class RecoveryViewController: UITableViewController {
     
     func decrypt() {
         
-        if encryptedPrivateKey != nil && applicationPassword != nil && randomSalt != nil && encryptedPrivateKey!.asByteArray().count > 16 {
+        do {
+            let randomSaltByteArray = try randomSalt?.asByteArray()
+            let encryptedPrivateKeyByteArray = try encryptedPrivateKey?.asByteArray()
             
-            let newSaltData = NSData(bytes: randomSalt!.asByteArray(), length: randomSalt!.asByteArray().count)
-            let newPasswordHash = try! HashManager.generateAesKeyForString(applicationPassword!, salt: newSaltData, roundCount: 2000)!
-            let encryptedApplicationPassword = newPasswordHash.hexadecimalString()
-         
-            let inputBytes = encryptedPrivateKey!.asByteArray()
+            if randomSaltByteArray == nil || encryptedPrivateKeyByteArray == nil || encryptedPrivateKey == nil || applicationPassword == nil || randomSalt == nil || encryptedPrivateKeyByteArray!.count < 16 {
+                throw Result.failure
+            }
+            
+            let randomSaltData = NSData(bytes: try randomSalt!.asByteArray(), length: try randomSalt!.asByteArray().count)
+            let newPasswordHash: NSData? = try HashManager.generateAesKeyForString(applicationPassword!, salt: randomSaltData, roundCount: 2000) ?? nil
+            
+            if newPasswordHash == nil {
+                throw Result.failure
+            }
+            
+            let encryptedApplicationPassword = newPasswordHash!.hexadecimalString()
+            
+            let inputBytes = try encryptedPrivateKey!.asByteArray()
             let customizedIV =  Array(inputBytes[0..<16])
             let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
             var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
-            data = data!.aesDecrypt(key: encryptedApplicationPassword.asByteArray(), iv: customizedIV)
+            data = data?.aesDecrypt(key: try encryptedApplicationPassword.asByteArray(), iv: customizedIV)
             
             let decryptedPrivateKey = data?.toHexString() ?? "Couldn't decrypt private key - invalid data!"
             
@@ -66,8 +77,9 @@ class RecoveryViewController: UITableViewController {
             let accountAddress = AccountManager.sharedInstance.generateAddress(forPrivateKey: decryptedPrivateKey)
             fetchAccountData(forAccount: accountAddress)
             
-        } else {
+        } catch {
             decryptedPrivateKeyTextField.text = "Couldn't decrypt private key - invalid data!"
+            return
         }
     }
     

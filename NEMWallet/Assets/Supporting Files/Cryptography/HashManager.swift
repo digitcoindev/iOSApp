@@ -5,21 +5,21 @@ import UIKit
 class HashManager: NSObject
 {
     final class func AES256Encrypt(inputText :String ,key :String) -> String {
-        let messageBytes = inputText.asByteArray()
+        let messageBytes = try! inputText.asByteArray()
         var messageData = NSData(bytes: messageBytes, length: messageBytes.count)
 
         let ivData = NSData().generateRandomIV(16)
-        messageData = messageData.aesEncrypt(key: key.asByteArray(), iv: ivData!.bytes)!
+        messageData = messageData.aesEncrypt(key: try! key.asByteArray(), iv: ivData!.bytes)!
         
         return ivData!.bytes.toHexString() + messageData.toHexString()
     }
     
     final class func AES256Decrypt(inputText :String ,key :String) -> String? {
-        let inputBytes = inputText.asByteArray()
+        let inputBytes = try! inputText.asByteArray()
         let customizedIV =  Array(inputBytes[0..<16])
         let encryptedBytes = Array(inputBytes[16..<inputBytes.count])
         var data :NSData? = NSData(bytes: encryptedBytes, length: encryptedBytes.count)
-        data = data!.aesDecrypt(key: key.asByteArray(), iv: customizedIV)
+        data = data!.aesDecrypt(key: try! key.asByteArray(), iv: customizedIV)
         
         return data!.toHexString()
     }

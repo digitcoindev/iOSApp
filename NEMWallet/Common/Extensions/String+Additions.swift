@@ -32,7 +32,7 @@ extension String {
         return data?.toHexadecimalString()
     }
     
-    func asByteArray()-> Array<UInt8> {
+    func asByteArray() throws -> Array<UInt8> {
         var arrayLength :Int = self.utf16.count
         var hexString = self
         
@@ -46,7 +46,11 @@ extension String {
         var buffer : Array<UInt8> = Array(repeating: 0 , count: arrayLength)
         for index :Int in 0  ..< arrayLength  {
             let substring :String = (hexString as NSString).substring(with: NSRange(location: 2 * index, length: 2))
-            buffer[index] = UInt8(substring, radix: 16)!
+            let substringBuffer = UInt8(substring, radix: 16)
+            guard substringBuffer != nil else {
+                throw Result.failure
+            }
+            buffer[index] = substringBuffer!
         }
         return buffer
     }
@@ -104,7 +108,7 @@ extension String {
     
     func nemKeyNormalized() -> String? {
         if AccountManager.sharedInstance.validateKey(self) {
-            if self.asByteArray().count > 32 {
+            if try! self.asByteArray().count > 32 {
                 return (self as NSString).substring(with: NSRange(location: 2, length: 64))
             } else {
                 return self

@@ -385,8 +385,8 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         var transactionFee = 0.0
         transactionFee = TransactionManager.sharedInstance.calculateFee(forTransactionWithAmount: transactionAmount)
 
-        let transactionMessageByteArray = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray()
-        let transactionMessageLength = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray().count
+        let transactionMessageByteArray = try! transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray()
+        let transactionMessageLength = try! transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8)!.asByteArray().count
         if transactionMessageLength != 0 {
             transactionFee += TransactionManager.sharedInstance.calculateFee(forTransactionWithMessage: transactionMessageByteArray, isEncrypted: willEncrypt)
         }
@@ -411,7 +411,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
     fileprivate func finishPreparingTransaction(withRecipientPublicKey recipientPublicKey: String) {
         
         let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8) ?? String()
-        var transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
+        var transactionMessageByteArray: [UInt8] = try! transactionMessageText.asByteArray()
         
         if willEncrypt {
             var transactionEncryptedMessageByteArray: [UInt8] = Array(repeating: 0, count: 32)
@@ -554,7 +554,7 @@ class TransactionSendViewController: UIViewController, UIScrollViewDelegate {
         var transactionFee = Double(transactionFeeTextField.text!) ?? 0.0
         let transactionRecipient = transactionRecipientTextField.text!.replacingOccurrences(of: "-", with: "")
         let transactionMessageText = transactionMessageTextField.text!.hexadecimalStringUsingEncoding(String.Encoding.utf8) ?? String()
-        let transactionMessageByteArray: [UInt8] = transactionMessageText.asByteArray()
+        let transactionMessageByteArray: [UInt8] = try! transactionMessageText.asByteArray()
         let transactionDeadline = Int(TimeManager.sharedInstance.timeStamp + waitTime)
         let transactionSigner = activeAccountData!.publicKey
         

@@ -16,22 +16,17 @@ extension NSData
     }
     
     func aesEncrypt(key: [UInt8], iv: [UInt8]) -> NSData? {
-        let enc = try! AES(key: key, iv: iv, blockMode:.CBC).encrypt(self.arrayOfBytes())
+        let enc = try! AES(key: key, blockMode: .CBC(iv: iv)).encrypt(self.arrayOfBytes())
         let encData = NSData(bytes: enc, length: enc.count)
 
         return encData
     }
     
     func aesDecrypt(key: [UInt8], iv: [UInt8]) -> NSData? {
-        let dec = try? AES(key: key, iv: iv, blockMode:.CBC).decrypt(self.arrayOfBytes())
+        let dec = try! AES(key: key, blockMode: .CBC(iv: iv)).decrypt(self.arrayOfBytes())
+        let decData = NSData(bytes: dec, length: dec.count)
         
-        if dec != nil {
-            let decData = NSData(bytes: dec!, length: dec!.count)
-            return decData
-
-        } else {
-            return nil
-        }
+        return decData
     }
     
     public func arrayOfBytes() -> Array<UInt8> {
