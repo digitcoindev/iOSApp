@@ -377,7 +377,7 @@ class TransactionMessagesViewController: UIViewController, UIAlertViewDelegate {
         
         correspondentTransactionsDispatchGroup.enter()
         
-        NEMProvider.request(NEM.allTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
+        NEMProvider.request(NEM.confirmedTransactions(accountAddress: account.address, server: nil)) { [weak self] (result) in
             
             switch result {
             case let .success(response):

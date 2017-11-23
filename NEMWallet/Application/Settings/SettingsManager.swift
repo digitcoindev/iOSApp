@@ -27,7 +27,11 @@ final class SettingsManager {
         The keychain object used to access the keychain.
         This leverages the dependency 'KeychainSwift'.
      */
-    private let keychain = KeychainSwift()
+    private var keychain: KeychainSwift {
+        let keychain = KeychainSwift()
+        keychain.synchronizable = true
+        return keychain
+    }
     
     /// The user defaults object used to access the user defaults store.
     private let userDefaults = UserDefaults.standard
