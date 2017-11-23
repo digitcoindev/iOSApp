@@ -81,10 +81,10 @@ class InvoiceCreatedViewController: UIViewController {
      */
     fileprivate func generateQRCode(forInvoice invoice: Invoice) {
         
-        let invoiceDictionary: [String: String] = [
+        let invoiceDictionary: [String: Any] = [
             QRKeys.address.rawValue : invoice.accountAddress,
             QRKeys.name.rawValue : invoice.accountTitle,
-            QRKeys.amount.rawValue : "\(invoice.amount)",
+            QRKeys.amount.rawValue : invoice.amount,
             QRKeys.message.rawValue : invoice.message
         ]
         
