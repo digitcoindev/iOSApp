@@ -84,7 +84,7 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.accountFiatBalance = accountFiatBalance
             destinationViewController.accountData = accountData
             
-        case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController":
+        case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController", "showImportanceTransferTransactionDetailsViewController", "showMultisigImportanceTransferTransactionDetailsViewController":
             
             if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
                 
@@ -103,6 +103,16 @@ final class AccountDashboardViewController: UITableViewController {
                     
                 } else if segue.identifier == "showMultisigTransferTransactionDetailsViewController" {
                     let destinationViewController = segue.destination as! MultisigTransferTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.multisigTransaction = transaction as? MultisigTransaction
+                    
+                } else if segue.identifier == "showImportanceTransferTransactionDetailsViewController" {
+                    let destinationViewController = segue.destination as! ImportanceTransferTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.importanceTransferTransaction = transaction as? ImportanceTransferTransaction
+                    
+                } else if segue.identifier == "showMultisigImportanceTransferTransactionDetailsViewController" {
+                    let destinationViewController = segue.destination as! MultisigImportanceTransferTransactionDetailsViewController
                     destinationViewController.account = account
                     destinationViewController.multisigTransaction = transaction as? MultisigTransaction
                 }
@@ -162,10 +172,22 @@ final class AccountDashboardViewController: UITableViewController {
                             
                             confirmedTransactionsBySection[sectionTitle]?.append(transferTransaction)
                             
+                        case TransactionType.importanceTransferTransaction.rawValue:
+                            
+                            let importanceTransferTransaction = try subJson.mapObject(ImportanceTransferTransaction.self)
+                            let sectionTitle = importanceTransferTransaction.timeStamp.sectionTitle()
+                            
+                            if confirmedTransactionsBySection[sectionTitle] == nil {
+                                confirmedTransactionsBySection[sectionTitle] = [Transaction]()
+                                transactionSections.append(sectionTitle)
+                            }
+                            
+                            confirmedTransactionsBySection[sectionTitle]?.append(importanceTransferTransaction)
+                            
                         case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.transferTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let sectionTitle = multisigTransaction.timeStamp.sectionTitle()
@@ -231,10 +253,15 @@ final class AccountDashboardViewController: UITableViewController {
                             let transferTransaction = try subJson.mapObject(TransferTransaction.self)
                             unconfirmedTransactions.append(transferTransaction)
                             
+                        case TransactionType.importanceTransferTransaction.rawValue:
+                            
+                            let importanceTransferTransaction = try subJson.mapObject(ImportanceTransferTransaction.self)
+                            unconfirmedTransactions.append(importanceTransferTransaction)
+                            
                         case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.transferTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 unconfirmedTransactions.append(multisigTransaction)
@@ -367,6 +394,33 @@ extension AccountDashboardViewController {
                 
                 return transactionTableViewCell
                 
+            case TransactionType.importanceTransferTransaction:
+                
+                let importanceTransferTransaction = transaction as! ImportanceTransferTransaction
+                
+                let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                transactionTableViewCell.transactionCorrespondentLabel.text = "Importance Transfer Transaction"
+                transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
+                transactionTableViewCell.transactionDateLabel.text = importanceTransferTransaction.timeStamp.format()
+                transactionTableViewCell.transactionMessageLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: importanceTransferTransaction.remoteAccount).nemAddressNormalised()
+                transactionTableViewCell.transactionMessageLabel.lineBreakMode = .byTruncatingMiddle
+
+                if importanceTransferTransaction.mode == 1 {
+                    transactionTableViewCell.transactionAmountLabel.text = "Activation"
+                    transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
+                } else {
+                    transactionTableViewCell.transactionAmountLabel.text = "Deactivation"
+                    transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                }
+                
+                if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                    transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                } else {
+                    transactionTableViewCell.backgroundColor = UIColor.white
+                }
+                
+                return transactionTableViewCell
+                
             case TransactionType.multisigTransaction:
                 
                 let multisigTransaction = transaction as! MultisigTransaction
@@ -398,6 +452,33 @@ extension AccountDashboardViewController {
                     
                     return transactionTableViewCell
                     
+                case TransactionType.importanceTransferTransaction:
+                    
+                    let importanceTransferTransaction = multisigTransaction.innerTransaction as! ImportanceTransferTransaction
+                    
+                    let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                    transactionTableViewCell.transactionCorrespondentLabel.text = "Importance Transfer Transaction"
+                    transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
+                    transactionTableViewCell.transactionDateLabel.text = importanceTransferTransaction.timeStamp.format()
+                    transactionTableViewCell.transactionMessageLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: importanceTransferTransaction.remoteAccount).nemAddressNormalised()
+                    transactionTableViewCell.transactionMessageLabel.lineBreakMode = .byTruncatingMiddle
+                    
+                    if importanceTransferTransaction.mode == 1 {
+                        transactionTableViewCell.transactionAmountLabel.text = "Activation"
+                        transactionTableViewCell.transactionAmountLabel.textColor = Constants.incomingColor
+                    } else {
+                        transactionTableViewCell.transactionAmountLabel.text = "Deactivation"
+                        transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                    }
+                    
+                    if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                        transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                    } else {
+                        transactionTableViewCell.backgroundColor = UIColor.white
+                    }
+                    
+                    return transactionTableViewCell
+                    
                 default:
                     return UITableViewCell()
                 }
@@ -424,6 +505,9 @@ extension AccountDashboardViewController {
         case .transferTransaction:
             performSegue(withIdentifier: "showTransferTransactionDetailsViewController", sender: nil)
             
+        case .importanceTransferTransaction:
+            performSegue(withIdentifier: "showImportanceTransferTransactionDetailsViewController", sender: nil)
+            
         case .multisigTransaction:
             
             let multisigTransaction = transaction as! MultisigTransaction
@@ -431,6 +515,8 @@ extension AccountDashboardViewController {
             switch multisigTransaction.innerTransaction.type {
             case .transferTransaction:
                 performSegue(withIdentifier: "showMultisigTransferTransactionDetailsViewController", sender: nil)
+            case .importanceTransferTransaction:
+                performSegue(withIdentifier: "showMultisigImportanceTransferTransactionDetailsViewController", sender: nil)
             default:
                 break
             }
