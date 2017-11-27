@@ -30,7 +30,11 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     @IBOutlet weak var transactionRecipientLabel: UILabel!
     @IBOutlet weak var transactionAmountLabel: UILabel!
     @IBOutlet weak var transactionFeeLabel: UILabel!
+    @IBOutlet weak var transactionAssetsView: UIView!
+    @IBOutlet weak var transactionAssetsTableView: UITableView!
+    @IBOutlet weak var transactionAssetsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionMessageLabel: UILabel!
+    @IBOutlet weak var transactionMessageLabelTopToAmountLabelConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionBlockHeightLabel: UILabel!
     @IBOutlet weak var transactionHashLabel: UILabel!
     @IBOutlet weak var multisigTransactionHashLabel: UILabel!
@@ -54,6 +58,7 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         multisigSignaturesTableViewHeightConstraint.constant = multisigSignaturesTableView.contentSize.height
+        transactionAssetsTableViewHeightConstraint.constant = transactionAssetsTableView.contentSize.height
     }
     
     // MARK: - View Controller Helper Methods
@@ -91,6 +96,11 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
                 } else if transferTransaction.transferType == .outgoing {
                     transactionAmountLabel.text = "-\(transferTransaction.amount.format()) XEM"
                     transactionAmountLabel.textColor = Constants.outgoingColor
+                }
+                
+                if transferTransaction.assets?.count != 0 {
+                    transactionMessageLabelTopToAmountLabelConstraint.isActive = false
+                    transactionAssetsView.isHidden = false
                 }
                 
                 transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
@@ -328,22 +338,6 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
                 
                 announceTransaction(multisigSignatureTransaction!)
                 
-            case .multisigAggregateModificationTransaction:
-                
-                let multisigAggregateModificationTransaction = multisigTransaction.innerTransaction as! MultisigAggregateModificationTransaction
-                
-                let transactionVersion = 1
-                let transactionTimeStamp = Date(timeIntervalSince1970: TimeManager.sharedInstance.currentNetworkTime)
-                let transactionFee = 0.15
-                let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
-                let transactionSigner = account!.publicKey
-                let transactionHash = multisigTransaction.metaData!.hash!
-                let transactionMultisigAccountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigAggregateModificationTransaction.signer)
-                
-                let multisigSignatureTransaction = MultisigSignatureTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Double(transactionFee), deadline: transactionDeadline, signer: transactionSigner, otherHash: transactionHash, otherAccount: transactionMultisigAccountAddress)
-                
-                announceTransaction(multisigSignatureTransaction!)
-                
             default :
                 break
             }
@@ -360,39 +354,74 @@ extension MultisigTransferTransactionDetailsViewController: UITableViewDelegate,
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 + (multisigTransaction?.signatures?.count ?? 0)
+        
+        switch tableView {
+        case multisigSignaturesTableView:
+            return 1 + (multisigTransaction?.signatures?.count ?? 0)
+        case transactionAssetsTableView:
+            if let transferTransaction = multisigTransaction?.innerTransaction as? TransferTransaction {
+                return transferTransaction.assets?.count ?? 0
+            } else {
+                return 0
+            }
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        switch tableView {
+        case multisigSignaturesTableView:
             
-            guard multisigTransaction != nil else { return UITableViewCell() }
-            
-            let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
-            multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigTransaction!.signer).nemAddressNormalised()
-            multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
-            multisigSignatureTableViewCell.signatureDetailLabel.text = "Issuer"
-            multisigSignatureTableViewCell.signatureDateLabel.text = multisigTransaction!.timeStamp.format()
-            
-            return multisigSignatureTableViewCell
-            
-        } else if let multisigSignatureTransaction = multisigTransaction?.signatures![indexPath.row - 1] {
-            
-            let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
-            multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigSignatureTransaction.signer).nemAddressNormalised()
-            multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
-            multisigSignatureTableViewCell.signatureDetailLabel.text = ""
-            multisigSignatureTableViewCell.signatureDateLabel.text = multisigSignatureTransaction.timeStamp.format()
-            
-            if indexPath.row == multisigTransaction!.signatures?.count {
-                multisigSignatureTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            if indexPath.row == 0 {
+                
+                guard multisigTransaction != nil else { return UITableViewCell() }
+                
+                let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
+                multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigTransaction!.signer).nemAddressNormalised()
+                multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
+                multisigSignatureTableViewCell.signatureDetailLabel.text = "Issuer"
+                multisigSignatureTableViewCell.signatureDateLabel.text = multisigTransaction!.timeStamp.format()
+                
+                return multisigSignatureTableViewCell
+                
+            } else if let multisigSignatureTransaction = multisigTransaction?.signatures![indexPath.row - 1] {
+                
+                let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
+                multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigSignatureTransaction.signer).nemAddressNormalised()
+                multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
+                multisigSignatureTableViewCell.signatureDetailLabel.text = ""
+                multisigSignatureTableViewCell.signatureDateLabel.text = multisigSignatureTransaction.timeStamp.format()
+                
+                if indexPath.row == multisigTransaction!.signatures?.count {
+                    multisigSignatureTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+                }
+                
+                return multisigSignatureTableViewCell
+                
+            } else {
+                return UITableViewCell()
             }
             
-            return multisigSignatureTableViewCell
+        case transactionAssetsTableView:
             
-        } else {
+            let transferTransaction = multisigTransaction?.innerTransaction as? TransferTransaction
+            if let transactionAsset = transferTransaction?.assets?[indexPath.row] {
+                
+                let transactionAssetTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionAssetTableViewCell") as! TransactionAssetTableViewCell
+                transactionAssetTableViewCell.transactionAssetNameLabel.text = transactionAsset.name
+                transactionAssetTableViewCell.transactionAssetAmountLabel.text = "\(transactionAsset.quantity ?? 0)"
+                
+                return transactionAssetTableViewCell
+                
+            } else {
+                return UITableViewCell()
+            }
+            
+        default:
             return UITableViewCell()
         }
+        
     }
 }

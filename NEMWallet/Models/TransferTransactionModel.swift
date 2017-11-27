@@ -37,6 +37,9 @@ final class TransferTransaction: Transaction {
     /// The amount of XEM that is transferred from sender to recipient.
     var amount: Double!
     
+    ///
+    var assets: [Asset]?
+    
     /// The fee for the transaction.
     var fee: Double!
     
@@ -78,6 +81,7 @@ final class TransferTransaction: Transaction {
         version = jsonData["transaction"]["version"].intValue
         timeStamp = Date(timeIntervalSince1970: jsonData["transaction"]["timeStamp"].doubleValue + Constants.genesisBlockTime)
         amount = jsonData["transaction"]["amount"].doubleValue / 1000000
+        assets = try? jsonData["transaction"]["mosaics"].mapArray(Asset.self)
         fee = jsonData["transaction"]["fee"].doubleValue / 1000000
         recipient = jsonData["transaction"]["recipient"].stringValue
         deadline = jsonData["transaction"]["deadline"].intValue
@@ -105,6 +109,12 @@ final class TransferTransaction: Transaction {
                 return .outgoing
             }
         }()
+        
+        if let assets = assets {
+            for asset in assets where asset.name == "xem" {
+                self.assets!.remove(at: assets.index(where: { $0.name == asset.name })!)
+            }
+        }
     }
     
     // MARK: - Model Helper Methods

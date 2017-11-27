@@ -23,7 +23,11 @@ final class TransferTransactionDetailsViewController: UIViewController {
     @IBOutlet weak var transactionRecipientLabel: UILabel!
     @IBOutlet weak var transactionAmountLabel: UILabel!
     @IBOutlet weak var transactionFeeLabel: UILabel!
+    @IBOutlet weak var transactionAssetsView: UIView!
+    @IBOutlet weak var transactionAssetsTableView: UITableView!
+    @IBOutlet weak var transactionAssetsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionMessageLabel: UILabel!
+    @IBOutlet weak var transactionMessageLabelTopToAmountLabelConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionMessageEncryptedImageView: UIImageView!
     @IBOutlet weak var transactionBlockHeightLabel: UILabel!
     @IBOutlet weak var transactionHashLabel: UILabel!
@@ -37,6 +41,10 @@ final class TransferTransactionDetailsViewController: UIViewController {
         reloadTransactionDetails()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTransactionDetails), name: Constants.transactionDataChangedNotification, object: nil)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        transactionAssetsTableViewHeightConstraint.constant = transactionAssetsTableView.contentSize.height
     }
     
     deinit {
@@ -69,6 +77,11 @@ final class TransferTransactionDetailsViewController: UIViewController {
                     transactionAmountLabel.textColor = Constants.outgoingColor
                 }
                 
+                if transferTransaction.assets?.count != 0 {
+                    transactionMessageLabelTopToAmountLabelConstraint.isActive = false
+                    transactionAssetsView.isHidden = false
+                }
+                
                 if transferTransaction.message?.type == .encrypted {
                     transactionMessageEncryptedImageView.isHidden = false
                 } else {
@@ -91,6 +104,34 @@ final class TransferTransactionDetailsViewController: UIViewController {
         
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
+        }
+    }
+}
+
+extension TransferTransactionDetailsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    // MARK: - Table View Delegate
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return transferTransaction?.assets?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if let transactionAsset = transferTransaction?.assets?[indexPath.row] {
+            
+            let transactionAssetTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionAssetTableViewCell") as! TransactionAssetTableViewCell
+            transactionAssetTableViewCell.transactionAssetNameLabel.text = transactionAsset.name
+            transactionAssetTableViewCell.transactionAssetAmountLabel.text = "\(transactionAsset.quantity ?? 0)"
+            
+            return transactionAssetTableViewCell
+            
+        } else {
+            return UITableViewCell()
         }
     }
 }
