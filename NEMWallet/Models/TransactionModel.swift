@@ -12,6 +12,7 @@ import SwiftyJSON
 enum TransactionType: Int {
     case transferTransaction = 257
     case importanceTransferTransaction = 2049
+    case provisionNamespaceTransaction = 8193
     case multisigTransaction = 4100
     case multisigSignatureTransaction = 4098
     case multisigAggregateModificationTransaction = 4097

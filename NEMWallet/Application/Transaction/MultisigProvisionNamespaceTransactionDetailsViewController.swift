@@ -1,5 +1,5 @@
 //
-//  MultisigTransferTransactionDetailsViewController.swift
+//  MultisigProvisionNamespaceTransactionDetailsViewController.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2017 NEM
@@ -9,7 +9,7 @@ import UIKit
 import SwiftyJSON
 
 ///
-final class MultisigTransferTransactionDetailsViewController: UIViewController {
+final class MultisigProvisionNamespaceTransactionDetailsViewController: UIViewController {
     
     // MARK: - View Controller Properties
     
@@ -25,16 +25,9 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     @IBOutlet weak var transactionTypeLabelTopToSuperviewConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionTypeLabelTopToInformationViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionDateLabel: UILabel!
-    @IBOutlet weak var signerLabel: UILabel!
-    @IBOutlet weak var transactionSignerLabel: UILabel!
-    @IBOutlet weak var transactionRecipientLabel: UILabel!
-    @IBOutlet weak var transactionAmountLabel: UILabel!
+    @IBOutlet weak var transactionNewNamespaceLabel: UILabel!
+    @IBOutlet weak var transactionRentalFeeLabel: UILabel!
     @IBOutlet weak var transactionFeeLabel: UILabel!
-    @IBOutlet weak var transactionAssetsView: UIView!
-    @IBOutlet weak var transactionAssetsTableView: UITableView!
-    @IBOutlet weak var transactionAssetsTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var transactionMessageLabel: UILabel!
-    @IBOutlet weak var transactionMessageLabelTopToAmountLabelConstraint: NSLayoutConstraint!
     @IBOutlet weak var transactionBlockHeightLabel: UILabel!
     @IBOutlet weak var transactionHashLabel: UILabel!
     @IBOutlet weak var multisigTransactionHashLabel: UILabel!
@@ -58,7 +51,6 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         multisigSignaturesTableViewHeightConstraint.constant = multisigSignaturesTableView.contentSize.height
-        transactionAssetsTableViewHeightConstraint.constant = transactionAssetsTableView.contentSize.height
     }
     
     // MARK: - View Controller Helper Methods
@@ -76,37 +68,22 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
         case .multisigTransaction:
             
             switch multisigTransaction!.innerTransaction.type {
-            case .transferTransaction:
+            case .provisionNamespaceTransaction:
                 
-                let transferTransaction = multisigTransaction!.innerTransaction as! TransferTransaction
+                let provisionNamespaceTransaction = multisigTransaction!.innerTransaction as! ProvisionNamespaceTransaction
                 
                 informationView.isHidden = true
                 transactionTypeLabelTopToInformationViewConstraint.isActive = false
                 transactionTypeLabelTopToSuperviewConstraint.isActive = true
                 
-                transactionTypeLabel.text = transferTransaction.transferType == .incoming ? "Incoming Multisig Transaction" : "Outgoing Multisig Transaction"
-                transactionDateLabel.text = transferTransaction.timeStamp.format()
-                signerLabel.text = "From Multisig Account"
-                transactionSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer).nemAddressNormalised()
-                transactionRecipientLabel.text = transferTransaction.recipient.nemAddressNormalised()
-                
-                if transferTransaction.transferType == .incoming {
-                    transactionAmountLabel.text = "+\(transferTransaction.amount.format()) XEM"
-                    transactionAmountLabel.textColor = Constants.incomingColor
-                } else if transferTransaction.transferType == .outgoing {
-                    transactionAmountLabel.text = "-\(transferTransaction.amount.format()) XEM"
-                    transactionAmountLabel.textColor = Constants.outgoingColor
-                }
-                
-                if transferTransaction.assets?.count != 0 {
-                    transactionMessageLabelTopToAmountLabelConstraint.isActive = false
-                    transactionAssetsView.isHidden = false
-                }
-                
-                transactionFeeLabel.text = "\(transferTransaction.fee.format()) XEM"
-                transactionMessageLabel.text = transferTransaction.message?.message ?? "-"
-                transactionBlockHeightLabel.text = transferTransaction.metaData?.height != nil ? "\(transferTransaction.metaData!.height!)" : "-"
-                transactionHashLabel.text = "\(transferTransaction.metaData?.hash ?? "-")"
+                transactionTypeLabel.text = "Multisig Provision Namespace Transaction"
+                transactionDateLabel.text = provisionNamespaceTransaction.timeStamp.format()
+                transactionNewNamespaceLabel.text = provisionNamespaceTransaction.parent != nil ? "\(provisionNamespaceTransaction.parent!).\(provisionNamespaceTransaction.newPart!)" : provisionNamespaceTransaction.newPart
+                transactionRentalFeeLabel.text = "\(provisionNamespaceTransaction.rentalFee.format()) XEM"
+                transactionRentalFeeLabel.textColor = Constants.outgoingColor
+                transactionFeeLabel.text = "\(provisionNamespaceTransaction.fee.format()) XEM"
+                transactionBlockHeightLabel.text = provisionNamespaceTransaction.metaData?.height != nil ? "\(provisionNamespaceTransaction.metaData!.height!)" : "-"
+                transactionHashLabel.text = provisionNamespaceTransaction.metaData?.hash != "" ? "\(provisionNamespaceTransaction.metaData?.hash ?? "-")" : "-"
                 multisigTransactionHashLabel.text = "\(multisigTransaction?.metaData?.multisigHash ?? "-")"
                 
                 if multisigAccountData != nil {
@@ -170,9 +147,9 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     private func fetchMultisigAccountData() {
         
         guard multisigTransaction != nil else { return }
-        let transferTransaction = multisigTransaction!.innerTransaction as! TransferTransaction
+        let provisionNamespaceTransaction = multisigTransaction!.innerTransaction as! ProvisionNamespaceTransaction
         
-        NEMProvider.request(NEM.accountData(accountAddress: AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer))) { [weak self] (result) in
+        NEMProvider.request(NEM.accountData(accountAddress: AccountManager.sharedInstance.generateAddress(forPublicKey: provisionNamespaceTransaction.signer))) { [weak self] (result) in
             
             switch result {
             case let .success(response):
@@ -206,9 +183,9 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     }
     
     /**
-         Signs and announces a new transaction to the NIS.
+        Signs and announces a new transaction to the NIS.
      
-         - Parameter transaction: The transaction object that should get signed and announced.
+        - Parameter transaction: The transaction object that should get signed and announced.
      */
     fileprivate func announceTransaction(_ transaction: Transaction) {
         
@@ -267,13 +244,13 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     }
     
     /**
-         Validates the response (announce transaction result object) of the NIS
-         regarding the announcement of the transaction.
+        Validates the response (announce transaction result object) of the NIS
+        regarding the announcement of the transaction.
      
-         - Parameter responseJSON: The response of the NIS JSON formatted.
+        - Parameter responseJSON: The response of the NIS JSON formatted.
      
-         - Throws:
-         - TransactionAnnounceValidation.Failure if the announcement of the transaction wasn't successful.
+        - Throws:
+        - TransactionAnnounceValidation.Failure if the announcement of the transaction wasn't successful.
      */
     fileprivate func validateAnnounceTransactionResult(_ responseJSON: JSON) throws {
         
@@ -289,10 +266,10 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     }
     
     /**
-         Shows an alert view controller with the provided alert message.
+        Shows an alert view controller with the provided alert message.
      
-         - Parameter message: The message that should get shown.
-         - Parameter completion: An optional action that should get performed on completion.
+        - Parameter message: The message that should get shown.
+        - Parameter completion: An optional action that should get performed on completion.
      */
     fileprivate func showAlert(withMessage message: String, completion: (() -> Void)? = nil) {
         
@@ -322,9 +299,9 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
         
         if let multisigTransaction = multisigTransaction {
             switch multisigTransaction.innerTransaction.type {
-            case .transferTransaction:
+            case .provisionNamespaceTransaction:
                 
-                let transferTransaction = multisigTransaction.innerTransaction as! TransferTransaction
+                let provisionNamespaceTransaction = multisigTransaction.innerTransaction as! ProvisionNamespaceTransaction
                 
                 let transactionVersion = 1
                 let transactionTimeStamp = Date(timeIntervalSince1970: TimeManager.sharedInstance.currentNetworkTime)
@@ -332,7 +309,7 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
                 let transactionDeadline = Int(TimeManager.sharedInstance.currentNetworkTime + Constants.transactionDeadline)
                 let transactionSigner = account!.publicKey
                 let transactionHash = multisigTransaction.metaData!.hash!
-                let transactionMultisigAccountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: transferTransaction.signer)
+                let transactionMultisigAccountAddress = AccountManager.sharedInstance.generateAddress(forPublicKey: provisionNamespaceTransaction.signer)
                 
                 let multisigSignatureTransaction = MultisigSignatureTransaction(version: transactionVersion, timeStamp: transactionTimeStamp, fee: Double(transactionFee), deadline: transactionDeadline, signer: transactionSigner, otherHash: transactionHash, otherAccount: transactionMultisigAccountAddress)
                 
@@ -345,7 +322,7 @@ final class MultisigTransferTransactionDetailsViewController: UIViewController {
     }
 }
 
-extension MultisigTransferTransactionDetailsViewController: UITableViewDelegate, UITableViewDataSource {
+extension MultisigProvisionNamespaceTransactionDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Table View Delegate
     
@@ -354,74 +331,39 @@ extension MultisigTransferTransactionDetailsViewController: UITableViewDelegate,
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        switch tableView {
-        case multisigSignaturesTableView:
-            return 1 + (multisigTransaction?.signatures?.count ?? 0)
-        case transactionAssetsTableView:
-            if let transferTransaction = multisigTransaction?.innerTransaction as? TransferTransaction {
-                return transferTransaction.assets?.count ?? 0
-            } else {
-                return 0
-            }
-        default:
-            return 0
-        }
+        return 1 + (multisigTransaction?.signatures?.count ?? 0)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch tableView {
-        case multisigSignaturesTableView:
+        if indexPath.row == 0 {
             
-            if indexPath.row == 0 {
-                
-                guard multisigTransaction != nil else { return UITableViewCell() }
-                
-                let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
-                multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigTransaction!.signer).nemAddressNormalised()
-                multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
-                multisigSignatureTableViewCell.signatureDetailLabel.text = "Issuer"
-                multisigSignatureTableViewCell.signatureDateLabel.text = multisigTransaction!.timeStamp.format()
-                
-                return multisigSignatureTableViewCell
-                
-            } else if let multisigSignatureTransaction = multisigTransaction?.signatures![indexPath.row - 1] {
-                
-                let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
-                multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigSignatureTransaction.signer).nemAddressNormalised()
-                multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
-                multisigSignatureTableViewCell.signatureDetailLabel.text = ""
-                multisigSignatureTableViewCell.signatureDateLabel.text = multisigSignatureTransaction.timeStamp.format()
-                
-                if indexPath.row == multisigTransaction!.signatures?.count {
-                    multisigSignatureTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-                }
-                
-                return multisigSignatureTableViewCell
-                
-            } else {
-                return UITableViewCell()
+            guard multisigTransaction != nil else { return UITableViewCell() }
+            
+            let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
+            multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigTransaction!.signer).nemAddressNormalised()
+            multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
+            multisigSignatureTableViewCell.signatureDetailLabel.text = "Issuer"
+            multisigSignatureTableViewCell.signatureDateLabel.text = multisigTransaction!.timeStamp.format()
+            
+            return multisigSignatureTableViewCell
+            
+        } else if let multisigSignatureTransaction = multisigTransaction?.signatures![indexPath.row - 1] {
+            
+            let multisigSignatureTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MultisigSignatureTableViewCell") as! MultisigSignatureTableViewCell
+            multisigSignatureTableViewCell.signatureSignerLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: multisigSignatureTransaction.signer).nemAddressNormalised()
+            multisigSignatureTableViewCell.signatureStatusLabel.text = "Signed"
+            multisigSignatureTableViewCell.signatureDetailLabel.text = ""
+            multisigSignatureTableViewCell.signatureDateLabel.text = multisigSignatureTransaction.timeStamp.format()
+            
+            if indexPath.row == multisigTransaction!.signatures?.count {
+                multisigSignatureTableViewCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             }
             
-        case transactionAssetsTableView:
+            return multisigSignatureTableViewCell
             
-            let transferTransaction = multisigTransaction?.innerTransaction as? TransferTransaction
-            if let transactionAsset = transferTransaction?.assets?[indexPath.row] {
-                
-                let transactionAssetTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionAssetTableViewCell") as! TransactionAssetTableViewCell
-                transactionAssetTableViewCell.transactionAssetNameLabel.text = transactionAsset.name
-                transactionAssetTableViewCell.transactionAssetAmountLabel.text = "\(transactionAsset.quantity ?? 0)"
-                
-                return transactionAssetTableViewCell
-                
-            } else {
-                return UITableViewCell()
-            }
-            
-        default:
+        } else {
             return UITableViewCell()
         }
-        
     }
 }

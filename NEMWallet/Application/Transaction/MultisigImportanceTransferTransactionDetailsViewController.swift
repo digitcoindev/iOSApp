@@ -89,7 +89,7 @@ final class MultisigImportanceTransferTransactionDetailsViewController: UIViewCo
                 }
                 
                 transactionFeeLabel.text = "\(importanceTransferTransaction.fee.format()) XEM"
-                transactionBlockHeightLabel.text = importanceTransferTransaction.metaData?.height != nil ? "\(importanceTransferTransaction.metaData!.height!)" : "Unconfirmed"
+                transactionBlockHeightLabel.text = importanceTransferTransaction.metaData?.height != nil ? "\(importanceTransferTransaction.metaData!.height!)" : "-"
                 transactionHashLabel.text = "\(importanceTransferTransaction.metaData?.hash ?? "-")"
                 multisigTransactionHashLabel.text = "\(multisigTransaction?.metaData?.multisigHash ?? "-")"
                 

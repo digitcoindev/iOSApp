@@ -25,6 +25,8 @@
 		4F1458641FCC6B7D001D7F59 /* ImportanceTransferTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1458631FCC6B7D001D7F59 /* ImportanceTransferTransactionDetailsViewController.swift */; };
 		4F1458661FCC72DD001D7F59 /* MultisigImportanceTransferTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1458651FCC72DD001D7F59 /* MultisigImportanceTransferTransactionDetailsViewController.swift */; };
 		4F1458691FCC9157001D7F59 /* ProvisionNamespaceTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1458681FCC9157001D7F59 /* ProvisionNamespaceTransactionModel.swift */; };
+		4F14586B1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F14586A1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift */; };
+		4F14586D1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F14586C1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift */; };
 		4F15DCA41DA27B5C0042997C /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */; };
 		4F15DCA51DA27B5C0042997C /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F15DCA71DA294400042997C /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCA61DA294400042997C /* ServerModel.swift */; };
@@ -259,6 +261,8 @@
 		4F1458631FCC6B7D001D7F59 /* ImportanceTransferTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportanceTransferTransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4F1458651FCC72DD001D7F59 /* MultisigImportanceTransferTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultisigImportanceTransferTransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4F1458681FCC9157001D7F59 /* ProvisionNamespaceTransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionNamespaceTransactionModel.swift; sourceTree = "<group>"; };
+		4F14586A1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionNamespaceTransactionDetailsViewController.swift; sourceTree = "<group>"; };
+		4F14586C1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultisigProvisionNamespaceTransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = "<group>"; };
 		4F15DCA61DA294400042997C /* ServerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsOptionTableViewCell.swift; sourceTree = "<group>"; };
@@ -648,6 +652,8 @@
 				4F0FFE2B1F9104BB00120E67 /* MultisigTransferTransactionDetailsViewController.swift */,
 				4F1458631FCC6B7D001D7F59 /* ImportanceTransferTransactionDetailsViewController.swift */,
 				4F1458651FCC72DD001D7F59 /* MultisigImportanceTransferTransactionDetailsViewController.swift */,
+				4F14586A1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift */,
+				4F14586C1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift */,
 				4F495A891F9D6CEA0031B8D1 /* SendViewController.swift */,
 				4F495A8B1F9EAC0B0031B8D1 /* CreateTransactionViewController.swift */,
 				4FC1EA021FA370D700E7617D /* VerifyTransferTransactionViewController.swift */,
@@ -1269,6 +1275,7 @@
 				4F3ACE921D61C2EE0056F234 /* Response+ObjectMapper.swift in Sources */,
 				4F1458641FCC6B7D001D7F59 /* ImportanceTransferTransactionDetailsViewController.swift in Sources */,
 				4F9F68761D4C37B90086F98F /* SettingsChangePasswordViewController.swift in Sources */,
+				4F14586B1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift in Sources */,
 				4F675F331D50A00800F1BDD5 /* AccountManager.swift in Sources */,
 				4F0B5F031DAFD41000E182C3 /* Double+Additions.swift in Sources */,
 				4F1458621FCC5EAE001D7F59 /* ImportanceTransferTransactionModel.swift in Sources */,
@@ -1286,6 +1293,7 @@
 				4F850F1D1D4C3D550003E192 /* keccak.c in Sources */,
 				4F7E1EE41FAD6755000F1339 /* VerifyQRCodeBackupViewController.swift in Sources */,
 				4FE3B0DB1F87D51F00783347 /* TransferTransactionDetailsViewController.swift in Sources */,
+				4F14586D1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift in Sources */,
 				4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */,
 				4FC1EA031FA370D700E7617D /* VerifyTransferTransactionViewController.swift in Sources */,
 				4F7E1ED81FABFCBD000F1339 /* ImportAccountByPKViewController.swift in Sources */,

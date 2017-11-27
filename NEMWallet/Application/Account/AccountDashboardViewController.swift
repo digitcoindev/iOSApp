@@ -84,7 +84,7 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.accountFiatBalance = accountFiatBalance
             destinationViewController.accountData = accountData
             
-        case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController", "showImportanceTransferTransactionDetailsViewController", "showMultisigImportanceTransferTransactionDetailsViewController":
+        case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController", "showImportanceTransferTransactionDetailsViewController", "showMultisigImportanceTransferTransactionDetailsViewController", "showProvisionNamespaceTransactionDetailsViewController", "showMultisigProvisionNamespaceTransactionDetailsViewController":
             
             if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
                 
@@ -113,6 +113,16 @@ final class AccountDashboardViewController: UITableViewController {
                     
                 } else if segue.identifier == "showMultisigImportanceTransferTransactionDetailsViewController" {
                     let destinationViewController = segue.destination as! MultisigImportanceTransferTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.multisigTransaction = transaction as? MultisigTransaction
+                    
+                } else if segue.identifier == "showProvisionNamespaceTransactionDetailsViewController" {
+                    let destinationViewController = segue.destination as! ProvisionNamespaceTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.provisionNamespaceTransaction = transaction as? ProvisionNamespaceTransaction
+                    
+                } else if segue.identifier == "showMultisigProvisionNamespaceTransactionDetailsViewController" {
+                    let destinationViewController = segue.destination as! MultisigProvisionNamespaceTransactionDetailsViewController
                     destinationViewController.account = account
                     destinationViewController.multisigTransaction = transaction as? MultisigTransaction
                 }
@@ -184,10 +194,22 @@ final class AccountDashboardViewController: UITableViewController {
                             
                             confirmedTransactionsBySection[sectionTitle]?.append(importanceTransferTransaction)
                             
+                        case TransactionType.provisionNamespaceTransaction.rawValue:
+                            
+                            let provisionNamespaceTransaction = try subJson.mapObject(ProvisionNamespaceTransaction.self)
+                            let sectionTitle = provisionNamespaceTransaction.timeStamp.sectionTitle()
+                            
+                            if confirmedTransactionsBySection[sectionTitle] == nil {
+                                confirmedTransactionsBySection[sectionTitle] = [Transaction]()
+                                transactionSections.append(sectionTitle)
+                            }
+                            
+                            confirmedTransactionsBySection[sectionTitle]?.append(provisionNamespaceTransaction)
+                            
                         case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue, TransactionType.provisionNamespaceTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let sectionTitle = multisigTransaction.timeStamp.sectionTitle()
@@ -258,10 +280,15 @@ final class AccountDashboardViewController: UITableViewController {
                             let importanceTransferTransaction = try subJson.mapObject(ImportanceTransferTransaction.self)
                             unconfirmedTransactions.append(importanceTransferTransaction)
                             
+                        case TransactionType.provisionNamespaceTransaction.rawValue:
+                            
+                            let provisionNamespaceTransaction = try subJson.mapObject(ProvisionNamespaceTransaction.self)
+                            unconfirmedTransactions.append(provisionNamespaceTransaction)
+                            
                         case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue, TransactionType.provisionNamespaceTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 unconfirmedTransactions.append(multisigTransaction)
@@ -399,7 +426,7 @@ extension AccountDashboardViewController {
                 let importanceTransferTransaction = transaction as! ImportanceTransferTransaction
                 
                 let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
-                transactionTableViewCell.transactionCorrespondentLabel.text = "Importance Transfer Transaction"
+                transactionTableViewCell.transactionCorrespondentLabel.text = "Importance Transfer"
                 transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
                 transactionTableViewCell.transactionDateLabel.text = importanceTransferTransaction.timeStamp.format()
                 transactionTableViewCell.transactionMessageLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: importanceTransferTransaction.remoteAccount).nemAddressNormalised()
@@ -412,6 +439,26 @@ extension AccountDashboardViewController {
                     transactionTableViewCell.transactionAmountLabel.text = "Deactivation"
                     transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
                 }
+                
+                if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                    transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                } else {
+                    transactionTableViewCell.backgroundColor = UIColor.white
+                }
+                
+                return transactionTableViewCell
+                
+            case TransactionType.provisionNamespaceTransaction:
+                
+                let provisionNamespaceTransaction = transaction as! ProvisionNamespaceTransaction
+                
+                let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                transactionTableViewCell.transactionCorrespondentLabel.text = "Create Namespace"
+                transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
+                transactionTableViewCell.transactionDateLabel.text = provisionNamespaceTransaction.timeStamp.format()
+                transactionTableViewCell.transactionAmountLabel.text = "-\(provisionNamespaceTransaction.rentalFee.format()) XEM"
+                transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                transactionTableViewCell.transactionMessageLabel.text = provisionNamespaceTransaction.parent != nil ? "\(provisionNamespaceTransaction.parent!).\(provisionNamespaceTransaction.newPart!)" : provisionNamespaceTransaction.newPart
                 
                 if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
                     transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
@@ -457,7 +504,7 @@ extension AccountDashboardViewController {
                     let importanceTransferTransaction = multisigTransaction.innerTransaction as! ImportanceTransferTransaction
                     
                     let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
-                    transactionTableViewCell.transactionCorrespondentLabel.text = "Importance Transfer Transaction"
+                    transactionTableViewCell.transactionCorrespondentLabel.text = "Importance Transfer"
                     transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
                     transactionTableViewCell.transactionDateLabel.text = importanceTransferTransaction.timeStamp.format()
                     transactionTableViewCell.transactionMessageLabel.text = AccountManager.sharedInstance.generateAddress(forPublicKey: importanceTransferTransaction.remoteAccount).nemAddressNormalised()
@@ -470,6 +517,26 @@ extension AccountDashboardViewController {
                         transactionTableViewCell.transactionAmountLabel.text = "Deactivation"
                         transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
                     }
+                    
+                    if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                        transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                    } else {
+                        transactionTableViewCell.backgroundColor = UIColor.white
+                    }
+                    
+                    return transactionTableViewCell
+                    
+                case TransactionType.provisionNamespaceTransaction:
+                    
+                    let provisionNamespaceTransaction = multisigTransaction.innerTransaction as! ProvisionNamespaceTransaction
+                    
+                    let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                    transactionTableViewCell.transactionCorrespondentLabel.text = "Create Namespace"
+                    transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
+                    transactionTableViewCell.transactionDateLabel.text = provisionNamespaceTransaction.timeStamp.format()
+                    transactionTableViewCell.transactionAmountLabel.text = "-\(provisionNamespaceTransaction.rentalFee.format()) XEM"
+                    transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                    transactionTableViewCell.transactionMessageLabel.text = provisionNamespaceTransaction.parent != nil ? "\(provisionNamespaceTransaction.parent!).\(provisionNamespaceTransaction.newPart!)" : provisionNamespaceTransaction.newPart
                     
                     if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
                         transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
@@ -508,6 +575,9 @@ extension AccountDashboardViewController {
         case .importanceTransferTransaction:
             performSegue(withIdentifier: "showImportanceTransferTransactionDetailsViewController", sender: nil)
             
+        case .provisionNamespaceTransaction:
+            performSegue(withIdentifier: "showProvisionNamespaceTransactionDetailsViewController", sender: nil)
+            
         case .multisigTransaction:
             
             let multisigTransaction = transaction as! MultisigTransaction
@@ -517,6 +587,8 @@ extension AccountDashboardViewController {
                 performSegue(withIdentifier: "showMultisigTransferTransactionDetailsViewController", sender: nil)
             case .importanceTransferTransaction:
                 performSegue(withIdentifier: "showMultisigImportanceTransferTransactionDetailsViewController", sender: nil)
+            case .provisionNamespaceTransaction:
+                performSegue(withIdentifier: "showMultisigProvisionNamespaceTransactionDetailsViewController", sender: nil)
             default:
                 break
             }
