@@ -38,7 +38,7 @@ final class TransferTransaction: Transaction {
     var amount: Double!
     
     ///
-    var assets: [Asset]?
+    var mosaics: [Mosaic]?
     
     /// The fee for the transaction.
     var fee: Double!
@@ -81,7 +81,7 @@ final class TransferTransaction: Transaction {
         version = jsonData["transaction"]["version"].intValue
         timeStamp = Date(timeIntervalSince1970: jsonData["transaction"]["timeStamp"].doubleValue + Constants.genesisBlockTime)
         amount = jsonData["transaction"]["amount"].doubleValue / 1000000
-        assets = try? jsonData["transaction"]["mosaics"].mapArray(Asset.self)
+        mosaics = try? jsonData["transaction"]["mosaics"].mapArray(Mosaic.self)
         fee = jsonData["transaction"]["fee"].doubleValue / 1000000
         recipient = jsonData["transaction"]["recipient"].stringValue
         deadline = jsonData["transaction"]["deadline"].intValue
@@ -110,9 +110,9 @@ final class TransferTransaction: Transaction {
             }
         }()
         
-        if let assets = assets {
-            for asset in assets where asset.name == "xem" {
-                self.assets!.remove(at: assets.index(where: { $0.name == asset.name })!)
+        if let mosaics = mosaics {
+            for mosaic in mosaics where mosaic.name == "xem" {
+                self.mosaics!.remove(at: mosaics.index(where: { $0.name == mosaic.name })!)
             }
         }
     }

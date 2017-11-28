@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F01CDAB1FBF505A003F192D /* AssetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F01CDAA1FBF505A003F192D /* AssetModel.swift */; };
+		4F01CDAB1FBF505A003F192D /* MosaicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F01CDAA1FBF505A003F192D /* MosaicModel.swift */; };
 		4F0B5EF91DAFCA7200E182C3 /* NEMWallet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EF71DAFCA7200E182C3 /* NEMWallet.xcdatamodeld */; };
 		4F0B5EFB1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EFA1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift */; };
 		4F0B5EFD1DAFD38500E182C3 /* DetailedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B5EFC1DAFD38500E182C3 /* DetailedTableViewCell.swift */; };
@@ -27,6 +27,10 @@
 		4F1458691FCC9157001D7F59 /* ProvisionNamespaceTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1458681FCC9157001D7F59 /* ProvisionNamespaceTransactionModel.swift */; };
 		4F14586B1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F14586A1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift */; };
 		4F14586D1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F14586C1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift */; };
+		4F14586F1FCCBBB0001D7F59 /* MosaicDefinitionCreationTransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F14586E1FCCBBB0001D7F59 /* MosaicDefinitionCreationTransactionModel.swift */; };
+		4F1458731FCCCC36001D7F59 /* MosaicDefinitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1458721FCCCC36001D7F59 /* MosaicDefinitionModel.swift */; };
+		4F1458751FCCD6C6001D7F59 /* MosaicDefinitionCreationTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1458741FCCD6C6001D7F59 /* MosaicDefinitionCreationTransactionDetailsViewController.swift */; };
+		4F1503681FCCE83200097ED0 /* MultisigMosaicDefinitionCreationTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1503671FCCE83200097ED0 /* MultisigMosaicDefinitionCreationTransactionDetailsViewController.swift */; };
 		4F15DCA41DA27B5C0042997C /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */; };
 		4F15DCA51DA27B5C0042997C /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F15DCA71DA294400042997C /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15DCA61DA294400042997C /* ServerModel.swift */; };
@@ -242,7 +246,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F01CDAA1FBF505A003F192D /* AssetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetModel.swift; sourceTree = "<group>"; };
+		4F01CDAA1FBF505A003F192D /* MosaicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicModel.swift; sourceTree = "<group>"; };
 		4F0B5EF81DAFCA7200E182C3 /* NEMWallet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NEMWallet.xcdatamodel; sourceTree = "<group>"; };
 		4F0B5EFA1DAFD34C00E182C3 /* SettingsServerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsServerTableViewCell.swift; sourceTree = "<group>"; };
 		4F0B5EFC1DAFD38500E182C3 /* DetailedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedTableViewCell.swift; sourceTree = "<group>"; };
@@ -263,6 +267,10 @@
 		4F1458681FCC9157001D7F59 /* ProvisionNamespaceTransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionNamespaceTransactionModel.swift; sourceTree = "<group>"; };
 		4F14586A1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionNamespaceTransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4F14586C1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultisigProvisionNamespaceTransactionDetailsViewController.swift; sourceTree = "<group>"; };
+		4F14586E1FCCBBB0001D7F59 /* MosaicDefinitionCreationTransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicDefinitionCreationTransactionModel.swift; sourceTree = "<group>"; };
+		4F1458721FCCCC36001D7F59 /* MosaicDefinitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicDefinitionModel.swift; sourceTree = "<group>"; };
+		4F1458741FCCD6C6001D7F59 /* MosaicDefinitionCreationTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicDefinitionCreationTransactionDetailsViewController.swift; sourceTree = "<group>"; };
+		4F1503671FCCE83200097ED0 /* MultisigMosaicDefinitionCreationTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultisigMosaicDefinitionCreationTransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4F15DCA31DA27B5C0042997C /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = "<group>"; };
 		4F15DCA61DA294400042997C /* ServerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		4F15DCA81DA2A9E20042997C /* SettingsOptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsOptionTableViewCell.swift; sourceTree = "<group>"; };
@@ -654,6 +662,8 @@
 				4F1458651FCC72DD001D7F59 /* MultisigImportanceTransferTransactionDetailsViewController.swift */,
 				4F14586A1FCC99CA001D7F59 /* ProvisionNamespaceTransactionDetailsViewController.swift */,
 				4F14586C1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift */,
+				4F1458741FCCD6C6001D7F59 /* MosaicDefinitionCreationTransactionDetailsViewController.swift */,
+				4F1503671FCCE83200097ED0 /* MultisigMosaicDefinitionCreationTransactionDetailsViewController.swift */,
 				4F495A891F9D6CEA0031B8D1 /* SendViewController.swift */,
 				4F495A8B1F9EAC0B0031B8D1 /* CreateTransactionViewController.swift */,
 				4FC1EA021FA370D700E7617D /* VerifyTransferTransactionViewController.swift */,
@@ -919,9 +929,11 @@
 				4F3ACE981D620B100056F234 /* TransactionModel.swift */,
 				4F3ACEB01D64F1F90056F234 /* TransactionMetaDataModel.swift */,
 				4F3ACE9C1D6214060056F234 /* TransferTransactionModel.swift */,
-				4F01CDAA1FBF505A003F192D /* AssetModel.swift */,
 				4F1458611FCC5EAE001D7F59 /* ImportanceTransferTransactionModel.swift */,
 				4F1458681FCC9157001D7F59 /* ProvisionNamespaceTransactionModel.swift */,
+				4F14586E1FCCBBB0001D7F59 /* MosaicDefinitionCreationTransactionModel.swift */,
+				4F01CDAA1FBF505A003F192D /* MosaicModel.swift */,
+				4F1458721FCCCC36001D7F59 /* MosaicDefinitionModel.swift */,
 				4F3ACE9A1D620F680056F234 /* MultisigTransactionModel.swift */,
 				4F3ACE9E1D6217430056F234 /* MultisigSignatureTransactionModel.swift */,
 				4F3ACEA21D6218E00056F234 /* MultisigAggregateModificationTransactionModel.swift */,
@@ -1179,6 +1191,7 @@
 				4F3ACEA31D6218E10056F234 /* MultisigAggregateModificationTransactionModel.swift in Sources */,
 				98BB95D61BCCED5B002151F7 /* ge.c in Sources */,
 				4F0B5F011DAFD40700E182C3 /* String+Additions.swift in Sources */,
+				4F14586F1FCCBBB0001D7F59 /* MosaicDefinitionCreationTransactionModel.swift in Sources */,
 				4F9F68301D4C351D0086F98F /* TransactionMessagesViewController.swift in Sources */,
 				4F540AA21D85E72600CA5385 /* TimeManager.swift in Sources */,
 				4F9F68541D4C36400086F98F /* AddressBookViewController.swift in Sources */,
@@ -1197,6 +1210,7 @@
 				4FA92FC71D7093A800C9477B /* KeyboardLayoutConstraint.swift in Sources */,
 				4F9F684A1D4C36140086F98F /* MultisigMinimumCosignatoriesTableViewCell.swift in Sources */,
 				4FD95DC11D931EBD00FB1924 /* InvoiceManager.swift in Sources */,
+				4F1458751FCCD6C6001D7F59 /* MosaicDefinitionCreationTransactionDetailsViewController.swift in Sources */,
 				4F9F684E1D4C361F0086F98F /* MultisigAddCosignatoryViewController.swift in Sources */,
 				4F0FFE2E1F910D9000120E67 /* MultisigSignatureTableViewCell.swift in Sources */,
 				4F9F68481D4C360B0086F98F /* MultisigCosignatoryTableViewCell.swift in Sources */,
@@ -1249,7 +1263,7 @@
 				4F0B5EF91DAFCA7200E182C3 /* NEMWallet.xcdatamodeld in Sources */,
 				4F850F201D4C3D7E0003E192 /* Base32.swift in Sources */,
 				4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */,
-				4F01CDAB1FBF505A003F192D /* AssetModel.swift in Sources */,
+				4F01CDAB1FBF505A003F192D /* MosaicModel.swift in Sources */,
 				4F9F68201D4C33B80086F98F /* AccountChooserButton.swift in Sources */,
 				98BB95E11BCCEDB6002151F7 /* generator.c in Sources */,
 				4F1E80AA1DAE40F100C354D9 /* MultisigAggregateModificationTransaction+Additions.swift in Sources */,
@@ -1280,6 +1294,7 @@
 				4F0B5F031DAFD41000E182C3 /* Double+Additions.swift in Sources */,
 				4F1458621FCC5EAE001D7F59 /* ImportanceTransferTransactionModel.swift in Sources */,
 				4F7E1ED61FABE08B000F1339 /* CIImage+Additions.swift in Sources */,
+				4F1458731FCCCC36001D7F59 /* MosaicDefinitionModel.swift in Sources */,
 				4F7E1EE01FAD5AEA000F1339 /* CreateQRCodeBackupViewController.swift in Sources */,
 				4FCBF1601F44B0FA00BE5284 /* Date+Additions.swift in Sources */,
 				4F1458661FCC72DD001D7F59 /* MultisigImportanceTransferTransactionDetailsViewController.swift in Sources */,
@@ -1292,6 +1307,7 @@
 				4FB442CF1D80269000A98BAC /* Array<UInt8>+Additions.swift in Sources */,
 				4F850F1D1D4C3D550003E192 /* keccak.c in Sources */,
 				4F7E1EE41FAD6755000F1339 /* VerifyQRCodeBackupViewController.swift in Sources */,
+				4F1503681FCCE83200097ED0 /* MultisigMosaicDefinitionCreationTransactionDetailsViewController.swift in Sources */,
 				4FE3B0DB1F87D51F00783347 /* TransferTransactionDetailsViewController.swift in Sources */,
 				4F14586D1FCCA11D001D7F59 /* MultisigProvisionNamespaceTransactionDetailsViewController.swift in Sources */,
 				4F9F68041D4C33140086F98F /* AuthenticationPasswordCreationViewController.swift in Sources */,

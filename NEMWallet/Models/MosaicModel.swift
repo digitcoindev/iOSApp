@@ -1,5 +1,5 @@
 //
-//  AssetModel.swift
+//  MosaicModel.swift
 //
 //  This file is covered by the LICENSE file in the root of this project.
 //  Copyright (c) 2017 NEM
@@ -9,18 +9,21 @@ import Foundation
 import SwiftyJSON
 
 ///
-final class Asset: SwiftyJSONMappable {
+final class Mosaic: SwiftyJSONMappable {
     
     // MARK: - Model Properties
     
-    ///
-    public var name: String!
+    /// The name of the mosaic.
+    var name: String!
     
-    ///
-    public var namespace: String!
+    /// The mosaic description.
+    var description: String!
     
-    ///
-    public var quantity: Int!
+    /// The namespace of the mosaic.
+    var namespace: String!
+    
+    /// The transaction quantity.
+    var quantity: Int!
     
     // MARK: - Model Lifecycle
     

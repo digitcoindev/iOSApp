@@ -84,6 +84,11 @@ final class MultisigTransaction: Transaction {
             innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"].rawString()!)}".data(using: String.Encoding.utf8)!).mapObject(ProvisionNamespaceTransaction.self)
             (innerTransaction as! ProvisionNamespaceTransaction).metaData = metaData
             
+        case TransactionType.mosaicDefinitionCreationTransaction.rawValue:
+            
+            innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"].rawString()!)}".data(using: String.Encoding.utf8)!).mapObject(MosaicDefinitionCreationTransaction.self)
+            (innerTransaction as! MosaicDefinitionCreationTransaction).metaData = metaData
+            
         case TransactionType.multisigAggregateModificationTransaction.rawValue:
             
             innerTransaction = try! JSON(data: "{\"transaction\":\(jsonData["transaction"]["otherTrans"].rawString()!)}".data(using: String.Encoding.utf8)!).mapObject(MultisigAggregateModificationTransaction.self)

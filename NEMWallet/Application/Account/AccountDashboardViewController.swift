@@ -84,7 +84,7 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.accountFiatBalance = accountFiatBalance
             destinationViewController.accountData = accountData
             
-        case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController", "showImportanceTransferTransactionDetailsViewController", "showMultisigImportanceTransferTransactionDetailsViewController", "showProvisionNamespaceTransactionDetailsViewController", "showMultisigProvisionNamespaceTransactionDetailsViewController":
+        case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController", "showImportanceTransferTransactionDetailsViewController", "showMultisigImportanceTransferTransactionDetailsViewController", "showProvisionNamespaceTransactionDetailsViewController", "showMultisigProvisionNamespaceTransactionDetailsViewController", "showMosaicDefinitionCreationTransactionDetailsViewController", "showMultisigMosaicDefinitionCreationTransactionDetailsViewController":
             
             if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
                 
@@ -123,6 +123,16 @@ final class AccountDashboardViewController: UITableViewController {
                     
                 } else if segue.identifier == "showMultisigProvisionNamespaceTransactionDetailsViewController" {
                     let destinationViewController = segue.destination as! MultisigProvisionNamespaceTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.multisigTransaction = transaction as? MultisigTransaction
+                    
+                } else if segue.identifier == "showMosaicDefinitionCreationTransactionDetailsViewController" {
+                    let destinationViewController = segue.destination as! MosaicDefinitionCreationTransactionDetailsViewController
+                    destinationViewController.account = account
+                    destinationViewController.mosaicDefinitionCreationTransaction = transaction as? MosaicDefinitionCreationTransaction
+                    
+                } else if segue.identifier == "showMultisigMosaicDefinitionCreationTransactionDetailsViewController" {
+                    let destinationViewController = segue.destination as! MultisigMosaicDefinitionCreationTransactionDetailsViewController
                     destinationViewController.account = account
                     destinationViewController.multisigTransaction = transaction as? MultisigTransaction
                 }
@@ -206,10 +216,22 @@ final class AccountDashboardViewController: UITableViewController {
                             
                             confirmedTransactionsBySection[sectionTitle]?.append(provisionNamespaceTransaction)
                             
+                        case TransactionType.mosaicDefinitionCreationTransaction.rawValue:
+                            
+                            let mosaicDefinitionCreationTransaction = try subJson.mapObject(MosaicDefinitionCreationTransaction.self)
+                            let sectionTitle = mosaicDefinitionCreationTransaction.timeStamp.sectionTitle()
+                            
+                            if confirmedTransactionsBySection[sectionTitle] == nil {
+                                confirmedTransactionsBySection[sectionTitle] = [Transaction]()
+                                transactionSections.append(sectionTitle)
+                            }
+                            
+                            confirmedTransactionsBySection[sectionTitle]?.append(mosaicDefinitionCreationTransaction)
+                            
                         case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue, TransactionType.provisionNamespaceTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue, TransactionType.provisionNamespaceTransaction.rawValue, TransactionType.mosaicDefinitionCreationTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 let sectionTitle = multisigTransaction.timeStamp.sectionTitle()
@@ -285,10 +307,15 @@ final class AccountDashboardViewController: UITableViewController {
                             let provisionNamespaceTransaction = try subJson.mapObject(ProvisionNamespaceTransaction.self)
                             unconfirmedTransactions.append(provisionNamespaceTransaction)
                             
+                        case TransactionType.mosaicDefinitionCreationTransaction.rawValue:
+                            
+                            let mosaicDefinitionCreationTransaction = try subJson.mapObject(ProvisionNamespaceTransaction.self)
+                            unconfirmedTransactions.append(mosaicDefinitionCreationTransaction)
+                            
                         case TransactionType.multisigTransaction.rawValue:
                             
                             switch subJson["transaction"]["otherTrans"]["type"].intValue {
-                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue, TransactionType.provisionNamespaceTransaction.rawValue:
+                            case TransactionType.transferTransaction.rawValue, TransactionType.importanceTransferTransaction.rawValue, TransactionType.provisionNamespaceTransaction.rawValue, TransactionType.mosaicDefinitionCreationTransaction.rawValue:
                                 
                                 let multisigTransaction = try subJson.mapObject(MultisigTransaction.self)
                                 unconfirmedTransactions.append(multisigTransaction)
@@ -468,6 +495,26 @@ extension AccountDashboardViewController {
                 
                 return transactionTableViewCell
                 
+            case TransactionType.mosaicDefinitionCreationTransaction:
+                
+                let mosaicDefinitionCreationTransaction = transaction as! MosaicDefinitionCreationTransaction
+                
+                let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                transactionTableViewCell.transactionCorrespondentLabel.text = "Create Asset"
+                transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
+                transactionTableViewCell.transactionDateLabel.text = mosaicDefinitionCreationTransaction.timeStamp.format()
+                transactionTableViewCell.transactionAmountLabel.text = "-\(mosaicDefinitionCreationTransaction.creationFee.format()) XEM"
+                transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                transactionTableViewCell.transactionMessageLabel.text = "\(mosaicDefinitionCreationTransaction.mosaicDefinition.namespace!):\(mosaicDefinitionCreationTransaction.mosaicDefinition.name!)"
+                
+                if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                    transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                } else {
+                    transactionTableViewCell.backgroundColor = UIColor.white
+                }
+                
+                return transactionTableViewCell
+                
             case TransactionType.multisigTransaction:
                 
                 let multisigTransaction = transaction as! MultisigTransaction
@@ -546,6 +593,26 @@ extension AccountDashboardViewController {
                     
                     return transactionTableViewCell
                     
+                case TransactionType.mosaicDefinitionCreationTransaction:
+                    
+                    let mosaicDefinitionCreationTransaction = multisigTransaction.innerTransaction as! MosaicDefinitionCreationTransaction
+                    
+                    let transactionTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionTableViewCell") as! TransactionTableViewCell
+                    transactionTableViewCell.transactionCorrespondentLabel.text = "Create Asset"
+                    transactionTableViewCell.transactionCorrespondentLabel.lineBreakMode = .byTruncatingTail
+                    transactionTableViewCell.transactionDateLabel.text = mosaicDefinitionCreationTransaction.timeStamp.format()
+                    transactionTableViewCell.transactionAmountLabel.text = "-\(mosaicDefinitionCreationTransaction.creationFee.format()) XEM"
+                    transactionTableViewCell.transactionAmountLabel.textColor = Constants.outgoingColor
+                    transactionTableViewCell.transactionMessageLabel.text = "\(mosaicDefinitionCreationTransaction.mosaicDefinition.namespace!):\(mosaicDefinitionCreationTransaction.mosaicDefinition.name!)"
+                    
+                    if unconfirmedTransactions.count > 0 && indexPath.section == 1 {
+                        transactionTableViewCell.backgroundColor = Constants.nemLightOrangeColor
+                    } else {
+                        transactionTableViewCell.backgroundColor = UIColor.white
+                    }
+                    
+                    return transactionTableViewCell
+                    
                 default:
                     return UITableViewCell()
                 }
@@ -578,6 +645,9 @@ extension AccountDashboardViewController {
         case .provisionNamespaceTransaction:
             performSegue(withIdentifier: "showProvisionNamespaceTransactionDetailsViewController", sender: nil)
             
+        case .mosaicDefinitionCreationTransaction:
+            performSegue(withIdentifier: "showMosaicDefinitionCreationTransactionDetailsViewController", sender: nil)
+            
         case .multisigTransaction:
             
             let multisigTransaction = transaction as! MultisigTransaction
@@ -589,6 +659,8 @@ extension AccountDashboardViewController {
                 performSegue(withIdentifier: "showMultisigImportanceTransferTransactionDetailsViewController", sender: nil)
             case .provisionNamespaceTransaction:
                 performSegue(withIdentifier: "showMultisigProvisionNamespaceTransactionDetailsViewController", sender: nil)
+            case .mosaicDefinitionCreationTransaction:
+                performSegue(withIdentifier: "showMultisigMosaicDefinitionCreationTransactionDetailsViewController", sender: nil)
             default:
                 break
             }

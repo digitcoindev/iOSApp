@@ -77,7 +77,7 @@ final class TransferTransactionDetailsViewController: UIViewController {
                     transactionAmountLabel.textColor = Constants.outgoingColor
                 }
                 
-                if transferTransaction.assets?.count != 0 {
+                if transferTransaction.mosaics?.count != 0 {
                     transactionMessageLabelTopToAmountLabelConstraint.isActive = false
                     transactionAssetsView.isHidden = false
                 }
@@ -117,15 +117,15 @@ extension TransferTransactionDetailsViewController: UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transferTransaction?.assets?.count ?? 0
+        return transferTransaction?.mosaics?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let transactionAsset = transferTransaction?.assets?[indexPath.row] {
+        if let transactionAsset = transferTransaction?.mosaics?[indexPath.row] {
             
             let transactionAssetTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionAssetTableViewCell") as! TransactionAssetTableViewCell
-            transactionAssetTableViewCell.transactionAssetNameLabel.text = transactionAsset.name
+            transactionAssetTableViewCell.transactionAssetNameLabel.text = "\(transactionAsset.namespace!):\(transactionAsset.name!)"
             transactionAssetTableViewCell.transactionAssetAmountLabel.text = "\(transactionAsset.quantity ?? 0)"
             
             return transactionAssetTableViewCell
