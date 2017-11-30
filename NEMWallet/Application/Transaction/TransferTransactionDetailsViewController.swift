@@ -126,7 +126,7 @@ extension TransferTransactionDetailsViewController: UITableViewDelegate, UITable
             
             let transactionAssetTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionAssetTableViewCell") as! TransactionAssetTableViewCell
             transactionAssetTableViewCell.transactionAssetNameLabel.text = "\(transactionAsset.namespace!):\(transactionAsset.name!)"
-            transactionAssetTableViewCell.transactionAssetAmountLabel.text = "\(transactionAsset.quantity ?? 0)"
+            transactionAssetTableViewCell.transactionAssetAmountLabel.text = transactionAsset.quantity.format()
             
             return transactionAssetTableViewCell
             

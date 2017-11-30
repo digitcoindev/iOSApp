@@ -115,6 +115,8 @@ final class TransferTransaction: Transaction {
                 self.mosaics!.remove(at: mosaics.index(where: { $0.name == mosaic.name })!)
             }
         }
+        
+        fetchMosaicDefinitions()
     }
     
     // MARK: - Model Helper Methods
@@ -160,6 +162,50 @@ final class TransferTransaction: Transaction {
                 DispatchQueue.main.async {
                     
                     print(error)
+                }
+            }
+        }
+    }
+    
+    ///
+    private func fetchMosaicDefinitions() {
+        
+        if let mosaics = mosaics {
+            for mosaic in mosaics {
+                NEMProvider.request(NEM.mosaicDefinition(namespace: mosaic.namespace)) { (result) in
+                    
+                    switch result {
+                    case let .success(response):
+                        
+                        do {
+                            let _ = try response.filterSuccessfulStatusCodes()
+                            
+                            let json = JSON(data: response.data)
+                            let mosaicDefinitions = try json["data"].mapArray(MosaicDefinition.self)
+                            
+                            DispatchQueue.main.async {
+                                
+                                for mosaicDefinition in mosaicDefinitions where mosaicDefinition.name == mosaic.name {
+                                    mosaic.quantity = mosaic.quantity / Double(truncating: pow(10, mosaicDefinition.divisibility) as NSNumber)
+                                    NotificationCenter.default.post(name: Constants.transactionDataChangedNotification, object: nil)
+                                }
+                            }
+                            
+                        } catch {
+                            
+                            DispatchQueue.main.async {
+                                
+                                print("Failure: \(response.statusCode)")
+                            }
+                        }
+                        
+                    case let .failure(error):
+                        
+                        DispatchQueue.main.async {
+                            
+                            print(error)
+                        }
+                    }
                 }
             }
         }

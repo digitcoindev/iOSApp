@@ -42,6 +42,11 @@ final class MosaicDefinition: SwiftyJSONMappable {
     
     public required init?(jsonData: JSON) {
         
+        var jsonData = jsonData
+        if jsonData["meta"]["id"].int != nil {
+            jsonData = jsonData["mosaic"]
+        }
+        
         name = jsonData["id"]["name"].stringValue
         description = jsonData["description"].stringValue
         namespace = jsonData["id"]["namespaceId"].stringValue

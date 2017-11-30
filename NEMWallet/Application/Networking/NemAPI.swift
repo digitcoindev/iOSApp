@@ -31,6 +31,7 @@ enum NEM {
     case unconfirmedTransactions(accountAddress: String, server: Server?)
     case announceTransaction(requestAnnounce: RequestAnnounce)
     case harvestInfoData(accountAddress: String)
+    case mosaicDefinition(namespace: String)
 }
 
 extension NEM: TargetType {
@@ -67,6 +68,8 @@ extension NEM: TargetType {
             return "/transaction/announce"
         case .harvestInfoData(_):
             return "/account/harvests"
+        case .mosaicDefinition(_):
+            return "/namespace/mosaic/definition/page"
         }
     }
     var method: Moya.Method {
@@ -85,6 +88,8 @@ extension NEM: TargetType {
             return .requestParameters(parameters: ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject], encoding: JSONEncoding.default)
         case .harvestInfoData(let accountAddress):
             return .requestParameters(parameters: ["address": accountAddress as AnyObject], encoding: URLEncoding.default)
+        case .mosaicDefinition(let namespace):
+            return .requestParameters(parameters: ["namespace": namespace as AnyObject], encoding: URLEncoding.default)
         default:
             return .requestPlain
         }

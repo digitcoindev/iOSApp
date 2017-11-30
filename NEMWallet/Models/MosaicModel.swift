@@ -16,14 +16,11 @@ final class Mosaic: SwiftyJSONMappable {
     /// The name of the mosaic.
     var name: String!
     
-    /// The mosaic description.
-    var description: String!
-    
     /// The namespace of the mosaic.
     var namespace: String!
     
     /// The transaction quantity.
-    var quantity: Int!
+    var quantity: Double!
     
     // MARK: - Model Lifecycle
     
@@ -31,6 +28,6 @@ final class Mosaic: SwiftyJSONMappable {
         
         name = jsonData["mosaicId"]["name"].stringValue
         namespace = jsonData["mosaicId"]["namespaceId"].stringValue
-        quantity = jsonData["quantity"].intValue
+        quantity = jsonData["quantity"].doubleValue
     }
 }

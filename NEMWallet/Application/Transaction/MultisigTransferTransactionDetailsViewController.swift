@@ -410,8 +410,8 @@ extension MultisigTransferTransactionDetailsViewController: UITableViewDelegate,
             if let transactionAsset = transferTransaction?.mosaics?[indexPath.row] {
                 
                 let transactionAssetTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TransactionAssetTableViewCell") as! TransactionAssetTableViewCell
-                transactionAssetTableViewCell.transactionAssetNameLabel.text = transactionAsset.name
-                transactionAssetTableViewCell.transactionAssetAmountLabel.text = "\(transactionAsset.quantity ?? 0)"
+                transactionAssetTableViewCell.transactionAssetNameLabel.text = "\(transactionAsset.namespace!):\(transactionAsset.name!)"
+                transactionAssetTableViewCell.transactionAssetAmountLabel.text = transactionAsset.quantity.format()
                 
                 return transactionAssetTableViewCell
                 
