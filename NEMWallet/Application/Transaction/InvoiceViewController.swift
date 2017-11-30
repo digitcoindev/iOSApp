@@ -40,7 +40,7 @@ final class InvoiceViewController: UIViewController {
     ///
     private func reloadInvoiceDetails() {
         
-        informationLabel.text = "Your correspondent can scan this QR code with his mobile wallet to pay your invoice"
+        informationLabel.text = "Your correspondent is able to scan this QR code with his mobile wallet to pay your invoice"
         invoiceRecipientLabel.text = invoice?.recipient ?? ""
         invoiceAmountLabel.text = "\(invoice?.amount.format() ?? "0") XEM"
         invoiceMessageLabel.text = invoice?.message != "" ? invoice?.message ?? "-" : "-"

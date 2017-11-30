@@ -28,6 +28,7 @@ final class AccountDetailsViewController: UIViewController {
     @IBOutlet weak var accountVestedBalanceLabel: UILabel!
     @IBOutlet weak var accountPublicKeyLabel: UILabel!
     @IBOutlet weak var createBackupButton: UIButton!
+    @IBOutlet weak var shareAccountDetailsButton: UIButton!
     
     // MARK: - View Controller Lifecycle
 
@@ -52,6 +53,11 @@ final class AccountDetailsViewController: UIViewController {
                 destinationViewController.account = account
                 destinationViewController.allowCancelling = true
             }
+            
+        case "showShareAccountDetailsViewController":
+            
+            let destinationViewController = segue.destination as! ShareAccountDetailsViewController
+            destinationViewController.account = account
             
         default:
             break
@@ -128,6 +134,7 @@ final class AccountDetailsViewController: UIViewController {
         }
         
         createBackupButton.layer.cornerRadius = 10.0
+        shareAccountDetailsButton.layer.cornerRadius = 10.0
     }
     
     // MARK: - View Controller Outlet Actions
