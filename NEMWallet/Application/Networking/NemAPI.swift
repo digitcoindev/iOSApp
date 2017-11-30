@@ -27,6 +27,7 @@ enum NEM {
     case synchronizeTime
     case accountData(accountAddress: String)
     case ownedMosaics(accountAddress: String)
+    case ownedMosaicDefinitions(accountAddress: String)
     case confirmedTransactions(accountAddress: String, server: Server?)
     case unconfirmedTransactions(accountAddress: String, server: Server?)
     case announceTransaction(requestAnnounce: RequestAnnounce)
@@ -60,6 +61,8 @@ extension NEM: TargetType {
             return "/account/get"
         case .ownedMosaics(_):
             return "/account/mosaic/owned"
+        case .ownedMosaicDefinitions(_):
+            return "/account/mosaic/owned/definition"
         case .confirmedTransactions(_, _):
             return "/account/transfers/all"
         case .unconfirmedTransactions(_, _):
@@ -82,7 +85,7 @@ extension NEM: TargetType {
     }
     var task: Task {
         switch self {
-        case .accountData(let accountAddress), .ownedMosaics(let accountAddress), .confirmedTransactions(let accountAddress, _), .unconfirmedTransactions(let accountAddress, _):
+        case .accountData(let accountAddress), .ownedMosaics(let accountAddress), .ownedMosaicDefinitions(let accountAddress), .confirmedTransactions(let accountAddress, _), .unconfirmedTransactions(let accountAddress, _):
             return .requestParameters(parameters: ["address": accountAddress as AnyObject], encoding: URLEncoding.default)
         case .announceTransaction(let requestAnnounce):
             return .requestParameters(parameters: ["data": requestAnnounce.data as AnyObject, "signature": requestAnnounce.signature as AnyObject], encoding: JSONEncoding.default)

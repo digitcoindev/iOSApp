@@ -1654,6 +1654,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.47169411179999998" blue="1" alpha="0.10211267609999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="assetsLabel" destination="47e-cM-t4u" id="1oo-yV-55O"/>
+                                    <segue destination="qtf-RA-2wk" kind="show" identifier="showAssetsViewController" id="YjD-ke-asA"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TransactionTableViewCell" rowHeight="100" id="aQv-nE-hgf" customClass="TransactionTableViewCell" customModule="NEMWallet" customModuleProvider="target">
@@ -1743,7 +1744,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ms-Fd-ShN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-591" y="-1787"/>
+            <point key="canvasLocation" x="-591" y="-1851"/>
         </scene>
         <!--Account Details-->
         <scene sceneID="2wn-MP-Spt">
@@ -1980,7 +1981,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="168.80000000000001" y="-1787.8560719640182"/>
+            <point key="canvasLocation" x="169" y="-1852"/>
         </scene>
         <!--Item-->
         <scene sceneID="fbf-8q-PYI">
@@ -4688,7 +4689,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zZQ-Tl-G4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1346" y="-1787"/>
+            <point key="canvasLocation" x="-1346" y="-1851"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ws2-Sh-xZn">
@@ -4910,7 +4911,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o6v-PP-KfX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2119" y="-1787"/>
+            <point key="canvasLocation" x="-2119" y="-1851"/>
         </scene>
         <!--Transaction Details-->
         <scene sceneID="Snd-So-0nQ">
@@ -5222,7 +5223,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSN-bQ-z4e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="949.60000000000002" y="-1892.6536731634185"/>
+            <point key="canvasLocation" x="1718" y="-1956"/>
         </scene>
         <!--Transaction Details-->
         <scene sceneID="Oqg-EW-T5x">
@@ -5743,7 +5744,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gEo-3V-1YA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1717.5999999999999" y="-1952.9235382308848"/>
+            <point key="canvasLocation" x="2481" y="-2091"/>
         </scene>
         <!--Create Transaction-->
         <scene sceneID="YC2-zP-Gz9">
@@ -8269,7 +8270,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Nx-TW-hYr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2481" y="-1893"/>
+            <point key="canvasLocation" x="3241" y="-1957"/>
         </scene>
         <!--Transaction Details-->
         <scene sceneID="7AR-We-Eue">
@@ -8667,7 +8668,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WDL-DO-9vP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3241" y="-1953"/>
+            <point key="canvasLocation" x="4001" y="-2091"/>
         </scene>
         <!--Transaction Details-->
         <scene sceneID="yOx-hd-bqq">
@@ -8847,7 +8848,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vR-b5-uJK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4001" y="-1893"/>
+            <point key="canvasLocation" x="4753" y="-1957"/>
         </scene>
         <!--Transaction Details-->
         <scene sceneID="ylM-Rq-F8K">
@@ -9245,7 +9246,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="If5-1U-gB3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4753" y="-1954"/>
+            <point key="canvasLocation" x="5529" y="-2091"/>
         </scene>
         <!--Transaction Details-->
         <scene sceneID="iSv-yq-pCR">
@@ -9506,7 +9507,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9a-XU-crY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5528.8000000000002" y="-1894.4527736131936"/>
+            <point key="canvasLocation" x="6305" y="-1955"/>
         </scene>
         <!--Transaction Details-->
         <scene sceneID="TFl-rP-0ym">
@@ -9985,7 +9986,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vmI-Vf-dWy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6304.8000000000002" y="-1955.6221889055473"/>
+            <point key="canvasLocation" x="7054" y="-2091"/>
         </scene>
         <!--Account Details-->
         <scene sceneID="CBW-3p-GuJ">
@@ -10202,6 +10203,113 @@
                 <exit id="PKV-6J-qgb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="10722" y="-1107"/>
+        </scene>
+        <!--My Assets-->
+        <scene sceneID="KFU-3s-c4T">
+            <objects>
+                <tableViewController storyboardIdentifier="AssetsViewController" title="My Assets" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qtf-RA-2wk" customClass="AssetsViewController" customModule="NEMWallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mhd-s3-lts">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="AccountSummaryTableViewCell" rowHeight="90" id="g51-aC-5V9" customClass="AccountSummaryTableViewCell" customModule="NEMWallet" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g51-aC-5V9" id="SKK-FP-cnL">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="89.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="251" ambiguous="YES" text="Account Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7iX-UI-s9c">
+                                            <rect key="frame" x="16" y="20" width="131" height="26"/>
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="4qP-Kx-vYp"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="260" horizontalCompressionResistancePriority="760" text="XEM Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXd-Pk-wVy">
+                                            <rect key="frame" x="167" y="23" width="192" height="19.5"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <color key="textColor" red="0.16862745100000001" green="0.71372549019999998" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="760" ambiguous="YES" text="USD Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1R-QJ-OC8">
+                                            <rect key="frame" x="167" y="46" width="192" height="23.5"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                            <color key="textColor" red="0.16862745100000001" green="0.71372549019999998" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7iX-UI-s9c" firstAttribute="leading" secondItem="SKK-FP-cnL" secondAttribute="leadingMargin" id="8fx-Kp-q9J"/>
+                                        <constraint firstItem="u1R-QJ-OC8" firstAttribute="top" secondItem="7iX-UI-s9c" secondAttribute="bottom" id="EP6-hp-c55"/>
+                                        <constraint firstItem="cXd-Pk-wVy" firstAttribute="top" secondItem="SKK-FP-cnL" secondAttribute="topMargin" constant="12" id="Eiv-d5-ND7"/>
+                                        <constraint firstItem="u1R-QJ-OC8" firstAttribute="leading" secondItem="7iX-UI-s9c" secondAttribute="trailing" constant="20" id="LtJ-K3-FnS"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="u1R-QJ-OC8" secondAttribute="trailing" id="Z28-He-OQW"/>
+                                        <constraint firstItem="cXd-Pk-wVy" firstAttribute="leading" secondItem="7iX-UI-s9c" secondAttribute="trailing" constant="20" id="crk-Pw-srB"/>
+                                        <constraint firstItem="7iX-UI-s9c" firstAttribute="top" secondItem="SKK-FP-cnL" secondAttribute="topMargin" constant="12" id="eLw-aj-7MA"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="cXd-Pk-wVy" secondAttribute="trailing" id="sl0-18-AAg"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="u1R-QJ-OC8" secondAttribute="bottom" constant="12" id="thE-4c-aEy"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.0" green="0.47169411179999998" blue="1" alpha="0.10211267609999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="accountBalanceLabel" destination="cXd-Pk-wVy" id="7Am-pT-MWl"/>
+                                    <outlet property="accountFiatBalanceLabel" destination="u1R-QJ-OC8" id="v3g-ie-XZw"/>
+                                    <outlet property="accountTitleLabel" destination="7iX-UI-s9c" id="JAz-uW-jJl"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AssetTableViewCell" rowHeight="100" id="wq4-O8-gt1" customClass="AssetTableViewCell" customModule="NEMWallet" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="118" width="375" height="100"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wq4-O8-gt1" id="rLT-oJ-2rm">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" text="Correspondent" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jfg-27-dDx">
+                                            <rect key="frame" x="16" y="26" width="108" height="48"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="260" horizontalCompressionResistancePriority="760" verticalCompressionResistancePriority="760" text="Amount" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FUo-tZ-wiF">
+                                            <rect key="frame" x="144" y="26" width="215" height="48"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <color key="textColor" red="0.16862745100000001" green="0.71372549019999998" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="FUo-tZ-wiF" firstAttribute="leading" secondItem="jfg-27-dDx" secondAttribute="trailing" constant="20" id="35K-Cg-as5"/>
+                                        <constraint firstItem="jfg-27-dDx" firstAttribute="leading" secondItem="rLT-oJ-2rm" secondAttribute="leadingMargin" id="G5W-4y-5Ky"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="FUo-tZ-wiF" secondAttribute="bottom" constant="15" id="Ox9-DW-RuQ"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="FUo-tZ-wiF" secondAttribute="trailing" id="Ozt-Bc-2kB"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="jfg-27-dDx" secondAttribute="bottom" constant="15" id="V5k-nr-wkC"/>
+                                        <constraint firstItem="jfg-27-dDx" firstAttribute="top" secondItem="rLT-oJ-2rm" secondAttribute="topMargin" constant="15" id="c5E-QZ-CoP"/>
+                                        <constraint firstItem="FUo-tZ-wiF" firstAttribute="top" secondItem="rLT-oJ-2rm" secondAttribute="topMargin" constant="15" id="dAi-OU-na6"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="assetBalanceLabel" destination="FUo-tZ-wiF" id="GEj-Jx-i3t"/>
+                                    <outlet property="assetNameLabel" destination="jfg-27-dDx" id="6yN-v2-FdV"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="qtf-RA-2wk" id="qUm-YY-xzd"/>
+                            <outlet property="delegate" destination="qtf-RA-2wk" id="J8G-dS-fQe"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="My Assets" largeTitleDisplayMode="never" id="VAb-mT-kMt"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="99w-Q9-Ov3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="950" y="-1853"/>
         </scene>
     </scenes>
     <resources>

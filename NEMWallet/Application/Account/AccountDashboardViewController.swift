@@ -84,6 +84,13 @@ final class AccountDashboardViewController: UITableViewController {
             destinationViewController.accountFiatBalance = accountFiatBalance
             destinationViewController.accountData = accountData
             
+        case "showAssetsViewController":
+            
+            let destinationViewController = segue.destination as! AssetsViewController
+            destinationViewController.account = account
+            destinationViewController.accountBalance = accountBalance
+            destinationViewController.accountFiatBalance = accountFiatBalance
+            
         case "showTransferTransactionDetailsViewController", "showMultisigTransferTransactionDetailsViewController", "showImportanceTransferTransactionDetailsViewController", "showMultisigImportanceTransferTransactionDetailsViewController", "showProvisionNamespaceTransactionDetailsViewController", "showMultisigProvisionNamespaceTransactionDetailsViewController", "showMosaicDefinitionCreationTransactionDetailsViewController", "showMultisigMosaicDefinitionCreationTransactionDetailsViewController":
             
             if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {

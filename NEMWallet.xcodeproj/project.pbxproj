@@ -182,6 +182,8 @@
 		4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE02C121DA2E1180057740D /* ServerExceptions.swift */; };
 		4FE318801FD00BE500321A49 /* ShareAccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE3187F1FD00BE500321A49 /* ShareAccountDetailsViewController.swift */; };
 		4FE318821FD01D6700321A49 /* ScanQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE318811FD01D6700321A49 /* ScanQRViewController.swift */; };
+		4FE318841FD0633400321A49 /* AssetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE318831FD0633400321A49 /* AssetsViewController.swift */; };
+		4FE318861FD064DB00321A49 /* AssetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE318851FD064DB00321A49 /* AssetTableViewCell.swift */; };
 		4FE3B0DB1F87D51F00783347 /* TransferTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE3B0DA1F87D51F00783347 /* TransferTransactionDetailsViewController.swift */; };
 		4FE44B541F3B754100BA8BD1 /* MarketInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */; };
 		4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */; };
@@ -419,6 +421,8 @@
 		4FE02C121DA2E1180057740D /* ServerExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerExceptions.swift; sourceTree = "<group>"; };
 		4FE3187F1FD00BE500321A49 /* ShareAccountDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareAccountDetailsViewController.swift; sourceTree = "<group>"; };
 		4FE318811FD01D6700321A49 /* ScanQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanQRViewController.swift; sourceTree = "<group>"; };
+		4FE318831FD0633400321A49 /* AssetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsViewController.swift; sourceTree = "<group>"; };
+		4FE318851FD064DB00321A49 /* AssetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetTableViewCell.swift; sourceTree = "<group>"; };
 		4FE3B0DA1F87D51F00783347 /* TransferTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferTransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketInfoAPI.swift; sourceTree = "<group>"; };
 		4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Additions.swift"; sourceTree = "<group>"; };
@@ -630,6 +634,7 @@
 				4F9F68291D4C35070086F98F /* AccountDashboardViewController.swift */,
 				4FD383C81F6C2276004EB26E /* AccountDetailsViewController.swift */,
 				4FE3187F1FD00BE500321A49 /* ShareAccountDetailsViewController.swift */,
+				4FE318831FD0633400321A49 /* AssetsViewController.swift */,
 				4F7E1ECD1FABBA93000F1339 /* AddAccountViewController.swift */,
 				4F7E1ECF1FABD731000F1339 /* CreateAccountViewController.swift */,
 				4F7E1ED11FABDD97000F1339 /* ImportAccountByQRViewController.swift */,
@@ -653,6 +658,7 @@
 				4F9F68091D4C33510086F98F /* AccountTableViewCell.swift */,
 				4FA486031F586E68007A3CC3 /* AccountSummaryTableViewCell.swift */,
 				4FDA1B911F8546D900C75F41 /* AccountAssetsSummaryTableViewCell.swift */,
+				4FE318851FD064DB00321A49 /* AssetTableViewCell.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1174,6 +1180,7 @@
 				4F3ACE9B1D620F680056F234 /* MultisigTransactionModel.swift in Sources */,
 				4F7E1EE21FAD631D000F1339 /* QRCodeBackupViewController.swift in Sources */,
 				4F9F681A1D4C339F0086F98F /* AccountExportPasswordViewController.swift in Sources */,
+				4FE318841FD0633400321A49 /* AssetsViewController.swift in Sources */,
 				4F9F680E1D4C33630086F98F /* AccountAdditionMenuViewController.swift in Sources */,
 				4F9F68161D4C338A0086F98F /* AccountAdditionMenuAddExistingAccountQRViewController.swift in Sources */,
 				4F9F68601D4C36AA0086F98F /* HarvestingBlockTableViewCell.swift in Sources */,
@@ -1270,6 +1277,7 @@
 				4F35F4A91FC7710D00038EA8 /* TransactionAssetTableViewCell.swift in Sources */,
 				4F0B5EF91DAFCA7200E182C3 /* NEMWallet.xcdatamodeld in Sources */,
 				4F850F201D4C3D7E0003E192 /* Base32.swift in Sources */,
+				4FE318861FD064DB00321A49 /* AssetTableViewCell.swift in Sources */,
 				4FD95DC31D93D8D300FB1924 /* InvoiceModel.swift in Sources */,
 				4F01CDAB1FBF505A003F192D /* MosaicModel.swift in Sources */,
 				4F9F68201D4C33B80086F98F /* AccountChooserButton.swift in Sources */,
