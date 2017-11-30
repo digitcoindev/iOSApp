@@ -21,6 +21,7 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
     fileprivate var multisigAccounts = [AccountData]()
     private var transaction: Transaction?
     private var recipientPublicKey: String?
+    public var qrCaptureResult: JSON?
     
     /// The latest market info, used to display fiat account balances.
     public var marketInfo: (xemPrice: Double, btcPrice: Double) = (0, 0)
@@ -39,6 +40,7 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
     @IBOutlet weak var transactionMessageCharsLabel: UILabel!
     @IBOutlet weak var transactionMessageEncryptedSwitch: UISwitch!
     @IBOutlet weak var transactionMessageEncryptedImageView: UIImageView!
+    @IBOutlet weak var scanQRCodeButton: UIButton!
     @IBOutlet weak var verifyTransactionButton: UIButton!
     
     // MARK: - View Controller Lifecycle
@@ -273,6 +275,32 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
         }
     }
     
+    ///
+    private func insertQRDetails() {
+        
+        if let qrCaptureResult = qrCaptureResult {
+            switch qrCaptureResult[QRKeys.dataType.rawValue].intValue {
+            case QRType.userData.rawValue:
+                
+                let transactionRecipientAccountAddress = qrCaptureResult[QRKeys.data.rawValue][QRKeys.address.rawValue].stringValue
+                transactionRecipientTextField.text = transactionRecipientAccountAddress
+                
+            case QRType.invoice.rawValue:
+                
+                let transactionRecipientAccountAddress = qrCaptureResult[QRKeys.data.rawValue][QRKeys.address.rawValue].stringValue
+                let transactionAmount = qrCaptureResult[QRKeys.data.rawValue][QRKeys.amount.rawValue].doubleValue / 1000000
+                let transactionMessage = qrCaptureResult[QRKeys.data.rawValue][QRKeys.message.rawValue].stringValue
+                
+                transactionRecipientTextField.text = transactionRecipientAccountAddress
+                transactionAmountTextField.text = "\(transactionAmount)"
+                transactionMessageTextView.text = transactionMessage
+                
+            default:
+                return
+            }
+        }
+    }
+    
     /**
          Shows an alert view controller with the provided alert message.
      
@@ -306,6 +334,8 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
         }
         
         verifyTransactionButton.layer.cornerRadius = 10.0
+        scanQRCodeButton.imageView?.contentMode = .scaleAspectFit
+        scanQRCodeButton.setImage(#imageLiteral(resourceName: "QR").imageWithColor(Constants.nemBlueColor), for: .normal)
     }
     
     // MARK: - View Controller Outlet Actions
@@ -449,7 +479,10 @@ final class CreateTransactionViewController: UIViewController, UITextViewDelegat
     }
     
     @IBAction func unwindToCreateTransactionViewController(_ sender: UIStoryboardSegue) {
-        return
+        insertQRDetails()
+        transactionRecipientChanged(transactionRecipientTextField)
+        textViewDidChange(transactionMessageTextView)
+        transactionDetailsChanged(transactionAmountTextField)
     }
 }
 

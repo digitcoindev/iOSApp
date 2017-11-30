@@ -181,6 +181,7 @@
 		4FDEEC1F1E132D6100B7D93E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */; };
 		4FE02C131DA2E1180057740D /* ServerExceptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE02C121DA2E1180057740D /* ServerExceptions.swift */; };
 		4FE318801FD00BE500321A49 /* ShareAccountDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE3187F1FD00BE500321A49 /* ShareAccountDetailsViewController.swift */; };
+		4FE318821FD01D6700321A49 /* ScanQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE318811FD01D6700321A49 /* ScanQRViewController.swift */; };
 		4FE3B0DB1F87D51F00783347 /* TransferTransactionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE3B0DA1F87D51F00783347 /* TransferTransactionDetailsViewController.swift */; };
 		4FE44B541F3B754100BA8BD1 /* MarketInfoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */; };
 		4FE70AAB1DA6D24300C62F1C /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */; };
@@ -417,6 +418,7 @@
 		4FDEEC1E1E132D6100B7D93E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FE02C121DA2E1180057740D /* ServerExceptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerExceptions.swift; sourceTree = "<group>"; };
 		4FE3187F1FD00BE500321A49 /* ShareAccountDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareAccountDetailsViewController.swift; sourceTree = "<group>"; };
+		4FE318811FD01D6700321A49 /* ScanQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanQRViewController.swift; sourceTree = "<group>"; };
 		4FE3B0DA1F87D51F00783347 /* TransferTransactionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferTransactionDetailsViewController.swift; sourceTree = "<group>"; };
 		4FE44B531F3B754100BA8BD1 /* MarketInfoAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketInfoAPI.swift; sourceTree = "<group>"; };
 		4FE70AAA1DA6D24300C62F1C /* UIApplication+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Additions.swift"; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				4F1503671FCCE83200097ED0 /* MultisigMosaicDefinitionCreationTransactionDetailsViewController.swift */,
 				4F495A891F9D6CEA0031B8D1 /* SendViewController.swift */,
 				4F495A8B1F9EAC0B0031B8D1 /* CreateTransactionViewController.swift */,
+				4FE318811FD01D6700321A49 /* ScanQRViewController.swift */,
 				4FC1EA021FA370D700E7617D /* VerifyTransferTransactionViewController.swift */,
 				4F20F8B21FA5713A00666700 /* CreateInvoiceViewController.swift */,
 				4F20F8B41FA6405F00666700 /* InvoiceViewController.swift */,
@@ -1232,6 +1235,7 @@
 				4F3ACEAB1D6450830056F234 /* TransferTransaction+Additions.swift in Sources */,
 				98BB95DB1BCCED5B002151F7 /* seed.c in Sources */,
 				4F495A8C1F9EAC0B0031B8D1 /* CreateTransactionViewController.swift in Sources */,
+				4FE318821FD01D6700321A49 /* ScanQRViewController.swift in Sources */,
 				4F7E1EC91FAA3E8C000F1339 /* UInt32+CircularShift.swift in Sources */,
 				4F7E1EDA1FACD1CD000F1339 /* CreateBackupViewController.swift in Sources */,
 				4FB442CD1D801D5E00A98BAC /* RequestAnnounceModel.swift in Sources */,

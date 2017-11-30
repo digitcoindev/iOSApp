@@ -354,7 +354,8 @@ final class AccountDashboardViewController: UITableViewController {
     // MARK: - View Controller Outlet Actions
     
     @IBAction func unwindToAccountDashboardViewController(_ sender: UIStoryboardSegue) {
-        return
+        fetchConfirmedTransactions()
+        fetchUnconfirmedTransactions()
     }
 }
 
