@@ -168,7 +168,7 @@ extension AssetsViewController {
             
             let asset = ownedAssets[indexPath.row - 1]
 
-            for assetDefinition in ownedAssetDefinitions where assetDefinition.name == asset.name {
+            for assetDefinition in ownedAssetDefinitions where assetDefinition.namespace == asset.namespace && assetDefinition.name == asset.name {
                 
                 let assetTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AssetTableViewCell") as! AssetTableViewCell
                 assetTableViewCell.assetNameLabel.text = "\(asset.namespace!):\(asset.name!)"

@@ -5920,67 +5920,6 @@
                                                     <segue destination="GWY-ad-wc6" kind="show" identifier="showScanQRViewController" id="bYr-se-9gI"/>
                                                 </connections>
                                             </button>
-                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jga-3m-NWE">
-                                                <rect key="frame" x="0.0" y="98.5" width="375" height="493.5"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="MultisigAccountTableViewCell" rowHeight="120" id="UEd-M6-cW0" customClass="MultisigAccountTableViewCell" customModule="NEMWallet" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UEd-M6-cW0" id="a4P-E0-KhJ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="270" verticalHuggingPriority="251" text="Account Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DQu-sr-V1T">
-                                                                    <rect key="frame" x="15" y="26" width="231.5" height="18"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="ola-33-mbW"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="270" verticalHuggingPriority="260" horizontalCompressionResistancePriority="760" text="XEM Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSd-Dc-u5u">
-                                                                    <rect key="frame" x="266.5" y="26" width="93.5" height="53"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                                    <color key="textColor" red="0.16862745100000001" green="0.71372549019999998" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="261" horizontalCompressionResistancePriority="760" verticalCompressionResistancePriority="760" text="USD Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCj-ZD-S0f">
-                                                                    <rect key="frame" x="266" y="79" width="94" height="18"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                                    <color key="textColor" red="0.16862745100000001" green="0.71372549019999998" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <constraints>
-                                                                <constraint firstItem="aSd-Dc-u5u" firstAttribute="top" secondItem="a4P-E0-KhJ" secondAttribute="topMargin" constant="15" id="0KQ-Ro-J6y"/>
-                                                                <constraint firstAttribute="bottomMargin" secondItem="RCj-ZD-S0f" secondAttribute="bottom" constant="12" id="1lg-TW-hap"/>
-                                                                <constraint firstAttribute="trailingMargin" secondItem="RCj-ZD-S0f" secondAttribute="trailing" id="7cr-uV-7sd"/>
-                                                                <constraint firstItem="RCj-ZD-S0f" firstAttribute="leading" secondItem="DQu-sr-V1T" secondAttribute="trailing" constant="20" id="Cdx-wf-NuP"/>
-                                                                <constraint firstItem="aSd-Dc-u5u" firstAttribute="leading" secondItem="DQu-sr-V1T" secondAttribute="trailing" constant="20" id="Mku-Ia-8j5"/>
-                                                                <constraint firstItem="DQu-sr-V1T" firstAttribute="top" secondItem="a4P-E0-KhJ" secondAttribute="topMargin" constant="15" id="Nzg-1n-4gn"/>
-                                                                <constraint firstItem="RCj-ZD-S0f" firstAttribute="top" secondItem="aSd-Dc-u5u" secondAttribute="bottom" id="aYl-YA-edc"/>
-                                                                <constraint firstItem="aSd-Dc-u5u" firstAttribute="trailing" secondItem="a4P-E0-KhJ" secondAttribute="trailingMargin" id="mdp-rK-T9B"/>
-                                                                <constraint firstItem="DQu-sr-V1T" firstAttribute="leading" secondItem="a4P-E0-KhJ" secondAttribute="leadingMargin" id="y0e-Xj-kJp"/>
-                                                            </constraints>
-                                                        </tableViewCellContentView>
-                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <connections>
-                                                            <outlet property="accountBalanceLabel" destination="aSd-Dc-u5u" id="GiU-1H-UO6"/>
-                                                            <outlet property="accountFiatBalanceLabel" destination="RCj-ZD-S0f" id="aI0-Gp-waG"/>
-                                                            <outlet property="accountTitleLabel" destination="DQu-sr-V1T" id="dB3-NZ-oDk"/>
-                                                        </connections>
-                                                    </tableViewCell>
-                                                </prototypes>
-                                                <connections>
-                                                    <outlet property="dataSource" destination="9Sm-fR-NoH" id="4o2-oH-4fj"/>
-                                                    <outlet property="delegate" destination="9Sm-fR-NoH" id="jlm-Z8-Lx2"/>
-                                                </connections>
-                                            </tableView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Amount" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f34-eH-dlj">
                                                 <rect key="frame" x="20" y="192" width="150" height="18"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6083,6 +6022,67 @@
                                                     <action selector="verifyTransaction:" destination="9Sm-fR-NoH" eventType="touchUpInside" id="c5A-4f-2Fh"/>
                                                 </connections>
                                             </button>
+                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jga-3m-NWE">
+                                                <rect key="frame" x="0.0" y="98" width="375" height="493.5"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="MultisigAccountTableViewCell" rowHeight="120" id="UEd-M6-cW0" customClass="MultisigAccountTableViewCell" customModule="NEMWallet" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UEd-M6-cW0" id="a4P-E0-KhJ">
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="270" verticalHuggingPriority="251" text="Account Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DQu-sr-V1T">
+                                                                    <rect key="frame" x="15" y="26" width="231.5" height="18"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="ola-33-mbW"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="270" verticalHuggingPriority="260" horizontalCompressionResistancePriority="760" text="XEM Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSd-Dc-u5u">
+                                                                    <rect key="frame" x="266.5" y="26" width="93.5" height="53"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                                    <color key="textColor" red="0.16862745100000001" green="0.71372549019999998" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="261" horizontalCompressionResistancePriority="760" verticalCompressionResistancePriority="760" text="USD Balance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCj-ZD-S0f">
+                                                                    <rect key="frame" x="266" y="79" width="94" height="18"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                                    <color key="textColor" red="0.16862745100000001" green="0.71372549019999998" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstItem="aSd-Dc-u5u" firstAttribute="top" secondItem="a4P-E0-KhJ" secondAttribute="topMargin" constant="15" id="0KQ-Ro-J6y"/>
+                                                                <constraint firstAttribute="bottomMargin" secondItem="RCj-ZD-S0f" secondAttribute="bottom" constant="12" id="1lg-TW-hap"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="RCj-ZD-S0f" secondAttribute="trailing" id="7cr-uV-7sd"/>
+                                                                <constraint firstItem="RCj-ZD-S0f" firstAttribute="leading" secondItem="DQu-sr-V1T" secondAttribute="trailing" constant="20" id="Cdx-wf-NuP"/>
+                                                                <constraint firstItem="aSd-Dc-u5u" firstAttribute="leading" secondItem="DQu-sr-V1T" secondAttribute="trailing" constant="20" id="Mku-Ia-8j5"/>
+                                                                <constraint firstItem="DQu-sr-V1T" firstAttribute="top" secondItem="a4P-E0-KhJ" secondAttribute="topMargin" constant="15" id="Nzg-1n-4gn"/>
+                                                                <constraint firstItem="RCj-ZD-S0f" firstAttribute="top" secondItem="aSd-Dc-u5u" secondAttribute="bottom" id="aYl-YA-edc"/>
+                                                                <constraint firstItem="aSd-Dc-u5u" firstAttribute="trailing" secondItem="a4P-E0-KhJ" secondAttribute="trailingMargin" id="mdp-rK-T9B"/>
+                                                                <constraint firstItem="DQu-sr-V1T" firstAttribute="leading" secondItem="a4P-E0-KhJ" secondAttribute="leadingMargin" id="y0e-Xj-kJp"/>
+                                                            </constraints>
+                                                        </tableViewCellContentView>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <connections>
+                                                            <outlet property="accountBalanceLabel" destination="aSd-Dc-u5u" id="GiU-1H-UO6"/>
+                                                            <outlet property="accountFiatBalanceLabel" destination="RCj-ZD-S0f" id="aI0-Gp-waG"/>
+                                                            <outlet property="accountTitleLabel" destination="DQu-sr-V1T" id="dB3-NZ-oDk"/>
+                                                        </connections>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="9Sm-fR-NoH" id="4o2-oH-4fj"/>
+                                                    <outlet property="delegate" destination="9Sm-fR-NoH" id="jlm-Z8-Lx2"/>
+                                                </connections>
+                                            </tableView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
